@@ -1,0 +1,16 @@
+type: depleted
+block: cocoa
+age: 0
+direction: north
+growth: 30
+---
+type: growing
+block: cocoa
+age: 1
+direction: north
+growth: 30
+---
+type: replenished
+block: cocoa
+age: 2
+direction: north

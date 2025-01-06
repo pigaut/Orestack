@@ -1,0 +1,67 @@
+usage: '/%command% help'
+not-enough-args: "&4Not enough arguments"
+too-many-args: '&4Too many arguments'
+no-permission: '&4You don''t have the permission to run this command'
+player-only: '&4This command cannot be executed from console'
+loading-player-data: '&4Player data is still loading try again later'
+
+help-command: help
+help-description: 'View a list of all available commands'
+help header: '&2------------     &r&l%command% Help     &2------------'
+help line: '&a/%full_command%: &r%description%'
+help footer: '&2---------------------------------------------'
+
+reload-command: reload
+reload-description: 'Reload configuration and data'
+reloading: '&aReloading Orestack plugin...'
+
+generator-command: generator
+generator-name-parameter: generator-name
+
+get-generator-command: get
+get-generator-description: 'Get an item used to place generators in your world'
+generator-not-found: '&4Could not find generator with given name.'
+received-generator: '&aYou received x1 generator item.'
+
+set-generator-command: set
+set-generator-description: 'Set the generator to the block you''re looking at'
+remove-generator-command: remove
+remove-generator-description: 'Set the generator to the block you''re looking at'
+too-far-away: '&4Cannot find a block in range, move closer.'
+target-not-generator: '&4The block you''re looking at is not a generator'
+created-generator: '&aGenerator created successfully at target block.'
+removed generator: '&aGenerator removed successfully at target block'
+
+get-all-generators-command: get-all
+get-all-generators-description: 'Adds all generator items to your inventory'
+received-generators: '&aYou received x1 of each generator item.'
+
+set-all-generators-command: set-all
+set-all-generators-description: 'Sets all generators in a WorldEdit region'
+missing-world-edit: '&4You need to enable WorldEdit to use set-all command'
+incomplete-region: '&4You need to select a region with WorldEdit to use set-all command'
+created-generators: '&aAll generators inside of region have been set successfully'
+
+item-command: item
+file-path-parameter: file-path
+item-name-parameter: item-name
+add-item-command: add
+add-item-description: 'Save the item you''re holding to a yaml file'
+get-item-command: get
+get-item-description: 'Get an item saved in a yaml file'
+not-yaml-file: '&4The file must be a yaml file'
+not-holding-item: '&4You need to hold an item to add'
+item-not-found: '&4Item with given name not found'
+adding-item: '&aAdding item to yaml file...'
+received-item: '&aYou received x1 item'
+
+placed-generator: '&aPlaced generator successfully'
+broke-generator: '&cBroke generator successfully'
+missing-place-permission: '&4You don''t have the permission to place generators'
+
+generator-item-name: '&b&l%generator_tc% Generator'
+generator-item-right-click: '&fright click to place'
+generator-item-left-click: '&fleft click to break'
+
+
+

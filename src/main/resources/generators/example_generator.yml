@@ -1,0 +1,41 @@
+---
+type: depleted
+block: cobblestone
+growth: 10
+on-break:
+  - actions:
+      chat message: Resource is depleted
+      send message: bossbar
+---
+type: growing
+block: oak log
+growth: 40
+on-growth: []
+#chance: 1
+on-break:
+  - actions:
+      chat_message: Resource is replenishing
+
+on-interact:
+  - click: right click
+    sneaking: false
+    cancel-event: true
+    actions:
+      chat message: you left clicked a block
+---
+type: harvestable
+block: STONE
+growth: 40
+on-break:
+  - chance: 1.0
+    actions:
+      give_item: stone
+      chat_message: You have mined stone
+---
+type: replenished
+block: diamond ore
+on-break:
+  - chance: 1.0
+    actions:
+      give_item: diamond
+      chat_message: You have mined diamond
