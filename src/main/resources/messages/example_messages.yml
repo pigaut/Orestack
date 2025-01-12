@@ -1,3 +1,19 @@
+chat:
+  type: chat
+  message: This is a chat message
+
+actionbar:
+  type: actionbar
+  message: Action bar message
+
+title:
+  type: title
+  title: This is a title!
+  subtitle: this is a subtitle
+  fade-in: 20
+  stay: 60
+  fade-out: 20
+
 bossbar:
   type: bossbar
   title: this is a boss bar
@@ -16,11 +32,3 @@ bossbar:
     - 0.2
     - 0.1
     - 0
-
-message:
-  type: chat
-  message: This is a chat message
-
-title:
-  type: title
-  title: This is a title!

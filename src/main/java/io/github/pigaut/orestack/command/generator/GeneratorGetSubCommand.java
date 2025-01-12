@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.command.generator;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.voxel.command.node.*;
+import io.github.pigaut.voxel.player.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorGetSubCommand extends SubCommand {
@@ -12,14 +13,14 @@ public class GeneratorGetSubCommand extends SubCommand {
         addParameter(plugin.getLang("GENERATOR_NAME_PARAMETER", "generator-name"));
         withDescription(plugin.getLang("GET_GENERATOR_DESCRIPTION"));
         withPermission("orestack.generator.get");
-        withPlayerStateExecution((player, args) -> {
+        withPlayerExecution((player, args) -> {
             final Generator generator = plugin.getGenerator(args[0]);
             if (generator == null) {
-                player.sendMessage(plugin.getLang("GENERATOR_NOT_FOUND"));
+                plugin.sendMessage(player, "GENERATOR_NOT_FOUND", this);
                 return;
             }
-            player.getInventory().addItem(generator.getItem());
-            player.sendMessage(plugin.getLang("RECEIVED_GENERATOR"));
+            PlayerUtil.giveItemsOrDrop(player, generator.getItem());
+            plugin.sendMessage(player, "RECEIVED_GENERATOR", this, generator);
         });
         withPlayerCompletion((player, args) -> plugin.getGenerators().getGeneratorNames());
     }

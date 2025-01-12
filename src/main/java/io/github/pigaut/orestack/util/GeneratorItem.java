@@ -38,8 +38,9 @@ public class GeneratorItem {
         final ItemMeta meta = generatorItem.getItemMeta();
 
         final String name = plugin.getLang("GENERATOR_ITEM_NAME", "&b&l%generator% Generator");
-        final List<String> lore = List.of(plugin.getLang("GENERATOR_ITEM_RIGHT_CLICK", "Right click to place"),
-                plugin.getLang("GENERATOR_ITEM_LEFT_CLICK", "Left click to break"));
+        final List<String> lore = new ArrayList<>();
+        lore.add(plugin.getLang("GENERATOR_ITEM_RIGHT_CLICK", "Right click to place"));
+        lore.add(plugin.getLang("GENERATOR_ITEM_LEFT_CLICK", "Left click to break"));
 
         meta.setDisplayName(name);
         meta.setLore(lore);
@@ -48,7 +49,7 @@ public class GeneratorItem {
         meta.getPersistentDataContainer().set(GENERATOR, PersistentDataType.STRING, generator.getName());
         generatorItem.setItemMeta(meta);
 
-        return Placeholders.setPlaceholders(generatorItem, generator.getPlaceholders());
+        return ItemPlaceholders.parseAll(generatorItem, generator);
     }
 
 }

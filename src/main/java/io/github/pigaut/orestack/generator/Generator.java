@@ -8,7 +8,7 @@ import org.bukkit.inventory.*;
 
 import java.util.*;
 
-public class Generator {
+public class Generator implements PlaceholderSupplier {
 
     private final String name;
     private final List<GeneratorStage> stages;

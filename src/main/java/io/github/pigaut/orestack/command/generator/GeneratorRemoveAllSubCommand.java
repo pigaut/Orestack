@@ -3,7 +3,7 @@ package io.github.pigaut.orestack.command.generator;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.external.*;
 import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.orestack.stage.*;
+import io.github.pigaut.voxel.*;
 import io.github.pigaut.voxel.command.node.*;
 import io.github.pigaut.voxel.server.*;
 import org.bukkit.*;
@@ -11,16 +11,16 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class GeneratorSetAllSubCommand extends SubCommand {
+public class GeneratorRemoveAllSubCommand extends SubCommand {
 
     private final @Nullable WorldEditHook worldEdit;
 
-    public GeneratorSetAllSubCommand(@NotNull OrestackPlugin plugin) {
-        super(plugin.getLang("SET_ALL_GENERATORS_COMMAND", "set-all"), plugin);
+    public GeneratorRemoveAllSubCommand(@NotNull OrestackPlugin plugin) {
+        super(plugin.getLang("REMOVE_ALL_GENERATORS_COMMAND", "remove-all"), plugin);
         worldEdit = plugin.getWorldEditHook();
         addParameter(plugin.getLang("GENERATOR_NAME_PARAMETER", "generator-name"));
-        withDescription(plugin.getLang("SET_ALL_GENERATORS_DESCRIPTION"));
-        withPermission("orestack.generator.set-all");
+        withDescription(plugin.getLang("REMOVE_ALL_GENERATORS_DESCRIPTION"));
+        withPermission("orestack.generator.remove-all");
         withPlayerCompletion((player, args) -> plugin.getGenerators().getGeneratorNames());
         withPlayerExecution((player, args) -> {
             if (!SpigotServer.isPluginEnabled("WorldEdit") || worldEdit == null) {
@@ -40,13 +40,16 @@ public class GeneratorSetAllSubCommand extends SubCommand {
                 return;
             }
 
-            final GeneratorStage lastStage = generator.getLastStage();
             for (Location location : selection) {
-                if (lastStage.matchBlock(location.getBlock().getBlockData())) {
-                    plugin.getGenerators().addBlockGenerator(generator, location);
+                final BlockGenerator blockGenerator = plugin.getBlockGenerator(location);
+                if (blockGenerator == null) {
+                    continue;
+                }
+                if (blockGenerator.getGenerator() == generator) {
+                    plugin.getGenerators().removeBlockGenerator(location);
                 }
             }
-            plugin.sendMessage(player, "CREATED_ALL_GENERATORS", this, generator);
+            plugin.sendMessage(player, "REMOVED_ALL_GENERATORS", this, generator);
         });
     }
 

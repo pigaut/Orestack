@@ -1,11 +1,9 @@
 main: io.github.pigaut.orestack.OrestackPlugin
 name: Orestack
-version: 1.0
-api-version: 1.14
+version: 3.0
+api-version: 1.20
 author: pigaut
 description: A plugin to create regenerating resources in your worlds.
-depend:
-  - WorldGuard
 softdepend:
   - WorldEdit
 

@@ -1,15 +1,19 @@
 package io.github.pigaut.orestack;
 
 import io.github.pigaut.orestack.config.*;
+import io.github.pigaut.orestack.external.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.server.*;
+import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.voxel.yaml.configurator.*;
 import org.bukkit.*;
 import org.bukkit.inventory.*;
+import org.bukkit.plugin.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -20,6 +24,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     private final PlayerManager<OrestackPlayer> playerManager = new PlayerManager<>(OrestackPlayer::new);
     private final Configurator configurator = new OrestackConfigurator(this);
     private final Database database = SQLib.createDatabase(getFile("data.db"));
+    private WorldEditHook worldEditHook = null;
 
     private static OrestackPlugin plugin;
 
@@ -30,6 +35,16 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     public static OrestackPlugin getPlugin() {
         return plugin;
+    }
+
+    @Override
+    public @NotNull List<SpigotVersion> getCompatibleVersions() {
+        return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_20);
+    }
+
+    @Override
+    protected void createHooks() {
+        worldEditHook = shouldCreateHook("WorldEdit", "7.3", "7.3.9") ? new WorldEditHook() : null;
     }
 
     @Override
@@ -55,7 +70,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/gold.yml",
                 "generators/ores/diamond.yml",
                 "items/example_items.yml",
-                "messages/example_messages.yml"
+                "messages/example_messages.yml",
+                "flags.yml"
         );
     }
 
@@ -98,6 +114,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     public Database getDatabase() {
         return database;
+    }
+
+    public @Nullable WorldEditHook getWorldEditHook() {
+        return worldEditHook;
     }
 
 }

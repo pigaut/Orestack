@@ -34,6 +34,10 @@ public class GeneratorManager extends Manager {
         return new ArrayList<>(generatorsByName.values());
     }
 
+    public Collection<BlockGenerator> getAllBlockGenerators() {
+        return new ArrayList<>(generatorsByLocation.values());
+    }
+
     public @Nullable Generator getGenerator(String name) {
         return generatorsByName.get(name);
     }

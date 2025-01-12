@@ -13,9 +13,9 @@ public class GeneratorSubCommand extends SubCommand {
         addSubCommand(new GeneratorGetSubCommand(plugin));
         addSubCommand(new GeneratorGetAllSubCommand(plugin));
         addSubCommand(new GeneratorSetSubCommand(plugin));
-        if (SpigotServer.isPluginLoaded("WorldEdit")) {
-            addSubCommand(new GeneratorSetAllSubCommand(plugin));
-        }
+        addSubCommand(new GeneratorSetAllSubCommand(plugin));
+        addSubCommand(new GeneratorRemoveAllSubCommand(plugin));
+        addSubCommand(new GeneratorHarvestSubCommand(plugin));
     }
 
 }

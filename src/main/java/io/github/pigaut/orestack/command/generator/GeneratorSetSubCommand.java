@@ -13,26 +13,25 @@ public class GeneratorSetSubCommand extends SubCommand {
         super(plugin.getLang("SET_GENERATOR_COMMAND", "set"), plugin);
         addParameter(plugin.getLang("GENERATOR_NAME_PARAMETER", "generator-name"));
         withDescription(plugin.getLang("SET_GENERATOR_DESCRIPTION"));
+        withPermission("orestack.generator.set");
+        withPlayerExecution((player, args) -> {
+            final Generator generator = plugin.getGenerator(args[0]);
 
-        withPermission("orestack.admin.set")
-                .withPlayerExecution((player, args) -> {
-                    final Generator generator = plugin.getGenerator(args[0]);
+            if (generator == null) {
+                plugin.sendMessage(player, "GENERATOR_NOT_FOUND", this);
+                return;
+            }
 
-                    if (generator == null) {
-                        player.sendMessage(plugin.getLang("GENERATOR_NOT_FOUND"));
-                        return;
-                    }
+            final Block targetBlock = player.getTargetBlockExact(10);
+            if (targetBlock == null) {
+                plugin.sendMessage(player, "TOO_FAR_AWAY", this, generator);
+                return;
+            }
 
-                    final Block targetBlock = player.getTargetBlockExact(10);
-                    if (targetBlock == null) {
-                        player.sendMessage(plugin.getLang("TOO_FAR_AWAY"));
-                        return;
-                    }
-
-                    final Location location = targetBlock.getLocation();
-                    plugin.getGenerators().addBlockGenerator(generator, location);
-                    player.sendMessage(plugin.getLang("CREATED_GENERATOR"));
-                });
+            final Location location = targetBlock.getLocation();
+            plugin.getGenerators().addBlockGenerator(generator, location);
+            plugin.sendMessage(player, "CREATED_GENERATOR", this, generator);
+        });
 
         withPlayerCompletion((player, args) -> plugin.getGenerators().getGeneratorNames());
 
