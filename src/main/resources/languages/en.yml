@@ -2,7 +2,7 @@
 usage: '/%command% help'
 not-enough-args: "&4Not enough arguments"
 too-many-args: '&4Too many arguments'
-no-permission: '&4You don''t have the permission to run this command'
+no-permission: '&4You don''t have the permission to use this command'
 player-only: '&4This command cannot be executed from console'
 loading-player-data: '&4Player data is still loading try again later'
 
@@ -44,18 +44,19 @@ remove-all-generators-description: 'Removes all generators in a WorldEdit region
 harvest-all-generators-command: harvest-all
 harvest-all-generators-description: 'Harvests all generators with the tool in main hand'
 ## Errors
-generator-not-found: '&4Could not find generator with given name.'
+generator-not-found: '&4Could not find generator with given name'
 missing-world-edit: '&4You need WorldEdit installed to use this command'
 incomplete-region: '&4You need to select a region with WorldEdit to use set-all command'
-too-far-away: '&4Cannot find a block in range, move closer.'
+too-far-away: '&4Cannot find a block in range, move closer'
 target-not-generator: '&4The block you''re looking at is not a generator'
 ## Success
-received-generator: '&aYou received x1 generator item.'
-received-all-generators: '&aYou received x1 of each generator item.'
-created-generator: '&aGenerator created successfully at target block.'
+received-generator: '&aYou received x1 %generator% generator'
+created-generator: '&aGenerator created successfully at target block'
 removed generator: '&aGenerator removed successfully at target block'
+received-all-generators: '&aYou received x1 of each generator item'
 created-all-generators: '&aAll generators inside of region have been set successfully'
 removed-all-generators: '&aAll generators inside of region have been removed successfully'
+harvested-all-generators: '&aAll %generator% generators have been harvested with held tool'
 
 # Item Command
 item-command: item

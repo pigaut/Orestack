@@ -39,7 +39,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull List<SpigotVersion> getCompatibleVersions() {
-        return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_20);
+        return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_17);
     }
 
     @Override

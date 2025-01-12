@@ -32,13 +32,9 @@ public class GeneratorHarvestSubCommand extends SubCommand {
                 final Block block = blockGenerator.getBlock();
                 final BlockBreakEvent event = new BlockBreakEvent(block, player);
                 SpigotServer.callEvent(event);
-
-                if (!event.isCancelled()) {
-                    block.breakNaturally(player.getInventory().getItemInMainHand());
-                }
             }
 
-            plugin.sendMessage(player, "HARVESTED_ALL_GENERATORS", this);
+            plugin.sendMessage(player, "HARVESTED_ALL_GENERATORS", this, generator);
         });
     }
 

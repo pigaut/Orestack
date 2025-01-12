@@ -33,7 +33,7 @@
                                 </relocation>
                             </relocations>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <outputDirectory>D:\files\Development\java\spigot\servers\1.20.4\plugins</outputDirectory>
+                            <outputDirectory>D:\files\Development\java\spigot\servers\1.19.4\plugins</outputDirectory>
                             <finalName>OreStack-${project.version}</finalName>
                         </configuration>
                     </execution>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -86,8 +86,8 @@
     </dependencies>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

@@ -16,7 +16,7 @@ public class GeneratorGetAllSubCommand extends SubCommand {
             for (Generator generator : plugin.getGenerators().getAllGenerators()) {
                 PlayerUtil.giveItemsOrDrop(player, generator.getItem());
             }
-            plugin.sendMessage(player, "RECEIVED_GENERATORS", this);
+            plugin.sendMessage(player, "RECEIVED_ALL_GENERATORS", this);
         });
     }
 }

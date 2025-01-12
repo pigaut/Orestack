@@ -48,10 +48,6 @@ public class GeneratorLoader implements ConfigLoader<Generator> {
         return new Generator(name, generatorStages);
     }
 
-    // is ageable
-    // has_gravity
-    // is flamable or is burnable
-
     private GeneratorStage loadStage(Generator generator, ConfigSection config) {
         config.setProblemDescription("Could not load generator stage");
         final GeneratorState state = config.get("type", GeneratorState.class);
