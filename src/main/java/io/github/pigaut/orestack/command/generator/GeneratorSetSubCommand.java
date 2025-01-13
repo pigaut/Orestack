@@ -29,7 +29,7 @@ public class GeneratorSetSubCommand extends SubCommand {
             }
 
             final Location location = targetBlock.getLocation();
-            plugin.getGenerators().addBlockGenerator(generator, location);
+            plugin.getGenerators().createBlockGenerator(generator, location);
             plugin.sendMessage(player, "CREATED_GENERATOR", this, generator);
         });
 

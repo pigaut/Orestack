@@ -85,7 +85,7 @@ generator-item-left-click: '&fleft click to break'
 placed-generator: '&aPlaced generator successfully'
 broke-generator: '&cBroke generator successfully'
 missing-place-permission: '&4You don''t have the permission to place generators'
-
+missing-break-permission: '&4You don''t have the permission to break generators'
 
 
 

@@ -4,6 +4,7 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.stage.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
+import org.bukkit.block.data.*;
 import org.bukkit.scheduler.*;
 
 public class BlockGenerator {
@@ -15,10 +16,21 @@ public class BlockGenerator {
     private int currentStage;
     private BukkitTask growthTask = null;
 
-    public BlockGenerator(Generator generator, Location location) {
+    private BlockGenerator(Generator generator, Location location, int currentStage) {
         this.generator = generator;
         this.location = location;
-        this.currentStage = generator.getStages();
+        this.currentStage = currentStage;
+    }
+
+    public static BlockGenerator create(Generator generator, Location location) {
+        final BlockData blockData = location.getBlock().getBlockData();
+        int currentStage = generator.getStages();
+        for (int i = 0; i < generator.getStages(); i++) {
+            if (generator.getStage(i).matchBlock(blockData)) {
+                currentStage = i;
+            }
+        }
+        return new BlockGenerator(generator, location, currentStage);
     }
 
     public Generator getGenerator() {
@@ -47,6 +59,13 @@ public class BlockGenerator {
 
     public GeneratorStage getCurrentStage() {
         return generator.getStage(currentStage);
+    }
+
+    public void cancelGrowth() {
+        if (growthTask != null) {
+            growthTask.cancel();
+        }
+        growthTask = null;
     }
 
     public void setCurrentStage(int stage) {

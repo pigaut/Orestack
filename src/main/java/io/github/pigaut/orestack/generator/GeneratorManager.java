@@ -50,12 +50,11 @@ public class GeneratorManager extends Manager {
         return generatorsByLocation.get(location);
     }
 
-    public BlockGenerator addBlockGenerator(@NotNull Generator generator, @NotNull Location location) {
+    public void createBlockGenerator(@NotNull Generator generator, @NotNull Location location) {
         Preconditions.checkNotNull(location.getWorld(), "Location must have a valid world");
-        final BlockGenerator blockGenerator = new BlockGenerator(generator, location);
+        final BlockGenerator blockGenerator = BlockGenerator.create(generator, location);
         generatorsByLocation.put(location, blockGenerator);
         blockGenerator.updateState();
-        return blockGenerator;
     }
 
     public void removeBlockGenerator(@NotNull Location location) {
@@ -71,12 +70,19 @@ public class GeneratorManager extends Manager {
 
     @Override
     public void load() {
+        generatorsByName.clear();
+
         for (File file : plugin.getFiles("generators")) {
             final RootSequence config = new RootSequence(file, plugin.getConfigurator());
             config.load();
             generatorsByName.put(config.getName(), config.load(Generator.class));
         }
 
+        for (BlockGenerator blockGenerator : generatorsByLocation.values()) {
+            blockGenerator.cancelGrowth();
+        }
+
+        generatorsByLocation.clear();
         resourcesTable.createIfNotExists(
                 "world VARCHAR(255)",
                 "x INT NOT NULL",
@@ -85,7 +91,6 @@ public class GeneratorManager extends Manager {
                 "generator VARCHAR(255) NOT NULL",
                 "PRIMARY KEY (world, x, y, z)"
         );
-
         resourcesTable.selectAll().fetchAllRows(rowQuery -> {
             final String worldName = rowQuery.getString(1);
             final int x = rowQuery.getInt(2);
@@ -103,7 +108,7 @@ public class GeneratorManager extends Manager {
                 return;
             }
             final Location location = new Location(world, x, y, z);
-            addBlockGenerator(generator, location);
+            createBlockGenerator(generator, location);
         });
     }
 

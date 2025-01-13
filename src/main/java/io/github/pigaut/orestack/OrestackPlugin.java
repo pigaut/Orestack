@@ -6,6 +6,7 @@ import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
+import io.github.pigaut.voxel.config.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.server.*;
@@ -22,7 +23,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     private final GeneratorManager generatorManager = new GeneratorManager(this);
     private final PlayerManager<OrestackPlayer> playerManager = new PlayerManager<>(OrestackPlayer::new);
-    private final Configurator configurator = new OrestackConfigurator(this);
+    private final OrestackConfigurator configurator = new OrestackConfigurator(this);
     private final Database database = SQLib.createDatabase(getFile("data.db"));
     private WorldEditHook worldEditHook = null;
 
@@ -108,7 +109,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull Configurator getConfigurator() {
+    public @NotNull OrestackConfigurator getConfigurator() {
         return configurator;
     }
 

@@ -33,7 +33,7 @@
                                 </relocation>
                             </relocations>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <outputDirectory>D:\files\Development\java\spigot\servers\1.19.4\plugins</outputDirectory>
+                            <outputDirectory>D:\files\Development\java\spigot\servers\1.20.4\plugins</outputDirectory>
                             <finalName>OreStack-${project.version}</finalName>
                         </configuration>
                     </execution>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>io.github.pigaut.voxel</groupId>
             <artifactId>VoxelSpigot</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

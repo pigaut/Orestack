@@ -43,7 +43,7 @@ public class GeneratorSetAllSubCommand extends SubCommand {
             final GeneratorStage lastStage = generator.getLastStage();
             for (Location location : selection) {
                 if (lastStage.matchBlock(location.getBlock().getBlockData())) {
-                    plugin.getGenerators().addBlockGenerator(generator, location);
+                    plugin.getGenerators().createBlockGenerator(generator, location);
                 }
             }
             plugin.sendMessage(player, "CREATED_ALL_GENERATORS", this, generator);
