@@ -21,8 +21,15 @@ public class OrestackCommand extends EnhancedCommand {
         final SubCommand reloadCommand = new ReloadSubCommand(plugin);
         reloadCommand.withPermission("orestack.reload");
 
+        final SubCommand itemAddCommand = new ItemAddSubCommand(plugin);
+        itemAddCommand.withPermission("orestack.item.add");
+
+        final SubCommand itemGetCommand = new ItemGetSubCommand(plugin);
+        itemGetCommand.withPermission("orestack.item.get");
+
         final SubCommand itemCommand = new ItemSubCommand(plugin);
-        itemCommand.withPermission("orestack.item");
+        itemCommand.addSubCommand(itemAddCommand);
+        itemCommand.addSubCommand(itemGetCommand);
 
         addSubCommand(helpCommand);
         addSubCommand(reloadCommand);

@@ -1,6 +1,6 @@
 main: io.github.pigaut.orestack.OrestackPlugin
 name: Orestack
-version: 3.2 # publish 3.2 after tests
+version: 3.2
 api-version: 1.17
 author: pigaut
 description: A plugin to create regenerating resources in your worlds.
