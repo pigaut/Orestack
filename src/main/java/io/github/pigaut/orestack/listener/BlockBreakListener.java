@@ -34,7 +34,7 @@ public class BlockBreakListener implements Listener {
         if (generatorHarvestEvent.isCancelled()) {
             return;
         }
-        Function.runAll(player, block, stage.getOnHarvest());
+        Function.runAll(player, block, stage.getOnBreak());
         if (stage.getState().isHarvestable()) {
             generator.previousStage();
             if (stage.isDropItems()) {

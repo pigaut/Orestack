@@ -6,6 +6,7 @@ on-growth: []
 on-click: []
 on-break:
   - actions:
+      - { action: chat message, value: Resource is depleted }
       - [chat message, Resource is depleted]
       - [message, bossbar]
 ---
@@ -18,6 +19,9 @@ on-break:
   - actions:
       - [chat message, Resource is replenishing]
 on-click:
+  - click: left click block
+    actions:
+      - [chat message, You left clicked a block]
   - click: right click block
     sneaking: false
     cancel-event: true

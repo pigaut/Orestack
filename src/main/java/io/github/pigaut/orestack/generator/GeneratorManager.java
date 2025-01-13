@@ -63,26 +63,29 @@ public class GeneratorManager extends Manager {
     }
 
     @Override
-    public void onEnable() {
+    public void enable() {
         resourcesTable = plugin.getDatabase().tableOf("resources");
-        load();
+        this.load();
+    }
+
+    @Override
+    public void disable() {
+        this.save();
+        for (BlockGenerator blockGenerator : generatorsByLocation.values()) {
+            blockGenerator.cancelGrowth();
+        }
+        generatorsByName.clear();
+        generatorsByLocation.clear();
     }
 
     @Override
     public void load() {
-        generatorsByName.clear();
-
         for (File file : plugin.getFiles("generators")) {
             final RootSequence config = new RootSequence(file, plugin.getConfigurator());
             config.load();
             generatorsByName.put(config.getName(), config.load(Generator.class));
         }
 
-        for (BlockGenerator blockGenerator : generatorsByLocation.values()) {
-            blockGenerator.cancelGrowth();
-        }
-
-        generatorsByLocation.clear();
         resourcesTable.createIfNotExists(
                 "world VARCHAR(255)",
                 "x INT NOT NULL",
@@ -91,6 +94,7 @@ public class GeneratorManager extends Manager {
                 "generator VARCHAR(255) NOT NULL",
                 "PRIMARY KEY (world, x, y, z)"
         );
+
         resourcesTable.selectAll().fetchAllRows(rowQuery -> {
             final String worldName = rowQuery.getString(1);
             final int x = rowQuery.getInt(2);
@@ -122,7 +126,6 @@ public class GeneratorManager extends Manager {
                 "generator VARCHAR(255) NOT NULL",
                 "PRIMARY KEY (world, x, y, z)"
         );
-
         resourcesTable.clear();
         generatorsByLocation.forEach((location, generator) -> {
             final String worldName = location.getWorld().getName();
@@ -133,7 +136,6 @@ public class GeneratorManager extends Manager {
 
             resourcesTable.insertAll("'" + worldName + "'", x, y, z, "'" + generatorName + "'").executeUpdate();
         });
-
     }
 
     @Override

@@ -80,7 +80,7 @@ public class GeneratorStage {
         return growthChance;
     }
 
-    public List<Function> getOnHarvest() {
+    public List<Function> getOnBreak() {
         return onBreak;
     }
 

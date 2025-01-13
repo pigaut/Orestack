@@ -6,15 +6,11 @@ import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
-import io.github.pigaut.voxel.config.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
-import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.version.*;
-import io.github.pigaut.voxel.yaml.configurator.*;
 import org.bukkit.*;
 import org.bukkit.inventory.*;
-import org.bukkit.plugin.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -22,7 +18,7 @@ import java.util.*;
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
     private final GeneratorManager generatorManager = new GeneratorManager(this);
-    private final PlayerManager<OrestackPlayer> playerManager = new PlayerManager<>(OrestackPlayer::new);
+    private final OrestackPlayerManager playerManager = new OrestackPlayerManager();
     private final OrestackConfigurator configurator = new OrestackConfigurator(this);
     private final Database database = SQLib.createDatabase(getFile("data.db"));
     private WorldEditHook worldEditHook = null;
@@ -44,7 +40,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    protected void createHooks() {
+    public void createHooks() {
         worldEditHook = shouldCreateHook("WorldEdit", "7.3", "7.3.9") ? new WorldEditHook() : null;
     }
 

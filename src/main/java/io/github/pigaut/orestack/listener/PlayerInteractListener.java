@@ -38,20 +38,23 @@ public class PlayerInteractListener implements Listener {
         final BlockGenerator clickedGenerator = plugin.getBlockGenerator(location);
 
         if (heldGenerator != null) {
-            if (!player.hasPermission("orestack.generator.break")) {
-                plugin.sendMessage(player, "MISSING_BREAK_PERMISSION", heldGenerator);
-                event.setCancelled(true);
-                return;
-            }
+            event.setCancelled(true);
             if (action == Action.RIGHT_CLICK_BLOCK) {
-                event.setCancelled(true);
+                if (!player.hasPermission("orestack.generator.place")) {
+                    plugin.sendMessage(player, "MISSING_PLACE_PERMISSION", heldGenerator);
+                    return;
+                }
                 final Location targetLocation = clickedBlock.getRelative(event.getBlockFace(), clickedBlock.isPassable() ? 0 : 1).getLocation();
                 plugin.getGenerators().createBlockGenerator(heldGenerator, targetLocation);
                 PlayerUtil.sendActionBar(player, plugin.getLang("PLACED_GENERATOR"));
                 return;
             }
+
             if (action == Action.LEFT_CLICK_BLOCK && clickedGenerator != null) {
-                event.setCancelled(true);
+                if (!player.hasPermission("orestack.generator.break")) {
+                    plugin.sendMessage(player, "MISSING_BREAK_PERMISSION", heldGenerator);
+                    return;
+                }
                 plugin.getGenerators().removeBlockGenerator(clickedGenerator.getLocation());
                 PlayerUtil.sendActionBar(player, plugin.getLang("BROKE_GENERATOR"));
             }
