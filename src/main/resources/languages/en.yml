@@ -77,6 +77,18 @@ item-not-found: '&4Item with given name not found'
 adding-item: '&aAdding item to yaml file...'
 received-item: '&aYou received x1 item'
 
+# Particle Command
+particle-command: particle
+## Parameters
+particle-name-parameter: particle-name
+## Spawn Particle
+spawn-particle-command: spawn
+spawn-particle-description: 'Spawn a particle effect in front of you'
+## Errors
+particle-not-found: '&4Particle with given name not found'
+## Success
+spawned-particle: '&aSpawned a particle effect'
+
 # Generator Item
 generator-item-name: '&b&l%generator_tc% Generator'
 generator-item-right-click: '&fright click to place'

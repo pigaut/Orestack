@@ -6,7 +6,7 @@
 
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>Orestack</artifactId>
-    <version>3.2</version>
+    <version>3.3</version>
 
     <build>
         <plugins>
@@ -33,7 +33,7 @@
                                 </relocation>
                             </relocations>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <outputDirectory>D:\files\Development\java\spigot\servers\1.20.4\plugins</outputDirectory>
+                            <outputDirectory>D:\files\Development\java\spigot\servers\1.17.1\plugins</outputDirectory>
                             <finalName>OreStack-${project.version}</finalName>
                         </configuration>
                     </execution>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.17.1-R0.1-SNAPSHOT</version>
+            <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

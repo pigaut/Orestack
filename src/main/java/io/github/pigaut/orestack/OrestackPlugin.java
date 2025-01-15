@@ -36,7 +36,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull List<SpigotVersion> getCompatibleVersions() {
-        return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_17);
+        return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_14);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull List<String> getPluginDirectories() {
-        return List.of("items", "generators", "messages", "languages");
+        return List.of("items", "generators", "messages", "languages", "particles");
     }
 
     @Override
@@ -68,6 +68,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/diamond.yml",
                 "items/example_items.yml",
                 "messages/example_messages.yml",
+                "particles/example_particles.yml",
                 "flags.yml"
         );
     }

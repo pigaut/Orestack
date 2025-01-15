@@ -118,6 +118,10 @@ public class GeneratorManager extends Manager {
 
     @Override
     public void save() {
+        if (resourcesTable == null) {
+            return;
+        }
+
         resourcesTable.createIfNotExists(
                 "world VARCHAR(255)",
                 "x INT NOT NULL",

@@ -3,8 +3,10 @@ package io.github.pigaut.orestack.command;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.command.generator.*;
 import io.github.pigaut.voxel.command.*;
-import io.github.pigaut.voxel.command.item.*;
 import io.github.pigaut.voxel.command.node.*;
+import io.github.pigaut.voxel.item.command.*;
+import io.github.pigaut.voxel.particle.command.*;
+import io.github.pigaut.voxel.plugin.command.*;
 import org.jetbrains.annotations.*;
 
 public class OrestackCommand extends EnhancedCommand {
@@ -31,9 +33,16 @@ public class OrestackCommand extends EnhancedCommand {
         itemCommand.addSubCommand(itemAddCommand);
         itemCommand.addSubCommand(itemGetCommand);
 
+        final SubCommand particleSpawnCommand = new SpawnParticleSubCommand(plugin);
+        particleSpawnCommand.withPermission("orestack.particle.spawn");
+
+        final SubCommand particleCommand = new ParticleSubCommand(plugin);
+        particleCommand.addSubCommand(particleSpawnCommand);
+
         addSubCommand(helpCommand);
         addSubCommand(reloadCommand);
         addSubCommand(itemCommand);
+        addSubCommand(particleCommand);
         addSubCommand(new GeneratorSubCommand(plugin));
     }
 
