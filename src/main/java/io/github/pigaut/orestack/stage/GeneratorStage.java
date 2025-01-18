@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.stage;
 
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.voxel.function.*;
+import io.github.pigaut.voxel.function.interact.block.*;
 import io.github.pigaut.voxel.util.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -18,15 +19,16 @@ public class GeneratorStage {
     private final @Nullable Integer age;
     private final @Nullable BlockFace facingDirection;
     private final boolean dropItems;
-    private final @Nullable Integer growthTime;
+    private final int growthTime;
     private final @Nullable Double growthChance;
-    private final List<Function> onBreak;
-    private final List<Function> onGrowth;
-    private final List<BlockClickFunction> onClick;
+    private final @Nullable Function onBreak;
+    private final @Nullable Function onGrowth;
+    private final @Nullable BlockClickFunction onClick;
 
     public GeneratorStage(@NotNull Generator generator, @NotNull GeneratorState stageType, @NotNull Material resource,
-                          @Nullable Integer age, @Nullable BlockFace facingDirection, boolean dropItems, @Nullable Integer growthTime,
-                          @Nullable Double growthChance, List<Function> onBreak, List<Function> onGrowth, List<BlockClickFunction> onClick) {
+                          @Nullable Integer age, @Nullable BlockFace facingDirection, boolean dropItems, int growthTime,
+                          @Nullable Double growthChance, @Nullable Function onBreak, @Nullable Function onGrowth,
+                          @Nullable BlockClickFunction onClick) {
         this.generator = generator;
         this.state = stageType;
         this.resource = resource;
@@ -65,7 +67,7 @@ public class GeneratorStage {
     }
 
     public boolean shouldGrow() {
-        return growthTime != null && growthChance == null || Probability.test(growthChance);
+        return growthChance == null || Probability.test(growthChance);
     }
 
     public @Nullable Integer getGrowthTime() {
@@ -80,15 +82,15 @@ public class GeneratorStage {
         return growthChance;
     }
 
-    public List<Function> getOnBreak() {
+    public @Nullable Function getBreakFunction() {
         return onBreak;
     }
 
-    public List<Function> getOnGrowth() {
+    public @Nullable Function getGrowthFunction() {
         return onGrowth;
     }
 
-    public List<BlockClickFunction> getOnClick() {
+    public @Nullable BlockClickFunction getClickFunction() {
         return onClick;
     }
 

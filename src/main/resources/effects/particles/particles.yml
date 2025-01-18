@@ -1,0 +1,11 @@
+simple-particle:
+  particle: crit
+  count: 50
+  offset: { x: 0, y: 0, z: 0 }
+  force: false         # Works only if player-only is false, increases the view distance
+  player-only: false   # Whether visible to all or just target player
+
+explosion:
+  particle: EXPLOSION_LARGE
+  count: 10
+  offset: { x: 0, y: 0.5, z: 0 }

@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.stage.*;
+import io.github.pigaut.voxel.function.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.*;
@@ -93,7 +94,10 @@ public class BlockGenerator {
             nextStage = generator.getStage(peekStage);
         }
 
-        nextStage.getOnGrowth().forEach(function -> function.run(this.getBlock()));
+        final Function growthFunction = nextStage.getGrowthFunction();
+        if (growthFunction != null) {
+            growthFunction.run(this.getBlock());
+        }
         setCurrentStage(peekStage);
     }
 

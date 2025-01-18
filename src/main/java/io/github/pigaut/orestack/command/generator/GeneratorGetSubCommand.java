@@ -6,23 +6,20 @@ import io.github.pigaut.voxel.command.node.*;
 import io.github.pigaut.voxel.player.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorGetSubCommand extends SubCommand {
+public class GeneratorGetSubCommand extends LangSubCommand {
 
     public GeneratorGetSubCommand(@NotNull OrestackPlugin plugin) {
-        super(plugin.getLang("GET_GENERATOR_COMMAND", "get"), plugin);
-        addParameter(plugin.getLang("GENERATOR_NAME_PARAMETER", "generator-name"));
-        withDescription(plugin.getLang("GET_GENERATOR_DESCRIPTION"));
-        withPermission("orestack.generator.get");
-        withPlayerExecution((player, args) -> {
+        super("get-generator", plugin);
+        addParameter(new GeneratorNameParameter(plugin));
+        withPlayerExecution((player, args, placeholders) -> {
             final Generator generator = plugin.getGenerator(args[0]);
             if (generator == null) {
-                plugin.sendMessage(player, "GENERATOR_NOT_FOUND", this);
+                plugin.sendMessage(player, "generator-not-found", placeholders);
                 return;
             }
             PlayerUtil.giveItemsOrDrop(player, generator.getItem());
-            plugin.sendMessage(player, "RECEIVED_GENERATOR", this, generator);
+            plugin.sendMessage(player, "received-generator", placeholders, generator);
         });
-        withPlayerCompletion((player, args) -> plugin.getGenerators().getGeneratorNames());
     }
 
 }

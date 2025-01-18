@@ -4,6 +4,7 @@ import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.function.action.*;
+import io.github.pigaut.voxel.function.interact.block.*;
 import io.github.pigaut.voxel.yaml.*;
 import io.github.pigaut.voxel.yaml.configurator.loader.*;
 import org.bukkit.*;
@@ -22,7 +23,6 @@ public class GeneratorLoader implements ConfigLoader<Generator> {
 
     @Override
     public @NotNull Generator loadFromSequence(@NotNull ConfigSequence config) throws InvalidConfigurationException {
-
         final String name = config.getRoot().getName();
         final List<GeneratorStage> generatorStages = new ArrayList<>();
 
@@ -32,16 +32,20 @@ public class GeneratorLoader implements ConfigLoader<Generator> {
         }
 
         if (generatorStages.size() < 2) {
-            throw new InvalidConfigurationException(config, "Generator must have at least one gathering stage and an exhausted stage");
+            throw new InvalidConfigurationException(config, "Generator must have at least one depleted stage and one replenished state");
         }
 
         if (generatorStages.get(0).getState() != GeneratorState.DEPLETED) {
             throw new InvalidConfigurationException(config, "First stage must be depleted");
         }
 
+        if (generatorStages.get(generatorStages.size() - 1).getState() != GeneratorState.REPLENISHED) {
+            throw new InvalidConfigurationException(config, "The last stage should be replenished");
+        }
+
         for (int i = 1; i < generatorStages.size(); i++) {
             if (generatorStages.get(i).getState() == GeneratorState.DEPLETED) {
-                throw new InvalidConfigurationException(config, "Only the first stage must be exhausted");
+                throw new InvalidConfigurationException(config, "Only the first stage should be depleted");
             }
         }
 
@@ -57,9 +61,9 @@ public class GeneratorLoader implements ConfigLoader<Generator> {
         final boolean dropItems = config.getOptionalBoolean("drop-items").orElse(true);
         final int regeneration = config.getOptionalInteger("growth|growth-time").orElse(0);
         final Double chance = config.getOptionalDouble("chance|growth-chance").orElse(null);
-        final List<Function> onBreak = config.getAll("on-break", Function.class);
-        final List<Function> onGrowth = config.getAll("on-growth", Function.class);
-        final List<BlockClickFunction> onClick = config.getAll("on-click", BlockClickFunction.class);
+        final Function onBreak = config.getOptional("on-break", Function.class).orElse(null);
+        final Function onGrowth = config.getOptional("on-growth", Function.class).orElse(null);
+        final BlockClickFunction onClick = config.getOptional("on-click", BlockClickFunction.class).orElse(null);
 
         if (!block.isBlock()) {
             throw new InvalidConfigurationException(config, "resource", "Resource must be a block");

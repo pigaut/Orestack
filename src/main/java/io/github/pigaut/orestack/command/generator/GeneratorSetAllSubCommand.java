@@ -11,42 +11,36 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class GeneratorSetAllSubCommand extends SubCommand {
+public class GeneratorSetAllSubCommand extends LangSubCommand {
 
     private final @Nullable WorldEditHook worldEdit;
 
     public GeneratorSetAllSubCommand(@NotNull OrestackPlugin plugin) {
-        super(plugin.getLang("SET_ALL_GENERATORS_COMMAND", "set-all"), plugin);
+        super("set-all-generators", plugin);
         worldEdit = plugin.getWorldEditHook();
-        addParameter(plugin.getLang("GENERATOR_NAME_PARAMETER", "generator-name"));
-        withDescription(plugin.getLang("SET_ALL_GENERATORS_DESCRIPTION"));
-        withPermission("orestack.generator.set-all");
-        withPlayerCompletion((player, args) -> plugin.getGenerators().getGeneratorNames());
-        withPlayerExecution((player, args) -> {
+        addParameter(new GeneratorNameParameter(plugin));
+        withPlayerExecution((player, args, placeholders) -> {
             if (!SpigotServer.isPluginEnabled("WorldEdit") || worldEdit == null) {
-                plugin.sendMessage(player, "MISSING_WORLD_EDIT", this);
+                plugin.sendMessage(player, "missing-world-edit", placeholders);
                 return;
             }
-
             final Generator generator = plugin.getGenerator(args[0]);
             if (generator == null) {
-                plugin.sendMessage(player, "GENERATOR_NOT_FOUND", this);
+                plugin.sendMessage(player, "generator-not-found", placeholders);
                 return;
             }
-
             final List<Location> selection = worldEdit.getWorldSelection(player);
             if (selection.isEmpty()) {
-                plugin.sendMessage(player, "INCOMPLETE_REGION", this, generator);
+                plugin.sendMessage(player, "incomplete-region", placeholders, generator);
                 return;
             }
-
             final GeneratorStage lastStage = generator.getLastStage();
             for (Location location : selection) {
                 if (lastStage.matchBlock(location.getBlock().getBlockData())) {
                     plugin.getGenerators().createBlockGenerator(generator, location);
                 }
             }
-            plugin.sendMessage(player, "CREATED_ALL_GENERATORS", this, generator);
+            plugin.sendMessage(player, "created-all-generators", placeholders, generator);
         });
     }
 

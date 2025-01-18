@@ -2,6 +2,10 @@ chat:
   type: chat
   message: This is a chat message
 
+multi:
+  - { type: chat, message: Welcome to the server! }
+  - { type: chat, message: Feel free to look around }
+
 actionbar:
   type: actionbar
   message: Action bar message

@@ -5,11 +5,10 @@ import io.github.pigaut.voxel.command.node.*;
 import io.github.pigaut.voxel.server.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorSubCommand extends SubCommand {
+public class GeneratorSubCommand extends LangSubCommand {
 
     public GeneratorSubCommand(@NotNull OrestackPlugin plugin) {
-        super(plugin.getLang("GENERATOR_COMMAND", "generator"), plugin);
-        withPermission("orestack.generator");
+        super("generator", plugin);
         addSubCommand(new GeneratorGetSubCommand(plugin));
         addSubCommand(new GeneratorGetAllSubCommand(plugin));
         addSubCommand(new GeneratorSetSubCommand(plugin));

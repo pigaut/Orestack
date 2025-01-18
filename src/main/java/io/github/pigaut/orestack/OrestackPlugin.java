@@ -46,7 +46,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull List<String> getPluginDirectories() {
-        return List.of("items", "generators", "messages", "languages", "particles");
+        return List.of("items", "generators", "messages", "languages", "effects/particles", "effects/sounds");
     }
 
     @Override
@@ -54,7 +54,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return List.of(
                 "config.yml",
                 "languages/en.yml",
-                "generators/example_generator.yml",
+                "generators/example.yml",
                 "generators/crops/wheat.yml",
                 "generators/crops/potato.yml",
                 "generators/crops/carrot.yml",
@@ -66,9 +66,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/iron.yml",
                 "generators/ores/gold.yml",
                 "generators/ores/diamond.yml",
-                "items/example_items.yml",
-                "messages/example_messages.yml",
-                "particles/example_particles.yml",
+                "items/items.yml",
+                "messages/messages.yml",
+                "effects/particles/particles.yml",
+                "effects/sounds/sounds.yml",
                 "flags.yml"
         );
     }

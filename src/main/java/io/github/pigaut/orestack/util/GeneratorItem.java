@@ -37,10 +37,10 @@ public class GeneratorItem {
         final ItemStack generatorItem = new ItemStack(itemType);
         final ItemMeta meta = generatorItem.getItemMeta();
 
-        final String name = plugin.getLang("GENERATOR_ITEM_NAME", "&b&l%generator% Generator");
+        final String name = plugin.getLang("generator-item-name", "%Generator% Generator");
         final List<String> lore = new ArrayList<>();
-        lore.add(plugin.getLang("GENERATOR_ITEM_RIGHT_CLICK", "Right click to place"));
-        lore.add(plugin.getLang("GENERATOR_ITEM_LEFT_CLICK", "Left click to break"));
+        lore.add(plugin.getLang("generator-item-right-click", ChatColor.WHITE + "right-click to place"));
+        lore.add(plugin.getLang("generator-item-left-click", ChatColor.WHITE + "left-click to place"));
 
         meta.setDisplayName(name);
         meta.setLore(lore);

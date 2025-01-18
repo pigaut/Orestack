@@ -7,34 +7,29 @@ import org.bukkit.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorSetSubCommand extends SubCommand {
+public class GeneratorSetSubCommand extends LangSubCommand {
 
     public GeneratorSetSubCommand(@NotNull OrestackPlugin plugin) {
-        super(plugin.getLang("SET_GENERATOR_COMMAND", "set"), plugin);
-        addParameter(plugin.getLang("GENERATOR_NAME_PARAMETER", "generator-name"));
-        withDescription(plugin.getLang("SET_GENERATOR_DESCRIPTION"));
-        withPermission("orestack.generator.set");
-        withPlayerExecution((player, args) -> {
+        super("set-generator", plugin);
+        addParameter(new GeneratorNameParameter(plugin));
+        withPlayerExecution((player, args, placeholders) -> {
             final Generator generator = plugin.getGenerator(args[0]);
 
             if (generator == null) {
-                plugin.sendMessage(player, "GENERATOR_NOT_FOUND", this);
+                plugin.sendMessage(player, "generator-not-found", placeholders);
                 return;
             }
 
             final Block targetBlock = player.getTargetBlockExact(10);
             if (targetBlock == null) {
-                plugin.sendMessage(player, "TOO_FAR_AWAY", this, generator);
+                plugin.sendMessage(player, "too-far-away", placeholders, generator);
                 return;
             }
 
             final Location location = targetBlock.getLocation();
             plugin.getGenerators().createBlockGenerator(generator, location);
-            plugin.sendMessage(player, "CREATED_GENERATOR", this, generator);
+            plugin.sendMessage(player, "created-generator", placeholders, generator);
         });
-
-        withPlayerCompletion((player, args) -> plugin.getGenerators().getGeneratorNames());
-
     }
 
 }

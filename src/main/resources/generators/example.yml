@@ -7,14 +7,15 @@ on-click: []
 on-break:
   - actions:
       - { action: chat message, value: Resource is depleted }
-      - [chat message, Resource is depleted]
       - [message, bossbar]
 ---
 type: growing
 block: oak log
 growth: 40
-on-growth: []
 chance: 0.5
+on-growth:
+  - actions:
+      - [block particle, explosion]
 on-break:
   - actions:
       - [chat message, Resource is replenishing]
@@ -44,3 +45,5 @@ on-break:
     actions:
       - [give item, diamond]
       - [chat message, You have mined diamond]
+      - [block particle, explosion]
+      - [block sound, tin]
