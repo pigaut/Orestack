@@ -34,6 +34,7 @@ reload-command: reload
 reload-permission: orestack.reload
 reload-description: 'Reload configuration and data'
 reloading: '&aReloading Orestack plugin...'
+config-error-on-reload: '&4Found a config error, check console for more information'
 
 # Item Command
 item-command: item

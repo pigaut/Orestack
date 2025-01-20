@@ -36,7 +36,22 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull List<SpigotVersion> getCompatibleVersions() {
-        return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_14);
+        return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_17);
+    }
+
+    @Override
+    public @Nullable Integer getMetricsId() {
+        return 24502;
+    }
+
+    @Override
+    public @Nullable Integer getResourceId() {
+        return 91628;
+    }
+
+    @Override
+    public @Nullable String getDonationLink() {
+        return "https://www.paypal.com/paypalme/Giovanni335";
     }
 
     @Override
