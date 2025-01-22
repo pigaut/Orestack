@@ -19,7 +19,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     private final GeneratorManager generatorManager = new GeneratorManager(this);
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager();
-    private final OrestackConfigurator configurator = new OrestackConfigurator(this);
     private final Database database = SQLib.createDatabase(getFile("data.db"));
 
     private static OrestackPlugin plugin;
@@ -117,7 +116,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull OrestackConfigurator getConfigurator() {
-        return configurator;
+        return new OrestackConfigurator(this);
     }
 
     public Database getDatabase() {

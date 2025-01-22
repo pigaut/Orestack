@@ -47,3 +47,8 @@ on-break:
       - [chat message, You have mined diamond]
       - [block particle, explosion]
       - [block sound, tin]
+#  - if:                      # HAS_MONEY, GIVE_MONEY, and TAKE_MONEY
+#      - [has money, 10000]   # can only be used with Vault and an economy plugin (like essentialsX) installed
+#    do:
+#      - [chat message, "wow you're rich, here have some more"]
+#      - [give money, 10000]
