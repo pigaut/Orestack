@@ -3,12 +3,14 @@ package io.github.pigaut.orestack.generator;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.voxel.function.*;
+import io.github.pigaut.voxel.meta.placeholder.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.*;
 import org.bukkit.scheduler.*;
+import org.jetbrains.annotations.*;
 
-public class BlockGenerator {
+public class BlockGenerator implements PlaceholderSupplier {
 
     private final OrestackPlugin plugin = OrestackPlugin.getPlugin();
 
@@ -145,6 +147,11 @@ public class BlockGenerator {
                 ", location=" + location +
                 ", currentStage=" + currentStage +
                 '}';
+    }
+
+    @Override
+    public @NotNull Placeholder[] getPlaceholders() {
+        return generator.getPlaceholders();
     }
 
 }

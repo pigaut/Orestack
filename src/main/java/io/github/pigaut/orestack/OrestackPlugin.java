@@ -21,7 +21,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager();
     private final OrestackConfigurator configurator = new OrestackConfigurator(this);
     private final Database database = SQLib.createDatabase(getFile("data.db"));
-    private WorldEditHook worldEditHook = null;
 
     private static OrestackPlugin plugin;
 
@@ -52,11 +51,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public @Nullable String getDonationLink() {
         return "https://www.paypal.com/paypalme/Giovanni335";
-    }
-
-    @Override
-    public void createHooks() {
-        worldEditHook = shouldCreateHook("WorldEdit", "7.3", "7.3.9") ? new WorldEditHook() : null;
     }
 
     @Override
@@ -128,10 +122,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     public Database getDatabase() {
         return database;
-    }
-
-    public @Nullable WorldEditHook getWorldEditHook() {
-        return worldEditHook;
     }
 
 }

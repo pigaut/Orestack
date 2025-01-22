@@ -2,10 +2,7 @@ package io.github.pigaut.orestack.util;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.voxel.meta.placeholder.*;
-import io.github.pigaut.voxel.util.*;
-import io.github.pigaut.voxel.yaml.parser.*;
 import org.bukkit.*;
 import org.bukkit.enchantments.*;
 import org.bukkit.inventory.*;
@@ -18,7 +15,7 @@ import java.util.*;
 public class GeneratorItem {
 
     private static final OrestackPlugin plugin = OrestackPlugin.getPlugin();
-    public static final NamespacedKey GENERATOR = new NamespacedKey("orestack", "generator");
+    public static final NamespacedKey GENERATOR_KEY = new NamespacedKey("orestack", "generator");
 
     public static @Nullable String getGeneratorFromItem(@Nullable ItemStack item) {
         if (item == null) {
@@ -28,7 +25,7 @@ public class GeneratorItem {
         if (meta == null) {
             return null;
         }
-        final String generatorName = meta.getPersistentDataContainer().get(GENERATOR, PersistentDataType.STRING);
+        final String generatorName = meta.getPersistentDataContainer().get(GENERATOR_KEY, PersistentDataType.STRING);
         return generatorName;
     }
 
@@ -46,7 +43,7 @@ public class GeneratorItem {
         meta.setLore(lore);
         meta.addEnchant(Enchantment.OXYGEN, 1, false);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.getPersistentDataContainer().set(GENERATOR, PersistentDataType.STRING, generator.getName());
+        meta.getPersistentDataContainer().set(GENERATOR_KEY, PersistentDataType.STRING, generator.getName());
         generatorItem.setItemMeta(meta);
 
         return ItemPlaceholders.parseAll(generatorItem, generator);

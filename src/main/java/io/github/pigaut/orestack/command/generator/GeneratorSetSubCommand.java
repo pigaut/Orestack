@@ -14,18 +14,15 @@ public class GeneratorSetSubCommand extends LangSubCommand {
         addParameter(new GeneratorNameParameter(plugin));
         withPlayerExecution((player, args, placeholders) -> {
             final Generator generator = plugin.getGenerator(args[0]);
-
             if (generator == null) {
                 plugin.sendMessage(player, "generator-not-found", placeholders);
                 return;
             }
-
-            final Block targetBlock = player.getTargetBlockExact(10);
+            final Block targetBlock = player.getTargetBlockExact(6);
             if (targetBlock == null) {
                 plugin.sendMessage(player, "too-far-away", placeholders, generator);
                 return;
             }
-
             final Location location = targetBlock.getLocation();
             plugin.getGenerators().createBlockGenerator(generator, location);
             plugin.sendMessage(player, "created-generator", placeholders, generator);

@@ -1,10 +1,8 @@
 main: io.github.pigaut.orestack.OrestackPlugin
 name: Orestack
-version: 3.8
+version: 3.9
 api-version: 1.17
 author: pigaut
-description: A plugin to create regenerating blocks in your worlds.
-softdepend:
-  - WorldEdit
+description: Create immersive RPG gathering zones in your protected regions
 
 

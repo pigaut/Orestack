@@ -11,7 +11,9 @@ public class GeneratorSubCommand extends LangSubCommand {
         super("generator", plugin);
         addSubCommand(new GeneratorGetSubCommand(plugin));
         addSubCommand(new GeneratorGetAllSubCommand(plugin));
+        addSubCommand(new GeneratorGetWandSubCommand(plugin));
         addSubCommand(new GeneratorSetSubCommand(plugin));
+        addSubCommand(new GeneratorRemoveSubCommand(plugin));
         addSubCommand(new GeneratorSetAllSubCommand(plugin));
         addSubCommand(new GeneratorRemoveAllSubCommand(plugin));
         addSubCommand(new GeneratorHarvestSubCommand(plugin));

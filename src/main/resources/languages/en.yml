@@ -91,7 +91,11 @@ generator-name-parameter: generator-name
 ## Get Generator
 get-generator-command: get
 get-generator-permission: orestack.generator.get
-get-generator-description: 'Get an item used to place generators in your world'
+get-generator-description: 'Get an item used to place/break generators'
+# Get Wand
+get-wand-command: get-wand
+get-wand-permission: orestack.generator.get-wand
+get-wand-description: 'Get a wand used to mark regions'
 ## Set Generator
 set-generator-command: set
 set-generator-permission: orestack.generator.set
@@ -99,7 +103,7 @@ set-generator-description: 'Set the generator to the block you''re looking at'
 ## Remove Generator
 remove-generator-command: remove
 remove-generator-permission: orestack.generator.remove
-remove-generator-description: 'Set the generator to the block you''re looking at'
+remove-generator-description: 'Remove the generator at the block you''re looking at'
 ## Get All Generators
 get-all-generators-command: get-all
 get-all-generators-permission: orestack.generator.get-all
@@ -118,12 +122,12 @@ harvest-all-generators-permission: orestack.generator.harvest-all
 harvest-all-generators-description: 'Harvests all generators with the tool in main hand'
 ## Errors
 generator-not-found: '&4Could not find generator with given name'
-missing-world-edit: '&4You need WorldEdit installed to use this command'
-incomplete-region: '&4You need to select a region with WorldEdit to use set-all command'
+incomplete-region: '&4You need to select a region with the generator wand'
 too-far-away: '&4Cannot find a block in range, move closer'
 target-not-generator: '&4The block you''re looking at is not a generator'
 ## Success
 received-generator: '&aYou received x1 %generator% generator'
+received-wand: '&aYou received x1 wand item'
 created-generator: '&aGenerator created successfully at target block'
 removed generator: '&aGenerator removed successfully at target block'
 received-all-generators: '&aYou received x1 of each generator item'
@@ -135,11 +139,22 @@ harvested-all-generators: '&aAll %generator% generators have been harvested with
 generator-item-name: '&b&l%generator_tc% Generator'
 generator-item-right-click: '&fright-click to place'
 generator-item-left-click: '&fleft-click to break'
-
+generator-place-permission: orestack.generator.place
+generator-break-permission: orestack.generator.break
 placed-generator: '&aPlaced generator successfully'
 broke-generator: '&cBroke generator successfully'
 missing-place-permission: '&4You don''t have the permission to place generators'
 missing-break-permission: '&4You don''t have the permission to break generators'
+
+# Wand Item
+wand-item-name: '&6&lGenerator Wand'
+wand-item-left-click: '&fleft-click to mark selection'
+wand-use-permission: orestack.generator.wand
+selected-first-position: '&aFirst position selected'
+selected-second-position: '&aSecond position selected'
+missing-wand-permission: '&4You don''t have the permission to use the wand'
+
+
 
 
 
