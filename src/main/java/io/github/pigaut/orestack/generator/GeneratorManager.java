@@ -1,12 +1,13 @@
 package io.github.pigaut.orestack.generator;
 
-import com.google.common.base.Preconditions;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.command.*;
+import io.github.pigaut.voxel.hologram.display.*;
 import io.github.pigaut.voxel.plugin.manager.*;
+import io.github.pigaut.voxel.yaml.*;
 import io.github.pigaut.voxel.yaml.node.sequence.*;
 import org.bukkit.*;
 import org.bukkit.event.*;
@@ -14,15 +15,17 @@ import org.jetbrains.annotations.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.*;
 
 public class GeneratorManager extends Manager {
 
     private final OrestackPlugin plugin;
-    private final Map<String, Generator> generatorsByName = new HashMap<>();
-    private final Map<Location, BlockGenerator> generatorsByLocation = new HashMap<>();
-    private DataTable resourcesTable;
+    private final Map<String, Generator> generatorsByName = new ConcurrentHashMap<>();
+    private final Map<Location, BlockGenerator> generatorsByLocation = new ConcurrentHashMap<>();
+    private @Nullable DataTable resourcesTable = null;
 
     public GeneratorManager(OrestackPlugin plugin) {
+        super(plugin);
         this.plugin = plugin;
     }
 
@@ -39,7 +42,7 @@ public class GeneratorManager extends Manager {
     }
 
     public @Nullable Generator getGenerator(String name) {
-        return generatorsByName.get(name);
+        return name != null ? generatorsByName.get(name) : null;
     }
 
     public void addGenerator(@NotNull String name, @NotNull Generator generator) {
@@ -50,42 +53,41 @@ public class GeneratorManager extends Manager {
         return generatorsByLocation.get(location);
     }
 
-    public void createBlockGenerator(@NotNull Generator generator, @NotNull Location location) {
-        Preconditions.checkNotNull(location.getWorld(), "Location must have a valid world");
-        final BlockGenerator blockGenerator = BlockGenerator.create(generator, location);
-        generatorsByLocation.put(location, blockGenerator);
-        blockGenerator.updateState();
+    public void addBlockGenerator(@NotNull BlockGenerator generator) {
+        generatorsByLocation.put(generator.getLocation(), generator);
     }
 
     public void removeBlockGenerator(@NotNull Location location) {
-        generatorsByLocation.remove(location);
-        location.getBlock().setType(Material.AIR);
-    }
-
-    @Override
-    public void enable() {
-        resourcesTable = plugin.getDatabase().tableOf("resources");
-        this.load();
+        final BlockGenerator removedGenerator = generatorsByLocation.remove(location);
+        if (removedGenerator != null) {
+            location.getBlock().setType(Material.AIR);
+            final HologramDisplay hologram = removedGenerator.getCurrentHologram();
+            if (hologram != null && hologram.exists()) {
+                hologram.despawn();
+            }
+        }
     }
 
     @Override
     public void disable() {
-        this.save();
         for (BlockGenerator blockGenerator : generatorsByLocation.values()) {
             blockGenerator.cancelGrowth();
+            final HologramDisplay hologramDisplay = blockGenerator.getCurrentHologram();
+            if (hologramDisplay != null) {
+                hologramDisplay.despawn();
+            }
         }
-        generatorsByName.clear();
-        generatorsByLocation.clear();
     }
 
     @Override
-    public void load() {
-        for (File file : plugin.getFiles("generators")) {
-            final RootSequence config = new RootSequence(file, plugin.getConfigurator());
-            config.load();
+    public void loadData() {
+        generatorsByName.clear();
+        for (File generatorFile : plugin.getFiles("generators")) {
+            final RootSequence config = ConfigSequence.loadConfiguration(generatorFile, plugin.getConfigurator());
             generatorsByName.put(config.getName(), config.load(Generator.class));
         }
-
+        generatorsByLocation.clear();
+        resourcesTable = plugin.getDatabase().tableOf("resources");
         resourcesTable.createIfNotExists(
                 "world VARCHAR(255)",
                 "x INT NOT NULL",
@@ -94,34 +96,30 @@ public class GeneratorManager extends Manager {
                 "generator VARCHAR(255) NOT NULL",
                 "PRIMARY KEY (world, x, y, z)"
         );
-
         resourcesTable.selectAll().fetchAllRows(rowQuery -> {
             final String worldName = rowQuery.getString(1);
             final int x = rowQuery.getInt(2);
             final int y = rowQuery.getInt(3);
             final int z = rowQuery.getInt(4);
             final String generatorName = rowQuery.getString(5);
-
             final World world = Bukkit.getWorld(worldName);
             if (world == null) {
                 return;
             }
-
             final Generator generator = getGenerator(generatorName);
             if (generator == null) {
                 return;
             }
             final Location location = new Location(world, x, y, z);
-            createBlockGenerator(generator, location);
+            plugin.getScheduler().runTask(() -> BlockGenerator.create(generator, location));
         });
     }
 
     @Override
-    public void save() {
+    public void saveData() {
         if (resourcesTable == null) {
             return;
         }
-
         resourcesTable.createIfNotExists(
                 "world VARCHAR(255)",
                 "x INT NOT NULL",
@@ -153,7 +151,8 @@ public class GeneratorManager extends Manager {
                 new PlayerInteractListener(plugin),
                 new BlockBreakListener(plugin),
                 new BlockDestructionListener(plugin),
-                new CropChangeListener(plugin)
+                new CropChangeListener(plugin),
+                new ChunkLoadListener(plugin)
         );
     }
 

@@ -5,6 +5,7 @@ import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.function.action.*;
 import io.github.pigaut.voxel.function.interact.block.*;
+import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.yaml.*;
 import io.github.pigaut.voxel.yaml.configurator.loader.*;
 import org.bukkit.*;
@@ -64,6 +65,7 @@ public class GeneratorLoader implements ConfigLoader<Generator> {
         final Function onBreak = config.getOptional("on-break", Function.class).orElse(null);
         final Function onGrowth = config.getOptional("on-growth", Function.class).orElse(null);
         final BlockClickFunction onClick = config.getOptional("on-click", BlockClickFunction.class).orElse(null);
+        final Hologram hologram = config.getOptional("hologram", Hologram.class).orElse(null);
 
         if (!block.isBlock()) {
             throw new InvalidConfigurationException(config, "resource", "Resource must be a block");
@@ -96,7 +98,8 @@ public class GeneratorLoader implements ConfigLoader<Generator> {
             throw new InvalidConfigurationException(config, "regeneration", "Regeneration timer must be a positive number");
         }
 
-        return new GeneratorStage(generator, state, block, age, facingDirection, dropItems, regeneration, chance, onBreak, onGrowth, onClick);
+        return new GeneratorStage(generator, state, block, age, facingDirection, dropItems, regeneration,
+                chance, onBreak, onGrowth, onClick, hologram);
     }
 
 }

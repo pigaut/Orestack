@@ -18,7 +18,7 @@ import java.util.*;
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
     private final GeneratorManager generatorManager = new GeneratorManager(this);
-    private final OrestackPlayerManager playerManager = new OrestackPlayerManager();
+    private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
     private final Database database = SQLib.createDatabase(getFile("data.db"));
 
     private static OrestackPlugin plugin;

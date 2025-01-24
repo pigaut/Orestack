@@ -6,10 +6,13 @@ import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.voxel.function.*;
+import io.github.pigaut.voxel.server.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
+import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
+import org.bukkit.inventory.*;
 
 public class BlockBreakListener implements Listener {
 
@@ -23,27 +26,43 @@ public class BlockBreakListener implements Listener {
     public void onBreak(BlockBreakEvent event) {
         final Block block = event.getBlock();
         final BlockGenerator generator = plugin.getBlockGenerator(block.getLocation());
-        if (generator == null) {
+        if (generator == null || generator.isUpdating()) {
             return;
         }
-        event.setCancelled(true);
         final GeneratorStage stage = generator.getCurrentStage();
-        final OrestackPlayer player = plugin.getPlayer(event.getPlayer().getUniqueId());
-        final GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(player, block, generator, stage);
-        Bukkit.getPluginManager().callEvent(generatorHarvestEvent);
+        final OrestackPlayer playerState = plugin.getPlayer(event.getPlayer().getUniqueId());
+        playerState.updatePlaceholders(generator);
+
+        final GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(playerState, block, generator, stage);
+        SpigotServer.callEvent(generatorHarvestEvent);
         if (generatorHarvestEvent.isCancelled()) {
+            event.setCancelled(true);
             return;
         }
 
         final Function breakFunction = stage.getBreakFunction();
         if (breakFunction != null) {
-            breakFunction.run(player, block);
+            breakFunction.run(playerState, block);
         }
-        if (stage.getState().isHarvestable()) {
+
+        if (!stage.getState().isHarvestable()) {
+            event.setCancelled(true);
+        }
+        else {
             generator.previousStage();
-            if (stage.isDropItems()) {
-                block.breakNaturally(event.getPlayer().getInventory().getItemInMainHand());
-            }
+        }
+    }
+
+    @EventHandler
+    public void onBlockDropItem(BlockDropItemEvent event) {
+        final Block block = event.getBlock();
+        final BlockGenerator generator = plugin.getBlockGenerator(block.getLocation());
+        if (generator == null) {
+            return;
+        }
+        final GeneratorStage stage = generator.getCurrentStage();
+        if (!stage.isDropItems()) {
+            event.setCancelled(true);
         }
     }
 

@@ -57,7 +57,8 @@ public class Generator implements PlaceholderSupplier {
 
     public Placeholder[] getPlaceholders() {
         return new Placeholder[]{
-                Placeholder.of("%generator%", name)
+                Placeholder.of("%generator%", name),
+                Placeholder.of("%generator_stages%", stages)
         };
     }
 

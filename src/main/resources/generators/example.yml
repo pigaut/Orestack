@@ -1,54 +1,91 @@
----
-type: depleted # depleted, growing, harvestable, replenished
-block: cobblestone
-growth: 10
+--- ### Stage 0
+type: depleted       # depleted, growing, harvestable, replenished
+block: iron block
+growth: 40           # The time in ticks to grow to the next stage
 on-growth: []
 on-click: []
+hologram:
+  offset: { x: 0, y: 1, z: 0 }
+  update: 10   # Growth is 40 ticks and there are 4 frames, 40/4 = 10
+  frames:      # This way the animation is timed correctly and doesn't repeat
+    - '&a[]&7[][][]'
+    - '&a[][]&7[][]'
+    - '&a[][][]&7[]'
+    - '&a[][][][]'
 on-break:
-  - actions:
-      - { action: chat message, value: Resource is depleted }
-      - [message, bossbar]
----
+  actions:
+    - [chat message, "Resource is depleted"]
+--- ### Stage 1
 type: growing
-block: oak log
-growth: 40
-chance: 0.5
-on-growth:
-  - actions:
-      - [block particle, explosion]
-on-break:
-  - actions:
-      - [chat message, Resource is replenishing]
+block: gold block
+growth: 60
+chance: 0.8   # 80% chance of spawning, otherwise it will skip to next stage
+on-break:     # Set stage to replenished to end growth when chance is true
+  actions:
+    - [chat message, "You can't mine this!"]   # Action 0
+    - [block particle, explosion]            # Action 1
 on-click:
-  - click: left click block
-    actions:
-      - [chat message, You left clicked a block]
-  - click: right click block
+  - click: right click block                 # Function 0
     sneaking: false
     cancel-event: true
     actions:
-      - [chat message, You right clicked a block]
----
+      - [chat message, "This is a gold block, Maybe you should try to mine it"]
+hologram:
+  - update: 3
+    offset: { x: 0, y: 1.25, z: 0 }
+    frames:
+      - "&6&lG"
+      - "&6&lGo"
+      - "&6&lGol"
+      - "&6&lGold"
+      - "&6&lGold!"
+      - "&6&lGold!!"
+      - "&6&lGold!!!"
+      - "&7"
+      - "&6&lGold!!!"
+      - "&7"
+      - "&6&lGold!!!"
+      - "&6&lGold!!"
+      - "&6&lGold!"
+      - "&6&lGold"
+      - "&6&lGol"
+      - "&6&lGo"
+      - "&6&lG"
+  - text: '&eright-click'
+    offset: { x: 0, y: 1.0, z: 0}
+--- ### Stage 2
 type: harvestable
-block: STONE
-growth: 40
+block: diamond_block
+growth: 80
+hologram:
+  update: 3
+  offset: { x: 0, y: 1, z: 0 }
+  text: "&b&lDiamond [%generator_timer_seconds%s]"
 on-break:
-  - chance: 1.0
-    actions:
-      - [give item, stone]
-      - [chat message, You have mined stone]
----
-type: replenished
-block: diamond ore
-on-break:
-  - chance: 1.0
-    actions:
+  - actions:
       - [give item, diamond]
-      - [chat message, You have mined diamond]
-      - [block particle, explosion]
+      - [chat message, "You have mined diamond"]
       - [block sound, tin]
 #  - if:                      # HAS_MONEY, GIVE_MONEY, and TAKE_MONEY
 #      - [has money, 10000]   # can only be used with Vault and an economy plugin (like essentialsX) installed
 #    do:
 #      - [chat message, "wow you're rich, here have some more"]
 #      - [give money, 10000]
+--- ### Stage 3
+type: replenished
+block: emerald block
+hologram:
+  # Line 1
+  - text: "&2&lEmerald"
+    offset: { y: 1.25 }   # 0.25 is a good spacing between lines
+  # Line 2  (Use y offset to space out lines or they will overlap)
+  - text: "&a[Replenished]"
+    offset: { y: 1 }
+#    always-visible: false   # If true it will only be visible on hover
+#    update: 20   # The time between placeholder updates, if animated the time between frames
+on-break:
+  chance: 1.0
+  actions:
+    - [give item, emerald]
+    - [chat message, "You mined emerald!"]
+---

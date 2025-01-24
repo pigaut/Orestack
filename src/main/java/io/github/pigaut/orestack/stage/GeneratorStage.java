@@ -3,6 +3,8 @@ package io.github.pigaut.orestack.stage;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.function.interact.block.*;
+import io.github.pigaut.voxel.hologram.*;
+import io.github.pigaut.voxel.meta.placeholder.*;
 import io.github.pigaut.voxel.util.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -11,7 +13,7 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class GeneratorStage {
+public class GeneratorStage implements PlaceholderSupplier {
 
     private final Generator generator;
     private final GeneratorState state;
@@ -24,11 +26,12 @@ public class GeneratorStage {
     private final @Nullable Function onBreak;
     private final @Nullable Function onGrowth;
     private final @Nullable BlockClickFunction onClick;
+    private final @Nullable Hologram hologram;
 
     public GeneratorStage(@NotNull Generator generator, @NotNull GeneratorState stageType, @NotNull Material resource,
                           @Nullable Integer age, @Nullable BlockFace facingDirection, boolean dropItems, int growthTime,
                           @Nullable Double growthChance, @Nullable Function onBreak, @Nullable Function onGrowth,
-                          @Nullable BlockClickFunction onClick) {
+                          @Nullable BlockClickFunction onClick, @Nullable Hologram hologram) {
         this.generator = generator;
         this.state = stageType;
         this.resource = resource;
@@ -40,6 +43,7 @@ public class GeneratorStage {
         this.onBreak = onBreak;
         this.onGrowth = onGrowth;
         this.onClick = onClick;
+        this.hologram = hologram;
     }
 
     public @NotNull Generator getGenerator() {
@@ -70,7 +74,7 @@ public class GeneratorStage {
         return growthChance == null || Probability.test(growthChance);
     }
 
-    public @Nullable Integer getGrowthTime() {
+    public int getGrowthTime() {
         return growthTime;
     }
 
@@ -94,6 +98,10 @@ public class GeneratorStage {
         return onClick;
     }
 
+    public @Nullable Hologram getHologram() {
+        return hologram;
+    }
+
     public boolean matchBlock(BlockData blockData) {
         return blockData.getMaterial() == resource
                 && (age == null || ((Ageable) blockData).getAge() == age)
@@ -112,6 +120,19 @@ public class GeneratorStage {
             directional.setFacing(facingDirection);
             block.setBlockData(directional);
         }
+    }
+
+    @Override
+    public @NotNull Placeholder[] getPlaceholders() {
+        return new Placeholder[] {
+                Placeholder.of("%generator%", generator.getName()),
+                Placeholder.of("%generator_stage%", generator.indexOf(this)),
+                Placeholder.of("%generator_stages%", generator.getStages()),
+                Placeholder.of("%generator_state%", state.toString().toLowerCase()),
+                Placeholder.of("%generator_age%", age),
+                Placeholder.of("%generator_growth_seconds%", growthTime / 20),
+                Placeholder.of("%generator_growth_minutes%", growthTime / 1200)
+        };
     }
 
     @Override

@@ -24,7 +24,7 @@ public class GeneratorSetSubCommand extends LangSubCommand {
                 return;
             }
             final Location location = targetBlock.getLocation();
-            plugin.getGenerators().createBlockGenerator(generator, location);
+            BlockGenerator.create(generator, location);
             plugin.sendMessage(player, "created-generator", placeholders, generator);
         });
     }

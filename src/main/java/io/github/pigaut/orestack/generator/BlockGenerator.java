@@ -3,12 +3,16 @@ package io.github.pigaut.orestack.generator;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.voxel.function.*;
+import io.github.pigaut.voxel.hologram.*;
+import io.github.pigaut.voxel.hologram.display.*;
 import io.github.pigaut.voxel.meta.placeholder.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.*;
 import org.bukkit.scheduler.*;
 import org.jetbrains.annotations.*;
+
+import java.time.*;
 
 public class BlockGenerator implements PlaceholderSupplier {
 
@@ -17,7 +21,10 @@ public class BlockGenerator implements PlaceholderSupplier {
     private final Generator generator;
     private final Location location;
     private int currentStage;
-    private BukkitTask growthTask = null;
+    private @Nullable BukkitTask growthTask = null;
+    private Instant growthStart = null;
+    private @Nullable HologramDisplay currentHologram = null;
+    private boolean updating = false;
 
     private BlockGenerator(Generator generator, Location location, int currentStage) {
         this.generator = generator;
@@ -25,26 +32,29 @@ public class BlockGenerator implements PlaceholderSupplier {
         this.currentStage = currentStage;
     }
 
-    public static BlockGenerator create(Generator generator, Location location) {
+    public static @NotNull BlockGenerator create(@NotNull Generator generator, @NotNull Location location) {
         final BlockData blockData = location.getBlock().getBlockData();
         int currentStage = generator.getStages();
-        for (int i = 0; i < generator.getStages(); i++) {
+        for (int i = generator.getStages() - 1; i >= 0; i--) {
             if (generator.getStage(i).matchBlock(blockData)) {
                 currentStage = i;
             }
         }
-        return new BlockGenerator(generator, location, currentStage);
+        final BlockGenerator blockGenerator = new BlockGenerator(generator, location.clone(), currentStage);
+        blockGenerator.plugin.getGenerators().addBlockGenerator(blockGenerator);
+        blockGenerator.updateState();
+        return blockGenerator;
     }
 
-    public Generator getGenerator() {
+    public @NotNull Generator getGenerator() {
         return generator;
     }
 
-    public Location getLocation() {
-        return location;
+    public @NotNull Location getLocation() {
+        return location.clone();
     }
 
-    public Block getBlock() {
+    public @NotNull Block getBlock() {
         return location.getBlock();
     }
 
@@ -60,8 +70,29 @@ public class BlockGenerator implements PlaceholderSupplier {
         return currentStage >= generator.getStages();
     }
 
-    public GeneratorStage getCurrentStage() {
+    public @Nullable Duration getTimeBeforeNextStage() {
+        return growthStart != null ? Duration.between(growthStart, Instant.now()) : null;
+    }
+
+    public @NotNull GeneratorStage getCurrentStage() {
         return generator.getStage(currentStage);
+    }
+
+    public @Nullable HologramDisplay getCurrentHologram() {
+        return currentHologram;
+    }
+
+    public void setCurrentStage(int stage) {
+        if (!exists()) {
+            return;
+        }
+        final GeneratorStage currentStage = getCurrentStage();
+        if (!currentStage.matchBlock(getBlock().getBlockData())) {
+            plugin.getGenerators().removeBlockGenerator(location);
+            return;
+        }
+        this.currentStage = stage;
+        updateState();
     }
 
     public void cancelGrowth() {
@@ -69,11 +100,7 @@ public class BlockGenerator implements PlaceholderSupplier {
             growthTask.cancel();
         }
         growthTask = null;
-    }
-
-    public void setCurrentStage(int stage) {
-        this.currentStage = stage;
-        updateState();
+        growthStart = null;
     }
 
     public void nextStage() {
@@ -81,12 +108,7 @@ public class BlockGenerator implements PlaceholderSupplier {
             throw new IllegalStateException("Block generator does not have a next stage");
         }
 
-        if (!getCurrentStage().matchBlock(getBlock().getBlockData())) {
-            plugin.getGenerators().removeBlockGenerator(location);
-            return;
-        }
-
-        int peekStage = currentStage + 1;
+        int peekStage = this.currentStage + 1;
         GeneratorStage nextStage = generator.getStage(peekStage);
         while (!nextStage.shouldGrow()) {
             if (peekStage >= generator.getStages() || nextStage.getState() == GeneratorState.REPLENISHED) {
@@ -100,6 +122,7 @@ public class BlockGenerator implements PlaceholderSupplier {
         if (growthFunction != null) {
             growthFunction.run(this.getBlock());
         }
+
         setCurrentStage(peekStage);
     }
 
@@ -108,12 +131,7 @@ public class BlockGenerator implements PlaceholderSupplier {
             throw new IllegalStateException("Block generator does not have a previous stage");
         }
 
-        if (!getCurrentStage().matchBlock(getBlock().getBlockData())) {
-            plugin.getGenerators().removeBlockGenerator(location);
-            return;
-        }
-
-        int peekStage = currentStage;
+        int peekStage = this.currentStage;
         GeneratorStage previousStage;
         do {
             peekStage--;
@@ -123,21 +141,39 @@ public class BlockGenerator implements PlaceholderSupplier {
         setCurrentStage(peekStage);
     }
 
-    public void updateState() {
-        if (!exists()) {
-            return;
-        }
+    private void updateState() {
         final GeneratorStage stage = getCurrentStage();
-        plugin.getScheduler().runTaskLater(1, () -> stage.updateBlock(this.getBlock()));
+        updating = true;
+        plugin.getScheduler().runTaskLater(1, () -> {
+            stage.updateBlock(this.getBlock());
+            updating = false;
+        });
+
+        if (currentHologram != null) {
+            currentHologram.despawn();
+            currentHologram = null;
+        }
+
         if (!isLastStage() && stage.getState() != GeneratorState.REPLENISHED) {
-            if (growthTask != null) {
+            if (growthTask != null && !growthTask.isCancelled()) {
                 growthTask.cancel();
+                growthStart = null;
             }
-            this.growthTask = plugin.getScheduler().runTaskLater(stage.getGrowthTime(), () -> {
+            growthTask = plugin.getScheduler().runTaskLater(stage.getGrowthTime(), () -> {
                 growthTask = null;
                 this.nextStage();
             });
+            growthStart = Instant.now();
         }
+
+        final Hologram hologram = stage.getHologram();
+        if (hologram != null) {
+            currentHologram = hologram.spawn(location.clone().add(0.5, 0, 0.5), false, this);
+        }
+    }
+
+    public boolean isUpdating() {
+        return updating;
     }
 
     @Override
@@ -151,7 +187,22 @@ public class BlockGenerator implements PlaceholderSupplier {
 
     @Override
     public @NotNull Placeholder[] getPlaceholders() {
-        return generator.getPlaceholders();
+        final GeneratorStage currentStage = getCurrentStage();
+        final Duration timer = getTimeBeforeNextStage();
+
+        long remainingSeconds = (timer != null)
+                ? Math.max(0, (currentStage.getGrowthTime() / 20) - timer.getSeconds())
+                : 0;
+
+        return Placeholder.mergeAll(
+                currentStage.getPlaceholders(),
+                Placeholder.of("%generator_world%", location.getWorld().getName()),
+                Placeholder.of("%generator_x%", location.getBlockX()),
+                Placeholder.of("%generator_y%", location.getBlockY()),
+                Placeholder.of("%generator_z%", location.getBlockZ()),
+                Placeholder.of("%generator_timer_seconds%", remainingSeconds),
+                Placeholder.of("%generator_timer_minutes%", remainingSeconds / 60)
+        );
     }
 
 }

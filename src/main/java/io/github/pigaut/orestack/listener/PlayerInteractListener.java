@@ -72,7 +72,7 @@ public class PlayerInteractListener implements Listener {
                     return;
                 }
                 final Location targetLocation = clickedBlock.getRelative(event.getBlockFace(), clickedBlock.isPassable() ? 0 : 1).getLocation();
-                plugin.getGenerators().createBlockGenerator(heldGenerator, targetLocation);
+                BlockGenerator.create(heldGenerator, targetLocation);
                 PlayerUtil.sendActionBar(player, plugin.getLang("placed-generator"));
                 return;
             }
@@ -90,6 +90,7 @@ public class PlayerInteractListener implements Listener {
         }
 
         if (clickedGenerator != null) {
+            playerState.updatePlaceholders(clickedGenerator);
             final GeneratorStage stage = clickedGenerator.getCurrentStage();
             final GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(playerState, clickedBlock, clickedGenerator, stage);
             Bukkit.getPluginManager().callEvent(generatorInteractEvent);
@@ -97,7 +98,6 @@ public class PlayerInteractListener implements Listener {
                 event.setCancelled(true);
                 return;
             }
-
             final BlockClickFunction clickFunction = stage.getClickFunction();
             if (clickFunction != null) {
                 clickFunction.onBlockClick(playerState, event);

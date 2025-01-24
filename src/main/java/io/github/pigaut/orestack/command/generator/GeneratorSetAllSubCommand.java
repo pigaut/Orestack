@@ -34,7 +34,7 @@ public class GeneratorSetAllSubCommand extends LangSubCommand {
             final GeneratorStage lastStage = generator.getLastStage();
             for (Location location : SelectionUtil.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
                 if (lastStage.matchBlock(location.getBlock().getBlockData())) {
-                    plugin.getGenerators().createBlockGenerator(generator, location);
+                    BlockGenerator.create(generator, location);
                 }
             }
             plugin.sendMessage(player, "created-all-generators", placeholders, generator);

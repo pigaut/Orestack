@@ -8,4 +8,5 @@ tin:
 
 tin_tin:
   - sound: ENTITY_EXPERIENCE_ORB_PICKUP
-  - { sound: ENTITY_EXPERIENCE_ORB_PICKUP, delay: 5 }
+  - sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    delay: 5
