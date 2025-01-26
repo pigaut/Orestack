@@ -1,7 +1,6 @@
 package io.github.pigaut.orestack;
 
 import io.github.pigaut.orestack.config.*;
-import io.github.pigaut.orestack.external.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
@@ -34,7 +33,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull List<SpigotVersion> getCompatibleVersions() {
-        return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_17);
+        return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_16_5);
     }
 
     @Override
@@ -44,7 +43,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @Nullable Integer getResourceId() {
-        return 91628;
+        return 121905;
     }
 
     @Override

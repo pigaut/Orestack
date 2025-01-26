@@ -21,6 +21,7 @@ public class GeneratorStage implements PlaceholderSupplier {
     private final @Nullable Integer age;
     private final @Nullable BlockFace facingDirection;
     private final boolean dropItems;
+    private final @Nullable Integer expToDrop;
     private final int growthTime;
     private final @Nullable Double growthChance;
     private final @Nullable Function onBreak;
@@ -28,16 +29,17 @@ public class GeneratorStage implements PlaceholderSupplier {
     private final @Nullable BlockClickFunction onClick;
     private final @Nullable Hologram hologram;
 
-    public GeneratorStage(@NotNull Generator generator, @NotNull GeneratorState stageType, @NotNull Material resource,
-                          @Nullable Integer age, @Nullable BlockFace facingDirection, boolean dropItems, int growthTime,
-                          @Nullable Double growthChance, @Nullable Function onBreak, @Nullable Function onGrowth,
+    public GeneratorStage(@NotNull Generator generator, @NotNull GeneratorState state, @NotNull Material resource,
+                          @Nullable Integer age, @Nullable BlockFace facingDirection, boolean dropItems, @Nullable Integer expToDrop,
+                          int growthTime, @Nullable Double growthChance, @Nullable Function onBreak, @Nullable Function onGrowth,
                           @Nullable BlockClickFunction onClick, @Nullable Hologram hologram) {
         this.generator = generator;
-        this.state = stageType;
+        this.state = state;
         this.resource = resource;
         this.age = age;
         this.facingDirection = facingDirection;
         this.dropItems = dropItems;
+        this.expToDrop = expToDrop;
         this.growthTime = growthTime;
         this.growthChance = growthChance;
         this.onBreak = onBreak;
@@ -76,6 +78,10 @@ public class GeneratorStage implements PlaceholderSupplier {
 
     public int getGrowthTime() {
         return growthTime;
+    }
+
+    public @Nullable Integer getExpToDrop() {
+        return expToDrop;
     }
 
     public GeneratorState getState() {

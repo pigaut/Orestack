@@ -26,41 +26,41 @@ public class GeneratorLoader implements ConfigLoader<Generator> {
     public @NotNull Generator loadFromSequence(@NotNull ConfigSequence config) throws InvalidConfigurationException {
         final String name = config.getRoot().getName();
         final List<GeneratorStage> generatorStages = new ArrayList<>();
-
         final Generator generator = new Generator(name, generatorStages);
         for (ConfigSection nestedSection : config.getNestedSections()) {
             generatorStages.add(loadStage(generator, nestedSection));
         }
 
         if (generatorStages.size() < 2) {
-            throw new InvalidConfigurationException(config, "Generator must have at least one depleted stage and one replenished state");
+            throw new InvalidConfigurationException(config, "Generator must have one depleted and one replenished stage");
         }
 
         if (generatorStages.get(0).getState() != GeneratorState.DEPLETED) {
-            throw new InvalidConfigurationException(config, "First stage must be depleted");
+            throw new InvalidConfigurationException(config, "The first stage must be depleted");
         }
 
         if (generatorStages.get(generatorStages.size() - 1).getState() != GeneratorState.REPLENISHED) {
-            throw new InvalidConfigurationException(config, "The last stage should be replenished");
+            throw new InvalidConfigurationException(config, "The last stage must be replenished");
         }
 
         for (int i = 1; i < generatorStages.size(); i++) {
             if (generatorStages.get(i).getState() == GeneratorState.DEPLETED) {
-                throw new InvalidConfigurationException(config, "Only the first stage should be depleted");
+                throw new InvalidConfigurationException(config, "Only the first stage is depleted");
             }
         }
-
-        return new Generator(name, generatorStages);
+        return generator;
     }
 
     private GeneratorStage loadStage(Generator generator, ConfigSection config) {
         config.setProblemDescription("Could not load generator stage");
+
         final GeneratorState state = config.get("type", GeneratorState.class);
         final Material block = config.get("block|resource", Material.class);
         final Integer age = config.getOptionalInteger("age").orElse(null);
         final BlockFace facingDirection = config.getOptional("direction|facing", BlockFace.class).orElse(null);
         final boolean dropItems = config.getOptionalBoolean("drop-items").orElse(true);
-        final int regeneration = config.getOptionalInteger("growth|growth-time").orElse(0);
+        final Integer expToDrop = config.getOptionalInteger("exp-to-drop").orElse(null);
+        final int growthTime = config.getOptionalInteger("growth|growth-time").orElse(0);
         final Double chance = config.getOptionalDouble("chance|growth-chance").orElse(null);
         final Function onBreak = config.getOptional("on-break", Function.class).orElse(null);
         final Function onGrowth = config.getOptional("on-growth", Function.class).orElse(null);
@@ -68,18 +68,18 @@ public class GeneratorLoader implements ConfigLoader<Generator> {
         final Hologram hologram = config.getOptional("hologram", Hologram.class).orElse(null);
 
         if (!block.isBlock()) {
-            throw new InvalidConfigurationException(config, "resource", "Resource must be a block");
+            throw new InvalidConfigurationException(config, "block", "The material must be a block");
         }
 
         if (age != null) {
             if (block.createBlockData() instanceof Ageable ageable) {
                 final int maximumAge = ageable.getMaximumAge();
                 if (age < 0 || age > maximumAge) {
-                    throw new InvalidConfigurationException(config, "age", "Age must be a value between 0 and " + maximumAge);
+                    throw new InvalidConfigurationException(config, "age", "The age for this block must be a value between 0 and " + maximumAge + " (inclusive)");
                 }
             }
             else {
-                throw new InvalidConfigurationException(config, "age", "Block is not ageable");
+                throw new InvalidConfigurationException(config, "age", "The current block is not ageable, please remove the age parameter");
             }
         }
 
@@ -90,15 +90,15 @@ public class GeneratorLoader implements ConfigLoader<Generator> {
                 }
             }
             else {
-                throw new InvalidConfigurationException(config, "direction", "Block is not directional");
+                throw new InvalidConfigurationException(config, "direction", "The current block is not directional, please remove the direction parameter");
             }
         }
 
-        if (regeneration < 0) {
-            throw new InvalidConfigurationException(config, "regeneration", "Regeneration timer must be a positive number");
+        if (growthTime < 0) {
+            throw new InvalidConfigurationException(config, "growth", "The growth timer must be a positive number");
         }
 
-        return new GeneratorStage(generator, state, block, age, facingDirection, dropItems, regeneration,
+        return new GeneratorStage(generator, state, block, age, facingDirection, dropItems, expToDrop, growthTime,
                 chance, onBreak, onGrowth, onClick, hologram);
     }
 

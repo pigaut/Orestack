@@ -49,6 +49,10 @@ public class GeneratorManager extends Manager {
         generatorsByName.put(name, generator);
     }
 
+    public boolean isBlockGenerator(@NotNull Location location) {
+        return generatorsByLocation.containsKey(location);
+    }
+
     public @Nullable BlockGenerator getBlockGenerator(@NotNull Location location) {
         return generatorsByLocation.get(location);
     }
@@ -141,8 +145,8 @@ public class GeneratorManager extends Manager {
     }
 
     @Override
-    public List<EnhancedCommand> getCommands() {
-        return List.of(new OrestackCommand(plugin));
+    public boolean isAutoSave() {
+        return true;
     }
 
     @Override
@@ -154,6 +158,11 @@ public class GeneratorManager extends Manager {
                 new CropChangeListener(plugin),
                 new ChunkLoadListener(plugin)
         );
+    }
+
+    @Override
+    public List<EnhancedCommand> getCommands() {
+        return List.of(new OrestackCommand(plugin));
     }
 
 }
