@@ -52,7 +52,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @Nullable Integer getResourceId() {
-        return 121905;
+        return 91628;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull List<String> getPluginDirectories() {
-        return List.of("items", "generators", "messages", "languages", "structures", "effects/particles", "effects/sounds");
+        return List.of("items", "generators", "messages", "languages", "effects/particles", "effects/sounds");
     }
 
     @Override
@@ -71,7 +71,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "config.yml",
                 "languages/en.yml",
                 "generators/example.yml",
-                "generators/diamond_node.yml",
                 "generators/crops/wheat.yml",
                 "generators/crops/potato.yml",
                 "generators/crops/carrot.yml",
@@ -85,7 +84,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/diamond.yml",
                 "items/items.yml",
                 "messages/messages.yml",
-                "structures/diamond_node.yml",
                 "effects/particles/particles.yml",
                 "effects/sounds/sounds.yml",
                 "flags.yml"

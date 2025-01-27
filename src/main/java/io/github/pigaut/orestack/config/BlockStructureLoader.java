@@ -26,12 +26,7 @@ public class BlockStructureLoader implements ConfigLoader<BlockStructure> {
 
     @Override
     public @NotNull BlockStructure loadFromScalar(ConfigScalar scalar) throws InvalidConfigurationException {
-        final String structureName = scalar.toString();
-        final BlockStructure blockStructure = plugin.getBlockStructure(structureName);
-        if (blockStructure == null) {
-            throw new InvalidConfigurationException(scalar, "Could not find any block structure with name:" + structureName);
-        }
-        return blockStructure;
+        throw new InvalidConfigurationException(scalar, "This feature is premium only");
     }
 
     @Override
@@ -78,11 +73,7 @@ public class BlockStructureLoader implements ConfigLoader<BlockStructure> {
 
     @Override
     public @NotNull BlockStructure loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigurationException {
-        final List<BlockStructure> structures = sequence.getAll(BlockStructure.class);
-        if (structures.size() < 2) {
-            throw new InvalidConfigurationException(sequence, "Structure must have at least two blocks in it");
-        }
-        return new MultiBlockStructure(structures);
+        throw new InvalidConfigurationException(sequence, "This feature is premium only");
     }
 
 
