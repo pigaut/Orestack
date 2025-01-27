@@ -9,10 +9,8 @@ import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.server.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
-import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
-import org.bukkit.inventory.*;
 
 public class BlockBreakListener implements Listener {
 
@@ -24,7 +22,7 @@ public class BlockBreakListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBreakInit(BlockBreakEvent event) {
-        if (plugin.getGenerators().isBlockGenerator(event.getBlock().getLocation())) {
+        if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
     }
@@ -32,11 +30,15 @@ public class BlockBreakListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBreak(BlockBreakEvent event) {
         final Block block = event.getBlock();
-        final BlockGenerator generator = plugin.getBlockGenerator(block.getLocation());
+        final Generator generator = plugin.getGenerator(block.getLocation());
         if (generator == null || generator.isUpdating()) {
             return;
         }
         final GeneratorStage stage = generator.getCurrentStage();
+        if (!stage.getStructure().matchBlocks(generator.getOrigin())) {
+            plugin.getGenerators().removeGenerator(generator);
+            return;
+        }
         final OrestackPlayer playerState = plugin.getPlayer(event.getPlayer().getUniqueId());
         playerState.updatePlaceholders(generator);
 
@@ -61,17 +63,17 @@ public class BlockBreakListener implements Listener {
             if (expToDrop != null) {
                 event.setExpToDrop(expToDrop);
             }
-            generator.previousStage();
         }
     }
 
     @EventHandler
     public void onBlockDropItem(BlockDropItemEvent event) {
         final Block block = event.getBlock();
-        final BlockGenerator generator = plugin.getBlockGenerator(block.getLocation());
+        final Generator generator = plugin.getGenerator(block.getLocation());
         if (generator == null) {
             return;
         }
+        generator.previousStage();
         final GeneratorStage stage = generator.getCurrentStage();
         if (!stage.isDropItems()) {
             event.setCancelled(true);

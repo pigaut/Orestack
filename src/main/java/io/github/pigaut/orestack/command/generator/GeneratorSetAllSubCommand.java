@@ -3,7 +3,7 @@ package io.github.pigaut.orestack.command.generator;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.player.*;
-import io.github.pigaut.orestack.stage.*;
+import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.command.node.*;
 import org.bukkit.*;
@@ -20,7 +20,7 @@ public class GeneratorSetAllSubCommand extends LangSubCommand {
                 plugin.sendMessage(player, "loading-player-data", placeholders);
                 return;
             }
-            final Generator generator = plugin.getGenerator(args[0]);
+            final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {
                 plugin.sendMessage(player, "generator-not-found", placeholders);
                 return;
@@ -31,10 +31,12 @@ public class GeneratorSetAllSubCommand extends LangSubCommand {
                 plugin.sendMessage(player, "incomplete-region", placeholders, generator);
                 return;
             }
-            final GeneratorStage lastStage = generator.getLastStage();
+            final BlockStructure structure = generator.getLastStage().getStructure();
             for (Location location : SelectionUtil.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
-                if (lastStage.matchBlock(location.getBlock().getBlockData())) {
-                    BlockGenerator.create(generator, location);
+                if (structure.matchBlocks(location)) {
+                    try {
+                        Generator.create(generator, location);
+                    } catch (GeneratorOverlapException ignored) {}
                 }
             }
             plugin.sendMessage(player, "created-all-generators", placeholders, generator);

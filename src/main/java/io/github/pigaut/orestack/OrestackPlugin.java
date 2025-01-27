@@ -1,25 +1,33 @@
 package io.github.pigaut.orestack;
 
+import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.player.*;
+import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
+import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.version.*;
 import org.bukkit.*;
+import org.bukkit.event.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
+import java.io.*;
 import java.util.*;
 
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
+    private final StructureManager structureManager = new StructureManager(this);
+    private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
-    private final Database database = SQLib.createDatabase(getFile("data.db"));
 
+    private static final Database database = SQLib.createDatabase(new File(("plugins/Orestack/data")));
     private static OrestackPlugin plugin;
 
     @Override
@@ -53,7 +61,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull List<String> getPluginDirectories() {
-        return List.of("items", "generators", "messages", "languages", "effects/particles", "effects/sounds");
+        return List.of("items", "generators", "messages", "languages", "structures", "effects/particles", "effects/sounds");
     }
 
     @Override
@@ -62,6 +70,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "config.yml",
                 "languages/en.yml",
                 "generators/example.yml",
+                "generators/diamond_node.yml",
                 "generators/crops/wheat.yml",
                 "generators/crops/potato.yml",
                 "generators/crops/carrot.yml",
@@ -75,27 +84,56 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/diamond.yml",
                 "items/items.yml",
                 "messages/messages.yml",
+                "structures/diamond_node.yml",
                 "effects/particles/particles.yml",
                 "effects/sounds/sounds.yml",
                 "flags.yml"
         );
     }
 
+    @Override
+    public List<EnhancedCommand> getPluginCommands() {
+        return List.of(new OrestackCommand(this));
+    }
+
+    @Override
+    public List<Listener> getPluginListeners() {
+        return List.of(
+                new PlayerInteractListener(plugin),
+                new BlockBreakListener(plugin),
+                new BlockDestructionListener(plugin),
+                new CropChangeListener(plugin),
+                new ChunkLoadListener(plugin)
+        );
+    }
+
+    public @NotNull StructureManager getStructures() {
+        return structureManager;
+    }
+
+    public @Nullable BlockStructure getBlockStructure(String name) {
+        return structureManager.getBlockStructure(name);
+    }
+
+    public @NotNull GeneratorTemplateManager getGeneratorTemplates() {
+        return templateManager;
+    }
+
+    public @Nullable GeneratorTemplate getGeneratorTemplate(String name) {
+        return templateManager.getGeneratorTemplate(name);
+    }
+
+    public @Nullable GeneratorTemplate getGeneratorTemplate(ItemStack item) {
+        final String generatorName = GeneratorItem.getGeneratorFromItem(item);
+        return getGeneratorTemplate(generatorName);
+    }
+
     public @NotNull GeneratorManager getGenerators() {
         return generatorManager;
     }
 
-    public @Nullable Generator getGenerator(String name) {
-        return generatorManager.getGenerator(name);
-    }
-
-    public @Nullable Generator getGenerator(ItemStack item) {
-        final String generatorName = GeneratorItem.getGeneratorFromItem(item);
-        return getGenerator(generatorName);
-    }
-
-    public @Nullable BlockGenerator getBlockGenerator(@NotNull Location location) {
-        return generatorManager.getBlockGenerator(location);
+    public @Nullable Generator getGenerator(@NotNull Location location) {
+        return generatorManager.getGenerator(location);
     }
 
     @Override

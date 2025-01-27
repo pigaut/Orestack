@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.command.node.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -13,7 +14,7 @@ public class GeneratorSetSubCommand extends LangSubCommand {
         super("set-generator", plugin);
         addParameter(new GeneratorNameParameter(plugin));
         withPlayerExecution((player, args, placeholders) -> {
-            final Generator generator = plugin.getGenerator(args[0]);
+            final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {
                 plugin.sendMessage(player, "generator-not-found", placeholders);
                 return;
@@ -24,7 +25,12 @@ public class GeneratorSetSubCommand extends LangSubCommand {
                 return;
             }
             final Location location = targetBlock.getLocation();
-            BlockGenerator.create(generator, location);
+            try {
+                Generator.create(generator, location);
+            } catch (GeneratorOverlapException e) {
+                plugin.sendMessage(player, "generator-overlap");
+                return;
+            }
             plugin.sendMessage(player, "created-generator", placeholders, generator);
         });
     }

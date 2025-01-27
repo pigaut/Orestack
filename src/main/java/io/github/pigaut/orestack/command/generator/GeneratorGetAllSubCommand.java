@@ -11,7 +11,7 @@ public class GeneratorGetAllSubCommand extends LangSubCommand {
     public GeneratorGetAllSubCommand(@NotNull OrestackPlugin plugin) {
         super("get-all-generators", plugin);
         withPlayerExecution((player, args, placeholders) -> {
-            for (Generator generator : plugin.getGenerators().getAllGenerators()) {
+            for (GeneratorTemplate generator : plugin.getGeneratorTemplates().getAllGeneratorTemplates()) {
                 PlayerUtil.giveItemsOrDrop(player, generator.getItem());
             }
             plugin.sendMessage(player, "received-all-generators", placeholders);

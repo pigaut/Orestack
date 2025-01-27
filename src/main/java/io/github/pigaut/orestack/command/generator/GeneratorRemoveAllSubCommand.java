@@ -19,7 +19,7 @@ public class GeneratorRemoveAllSubCommand extends LangSubCommand {
                 plugin.sendMessage(player, "loading-player-data", placeholders);
                 return;
             }
-            final Generator generator = plugin.getGenerator(args[0]);
+            final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {
                 plugin.sendMessage(player, "generator-not-found", placeholders);
                 return;
@@ -31,12 +31,12 @@ public class GeneratorRemoveAllSubCommand extends LangSubCommand {
                 return;
             }
             for (Location point : SelectionUtil.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
-                final BlockGenerator blockGenerator = plugin.getBlockGenerator(point);
+                final Generator blockGenerator = plugin.getGenerator(point);
                 if (blockGenerator == null) {
                     continue;
                 }
                 if (blockGenerator.getGenerator() == generator) {
-                    plugin.getGenerators().removeBlockGenerator(point);
+                    plugin.getGenerators().removeGenerator(blockGenerator);
                 }
             }
             plugin.sendMessage(player, "removed-all-generators", placeholders, generator);

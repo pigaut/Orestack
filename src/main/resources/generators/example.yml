@@ -14,7 +14,14 @@ hologram:
     - '&a[][][][]'
 on-break:
   actions:
-    - [chat message, "Resource is depleted"]
+    - action: message
+      message:
+        type: title
+        title: '&7&lDepleted'
+        subtitle: "&7%generator_timer_seconds%s"
+        fade-in: 15
+        stay: 5
+        fade-out: 15
 --- ### Stage 1
 type: growing
 block: gold block
@@ -23,7 +30,7 @@ chance: 0.8   # 80% chance of spawning, otherwise it will skip to next stage
 on-break:     # Set stage to replenished to end growth when chance is true
   actions:
     - [chat message, "You can't mine this!"]   # Action 0
-    - [particle at block, explosion]              # Action 1
+    - [particle at block, explosion]           # Action 1
 on-click:
   - click: right click block                   # Function 0
     sneaking: false
@@ -85,9 +92,12 @@ hologram:
 #    always-visible: false   # If true it will only be visible on hover
 #    update: 20   # The time between placeholder updates, if animated the time between frames
 on-break:
-  chance: 1.0
-  actions:
-    - [give item, emerald]
-    - [particle at block, fire_ring]
-    - [chat message, "You mined emerald!"]
+  - chance: 1.0
+    actions:
+      - [console command, "give %player% emerald"]
+      - [chat message, "You mined emerald!"]
+  - if:
+      - [is placeholder, '%generator_stage%', 1-3]
+    do:
+      - [particle at block, fire_ring]
 ---

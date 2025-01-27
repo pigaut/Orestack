@@ -8,10 +8,10 @@ import org.bukkit.block.*;
 public abstract class GeneratorEvent extends CancellableEvent {
 
     private final Block block;
-    private final BlockGenerator generator;
+    private final Generator generator;
     private final GeneratorStage stage;
 
-    protected GeneratorEvent(Block block, BlockGenerator generator, GeneratorStage stage) {
+    protected GeneratorEvent(Block block, Generator generator, GeneratorStage stage) {
         this.block = block;
         this.generator = generator;
         this.stage = stage;
@@ -21,7 +21,7 @@ public abstract class GeneratorEvent extends CancellableEvent {
         return block;
     }
 
-    public BlockGenerator getGenerator() {
+    public Generator getGenerator() {
         return generator;
     }
 

@@ -1,0 +1,7 @@
+state: depleted
+block: cobblestone
+growth: 60
+---
+state: replenished
+structure: diamond_node
+

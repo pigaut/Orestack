@@ -19,12 +19,12 @@ public class GeneratorRemoveSubCommand extends LangSubCommand {
                 return;
             }
             final Location location = targetBlock.getLocation();
-            final BlockGenerator generator = plugin.getBlockGenerator(location);
+            final Generator generator = plugin.getGenerator(location);
             if (generator == null) {
                 plugin.sendMessage(player, "target-not-generator", placeholders);
                 return;
             }
-            plugin.getGenerators().removeBlockGenerator(location);
+            plugin.getGenerators().removeGenerator(generator);
             plugin.sendMessage(player, "removed-generator", placeholders, generator);
         });
 

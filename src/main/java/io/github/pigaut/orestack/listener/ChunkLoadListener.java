@@ -8,8 +8,6 @@ import org.bukkit.*;
 import org.bukkit.event.*;
 import org.bukkit.event.world.*;
 
-import java.sql.*;
-
 public class ChunkLoadListener implements Listener {
 
     private final OrestackPlugin plugin;
@@ -21,8 +19,8 @@ public class ChunkLoadListener implements Listener {
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent event) {
         final Chunk chunk = event.getChunk();
-        for (BlockGenerator generator : plugin.getGenerators().getAllBlockGenerators()) {
-            if (SpigotLibs.areChunksEqual(chunk, generator.getLocation().getChunk())) {
+        for (Generator generator : plugin.getGenerators().getAllGenerators()) {
+            if (SpigotLibs.areChunksEqual(chunk, generator.getOrigin().getChunk())) {
                 final HologramDisplay hologram = generator.getCurrentHologram();
                 if (hologram != null && !hologram.exists()) {
                     hologram.spawn();

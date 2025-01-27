@@ -61,8 +61,8 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        final Generator heldGenerator = plugin.getGenerator(heldItem);
-        final BlockGenerator clickedGenerator = plugin.getBlockGenerator(location);
+        final GeneratorTemplate heldGenerator = plugin.getGeneratorTemplate(heldItem);
+        final Generator clickedGenerator = plugin.getGenerator(location);
 
         if (heldGenerator != null) {
             if (action == Action.RIGHT_CLICK_BLOCK) {
@@ -72,7 +72,12 @@ public class PlayerInteractListener implements Listener {
                     return;
                 }
                 final Location targetLocation = clickedBlock.getRelative(event.getBlockFace(), clickedBlock.isPassable() ? 0 : 1).getLocation();
-                BlockGenerator.create(heldGenerator, targetLocation);
+                try {
+                    Generator.create(heldGenerator, targetLocation);
+                } catch (GeneratorOverlapException e) {
+                    PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
+                    return;
+                }
                 PlayerUtil.sendActionBar(player, plugin.getLang("placed-generator"));
                 return;
             }
@@ -83,15 +88,19 @@ public class PlayerInteractListener implements Listener {
                     plugin.sendMessage(player, "missing-break-permission", heldGenerator);
                     return;
                 }
-                plugin.getGenerators().removeBlockGenerator(clickedGenerator.getLocation());
+                plugin.getGenerators().removeGenerator(clickedGenerator);
                 PlayerUtil.sendActionBar(player, plugin.getLang("broke-generator"));
             }
             return;
         }
 
         if (clickedGenerator != null) {
-            playerState.updatePlaceholders(clickedGenerator);
             final GeneratorStage stage = clickedGenerator.getCurrentStage();
+            if (!stage.getStructure().matchBlocks(clickedGenerator.getOrigin())) {
+                plugin.getGenerators().removeGenerator(clickedGenerator);
+                return;
+            }
+            playerState.updatePlaceholders(clickedGenerator);
             final GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(playerState, clickedBlock, clickedGenerator, stage);
             Bukkit.getPluginManager().callEvent(generatorInteractEvent);
             if (generatorInteractEvent.isCancelled()) {

@@ -29,8 +29,8 @@ public class GeneratorItem {
         return generatorName;
     }
 
-    public static @NotNull ItemStack getItemFromGenerator(@NotNull Generator generator) {
-        final Material itemType = generator.getLastStage().getItemType();
+    public static @NotNull ItemStack getItemFromGenerator(@NotNull GeneratorTemplate generator) {
+        final Material itemType = generator.getItemType();
         final ItemStack generatorItem = new ItemStack(itemType);
         final ItemMeta meta = generatorItem.getItemMeta();
 

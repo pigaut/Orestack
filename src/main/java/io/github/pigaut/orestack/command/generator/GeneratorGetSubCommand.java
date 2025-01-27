@@ -12,7 +12,7 @@ public class GeneratorGetSubCommand extends LangSubCommand {
         super("get-generator", plugin);
         addParameter(new GeneratorNameParameter(plugin));
         withPlayerExecution((player, args, placeholders) -> {
-            final Generator generator = plugin.getGenerator(args[0]);
+            final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {
                 plugin.sendMessage(player, "generator-not-found", placeholders);
                 return;

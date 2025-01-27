@@ -1,9 +1,9 @@
 # LangNotFoundException: No message found for language 'en' with id 'placed-generator'. Please fix your language file.
 # If you get an error in console like the one above, it just means the message: 'placed-generator' is not set in en.yml
-# The plugin will function anyway, but it's better to regenerate or fix your language file.
+# This might happen if you update the plugin and new messages where added, or if you modified this file.
 
-# Common Parameters
-online-player-parameter: online-player
+# Common Parameters (parameters can be used as placeholders)
+online-player-parameter: online-player   # i.e. %online-player% (if you change this value the placeholder changes too)
 world-name-parameter: world-name
 x-coordinate-parameter: x
 y-coordinate-parameter: y
@@ -33,8 +33,8 @@ help-footer: '&2---------------------------------------------'
 reload-command: reload
 reload-permission: orestack.reload
 reload-description: 'Reload configuration and data'
-reloading: '&aReloading Orestack plugin...'
-config-error-on-reload: '&4Found a config error, check console for more information'
+reloading: '&aReloading Orestack plugin... &c(Wait)'
+reload-complete: '&aReload completed successfully'
 
 # Item Command
 item-command: item
@@ -58,6 +58,44 @@ item-not-found: '&4Could not find an item with name: %item-name%'
 ## Success
 adding-item: '&aAdding %item-name% item to "%file-path%" file...'
 received-item: '&aYou received x1 %item-name% item'
+
+# Message
+message-command: message
+message-permission: orestack.message
+## Parameters
+message-name-parameter: message-name
+## Send message
+send-message-command: send
+send-message-permission: orestack.message.send
+send-message-description: 'Send a message to the target player'
+## Broadcast message
+broadcast-message-command: broadcast
+broadcast-message-permission: orestack.message.broadcast
+broadcast-message-description: 'Send a message to all online players'
+## Success
+sent-message-to-player: '&aMessage sent successfully to %online-player%'
+sent-message-to-all: '&aMessage sent successfully to all online players'
+## Errors
+message-not-found: '&4Could not find a message with name: %message-name%'
+
+# Sound
+sound-command: sound
+sound-permission: orestack.sound
+## Parameters
+sound-name-parameter: sound-name
+## Play sound
+play-sound-command: play
+play-sound-permission: orestack.sound.play
+play-sound-description: 'Plays a sound at the specified location'
+## Play sound to
+play-sound-to-command: play-to
+play-sound-to-permission: orestack.sound.play-to
+play-sound-to-description: "Plays a sound at the target player's location"
+## Success
+played-sound: '&aPlayed sound successfully at %world-name%, %x%, %y%, %z%'
+played-sound-at-player: '&aPlayed sound at %online-player%''s location'
+## Errors
+sound-not-found: '&4Could not find a sound with name: %sound-name%'
 
 # Particle
 particle-command: particle
@@ -125,6 +163,7 @@ generator-not-found: '&4Could not find generator with given name'
 incomplete-region: '&4You need to select a region with the generator wand'
 too-far-away: '&4Cannot find a block in range, move closer'
 target-not-generator: '&4The block you''re looking at is not a generator'
+generator-overlap: '&4Too close to another generator'
 ## Success
 received-generator: '&aYou received x1 %generator% generator'
 received-wand: '&aYou received x1 wand item'

@@ -14,14 +14,14 @@ public class GeneratorHarvestSubCommand extends LangSubCommand {
         super("harvest-all-generators", plugin);
         addParameter(new GeneratorNameParameter(plugin));
         withPlayerExecution((player, args, placeholders) -> {
-            final Generator generator = plugin.getGenerator(args[0]);
+            final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {
                 plugin.sendMessage(player, "generator-not-found", placeholders);
                 return;
             }
-            for (BlockGenerator blockGenerator : plugin.getGenerators().getAllBlockGenerators()) {
+            for (Generator blockGenerator : plugin.getGenerators().getAllGenerators()) {
                 if (blockGenerator.getGenerator() == generator) {
-                    final Block block = blockGenerator.getBlock();
+                    final Block block = blockGenerator.getBlocks().get(0);
                     final BlockBreakEvent event = new BlockBreakEvent(block, player);
                     SpigotServer.callEvent(event);
                 }

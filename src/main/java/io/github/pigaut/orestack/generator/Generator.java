@@ -1,73 +1,201 @@
 package io.github.pigaut.orestack.generator;
 
+import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.orestack.util.*;
+import io.github.pigaut.voxel.function.*;
+import io.github.pigaut.voxel.hologram.*;
+import io.github.pigaut.voxel.hologram.display.*;
 import io.github.pigaut.voxel.meta.placeholder.*;
-import io.github.pigaut.voxel.util.*;
-import org.bukkit.inventory.*;
+import org.bukkit.*;
+import org.bukkit.block.*;
+import org.bukkit.scheduler.*;
+import org.jetbrains.annotations.*;
 
+import java.time.*;
 import java.util.*;
 
 public class Generator implements PlaceholderSupplier {
 
-    private final String name;
-    private final List<GeneratorStage> stages;
+    private static final OrestackPlugin plugin = OrestackPlugin.getPlugin();
 
-    public Generator(String name, List<GeneratorStage> stages) {
-        this.name = name;
-        this.stages = stages;
+    private final GeneratorTemplate generator;
+    private final Location origin;
+    private int currentStage;
+    private @Nullable BukkitTask growthTask = null;
+    private Instant growthStart = null;
+    private @Nullable HologramDisplay currentHologram = null;
+    private boolean updating = false;
+
+    private Generator(GeneratorTemplate generator, Location origin, int currentStage) {
+        this.generator = generator;
+        this.origin = origin.clone();
+        this.currentStage = currentStage;
     }
 
-    public String getName() {
-        return name;
+    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorOverlapException {
+        if (plugin.getGenerators().containsGenerator(template.getAllOccupiedBlocks(origin))) {
+            throw new GeneratorOverlapException();
+        }
+        final Generator blockGenerator = new Generator(template, origin, template.getStageFromStructure(origin));
+        plugin.getGenerators().registerGenerator(blockGenerator);
+        blockGenerator.updateState();
+        return blockGenerator;
     }
 
-    public ItemStack getItem() {
-        return GeneratorItem.getItemFromGenerator(this);
+    public @NotNull GeneratorTemplate getGenerator() {
+        return generator;
     }
 
-    public boolean isCrop() {
-        for (GeneratorStage stage : stages) {
-            if (Crops.isCrop(stage.getBlockType())) {
-                return true;
+    public @NotNull Location getOrigin() {
+        return origin.clone();
+    }
+
+    public List<Block> getBlocks() {
+        return getCurrentStage().getStructure().getBlocks(origin);
+    }
+
+    public boolean exists() {
+        return plugin.getGenerators().isGenerator(origin);
+    }
+
+    public boolean isFirstStage() {
+        return currentStage == 0;
+    }
+
+    public boolean isLastStage() {
+        return currentStage >= generator.getMaxStage();
+    }
+
+    public @Nullable Duration getTimeBeforeNextStage() {
+        return growthStart != null ? Duration.between(growthStart, Instant.now()) : null;
+    }
+
+    public @NotNull GeneratorStage getCurrentStage() {
+        return generator.getStage(currentStage);
+    }
+
+    public @Nullable HologramDisplay getCurrentHologram() {
+        return currentHologram;
+    }
+
+    public void setCurrentStage(int stage) {
+        if (!exists()) {
+            return;
+        }
+        final GeneratorStage currentStage = getCurrentStage();
+        currentStage.getStructure().removeBlocks(origin);
+        this.currentStage = stage;
+        updateState();
+    }
+
+    public void cancelGrowth() {
+        if (growthTask != null) {
+            growthTask.cancel();
+        }
+        growthTask = null;
+        growthStart = null;
+    }
+
+    public void nextStage() {
+        if (isLastStage()) {
+            throw new IllegalStateException("Block generator does not have a next stage");
+        }
+
+        int peekStage = this.currentStage + 1;
+        GeneratorStage nextStage = generator.getStage(peekStage);
+        while (!nextStage.shouldGrow()) {
+            if (peekStage >= generator.getMaxStage() || nextStage.getState() == GeneratorState.REPLENISHED) {
+                return;
             }
+            peekStage++;
+            nextStage = generator.getStage(peekStage);
         }
-        return false;
-    }
 
-    public int getStages() {
-        return stages.size() - 1;
-    }
-
-    public GeneratorStage getStage(int stage) {
-        return stages.get(stage);
-    }
-
-    public int indexOf(GeneratorStage stage) {
-        final int index = stages.indexOf(stage);
-        if (index == -1) {
-            throw new IllegalArgumentException("Generator does not contain that stage");
+        final Function growthFunction = nextStage.getGrowthFunction();
+        if (growthFunction != null) {
+            growthFunction.run(origin.getBlock());
         }
-        return index;
+
+        setCurrentStage(peekStage);
     }
 
-    public GeneratorStage getLastStage() {
-        return stages.get(stages.size() - 1);
+    public void previousStage() {
+        if (isFirstStage()) {
+            throw new IllegalStateException("Block generator does not have a previous stage");
+        }
+        int peekStage = this.currentStage;
+        GeneratorStage previousStage;
+        do {
+            peekStage--;
+            previousStage = generator.getStage(peekStage);
+        }
+        while (previousStage.getState() == GeneratorState.GROWING);
+        setCurrentStage(peekStage);
     }
 
-    public Placeholder[] getPlaceholders() {
-        return new Placeholder[]{
-                Placeholder.of("%generator%", name),
-                Placeholder.of("%generator_stages%", stages)
-        };
+    private void updateState() {
+        final GeneratorStage stage = getCurrentStage();
+        updating = true;
+        plugin.getScheduler().runTaskLater(1, () -> {
+            stage.getStructure().createBlocks(origin);
+            updating = false;
+        });
+
+        if (currentHologram != null) {
+            currentHologram.despawn();
+            currentHologram = null;
+        }
+
+        if (!isLastStage() && stage.getState() != GeneratorState.REPLENISHED) {
+            if (growthTask != null && !growthTask.isCancelled()) {
+                growthTask.cancel();
+                growthStart = null;
+            }
+            growthTask = plugin.getScheduler().runTaskLater(stage.getGrowthTime(), () -> {
+                growthTask = null;
+                this.nextStage();
+            });
+            growthStart = Instant.now();
+        }
+
+        final Hologram hologram = stage.getHologram();
+        if (hologram != null) {
+            currentHologram = hologram.spawn(origin.clone().add(0.5, 0, 0.5), false, this);
+        }
+    }
+
+    public boolean isUpdating() {
+        return updating;
     }
 
     @Override
     public String toString() {
-        return "Generator{" +
-                "name='" + name + '\'' +
-                ", stages=" + stages +
+        return "BlockGenerator{" +
+                "generator=" + generator.getName() +
+                ", location=" + origin +
+                ", currentStage=" + currentStage +
                 '}';
+    }
+
+    @Override
+    public @NotNull Placeholder[] getPlaceholders() {
+        final GeneratorStage currentStage = getCurrentStage();
+        final Duration timer = getTimeBeforeNextStage();
+
+        long remainingSeconds = (timer != null)
+                ? Math.max(0, (currentStage.getGrowthTime() / 20) - timer.getSeconds())
+                : 0;
+
+        return Placeholder.mergeAll(
+                currentStage.getPlaceholders(),
+                Placeholder.of("%generator_world%", origin.getWorld().getName()),
+                Placeholder.of("%generator_x%", origin.getBlockX()),
+                Placeholder.of("%generator_y%", origin.getBlockY()),
+                Placeholder.of("%generator_z%", origin.getBlockZ()),
+                Placeholder.of("%generator_timer_seconds%", remainingSeconds),
+                Placeholder.of("%generator_timer_minutes%", remainingSeconds / 60)
+        );
     }
 
 }
