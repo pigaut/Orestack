@@ -1,7 +1,6 @@
-package io.github.pigaut.orestack.generator;
+package io.github.pigaut.orestack.generator.template;
 
 import io.github.pigaut.orestack.stage.*;
-import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.meta.placeholder.*;
 import org.bukkit.*;
@@ -25,8 +24,36 @@ public class GeneratorTemplate implements PlaceholderSupplier {
         return name;
     }
 
-    public BlockStructure getStructure() {
-        return getLastStage().getStructure();
+    public Material getItemType() {
+        return item;
+    }
+
+    public void setItemType(Material item) {
+        this.item = item;
+    }
+
+    public ItemStack getItem() {
+        return GeneratorItem.getItemFromGenerator(this);
+    }
+
+    public int getMaxStage() {
+        return stages.size() - 1;
+    }
+
+    public GeneratorStage getStage(int stage) {
+        return stages.get(stage);
+    }
+
+    public GeneratorStage getLastStage() {
+        return stages.get(getMaxStage());
+    }
+
+    public int indexOfStage(GeneratorStage stage) {
+        final int index = stages.indexOf(stage);
+        if (index == -1) {
+            throw new IllegalArgumentException("Generator does not contain that stage");
+        }
+        return index;
     }
 
     public int getStageFromStructure(Location origin) {
@@ -49,51 +76,13 @@ public class GeneratorTemplate implements PlaceholderSupplier {
         return blocks;
     }
 
-    public Material getItemType() {
-        return item;
-    }
-
-    public void setItemType(Material item) {
-        this.item = item;
-    }
-
-    public ItemStack getItem() {
-        return GeneratorItem.getItemFromGenerator(this);
-    }
-
-    public int getMaxStage() {
-        return stages.size() - 1;
-    }
-
-    public GeneratorStage getStage(int stage) {
-        return stages.get(stage);
-    }
-
-    public int indexOf(GeneratorStage stage) {
-        final int index = stages.indexOf(stage);
-        if (index == -1) {
-            throw new IllegalArgumentException("Generator does not contain that stage");
-        }
-        return index;
-    }
-
-    public GeneratorStage getLastStage() {
-        return stages.get(getMaxStage());
-    }
-
     public Placeholder[] getPlaceholders() {
-        return new Placeholder[]{
-                Placeholder.of("%generator%", name),
-                Placeholder.of("%generator_stages%", stages)
-        };
+        return new Placeholder[]{Placeholder.of("%generator%", name), Placeholder.of("%generator_stages%", stages)};
     }
 
     @Override
     public String toString() {
-        return "Generator{" +
-                "name='" + name + '\'' +
-                ", stages=" + stages +
-                '}';
+        return "Generator{" + "name='" + name + '\'' + ", stages=" + stages + '}';
     }
 
 }

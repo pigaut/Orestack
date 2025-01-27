@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
@@ -38,6 +39,7 @@ public class GeneratorManager extends Manager {
     @Override
     public void loadData() {
         generators.clear();
+        generatorBlocks.clear();
         final DataTable resourcesTable = plugin.getDatabase().tableOf("resources");
         resourcesTable.createIfNotExists(
                 "world VARCHAR(255)",
@@ -66,10 +68,8 @@ public class GeneratorManager extends Manager {
                 try {
                     Generator.create(template, location);
                 } catch (GeneratorOverlapException e) {
-                    plugin.getLogger().severe(String.format(
-                            "Removed generator at %s, %n, %n, %n. Reason: generator overlapped with another.",
-                            world.getName(), x, y, z)
-                    );
+                    plugin.getLogger().severe("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
+                            "Reason: generators overlapped.");
                 }
             });
         });
@@ -94,7 +94,7 @@ public class GeneratorManager extends Manager {
             insertStatement.withParameter(location.getBlockX());
             insertStatement.withParameter(location.getBlockY());
             insertStatement.withParameter(location.getBlockZ());
-            insertStatement.withParameter(generator.getGenerator().getName());
+            insertStatement.withParameter(generator.getTemplate().getName());
             insertStatement.addBatch();
         }
         insertStatement.executeBatch();
@@ -128,7 +128,7 @@ public class GeneratorManager extends Manager {
 
     public void registerGenerator(@NotNull Generator generator) {
         generators.add(generator);
-        for (Block block : generator.getBlocks()) {
+        for (Block block : generator.getAllOccupiedBlocks()) {
             generatorBlocks.put(block.getLocation(), generator);
         }
     }

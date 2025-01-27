@@ -1,6 +1,6 @@
 package io.github.pigaut.orestack.stage;
 
-import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.function.interact.block.*;
@@ -23,7 +23,11 @@ public class GeneratorStage implements PlaceholderSupplier {
     private final @Nullable BlockClickFunction onClick;
     private final @Nullable Hologram hologram;
 
-    public GeneratorStage(@NotNull GeneratorTemplate generator, @NotNull GeneratorState state, @NotNull BlockStructure structure, boolean dropItems, @Nullable Integer expToDrop, int growthTime, @Nullable Double growthChance, @Nullable Function onBreak, @Nullable Function onGrowth, @Nullable BlockClickFunction onClick, @Nullable Hologram hologram) {
+    public GeneratorStage(@NotNull GeneratorTemplate generator, @NotNull GeneratorState state,
+                          @NotNull BlockStructure structure, boolean dropItems, @Nullable Integer expToDrop,
+                          int growthTime, @Nullable Double growthChance, @Nullable Function onBreak,
+                          @Nullable Function onGrowth, @Nullable BlockClickFunction onClick,
+                          @Nullable Hologram hologram) {
         this.generator = generator;
         this.state = state;
         this.structure = structure;
@@ -87,7 +91,14 @@ public class GeneratorStage implements PlaceholderSupplier {
 
     @Override
     public @NotNull Placeholder[] getPlaceholders() {
-        return new Placeholder[]{Placeholder.of("%generator%", generator.getName()), Placeholder.of("%generator_stage%", generator.indexOf(this)), Placeholder.of("%generator_stages%", generator.getMaxStage()), Placeholder.of("%generator_state%", state.toString().toLowerCase()), Placeholder.of("%generator_growth_seconds%", growthTime / 20), Placeholder.of("%generator_growth_minutes%", growthTime / 1200)};
+        return new Placeholder[]{
+                Placeholder.of("%generator%", generator.getName()),
+                Placeholder.of("%generator_stage%", generator.indexOfStage(this)),
+                Placeholder.of("%generator_stages%", generator.getMaxStage()),
+                Placeholder.of("%generator_state%", state.toString().toLowerCase()),
+                Placeholder.of("%generator_growth_seconds%", growthTime / 20),
+                Placeholder.of("%generator_growth_minutes%", growthTime / 1200)
+        };
     }
 
     @Override

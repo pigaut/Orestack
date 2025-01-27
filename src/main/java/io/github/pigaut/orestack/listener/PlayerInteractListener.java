@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.listener;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.event.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.orestack.util.*;

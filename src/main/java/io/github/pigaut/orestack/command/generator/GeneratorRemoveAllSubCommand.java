@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.command.node.*;
@@ -35,7 +36,7 @@ public class GeneratorRemoveAllSubCommand extends LangSubCommand {
                 if (blockGenerator == null) {
                     continue;
                 }
-                if (blockGenerator.getGenerator() == generator) {
+                if (blockGenerator.getTemplate() == generator) {
                     plugin.getGenerators().removeGenerator(blockGenerator);
                 }
             }

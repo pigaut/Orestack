@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.function.*;
@@ -19,7 +20,7 @@ public class Generator implements PlaceholderSupplier {
 
     private static final OrestackPlugin plugin = OrestackPlugin.getPlugin();
 
-    private final GeneratorTemplate generator;
+    private final GeneratorTemplate template;
     private final Location origin;
     private int currentStage;
     private @Nullable BukkitTask growthTask = null;
@@ -28,7 +29,7 @@ public class Generator implements PlaceholderSupplier {
     private boolean updating = false;
 
     private Generator(GeneratorTemplate generator, Location origin, int currentStage) {
-        this.generator = generator;
+        this.template = generator;
         this.origin = origin.clone();
         this.currentStage = currentStage;
     }
@@ -43,12 +44,16 @@ public class Generator implements PlaceholderSupplier {
         return blockGenerator;
     }
 
-    public @NotNull GeneratorTemplate getGenerator() {
-        return generator;
+    public @NotNull GeneratorTemplate getTemplate() {
+        return template;
     }
 
     public @NotNull Location getOrigin() {
         return origin.clone();
+    }
+
+    public Set<Block> getAllOccupiedBlocks() {
+        return template.getAllOccupiedBlocks(origin);
     }
 
     public List<Block> getBlocks() {
@@ -64,7 +69,7 @@ public class Generator implements PlaceholderSupplier {
     }
 
     public boolean isLastStage() {
-        return currentStage >= generator.getMaxStage();
+        return currentStage >= template.getMaxStage();
     }
 
     public @Nullable Duration getTimeBeforeNextStage() {
@@ -72,7 +77,7 @@ public class Generator implements PlaceholderSupplier {
     }
 
     public @NotNull GeneratorStage getCurrentStage() {
-        return generator.getStage(currentStage);
+        return template.getStage(currentStage);
     }
 
     public @Nullable HologramDisplay getCurrentHologram() {
@@ -103,13 +108,13 @@ public class Generator implements PlaceholderSupplier {
         }
 
         int peekStage = this.currentStage + 1;
-        GeneratorStage nextStage = generator.getStage(peekStage);
+        GeneratorStage nextStage = template.getStage(peekStage);
         while (!nextStage.shouldGrow()) {
-            if (peekStage >= generator.getMaxStage() || nextStage.getState() == GeneratorState.REPLENISHED) {
+            if (peekStage >= template.getMaxStage() || nextStage.getState() == GeneratorState.REPLENISHED) {
                 return;
             }
             peekStage++;
-            nextStage = generator.getStage(peekStage);
+            nextStage = template.getStage(peekStage);
         }
 
         final Function growthFunction = nextStage.getGrowthFunction();
@@ -128,7 +133,7 @@ public class Generator implements PlaceholderSupplier {
         GeneratorStage previousStage;
         do {
             peekStage--;
-            previousStage = generator.getStage(peekStage);
+            previousStage = template.getStage(peekStage);
         }
         while (previousStage.getState() == GeneratorState.GROWING);
         setCurrentStage(peekStage);
@@ -172,7 +177,7 @@ public class Generator implements PlaceholderSupplier {
     @Override
     public String toString() {
         return "BlockGenerator{" +
-                "generator=" + generator.getName() +
+                "generator=" + template.getName() +
                 ", location=" + origin +
                 ", currentStage=" + currentStage +
                 '}';

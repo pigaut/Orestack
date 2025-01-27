@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.command.node.*;
 import io.github.pigaut.voxel.server.*;
 import org.bukkit.block.*;
@@ -20,7 +21,7 @@ public class GeneratorHarvestSubCommand extends LangSubCommand {
                 return;
             }
             for (Generator blockGenerator : plugin.getGenerators().getAllGenerators()) {
-                if (blockGenerator.getGenerator() == generator) {
+                if (blockGenerator.getTemplate() == generator) {
                     final Block block = blockGenerator.getBlocks().get(0);
                     final BlockBreakEvent event = new BlockBreakEvent(block, player);
                     SpigotServer.callEvent(event);

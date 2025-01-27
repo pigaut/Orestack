@@ -1,13 +1,14 @@
---- ### Stage 0
-type: depleted       # depleted, growing, harvestable, replenished
-block: iron block
-growth: 40           # The time in ticks to grow to the next stage
+---
+### Stage 0: Depleted
+type: depleted
+block: iron_block
+growth: 40  # Time in ticks to grow to the next stage
 on-growth: []
 on-click: []
 hologram:
   offset: { x: 0, y: 1, z: 0 }
-  update: 10   # Growth is 40 ticks and there are 4 frames, 40/4 = 10
-  frames:      # This way the animation is timed correctly and doesn't repeat
+  update: 10  # 40 ticks of growth divided into 4 frames (40 / 4 = 10)
+  frames:
     - '&a[]&7[][][]'
     - '&a[][]&7[][]'
     - '&a[][][]&7[]'
@@ -22,21 +23,23 @@ on-break:
         fade-in: 15
         stay: 5
         fade-out: 15
---- ### Stage 1
+
+---
+### Stage 1: Growing
 type: growing
-block: gold block
+block: gold_block
 growth: 60
-chance: 0.8   # 80% chance of spawning, otherwise it will skip to next stage
-on-break:     # Set stage to replenished to end growth when chance is true
+chance: 0.8  # 80% chance to spawn, otherwise skips to the next stage
+on-break:
   actions:
-    - [chat message, "You can't mine this!"]   # Action 0
-    - [particle at block, explosion]           # Action 1
+    - [chat message, "You can't mine this!"]
+    - [particle at block, explosion]
 on-click:
-  - click: right click block                   # Function 0
-    sneaking: false
-    cancel-event: true
-    actions:
-      - [chat message, "This is a gold block, Maybe you should try to mine it"]
+  click: right_click_block
+  sneaking: false
+  cancel-event: true
+  actions:
+    - [chat message, "This is a gold block. Maybe you should try to mine it."]
 hologram:
   - update: 3
     offset: { x: 0, y: 1.25, z: 0 }
@@ -59,8 +62,10 @@ hologram:
       - "&6&lGo"
       - "&6&lG"
   - text: '&eright-click'
-    offset: { x: 0, y: 1.0, z: 0}
---- ### Stage 2
+    offset: { x: 0, y: 1.0, z: 0 }
+
+---
+### Stage 2: Harvestable
 type: harvestable
 block: diamond_block
 growth: 80
@@ -73,31 +78,29 @@ on-break:
       - [give item, diamond]
       - [chat message, "You have mined diamond"]
       - [sound at block, tin]
-#  - if:                      # HAS_MONEY, GIVE_MONEY, and TAKE_MONEY
-#      - [has money, 10000]   # can only be used with Vault and an economy plugin (like essentialsX) installed
+# economy integration example:
+#  - if:
+#      - [has money, 10000]  # Requires Vault and an economy plugin
 #    do:
-#      - [chat message, "wow you're rich, here have some more"]
+#      - [chat message, "Wow, you're rich! Here's some more."]
 #      - [give money, 10000]
---- ### Stage 3
+
+---
+### Stage 3: Replenished
 type: replenished
-block: emerald block
-exp-to-drop: 100   # Set to 0 to drop no exp, if not set it will drop default block exp
+block: emerald_block
+exp-to-drop: 100  # Set to 0 for no experience drops, if not set the default amount will drop
 hologram:
-  # Line 1
   - text: "&2&lEmerald"
-    offset: { y: 1.25 }   # 0.25 is a good spacing between lines
-  # Line 2  (Use y offset to space out lines or they will overlap)
+    offset: { y: 1.25 }
   - text: "&a[Replenished]"
     offset: { y: 1 }
-#    always-visible: false   # If true it will only be visible on hover
-#    update: 20   # The time between placeholder updates, if animated the time between frames
 on-break:
   - chance: 1.0
     actions:
-      - [console command, "give %player% emerald"]
+      - [give item, emerald]
       - [chat message, "You mined emerald!"]
   - if:
       - [is placeholder, '%generator_stage%', 1-3]
     do:
       - [particle at block, fire_ring]
----
