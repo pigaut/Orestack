@@ -21,7 +21,7 @@ public class BlockStructureLoader implements ConfigLoader<BlockStructure> {
 
     @Override
     public @NotNull String getProblemDescription() {
-        return "Could not load block structure";
+        return "invalid block/structure";
     }
 
     @Override
@@ -29,7 +29,7 @@ public class BlockStructureLoader implements ConfigLoader<BlockStructure> {
         final String structureName = scalar.toString();
         final BlockStructure blockStructure = plugin.getBlockStructure(structureName);
         if (blockStructure == null) {
-            throw new InvalidConfigurationException(scalar, "Could not find any block structure with name:" + structureName);
+            throw new InvalidConfigurationException(scalar, "Could not find any block structure with name: " + structureName);
         }
         return blockStructure;
     }
