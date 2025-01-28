@@ -27,13 +27,19 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
+    private final Database database = SQLib.createDatabase(new File(("plugins/Orestack/data")));
 
-    private static final Database database = SQLib.createDatabase(new File(("plugins/Orestack/data")));
     private static OrestackPlugin plugin;
 
     @Override
     public void onLoad() {
         plugin = this;
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        database.closeConnection();
     }
 
     public static OrestackPlugin getPlugin() {
