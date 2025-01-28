@@ -37,8 +37,8 @@ public class StructureManager extends Manager {
     @Override
     public void loadData() {
         structuresByName.clear();
-        for (File generatorFile : plugin.getFiles("structures")) {
-            final RootSequence config = ConfigSequence.loadConfiguration(generatorFile, plugin.getConfigurator());
+        for (File structureFile : plugin.getFiles("structures")) {
+            final RootSequence config = plugin.loadConfigSequence(structureFile);
             registerBlockStructure(config.getName(), config.load(BlockStructure.class));
         }
     }

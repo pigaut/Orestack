@@ -16,7 +16,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
 
     @Override
     public @NotNull String getProblemDescription() {
-        return "Could not load generator";
+        return "invalid generator";
     }
 
     @Override
@@ -54,8 +54,6 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
     }
 
     private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection config) {
-        config.setProblemDescription("Could not load generator stage");
-
         final GeneratorState state = config.get("type|state", GeneratorState.class);
         BlockStructure structure = config.getOptional("structure", BlockStructure.class).orElse(null);
         if (structure == null) {

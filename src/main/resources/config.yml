@@ -1,10 +1,10 @@
-# Whether to generate configuration examples
+debug: true
+
 generate-examples: true
 
-# Whether to check for plugin updates
 check-for-updates: true
 
-# The language file that should be used: en.yml
+#Required, the language file that should be used (en = en.yml)
 language: en
 
 # The auto save timer, if not set or set to 0 data will only be saved on shutdown or on /orestack reload

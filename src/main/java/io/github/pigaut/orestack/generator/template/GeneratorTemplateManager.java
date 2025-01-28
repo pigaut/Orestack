@@ -40,7 +40,7 @@ public class GeneratorTemplateManager extends Manager {
     public void loadData() {
         generatorsByName.clear();
         for (File generatorFile : plugin.getFiles("generators")) {
-            final RootSequence config = ConfigSequence.loadConfiguration(generatorFile, plugin.getConfigurator());
+            final RootSequence config = plugin.loadConfigSequence(generatorFile);
             generatorsByName.put(config.getName(), config.load(GeneratorTemplate.class));
         }
     }
