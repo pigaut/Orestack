@@ -16,7 +16,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
 
     @Override
     public @NotNull String getProblemDescription() {
-        return "invalid Generator";
+        return "invalid generator";
     }
 
     @Override
