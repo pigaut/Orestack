@@ -113,15 +113,6 @@ public class GeneratorManager extends Manager {
         return generatorBlocks.containsKey(location);
     }
 
-    public boolean containsGenerator(@NotNull Collection<Block> blocks) {
-        for (Block block : blocks) {
-            if (generatorBlocks.containsKey(block.getLocation())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public @Nullable Generator getGenerator(@NotNull Location location) {
         return generatorBlocks.get(location);
     }
@@ -135,7 +126,7 @@ public class GeneratorManager extends Manager {
 
     public void removeGenerator(@NotNull Generator generator) {
         generators.remove(generator);
-        for (Block block : generator.getBlocks()) {
+        for (Block block : generator.getAllOccupiedBlocks()) {
             generatorBlocks.remove(block.getLocation());
         }
         final BlockStructure structure = generator.getCurrentStage().getStructure();

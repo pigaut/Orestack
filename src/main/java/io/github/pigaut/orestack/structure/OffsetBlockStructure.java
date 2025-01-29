@@ -12,8 +12,8 @@ public class OffsetBlockStructure extends SingleBlockStructure {
     private final int offsetY;
     private final int offsetZ;
 
-    public OffsetBlockStructure(Material type, @Nullable Integer age, @Nullable BlockFace direction, int offsetX, int offsetY, int offsetZ) {
-        super(type, age, direction);
+    public OffsetBlockStructure(Material type, @Nullable Integer age, @Nullable BlockFace direction, @Nullable Axis orientation, int offsetX, int offsetY, int offsetZ) {
+        super(type, age, direction, orientation);
         this.offsetX = offsetX;
         this.offsetY = offsetY;
         this.offsetZ = offsetZ;

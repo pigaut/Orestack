@@ -35,8 +35,10 @@ public class Generator implements PlaceholderSupplier {
     }
 
     public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorOverlapException {
-        if (plugin.getGenerators().containsGenerator(template.getAllOccupiedBlocks(origin))) {
-            throw new GeneratorOverlapException();
+        for (Block block : template.getAllOccupiedBlocks(origin)) {
+            if (plugin.getGenerators().isGenerator(block.getLocation())) {
+                throw new GeneratorOverlapException();
+            }
         }
         final Generator blockGenerator = new Generator(template, origin, template.getStageFromStructure(origin));
         plugin.getGenerators().registerGenerator(blockGenerator);
@@ -61,7 +63,12 @@ public class Generator implements PlaceholderSupplier {
     }
 
     public boolean exists() {
-        return plugin.getGenerators().isGenerator(origin);
+        for (Block block : getBlocks()) {
+            if (!plugin.getGenerators().isGenerator(block.getLocation())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean isFirstStage() {
@@ -106,11 +113,17 @@ public class Generator implements PlaceholderSupplier {
         if (isLastStage()) {
             throw new IllegalStateException("Block generator does not have a next stage");
         }
-
+        final GeneratorStage currentStage = getCurrentStage();
+        if (currentStage.getGrowthTime() == 0) {
+            return;
+        }
         int peekStage = this.currentStage + 1;
         GeneratorStage nextStage = template.getStage(peekStage);
         while (!nextStage.shouldGrow()) {
-            if (peekStage >= template.getMaxStage() || nextStage.getState() == GeneratorState.REPLENISHED) {
+            if (nextStage.getState() == GeneratorState.REPLENISHED) {
+                if (peekStage >= template.getMaxStage()) {
+                    break;
+                }
                 return;
             }
             peekStage++;
@@ -129,7 +142,7 @@ public class Generator implements PlaceholderSupplier {
         if (isFirstStage()) {
             throw new IllegalStateException("Block generator does not have a previous stage");
         }
-        int peekStage = this.currentStage;
+        int peekStage = currentStage;
         GeneratorStage previousStage;
         do {
             peekStage--;
@@ -152,7 +165,7 @@ public class Generator implements PlaceholderSupplier {
             currentHologram = null;
         }
 
-        if (!isLastStage() && stage.getState() != GeneratorState.REPLENISHED) {
+        if (stage.getState() != GeneratorState.REPLENISHED) {
             if (growthTask != null && !growthTask.isCancelled()) {
                 growthTask.cancel();
                 growthStart = null;

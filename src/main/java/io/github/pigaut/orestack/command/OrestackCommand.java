@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.command;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.command.generator.*;
+import io.github.pigaut.orestack.command.structure.*;
 import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.item.command.*;
 import io.github.pigaut.voxel.message.command.*;
@@ -24,6 +25,7 @@ public class OrestackCommand extends EnhancedCommand {
         addSubCommand(new MessageSubCommand(plugin));
         addSubCommand(new SoundSubCommand(plugin));
         addSubCommand(new GeneratorSubCommand(plugin));
+        addSubCommand(new StructureSubCommand(plugin));
     }
 
 }

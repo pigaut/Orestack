@@ -50,7 +50,7 @@ public class GeneratorStage implements PlaceholderSupplier {
     }
 
     public boolean shouldGrow() {
-        return growthChance == null || Probability.test(growthChance);
+        return growthTime != 0 && (growthChance == null || Probability.test(growthChance));
     }
 
     public int getGrowthTime() {

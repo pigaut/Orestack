@@ -32,13 +32,22 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             throw new InvalidConfigurationException(config, "Generator must have one depleted and one replenished stage");
         }
 
-        if (generatorStages.get(0).getState() != GeneratorState.DEPLETED) {
+        final GeneratorStage firstStage = generatorStages.get(0);
+        if (firstStage.getState() != GeneratorState.DEPLETED) {
             throw new InvalidConfigurationException(config, "The first stage must be depleted");
+        }
+
+        if (firstStage.getGrowthTime() == 0) {
+            throw new InvalidConfigurationException(config, "The depleted stage must a growth time");
         }
 
         final GeneratorStage lastStage = generatorStages.get(generatorStages.size() - 1);
         if (lastStage.getState() != GeneratorState.REPLENISHED) {
             throw new InvalidConfigurationException(config, "The last stage must be replenished");
+        }
+
+        if (lastStage.getGrowthChance() != null) {
+            throw new InvalidConfigurationException(config, "The last stage cannot have growth chance");
         }
 
         if (lastStage.getStructure() instanceof SingleBlockStructure singleBlockStructure) {
@@ -47,7 +56,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
 
         for (int i = 1; i < generatorStages.size(); i++) {
             if (generatorStages.get(i).getState() == GeneratorState.DEPLETED) {
-                throw new InvalidConfigurationException(config, "Only the first stage is depleted");
+                throw new InvalidConfigurationException(config, "Only the first stage should be depleted");
             }
         }
         return generator;

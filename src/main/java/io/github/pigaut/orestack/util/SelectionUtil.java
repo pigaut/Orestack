@@ -71,4 +71,12 @@ public class SelectionUtil {
         return locations;
     }
 
+    public static int[] getOffset(Location from, Location to) {
+        int offsetX = to.getBlockX() - from.getBlockX();
+        int offsetY = to.getBlockY() - from.getBlockY();
+        int offsetZ = to.getBlockZ() - from.getBlockZ();
+
+        return new int[]{offsetX, offsetY, offsetZ};
+    }
+
 }

@@ -12,11 +12,13 @@ public class SingleBlockStructure implements BlockStructure {
     private final Material type;
     private final @Nullable Integer age;
     private final @Nullable BlockFace direction;
+    private final @Nullable Axis orientation;
 
-    public SingleBlockStructure(Material type, @Nullable Integer age, @Nullable BlockFace direction) {
+    public SingleBlockStructure(Material type, @Nullable Integer age, @Nullable BlockFace direction, @Nullable Axis orientation) {
         this.type = type;
         this.age = age;
         this.direction = direction;
+        this.orientation = orientation;
     }
 
     public Material getType() {
@@ -46,13 +48,16 @@ public class SingleBlockStructure implements BlockStructure {
         final BlockData blockData = location.getBlock().getBlockData();
         return blockData.getMaterial() == type
                 && (age == null || ((Ageable) blockData).getAge() == age)
-                && (direction == null || ((Directional) blockData).getFacing() == direction);
+                && (direction == null || ((Directional) blockData).getFacing() == direction)
+                && (orientation == null || ((Orientable) blockData).getAxis() == orientation);
     }
 
     @Override
     public void createBlocks(Location origin) {
         final Block block = origin.getBlock();
-        block.setType(type);
+        if (block.getType() != type) {
+            block.setType(type);
+        }
         if (age != null) {
             final Ageable ageable = (Ageable) block.getBlockData();
             ageable.setAge(age);
@@ -62,6 +67,11 @@ public class SingleBlockStructure implements BlockStructure {
             final Directional directional = (Directional) block.getBlockData();
             directional.setFacing(direction);
             block.setBlockData(directional);
+        }
+        if (orientation != null) {
+            final Orientable orientable = (Orientable) block.getBlockData();
+            orientable.setAxis(orientation);
+            block.setBlockData(orientable);
         }
     }
     
