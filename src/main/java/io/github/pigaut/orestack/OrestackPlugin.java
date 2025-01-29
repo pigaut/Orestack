@@ -81,7 +81,13 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return List.of(
                 "config.yml",
                 "languages/en.yml",
+                "items/items.yml",
+                "messages/messages.yml",
+                "effects/particles/particles.yml",
+                "effects/sounds/sounds.yml",
+
                 "generators/example.yml",
+
                 "generators/crops/wheat.yml",
                 "generators/crops/potato.yml",
                 "generators/crops/carrot.yml",
@@ -89,15 +95,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/crops/melon.yml",
                 "generators/crops/pumpkin.yml",
                 "generators/crops/cocoa/cocoa_north.yml",
+
                 "generators/ores/coal.yml",
                 "generators/ores/iron.yml",
                 "generators/ores/gold.yml",
-                "generators/ores/diamond.yml",
-                "items/items.yml",
-                "messages/messages.yml",
-                "effects/particles/particles.yml",
-                "effects/sounds/sounds.yml",
-                "flags.yml"
+                "generators/ores/diamond.yml"
         );
     }
 
