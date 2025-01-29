@@ -18,9 +18,15 @@ public class BlockDestructionListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
+    public void onLeavesDecay(LeavesDecayEvent event) {
+        if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
     public void onBlockBurn(BlockBurnEvent event) {
-        final Generator generator = plugin.getGenerator(event.getBlock().getLocation());
-        if (generator != null) {
+        if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
     }
@@ -29,8 +35,7 @@ public class BlockDestructionListener implements Listener {
     public void onExplode(EntityExplodeEvent event) {
         final List<Block> explodedBlocks = event.blockList();
         for (Block explodedBlock : explodedBlocks) {
-            final Generator generator = plugin.getGenerator(explodedBlock.getLocation());
-            if (generator != null) {
+            if (plugin.getGenerators().isGenerator(explodedBlock.getLocation())) {
                 explodedBlocks.remove(explodedBlock);
             }
         }
@@ -40,8 +45,7 @@ public class BlockDestructionListener implements Listener {
     public void onExplode(BlockExplodeEvent event) {
         final List<Block> explodedBlocks = event.blockList();
         for (Block explodedBlock : explodedBlocks) {
-            final Generator generator = plugin.getGenerator(explodedBlock.getLocation());
-            if (generator != null) {
+            if (plugin.getGenerators().isGenerator(explodedBlock.getLocation())) {
                 explodedBlocks.remove(explodedBlock);
             }
         }
@@ -50,8 +54,7 @@ public class BlockDestructionListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onPistonExtend(BlockPistonExtendEvent event) {
         for (Block movedBlock : event.getBlocks()) {
-            final Generator generator = plugin.getGenerator(movedBlock.getLocation());
-            if (generator != null) {
+            if (plugin.getGenerators().isGenerator(movedBlock.getLocation())) {
                 event.setCancelled(true);
             }
         }
@@ -60,8 +63,7 @@ public class BlockDestructionListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onPistonRetract(BlockPistonRetractEvent event) {
         for (Block movedBlock : event.getBlocks()) {
-            final Generator generator = plugin.getGenerator(movedBlock.getLocation());
-            if (generator != null) {
+            if (plugin.getGenerators().isGenerator(movedBlock.getLocation())) {
                 event.setCancelled(true);
             }
         }

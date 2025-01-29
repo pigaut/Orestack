@@ -19,7 +19,9 @@ import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
+import java.util.stream.*;
 
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
@@ -67,6 +69,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
+    public List<String> getPluginResources() {
+        return List.of("config.yml", "flags.yml", "languages/en.yml");
+    }
+
+    @Override
     public @NotNull List<String> getPluginDirectories() {
         return List.of("items", "generators", "messages", "languages", "structures", "effects/particles", "effects/sounds");
     }
@@ -74,10 +81,15 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public List<String> getExampleResources() {
         return List.of(
-                "config.yml",
-                "languages/en.yml",
+                "items/items.yml",
+                "messages/messages.yml",
+                "effects/particles/particles.yml",
+                "effects/sounds/sounds.yml",
+
                 "generators/example.yml",
                 "generators/diamond_node.yml",
+                "generators/trees/great_oak_tree.yml",
+
                 "generators/crops/wheat.yml",
                 "generators/crops/potato.yml",
                 "generators/crops/carrot.yml",
@@ -85,16 +97,21 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/crops/melon.yml",
                 "generators/crops/pumpkin.yml",
                 "generators/crops/cocoa/cocoa_north.yml",
+
                 "generators/ores/coal.yml",
                 "generators/ores/iron.yml",
                 "generators/ores/gold.yml",
                 "generators/ores/diamond.yml",
-                "items/items.yml",
-                "messages/messages.yml",
+
                 "structures/diamond_node.yml",
-                "effects/particles/particles.yml",
-                "effects/sounds/sounds.yml",
-                "flags.yml"
+                "structures/trees/oak_tree.yml",
+                "structures/trees/great_oak/great_oak_tree_1.yml",
+                "structures/trees/great_oak/great_oak_tree_2.yml",
+                "structures/trees/great_oak/great_oak_tree_3.yml",
+                "structures/trees/great_oak/great_oak_tree_4.yml",
+                "structures/trees/great_oak/great_oak_tree_5.yml",
+                "structures/trees/great_oak/great_oak_tree_6.yml",
+                "structures/trees/great_oak/great_oak_tree_7.yml"
         );
     }
 

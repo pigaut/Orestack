@@ -1,0 +1,61 @@
+state: depleted
+structure: great_oak_tree_1
+growth: 100
+hologram:
+  - text: "&2&lGreat Oak Tree"
+    offset: { x: -3, y: 2.25, z: 1 } 
+  - text: "&aGrowing: %generator_timer_seconds%s"
+    update: 3
+    offset: { x: -3, y: 2, z: 1 } 
+---
+state: harvestable
+structure: great_oak_tree_2
+hologram:
+  - text: "&2&lGreat Oak Tree"
+    offset: { x: -3, y: 2.25, z: 1 } 
+  - text: "&aLogs left: 20"
+    offset: { x: -3, y: 2, z: 1 } 
+on-break:
+  actions:
+    - [drop_at_player, OAK_LOG:19]
+---
+state: harvestable
+structure: great_oak_tree_3
+hologram:
+  - text: "&2&lGreat Oak Tree"
+    offset: { x: -3, y: 2.25, z: 1 } 
+  - text: "&aLogs left: 21"
+    offset: { x: -3, y: 2, z: 1 } 
+---
+state: harvestable
+structure: great_oak_tree_4
+hologram:
+  - text: "&2&lGreat Oak Tree"
+    offset: { x: -3, y: 2.25, z: 1 } 
+  - text: "&aLogs left: 22"
+    offset: { x: -3, y: 2, z: 1 } 
+---
+state: harvestable
+structure: great_oak_tree_5
+hologram:
+  - text: "&2&lGreat Oak Tree"
+    offset: { x: -3, y: 2.25, z: 1 } 
+  - text: "&aLogs left: 23"
+    offset: { x: -3, y: 2, z: 1 } 
+---
+state: harvestable
+structure: great_oak_tree_6
+hologram:
+  - text: "&2&lGreat Oak Tree"
+    offset: { x: -3, y: 2.25, z: 1 } 
+  - text: "&aLogs left: 24"
+    offset: { x: -3, y: 2, z: 1 } 
+---
+state: replenished
+structure: great_oak_tree_7
+hologram:
+  - text: "&2&lGreat Oak Tree"
+    offset: { x: -3, y: 2.25, z: 1 } 
+  - text: "&aLogs left: 25"
+    offset: { x: -3, y: 2, z: 1 } 
+---

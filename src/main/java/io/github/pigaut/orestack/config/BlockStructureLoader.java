@@ -39,6 +39,7 @@ public class BlockStructureLoader implements ConfigLoader<BlockStructure> {
         final Material material = config.get("block", Material.class);
         final Integer age = config.getOptionalInteger("age").orElse(null);
         final BlockFace direction = config.getOptional("direction|facing", BlockFace.class).orElse(null);
+        final Axis orientation = config.getOptional("orientation", Axis.class).orElse(null);
 
         if (!material.isBlock()) {
             throw new InvalidConfigurationException(config, "block", "The material must be a block");
@@ -67,13 +68,23 @@ public class BlockStructureLoader implements ConfigLoader<BlockStructure> {
             }
         }
 
+        if (orientation != null) {
+            if (material.createBlockData() instanceof Orientable orientable) {
+                if (!orientable.getAxes().contains(orientation)) {
+                    throw new InvalidConfigurationException(config, "orientation", "Block cannot be oriented to that axis");
+                }
+            } else {
+                throw new InvalidConfigurationException(config, "orientation", "The current block is not orientable, please remove the orientation parameter");
+            }
+        }
+
         final int offsetX = config.getOptionalInteger("offset.x").orElse(0);
         final int offsetY = config.getOptionalInteger("offset.y").orElse(0);
         final int offsetZ = config.getOptionalInteger("offset.z").orElse(0);
         if (offsetX != 0 || offsetY != 0 || offsetZ != 0) {
-            return new OffsetBlockStructure(material, age, direction, offsetX, offsetY, offsetZ);
+            return new OffsetBlockStructure(material, age, direction, orientation, offsetX, offsetY, offsetZ);
         }
-        return new SingleBlockStructure(material, age, direction);
+        return new SingleBlockStructure(material, age, direction, orientation);
     }
 
     @Override

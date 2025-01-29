@@ -121,6 +121,25 @@ spawned-particle: '&aSpawned a particle effect in %world-name% at x: %x%, y: %y%
 spawned-particle-at-player: '&aSpawned a particle at %online-player%''s location'
 showed-me-particle: '&aParticle spawned two blocks in front of you'
 
+# Structure Command
+structure-command: structure
+structure-permission: orestack.structure
+## Parameters
+structure-name-parameter: structure-name
+## Save Structure
+save-structure-command: save
+save-structure-permission: orestack.structure.save
+save-structure-description: 'Saves the selected region to a structure file'
+## Place Structure
+place-structure-command: place
+place-structure-permission: orestack.structure.place
+place-structure-description: 'Places the structure at the target block'
+## Success
+saved-structure: '&aSaving structure to file: %file-path%'
+placed-structure: '&aPlaced structure at target block'
+## Errors
+structure-not-found: '&4Could not find structure with name: %structure-name%'
+
 # Generator Command
 generator-command: generator
 generator-permission: orestack.generator
