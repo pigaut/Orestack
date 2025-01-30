@@ -21,12 +21,17 @@ public class BlockStructureLoader implements ConfigLoader<BlockStructure> {
 
     @Override
     public @NotNull String getProblemDescription() {
-        return "Could not load block structure";
+        return "invalid block/structure";
     }
 
     @Override
     public @NotNull BlockStructure loadFromScalar(ConfigScalar scalar) throws InvalidConfigurationException {
-        throw new InvalidConfigurationException(scalar, "This feature is premium only");
+        final String structureName = scalar.toString();
+        final BlockStructure blockStructure = plugin.getBlockStructure(structureName);
+        if (blockStructure == null) {
+            throw new InvalidConfigurationException(scalar, "Could not find any block structure with name: " + structureName);
+        }
+        return blockStructure;
     }
 
     @Override
@@ -84,7 +89,14 @@ public class BlockStructureLoader implements ConfigLoader<BlockStructure> {
 
     @Override
     public @NotNull BlockStructure loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigurationException {
-        throw new InvalidConfigurationException(sequence, "This feature is premium only");
+        final List<BlockStructure> structures = sequence.getAll(BlockStructure.class);
+        if (structures.size() < 2) {
+            throw new InvalidConfigurationException(sequence, "Structure must have at least two blocks in it");
+        }
+        if (!sequence.isRoot()) {
+            throw new InvalidConfigurationException(sequence, "The free version does not support inline structures");
+        }
+        return new MultiBlockStructure(structures);
     }
 
 

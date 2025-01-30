@@ -25,6 +25,7 @@ public class OrestackCommand extends EnhancedCommand {
         addSubCommand(new MessageSubCommand(plugin));
         addSubCommand(new SoundSubCommand(plugin));
         addSubCommand(new GeneratorSubCommand(plugin));
+        addSubCommand(new StructureSubCommand(plugin));
     }
 
 }

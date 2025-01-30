@@ -139,6 +139,7 @@ saved-structure: '&aSaving structure to file: %file-path%'
 placed-structure: '&aPlaced structure at target block'
 ## Errors
 structure-not-found: '&4Could not find structure with name: %structure-name%'
+structure-limit: '&4The free version only allows up to 10 structures'
 
 # Generator Command
 generator-command: generator
