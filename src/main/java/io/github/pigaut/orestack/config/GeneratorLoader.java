@@ -6,8 +6,10 @@ import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.function.interact.block.*;
 import io.github.pigaut.voxel.hologram.*;
+import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.voxel.yaml.*;
 import io.github.pigaut.voxel.yaml.configurator.loader.*;
+import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -51,7 +53,13 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         }
 
         if (lastStage.getStructure() instanceof SingleBlockStructure singleBlockStructure) {
-            generator.setItemType(singleBlockStructure.getType());
+            final Material material = singleBlockStructure.getType();
+            if (Crops.isCrop(material)) {
+                generator.setItemType(Crops.getCropItem(material));
+            }
+            else {
+                generator.setItemType(material);
+            }
         }
 
         for (int i = 1; i < generatorStages.size(); i++) {
