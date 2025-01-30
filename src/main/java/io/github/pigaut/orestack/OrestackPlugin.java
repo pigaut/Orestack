@@ -19,9 +19,7 @@ import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
 import java.io.*;
-import java.nio.file.*;
 import java.util.*;
-import java.util.stream.*;
 
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
