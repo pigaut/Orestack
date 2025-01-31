@@ -197,12 +197,16 @@ harvested-all-generators: '&aAll %generator% generators have been harvested with
 generator-item-name: '&b&l%generator_tc% Generator'
 generator-item-right-click: '&fright-click to place'
 generator-item-left-click: '&fleft-click to break'
+generator-item-rotate: '&fshift + left-click air to rotate'
 generator-place-permission: orestack.generator.place
 generator-break-permission: orestack.generator.break
+generator-rotate-permission: orestack.generator.rotate
 placed-generator: '&aPlaced generator successfully'
 broke-generator: '&cBroke generator successfully'
+changed-generator-rotation: '&aRotated generator by 90 degrees'
 missing-place-permission: '&4You don''t have the permission to place generators'
 missing-break-permission: '&4You don''t have the permission to break generators'
+missing-rotate-permission: '&4You don''t have the permission to rotate generators'
 
 # Wand Item
 wand-item-name: '&6&lGenerator Wand'

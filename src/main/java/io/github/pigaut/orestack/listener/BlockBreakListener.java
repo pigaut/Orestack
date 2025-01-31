@@ -34,21 +34,21 @@ public class BlockBreakListener implements Listener {
         if (generator == null || generator.isUpdating()) {
             return;
         }
-        final GeneratorStage stage = generator.getCurrentStage();
-        if (!stage.getStructure().matchBlocks(generator.getOrigin())) {
+        if (!generator.matchBlocks()) {
             plugin.getGenerators().removeGenerator(generator);
             return;
         }
         final OrestackPlayer playerState = plugin.getPlayer(event.getPlayer().getUniqueId());
         playerState.updatePlaceholders(generator);
 
-        final GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(playerState, block, generator, stage);
+        final GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(playerState, generator);
         SpigotServer.callEvent(generatorHarvestEvent);
         if (generatorHarvestEvent.isCancelled()) {
             event.setCancelled(true);
             return;
         }
 
+        final GeneratorStage stage = generator.getCurrentStage();
         final Function breakFunction = stage.getBreakFunction();
         if (breakFunction != null) {
             breakFunction.run(playerState, block);
@@ -66,18 +66,16 @@ public class BlockBreakListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBlockDropItem(BlockDropItemEvent event) {
         final Block block = event.getBlock();
         final Generator generator = plugin.getGenerator(block.getLocation());
         if (generator == null) {
             return;
         }
-        generator.previousStage();
         final GeneratorStage stage = generator.getCurrentStage();
-        if (!stage.isDropItems()) {
-            event.setCancelled(true);
-        }
+        event.setCancelled(!stage.isDropItems());
+        generator.previousStage();
     }
 
 }

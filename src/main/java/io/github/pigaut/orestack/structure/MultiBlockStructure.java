@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack.structure;
 
+import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
@@ -15,23 +16,9 @@ public class MultiBlockStructure implements BlockStructure {
     }
 
     @Override
-    public List<Block> getBlocks(Location origin) {
-        return structures.stream()
-                .flatMap(component -> component.getBlocks(origin).stream())
-                .toList();
-    }
-
-    @Override
-    public void removeBlocks(Location origin) {
-        for (BlockStructure structure : structures) {
-            structure.removeBlocks(origin);
-        }
-    }
-
-    @Override
-    public boolean matchBlocks(Location origin) {
+    public boolean matchBlocks(Location origin, Rotation rotation) {
         for (BlockStructure component : structures) {
-            if (!component.matchBlocks(origin)) {
+            if (!component.matchBlocks(origin, rotation)) {
                 return false;
             }
         }
@@ -39,9 +26,23 @@ public class MultiBlockStructure implements BlockStructure {
     }
 
     @Override
-    public void createBlocks(Location origin) {
+    public List<Block> getBlocks(Location origin, Rotation rotation) {
+        return structures.stream()
+                .flatMap(component -> component.getBlocks(origin, rotation).stream())
+                .toList();
+    }
+
+    @Override
+    public void createBlocks(Location origin, Rotation rotation) {
         for (BlockStructure component : structures) {
-            component.createBlocks(origin);
+            component.createBlocks(origin, rotation);
+        }
+    }
+
+    @Override
+    public void removeBlocks(Location origin, Rotation rotation) {
+        for (BlockStructure structure : structures) {
+            structure.removeBlocks(origin, rotation);
         }
     }
 

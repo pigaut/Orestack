@@ -8,6 +8,8 @@ import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.hologram.display.*;
 import io.github.pigaut.voxel.meta.placeholder.*;
+import io.github.pigaut.voxel.util.*;
+import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.scheduler.*;
@@ -26,24 +28,30 @@ public class Generator implements PlaceholderSupplier {
     private @Nullable BukkitTask growthTask = null;
     private Instant growthStart = null;
     private @Nullable HologramDisplay currentHologram = null;
+    private final Rotation rotation;
     private boolean updating = false;
 
-    private Generator(GeneratorTemplate generator, Location origin, int currentStage) {
+    private Generator(GeneratorTemplate generator, Location origin, int currentStage, Rotation rotation) {
         this.template = generator;
         this.origin = origin.clone();
         this.currentStage = currentStage;
+        this.rotation = rotation;
     }
 
-    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorOverlapException {
-        for (Block block : template.getAllOccupiedBlocks(origin)) {
+    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, Rotation rotation) throws GeneratorOverlapException {
+        for (Block block : template.getAllOccupiedBlocks(origin, rotation)) {
             if (plugin.getGenerators().isGenerator(block.getLocation())) {
                 throw new GeneratorOverlapException();
             }
         }
-        final Generator blockGenerator = new Generator(template, origin, template.getStageFromStructure(origin));
+        final Generator blockGenerator = new Generator(template, origin, template.getStageFromStructure(origin, rotation), rotation);
         plugin.getGenerators().registerGenerator(blockGenerator);
         blockGenerator.updateState();
         return blockGenerator;
+    }
+
+    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorOverlapException {
+        return create(template, origin, Rotation.NONE);
     }
 
     public @NotNull GeneratorTemplate getTemplate() {
@@ -55,11 +63,19 @@ public class Generator implements PlaceholderSupplier {
     }
 
     public Set<Block> getAllOccupiedBlocks() {
-        return template.getAllOccupiedBlocks(origin);
+        return template.getAllOccupiedBlocks(origin, rotation);
+    }
+
+    public boolean matchBlocks() {
+        return getCurrentStage().getStructure().matchBlocks(origin, rotation);
     }
 
     public List<Block> getBlocks() {
-        return getCurrentStage().getStructure().getBlocks(origin);
+        return getCurrentStage().getStructure().getBlocks(origin, rotation);
+    }
+
+    public void removeBlocks() {
+        getCurrentStage().getStructure().removeBlocks(origin, rotation);
     }
 
     public boolean exists() {
@@ -87,6 +103,10 @@ public class Generator implements PlaceholderSupplier {
         return template.getStage(currentStage);
     }
 
+    public Rotation getRotation() {
+        return rotation;
+    }
+
     public @Nullable HologramDisplay getCurrentHologram() {
         return currentHologram;
     }
@@ -96,7 +116,7 @@ public class Generator implements PlaceholderSupplier {
             return;
         }
         final GeneratorStage currentStage = getCurrentStage();
-        currentStage.getStructure().removeBlocks(origin);
+        currentStage.getStructure().removeBlocks(origin, rotation);
         this.currentStage = stage;
         updateState();
     }
@@ -156,7 +176,7 @@ public class Generator implements PlaceholderSupplier {
         final GeneratorStage stage = getCurrentStage();
         updating = true;
         plugin.getScheduler().runTaskLater(1, () -> {
-            stage.getStructure().createBlocks(origin);
+            stage.getStructure().createBlocks(origin, rotation);
             updating = false;
         });
 
@@ -179,7 +199,8 @@ public class Generator implements PlaceholderSupplier {
 
         final Hologram hologram = stage.getHologram();
         if (hologram != null) {
-            currentHologram = hologram.spawn(origin.clone().add(0.5, 0, 0.5), false, this);
+            final Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
+            currentHologram = hologram.spawn(offsetLocation, rotation, false, this);
         }
     }
 

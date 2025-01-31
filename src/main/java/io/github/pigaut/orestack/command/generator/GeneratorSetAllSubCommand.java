@@ -7,6 +7,7 @@ import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.command.node.*;
+import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -34,10 +35,13 @@ public class GeneratorSetAllSubCommand extends LangSubCommand {
             }
             final BlockStructure structure = generator.getLastStage().getStructure();
             for (Location location : SelectionUtil.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
-                if (structure.matchBlocks(location)) {
-                    try {
-                        Generator.create(generator, location);
-                    } catch (GeneratorOverlapException ignored) {}
+                for (Rotation rotation : Rotation.values()) {
+                    if (structure.matchBlocks(location, rotation)) {
+                        try {
+                            Generator.create(generator, location);
+                        } catch (GeneratorOverlapException ignored) {
+                        }
+                    }
                 }
             }
             plugin.sendMessage(player, "created-all-generators", placeholders, generator);

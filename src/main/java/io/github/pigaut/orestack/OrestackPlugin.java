@@ -94,7 +94,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/crops/beetroot.yml",
                 "generators/crops/melon.yml",
                 "generators/crops/pumpkin.yml",
-                "generators/crops/cocoa/cocoa_north.yml",
+                "generators/crops/cocoa.yml",
 
                 "generators/ores/coal.yml",
                 "generators/ores/iron.yml",

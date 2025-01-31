@@ -9,8 +9,8 @@ public abstract class PlayerGeneratorEvent extends GeneratorEvent {
 
     private final OrestackPlayer player;
 
-    protected PlayerGeneratorEvent(OrestackPlayer player, Block block, Generator generator, GeneratorStage stage) {
-        super(block, generator, stage);
+    protected PlayerGeneratorEvent(OrestackPlayer player, Generator generator) {
+        super(generator);
         this.player = player;
     }
 

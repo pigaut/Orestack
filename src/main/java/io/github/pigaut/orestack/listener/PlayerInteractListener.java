@@ -25,93 +25,135 @@ public class PlayerInteractListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(ignoreCancelled = true)
-    public void onClick(PlayerInteractEvent event) {
-        if (!event.hasBlock() || event.getHand() != EquipmentSlot.HAND) {
+    @EventHandler
+    public void onWandClick(PlayerInteractEvent event) {
+        if (!event.hasBlock() || !event.hasItem()
+                || event.getHand() != EquipmentSlot.HAND
+                || event.getAction() != Action.LEFT_CLICK_BLOCK
+                || !SelectionUtil.isSelectionWand(event.getItem())) {
+            return;
+        }
+        event.setCancelled(true);
+
+        final Player player = event.getPlayer();
+        final OrestackPlayer playerState = plugin.getPlayer(player.getUniqueId());
+
+        if (!player.hasPermission(plugin.getLang("wand-use-permission"))) {
+            plugin.sendMessage(player, "missing-wand-permission");
             return;
         }
 
-        final Block clickedBlock = event.getClickedBlock();
-        final Location location = clickedBlock.getLocation();
-        final Action action = event.getAction();
-        final Player player = event.getPlayer();
-        final OrestackPlayer playerState = plugin.getPlayer(player.getUniqueId());
+        final Location firstSelection = playerState.getFirstSelection();
+        final Location secondSelection = playerState.getSecondSelection();
+
+        final Location targetLocation = event.getClickedBlock().getLocation();
+        if (firstSelection == null || secondSelection != null) {
+            playerState.setFirstSelection(targetLocation);
+            playerState.setSecondSelection(null);
+            plugin.sendMessage(player, "selected-first-position");
+        }
+        else {
+            playerState.setSecondSelection(targetLocation);
+            plugin.sendMessage(player, "selected-second-position");
+        }
+    }
+
+    @EventHandler
+    public void onGeneratorItemClick(PlayerInteractEvent event) {
+        if (event.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
+
         final ItemStack heldItem = event.getItem();
-
-        final boolean holdingWand = SelectionUtil.isSelectionWand(heldItem);
-        if (holdingWand) {
-            event.setCancelled(true);
-            if (!player.hasPermission(plugin.getLang("wand-use-permission"))) {
-                plugin.sendMessage(player, "missing-wand-permission");
-                return;
-            }
-            if (action == Action.LEFT_CLICK_BLOCK) {
-                final Location firstSelection = playerState.getFirstSelection();
-                final Location secondSelection = playerState.getSecondSelection();
-
-                if (firstSelection == null || secondSelection != null) {
-                    playerState.setFirstSelection(location);
-                    playerState.setSecondSelection(null);
-                    plugin.sendMessage(player, "selected-first-position");
-                }
-                else {
-                    playerState.setSecondSelection(location);
-                    plugin.sendMessage(player, "selected-second-position");
-                }
-            }
+        if (heldItem == null) {
             return;
         }
 
         final GeneratorTemplate heldGenerator = plugin.getGeneratorTemplate(heldItem);
-        final Generator clickedGenerator = plugin.getGenerator(location);
-
-        if (heldGenerator != null) {
-            if (action == Action.RIGHT_CLICK_BLOCK) {
-                event.setCancelled(true);
-                if (!player.hasPermission(plugin.getLang("generator-place-permission"))) {
-                    plugin.sendMessage(player, "missing-place-permission", heldGenerator);
-                    return;
-                }
-                final Location targetLocation = clickedBlock.getRelative(event.getBlockFace(), clickedBlock.isPassable() ? 0 : 1).getLocation();
-                try {
-                    Generator.create(heldGenerator, targetLocation);
-                } catch (GeneratorOverlapException e) {
-                    PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
-                    return;
-                }
-                PlayerUtil.sendActionBar(player, plugin.getLang("placed-generator"));
-                return;
-            }
-
-            if (action == Action.LEFT_CLICK_BLOCK && clickedGenerator != null) {
-                event.setCancelled(true);
-                if (!player.hasPermission(plugin.getLang("generator-break-permission"))) {
-                    plugin.sendMessage(player, "missing-break-permission", heldGenerator);
-                    return;
-                }
-                plugin.getGenerators().removeGenerator(clickedGenerator);
-                PlayerUtil.sendActionBar(player, plugin.getLang("broke-generator"));
-            }
+        if (heldGenerator == null) {
             return;
         }
 
-        if (clickedGenerator != null) {
-            final GeneratorStage stage = clickedGenerator.getCurrentStage();
-            if (!stage.getStructure().matchBlocks(clickedGenerator.getOrigin())) {
-                plugin.getGenerators().removeGenerator(clickedGenerator);
+        final Player player = event.getPlayer();
+        final Action action = event.getAction();
+
+        if (action == Action.LEFT_CLICK_AIR && player.isSneaking()) {
+            event.setCancelled(true);
+            if (!player.hasPermission(plugin.getLang("generator-rotate-permission"))) {
+                plugin.sendMessage(player, "missing-rotate-permission", heldGenerator);
                 return;
             }
-            playerState.updatePlaceholders(clickedGenerator);
-            final GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(playerState, clickedBlock, clickedGenerator, stage);
-            Bukkit.getPluginManager().callEvent(generatorInteractEvent);
-            if (generatorInteractEvent.isCancelled()) {
-                event.setCancelled(true);
+            GeneratorItem.incrementItemRotation(heldItem);
+            PlayerUtil.sendActionBar(player, plugin.getLang("changed-generator-rotation"));
+            return;
+        }
+
+        final Block clickedBlock = event.getClickedBlock();
+
+        if (action == Action.RIGHT_CLICK_BLOCK) {
+            event.setCancelled(true);
+            if (!player.hasPermission(plugin.getLang("generator-place-permission"))) {
+                plugin.sendMessage(player, "missing-place-permission", heldGenerator);
                 return;
             }
-            final BlockClickFunction clickFunction = stage.getClickFunction();
-            if (clickFunction != null) {
-                clickFunction.onBlockClick(playerState, event);
+            final Location targetLocation = clickedBlock.getRelative(event.getBlockFace(), clickedBlock.isPassable() ? 0 : 1).getLocation();
+            try {
+                Generator.create(heldGenerator, targetLocation, GeneratorItem.getRotationFromItem(heldItem));
+            } catch (GeneratorOverlapException e) {
+                PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
+                return;
             }
+            PlayerUtil.sendActionBar(player, plugin.getLang("placed-generator"));
+            return;
+        }
+
+        if (action == Action.LEFT_CLICK_BLOCK) {
+            final Generator clickedGenerator = plugin.getGenerator(clickedBlock.getLocation());
+            if (clickedGenerator == null) {
+                return;
+            }
+
+            event.setCancelled(true);
+            if (!player.hasPermission(plugin.getLang("generator-break-permission"))) {
+                plugin.sendMessage(player, "missing-break-permission", heldGenerator);
+                return;
+            }
+            plugin.getGenerators().removeGenerator(clickedGenerator);
+            PlayerUtil.sendActionBar(player, plugin.getLang("broke-generator"));
+        }
+    }
+
+
+    @EventHandler(ignoreCancelled = true)
+    public void onGeneratorInteract(PlayerInteractEvent event) {
+        if (!event.hasBlock() || event.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
+
+        final Generator clickedGenerator = plugin.getGenerator(event.getClickedBlock().getLocation());
+        if (clickedGenerator == null) {
+            return;
+        }
+
+        if (!clickedGenerator.matchBlocks()) {
+            plugin.getGenerators().removeGenerator(clickedGenerator);
+            return;
+        }
+
+        final OrestackPlayer playerState = plugin.getPlayer(event.getPlayer().getUniqueId());
+        playerState.updatePlaceholders(clickedGenerator);
+
+        final GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(playerState, clickedGenerator);
+        Bukkit.getPluginManager().callEvent(generatorInteractEvent);
+        if (generatorInteractEvent.isCancelled()) {
+            event.setCancelled(true);
+            return;
+        }
+
+        final GeneratorStage stage = clickedGenerator.getCurrentStage();
+        final BlockClickFunction clickFunction = stage.getClickFunction();
+        if (clickFunction != null) {
+            clickFunction.onBlockClick(playerState, event);
         }
     }
 
