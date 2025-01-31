@@ -10,8 +10,8 @@ public class GeneratorHarvestEvent extends PlayerGeneratorEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
-    public GeneratorHarvestEvent(OrestackPlayer player, Block block, Generator generator, GeneratorStage stage) {
-        super(player, block, generator, stage);
+    public GeneratorHarvestEvent(OrestackPlayer player, Generator generator) {
+        super(player, generator);
     }
 
     @Override

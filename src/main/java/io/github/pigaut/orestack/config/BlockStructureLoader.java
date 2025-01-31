@@ -84,7 +84,7 @@ public class BlockStructureLoader implements ConfigLoader<BlockStructure> {
         if (offsetX != 0 || offsetY != 0 || offsetZ != 0) {
             return new OffsetBlockStructure(material, age, direction, orientation, offsetX, offsetY, offsetZ);
         }
-        return new SingleBlockStructure(material, age, direction, orientation);
+        return new OriginBlockStructure(material, age, direction, orientation);
     }
 
     @Override

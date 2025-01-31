@@ -1,16 +1,16 @@
 type: depleted
 block: cocoa
+direction: north   # Can be rotated in game with generator item (You still must specify default direction)
 age: 0
-direction: north
 growth: 30
 ---
 type: growing
 block: cocoa
-age: 1
 direction: north
+age: 1
 growth: 30
 ---
 type: replenished
 block: cocoa
-age: 2
 direction: north
+age: 2

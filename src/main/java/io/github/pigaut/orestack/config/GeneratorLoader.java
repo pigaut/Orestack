@@ -52,7 +52,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             throw new InvalidConfigurationException(config, "The last stage cannot have growth chance");
         }
 
-        if (lastStage.getStructure() instanceof SingleBlockStructure singleBlockStructure) {
+        if (lastStage.getStructure() instanceof OriginBlockStructure singleBlockStructure) {
             final Material material = singleBlockStructure.getType();
             if (Crops.isCrop(material)) {
                 generator.setItemType(Crops.getCropItem(material));
@@ -72,11 +72,11 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
 
     private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection config) {
         final GeneratorState state = config.get("type|state", GeneratorState.class);
-        BlockStructure structure = config.getOptional("structure", BlockStructure.class).orElse(null);
+        BlockStructure structure = config.getOptional("structure|structures", BlockStructure.class).orElse(null);
         if (structure == null) {
             structure = config.load(BlockStructure.class);
         }
-        final boolean dropItems = config.getOptionalBoolean("drop-items").orElse(true);
+        final boolean dropItems = config.getOptionalBoolean("drop-item|drop-items").orElse(true);
         final Integer expToDrop = config.getOptionalInteger("exp-to-drop").orElse(null);
         final int growthTime = config.getOptionalInteger("growth|growth-time").orElse(0);
         final Double chance = config.getOptionalDouble("chance|growth-chance").orElse(null);

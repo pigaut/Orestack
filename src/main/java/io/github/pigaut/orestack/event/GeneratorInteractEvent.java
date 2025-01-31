@@ -11,8 +11,8 @@ public class GeneratorInteractEvent extends PlayerGeneratorEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
-    public GeneratorInteractEvent(OrestackPlayer player, Block block, Generator generator, GeneratorStage stage) {
-        super(player, block, generator, stage);
+    public GeneratorInteractEvent(OrestackPlayer player, Generator generator) {
+        super(player, generator);
     }
 
     @Override

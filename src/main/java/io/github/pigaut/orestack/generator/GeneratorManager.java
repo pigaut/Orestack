@@ -7,6 +7,8 @@ import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.hologram.display.*;
 import io.github.pigaut.voxel.plugin.manager.*;
+import io.github.pigaut.voxel.util.Rotation;
+import io.github.pigaut.voxel.yaml.parser.deserializer.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
@@ -47,6 +49,7 @@ public class GeneratorManager extends Manager {
                 "y INT NOT NULL",
                 "z INT NOT NULL",
                 "generator VARCHAR(255) NOT NULL",
+                "rotation VARCHAR(5)",
                 "PRIMARY KEY (world, x, y, z)"
         );
         resourcesTable.selectAll().fetchAllRows(rowQuery -> {
@@ -55,20 +58,25 @@ public class GeneratorManager extends Manager {
             final int y = rowQuery.getInt(3);
             final int z = rowQuery.getInt(4);
             final String generatorName = rowQuery.getString(5);
+            final String rotationData = rowQuery.getString(6);
+
             final World world = Bukkit.getWorld(UUID.fromString(worldId));
             if (world == null) {
                 return;
             }
+
             final GeneratorTemplate template = plugin.getGeneratorTemplate(generatorName);
             if (template == null) {
                 return;
             }
-            final Location location = new Location(world, x, y, z);
+
+            final Rotation rotation = rotationData != null ? Deserializers.getEnum(Rotation.class, rotationData) : null;
+
             plugin.getScheduler().runTask(() -> {
                 try {
-                    Generator.create(template, location);
+                    Generator.create(template, new Location(world, x, y, z), rotation != null ? rotation : Rotation.NONE);
                 } catch (GeneratorOverlapException e) {
-                    plugin.getLogger().severe("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
+                    plugin.getLogger().warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
                             "Reason: generators overlapped.");
                 }
             });
@@ -84,10 +92,12 @@ public class GeneratorManager extends Manager {
                 "y INT NOT NULL",
                 "z INT NOT NULL",
                 "generator VARCHAR(255) NOT NULL",
+                "rotation VARCHAR(5)",
                 "PRIMARY KEY (world, x, y, z)"
         );
         resourcesTable.clear();
-        final DatabaseStatement insertStatement = resourcesTable.insertInto("world", "x", "y", "z", "generator");
+        final DatabaseStatement insertStatement =
+                resourcesTable.insertInto("world", "x", "y", "z", "generator", "rotation");
         for (Generator generator : generators) {
             final Location location = generator.getOrigin();
             insertStatement.withParameter(location.getWorld().getUID().toString());
@@ -95,6 +105,7 @@ public class GeneratorManager extends Manager {
             insertStatement.withParameter(location.getBlockY());
             insertStatement.withParameter(location.getBlockZ());
             insertStatement.withParameter(generator.getTemplate().getName());
+            insertStatement.withParameter(generator.getRotation().toString());
             insertStatement.addBatch();
         }
         insertStatement.executeBatch();
@@ -130,7 +141,7 @@ public class GeneratorManager extends Manager {
             generatorBlocks.remove(block.getLocation());
         }
         final BlockStructure structure = generator.getCurrentStage().getStructure();
-        structure.removeBlocks(generator.getOrigin());
+        structure.removeBlocks(generator.getOrigin(), generator.getRotation());
 
         final HologramDisplay hologram = generator.getCurrentHologram();
         if (hologram != null && hologram.exists()) {

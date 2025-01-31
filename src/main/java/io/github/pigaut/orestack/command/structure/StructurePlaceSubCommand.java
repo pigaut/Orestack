@@ -4,6 +4,7 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.voxel.command.node.*;
 import org.bukkit.*;
+import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
 
@@ -24,7 +25,7 @@ public class StructurePlaceSubCommand extends LangSubCommand {
                 return;
             }
             final Location location = targetBlock.getLocation();
-            structure.createBlocks(location);
+            structure.createBlocks(location, Rotation.NONE);
             plugin.sendMessage(player, "placed-structure", placeholders);
         });
     }

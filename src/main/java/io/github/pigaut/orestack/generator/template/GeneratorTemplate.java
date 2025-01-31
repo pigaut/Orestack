@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.generator.template;
 import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.meta.placeholder.*;
+import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.inventory.*;
@@ -56,11 +57,11 @@ public class GeneratorTemplate implements PlaceholderSupplier {
         return index;
     }
 
-    public int getStageFromStructure(Location origin) {
+    public int getStageFromStructure(Location origin, Rotation rotation) {
         int currentStage = getMaxStage();
         for (int i = getMaxStage(); i >= 0; i--) {
             final GeneratorStage stage = getStage(i);
-            if (stage.getStructure().matchBlocks(origin)) {
+            if (stage.getStructure().matchBlocks(origin, rotation)) {
                 currentStage = i;
                 break;
             }
@@ -68,10 +69,10 @@ public class GeneratorTemplate implements PlaceholderSupplier {
         return currentStage;
     }
 
-    public Set<Block> getAllOccupiedBlocks(Location location) {
+    public Set<Block> getAllOccupiedBlocks(Location location, Rotation rotation) {
         final Set<Block> blocks = new HashSet<>();
         for (GeneratorStage stage : stages) {
-            blocks.addAll(stage.getStructure().getBlocks(location));
+            blocks.addAll(stage.getStructure().getBlocks(location, rotation));
         }
         return blocks;
     }
