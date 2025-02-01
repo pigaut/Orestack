@@ -33,7 +33,7 @@
                                 </relocation>
                             </relocations>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <outputDirectory>D:\files\Development\java\spigot\servers\1.20.4\plugins</outputDirectory>
+                            <outputDirectory>D:\files\Development\java\spigot\servers\1.21.4\plugins</outputDirectory>
                             <finalName>Orestack[free]-${project.version}</finalName>
                         </configuration>
                     </execution>
