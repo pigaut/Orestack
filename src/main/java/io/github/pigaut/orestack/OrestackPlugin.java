@@ -4,10 +4,10 @@ import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.orestack.item.*;
 import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.structure.*;
-import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.player.*;
@@ -15,7 +15,6 @@ import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.version.*;
 import org.bukkit.*;
 import org.bukkit.event.*;
-import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
 import java.io.*;
@@ -23,6 +22,7 @@ import java.util.*;
 
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
+    private final ToolManager toolManager = new ToolManager(this);
     private final StructureManager structureManager = new StructureManager(this);
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
@@ -95,6 +95,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/crops/melon.yml",
                 "generators/crops/pumpkin.yml",
                 "generators/crops/cocoa.yml",
+                "generators/crops/sugar_cane.yml",
+                "generators/crops/cactus.yml",
 
                 "generators/ores/coal.yml",
                 "generators/ores/iron.yml",
@@ -128,6 +130,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         );
     }
 
+    public ToolManager getTools() {
+        return toolManager;
+    }
+
     public @NotNull StructureManager getStructures() {
         return structureManager;
     }
@@ -142,11 +148,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     public @Nullable GeneratorTemplate getGeneratorTemplate(String name) {
         return templateManager.getGeneratorTemplate(name);
-    }
-
-    public @Nullable GeneratorTemplate getGeneratorTemplate(ItemStack item) {
-        final String generatorName = GeneratorItem.getGeneratorFromItem(item);
-        return getGeneratorTemplate(generatorName);
     }
 
     public @NotNull GeneratorManager getGenerators() {

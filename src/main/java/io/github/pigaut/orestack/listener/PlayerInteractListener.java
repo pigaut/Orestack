@@ -29,8 +29,7 @@ public class PlayerInteractListener implements Listener {
     public void onWandClick(PlayerInteractEvent event) {
         if (!event.hasBlock() || !event.hasItem()
                 || event.getHand() != EquipmentSlot.HAND
-                || event.getAction() != Action.LEFT_CLICK_BLOCK
-                || !SelectionUtil.isSelectionWand(event.getItem())) {
+                || !GeneratorTools.isWandTool(event.getItem())) {
             return;
         }
         event.setCancelled(true);
@@ -38,21 +37,19 @@ public class PlayerInteractListener implements Listener {
         final Player player = event.getPlayer();
         final OrestackPlayer playerState = plugin.getPlayer(player.getUniqueId());
 
-        if (!player.hasPermission(plugin.getLang("wand-use-permission"))) {
+        if (!player.hasPermission(plugin.getLang("wand-permission"))) {
             plugin.sendMessage(player, "missing-wand-permission");
             return;
         }
 
-        final Location firstSelection = playerState.getFirstSelection();
-        final Location secondSelection = playerState.getSecondSelection();
-
         final Location targetLocation = event.getClickedBlock().getLocation();
-        if (firstSelection == null || secondSelection != null) {
+        if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
             playerState.setFirstSelection(targetLocation);
-            playerState.setSecondSelection(null);
             plugin.sendMessage(player, "selected-first-position");
+            return;
         }
-        else {
+
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             playerState.setSecondSelection(targetLocation);
             plugin.sendMessage(player, "selected-second-position");
         }
@@ -69,7 +66,7 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        final GeneratorTemplate heldGenerator = plugin.getGeneratorTemplate(heldItem);
+        final GeneratorTemplate heldGenerator = GeneratorTools.getGeneratorFromTool(heldItem);
         if (heldGenerator == null) {
             return;
         }
@@ -83,7 +80,7 @@ public class PlayerInteractListener implements Listener {
                 plugin.sendMessage(player, "missing-rotate-permission", heldGenerator);
                 return;
             }
-            GeneratorItem.incrementItemRotation(heldItem);
+            GeneratorTools.incrementToolRotation(heldItem);
             PlayerUtil.sendActionBar(player, plugin.getLang("changed-generator-rotation"));
             return;
         }
@@ -98,7 +95,7 @@ public class PlayerInteractListener implements Listener {
             }
             final Location targetLocation = clickedBlock.getRelative(event.getBlockFace(), clickedBlock.isPassable() ? 0 : 1).getLocation();
             try {
-                Generator.create(heldGenerator, targetLocation, GeneratorItem.getRotationFromItem(heldItem));
+                Generator.create(heldGenerator, targetLocation, GeneratorTools.getToolRotation(heldItem));
             } catch (GeneratorOverlapException e) {
                 PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
                 return;

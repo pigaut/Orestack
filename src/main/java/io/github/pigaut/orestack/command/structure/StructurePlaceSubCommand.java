@@ -25,7 +25,7 @@ public class StructurePlaceSubCommand extends LangSubCommand {
                 return;
             }
             final Location location = targetBlock.getLocation();
-            structure.createBlocks(location, Rotation.NONE);
+            structure.updateBlocks(location, Rotation.NONE);
             plugin.sendMessage(player, "placed-structure", placeholders);
         });
     }

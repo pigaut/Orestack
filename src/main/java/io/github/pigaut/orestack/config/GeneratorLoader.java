@@ -52,16 +52,6 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             throw new InvalidConfigurationException(config, "The last stage cannot have growth chance");
         }
 
-        if (lastStage.getStructure() instanceof OriginBlockStructure singleBlockStructure) {
-            final Material material = singleBlockStructure.getType();
-            if (Crops.isCrop(material)) {
-                generator.setItemType(Crops.getCropItem(material));
-            }
-            else {
-                generator.setItemType(material);
-            }
-        }
-
         for (int i = 1; i < generatorStages.size(); i++) {
             if (generatorStages.get(i).getState() == GeneratorState.DEPLETED) {
                 throw new InvalidConfigurationException(config, "Only the first stage should be depleted");
@@ -84,10 +74,6 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         final Function onGrowth = config.getOptional("on-growth", Function.class).orElse(null);
         final BlockClickFunction onClick = config.getOptional("on-click", BlockClickFunction.class).orElse(null);
         final Hologram hologram = config.getOptional("hologram", Hologram.class).orElse(null);
-
-        if (structure instanceof OffsetBlockStructure) {
-            throw new InvalidConfigurationException(config, "block", "A single block generator cannot have an offset");
-        }
 
         if (growthTime < 0) {
             throw new InvalidConfigurationException(config, "growth", "The growth timer must be a positive number");

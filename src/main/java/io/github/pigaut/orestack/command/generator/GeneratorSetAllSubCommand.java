@@ -34,7 +34,7 @@ public class GeneratorSetAllSubCommand extends LangSubCommand {
                 return;
             }
             final BlockStructure structure = generator.getLastStage().getStructure();
-            for (Location location : SelectionUtil.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
+            for (Location location : GeneratorTools.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
                 for (Rotation rotation : Rotation.values()) {
                     if (structure.matchBlocks(location, rotation)) {
                         try {

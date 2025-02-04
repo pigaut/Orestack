@@ -1,176 +1,226 @@
 block: STRIPPED_OAK_WOOD
 orientation: Y
 offset:
+  x: 5
+  y: 0
+  z: 1
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: 5
+  y: 0
+  z: 0
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
   x: 4
   y: 0
-  z: -2
+  z: 2
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
+  x: 4
+  y: 0
+  z: 0
 ---
 block: OAK_WOOD
 orientation: Y
 offset:
   x: 4
+  y: 1
+  z: 1
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
+  x: 3
   y: 0
+  z: 3
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
+  x: 3
+  y: 0
+  z: 1
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
+  x: 3
+  y: 0
+  z: -3
+---
+block: OAK_LOG
+orientation: X
+offset:
+  x: 3
+  y: 1
+  z: 2
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: 3
+  y: 1
+  z: -2
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
+  x: 2
+  y: 0
+  z: 2
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
+  x: 2
+  y: 0
+  z: -2
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
+  x: 2
+  y: 0
+  z: -4
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: 2
+  y: 1
+  z: 3
+---
+block: OAK_LOG
+orientation: X
+offset:
+  x: 2
+  y: 1
   z: -3
 ---
 block: STRIPPED_OAK_WOOD
 orientation: Y
 offset:
-  x: 3
+  x: 1
   y: 0
+  z: 3
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
+  x: 1
+  y: 0
+  z: 1
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
+  x: 1
+  y: 0
+  z: -2
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: 1
+  y: 1
+  z: 2
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: 1
+  y: 1
+  z: 0
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: 1
+  y: 1
   z: -1
 ---
 block: OAK_WOOD
 orientation: Y
 offset:
-  x: 3
+  x: 1
+  y: 1
+  z: -3
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
+  x: 0
+  y: 0
+  z: 3
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: 0
+  y: 1
+  z: 2
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: 0
+  y: 1
+  z: 1
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: 0
+  y: 1
+  z: 0
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: 0
+  y: 1
+  z: -1
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: 0
   y: 1
   z: -2
 ---
-block: STRIPPED_OAK_WOOD
+block: OAK_LOG
 orientation: Y
 offset:
-  x: 2
-  y: 0
-  z: 6
+  x: 0
+  y: 2
+  z: 1
 ---
-block: STRIPPED_OAK_WOOD
+block: OAK_LOG
 orientation: Y
 offset:
-  x: 2
-  y: 0
+  x: 0
+  y: 2
   z: 0
 ---
-block: OAK_WOOD
+block: OAK_LOG
 orientation: Y
 offset:
-  x: 2
-  y: 1
-  z: 5
+  x: -1
+  y: 0
+  z: 1
 ---
-block: OAK_WOOD
+block: STRIPPED_OAK_WOOD
 orientation: Y
 offset:
-  x: 2
-  y: 1
-  z: 4
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: 2
-  y: 1
+  x: -1
+  y: 0
   z: -1
----
-block: STRIPPED_OAK_WOOD
-orientation: Y
-offset:
-  x: 1
-  y: 0
-  z: 4
----
-block: STRIPPED_OAK_WOOD
-orientation: Y
-offset:
-  x: 1
-  y: 0
-  z: 0
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: 1
-  y: 1
-  z: 3
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: 1
-  y: 1
-  z: 2
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: 1
-  y: 1
-  z: 1
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: 1
-  y: 1
-  z: -1
----
-block: OAK_LOG
-orientation: Y
-offset:
-  x: 1
-  y: 2
-  z: 1
----
-block: STRIPPED_OAK_WOOD
-orientation: Y
-offset:
-  x: 0
-  y: 0
-  z: 3
----
-block: STRIPPED_OAK_WOOD
-orientation: Y
-offset:
-  x: 0
-  y: 0
-  z: 2
----
-block: GOLD_BLOCK
-offset:
-  x: 0
-  y: 0
-  z: 1
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: 0
-  y: 1
-  z: 2
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: 0
-  y: 1
-  z: 1
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: 0
-  y: 1
-  z: 0
----
-block: OAK_LOG
-orientation: Y
-offset:
-  x: 0
-  y: 2
-  z: 2
----
-block: OAK_LOG
-orientation: Y
-offset:
-  x: 0
-  y: 2
-  z: 1
----
-block: OAK_LOG
-orientation: Y
-offset:
-  x: 0
-  y: 2
-  z: 0
 ---
 block: STRIPPED_OAK_WOOD
 orientation: Y
@@ -184,20 +234,6 @@ orientation: Y
 offset:
   x: -1
   y: 1
-  z: 3
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: -1
-  y: 1
-  z: 2
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: -1
-  y: 1
   z: 1
 ---
 block: OAK_WOOD
@@ -228,33 +264,26 @@ offset:
   y: 2
   z: 0
 ---
-block: STRIPPED_OAK_WOOD
+block: OAK_LOG
 orientation: Y
 offset:
-  x: -2
-  y: 0
-  z: 3
+  x: -1
+  y: 2
+  z: -1
 ---
 block: STRIPPED_OAK_WOOD
 orientation: Y
 offset:
   x: -2
   y: 0
-  z: 0
+  z: 1
 ---
 block: STRIPPED_OAK_WOOD
 orientation: Y
 offset:
   x: -2
   y: 0
-  z: -2
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: -2
-  y: 1
-  z: 4
+  z: -3
 ---
 block: OAK_WOOD
 orientation: Y
@@ -268,7 +297,7 @@ orientation: Y
 offset:
   x: -2
   y: 1
-  z: 1
+  z: 0
 ---
 block: OAK_WOOD
 orientation: Y
@@ -277,61 +306,61 @@ offset:
   y: 1
   z: -1
 ---
-block: STRIPPED_OAK_WOOD
-orientation: Y
-offset:
-  x: -3
-  y: 0
-  z: 5
----
-block: STRIPPED_OAK_WOOD
-orientation: Y
-offset:
-  x: -3
-  y: 0
-  z: 3
----
-block: STRIPPED_OAK_WOOD
-orientation: Y
-offset:
-  x: -3
-  y: 0
-  z: -1
----
-block: OAK_LOG
-orientation: X
-offset:
-  x: -3
-  y: 1
-  z: 4
----
 block: OAK_WOOD
 orientation: Y
 offset:
-  x: -3
+  x: -2
   y: 1
   z: -2
 ---
-block: STRIPPED_OAK_WOOD
+block: OAK_LOG
 orientation: Y
 offset:
-  x: -4
-  y: 0
-  z: 4
----
-block: STRIPPED_OAK_WOOD
-orientation: Y
-offset:
-  x: -4
-  y: 0
+  x: -2
+  y: 2
   z: 0
 ---
 block: STRIPPED_OAK_WOOD
 orientation: Y
 offset:
+  x: -3
+  y: 0
+  z: 1
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
+  x: -3
+  y: 0
+  z: -5
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: -3
+  y: 1
+  z: 2
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: -3
+  y: 1
+  z: -3
+---
+block: OAK_WOOD
+orientation: Y
+offset:
+  x: -3
+  y: 1
+  z: -4
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
   x: -4
   y: 0
-  z: -2
+  z: 2
 ---
 block: OAK_WOOD
 orientation: Y
@@ -340,44 +369,16 @@ offset:
   y: 1
   z: 3
 ---
-block: OAK_LOG
-orientation: X
+block: OAK_WOOD
+orientation: Y
 offset:
-  x: -4
-  y: 1
-  z: -1
+  x: -5
+  y: 0
+  z: 4
 ---
 block: STRIPPED_OAK_WOOD
 orientation: Y
 offset:
   x: -5
   y: 0
-  z: 1
----
-block: STRIPPED_OAK_WOOD
-orientation: Y
-offset:
-  x: -5
-  y: 0
-  z: -1
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: -5
-  y: 1
-  z: 0
----
-block: OAK_WOOD
-orientation: Y
-offset:
-  x: -6
-  y: 0
-  z: 1
----
-block: STRIPPED_OAK_WOOD
-orientation: Y
-offset:
-  x: -6
-  y: 0
-  z: 0
+  z: 3

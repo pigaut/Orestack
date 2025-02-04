@@ -31,7 +31,7 @@ public class GeneratorRemoveAllSubCommand extends LangSubCommand {
                 plugin.sendMessage(player, "incomplete-region", placeholders);
                 return;
             }
-            for (Location point : SelectionUtil.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
+            for (Location point : GeneratorTools.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
                 final Generator blockGenerator = plugin.getGenerator(point);
                 if (blockGenerator == null) {
                     continue;

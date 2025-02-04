@@ -1,16 +1,11 @@
 package io.github.pigaut.orestack.command.structure;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.command.generator.*;
-import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
-import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.command.node.*;
 import io.github.pigaut.voxel.command.parameter.*;
 import io.github.pigaut.voxel.yaml.*;
-import io.github.pigaut.voxel.yaml.node.section.*;
 import io.github.pigaut.voxel.yaml.node.sequence.*;
 import io.github.pigaut.voxel.yaml.snakeyaml.engine.v2.common.*;
 import org.bukkit.*;
@@ -59,12 +54,13 @@ public class StructureSaveSubCommand extends LangSubCommand {
             final RootSequence config = plugin.loadConfigSequence(file);
             config.setFlowStyle(FlowStyle.AUTO);
             config.clear();
-            for (Location location : SelectionUtil.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
+            for (Location location : GeneratorTools.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
                 final Block block = location.getBlock();
                 final Material blockType = block.getType();
-                if (blockType == Material.AIR) {
+                if (plugin.getStructures().isBlacklisted(blockType)) {
                     continue;
                 }
+
                 Integer age = null;
                 if (block.getBlockData() instanceof Ageable ageable) {
                     age = ageable.getAge();
@@ -93,9 +89,14 @@ public class StructureSaveSubCommand extends LangSubCommand {
                 blockConfig.set("offset.y", location.getBlockY() - lowestY);
                 blockConfig.set("offset.z", centerZ - location.getBlockZ());
             }
+
+            if (config.size() < 2) {
+                plugin.sendMessage(player, "structure-minimum-blocks", placeholders);
+                return;
+            }
+
             config.save();
             plugin.getStructures().reload();
-
             plugin.sendMessage(player, "saved-structure", placeholders);
         });
     }

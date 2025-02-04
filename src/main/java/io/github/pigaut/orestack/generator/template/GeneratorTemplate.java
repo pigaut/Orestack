@@ -14,7 +14,7 @@ public class GeneratorTemplate implements PlaceholderSupplier {
 
     private final String name;
     private final List<GeneratorStage> stages;
-    private Material item = Material.PAPER;
+    private Rotation rotation = Rotation.NONE;
 
     public GeneratorTemplate(String name, List<GeneratorStage> stages) {
         this.name = name;
@@ -25,20 +25,24 @@ public class GeneratorTemplate implements PlaceholderSupplier {
         return name;
     }
 
-    public Material getItemType() {
-        return item;
+    public Rotation getRotation() {
+        return rotation;
     }
 
-    public void setItemType(Material item) {
-        this.item = item;
+    public void setRotation(Rotation rotation) {
+        this.rotation = rotation;
     }
 
     public ItemStack getItem() {
-        return GeneratorItem.getItemFromGenerator(this);
+        return GeneratorTools.getGeneratorTool(this);
     }
 
     public int getMaxStage() {
         return stages.size() - 1;
+    }
+
+    public List<GeneratorStage> getStages() {
+        return new ArrayList<>(stages);
     }
 
     public GeneratorStage getStage(int stage) {
@@ -78,7 +82,11 @@ public class GeneratorTemplate implements PlaceholderSupplier {
     }
 
     public Placeholder[] getPlaceholders() {
-        return new Placeholder[]{Placeholder.of("%generator%", name), Placeholder.of("%generator_stages%", stages)};
+        return new Placeholder[]{
+                Placeholder.of("%generator%", name),
+                Placeholder.of("%generator_stages%", stages),
+                Placeholder.of("%generator_rotation%", rotation)
+        };
     }
 
     @Override
