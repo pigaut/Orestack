@@ -3,18 +3,19 @@ package io.github.pigaut.orestack.generator;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.stage.*;
+import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.hologram.display.*;
 import io.github.pigaut.voxel.meta.placeholder.*;
-import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.scheduler.*;
 import org.jetbrains.annotations.*;
 
+import javax.imageio.plugins.jpeg.*;
 import java.time.*;
 import java.util.*;
 
@@ -24,30 +25,36 @@ public class Generator implements PlaceholderSupplier {
 
     private final GeneratorTemplate template;
     private final Location origin;
+    private final Rotation rotation;
     private int currentStage;
     private @Nullable BukkitTask growthTask = null;
     private Instant growthStart = null;
     private @Nullable HologramDisplay currentHologram = null;
-    private final Rotation rotation;
+    private BlockStructure currentStructure;
     private boolean updating = false;
 
     private Generator(GeneratorTemplate generator, Location origin, int currentStage, Rotation rotation) {
         this.template = generator;
         this.origin = origin.clone();
         this.currentStage = currentStage;
+        this.currentStructure = generator.getStage(currentStage).getStructure();
         this.rotation = rotation;
     }
 
-    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, Rotation rotation) throws GeneratorOverlapException {
+    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, Rotation rotation, int stage) throws GeneratorOverlapException {
         for (Block block : template.getAllOccupiedBlocks(origin, rotation)) {
             if (plugin.getGenerators().isGenerator(block.getLocation())) {
                 throw new GeneratorOverlapException();
             }
         }
-        final Generator blockGenerator = new Generator(template, origin, template.getStageFromStructure(origin, rotation), rotation);
+        final Generator blockGenerator = new Generator(template, origin, stage, rotation);
         plugin.getGenerators().registerGenerator(blockGenerator);
         blockGenerator.updateState();
         return blockGenerator;
+    }
+
+    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, Rotation rotation) throws GeneratorOverlapException {
+        return create(template, origin, rotation, template.getMaxStage());
     }
 
     public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorOverlapException {
@@ -103,22 +110,28 @@ public class Generator implements PlaceholderSupplier {
         return template.getStage(currentStage);
     }
 
+    public void setCurrentStage(int stage) {
+        if (!exists()) {
+            return;
+        }
+        final BlockStructure nextStructure = template.getStage(stage).getStructure();
+        for (Block previousBlock : currentStructure.getBlocks(origin, rotation)) {
+            final Block nextBlock = nextStructure.getBlockAt(origin, rotation, previousBlock.getLocation());
+            if (nextBlock == null || nextBlock.getType() != previousBlock.getType()) {
+                previousBlock.setType(Material.AIR);
+            }
+        }
+
+        this.currentStage = stage;
+        updateState();
+    }
+
     public Rotation getRotation() {
         return rotation;
     }
 
     public @Nullable HologramDisplay getCurrentHologram() {
         return currentHologram;
-    }
-
-    public void setCurrentStage(int stage) {
-        if (!exists()) {
-            return;
-        }
-        final GeneratorStage currentStage = getCurrentStage();
-        currentStage.getStructure().removeBlocks(origin, rotation);
-        this.currentStage = stage;
-        updateState();
     }
 
     public void cancelGrowth() {
@@ -133,10 +146,12 @@ public class Generator implements PlaceholderSupplier {
         if (isLastStage()) {
             throw new IllegalStateException("Block generator does not have a next stage");
         }
+
         final GeneratorStage currentStage = getCurrentStage();
         if (currentStage.getGrowthTime() == 0) {
             return;
         }
+
         int peekStage = this.currentStage + 1;
         GeneratorStage nextStage = template.getStage(peekStage);
         while (!nextStage.shouldGrow()) {
@@ -162,6 +177,7 @@ public class Generator implements PlaceholderSupplier {
         if (isFirstStage()) {
             throw new IllegalStateException("Block generator does not have a previous stage");
         }
+
         int peekStage = currentStage;
         GeneratorStage previousStage;
         do {
@@ -169,6 +185,7 @@ public class Generator implements PlaceholderSupplier {
             previousStage = template.getStage(peekStage);
         }
         while (previousStage.getState() == GeneratorState.GROWING);
+
         setCurrentStage(peekStage);
     }
 
@@ -176,7 +193,7 @@ public class Generator implements PlaceholderSupplier {
         final GeneratorStage stage = getCurrentStage();
         updating = true;
         plugin.getScheduler().runTaskLater(1, () -> {
-            stage.getStructure().createBlocks(origin, rotation);
+            stage.getStructure().updateBlocks(origin, rotation);
             updating = false;
         });
 

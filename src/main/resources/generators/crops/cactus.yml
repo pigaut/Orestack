@@ -1,0 +1,27 @@
+type: depleted
+block: air
+growth: 30
+---
+type: growing
+block: cactus
+age: 6
+growth: 30
+---
+type: growing
+structure:
+  - block: cactus
+  - block: cactus
+    offset.y: 1
+growth: 30
+---
+type: replenished
+structure:
+  - block: cactus
+  - block: cactus
+    offset.y: 1
+  - block: cactus
+    offset.y: 2
+drop-items: false
+on-break:
+  actions:
+    - [drop at block, 'cactus:3']

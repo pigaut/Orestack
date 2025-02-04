@@ -12,6 +12,7 @@ public class OrestackConfigurator extends PluginConfigurator {
         super(plugin);
         addLoader(GeneratorTemplate.class, new GeneratorLoader());
         addLoader(BlockStructure.class, new BlockStructureLoader(plugin));
+        addLoader(BlockChange.class, new BlockChangeLoader());
     }
 
 }

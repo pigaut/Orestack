@@ -28,17 +28,22 @@ public class CropChangeListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onCropPhysics(BlockPhysicsEvent event) {
-        if (Crops.isCrop(event.getChangedType())) {
-            final Generator generator = plugin.getGenerator(event.getSourceBlock().getLocation());
-            if (generator != null) {
+        final Block block = event.getBlock();
+        if (Crops.isCrop(block.getType())) {
+            if (plugin.getGenerators().isGenerator(block.getLocation())) {
                 event.setCancelled(true);
             }
         }
 
-        final Block attachedCocoa = Crops.getAttachedCocoa(event.getBlock());
-        if (attachedCocoa != null) {
-            final Generator generator = plugin.getGenerator(attachedCocoa.getLocation());
-            if (generator != null) {
+        final Block blockAbove = block.getRelative(BlockFace.UP);
+        if (blockAbove.getType() == Material.SUGAR_CANE || blockAbove.getType() == Material.CACTUS) {
+            if (plugin.getGenerators().isGenerator(blockAbove.getLocation())) {
+                event.setCancelled(true);
+            }
+        }
+
+        for (Block attachedCrop : Crops.getCropsAttached(block)) {
+            if (plugin.getGenerators().isGenerator(attachedCrop.getLocation())) {
                 event.setCancelled(true);
             }
         }
@@ -46,8 +51,7 @@ public class CropChangeListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onGrowth(BlockGrowEvent event) {
-        final Generator generator = plugin.getGenerator(event.getBlock().getLocation());
-        if (generator != null) {
+        if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
     }

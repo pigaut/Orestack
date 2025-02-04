@@ -139,6 +139,7 @@ saved-structure: '&aSaving structure to file: %file-path%'
 placed-structure: '&aPlaced structure at target block'
 ## Errors
 structure-not-found: '&4Could not find structure with name: %structure-name%'
+structure-minimum-blocks: '&4Structure must have at least two blocks in it'
 
 # Generator Command
 generator-command: generator
@@ -149,10 +150,6 @@ generator-name-parameter: generator-name
 get-generator-command: get
 get-generator-permission: orestack.generator.get
 get-generator-description: 'Get an item used to place/break generators'
-# Get Wand
-get-wand-command: get-wand
-get-wand-permission: orestack.generator.get-wand
-get-wand-description: 'Get a wand used to mark regions'
 ## Set Generator
 set-generator-command: set
 set-generator-permission: orestack.generator.set
@@ -194,10 +191,6 @@ removed-all-generators: '&aAll generators inside of region have been removed suc
 harvested-all-generators: '&aAll %generator% generators have been harvested with held tool'
 
 # Generator Item
-generator-item-name: '&b&l%generator_tc% Generator'
-generator-item-right-click: '&fright-click to place'
-generator-item-left-click: '&fleft-click to break'
-generator-item-rotate: '&fshift + left-click air to rotate'
 generator-place-permission: orestack.generator.place
 generator-break-permission: orestack.generator.break
 generator-rotate-permission: orestack.generator.rotate
@@ -208,10 +201,12 @@ missing-place-permission: '&4You don''t have the permission to place generators'
 missing-break-permission: '&4You don''t have the permission to break generators'
 missing-rotate-permission: '&4You don''t have the permission to rotate generators'
 
+# Wand Command
+wand-command: wand
+wand-permission: orestack.generator.wand
+wand-description: 'Get a wand used to mark regions'
+
 # Wand Item
-wand-item-name: '&6&lGenerator Wand'
-wand-item-left-click: '&fleft-click to mark selection'
-wand-use-permission: orestack.generator.wand
 selected-first-position: '&aFirst position selected'
 selected-second-position: '&aSecond position selected'
 missing-wand-permission: '&4You don''t have the permission to use the wand'

@@ -1,0 +1,27 @@
+type: depleted
+block: air
+growth: 30
+---
+type: growing
+block: sugar cane
+age: 6
+growth: 30
+---
+type: growing
+structure:
+  - block: sugar cane
+  - block: sugar cane
+    offset.y: 1
+growth: 30
+---
+type: replenished
+structure:
+  - block: sugar cane
+  - block: sugar cane
+    offset.y: 1
+  - block: sugar cane
+    offset.y: 2
+drop-items: false
+on-break:
+  actions:
+    - [drop at block, 'sugar_cane:3']

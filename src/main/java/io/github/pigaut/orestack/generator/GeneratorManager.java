@@ -8,6 +8,7 @@ import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.hologram.display.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.util.Rotation;
+import io.github.pigaut.voxel.yaml.parser.*;
 import io.github.pigaut.voxel.yaml.parser.deserializer.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -49,7 +50,7 @@ public class GeneratorManager extends Manager {
                 "y INT NOT NULL",
                 "z INT NOT NULL",
                 "generator VARCHAR(255) NOT NULL",
-                "rotation VARCHAR(5)",
+                "rotation VARCHAR(5) NOT NULL",
                 "PRIMARY KEY (world, x, y, z)"
         );
         resourcesTable.selectAll().fetchAllRows(rowQuery -> {
@@ -62,19 +63,30 @@ public class GeneratorManager extends Manager {
 
             final World world = Bukkit.getWorld(UUID.fromString(worldId));
             if (world == null) {
+                plugin.getLogger().warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
+                        "Reason: world does not exist.");
                 return;
             }
 
             final GeneratorTemplate template = plugin.getGeneratorTemplate(generatorName);
             if (template == null) {
+                plugin.getLogger().warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
+                        "Reason: generator does not exist.");
                 return;
             }
 
-            final Rotation rotation = rotationData != null ? Deserializers.getEnum(Rotation.class, rotationData) : null;
+            final Location origin = new Location(world, x, y, z);
+            final Rotation rotation = Deserializers.getEnum(Rotation.class, rotationData);
+
+            if (rotation == null) {
+                plugin.getLogger().warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
+                        "Reason: invalid rotation data.");
+                return;
+            }
 
             plugin.getScheduler().runTask(() -> {
                 try {
-                    Generator.create(template, new Location(world, x, y, z), rotation != null ? rotation : Rotation.NONE);
+                    Generator.create(template, origin, rotation, template.getStageFromStructure(origin, rotation));
                 } catch (GeneratorOverlapException e) {
                     plugin.getLogger().warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
                             "Reason: generators overlapped.");
