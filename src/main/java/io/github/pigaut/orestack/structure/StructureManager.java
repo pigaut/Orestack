@@ -53,7 +53,7 @@ public class StructureManager extends Manager {
         structuresByName.clear();
         for (File structureFile : plugin.getFiles("structures")) {
             final RootSequence config = plugin.loadConfigSequence(structureFile);
-            if (structuresByName.size() >= 10) {
+            if (structuresByName.size() > 10) {
                 throw new InvalidConfigurationException(config, "The free version allows only up to 10 structures");
             }
             registerBlockStructure(config.getName(), config.load(BlockStructure.class));

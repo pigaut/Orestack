@@ -45,12 +45,10 @@ public class BlockStructureLoader implements ConfigLoader<BlockStructure> {
         if (blockChanges.size() < 2) {
             throw new InvalidConfigurationException(sequence, "Structure must have at least two blocks in it");
         }
-        if (!sequence.isRoot()) {
-            throw new InvalidConfigurationException(sequence, "The free version does not support inline structures");
+        if (!sequence.isRoot() && blockChanges.size() > 3) {
+            throw new InvalidConfigurationException(sequence, "The free version supports small structures only up to 3 blocks");
         }
-        return new MultiBlockStructure(structures);
         return new BlockStructure(blockChanges);
     }
-
 
 }
