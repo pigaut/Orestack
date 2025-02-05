@@ -24,4 +24,4 @@ structure:
 drop-items: false
 on-break:
   actions:
-    - [drop at block, 'sugar_cane:3']
+    - dropItemAtBlock sugar_cane:3

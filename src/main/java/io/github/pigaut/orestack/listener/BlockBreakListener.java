@@ -5,9 +5,7 @@ import io.github.pigaut.orestack.event.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.stage.*;
-import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.server.*;
-import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
@@ -41,7 +39,7 @@ public class BlockBreakListener implements Listener {
         final OrestackPlayer playerState = plugin.getPlayer(event.getPlayer().getUniqueId());
         playerState.updatePlaceholders(generator);
 
-        final GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(playerState, generator);
+        final GeneratorMineEvent generatorHarvestEvent = new GeneratorMineEvent(playerState, generator, block);
         SpigotServer.callEvent(generatorHarvestEvent);
         if (generatorHarvestEvent.isCancelled()) {
             event.setCancelled(true);
@@ -49,11 +47,6 @@ public class BlockBreakListener implements Listener {
         }
 
         final GeneratorStage stage = generator.getCurrentStage();
-        final Function breakFunction = stage.getBreakFunction();
-        if (breakFunction != null) {
-            breakFunction.run(playerState, block);
-        }
-
         if (!stage.getState().isHarvestable()) {
             event.setCancelled(true);
         }
