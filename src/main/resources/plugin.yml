@@ -1,6 +1,6 @@
 main: io.github.pigaut.orestack.OrestackPlugin
 name: Orestack
-version: 3.20.0
+version: 3.21.0
 api-version: 1.16
 author: pigaut
 description: Create RPG gathering zones in your protected regions

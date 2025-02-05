@@ -24,4 +24,4 @@ structure:
 drop-items: false
 on-break:
   actions:
-    - [drop at block, 'cactus:3']
+    - dropItemAtBlock cactus:3

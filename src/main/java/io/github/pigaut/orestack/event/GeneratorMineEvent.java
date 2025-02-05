@@ -2,16 +2,22 @@ package io.github.pigaut.orestack.event;
 
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.player.*;
-import io.github.pigaut.orestack.stage.*;
 import org.bukkit.block.*;
 import org.bukkit.event.*;
 
-public class GeneratorHarvestEvent extends PlayerGeneratorEvent {
+public class GeneratorMineEvent extends PlayerGeneratorEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
-    public GeneratorHarvestEvent(OrestackPlayer player, Generator generator) {
+    private final Block blockMined;
+
+    public GeneratorMineEvent(OrestackPlayer player, Generator generator, Block blockMined) {
         super(player, generator);
+        this.blockMined = blockMined;
+    }
+
+    public Block getBlockMined() {
+        return blockMined;
     }
 
     @Override

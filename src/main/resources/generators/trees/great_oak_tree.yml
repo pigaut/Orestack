@@ -17,7 +17,7 @@ hologram:
     offset: { x: 2, y: 1.75, z: 0 }
 on-break:
   actions:
-    - [drop_at_player, OAK_LOG:19]
+    - dropItemAtPlayer OAK_LOG:19
 ---
 state: harvestable
 structure: great_oak_tree_3
