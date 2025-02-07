@@ -9,6 +9,8 @@ import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.function.interact.block.*;
 import io.github.pigaut.voxel.player.*;
+import io.github.pigaut.voxel.server.*;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -141,7 +143,7 @@ public class PlayerInteractListener implements Listener {
         playerState.updatePlaceholders(clickedGenerator);
 
         final GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(playerState, clickedGenerator);
-        Bukkit.getPluginManager().callEvent(generatorInteractEvent);
+        SpigotServer.callEvent(generatorInteractEvent);
         if (generatorInteractEvent.isCancelled()) {
             event.setCancelled(true);
             return;
