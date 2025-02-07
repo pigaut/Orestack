@@ -106,9 +106,9 @@ public class GeneratorTools {
         int maxZ = Math.max(z1, z2);
 
         final List<Location> locations = new ArrayList<>();
-        for (int x = minX; x <= maxX; x++) {
+        for (int x = maxX; x >= minX; x--) {
             for (int y = minY; y <= maxY; y++) {
-                for (int z = minZ; z <= maxZ; z++) {
+                for (int z = maxZ; z >= minZ; z--) {
                     locations.add(new Location(world, x, y, z));
                 }
             }

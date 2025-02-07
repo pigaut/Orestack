@@ -127,7 +127,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 new BlockDestructionListener(plugin),
                 new CropChangeListener(plugin),
                 new ChunkLoadListener(plugin),
-                new GeneratorMineListener()
+                new GeneratorEventListener()
         );
     }
 
