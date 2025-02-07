@@ -12,6 +12,7 @@ import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.*;
 import org.bukkit.block.data.type.*;
+import org.bukkit.block.data.type.Bed;
 import org.jetbrains.annotations.*;
 
 import java.io.*;
@@ -67,9 +68,9 @@ public class StructureSaveSubCommand extends LangSubCommand {
                 }
 
                 if (blockData instanceof Directional directional) {
-                    blockConfig.set("direction", directional.getFacing());
+                    blockConfig.set("direction|facing", directional.getFacing());
                 } else if (blockData instanceof Rotatable rotatable) {
-                    blockConfig.set("direction", rotatable.getRotation());
+                    blockConfig.set("direction|facing", rotatable.getRotation());
                 }
 
                 if (blockData instanceof Orientable orientable) {
@@ -81,23 +82,24 @@ public class StructureSaveSubCommand extends LangSubCommand {
                 }
 
                 if (blockData instanceof Bisected bisected) {
-                    if (bisected.getHalf() == Bisected.Half.TOP) {
-                        continue;
-                    }
-                    blockConfig.set("tall", true);
+                    blockConfig.set("half", bisected.getHalf());
                 }
 
                 if (blockData instanceof Stairs stairs) {
-                    blockConfig.set("stair-shape", stairs.getShape());
+                    blockConfig.set("stair-shape|stairs-shape|stairs", stairs.getShape());
                 }
 
                 if (blockData instanceof Door door) {
-                    blockConfig.set("door-hinge", door.getHinge());
+                    blockConfig.set("door-hinge|door", door.getHinge());
                 }
 
-                blockConfig.set("offset.x", centerX - location.getBlockX());
+                if (blockData instanceof Bed bed) {
+                    blockConfig.set("bed-part|bed", bed.getPart());
+                }
+
+                blockConfig.set("offset.x", location.getBlockX() - centerX);
                 blockConfig.set("offset.y", location.getBlockY() - lowestY);
-                blockConfig.set("offset.z", centerZ - location.getBlockZ());
+                blockConfig.set("offset.z", location.getBlockZ() - centerZ);
             }
 
             if (config.size() < 2) {

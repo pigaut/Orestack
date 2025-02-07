@@ -5,6 +5,7 @@ import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.*;
 import org.bukkit.block.data.type.*;
+import org.bukkit.block.data.type.Bed;
 import org.jetbrains.annotations.*;
 
 public class BlockChange {
@@ -14,24 +15,27 @@ public class BlockChange {
     private final @Nullable BlockFace direction;
     private final @Nullable Axis orientation;
     private final @Nullable Boolean open;
-    private final @Nullable Boolean tall;
+    private final @Nullable Bisected.Half half;
     private final @Nullable Stairs.Shape stairShape;
     private final @Nullable Door.Hinge doorHinge;
+    private final @Nullable Bed.Part bedPart;
     private final int offsetX;
     private final int offsetY;
     private final int offsetZ;
 
     public BlockChange(Material type, @Nullable Integer age, @Nullable BlockFace direction, @Nullable Axis orientation,
-                       @Nullable Boolean open, @Nullable Boolean tall, @Nullable Stairs.Shape stairShape,
-                       @Nullable Door.Hinge doorHinge, int offsetX, int offsetY, int offsetZ) {
+                       @Nullable Boolean open, @Nullable Bisected.Half half, @Nullable Stairs.Shape stairShape,
+                       @Nullable Door.Hinge doorHinge, @Nullable Bed.Part bedPart,
+                       int offsetX, int offsetY, int offsetZ) {
         this.type = type;
         this.age = age;
         this.direction = direction;
         this.orientation = orientation;
         this.open = open;
-        this.tall = tall;
+        this.half = half;
         this.stairShape = stairShape;
         this.doorHinge = doorHinge;
+        this.bedPart = bedPart;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
         this.offsetZ = offsetZ;
@@ -49,6 +53,42 @@ public class BlockChange {
         return direction;
     }
 
+    public @Nullable Axis getOrientation() {
+        return orientation;
+    }
+
+    public @Nullable Boolean getOpen() {
+        return open;
+    }
+
+    public @Nullable Bisected.Half getHalf() {
+        return half;
+    }
+
+    public @Nullable Stairs.Shape getStairShape() {
+        return stairShape;
+    }
+
+    public @Nullable Door.Hinge getDoorHinge() {
+        return doorHinge;
+    }
+
+    public @Nullable Bed.Part getBedPart() {
+        return bedPart;
+    }
+
+    public int getOffsetX() {
+        return offsetX;
+    }
+
+    public int getOffsetY() {
+        return offsetY;
+    }
+
+    public int getOffsetZ() {
+        return offsetZ;
+    }
+
     public @NotNull Location getLocation(Location origin, Rotation rotation) {
         return rotation.apply(origin.clone(), offsetX, offsetY, offsetZ);
     }
@@ -64,11 +104,12 @@ public class BlockChange {
         }
 
         if (direction != null) {
-            if (blockData instanceof Directional directional
-                    && directional.getFacing() != rotation.translateBlockFace(direction)) {
-                return false;
+            if (blockData instanceof Directional directional) {
+                if (directional.getFacing() != rotation.translateBlockFace(direction)) {
+                    return false;
+                }
             }
-            if (((Rotatable) blockData).getRotation() != rotation.translateBlockFace(direction)) {
+            else if (((Rotatable) blockData).getRotation() != rotation.translateBlockFace(direction)) {
                 return false;
             }
         }
@@ -77,7 +118,7 @@ public class BlockChange {
             return false;
         }
 
-        if (open != null && (open != ((Openable) blockData).isOpen())) {
+        if (half != null && half != ((Bisected) blockData).getHalf()) {
             return false;
         }
 
@@ -89,6 +130,10 @@ public class BlockChange {
             return false;
         }
 
+        if (bedPart != null && bedPart != ((Bed) blockData).getPart()) {
+            return false;
+        }
+
         return true;
     }
 
@@ -97,7 +142,8 @@ public class BlockChange {
     }
 
     public void removeBlock(Location origin, Rotation rotation) {
-        getLocation(origin, rotation).getBlock().setType(Material.AIR);
+        final Block block = getLocation(origin, rotation).getBlock();
+        block.setType(Material.AIR, false);
     }
 
     public void updateBlock(Location origin, Rotation rotation) {
@@ -105,13 +151,14 @@ public class BlockChange {
         BlockData blockData = block.getBlockData();
 
         if (block.getType() != type) {
-            block.setType(type);
+            block.setType(type, false);
             blockData = block.getBlockData();
         }
 
         if (age != null) {
             ((Ageable) blockData).setAge(age);
         }
+
         if (direction != null) {
             if (blockData instanceof Directional) {
                 ((Directional) blockData).setFacing(rotation.translateBlockFace(direction));
@@ -119,31 +166,29 @@ public class BlockChange {
                 ((Rotatable) blockData).setRotation(rotation.translateBlockFace(direction));
             }
         }
+
         if (orientation != null) {
             ((Orientable) blockData).setAxis(rotation.translateAxis(orientation));
         }
+
         if (open != null) {
             ((Openable) blockData).setOpen(open);
         }
-        if (tall != null && tall) {
-            ((Bisected) blockData).setHalf(Bisected.Half.BOTTOM);
-            block.setBlockData(blockData, false);
 
-            final Block blockAbove = block.getRelative(BlockFace.UP);
-            if (blockAbove.getType() != type) {
-                block.setType(type);
-            }
-            block.setType(type);
-            System.out.println("TYPE: " + type);
-            final Bisected topBlockData = (Bisected) blockAbove.getBlockData();
-            topBlockData.setHalf(Bisected.Half.TOP);
-            blockAbove.setBlockData(topBlockData, false);
+        if (half != null) {
+            ((Bisected) blockData).setHalf(half);
         }
+
         if (stairShape != null) {
             ((Stairs) blockData).setShape(stairShape);
         }
+
         if (doorHinge != null) {
             ((Door) blockData).setHinge(doorHinge);
+        }
+
+        if (bedPart != null) {
+            ((Bed) blockData).setPart(bedPart);
         }
 
         block.setBlockData(blockData, false);

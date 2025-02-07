@@ -7,6 +7,7 @@ import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.*;
 import org.bukkit.block.data.type.*;
+import org.bukkit.block.data.type.Bed;
 import org.jetbrains.annotations.*;
 
 public class BlockChangeLoader implements ConfigLoader<BlockChange> {
@@ -23,9 +24,10 @@ public class BlockChangeLoader implements ConfigLoader<BlockChange> {
         final BlockFace direction = config.getOptional("direction|facing", BlockFace.class).orElse(null);
         final Axis orientation = config.getOptional("orientation", Axis.class).orElse(null);
         final Boolean open = config.getOptionalBoolean("open").orElse(null);
-        final Boolean tall = config.getOptionalBoolean("tall").orElse(null);
+        final Bisected.Half half = config.getOptional("half", Bisected.Half.class).orElse(null);
         final Stairs.Shape stairShape = config.getOptional("stair-shape|stairs-shape|stairs", Stairs.Shape.class).orElse(null);
         final Door.Hinge doorHinge = config.getOptional("door-hinge|door", Door.Hinge.class).orElse(null);
+        final Bed.Part bedPart = config.getOptional("bed-part|bed", Bed.Part.class).orElse(null);
 
         if (!material.isBlock()) {
             throw new InvalidConfigurationException(config, "block", "The material must be a block");
@@ -70,8 +72,8 @@ public class BlockChangeLoader implements ConfigLoader<BlockChange> {
             throw new InvalidConfigurationException(config, "open", "The current block is not openable, please remove the open parameter");
         }
 
-        if (tall != null && !(blockData instanceof Bisected)) {
-            throw new InvalidConfigurationException(config, "tall", "The current block is not bisected, please remove the tall parameter");
+        if (half != null && !(blockData instanceof Bisected)) {
+            throw new InvalidConfigurationException(config, "half", "The current block is not bisected, please remove the half parameter");
         }
 
         if (stairShape != null && !(blockData instanceof Stairs)) {
@@ -86,7 +88,8 @@ public class BlockChangeLoader implements ConfigLoader<BlockChange> {
         final int offsetY = config.getOptionalInteger("offset.y").orElse(0);
         final int offsetZ = config.getOptionalInteger("offset.z").orElse(0);
 
-        return new BlockChange(material, age, direction, orientation, open, tall, stairShape, doorHinge, offsetX, offsetY, offsetZ);
+        return new BlockChange(material, age, direction, orientation,
+                open, half, stairShape, doorHinge, bedPart, offsetX, offsetY, offsetZ);
     }
 
 }

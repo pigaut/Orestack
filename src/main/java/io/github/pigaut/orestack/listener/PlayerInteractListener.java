@@ -10,6 +10,7 @@ import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.function.interact.block.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.server.*;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -24,6 +25,26 @@ public class PlayerInteractListener implements Listener {
 
     public PlayerInteractListener(OrestackPlugin plugin) {
         this.plugin = plugin;
+    }
+
+    @EventHandler
+    public void onTest(PlayerInteractEvent event) {
+        if (event.getAction() == Action.LEFT_CLICK_BLOCK
+                && event.getHand() == EquipmentSlot.HAND
+                && event.hasBlock()) {
+            final Block block = event.getClickedBlock();
+            if (block.getType() == Material.RED_BED) {
+                final Bed bed = (Bed) block.getBlockData();
+
+                BlockFace facing = bed.getFacing();
+                Block otherPart = bed.getPart() == Bed.Part.HEAD
+                        ? block.getRelative(facing.getOppositeFace())
+                        : block.getRelative(facing);
+
+                block.setType(Material.AIR, false);
+//                otherPart.setType(Material.AIR, false);
+            }
+        }
     }
 
     @EventHandler
