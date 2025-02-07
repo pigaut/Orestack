@@ -1,4 +1,3 @@
----
 ### Stage 0: Depleted
 type: depleted
 block: iron_block
@@ -110,9 +109,8 @@ on-break:
   - do:
       - cancelEvent
       - chatMessage <&4You don't have permission to mine this block!>
-      - playSound tin <world, -454, 70, 180>
+      - playSound tin <-454, 70, 180>
 
----
 
 
 
