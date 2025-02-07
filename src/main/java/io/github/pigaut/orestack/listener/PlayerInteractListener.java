@@ -28,26 +28,6 @@ public class PlayerInteractListener implements Listener {
     }
 
     @EventHandler
-    public void onTest(PlayerInteractEvent event) {
-        if (event.getAction() == Action.LEFT_CLICK_BLOCK
-                && event.getHand() == EquipmentSlot.HAND
-                && event.hasBlock()) {
-            final Block block = event.getClickedBlock();
-            if (block.getType() == Material.RED_BED) {
-                final Bed bed = (Bed) block.getBlockData();
-
-                BlockFace facing = bed.getFacing();
-                Block otherPart = bed.getPart() == Bed.Part.HEAD
-                        ? block.getRelative(facing.getOppositeFace())
-                        : block.getRelative(facing);
-
-                block.setType(Material.AIR, false);
-//                otherPart.setType(Material.AIR, false);
-            }
-        }
-    }
-
-    @EventHandler
     public void onWandClick(PlayerInteractEvent event) {
         if (!event.hasBlock() || !event.hasItem()
                 || event.getHand() != EquipmentSlot.HAND
