@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.event.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.orestack.structure.*;
@@ -9,6 +10,7 @@ import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.hologram.display.*;
 import io.github.pigaut.voxel.meta.placeholder.*;
+import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -209,7 +211,11 @@ public class Generator implements PlaceholderSupplier {
             }
             growthTask = plugin.getScheduler().runTaskLater(stage.getGrowthTime(), () -> {
                 growthTask = null;
-                this.nextStage();
+                final GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(this);
+                SpigotServer.callEvent(growthEvent);
+                if (!growthEvent.isCancelled()) {
+                    this.nextStage();
+                }
             });
             growthStart = Instant.now();
         }

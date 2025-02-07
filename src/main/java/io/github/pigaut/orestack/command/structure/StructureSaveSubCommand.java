@@ -11,6 +11,7 @@ import io.github.pigaut.voxel.yaml.snakeyaml.engine.v2.common.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.*;
+import org.bukkit.block.data.type.*;
 import org.jetbrains.annotations.*;
 
 import java.io.*;
@@ -56,30 +57,44 @@ public class StructureSaveSubCommand extends LangSubCommand {
                     continue;
                 }
 
-                Integer age = null;
-                if (block.getBlockData() instanceof Ageable ageable) {
-                    age = ageable.getAge();
-                }
-                BlockFace direction = null;
-                if (block.getBlockData() instanceof Directional directional) {
-                    direction = directional.getFacing();
-                }
-                Axis orientation = null;
-                if (block.getBlockData() instanceof Orientable orientable) {
-                    orientation = orientable.getAxis();
-                }
-
                 final ConfigSection blockConfig = config.addSection();
                 blockConfig.set("block", blockType);
-                if (age != null) {
-                    blockConfig.set("age", age);
+
+                final BlockData blockData = block.getBlockData();
+
+                if (blockData instanceof Ageable ageable) {
+                    blockConfig.set("age", ageable.getAge());
                 }
-                if (direction != null) {
-                    blockConfig.set("direction", direction);
+
+                if (blockData instanceof Directional directional) {
+                    blockConfig.set("direction", directional.getFacing());
+                } else if (blockData instanceof Rotatable rotatable) {
+                    blockConfig.set("direction", rotatable.getRotation());
                 }
-                if (orientation != null) {
-                    blockConfig.set("orientation", orientation);
+
+                if (blockData instanceof Orientable orientable) {
+                    blockConfig.set("orientation", orientable.getAxis());
                 }
+
+                if (blockData instanceof Openable openable) {
+                    blockConfig.set("open", openable.isOpen());
+                }
+
+                if (blockData instanceof Bisected bisected) {
+                    if (bisected.getHalf() == Bisected.Half.TOP) {
+                        continue;
+                    }
+                    blockConfig.set("tall", true);
+                }
+
+                if (blockData instanceof Stairs stairs) {
+                    blockConfig.set("stair-shape", stairs.getShape());
+                }
+
+                if (blockData instanceof Door door) {
+                    blockConfig.set("door-hinge", door.getHinge());
+                }
+
                 blockConfig.set("offset.x", centerX - location.getBlockX());
                 blockConfig.set("offset.y", location.getBlockY() - lowestY);
                 blockConfig.set("offset.z", centerZ - location.getBlockZ());

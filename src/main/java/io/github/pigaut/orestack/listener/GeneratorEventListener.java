@@ -4,7 +4,7 @@ import io.github.pigaut.orestack.event.*;
 import io.github.pigaut.voxel.function.*;
 import org.bukkit.event.*;
 
-public class GeneratorMineListener implements Listener {
+public class GeneratorEventListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onMine(GeneratorMineEvent event) {
