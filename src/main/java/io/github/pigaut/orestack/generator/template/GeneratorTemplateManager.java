@@ -2,8 +2,7 @@ package io.github.pigaut.orestack.generator.template;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.voxel.plugin.manager.*;
-import io.github.pigaut.voxel.yaml.*;
-import io.github.pigaut.voxel.yaml.node.sequence.*;
+import io.github.pigaut.yaml.node.sequence.*;
 import org.jetbrains.annotations.*;
 
 import java.io.*;

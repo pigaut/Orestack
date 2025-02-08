@@ -2,11 +2,8 @@ package io.github.pigaut.orestack.config;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.structure.*;
-import io.github.pigaut.voxel.yaml.*;
-import io.github.pigaut.voxel.yaml.configurator.loader.*;
-import org.bukkit.*;
-import org.bukkit.block.*;
-import org.bukkit.block.data.*;
+import io.github.pigaut.yaml.*;
+import io.github.pigaut.yaml.configurator.loader.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;

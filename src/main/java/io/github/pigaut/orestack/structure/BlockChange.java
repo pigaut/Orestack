@@ -17,6 +17,7 @@ public class BlockChange {
     private final @Nullable Boolean open;
     private final @Nullable Bisected.Half half;
     private final @Nullable Stairs.Shape stairShape;
+    private final @Nullable Slab.Type slabType;
     private final @Nullable Door.Hinge doorHinge;
     private final @Nullable Bed.Part bedPart;
     private final int offsetX;
@@ -25,7 +26,7 @@ public class BlockChange {
 
     public BlockChange(Material type, @Nullable Integer age, @Nullable BlockFace direction, @Nullable Axis orientation,
                        @Nullable Boolean open, @Nullable Bisected.Half half, @Nullable Stairs.Shape stairShape,
-                       @Nullable Door.Hinge doorHinge, @Nullable Bed.Part bedPart,
+                       @Nullable Slab.Type slabType, @Nullable Door.Hinge doorHinge, @Nullable Bed.Part bedPart,
                        int offsetX, int offsetY, int offsetZ) {
         this.type = type;
         this.age = age;
@@ -34,6 +35,7 @@ public class BlockChange {
         this.open = open;
         this.half = half;
         this.stairShape = stairShape;
+        this.slabType = slabType;
         this.doorHinge = doorHinge;
         this.bedPart = bedPart;
         this.offsetX = offsetX;
@@ -67,6 +69,10 @@ public class BlockChange {
 
     public @Nullable Stairs.Shape getStairShape() {
         return stairShape;
+    }
+
+    public @Nullable Slab.Type getSlabType() {
+        return slabType;
     }
 
     public @Nullable Door.Hinge getDoorHinge() {
@@ -126,6 +132,10 @@ public class BlockChange {
             return false;
         }
 
+        if (slabType != null && slabType != ((Slab) blockData).getType()) {
+            return false;
+        }
+
         if (doorHinge != null && doorHinge != ((Door) blockData).getHinge()) {
             return false;
         }
@@ -181,6 +191,10 @@ public class BlockChange {
 
         if (stairShape != null) {
             ((Stairs) blockData).setShape(stairShape);
+        }
+
+        if (slabType != null) {
+            ((Slab) blockData).setType(slabType);
         }
 
         if (doorHinge != null) {

@@ -1,8 +1,8 @@
 package io.github.pigaut.orestack.config;
 
 import io.github.pigaut.orestack.structure.*;
-import io.github.pigaut.voxel.yaml.*;
-import io.github.pigaut.voxel.yaml.configurator.loader.*;
+import io.github.pigaut.yaml.*;
+import io.github.pigaut.yaml.configurator.loader.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.*;
@@ -26,6 +26,7 @@ public class BlockChangeLoader implements ConfigLoader<BlockChange> {
         final Boolean open = config.getOptionalBoolean("open").orElse(null);
         final Bisected.Half half = config.getOptional("half", Bisected.Half.class).orElse(null);
         final Stairs.Shape stairShape = config.getOptional("stair-shape|stairs-shape|stairs", Stairs.Shape.class).orElse(null);
+        final Slab.Type slabType = config.getOptional("slab-type|slab", Slab.Type.class).orElse(null);
         final Door.Hinge doorHinge = config.getOptional("door-hinge|door", Door.Hinge.class).orElse(null);
         final Bed.Part bedPart = config.getOptional("bed-part|bed", Bed.Part.class).orElse(null);
 
@@ -80,6 +81,10 @@ public class BlockChangeLoader implements ConfigLoader<BlockChange> {
             throw new InvalidConfigurationException(config, "stairs-shape", "The current block is not a stairs, please remove the stairs-shape parameter");
         }
 
+        if (slabType != null && !(blockData instanceof Slab)) {
+            throw new InvalidConfigurationException(config, "slab-type", "The current block is not a slab, please remove the slab-type parameter");
+        }
+
         if (doorHinge != null && !(blockData instanceof Door)) {
             throw new InvalidConfigurationException(config, "door-hinge", "The current block is not a door, please remove the door-hinge parameter");
         }
@@ -89,7 +94,7 @@ public class BlockChangeLoader implements ConfigLoader<BlockChange> {
         final int offsetZ = config.getOptionalInteger("offset.z").orElse(0);
 
         return new BlockChange(material, age, direction, orientation,
-                open, half, stairShape, doorHinge, bedPart, offsetX, offsetY, offsetZ);
+                open, half, stairShape, slabType, doorHinge, bedPart, offsetX, offsetY, offsetZ);
     }
 
 }
