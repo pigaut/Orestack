@@ -6,10 +6,8 @@ import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.function.interact.block.*;
 import io.github.pigaut.voxel.hologram.*;
-import io.github.pigaut.voxel.util.*;
-import io.github.pigaut.voxel.yaml.*;
-import io.github.pigaut.voxel.yaml.configurator.loader.*;
-import org.bukkit.*;
+import io.github.pigaut.yaml.*;
+import io.github.pigaut.yaml.configurator.loader.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;

@@ -5,15 +5,15 @@ import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.command.node.*;
 import io.github.pigaut.voxel.command.parameter.*;
-import io.github.pigaut.voxel.yaml.*;
-import io.github.pigaut.voxel.yaml.node.sequence.*;
-import io.github.pigaut.voxel.yaml.snakeyaml.engine.v2.common.*;
+import io.github.pigaut.yaml.*;
+import io.github.pigaut.yaml.node.sequence.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.*;
 import org.bukkit.block.data.type.*;
 import org.bukkit.block.data.type.Bed;
 import org.jetbrains.annotations.*;
+import org.snakeyaml.engine.v2.common.*;
 
 import java.io.*;
 
@@ -92,6 +92,10 @@ public class StructureSaveSubCommand extends LangSubCommand {
 
                 if (blockData instanceof Stairs stairs) {
                     blockConfig.set("stair-shape|stairs-shape|stairs", stairs.getShape());
+                }
+
+                if (blockData instanceof Slab slab) {
+                    blockConfig.set("slab-type|slab", slab.getType());
                 }
 
                 if (blockData instanceof Door door) {

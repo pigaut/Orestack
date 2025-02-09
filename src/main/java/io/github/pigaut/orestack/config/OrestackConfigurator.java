@@ -6,7 +6,7 @@ import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.voxel.config.*;
 import io.github.pigaut.voxel.function.action.*;
-import io.github.pigaut.voxel.yaml.configurator.loader.*;
+import io.github.pigaut.yaml.configurator.loader.*;
 import org.jetbrains.annotations.*;
 
 public class OrestackConfigurator extends PluginConfigurator {

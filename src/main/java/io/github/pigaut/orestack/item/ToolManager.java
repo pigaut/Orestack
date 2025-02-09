@@ -2,7 +2,7 @@ package io.github.pigaut.orestack.item;
 
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.manager.*;
-import io.github.pigaut.voxel.yaml.*;
+import io.github.pigaut.yaml.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
