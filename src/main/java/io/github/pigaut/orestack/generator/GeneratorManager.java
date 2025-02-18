@@ -31,6 +31,9 @@ public class GeneratorManager extends Manager {
     public void disable() {
         for (Generator blockGenerator : generators) {
             blockGenerator.cancelGrowth();
+            for (Block block : blockGenerator.getAllOccupiedBlocks()) {
+                block.setType(Material.AIR);
+            }
             final HologramDisplay hologramDisplay = blockGenerator.getCurrentHologram();
             if (hologramDisplay != null) {
                 hologramDisplay.despawn();
@@ -85,7 +88,7 @@ public class GeneratorManager extends Manager {
 
             plugin.getScheduler().runTask(() -> {
                 try {
-                    Generator.create(template, origin, rotation, template.getStageFromStructure(origin, rotation));
+                    Generator.create(template, origin, rotation);
                 } catch (GeneratorOverlapException e) {
                     plugin.getLogger().warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
                             "Reason: generators overlapped.");

@@ -11,13 +11,13 @@ import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.hologram.display.*;
 import io.github.pigaut.voxel.meta.placeholder.*;
 import io.github.pigaut.voxel.server.*;
+import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.scheduler.*;
 import org.jetbrains.annotations.*;
 
-import javax.imageio.plugins.jpeg.*;
 import java.time.*;
 import java.util.*;
 
@@ -156,15 +156,29 @@ public class Generator implements PlaceholderSupplier {
 
         int peekStage = this.currentStage + 1;
         GeneratorStage nextStage = template.getStage(peekStage);
-        while (!nextStage.shouldGrow()) {
-            if (nextStage.getState() == GeneratorState.REPLENISHED) {
-                if (peekStage >= template.getMaxStage()) {
-                    break;
-                }
-                return;
+        while (nextStage.getGrowthTime() == 0) {
+            if (peekStage >= template.getMaxStage()) {
+                break;
             }
+//            if (nextStage.getState() == GeneratorState.REPLENISHED) {
+//                return;
+//            }
             peekStage++;
             nextStage = template.getStage(peekStage);
+        }
+
+        boolean shouldGrow = false;
+        while (!shouldGrow) {
+            final Double growthChance = nextStage.getGrowthChance();
+            if (growthChance != null && !Probability.test(growthChance)) {
+                if (currentStage.getState().isHarvestable()) {
+                    return;
+                }
+                peekStage++;
+                nextStage = template.getStage(peekStage);
+                continue;
+            }
+            shouldGrow = true;
         }
 
         final Function growthFunction = nextStage.getGrowthFunction();

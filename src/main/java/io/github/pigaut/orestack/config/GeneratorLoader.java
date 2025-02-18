@@ -29,7 +29,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         }
 
         if (generatorStages.size() < 2) {
-            throw new InvalidConfigurationException(config, "Generator must have one depleted and one replenished stage");
+            throw new InvalidConfigurationException(config, "Generator must have at least one depleted and one replenished stage");
         }
 
         final GeneratorStage firstStage = generatorStages.get(0);
@@ -38,7 +38,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         }
 
         if (firstStage.getGrowthTime() == 0) {
-            throw new InvalidConfigurationException(config, "The depleted stage must a growth time");
+            throw new InvalidConfigurationException(config, "The depleted stage must have a growth time set");
         }
 
         final GeneratorStage lastStage = generatorStages.get(generatorStages.size() - 1);
@@ -46,15 +46,21 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             throw new InvalidConfigurationException(config, "The last stage must be replenished");
         }
 
-        if (lastStage.getGrowthChance() != null) {
-            throw new InvalidConfigurationException(config, "The last stage cannot have growth chance");
-        }
-
+        boolean firstHarvestableFound = false;
         for (int i = 1; i < generatorStages.size(); i++) {
-            if (generatorStages.get(i).getState() == GeneratorState.DEPLETED) {
+            final GeneratorStage stage = generatorStages.get(i);
+            if (stage.getState() == GeneratorState.DEPLETED) {
                 throw new InvalidConfigurationException(config, "Only the first stage should be depleted");
             }
+
+            if (!firstHarvestableFound && stage.getState().isHarvestable()) {
+                if (stage.getGrowthChance() != null && stage.getGrowthChance() != 1.0) {
+                    throw new InvalidConfigurationException(config, "Generator must have at least one harvestable/replenished stage with 100% growth chance");
+                }
+                firstHarvestableFound = true;
+            }
         }
+
         return generator;
     }
 
@@ -66,6 +72,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         }
         final boolean dropItems = config.getOptionalBoolean("drop-item|drop-items").orElse(true);
         final Integer expToDrop = config.getOptionalInteger("exp-to-drop").orElse(null);
+        final boolean idle = config.getOptionalBoolean("idle").orElse(false);
         final int growthTime = config.getOptionalInteger("growth|growth-time").orElse(0);
         final Double chance = config.getOptionalDouble("chance|growth-chance").orElse(null);
         final Function onBreak = config.getOptional("on-break", Function.class).orElse(null);
@@ -77,7 +84,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             throw new InvalidConfigurationException(config, "growth", "The growth timer must be a positive number");
         }
 
-        return new GeneratorStage(generator, state, structure, dropItems, expToDrop, growthTime,
+        return new GeneratorStage(generator, state, structure, dropItems, expToDrop, idle, growthTime,
                 chance, onBreak, onGrowth, onClick, hologram);
     }
 

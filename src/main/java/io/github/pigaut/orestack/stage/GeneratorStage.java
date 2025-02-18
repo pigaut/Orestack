@@ -6,7 +6,6 @@ import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.function.interact.block.*;
 import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.meta.placeholder.*;
-import io.github.pigaut.voxel.util.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorStage implements PlaceholderSupplier {
@@ -16,6 +15,7 @@ public class GeneratorStage implements PlaceholderSupplier {
     private final BlockStructure structure;
     private final boolean dropItems;
     private final @Nullable Integer expToDrop;
+    private final boolean idle;
     private final int growthTime;
     private final @Nullable Double growthChance;
     private final @Nullable Function onBreak;
@@ -25,14 +25,15 @@ public class GeneratorStage implements PlaceholderSupplier {
 
     public GeneratorStage(@NotNull GeneratorTemplate generator, @NotNull GeneratorState state,
                           @NotNull BlockStructure structure, boolean dropItems, @Nullable Integer expToDrop,
-                          int growthTime, @Nullable Double growthChance, @Nullable Function onBreak,
-                          @Nullable Function onGrowth, @Nullable BlockClickFunction onClick,
-                          @Nullable Hologram hologram) {
+                          boolean idle, int growthTime, @Nullable Double growthChance,
+                          @Nullable Function onBreak, @Nullable Function onGrowth,
+                          @Nullable BlockClickFunction onClick, @Nullable Hologram hologram) {
         this.generator = generator;
         this.state = state;
         this.structure = structure;
         this.dropItems = dropItems;
         this.expToDrop = expToDrop;
+        this.idle = idle;
         this.growthTime = growthTime;
         this.growthChance = growthChance;
         this.onBreak = onBreak;
@@ -47,10 +48,6 @@ public class GeneratorStage implements PlaceholderSupplier {
 
     public boolean isDropItems() {
         return dropItems;
-    }
-
-    public boolean shouldGrow() {
-        return growthTime != 0 && (growthChance == null || Probability.test(growthChance));
     }
 
     public int getGrowthTime() {
@@ -87,6 +84,10 @@ public class GeneratorStage implements PlaceholderSupplier {
 
     public @Nullable Hologram getHologram() {
         return hologram;
+    }
+
+    public boolean isIdle() {
+        return idle;
     }
 
     @Override

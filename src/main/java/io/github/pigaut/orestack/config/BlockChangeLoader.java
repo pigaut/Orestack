@@ -29,6 +29,8 @@ public class BlockChangeLoader implements ConfigLoader<BlockChange> {
         final Slab.Type slabType = config.getOptional("slab-type|slab", Slab.Type.class).orElse(null);
         final Door.Hinge doorHinge = config.getOptional("door-hinge|door", Door.Hinge.class).orElse(null);
         final Bed.Part bedPart = config.getOptional("bed-part|bed", Bed.Part.class).orElse(null);
+        final Bamboo.Leaves bambooLeaves = config.getOptional("bamboo-leaves", Bamboo.Leaves.class)
+                .orElse(material == Material.BAMBOO ? Bamboo.Leaves.NONE : null);
 
         if (!material.isBlock()) {
             throw new InvalidConfigurationException(config, "block", "The material must be a block");
@@ -89,12 +91,16 @@ public class BlockChangeLoader implements ConfigLoader<BlockChange> {
             throw new InvalidConfigurationException(config, "door-hinge", "The current block is not a door, please remove the door-hinge parameter");
         }
 
+        if (bambooLeaves != null && !(blockData instanceof Bamboo)) {
+            throw new InvalidConfigurationException(config, "bamboo-leaves", "The current block is not bamboo, please remove the bamboo-leaves parameter");
+        }
+
         final int offsetX = config.getOptionalInteger("offset.x").orElse(0);
         final int offsetY = config.getOptionalInteger("offset.y").orElse(0);
         final int offsetZ = config.getOptionalInteger("offset.z").orElse(0);
 
-        return new BlockChange(material, age, direction, orientation,
-                open, half, stairShape, slabType, doorHinge, bedPart, offsetX, offsetY, offsetZ);
+        return new BlockChange(material, age, direction, orientation, open, half, stairShape, slabType, doorHinge,
+                bedPart, bambooLeaves, offsetX, offsetY, offsetZ);
     }
 
 }

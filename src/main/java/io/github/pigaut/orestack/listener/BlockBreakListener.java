@@ -68,7 +68,9 @@ public class BlockBreakListener implements Listener {
         }
         final GeneratorStage stage = generator.getCurrentStage();
         event.setCancelled(!stage.isDropItems());
-        generator.previousStage();
+        if (!stage.isIdle()) {
+            generator.previousStage();
+        }
     }
 
 }
