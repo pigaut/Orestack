@@ -1,9 +1,10 @@
-### Stage 0: Depleted
+# --- Example ---
+
+--- # Stage 0
 type: depleted
 block: iron_block
 growth: 40  # Time in ticks to grow to the next stage
-on-growth: []
-on-click: []
+
 hologram:
   offset: { x: 0, y: 0.5, z: 0 }
   update: 10  # 40 ticks of growth divided into 4 frames (40 / 4 = 10)
@@ -12,6 +13,11 @@ hologram:
     - '&a[][]&7[][]'
     - '&a[][][]&7[]'
     - '&a[][][][]'
+
+on-growth: []
+
+on-click: []
+
 on-break:
   actions: # sequence
     - action: message   # field is a section
@@ -23,8 +29,7 @@ on-break:
         stay: 5
         fade-out: 15
 
----
-### Stage 1: Growing
+--- # Stage 1
 type: growing
 block: gold_block
 growth: 60
@@ -64,8 +69,7 @@ hologram:
   - text: "&eright-click"
     offset: { x: 0, y: 0.5, z: 0 }
 
----
-### Stage 2: Harvestable
+--- # Stage 2
 type: harvestable
 block: diamond_block
 growth: 80
@@ -88,17 +92,18 @@ on-break:
 #      - chatMessage <Wow, you're rich! Here's some more.>
 #      - giveMoney 10000
 
----
-### Stage 3: Replenished
+--- # Stage 3
 type: replenished
 block: emerald_block
 drop-items: false
 exp-to-drop: 100  # Set to 0 for no experience drops, if not set the default amount will drop
+
 hologram:
   - text: "&2&lEmerald"
     offset: { y: 0.75 }
   - text: "&a[Replenished]"
     offset: { y: 0.5 }
+
 on-break:
   - if: hasPermission orestack.generator.harvest
     do:

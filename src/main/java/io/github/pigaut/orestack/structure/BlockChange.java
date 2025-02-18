@@ -20,6 +20,7 @@ public class BlockChange {
     private final @Nullable Slab.Type slabType;
     private final @Nullable Door.Hinge doorHinge;
     private final @Nullable Bed.Part bedPart;
+    private final @Nullable Bamboo.Leaves bambooLeaves;
     private final int offsetX;
     private final int offsetY;
     private final int offsetZ;
@@ -27,7 +28,7 @@ public class BlockChange {
     public BlockChange(Material type, @Nullable Integer age, @Nullable BlockFace direction, @Nullable Axis orientation,
                        @Nullable Boolean open, @Nullable Bisected.Half half, @Nullable Stairs.Shape stairShape,
                        @Nullable Slab.Type slabType, @Nullable Door.Hinge doorHinge, @Nullable Bed.Part bedPart,
-                       int offsetX, int offsetY, int offsetZ) {
+                       @Nullable Bamboo.Leaves bambooLeaves, int offsetX, int offsetY, int offsetZ) {
         this.type = type;
         this.age = age;
         this.direction = direction;
@@ -38,6 +39,7 @@ public class BlockChange {
         this.slabType = slabType;
         this.doorHinge = doorHinge;
         this.bedPart = bedPart;
+        this.bambooLeaves = bambooLeaves;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
         this.offsetZ = offsetZ;
@@ -81,6 +83,10 @@ public class BlockChange {
 
     public @Nullable Bed.Part getBedPart() {
         return bedPart;
+    }
+
+    public @Nullable Bamboo.Leaves getBambooLeaves() {
+        return bambooLeaves;
     }
 
     public int getOffsetX() {
@@ -144,6 +150,10 @@ public class BlockChange {
             return false;
         }
 
+        if (bambooLeaves != null && bambooLeaves != ((Bamboo) blockData).getLeaves()) {
+            return false;
+        }
+
         return true;
     }
 
@@ -203,6 +213,10 @@ public class BlockChange {
 
         if (bedPart != null) {
             ((Bed) blockData).setPart(bedPart);
+        }
+
+        if (bambooLeaves != null) {
+            ((Bamboo) blockData).setLeaves(bambooLeaves);
         }
 
         block.setBlockData(blockData, false);

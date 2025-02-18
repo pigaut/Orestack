@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.generator.template;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.node.sequence.*;
 import org.jetbrains.annotations.*;

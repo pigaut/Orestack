@@ -9,6 +9,7 @@ import org.bukkit.event.*;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
+import org.bukkit.event.world.*;
 
 public class CropChangeListener implements Listener {
 
@@ -36,7 +37,9 @@ public class CropChangeListener implements Listener {
         }
 
         final Block blockAbove = block.getRelative(BlockFace.UP);
-        if (blockAbove.getType() == Material.SUGAR_CANE || blockAbove.getType() == Material.CACTUS) {
+        if (blockAbove.getType() == Material.SUGAR_CANE
+                || blockAbove.getType() == Material.CACTUS
+                || blockAbove.getType() == Material.BAMBOO) {
             if (plugin.getGenerators().isGenerator(blockAbove.getLocation())) {
                 event.setCancelled(true);
             }
@@ -46,6 +49,27 @@ public class CropChangeListener implements Listener {
             if (plugin.getGenerators().isGenerator(attachedCrop.getLocation())) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler
+    public void onStructureGrowth(StructureGrowEvent event) {
+        if (plugin.getGenerators().isGenerator(event.getLocation())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onSpread(BlockSpreadEvent event) {
+        if (plugin.getGenerators().isGenerator(event.getSource().getLocation())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onForm(BlockFormEvent event) {
+        if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
+            event.setCancelled(true);
         }
     }
 

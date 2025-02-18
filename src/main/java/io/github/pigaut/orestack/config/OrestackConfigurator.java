@@ -17,7 +17,7 @@ public class OrestackConfigurator extends PluginConfigurator {
         addLoader(BlockStructure.class, new BlockStructureLoader(plugin));
         addLoader(BlockChange.class, new BlockChangeLoader());
 
-        final ActionLoader actions = new ActionLoader();
+        final ActionLoader actions = this.getActionLoader();
         actions.addLoader("NEXT_STAGE", (BranchLoader<Action>) branch ->
                 new NextStageAction());
 
