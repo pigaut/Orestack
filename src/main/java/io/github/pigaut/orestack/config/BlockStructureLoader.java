@@ -42,8 +42,8 @@ public class BlockStructureLoader implements ConfigLoader<BlockStructure> {
         if (blockChanges.size() < 2) {
             throw new InvalidConfigurationException(sequence, "Structure must have at least two blocks in it");
         }
-        if (!sequence.isRoot() && blockChanges.size() > 3) {
-            throw new InvalidConfigurationException(sequence, "The free version supports small structures only up to 3 blocks");
+        if (!sequence.isRoot() && blockChanges.size() > 8) {
+            throw new InvalidConfigurationException(sequence, "The free version supports small structures only up to 8 blocks");
         }
         return new BlockStructure(blockChanges);
     }

@@ -166,11 +166,11 @@ get-all-generators-description: 'Adds all generator items to your inventory'
 ## Set All Generators
 set-all-generators-command: set-all
 set-all-generators-permission: orestack.generator.set-all
-set-all-generators-description: 'Sets all generators in a WorldEdit region'
+set-all-generators-description: 'Sets all generators in the selected region'
 ## Remove All Generators
 remove-all-generators-command: remove-all
 remove-all-generators-permission: orestack.generator.remove-all
-remove-all-generators-description: 'Removes all generators in a WorldEdit region'
+remove-all-generators-description: 'Removes all generators in the selected region'
 ## Harvest All Generators
 harvest-all-generators-command: harvest-all
 harvest-all-generators-permission: orestack.generator.harvest-all
