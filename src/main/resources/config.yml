@@ -4,7 +4,8 @@ generate-examples: true
 
 check-for-updates: true
 
-#Required, the language file that should be used (en = en.yml)
+# The language file that should be used (en = en.yml)
+# Requires restart for command ids, parameters, permissions, and descriptions to take effect
 language: en
 
 # The auto save timer, if not set or set to 0 data will only be saved on shutdown or on /orestack reload

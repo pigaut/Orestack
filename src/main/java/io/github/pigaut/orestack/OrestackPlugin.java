@@ -68,7 +68,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public List<String> getPluginResources() {
-        return List.of("config.yml", "flags.yml", "languages/en.yml");
+        return List.of("config.yml",
+                "flags.yml",
+                "languages/en.yml",
+                "languages/fr.yml",
+                "languages/zh.yml");
     }
 
     @Override
