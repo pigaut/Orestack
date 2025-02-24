@@ -15,7 +15,7 @@ public class GeneratorStage implements PlaceholderSupplier {
     private final BlockStructure structure;
     private final boolean dropItems;
     private final @Nullable Integer expToDrop;
-    private final boolean idle;
+    private final boolean regrow;
     private final int growthTime;
     private final @Nullable Double growthChance;
     private final @Nullable Function onBreak;
@@ -25,7 +25,7 @@ public class GeneratorStage implements PlaceholderSupplier {
 
     public GeneratorStage(@NotNull GeneratorTemplate generator, @NotNull GeneratorState state,
                           @NotNull BlockStructure structure, boolean dropItems, @Nullable Integer expToDrop,
-                          boolean idle, int growthTime, @Nullable Double growthChance,
+                          boolean regrow, int growthTime, @Nullable Double growthChance,
                           @Nullable Function onBreak, @Nullable Function onGrowth,
                           @Nullable BlockClickFunction onClick, @Nullable Hologram hologram) {
         this.generator = generator;
@@ -33,7 +33,7 @@ public class GeneratorStage implements PlaceholderSupplier {
         this.structure = structure;
         this.dropItems = dropItems;
         this.expToDrop = expToDrop;
-        this.idle = idle;
+        this.regrow = regrow;
         this.growthTime = growthTime;
         this.growthChance = growthChance;
         this.onBreak = onBreak;
@@ -86,8 +86,8 @@ public class GeneratorStage implements PlaceholderSupplier {
         return hologram;
     }
 
-    public boolean isIdle() {
-        return idle;
+    public boolean shouldRegrow() {
+        return regrow;
     }
 
     @Override

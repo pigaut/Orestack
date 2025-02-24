@@ -53,8 +53,10 @@ public class GeneratorManager extends Manager {
                 "z INT NOT NULL",
                 "generator VARCHAR(255) NOT NULL",
                 "rotation VARCHAR(5) NOT NULL",
+                "stage INT NOT NULL",
                 "PRIMARY KEY (world, x, y, z)"
         );
+
         resourcesTable.selectAll().fetchAllRows(rowQuery -> {
             final String worldId = rowQuery.getString(1);
             final int x = rowQuery.getInt(2);
@@ -62,6 +64,7 @@ public class GeneratorManager extends Manager {
             final int z = rowQuery.getInt(4);
             final String generatorName = rowQuery.getString(5);
             final String rotationData = rowQuery.getString(6);
+            final int stage = rowQuery.getInt(7);
 
             final World world = Bukkit.getWorld(UUID.fromString(worldId));
             if (world == null) {
@@ -86,9 +89,15 @@ public class GeneratorManager extends Manager {
                 return;
             }
 
+            final int maxStage = template.getMaxStage();
+            if (stage > maxStage) {
+                plugin.getLogger().warning("Failed to load saved generator stage. Reason: " + template.getName() +
+                        " generator supports a maximum of " + maxStage + " stages.");
+            }
+
             plugin.getScheduler().runTask(() -> {
                 try {
-                    Generator.create(template, origin, rotation);
+                    Generator.create(template, origin, rotation, Math.min(stage, maxStage));
                 } catch (GeneratorOverlapException e) {
                     plugin.getLogger().warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
                             "Reason: generators overlapped.");
@@ -107,11 +116,12 @@ public class GeneratorManager extends Manager {
                 "z INT NOT NULL",
                 "generator VARCHAR(255) NOT NULL",
                 "rotation VARCHAR(5)",
+                "stage INT NOT NULL",
                 "PRIMARY KEY (world, x, y, z)"
         );
         resourcesTable.clear();
         final DatabaseStatement insertStatement =
-                resourcesTable.insertInto("world", "x", "y", "z", "generator", "rotation");
+                resourcesTable.insertInto("world", "x", "y", "z", "generator", "rotation", "stage");
         for (Generator generator : generators) {
             final Location location = generator.getOrigin();
             insertStatement.withParameter(location.getWorld().getUID().toString());
@@ -120,6 +130,7 @@ public class GeneratorManager extends Manager {
             insertStatement.withParameter(location.getBlockZ());
             insertStatement.withParameter(generator.getTemplate().getName());
             insertStatement.withParameter(generator.getRotation().toString());
+            insertStatement.withParameter(generator.getCurrentStageId());
             insertStatement.addBatch();
         }
         insertStatement.executeBatch();

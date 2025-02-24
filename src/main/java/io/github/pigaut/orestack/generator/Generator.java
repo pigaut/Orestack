@@ -11,8 +11,8 @@ import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.hologram.display.*;
 import io.github.pigaut.voxel.meta.placeholder.*;
 import io.github.pigaut.voxel.server.*;
-import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.voxel.util.Rotation;
+import io.github.pigaut.voxel.util.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.scheduler.*;
@@ -108,6 +108,10 @@ public class Generator implements PlaceholderSupplier {
         return growthStart != null ? Duration.between(growthStart, Instant.now()) : null;
     }
 
+    public int getCurrentStageId() {
+        return currentStage;
+    }
+
     public @NotNull GeneratorStage getCurrentStage() {
         return template.getStage(currentStage);
     }
@@ -116,16 +120,20 @@ public class Generator implements PlaceholderSupplier {
         if (!exists()) {
             return;
         }
-        final BlockStructure nextStructure = template.getStage(stage).getStructure();
-        for (Block previousBlock : currentStructure.getBlocks(origin, rotation)) {
-            final Block nextBlock = nextStructure.getBlockAt(origin, rotation, previousBlock.getLocation());
-            if (nextBlock == null || nextBlock.getType() != previousBlock.getType()) {
-                previousBlock.setType(Material.AIR);
-            }
-        }
 
-        this.currentStage = stage;
-        updateState();
+        this.updating = true;
+        plugin.getScheduler().runTaskLater(1, () -> {
+            final BlockStructure nextStructure = template.getStage(stage).getStructure();
+            for (Block previousBlock : template.getAllOccupiedBlocks(origin, rotation)) {
+                final Block nextBlock = nextStructure.getBlockAt(origin, rotation, previousBlock.getLocation());
+                if (nextBlock == null || nextBlock.getType() != previousBlock.getType()) {
+                    previousBlock.setType(Material.AIR);
+                }
+            }
+
+            this.currentStage = stage;
+            updateState();
+        });
     }
 
     public Rotation getRotation() {
@@ -160,9 +168,6 @@ public class Generator implements PlaceholderSupplier {
             if (peekStage >= template.getMaxStage()) {
                 break;
             }
-//            if (nextStage.getState() == GeneratorState.REPLENISHED) {
-//                return;
-//            }
             peekStage++;
             nextStage = template.getStage(peekStage);
         }
@@ -207,11 +212,8 @@ public class Generator implements PlaceholderSupplier {
 
     private void updateState() {
         final GeneratorStage stage = getCurrentStage();
-        updating = true;
-        plugin.getScheduler().runTaskLater(1, () -> {
-            stage.getStructure().updateBlocks(origin, rotation);
-            updating = false;
-        });
+        stage.getStructure().updateBlocks(origin, rotation);
+        updating = false;
 
         if (currentHologram != null) {
             currentHologram.despawn();
@@ -243,6 +245,10 @@ public class Generator implements PlaceholderSupplier {
 
     public boolean isUpdating() {
         return updating;
+    }
+
+    public void setUpdating(boolean updating) {
+        this.updating = updating;
     }
 
     @Override

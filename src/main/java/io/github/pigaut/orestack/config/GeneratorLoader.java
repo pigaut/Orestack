@@ -72,7 +72,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         }
         final boolean dropItems = config.getOptionalBoolean("drop-item|drop-items").orElse(true);
         final Integer expToDrop = config.getOptionalInteger("exp-to-drop").orElse(null);
-        final boolean idle = config.getOptionalBoolean("idle").orElse(false);
+        final boolean regrow = config.getOptionalBoolean("regrow").orElse(true);
         final int growthTime = config.getOptionalInteger("growth|growth-time").orElse(0);
         final Double chance = config.getOptionalDouble("chance|growth-chance").orElse(null);
         final Function onBreak = config.getOptional("on-break", Function.class).orElse(null);
@@ -84,7 +84,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             throw new InvalidConfigurationException(config, "growth", "The growth timer must be a positive number");
         }
 
-        return new GeneratorStage(generator, state, structure, dropItems, expToDrop, idle, growthTime,
+        return new GeneratorStage(generator, state, structure, dropItems, expToDrop, regrow, growthTime,
                 chance, onBreak, onGrowth, onClick, hologram);
     }
 
