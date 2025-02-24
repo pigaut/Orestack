@@ -30,7 +30,7 @@ structure:
 type: harvestable
 growth: 30
 drop-items: false
-regenerate: false   # (USE WITH CAUTION) If false the stage won't change when mined, you need to set it manually with: setStage, nextStage or previousStage
+regrow: false   # (USE WITH CAUTION) If false the stage won't change when mined, you need to set it manually with: setStage, nextStage or previousStage
 
 on-break:
   actions:
@@ -47,7 +47,7 @@ structure:
 type: harvestable
 growth: 30
 drop-items: false
-regenerate: false
+regrow: false
 growth-chance: 0.8
 
 on-break:
@@ -66,7 +66,7 @@ structure:
 type: harvestable
 growth: 30
 drop-items: false
-regenerate: false
+regrow: false
 growth-chance: 0.8
 
 on-break:
@@ -86,7 +86,7 @@ structure:
 type: harvestable
 growth: 30
 drop-items: false
-regenerate: false
+regrow: false
 growth-chance: 0.8
 
 on-break:
@@ -106,7 +106,7 @@ structure:
 --- # Stage 8
 type: replenished
 drop-items: false
-regenerate: false
+regrow: false
 growth-chance: 0.8
 
 on-break:

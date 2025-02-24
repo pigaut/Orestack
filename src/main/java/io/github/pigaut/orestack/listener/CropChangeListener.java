@@ -19,11 +19,14 @@ public class CropChangeListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onWaterFlow(BlockFromToEvent event) {
         final Generator generator = plugin.getGenerator(event.getToBlock().getLocation());
         if (generator != null) {
-            event.setCancelled(true);
+            plugin.getGenerators().removeGenerator(generator);
+            final Location location = generator.getOrigin();
+            plugin.getLogger().warning("Removed generator at " + location.getWorld().getName() + ", " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ". " +
+                    "Reason: water/lava destroyed the block.");
         }
     }
 
@@ -32,21 +35,6 @@ public class CropChangeListener implements Listener {
         final Block block = event.getBlock();
         if (Crops.isCrop(block.getType())) {
             if (plugin.getGenerators().isGenerator(block.getLocation())) {
-                event.setCancelled(true);
-            }
-        }
-
-        final Block blockAbove = block.getRelative(BlockFace.UP);
-        if (blockAbove.getType() == Material.SUGAR_CANE
-                || blockAbove.getType() == Material.CACTUS
-                || blockAbove.getType() == Material.BAMBOO) {
-            if (plugin.getGenerators().isGenerator(blockAbove.getLocation())) {
-                event.setCancelled(true);
-            }
-        }
-
-        for (Block attachedCrop : Crops.getCropsAttached(block)) {
-            if (plugin.getGenerators().isGenerator(attachedCrop.getLocation())) {
                 event.setCancelled(true);
             }
         }

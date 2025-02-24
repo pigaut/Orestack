@@ -29,9 +29,15 @@ public class BlockBreakListener implements Listener {
     public void onBreak(BlockBreakEvent event) {
         final Block block = event.getBlock();
         final Generator generator = plugin.getGenerator(block.getLocation());
-        if (generator == null || generator.isUpdating()) {
+        if (generator == null) {
             return;
         }
+
+        if (generator.isUpdating()) {
+            event.setCancelled(true);
+            return;
+        }
+
         if (!generator.matchBlocks()) {
             plugin.getGenerators().removeGenerator(generator);
             return;
@@ -56,6 +62,9 @@ public class BlockBreakListener implements Listener {
             if (expToDrop != null) {
                 event.setExpToDrop(expToDrop);
             }
+            if (stage.shouldRegrow()) {
+                generator.previousStage();
+            }
         }
     }
 
@@ -68,9 +77,6 @@ public class BlockBreakListener implements Listener {
         }
         final GeneratorStage stage = generator.getCurrentStage();
         event.setCancelled(!stage.isDropItems());
-        if (!stage.isIdle()) {
-            generator.previousStage();
-        }
     }
 
 }

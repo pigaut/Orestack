@@ -36,11 +36,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         plugin = this;
     }
 
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        database.closeConnection();
-    }
+//    @Override
+//    public void onDisable() {
+//        super.onDisable();
+//        database.closeConnection();
+//    }
 
     public static OrestackPlugin getPlugin() {
         return plugin;

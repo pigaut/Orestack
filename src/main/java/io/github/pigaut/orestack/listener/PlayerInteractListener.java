@@ -10,7 +10,6 @@ import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.function.interact.block.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.server.*;
-import org.bukkit.block.data.type.Bed;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -89,26 +88,9 @@ public class PlayerInteractListener implements Listener {
 
         final Block clickedBlock = event.getClickedBlock();
 
-        if (action == Action.RIGHT_CLICK_BLOCK) {
-            event.setCancelled(true);
-            if (!player.hasPermission(plugin.getLang("generator-place-permission"))) {
-                plugin.sendMessage(player, "missing-place-permission", heldGenerator);
-                return;
-            }
-            final Location targetLocation = clickedBlock.getRelative(event.getBlockFace(), clickedBlock.isPassable() ? 0 : 1).getLocation();
-            try {
-                Generator.create(heldGenerator, targetLocation, GeneratorTools.getToolRotation(heldItem));
-            } catch (GeneratorOverlapException e) {
-                PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
-                return;
-            }
-            PlayerUtil.sendActionBar(player, plugin.getLang("placed-generator"));
-            return;
-        }
-
         if (action == Action.LEFT_CLICK_BLOCK) {
             final Generator clickedGenerator = plugin.getGenerator(clickedBlock.getLocation());
-            if (clickedGenerator == null) {
+            if (clickedGenerator == null || !clickedGenerator.getTemplate().equals(heldGenerator)) {
                 return;
             }
 
@@ -122,6 +104,37 @@ public class PlayerInteractListener implements Listener {
         }
     }
 
+    @EventHandler(ignoreCancelled = true)
+    public void onGeneratorPlace(BlockPlaceEvent event) {
+        final ItemStack heldItem = event.getItemInHand();
+        final GeneratorTemplate heldGenerator = GeneratorTools.getGeneratorFromTool(heldItem);
+        if (heldGenerator == null) {
+            return;
+        }
+
+        final Player player = event.getPlayer();
+        if (!player.hasPermission(plugin.getLang("generator-place-permission"))) {
+            plugin.sendMessage(player, "missing-place-permission", heldGenerator);
+            return;
+        }
+
+        final Block blockPlaced = event.getBlockPlaced();
+        final Location targetLocation = blockPlaced.getLocation();
+
+        plugin.getScheduler().runTaskLater(1, () -> {
+            blockPlaced.setType(Material.AIR);
+            try {
+                Generator.create(heldGenerator, targetLocation, GeneratorTools.getToolRotation(heldItem));
+            } catch (GeneratorOverlapException e) {
+                final ItemStack placedItem = heldItem.clone();
+                placedItem.setAmount(1);
+                PlayerUtil.giveItemsOrDrop(player, placedItem);
+                PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
+                return;
+            }
+            PlayerUtil.sendActionBar(player, plugin.getLang("placed-generator"));
+        });
+    }
 
     @EventHandler(ignoreCancelled = true)
     public void onGeneratorInteract(PlayerInteractEvent event) {
