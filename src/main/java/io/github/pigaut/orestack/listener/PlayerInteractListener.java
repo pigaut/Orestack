@@ -8,6 +8,7 @@ import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.function.interact.block.*;
+import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.server.*;
 import org.bukkit.*;
@@ -122,7 +123,7 @@ public class PlayerInteractListener implements Listener {
         final Location targetLocation = blockPlaced.getLocation();
 
         plugin.getScheduler().runTaskLater(1, () -> {
-            blockPlaced.setType(Material.AIR);
+            blockPlaced.setType(Material.AIR, false);
             try {
                 Generator.create(heldGenerator, targetLocation, GeneratorTools.getToolRotation(heldItem));
             } catch (GeneratorOverlapException e) {

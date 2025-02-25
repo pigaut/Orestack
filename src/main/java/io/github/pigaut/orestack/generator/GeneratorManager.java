@@ -7,6 +7,7 @@ import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.hologram.display.*;
 import io.github.pigaut.voxel.plugin.manager.*;
+import io.github.pigaut.voxel.structure.*;
 import io.github.pigaut.voxel.util.Rotation;
 import io.github.pigaut.yaml.parser.deserializer.*;
 import org.bukkit.*;
@@ -32,7 +33,7 @@ public class GeneratorManager extends Manager {
         for (Generator blockGenerator : generators) {
             blockGenerator.cancelGrowth();
             for (Block block : blockGenerator.getAllOccupiedBlocks()) {
-                block.setType(Material.AIR);
+                block.setType(Material.AIR, false);
             }
             final HologramDisplay hologramDisplay = blockGenerator.getCurrentHologram();
             if (hologramDisplay != null) {

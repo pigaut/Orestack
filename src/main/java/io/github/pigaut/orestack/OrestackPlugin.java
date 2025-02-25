@@ -12,6 +12,7 @@ import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.structure.*;
 import io.github.pigaut.voxel.version.*;
 import org.bukkit.*;
 import org.bukkit.event.*;
@@ -69,7 +70,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public List<String> getPluginResources() {
         return List.of("config.yml",
-                "flags.yml",
                 "languages/en.yml",
                 "languages/fr.yml",
                 "languages/zh.yml");

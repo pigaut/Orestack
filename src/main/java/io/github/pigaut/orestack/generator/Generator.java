@@ -4,13 +4,13 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.event.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.stage.*;
-import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.hologram.display.*;
-import io.github.pigaut.voxel.meta.placeholder.*;
+import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.server.*;
+import io.github.pigaut.voxel.structure.*;
 import io.github.pigaut.voxel.util.Rotation;
 import io.github.pigaut.voxel.util.*;
 import org.bukkit.*;
@@ -127,7 +127,7 @@ public class Generator implements PlaceholderSupplier {
             for (Block previousBlock : template.getAllOccupiedBlocks(origin, rotation)) {
                 final Block nextBlock = nextStructure.getBlockAt(origin, rotation, previousBlock.getLocation());
                 if (nextBlock == null || nextBlock.getType() != previousBlock.getType()) {
-                    previousBlock.setType(Material.AIR);
+                    previousBlock.setType(Material.AIR, false);
                 }
             }
 
