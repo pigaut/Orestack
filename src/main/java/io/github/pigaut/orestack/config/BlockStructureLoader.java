@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.config;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.structure.*;
+import io.github.pigaut.voxel.structure.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.loader.*;
 import org.jetbrains.annotations.*;

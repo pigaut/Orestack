@@ -2,8 +2,8 @@ package io.github.pigaut.orestack.util;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.structure.*;
-import io.github.pigaut.voxel.meta.placeholder.*;
+import io.github.pigaut.voxel.placeholder.*;
+import io.github.pigaut.voxel.structure.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.*;

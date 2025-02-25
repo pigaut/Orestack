@@ -1,8 +1,8 @@
 package io.github.pigaut.orestack.command.structure;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.voxel.command.node.*;
+import io.github.pigaut.voxel.structure.*;
 import org.bukkit.*;
 import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.block.*;

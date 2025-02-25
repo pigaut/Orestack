@@ -73,9 +73,13 @@ public class StructureSaveSubCommand extends LangSubCommand {
                 }
 
                 if (blockData instanceof Directional directional) {
-                    blockConfig.set("direction|facing", directional.getFacing());
+                    blockConfig.set("direction|face", directional.getFacing());
                 } else if (blockData instanceof Rotatable rotatable) {
-                    blockConfig.set("direction|facing", rotatable.getRotation());
+                    blockConfig.set("direction|face", rotatable.getRotation());
+                }
+
+                if (blockData instanceof MultipleFacing multipleFacing) {
+                    blockConfig.set("directions|faces", multipleFacing.getFaces());
                 }
 
                 if (blockData instanceof Orientable orientable) {
