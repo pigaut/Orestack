@@ -21,10 +21,10 @@ title:
 bossbar:
   type: bossbar
   title: this is a boss bar
-  style: segmented 6
-  color: red
+  style: segmented 6   # solid, segmented_6, segmented_10, segmented_12, segmented_20
+  color: red           # blue, green, pink, purple, red, white, yellow
   duration: 200
-  progress:
+  progress:            # At 1.0 bossbar is full, at 0.0 bossbar is empty
     - 1.0
     - 0.9
     - 0.8
@@ -36,3 +36,11 @@ bossbar:
     - 0.2
     - 0.1
     - 0
+
+hologram:
+  type: hologram
+  hologram:
+    text: '&a&l+1 Emerald'
+    offset: { y: 0.5 }
+  duration: 30
+  radius: { x: 1, z: 1 }

@@ -19,8 +19,8 @@ on-growth: []
 on-click: []
 
 on-break:
-  actions: # sequence
-    - action: message   # field is a section
+  actions:
+    - action: customMessage
       message:
         type: title
         title: "&7&lDepleted"
@@ -86,11 +86,14 @@ on-break:
   - if: isPlaceholder %generator_stage% 2
     do: playSoundAtBlock tin
 
-# economy integration example:
-#  - if: hasMoney 10000   # Requires Vault and an economy plugin
+# Economy Example (Requires Vault and an economy plugin)
+#
+#  - if: hasMoney 10000
 #    do:
 #      - chatMessage <Wow, you're rich! Here's some more.>
 #      - giveMoney 10000
+#      - chatMessage <Just kidding give it back lol>
+#      - takeMoney 10000
 
 --- # Stage 3
 type: replenished
@@ -109,6 +112,7 @@ on-break:
     do:
       - giveItem emerald
       - spawnParticleAtBlock fire_ring
+      - customMessage hologram
       - chatMessage <You mined emerald!>
       - stop
   - do:
