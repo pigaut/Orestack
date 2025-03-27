@@ -53,6 +53,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
+    public boolean forceMetrics() {
+        return true;
+    }
+
+    @Override
     public @Nullable Integer getMetricsId() {
         return 24502;
     }
@@ -109,13 +114,13 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/diamond.yml",
 
                 "structures/diamond_node.yml",
+                "structures/trees/great_oak/great_oak_tree_0.yml",
                 "structures/trees/great_oak/great_oak_tree_1.yml",
                 "structures/trees/great_oak/great_oak_tree_2.yml",
                 "structures/trees/great_oak/great_oak_tree_3.yml",
                 "structures/trees/great_oak/great_oak_tree_4.yml",
                 "structures/trees/great_oak/great_oak_tree_5.yml",
-                "structures/trees/great_oak/great_oak_tree_6.yml",
-                "structures/trees/great_oak/great_oak_tree_7.yml"
+                "structures/trees/great_oak/great_oak_tree_6.yml"
         );
     }
 

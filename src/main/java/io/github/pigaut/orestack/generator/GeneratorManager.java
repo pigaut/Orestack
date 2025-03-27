@@ -2,10 +2,9 @@ package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
-import io.github.pigaut.voxel.hologram.display.*;
+import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.structure.*;
 import io.github.pigaut.voxel.util.Rotation;

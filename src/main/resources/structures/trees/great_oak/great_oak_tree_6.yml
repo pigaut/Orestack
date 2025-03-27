@@ -1,16 +1,16 @@
-block: STRIPPED_OAK_WOOD
-orientation: Y
-offset:
-  x: 5
-  y: 0
-  z: 1
----
 block: OAK_WOOD
 orientation: Y
 offset:
   x: 5
   y: 0
   z: 0
+---
+block: STRIPPED_OAK_WOOD
+orientation: Y
+offset:
+  x: 5
+  y: 0
+  z: 1
 ---
 block: OAK_LEAVES
 offset:
@@ -946,6 +946,13 @@ offset:
   x: 0
   y: 2
   z: 0
+---
+block: OAK_LOG
+orientation: Y
+offset:
+  x: 0
+  y: 3
+  z: 1
 ---
 block: OAK_LOG
 orientation: Y

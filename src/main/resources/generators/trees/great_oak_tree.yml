@@ -1,8 +1,10 @@
-# --- Great Oak Tree ---
+# ============================
+#         STAGE 0
+# ============================
 
---- # Stage 0
+---
 state: depleted
-structure: great_oak_tree_1
+structure: great_oak_tree_0
 growth: 100
 
 hologram:
@@ -12,9 +14,13 @@ hologram:
     update: 3
     offset: { x: 2, y: 1.75, z: 0 }
 
---- # Stage 1
+# ============================
+#         STAGE 1
+# ============================
+
+---
 state: harvestable
-structure: great_oak_tree_2
+structure: great_oak_tree_1
 
 hologram:
   - text: "&2&lGreat Oak Tree"
@@ -26,9 +32,13 @@ on-break:
   actions:
     - dropItemAtPlayer OAK_LOG:19
 
---- # Stage 2
+# ============================
+#         STAGE 2
+# ============================
+
+---
 state: harvestable
-structure: great_oak_tree_3
+structure: great_oak_tree_2
 
 hologram:
   - text: "&2&lGreat Oak Tree"
@@ -36,9 +46,13 @@ hologram:
   - text: "&aLogs left: 21"
     offset: { x: 2, y: 1.75, z: 0 }
 
---- # Stage 3
+# ============================
+#         STAGE 3
+# ============================
+
+---
 state: harvestable
-structure: great_oak_tree_4
+structure: great_oak_tree_3
 
 hologram:
   - text: "&2&lGreat Oak Tree"
@@ -46,9 +60,13 @@ hologram:
   - text: "&aLogs left: 22"
     offset: { x: 2, y: 1.75, z: 0 }
 
----  # Stage 4
+# ============================
+#         STAGE 4
+# ============================
+
+---
 state: harvestable
-structure: great_oak_tree_5
+structure: great_oak_tree_4
 
 hologram:
   - text: "&2&lGreat Oak Tree"
@@ -56,9 +74,13 @@ hologram:
   - text: "&aLogs left: 23"
     offset: { x: 2, y: 1.75, z: 0 }
 
----  # Stage 5
+# ============================
+#         STAGE 5
+# ============================
+
+---
 state: harvestable
-structure: great_oak_tree_6
+structure: great_oak_tree_5
 
 hologram:
   - text: "&2&lGreat Oak Tree"
@@ -66,9 +88,13 @@ hologram:
   - text: "&aLogs left: 24"
     offset: { x: 2, y: 1.75, z: 0 }
 
----  # Stage 6
+# ============================
+#         STAGE 6
+# ============================
+
+---
 state: replenished
-structure: great_oak_tree_7
+structure: great_oak_tree_6
 
 hologram:
   - text: "&2&lGreat Oak Tree"

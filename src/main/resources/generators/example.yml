@@ -1,6 +1,8 @@
-# --- Example ---
+# ============================
+#         STAGE 0
+# ============================
 
---- # Stage 0
+---
 type: depleted
 block: iron_block
 growth: 40  # Time in ticks to grow to the next stage
@@ -29,21 +31,15 @@ on-break:
         stay: 5
         fade-out: 15
 
---- # Stage 1
+# ============================
+#         STAGE I
+# ============================
+
+---
 type: growing
 block: gold_block
 growth: 60
 chance: 0.8  # 80% chance to spawn, otherwise skips to the next stage
-on-break:
-  actions:
-    - chatMessage <You can't mine this!>
-    - spawnParticleAtBlock explosion
-on-click:
-  click: right_click_block
-  if-not: isSneaking
-  do:
-    - cancelEvent
-    - chatMessage <This is a gold block. Maybe you should try to mine it.>
 
 hologram:
   - update: 3
@@ -69,7 +65,38 @@ hologram:
   - text: "&eright-click"
     offset: { x: 0, y: 0.5, z: 0 }
 
---- # Stage 2
+on-click:
+  click: right_click_block
+  if-not: isSneaking
+  do:
+    - cancelEvent
+    - chatMessage <This is a gold block. Maybe you should try to mine it.>
+
+on-break:
+  - if-not: hasPermission orestack.generator.harvest
+    do:
+      - chatMessage <&4You have no permission to mine this generator>
+      - cancelEvent
+      - stop
+
+  - if-not:
+      - toolTypeIsEqual <IRON_PICKAXE, GOLD_PICKAXE, DIAMOND_PICKAXE, NETHERITE_PICKAXE>
+    do:
+      - chatMessage <&4You need at least an iron pickaxe to mine this generator>
+      - cancelEvent
+      - stop
+
+  - chance: 0.5
+    do:
+      - spawnParticleAtBlock explosion
+      - dropItemAtBlock gold_ingot
+      - chatMessage <&aYou struck gold!>
+
+# ============================
+#         STAGE II
+# ============================
+
+---
 type: harvestable
 block: diamond_block
 growth: 80
@@ -79,7 +106,7 @@ hologram:
   offset: { x: 0, y: 0.5, z: 0 }
   text: "&b&lDiamond [%generator_timer_seconds%s]"
 on-break:
-  - actions:
+  - do:
       - giveItem diamond
       - chatMessage <You have mined diamond>
 
@@ -95,7 +122,11 @@ on-break:
 #      - chatMessage <Just kidding give it back lol>
 #      - takeMoney 10000
 
---- # Stage 3
+# ============================
+#         STAGE III
+# ============================
+
+---
 type: replenished
 block: emerald_block
 drop-items: false
@@ -114,8 +145,8 @@ on-break:
       - spawnParticleAtBlock fire_ring
       - customMessage hologram
       - chatMessage <You mined emerald!>
-      - stop
-  - do:
+
+    else:
       - cancelEvent
       - chatMessage <&4You don't have permission to mine this block!>
       - playSound tin <-454, 70, 180>

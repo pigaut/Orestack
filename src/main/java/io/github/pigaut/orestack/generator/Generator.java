@@ -7,7 +7,6 @@ import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.hologram.*;
-import io.github.pigaut.voxel.hologram.display.*;
 import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.structure.*;

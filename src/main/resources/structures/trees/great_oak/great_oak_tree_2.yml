@@ -1189,6 +1189,13 @@ orientation: Y
 offset:
   x: -1
   y: 3
+  z: 1
+---
+block: OAK_LOG
+orientation: Y
+offset:
+  x: -1
+  y: 3
   z: 0
 ---
 block: OAK_WOOD

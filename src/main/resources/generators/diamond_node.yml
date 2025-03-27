@@ -3,7 +3,7 @@ state: depleted
 block: cobblestone
 growth: 60
 
---- # Stage 1
+--- # Stage I
 state: replenished
 structure: diamond_node
 

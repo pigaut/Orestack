@@ -6,7 +6,7 @@
 
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>Orestack</artifactId>
-    <version>3.25.2</version>
+    <version>3.26.0</version>
 
     <build>
         <plugins>
@@ -32,7 +32,7 @@
                                     <shadedPattern>io.github.pigaut.orestack.sql</shadedPattern>
                                 </relocation>
                             </relocations>
-                            <outputFile>D:\files\Development\java\spigot\servers\1.21.4\plugins\Orestack-${project.version}.jar</outputFile>
+                            <outputFile>D:\files\Development\java\spigot\servers\1.21.4\plugins\Orestack[free]-${project.version}.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>
