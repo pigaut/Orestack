@@ -140,7 +140,6 @@ placed-structure: '&aPlaced structure at target block'
 ## Errors
 structure-not-found: '&4Could not find structure with name: %structure-name%'
 structure-minimum-blocks: '&4Structure must have at least two blocks in it'
-structure-limit: '&4The free version only allows up to 10 structures'
 
 # Generator Command
 generator-command: generator

@@ -140,7 +140,6 @@ placed-structure: '&a已在目标'
 # 发生错误
 structure-not-found: '&4找不到名为 %structure-name% 的结构' # 找不到结构
 structure-minimum-blocks: '&4结构必须至少包含两个方块' # 结构方块数量不足
-structure-limit: '免费版本仅允许最多 10 个结构'
 
 # 生成器命令
 generator-command: generator           # 生成器命令

@@ -140,7 +140,6 @@ placed-structure: '&aStructure placée au bloc cible'
 ## Erreurs
 structure-not-found: '&4Impossible de trouver la structure avec le nom : %nom-structure%'
 structure-minimum-blocks: '&4La structure doit avoir au moins deux blocs'
-structure-limit: '&4La version gratuite n''autorise que 10 structures maximum'
 
 # Commande de générateur
 generator-command: generateur

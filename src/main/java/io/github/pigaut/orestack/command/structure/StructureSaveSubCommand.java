@@ -29,11 +29,6 @@ public class StructureSaveSubCommand extends LangSubCommand {
                 return;
             }
 
-            if (plugin.getStructures().getAllBlockStructures().size() >= 10) {
-                plugin.sendMessage(player, "structure-limit", placeholders);
-                return;
-            }
-
             final File file = plugin.getFile("structures", args[0]);
             YamlConfig.createFileIfNotExists(file);
 
