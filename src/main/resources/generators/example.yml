@@ -79,8 +79,7 @@ on-break:
       - cancelEvent
       - stop
 
-  - if-not:
-      - toolTypeIsEqual <IRON_PICKAXE, GOLD_PICKAXE, DIAMOND_PICKAXE, NETHERITE_PICKAXE>
+  - if-not: toolTypeIsEqual <IRON_PICKAXE, GOLD_PICKAXE, DIAMOND_PICKAXE, NETHERITE_PICKAXE>
     do:
       - chatMessage <&4You need at least an iron pickaxe to mine this generator>
       - cancelEvent

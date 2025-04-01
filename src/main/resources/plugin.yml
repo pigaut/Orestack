@@ -14,6 +14,6 @@ libraries:
   - com.zaxxer:HikariCP:5.1.0
   - org.snakeyaml:snakeyaml-engine:2.9
   - io.github.pigaut.yaml:YamlConfig:3.4.3
-  - io.github.pigaut.yaml:SpigotYamlConfig:3.4.1
+  - io.github.pigaut.yaml:SpigotYamlConfig:3.4.2
   - com.github.cryptomorin:XSeries:13.0.0
 
