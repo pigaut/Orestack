@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.structure;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.structure.*;
+import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.node.sequence.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
@@ -53,6 +54,9 @@ public class StructureManager extends Manager {
         structuresByName.clear();
         for (File structureFile : plugin.getFiles("structures")) {
             final RootSequence config = plugin.loadConfigSequence(structureFile);
+            if (structuresByName.size() > 10) {
+                throw new InvalidConfigurationException(config, "The free version allows only up to 10 large structures");
+            }
             registerBlockStructure(config.getName(), config.load(BlockStructure.class));
         }
         blockBlacklist.clear();
