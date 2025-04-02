@@ -1,0 +1,75 @@
+# ============================
+#         STAGE 0
+# ============================
+
+---
+type: depleted
+block: bedrock
+growth: 40
+
+hologram:
+  text: '&7&lDepleted'
+  # Holograms do not spawn inside blocks adjust the offset until you see the hologram
+  offset:
+    x: 0
+    y: 0.5
+    z: 0
+
+# ============================
+#         STAGE 1
+# ============================
+
+---
+type: harvestable
+block: cobblestone
+growth: 40
+
+hologram:
+  text: '&7&lCobblestone &7[%generator_timer_seconds%s]'
+  # Set the update timer (ticks) to refresh placeholders
+  update: 3
+  offset: { x: 0, y: 0.5, z: 0 }
+
+# ============================
+#         STAGE 2
+# ============================
+
+---
+type: harvestable
+block: iron_ore
+growth: 40
+
+hologram:
+  # Create an animation using a frame list
+  frames:
+    - '&8&lIron &7[%generator_timer_seconds%s]'
+    - '&7&lI&8&lron &7[%generator_timer_seconds%s]'
+    - '&8&lI&7&lr&8&lon &7[%generator_timer_seconds%s]'
+    - '&8&lIr&7&lo&8&ln &7[%generator_timer_seconds%s]'
+    - '&8&lIro&7&ln &7[%generator_timer_seconds%s]'
+    - '&8&lIron &7[%generator_timer_seconds%s]'
+    - '&8&lIron &7[%generator_timer_seconds%s]'
+
+  # Use update to set the speed of the animation
+  update: 3
+  offset: { y: 0.5 }
+
+# ============================
+#         STAGE 3
+# ============================
+
+---
+type: replenished
+block: gold_ore
+
+hologram:
+  # Use a list of holograms to spawn more than one hologram
+  - text: "&f-- &6&lGold Ore &f--"
+    # One hologram line is 0.25 in height
+    offset.y: 0.75
+
+  - frames:
+      - '&e<ready>'
+      - '&f<ready>'
+    update: 8
+    offset.y: 0.5
