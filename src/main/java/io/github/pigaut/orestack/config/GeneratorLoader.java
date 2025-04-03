@@ -37,6 +37,10 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             throw new InvalidConfigurationException(config, "The first stage must be depleted");
         }
 
+        if (firstStage.getGrowthFunction() != null) {
+            throw new InvalidConfigurationException(config, "The first stage cannot have a growth function");
+        }
+
         if (firstStage.getGrowthTime() == 0) {
             throw new InvalidConfigurationException(config, "The depleted stage must have a growth time set");
         }
