@@ -96,6 +96,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/example.yml",
                 "generators/diamond_node.yml",
                 "generators/examples/hologram_tutorial.yml",
+                "generators/examples/function_tutorial.yml",
                 "generators/trees/great_oak_tree.yml",
 
                 "generators/crops/wheat.yml",

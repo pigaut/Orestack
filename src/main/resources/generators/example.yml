@@ -16,8 +16,6 @@ hologram:
     - '&a[][][]&7[]'
     - '&a[][][][]'
 
-on-growth: []
-
 on-click: []
 
 on-break:
