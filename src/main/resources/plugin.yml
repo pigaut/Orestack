@@ -1,6 +1,6 @@
 main: io.github.pigaut.orestack.OrestackPlugin
 name: Orestack
-version: 3.26.1
+version: 3.26.2
 api-version: 1.16
 author: pigaut
 description: Create regenerating blocks and structures
@@ -14,6 +14,6 @@ libraries:
   - com.zaxxer:HikariCP:5.1.0
   - org.snakeyaml:snakeyaml-engine:2.9
   - io.github.pigaut.yaml:YamlConfig:3.4.3
-  - io.github.pigaut.yaml:SpigotYamlConfig:3.4.1
+  - io.github.pigaut.yaml:SpigotYamlConfig:3.4.4
   - com.github.cryptomorin:XSeries:13.0.0
 
