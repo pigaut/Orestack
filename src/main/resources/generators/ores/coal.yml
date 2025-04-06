@@ -1,11 +1,10 @@
 type: depleted
 block: cobblestone
-growth: 30
+growth: 200
 ---
 type: harvestable
 block: STONE
-growth: 60
+growth: 400
 ---
 type: replenished
 block: coal_ore
-drop-items: true

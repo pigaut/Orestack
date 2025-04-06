@@ -75,6 +75,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public List<String> getPluginResources() {
         return List.of("config.yml",
+                "functions.yml",
                 "languages/en.yml",
                 "languages/fr.yml",
                 "languages/zh.yml");
@@ -98,6 +99,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/tutorials/hologram_tutorial.yml",
                 "generators/tutorials/function_tutorial.yml",
                 "generators/tutorials/flag_tutorial.yml",
+                "generators/tutorials/drops_tutorial.yml",
                 "generators/trees/great_oak_tree.yml",
 
                 "generators/crops/wheat.yml",
@@ -115,6 +117,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/iron.yml",
                 "generators/ores/gold.yml",
                 "generators/ores/diamond.yml",
+                "generators/ores/emerald.yml",
 
                 "structures/diamond_node.yml",
                 "structures/trees/great_oak/great_oak_tree_0.yml",
