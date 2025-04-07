@@ -11,11 +11,11 @@ growth: 40
 on-break:
   # Use 'do' to define one or more actions to be executed always
   do: chatMessage <&4This resource is depleted>
-  # Use chance to define the probability of this function to run
+  # Use 'chance' to define the probability of this function to run
   chance: 0.6   # 60%
-  # Use delay to define the delay after which the function will run
+  # Use 'delay' to define the delay after which the function will run
   delay: 60   # 3 seconds
-  # Use repetitions to define the amount of times this function will try to run
+  # Use 'repetitions' to define the number of times this function will run
   repetitions: 1   # 1 repetition
 
 # ============================
@@ -79,7 +79,7 @@ growth: 40
 
 on-break:
   # Use 'if' to define conditions
-  if: toolTypeIsEqual SHEARS
+  if: playerToolTypeEquals SHEARS
   # Use 'do' to define actions that will run if conditions are met
   do:
     - chatMessage <&aHarvesting red wool...>
@@ -91,15 +91,16 @@ on-break:
 on-click:
   click: right_click_block
   # Use 'if-not' to negate the conditions
-  if-not: toolTypeIsEqual SHEARS
+  if-not: playerToolTypeEquals SHEARS
   # Now 'do' is used when the conditions are NOT met
   do: chatMessage <&4You are not holding shears, you cannot harvest this block!>
   # and 'else' is used for when they are not
   else: chatMessage <&aYou are holding shears, you can harvest this block!>
 
 ---
-type: replenished
+type: harvestable
 block: yellow_wool
+growth: 40
 
 on-break:
   # Use a list to define multiple functions
@@ -131,5 +132,16 @@ on-break:
       - chatMessage <&aFound a reward! You received x1 diamond.>
 
     # This pattern of writing code is called guard clauses or return early,
-    # in this limited yaml scripting system we can use it to our advantage
+    # in this limited YAML scripting system we can use it to our advantage
     # to write almost any logic.
+
+---
+type: replenished
+block: lime_wool
+
+on-break:
+  # Define global functions into 'functions.yml' and reuse them to reduce repetition
+  - requireHarvestPermission
+  - requireIronPickaxeOrBetter
+  - do: chatMessage <&aHarvesting green wool...>
+

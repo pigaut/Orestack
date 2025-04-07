@@ -19,7 +19,7 @@ hologram:
 on-click: []
 
 on-break:
-  actions:
+  do:
     - action: customMessage
       message:
         type: title
@@ -75,13 +75,13 @@ on-break:
     do:
       - chatMessage <&4You have no permission to mine this generator>
       - cancelEvent
-      - stop
+      - return
 
   - if-not: toolTypeIsEqual <IRON_PICKAXE, GOLD_PICKAXE, DIAMOND_PICKAXE, NETHERITE_PICKAXE>
     do:
       - chatMessage <&4You need at least an iron pickaxe to mine this generator>
       - cancelEvent
-      - stop
+      - return
 
   - chance: 0.5
     do:
@@ -127,7 +127,7 @@ on-break:
 type: replenished
 block: emerald_block
 drop-items: false
-exp-to-drop: 100  # Set to 0 for no experience drops, if not set the default amount will drop
+exp-to-drop: 100  # Set to 0 for no experience drops, if not set, the default amount will drop
 
 hologram:
   - text: "&2&lEmerald"

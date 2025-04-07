@@ -1,14 +1,14 @@
 type: depleted
 block: cobblestone
-growth: 30
+growth: 200
 ---
 type: harvestable
 block: stone
-growth: 60
+growth: 400
 ---
 type: harvestable
 block: coal ore
-growth: 120
+growth: 600
 ---
 type: replenished
 block: iron ore

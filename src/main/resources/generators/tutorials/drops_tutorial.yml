@@ -1,0 +1,55 @@
+# ============================
+#         STAGE 0
+# ============================
+
+---
+type: depleted   # Depleted stage has no drops
+block: bedrock
+growth: 40
+
+# ============================
+#         STAGE 1
+# ============================
+
+---
+type: growing   # Growth stage has no drops
+block: cobblestone
+growth: 40
+
+# ============================
+#         STAGE 2
+# ============================
+
+---
+type: harvestable
+block: coal_ore
+growth: 40
+
+drop-items: false   # default is true, use to disable item drops when mined
+
+exp-to-drop: 0   # if not set, the default exp is dropped, if set to 0, no exp is dropped
+
+on-break:
+  do:
+    # There are 3 ways to drop items manually
+    - dropItemAtBlock COAL    # Drops the item at the broken block location
+    - dropItemAtPlayer COAL   # Drops the item at the player location
+    - giveItemToPlayer COAL   # Gives the item to the player and drops what couldn't fit in the inventory
+
+# ============================
+#         STAGE 3
+# ============================
+
+---
+type: replenished
+block: iron_ore
+
+drop-items: false
+
+on-break:
+  do: dropItemAtBlock RAW_IRON:1   # You can set the amount with the format "material:amount" or "item:amount"
+
+
+
+
+
