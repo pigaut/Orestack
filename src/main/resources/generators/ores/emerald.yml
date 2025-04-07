@@ -4,11 +4,11 @@ growth: 200
 ---
 type: harvestable
 block: stone
-growth: 600
+growth: 1200
 ---
 type: harvestable
-block: iron ore
-growth: 800
+block: diamond_ore
+growth: 1400
 ---
 type: replenished
-block: gold ore
+block: emerald_ore

@@ -1,14 +1,14 @@
 type: depleted
 block: cobblestone
-growth: 30
+growth: 200
 ---
 type: harvestable
 block: stone
-growth: 240
+growth: 800
 ---
 type: harvestable
 block: gold ore
-growth: 480
+growth: 1200
 ---
 type: replenished
 block: diamond ore
