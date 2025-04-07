@@ -100,6 +100,7 @@ on-click:
 ---
 type: harvestable
 block: yellow_wool
+growth: 40
 
 on-break:
   # Use a list to define multiple functions
