@@ -58,6 +58,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
+    public boolean forceMetrics() {
+        return true;
+    }
+
+    @Override
     public @Nullable Integer getResourceId() {
         return 91628;
     }

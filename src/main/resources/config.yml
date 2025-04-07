@@ -5,7 +5,7 @@ generate-examples: true
 check-for-updates: true
 
 # Enables bstats metrics collection (https://bstats.org/plugin/bukkit/Orestack/24502)
-metrics: true
+metrics: true   # PREMIUM ONLY
 
 # The language file that should be used (en = en.yml)
 # Requires restart to take full effect
