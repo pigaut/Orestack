@@ -53,11 +53,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public boolean forceMetrics() {
-        return true;
-    }
-
-    @Override
     public @Nullable Integer getMetricsId() {
         return 24502;
     }
