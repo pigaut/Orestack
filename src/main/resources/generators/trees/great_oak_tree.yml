@@ -29,7 +29,8 @@ hologram:
     offset: { x: 2, y: 1.75, z: 0 }
 
 on-break:
-  do: dropItemAtPlayer OAK_LOG:19
+  - requireOakBlock
+  - do: dropItemAtPlayer OAK_LOG:19
 
 # ============================
 #         STAGE 2
@@ -38,6 +39,9 @@ on-break:
 ---
 state: harvestable
 structure: great_oak_tree_2
+
+on-break:
+  - requireOakBlock
 
 hologram:
   - text: "&2&lGreat Oak Tree"
@@ -53,6 +57,9 @@ hologram:
 state: harvestable
 structure: great_oak_tree_3
 
+on-break:
+  - requireOakBlock
+
 hologram:
   - text: "&2&lGreat Oak Tree"
     offset: { x: 2, y: 2, z: 0 }
@@ -66,6 +73,9 @@ hologram:
 ---
 state: harvestable
 structure: great_oak_tree_4
+
+on-break:
+  - requireOakBlock
 
 hologram:
   - text: "&2&lGreat Oak Tree"
@@ -81,6 +91,9 @@ hologram:
 state: harvestable
 structure: great_oak_tree_5
 
+on-break:
+  - requireOakBlock
+
 hologram:
   - text: "&2&lGreat Oak Tree"
     offset: { x: 2, y: 2, z: 0 }
@@ -94,6 +107,9 @@ hologram:
 ---
 state: replenished
 structure: great_oak_tree_6
+
+on-break:
+  - requireOakBlock
 
 hologram:
   - text: "&2&lGreat Oak Tree"
