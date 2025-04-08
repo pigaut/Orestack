@@ -15,20 +15,34 @@ require_harvest_permission:
     - return
 
 require_iron_pickaxe_or_better:
-  if-not: toolTypeIsEqual <IRON_PICKAXE, GOLD_PICKAXE, DIAMOND_PICKAXE, NETHERITE_PICKAXE>
+  if-not: toolTypeEquals <IRON_PICKAXE, GOLD_PICKAXE, DIAMOND_PICKAXE, NETHERITE_PICKAXE>
   do:
     - chatMessage <&4You need an iron pickaxe or better to mine this block>
     - cancelEvent
     - return
 
 require_diamond_pickaxe_or_better:
-  if-not: toolTypeIsEqual <DIAMOND_PICKAXE, NETHERITE_PICKAXE>
+  if-not: toolTypeEquals <DIAMOND_PICKAXE, NETHERITE_PICKAXE>
   do:
     - chatMessage <&4You need a diamond pickaxe or better to mine this block>
     - cancelEvent
     - return
 
+require_oak_block:
+  if-not: blockTypeEquals <OAK_LOG, OAK_WOOD>
+  do:
+    - cancelEvent
+    - return
 
+require_special_tool:
+  if-any:
+    - toolTypeEquals <GOLD_PICKAXE, DIAMOND_PICKAXE>
+    - toolIsSimilar <IRON_INGOT, DIAMOND>
+    - toolHasCustomModel <006, 007>
+  else:
+    - chatMessage <&4You need a special tool to mine this block>
+    - cancelEvent
+    - return
 
 
 
