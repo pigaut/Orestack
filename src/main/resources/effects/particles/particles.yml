@@ -1,6 +1,6 @@
 simple-particle:
   particle: crit                 # The particle type
-  count: 1                       # The amount of particles
+  count: 1                       # The number of particles
   offset: { x: 0, y: 0, z: 0 }   # The exact offset where the particle will spawn
   delay: 0                       # The delay after which this particle should spawn
   repetitions: 20                 # The amount of times this particle should spawn

@@ -79,7 +79,7 @@ growth: 40
 
 on-break:
   # Use 'if' to define conditions
-  if: playerToolTypeEquals SHEARS
+  if: toolTypeEquals SHEARS
   # Use 'do' to define actions that will run if conditions are met
   do:
     - chatMessage <&aHarvesting red wool...>
@@ -91,11 +91,21 @@ on-break:
 on-click:
   click: right_click_block
   # Use 'if-not' to negate the conditions
-  if-not: playerToolTypeEquals SHEARS
+  if-not: toolTypeEquals SHEARS
   # Now 'do' is used when the conditions are NOT met
   do: chatMessage <&4You are not holding shears, you cannot harvest this block!>
   # and 'else' is used for when they are not
   else: chatMessage <&aYou are holding shears, you can harvest this block!>
+
+on-growth:
+  # Use 'if-any' to create a disjunctive condition
+  if-any:
+    - probability 0.5
+    - onlinePlayers 10-300
+  # Now 'do' is used when at least one condition is met
+  do: playSoundAtBlock tin
+  # and 'else' is used when all conditions are unmet
+  else: playSoundAtBlock tin_tin
 
 ---
 type: harvestable
@@ -104,21 +114,21 @@ growth: 40
 
 on-break:
   # Use a list to define multiple functions
-  - if-not: hasPermission orestack.generator.harvest
+  - if-not: playerHasPermission orestack.generator.harvest
     do:
       - "chatMessage <&4You don't have the permission to harvest this block>"
       - cancelEvent
       - return   # 'return' or 'stop' can be used when in a list of functions, and it will end code execution
 
-    # Some conditions (toolTypeIsEqual and toolIsSimilar as of now) accept one or more parameters
-  - if-not: toolTypeIsEqual <SHEARS, FISHING_ROD>
+    # Some conditions accept one or more parameters
+  - if-not: toolTypeEquals <SHEARS, FISHING_ROD>
     do:
       - chatMessage <&4You need shears or a fishing rod to harvest this block>
       - cancelEvent
-      - return   # [!] Always place 'return' or 'stop' last or the following actions will not run
+      - return   # [!] Always place 'return' or 'stop' last, or the following actions will not run
       - chatMessage <&4This message will not be sent because this code is unreachable!>
 
-    # This only runs if the 'return' action above does not run
+    # This only runs if the 'return' action above is not reached
   - do: chatMessage <&aHarvesting yellow wool...>
 
   - if-not: hasPermission orestack.generator.harvest.reward
