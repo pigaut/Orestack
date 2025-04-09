@@ -15,6 +15,7 @@ import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.structure.*;
 import io.github.pigaut.voxel.version.*;
 import org.bukkit.*;
+import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
 
