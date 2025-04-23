@@ -140,7 +140,7 @@ on-break:
   - if: hasPermission orestack.generator.harvest
     do:
       - giveItem emerald
-      - spawnParticleAtBlock fire_ring
+      - spawnParticleAtBlock flame_ring
       - customMessage hologram
       - chatMessage <You mined emerald!>
 

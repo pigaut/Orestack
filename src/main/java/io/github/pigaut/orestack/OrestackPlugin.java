@@ -86,11 +86,15 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return List.of(
                 "items/items.yml",
                 "messages/messages.yml",
-                "effects/particles/particles.yml",
+                "effects/particles/misc.yml",
+                "effects/particles/flame.yml",
                 "effects/sounds/sounds.yml",
 
                 "generators/example.yml",
-                "generators/diamond_node.yml",
+
+                "generators/examples/magic_wheat.yml",
+                "generators/examples/diamond_node.yml",
+
                 "generators/tutorials/hologram_tutorial.yml",
                 "generators/tutorials/function_tutorial.yml",
                 "generators/tutorials/flag_tutorial.yml",
@@ -114,7 +118,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/diamond.yml",
                 "generators/ores/emerald.yml",
 
-                "structures/diamond_node.yml",
                 "structures/trees/great_oak/great_oak_tree_0.yml",
                 "structures/trees/great_oak/great_oak_tree_1.yml",
                 "structures/trees/great_oak/great_oak_tree_2.yml",
