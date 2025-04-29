@@ -56,6 +56,7 @@ public class GeneratorTools {
         final ItemStack generatorItem = plugin.getTools().getGeneratorTool();
 
         final BlockStructure lastStageStructure = generator.getLastStage().getStructure();
+
         final Material material = lastStageStructure.getBlockChanges().get(0).getType();
         generatorItem.setType(Crops.isCrop(material) ? Crops.getCropItem(material) : material);
 

@@ -23,6 +23,7 @@ import java.util.*;
 
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
+    private static OrestackPlugin plugin;
     private final ToolManager toolManager = new ToolManager(this);
     private final StructureManager structureManager = new StructureManager(this);
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
@@ -30,7 +31,9 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
     private final Database database = SQLib.createDatabase(new File(("plugins/Orestack/data")));
 
-    private static OrestackPlugin plugin;
+    public static OrestackPlugin getPlugin() {
+        return plugin;
+    }
 
     @Override
     public void onLoad() {
@@ -43,13 +46,29 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         database.closeConnection();
     }
 
-    public static OrestackPlugin getPlugin() {
-        return plugin;
-    }
-
     @Override
     public @NotNull List<SpigotVersion> getCompatibleVersions() {
         return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_16_5);
+    }
+
+    @Override
+    public @NotNull PlayerManager<OrestackPlayer> getPlayers() {
+        return playerManager;
+    }
+
+    @Override
+    public @NotNull OrestackConfigurator getConfigurator() {
+        return new OrestackConfigurator(this);
+    }
+
+    @Override
+    public @Nullable OrestackPlayer getPlayer(String playerName) {
+        return playerManager.getPlayer(playerName);
+    }
+
+    @Override
+    public @Nullable OrestackPlayer getPlayer(UUID playerId) {
+        return playerManager.getPlayer(playerId);
     }
 
     @Override
@@ -68,6 +87,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
+    public @NotNull List<String> getPluginDirectories() {
+        return List.of("items", "generators", "messages", "languages", "effects/particles", "effects/sounds");
+    }
+
+    @Override
     public List<String> getPluginResources() {
         return List.of("config.yml",
                 "functions.yml",
@@ -77,18 +101,13 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull List<String> getPluginDirectories() {
-        return List.of("items", "generators", "messages", "languages", "effects/particles", "effects/sounds");
-    }
-
-    @Override
     public List<String> getExampleResources() {
         return List.of(
-                "items/items.yml",
-                "messages/messages.yml",
+                "items/misc.yml",
+                "messages/misc.yml",
                 "effects/particles/misc.yml",
                 "effects/particles/flame.yml",
-                "effects/sounds/sounds.yml",
+                "effects/sounds/misc.yml",
 
                 "generators/example.yml",
 
@@ -171,26 +190,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     public @Nullable Generator getGenerator(@NotNull Location location) {
         return generatorManager.getGenerator(location);
-    }
-
-    @Override
-    public @NotNull PlayerManager<OrestackPlayer> getPlayers() {
-        return playerManager;
-    }
-
-    @Override
-    public @Nullable OrestackPlayer getPlayer(String playerName) {
-        return playerManager.getPlayer(playerName);
-    }
-
-    @Override
-    public @Nullable OrestackPlayer getPlayer(UUID playerId) {
-        return playerManager.getPlayer(playerId);
-    }
-
-    @Override
-    public @NotNull OrestackConfigurator getConfigurator() {
-        return new OrestackConfigurator(this);
     }
 
     public Database getDatabase() {

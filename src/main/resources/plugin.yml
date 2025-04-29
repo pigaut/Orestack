@@ -1,6 +1,6 @@
 main: io.github.pigaut.orestack.OrestackPlugin
 name: Orestack
-version: 3.26.6
+version: 3.27.0
 api-version: 1.16
 author: pigaut
 description: Create regenerating blocks and structures
@@ -8,6 +8,7 @@ softdepend:
   - Vault
   - PlaceholderAPI
   - WorldGuard
+  - ItemsAdder
 
 libraries:
   - com.h2database:h2:2.3.232
