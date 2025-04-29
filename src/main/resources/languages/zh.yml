@@ -140,7 +140,6 @@ placed-structure: '&a已在目标'
 # 发生错误
 structure-not-found: '&4找不到名为 %structure-name% 的结构' # 找不到结构
 structure-minimum-blocks: '&4结构必须至少包含两个方块' # 结构方块数量不足
-structure-limit: '免费版本仅允许最多 10 个结构'
 
 # 生成器命令
 generator-command: generator           # 生成器命令
@@ -181,6 +180,7 @@ incomplete-region: '&4你需要使用生成器魔杖选择一个区域' # 未选
 too-far-away: '&4无法找到范围内的方块，请靠近一些' # 距离过远
 target-not-generator: '&4你所看的方块不是一个生成器' # 目标不是生成器
 generator-overlap: '&4离另一个生成器太近' # 生成器重叠
+large-generator-limit: '&4免费版最多只允许使用25个多方块生成器'
 ## 成功
 received-generator: '&a你收到了 x1 %generator% 生成器' # 收到生成器
 received-wand: '&a你收到了 x1 魔杖物品' # 收到魔杖

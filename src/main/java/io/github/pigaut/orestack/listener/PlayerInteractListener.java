@@ -116,6 +116,14 @@ public class PlayerInteractListener implements Listener {
         final Player player = event.getPlayer();
         if (!player.hasPermission(plugin.getLang("generator-place-permission"))) {
             plugin.sendMessage(player, "missing-place-permission", heldGenerator);
+            event.setCancelled(true);
+            return;
+        }
+
+        if (heldGenerator.getLastStage().getStructure().getBlockChanges().size() > 1
+                && plugin.getGenerators().getLargeGeneratorsPlaced() >= 25) {
+            plugin.sendMessage(player, "large-generator-limit");
+            event.setCancelled(true);
             return;
         }
 

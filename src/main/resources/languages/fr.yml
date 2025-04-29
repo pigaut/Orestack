@@ -140,7 +140,6 @@ placed-structure: '&aStructure placée au bloc cible'
 ## Erreurs
 structure-not-found: '&4Impossible de trouver la structure avec le nom : %nom-structure%'
 structure-minimum-blocks: '&4La structure doit avoir au moins deux blocs'
-structure-limit: '&4La version gratuite n''autorise que 10 structures maximum'
 
 # Commande de générateur
 generator-command: generateur
@@ -180,6 +179,7 @@ incomplete-region: '&4Vous devez sélectionner une région avec la baguette de g
 too-far-away: '&4Impossible de trouver un bloc à portée, rapprochez-vous'
 target-not-generator: '&4Le bloc que vous regardez n''est pas un générateur'
 generator-overlap: '&4Trop près d''un autre générateur'
+large-generator-limit: '&4La version gratuite permet uniquement jusqu’à 25 générateurs multi-blocs'
 ## Succès
 received-generator: '&aVous avez reçu x1 générateur %nom-generateur%'
 received-wand: '&aVous avez reçu x1 baguette'

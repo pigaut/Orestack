@@ -21,10 +21,15 @@ public class GeneratorManager extends Manager {
     private final OrestackPlugin plugin;
     private final List<Generator> generators = new ArrayList<>();
     private final Map<Location, Generator> generatorBlocks = new ConcurrentHashMap<>();
+    private int largeGeneratorsPlaced = 0;
 
     public GeneratorManager(OrestackPlugin plugin) {
         super(plugin);
         this.plugin = plugin;
+    }
+
+    public int getLargeGeneratorsPlaced() {
+        return largeGeneratorsPlaced;
     }
 
     @Override
@@ -154,6 +159,10 @@ public class GeneratorManager extends Manager {
     }
 
     public void registerGenerator(@NotNull Generator generator) {
+        if (generator.getTemplate().getLastStage().getStructure().getBlockChanges().size() > 1) {
+            largeGeneratorsPlaced++;
+        }
+
         generators.add(generator);
         for (Block block : generator.getAllOccupiedBlocks()) {
             generatorBlocks.put(block.getLocation(), generator);
@@ -161,6 +170,10 @@ public class GeneratorManager extends Manager {
     }
 
     public void removeGenerator(@NotNull Generator generator) {
+        if (generator.getTemplate().getLastStage().getStructure().getBlockChanges().size() > 1) {
+            largeGeneratorsPlaced--;
+        }
+
         generators.remove(generator);
         for (Block block : generator.getAllOccupiedBlocks()) {
             generatorBlocks.remove(block.getLocation());
