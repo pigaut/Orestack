@@ -4,11 +4,11 @@ generate-examples: true
 
 check-for-updates: true
 
-# Enables bstats metrics collection (https://bstats.org/plugin/bukkit/Orestack/24502)
-metrics: true   # PREMIUM ONLY
+# Enables bStats metrics collection (https://bstats.org/plugin/bukkit/Orestack/24502)
+metrics: true   # Premium Only
 
 # The language file that should be used (en = en.yml)
-# Requires restart to take full effect
+# Requires server restart to take full effect
 language: en
 
 # The auto save timer, if not set or set to 0 data will only be saved on shutdown or on /orestack reload
@@ -21,7 +21,7 @@ structure-save-blacklist:
 
 # Tools are only intended for admin use
 generator-tool:
-  material: paper   # Replaced by the last stage block
+  material: terracotta   # Replaced by the last stage block
   name: '&b&l%generator_tc% Generator (%generator_rotation_tc%)'
   glow: true
   lore:
