@@ -1,0 +1,16 @@
+---
+type: depleted
+growth: 600
+block: oak_log
+---
+type: harvestable
+structure: oak_tree_1
+---
+type: harvestable
+structure: oak_tree_2
+---
+type: harvestable
+structure: oak_tree_3
+---
+type: replenished
+structure: oak_tree_4

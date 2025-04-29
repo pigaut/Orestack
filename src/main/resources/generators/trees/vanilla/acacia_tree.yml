@@ -1,0 +1,26 @@
+---
+type: depleted
+growth: 1500
+block: acacia_log
+offset.x: 2
+---
+type: harvestable
+structure: acacia_tree_1
+---
+type: harvestable
+structure: acacia_tree_2
+---
+type: harvestable
+structure: acacia_tree_3
+---
+type: harvestable
+structure: acacia_tree_4
+---
+type: harvestable
+structure: acacia_tree_5
+---
+type: harvestable
+structure: acacia_tree_6
+---
+type: replenished
+structure: acacia_tree_7

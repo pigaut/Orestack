@@ -33,6 +33,7 @@ public class Generator implements PlaceholderSupplier {
     private @Nullable HologramDisplay currentHologram = null;
     private BlockStructure currentStructure;
     private boolean updating = false;
+    private boolean harvested = false;
 
     private Generator(GeneratorTemplate generator, Location origin, int currentStage, Rotation rotation) {
         this.template = generator;
@@ -153,7 +154,7 @@ public class Generator implements PlaceholderSupplier {
 
     public void nextStage() {
         if (isLastStage()) {
-            throw new IllegalStateException("Block generator does not have a next stage");
+            return;
         }
 
         final GeneratorStage currentStage = getCurrentStage();
@@ -195,7 +196,7 @@ public class Generator implements PlaceholderSupplier {
 
     public void previousStage() {
         if (isFirstStage()) {
-            throw new IllegalStateException("Block generator does not have a previous stage");
+            return;
         }
 
         int peekStage = currentStage;
@@ -213,6 +214,7 @@ public class Generator implements PlaceholderSupplier {
         final GeneratorStage stage = getCurrentStage();
         stage.getStructure().updateBlocks(origin, rotation);
         updating = false;
+        harvested = false;
 
         if (currentHologram != null) {
             currentHologram.despawn();
@@ -253,6 +255,14 @@ public class Generator implements PlaceholderSupplier {
 
     public void setUpdating(boolean updating) {
         this.updating = updating;
+    }
+
+    public boolean isHarvested() {
+        return harvested;
+    }
+
+    public void setHarvested(boolean harvested) {
+        this.harvested = harvested;
     }
 
     @Override

@@ -1,0 +1,19 @@
+---
+type: depleted
+growth: 1200
+block: spruce_log
+---
+type: harvestable
+structure: spruce_tree_1
+---
+type: harvestable
+structure: spruce_tree_2
+---
+type: harvestable
+structure: spruce_tree_3
+---
+type: harvestable
+structure: spruce_tree_4
+---
+type: replenished
+structure: spruce_tree_5
