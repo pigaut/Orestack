@@ -1,0 +1,60 @@
+# A magic wheat, when ripen it has a 30% chance to summon a rain cloud (enable particles)
+# which will instantly grow the crop and drop extra wheat and seeds
+
+type: depleted
+block: wheat
+age: 0
+growth: 30
+---
+type: growing
+block: wheat
+age: 1
+growth: 30
+---
+type: growing
+block: wheat
+age: 2
+growth: 30
+---
+type: growing
+block: wheat
+age: 3
+growth: 30
+---
+type: growing
+block: wheat
+age: 4
+growth: 30
+---
+type: growing
+block: wheat
+age: 5
+growth: 30
+---
+type: growing
+block: wheat
+age: 6
+growth: 30
+---
+type: replenished
+block: wheat
+age: 7
+regrow: false
+
+on-break:
+  - if: probability 0.3
+    do: spawnParticleAtBlock rain_cloud
+    else: [ setStage 0, return ]
+
+  - { do: setStage 1, delay: 4 }
+  - { do: setStage 2, delay: 8 }
+  - { do: setStage 3, delay: 12 }
+  - { do: setStage 4, delay: 16 }
+  - { do: setStage 5, delay: 20 }
+  - { do: setStage 6, delay: 24 }
+  - { do: setStage 7, delay: 28 }
+
+  - delay: 28
+    repetitions: 4
+    interval: 5
+    do: [ dropItemAtBlock wheat, dropItemAtBlock seeds ]

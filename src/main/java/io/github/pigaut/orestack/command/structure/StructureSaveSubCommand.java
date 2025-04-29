@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack.command.structure;
 
+import dev.lone.itemsadder.api.*;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
@@ -51,60 +52,17 @@ public class StructureSaveSubCommand extends LangSubCommand {
             final RootSequence config = plugin.loadConfigSequence(file);
             config.setFlowStyle(FlowStyle.AUTO);
             config.clear();
+
             for (Location location : GeneratorTools.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
                 final Block block = location.getBlock();
                 final Material blockType = block.getType();
+
                 if (plugin.getStructures().isBlacklisted(blockType)) {
                     continue;
                 }
 
                 final ConfigSection blockConfig = config.addSection();
-                blockConfig.set("block", blockType);
-
-                final BlockData blockData = block.getBlockData();
-
-                if (blockData instanceof Ageable ageable) {
-                    blockConfig.set("age", ageable.getAge());
-                }
-
-                if (blockData instanceof Directional directional) {
-                    blockConfig.set("direction|face", directional.getFacing());
-                } else if (blockData instanceof Rotatable rotatable) {
-                    blockConfig.set("direction|face", rotatable.getRotation());
-                }
-
-                if (blockData instanceof MultipleFacing multipleFacing) {
-                    blockConfig.set("directions|faces", multipleFacing.getFaces());
-                }
-
-                if (blockData instanceof Orientable orientable) {
-                    blockConfig.set("orientation", orientable.getAxis());
-                }
-
-                if (blockData instanceof Openable openable) {
-                    blockConfig.set("open", openable.isOpen());
-                }
-
-                if (blockData instanceof Bisected bisected) {
-                    blockConfig.set("half", bisected.getHalf());
-                }
-
-                if (blockData instanceof Stairs stairs) {
-                    blockConfig.set("stair-shape|stairs-shape|stairs", stairs.getShape());
-                }
-
-                if (blockData instanceof Slab slab) {
-                    blockConfig.set("slab-type|slab", slab.getType());
-                }
-
-                if (blockData instanceof Door door) {
-                    blockConfig.set("door-hinge|door", door.getHinge());
-                }
-
-                if (blockData instanceof Bed bed) {
-                    blockConfig.set("bed-part|bed", bed.getPart());
-                }
-
+                blockConfig.map(block);
                 blockConfig.set("offset.x", location.getBlockX() - centerX);
                 blockConfig.set("offset.y", location.getBlockY() - lowestY);
                 blockConfig.set("offset.z", location.getBlockZ() - centerZ);

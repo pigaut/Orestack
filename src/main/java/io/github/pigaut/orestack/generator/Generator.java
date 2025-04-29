@@ -226,8 +226,13 @@ public class Generator implements PlaceholderSupplier {
             }
             growthTask = plugin.getScheduler().runTaskLater(stage.getGrowthTime(), () -> {
                 growthTask = null;
+                if (this.isLastStage()) {
+                    return;
+                }
+
                 final GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(this);
                 SpigotServer.callEvent(growthEvent);
+
                 if (!growthEvent.isCancelled()) {
                     this.nextStage();
                 }
