@@ -1,0 +1,19 @@
+---
+type: depleted
+growth: 900
+block: birch_log
+---
+type: harvestable
+structure: birch_tree_1
+---
+type: harvestable
+structure: birch_tree_2
+---
+type: harvestable
+structure: birch_tree_3
+---
+type: harvestable
+structure: birch_tree_4
+---
+type: replenished
+structure: birch_tree_5

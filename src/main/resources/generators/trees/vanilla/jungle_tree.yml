@@ -1,0 +1,28 @@
+---
+type: depleted
+growth: 1800
+block: jungle_log
+---
+type: harvestable
+structure: jungle_tree_1
+---
+type: harvestable
+structure: jungle_tree_2
+---
+type: harvestable
+structure: jungle_tree_3
+---
+type: harvestable
+structure: jungle_tree_4
+---
+type: harvestable
+structure: jungle_tree_5
+---
+type: harvestable
+structure: jungle_tree_6
+---
+type: harvestable
+structure: jungle_tree_7
+---
+type: replenished
+structure: jungle_tree_8

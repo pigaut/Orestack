@@ -33,7 +33,7 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        if (generator.isUpdating()) {
+        if (generator.isUpdating() || generator.isHarvested()) {
             event.setCancelled(true);
             return;
         }
@@ -42,6 +42,7 @@ public class BlockBreakListener implements Listener {
             plugin.getGenerators().removeGenerator(generator);
             return;
         }
+
         final OrestackPlayer playerState = plugin.getPlayer(event.getPlayer().getUniqueId());
         playerState.updatePlaceholders(generator);
 
@@ -53,11 +54,9 @@ public class BlockBreakListener implements Listener {
         }
 
         final GeneratorStage stage = generator.getCurrentStage();
-        if (!stage.getState().isHarvestable()) {
-            event.setCancelled(true);
-        }
-        else {
+        if (stage.getState().isHarvestable()) {
             event.setCancelled(false);
+            generator.setHarvested(true);
             final Integer expToDrop = stage.getExpToDrop();
             if (expToDrop != null) {
                 event.setExpToDrop(expToDrop);
@@ -65,6 +64,9 @@ public class BlockBreakListener implements Listener {
             if (stage.shouldRegrow()) {
                 generator.previousStage();
             }
+        }
+        else {
+            event.setCancelled(true);
         }
     }
 
