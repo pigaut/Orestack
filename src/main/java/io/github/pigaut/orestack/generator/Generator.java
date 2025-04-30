@@ -29,17 +29,15 @@ public class Generator implements PlaceholderSupplier {
     private final Rotation rotation;
     private int currentStage;
     private @Nullable BukkitTask growthTask = null;
-    private Instant growthStart = null;
+    private @Nullable Instant growthStart = null;
     private @Nullable HologramDisplay currentHologram = null;
-    private BlockStructure currentStructure;
     private boolean updating = false;
-    private boolean harvested = false;
+    private boolean harvesting = false;
 
     private Generator(GeneratorTemplate generator, Location origin, int currentStage, Rotation rotation) {
         this.template = generator;
         this.origin = origin.clone();
         this.currentStage = currentStage;
-        this.currentStructure = generator.getStage(currentStage).getStructure();
         this.rotation = rotation;
     }
 
@@ -63,30 +61,6 @@ public class Generator implements PlaceholderSupplier {
         return create(template, origin, Rotation.NONE);
     }
 
-    public @NotNull GeneratorTemplate getTemplate() {
-        return template;
-    }
-
-    public @NotNull Location getOrigin() {
-        return origin.clone();
-    }
-
-    public Set<Block> getAllOccupiedBlocks() {
-        return template.getAllOccupiedBlocks(origin, rotation);
-    }
-
-    public boolean matchBlocks() {
-        return getCurrentStage().getStructure().matchBlocks(origin, rotation);
-    }
-
-    public List<Block> getBlocks() {
-        return getCurrentStage().getStructure().getBlocks(origin, rotation);
-    }
-
-    public void removeBlocks() {
-        getCurrentStage().getStructure().removeBlocks(origin, rotation);
-    }
-
     public boolean exists() {
         for (Block block : getBlocks()) {
             if (!plugin.getGenerators().isGenerator(block.getLocation())) {
@@ -104,6 +78,42 @@ public class Generator implements PlaceholderSupplier {
         return currentStage >= template.getMaxStage();
     }
 
+    public boolean isUpdating() {
+        return updating;
+    }
+
+    public boolean isHarvesting() {
+        return harvesting;
+    }
+
+    public void setHarvesting(boolean harvesting) {
+        this.harvesting = harvesting;
+    }
+
+    public boolean matchBlocks() {
+        return getCurrentStage().getStructure().matchBlocks(origin, rotation);
+    }
+
+    public @NotNull GeneratorTemplate getTemplate() {
+        return template;
+    }
+
+    public @NotNull Location getOrigin() {
+        return origin.clone();
+    }
+
+    public Rotation getRotation() {
+        return rotation;
+    }
+
+    public List<Block> getBlocks() {
+        return getCurrentStage().getStructure().getBlocks(origin, rotation);
+    }
+
+    public Set<Block> getAllOccupiedBlocks() {
+        return template.getAllOccupiedBlocks(origin, rotation);
+    }
+
     public @Nullable Duration getTimeBeforeNextStage() {
         return growthStart != null ? Duration.between(growthStart, Instant.now()) : null;
     }
@@ -114,30 +124,6 @@ public class Generator implements PlaceholderSupplier {
 
     public @NotNull GeneratorStage getCurrentStage() {
         return template.getStage(currentStage);
-    }
-
-    public void setCurrentStage(int stage) {
-        if (!exists()) {
-            return;
-        }
-
-        this.updating = true;
-        plugin.getScheduler().runTaskLater(1, () -> {
-            final BlockStructure nextStructure = template.getStage(stage).getStructure();
-            for (Block previousBlock : template.getAllOccupiedBlocks(origin, rotation)) {
-                final Block nextBlock = nextStructure.getBlockAt(origin, rotation, previousBlock.getLocation());
-                if (nextBlock == null || nextBlock.getType() != previousBlock.getType()) {
-                    previousBlock.setType(Material.AIR, false);
-                }
-            }
-
-            this.currentStage = stage;
-            updateState();
-        });
-    }
-
-    public Rotation getRotation() {
-        return rotation;
     }
 
     public @Nullable HologramDisplay getCurrentHologram() {
@@ -152,12 +138,34 @@ public class Generator implements PlaceholderSupplier {
         growthStart = null;
     }
 
+    public void reset() {
+        this.setCurrentStage(currentStage);
+    }
+
+    public void setCurrentStage(int stage) {
+        if (!this.exists()) {
+            return;
+        }
+        this.updating = true;
+        plugin.getScheduler().runTaskLater(1, () -> {
+            final BlockStructure nextStructure = template.getStage(stage).getStructure();
+            for (Block previousBlock : template.getAllOccupiedBlocks(origin, rotation)) {
+                final Block nextBlock = nextStructure.getBlockAt(origin, rotation, previousBlock.getLocation());
+                if (nextBlock == null || nextBlock.getType() != previousBlock.getType()) {
+                    previousBlock.setType(Material.AIR, false);
+                }
+            }
+            this.currentStage = stage;
+            this.updateState();
+        });
+    }
+
     public void nextStage() {
-        if (isLastStage()) {
+        if (this.isLastStage()) {
             return;
         }
 
-        final GeneratorStage currentStage = getCurrentStage();
+        final GeneratorStage currentStage = this.getCurrentStage();
         if (currentStage.getGrowthTime() == 0) {
             return;
         }
@@ -191,7 +199,7 @@ public class Generator implements PlaceholderSupplier {
             growthFunction.run(origin.getBlock());
         }
 
-        setCurrentStage(peekStage);
+        this.setCurrentStage(peekStage);
     }
 
     public void previousStage() {
@@ -214,7 +222,7 @@ public class Generator implements PlaceholderSupplier {
         final GeneratorStage stage = getCurrentStage();
         stage.getStructure().updateBlocks(origin, rotation);
         updating = false;
-        harvested = false;
+        harvesting = false;
 
         if (currentHologram != null) {
             currentHologram.despawn();
@@ -247,22 +255,6 @@ public class Generator implements PlaceholderSupplier {
             final Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
             currentHologram = hologram.spawn(offsetLocation, rotation, false, this);
         }
-    }
-
-    public boolean isUpdating() {
-        return updating;
-    }
-
-    public void setUpdating(boolean updating) {
-        this.updating = updating;
-    }
-
-    public boolean isHarvested() {
-        return harvested;
-    }
-
-    public void setHarvested(boolean harvested) {
-        this.harvested = harvested;
     }
 
     @Override

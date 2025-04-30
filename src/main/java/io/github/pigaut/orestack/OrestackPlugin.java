@@ -94,13 +94,12 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull List<String> getPluginDirectories() {
-        return List.of("items", "generators", "messages", "languages", "effects/particles", "effects/sounds");
+        return List.of("items", "generators", "messages", "languages", "functions", "effects/particles", "effects/sounds");
     }
 
     @Override
     public List<String> getPluginResources() {
         return List.of("config.yml",
-                "functions.yml",
                 "languages/en.yml",
                 "languages/fr.yml",
                 "languages/zh.yml");
@@ -114,6 +113,9 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "effects/particles/misc.yml",
                 "effects/particles/flame.yml",
                 "effects/sounds/misc.yml",
+                "functions/misc.yml",
+                "functions/tools.yml",
+                "functions/trees.yml",
 
                 "generators/example.yml",
 
