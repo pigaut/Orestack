@@ -47,7 +47,7 @@ block: iron_ore
 drop-items: false
 
 on-break:
-  do: dropItemAtBlock RAW_IRON:1   # You can set the amount with the format "material:amount" or "item:amount"
+  do: dropItemAtBlock IRON_ORE:1   # You can set the amount with the format "material:amount" or "item:amount"
 
 
 

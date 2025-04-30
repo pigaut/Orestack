@@ -6,7 +6,7 @@ import io.github.pigaut.voxel.function.action.block.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
 
-public class NextStageAction implements BlockAction {
+public class GeneratorNextStageAction implements BlockAction {
 
     private final OrestackPlugin plugin = OrestackPlugin.getPlugin();
 

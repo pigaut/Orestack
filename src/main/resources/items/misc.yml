@@ -24,7 +24,7 @@ compressed_coal:
       value: compressed_coal
 
 iron_chunk:
-  type: raw_iron
+  type: iron_ore
   amount: 1
   name: "&fRaw Iron Chunk"
   lore:

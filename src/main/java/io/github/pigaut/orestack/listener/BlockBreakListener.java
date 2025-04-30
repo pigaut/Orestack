@@ -33,7 +33,7 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        if (generator.isUpdating() || generator.isHarvested()) {
+        if (generator.isUpdating() || generator.isHarvesting()) {
             event.setCancelled(true);
             return;
         }
@@ -46,27 +46,33 @@ public class BlockBreakListener implements Listener {
         final OrestackPlayer playerState = plugin.getPlayer(event.getPlayer().getUniqueId());
         playerState.updatePlaceholders(generator);
 
-        final GeneratorMineEvent generatorHarvestEvent = new GeneratorMineEvent(playerState, generator, block);
-        SpigotServer.callEvent(generatorHarvestEvent);
-        if (generatorHarvestEvent.isCancelled()) {
+        final GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(playerState, generator, block);
+        SpigotServer.callEvent(generatorMineEvent);
+
+        if (generatorMineEvent.isCancelled()) {
             event.setCancelled(true);
             return;
         }
 
         final GeneratorStage stage = generator.getCurrentStage();
-        if (stage.getState().isHarvestable()) {
-            event.setCancelled(false);
-            generator.setHarvested(true);
-            final Integer expToDrop = stage.getExpToDrop();
-            if (expToDrop != null) {
-                event.setExpToDrop(expToDrop);
-            }
-            if (stage.shouldRegrow()) {
-                generator.previousStage();
-            }
+        if (!stage.getState().isHarvestable()) {
+            event.setCancelled(true);
+            return;
+        }
+
+        event.setCancelled(false);
+        generator.setHarvesting(true);
+
+        final Integer expToDrop = stage.getExpToDrop();
+        if (expToDrop != null) {
+            event.setExpToDrop(expToDrop);
+        }
+
+        if (generatorMineEvent.resetStage) {
+            generator.reset();
         }
         else {
-            event.setCancelled(true);
+            generator.previousStage();
         }
     }
 
