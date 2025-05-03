@@ -6,7 +6,7 @@
 
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>Orestack</artifactId>
-    <version>3.27.0</version>
+    <version>3.27.2</version>
 
     <build>
         <plugins>

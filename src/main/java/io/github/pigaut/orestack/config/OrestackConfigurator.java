@@ -3,7 +3,6 @@ package io.github.pigaut.orestack.config;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.action.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.voxel.config.*;
 import io.github.pigaut.voxel.function.action.*;
 import io.github.pigaut.voxel.structure.*;
@@ -20,14 +19,26 @@ public class OrestackConfigurator extends PluginConfigurator {
         addLoader(BlockChange.class, new BlockChangeLoader());
 
         final ActionLoader actions = this.getActionLoader();
+        actions.addLoader("RESET_GENERATOR", (BranchLoader<Action>) branch ->
+                new GeneratorResetStageAction());
+
         actions.addLoader("NEXT_STAGE", (BranchLoader<Action>) branch ->
-                new NextStageAction());
+                new GeneratorNextStageAction());
 
         actions.addLoader("PREVIOUS_STAGE", (BranchLoader<Action>) branch ->
-                new PreviousStageAction());
+                new GeneratorPreviousStageAction());
 
         actions.addLoader("SET_STAGE", (BranchLoader<Action>) branch ->
-                new SetStageAction(branch.getInteger("stage", 1)));
+                new GeneratorSetStageAction(branch.getInteger("stage", 1)));
+
+        actions.addLoader("NEXT_GENERATOR_STAGE", (BranchLoader<Action>) branch ->
+                new GeneratorNextStageAction());
+
+        actions.addLoader("PREVIOUS_GENERATOR_STAGE", (BranchLoader<Action>) branch ->
+                new GeneratorPreviousStageAction());
+
+        actions.addLoader("SET_GENERATOR_STAGE", (BranchLoader<Action>) branch ->
+                new GeneratorSetStageAction(branch.getInteger("stage", 1)));
 
     }
 

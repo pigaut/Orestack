@@ -1,0 +1,24 @@
+---
+type: depleted
+growth: 900
+block: birch_log
+---
+type: harvestable
+structure: birch_tree_1
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: birch_tree_2
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: birch_tree_3
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: birch_tree_4
+on-break: resetGeneratorIfLeaves
+---
+type: replenished
+structure: birch_tree_5
+on-break: resetGeneratorIfLeaves

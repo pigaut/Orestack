@@ -1,0 +1,111 @@
+type: depleted
+growth: 3000
+structure: dark_oak_tree_1
+---
+type: harvestable
+structure: dark_oak_tree_2
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_3
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_4
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_5
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_6
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_7
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_8
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_9
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_10
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_11
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_12
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_13
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_14
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_15
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_16
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_17
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_18
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_19
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_20
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_21
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_22
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_23
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_24
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_25
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_26
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: dark_oak_tree_27
+on-break: resetGeneratorIfLeaves
+---
+type: replenished
+structure: dark_oak_tree_28
+on-break: resetGeneratorIfLeaves

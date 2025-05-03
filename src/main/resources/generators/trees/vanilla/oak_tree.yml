@@ -1,0 +1,20 @@
+---
+type: depleted
+growth: 600
+block: oak_log
+---
+type: harvestable
+structure: oak_tree_1
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: oak_tree_2
+on-break: resetGeneratorIfLeaves
+---
+type: harvestable
+structure: oak_tree_3
+on-break: resetGeneratorIfLeaves
+---
+type: replenished
+structure: oak_tree_4
+on-break: resetGeneratorIfLeaves

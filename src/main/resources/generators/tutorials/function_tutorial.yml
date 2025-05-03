@@ -17,6 +17,8 @@ on-break:
   delay: 60   # 3 seconds
   # Use 'repetitions' to define the number of times this function will run
   repetitions: 1   # 1 repetition
+  # Use 'interval' to define the delay between each repetition
+  interval: 5   # 0.25 second interval
 
 # ============================
 #         STAGE 1
@@ -150,8 +152,8 @@ type: replenished
 block: lime_wool
 
 on-break:
-  # Define global functions into 'functions.yml' and reuse them to reduce repetition
-  - requireHarvestPermission
-  - requireIronPickaxeOrBetter
+  # Define global functions into the functions folder
+  - requireHarvestPermission     # If you use 'return' inside a global function, the code here will continue to run
+  - requireIronPickaxeOrBetter   # But if you use 'stop' the code here will end as well
   - do: chatMessage <&aHarvesting green wool...>
 

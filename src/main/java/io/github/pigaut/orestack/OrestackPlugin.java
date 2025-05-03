@@ -88,13 +88,12 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull List<String> getPluginDirectories() {
-        return List.of("items", "generators", "messages", "languages", "effects/particles", "effects/sounds");
+        return List.of("items", "generators", "messages", "languages", "functions", "effects/particles", "effects/sounds");
     }
 
     @Override
     public List<String> getPluginResources() {
         return List.of("config.yml",
-                "functions.yml",
                 "languages/en.yml",
                 "languages/fr.yml",
                 "languages/zh.yml");
@@ -108,6 +107,9 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "effects/particles/misc.yml",
                 "effects/particles/flame.yml",
                 "effects/sounds/misc.yml",
+                "functions/misc.yml",
+                "functions/tools.yml",
+                "functions/trees.yml",
 
                 "generators/example.yml",
 
@@ -118,6 +120,13 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/tutorials/function_tutorial.yml",
                 "generators/tutorials/flag_tutorial.yml",
                 "generators/tutorials/drops_tutorial.yml",
+
+                "generators/trees/vanilla/oak_tree.yml",
+                "generators/trees/vanilla/birch_tree.yml",
+                "generators/trees/vanilla/spruce_tree.yml",
+                "generators/trees/vanilla/acacia_tree.yml",
+                "generators/trees/vanilla/jungle_tree.yml",
+                "generators/trees/vanilla/dark_oak_tree.yml",
                 "generators/trees/great_oak_tree.yml",
 
                 "generators/crops/wheat.yml",
@@ -136,6 +145,69 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/gold.yml",
                 "generators/ores/diamond.yml",
                 "generators/ores/emerald.yml",
+
+                "structures/trees/vanilla/oak/oak_tree_1.yml",
+                "structures/trees/vanilla/oak/oak_tree_2.yml",
+                "structures/trees/vanilla/oak/oak_tree_3.yml",
+                "structures/trees/vanilla/oak/oak_tree_4.yml",
+
+                "structures/trees/vanilla/birch/birch_tree_1.yml",
+                "structures/trees/vanilla/birch/birch_tree_2.yml",
+                "structures/trees/vanilla/birch/birch_tree_3.yml",
+                "structures/trees/vanilla/birch/birch_tree_4.yml",
+                "structures/trees/vanilla/birch/birch_tree_5.yml",
+
+                "structures/trees/vanilla/spruce/spruce_tree_1.yml",
+                "structures/trees/vanilla/spruce/spruce_tree_2.yml",
+                "structures/trees/vanilla/spruce/spruce_tree_3.yml",
+                "structures/trees/vanilla/spruce/spruce_tree_4.yml",
+                "structures/trees/vanilla/spruce/spruce_tree_5.yml",
+
+                "structures/trees/vanilla/acacia/acacia_tree_1.yml",
+                "structures/trees/vanilla/acacia/acacia_tree_2.yml",
+                "structures/trees/vanilla/acacia/acacia_tree_3.yml",
+                "structures/trees/vanilla/acacia/acacia_tree_4.yml",
+                "structures/trees/vanilla/acacia/acacia_tree_5.yml",
+                "structures/trees/vanilla/acacia/acacia_tree_6.yml",
+                "structures/trees/vanilla/acacia/acacia_tree_7.yml",
+
+                "structures/trees/vanilla/jungle/jungle_tree_1.yml",
+                "structures/trees/vanilla/jungle/jungle_tree_2.yml",
+                "structures/trees/vanilla/jungle/jungle_tree_3.yml",
+                "structures/trees/vanilla/jungle/jungle_tree_4.yml",
+                "structures/trees/vanilla/jungle/jungle_tree_5.yml",
+                "structures/trees/vanilla/jungle/jungle_tree_6.yml",
+                "structures/trees/vanilla/jungle/jungle_tree_7.yml",
+                "structures/trees/vanilla/jungle/jungle_tree_8.yml",
+
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_1.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_2.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_3.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_4.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_5.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_6.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_7.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_8.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_9.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_10.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_11.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_12.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_13.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_14.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_15.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_16.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_17.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_18.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_19.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_20.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_21.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_22.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_23.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_24.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_25.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_26.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_27.yml",
+                "structures/trees/vanilla/dark_oak/dark_oak_tree_28.yml",
 
                 "structures/trees/great_oak/great_oak_tree_0.yml",
                 "structures/trees/great_oak/great_oak_tree_1.yml",

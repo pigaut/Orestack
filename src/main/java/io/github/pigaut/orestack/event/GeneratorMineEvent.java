@@ -10,6 +10,7 @@ public class GeneratorMineEvent extends PlayerGeneratorEvent {
     private static final HandlerList HANDLERS = new HandlerList();
 
     private final Block blockMined;
+    public boolean resetStage = false;
 
     public GeneratorMineEvent(OrestackPlayer player, Generator generator, Block blockMined) {
         super(player, generator);
