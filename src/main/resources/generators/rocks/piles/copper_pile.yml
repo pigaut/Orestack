@@ -1,0 +1,65 @@
+type: depleted
+structure: copper_pile_1
+growth: 40
+---
+type: harvestable
+structure: copper_pile_2
+growth: 40
+drop-items: false
+on-break:
+  do: dropItemAtBlock copper_ore
+---
+type: harvestable
+structure: copper_pile_3
+growth: 40
+drop-items: false
+on-break:
+  do: dropItemAtBlock copper_ore
+---
+type: harvestable
+structure: copper_pile_4
+growth: 40
+drop-items: false
+on-break:
+  do: dropItemAtBlock copper_ore
+---
+type: harvestable
+structure: copper_pile_5
+growth: 40
+drop-items: false
+on-break:
+  do: dropItemAtBlock copper_ore
+---
+type: harvestable
+structure: copper_pile_6
+growth: 40
+drop-items: false
+on-break:
+  do: dropItemAtBlock copper_ore
+---
+type: harvestable
+structure: copper_pile_7
+growth: 40
+drop-items: false
+on-break:
+  do: dropItemAtBlock copper_ore
+---
+type: harvestable
+structure: copper_pile_8
+growth: 40
+drop-items: false
+on-break:
+  do: dropItemAtBlock copper_ore
+---
+type: harvestable
+structure: copper_pile_9
+growth: 40
+drop-items: false
+on-break:
+  do: dropItemAtBlock copper_ore
+---
+type: replenished
+structure: copper_pile_10
+drop-items: false
+on-break:
+  do: dropItemAtBlock copper_ore

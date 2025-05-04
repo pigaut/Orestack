@@ -46,13 +46,10 @@ on-break:
     do: spawnParticleAtBlock rain_cloud
     else: [ setStage 0, return ]
 
-  - { do: setStage 1, delay: 4 }
-  - { do: setStage 2, delay: 8 }
-  - { do: setStage 3, delay: 12 }
-  - { do: setStage 4, delay: 16 }
-  - { do: setStage 5, delay: 20 }
-  - { do: setStage 6, delay: 24 }
-  - { do: setStage 7, delay: 28 }
+  - delay: 4
+    repetitions: 7
+    interval: 4
+    do: nextGeneratorStage
 
   - delay: 28
     repetitions: 4

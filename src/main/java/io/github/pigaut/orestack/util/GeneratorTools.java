@@ -55,10 +55,8 @@ public class GeneratorTools {
     public static @NotNull ItemStack getGeneratorTool(@NotNull GeneratorTemplate generator) {
         final ItemStack generatorItem = plugin.getTools().getGeneratorTool();
 
-        final BlockStructure lastStageStructure = generator.getLastStage().getStructure();
-
-        final Material material = lastStageStructure.getBlockChanges().get(0).getType();
-        generatorItem.setType(Crops.isCrop(material) ? Crops.getCropItem(material) : material);
+        final Material material = generator.getItemType();
+        generatorItem.setType(Crops.isCrop(material) ? Crops.getCropSeeds(material) : material);
 
         final ItemMeta meta = generatorItem.getItemMeta();
         if (meta != null) {

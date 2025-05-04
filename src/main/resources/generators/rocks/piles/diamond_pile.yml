@@ -1,0 +1,65 @@
+type: depleted
+structure: diamond_pile_1
+growth: 1200
+---
+type: harvestable
+structure: diamond_pile_2
+growth: 1200
+drop-items: false
+on-break:
+  do: dropItemAtBlock diamond
+---
+type: harvestable
+structure: diamond_pile_3
+growth: 1200
+drop-items: false
+on-break:
+  do: dropItemAtBlock diamond
+---
+type: harvestable
+structure: diamond_pile_4
+growth: 1200
+drop-items: false
+on-break:
+  do: dropItemAtBlock diamond
+---
+type: harvestable
+structure: diamond_pile_5
+growth: 1200
+drop-items: false
+on-break:
+  do: dropItemAtBlock diamond
+---
+type: harvestable
+structure: diamond_pile_6
+growth: 1200
+drop-items: false
+on-break:
+  do: dropItemAtBlock diamond
+---
+type: harvestable
+structure: diamond_pile_7
+growth: 1200
+drop-items: false
+on-break:
+  do: dropItemAtBlock diamond
+---
+type: harvestable
+structure: diamond_pile_8
+growth: 1200
+drop-items: false
+on-break:
+  do: dropItemAtBlock diamond
+---
+type: harvestable
+structure: diamond_pile_9
+growth: 1200
+drop-items: false
+on-break:
+  do: dropItemAtBlock diamond
+---
+type: replenished
+structure: diamond_pile_10
+drop-items: false
+on-break:
+  do: dropItemAtBlock diamond
