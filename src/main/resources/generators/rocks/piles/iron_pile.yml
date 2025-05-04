@@ -1,0 +1,65 @@
+type: depleted
+structure: iron_pile_1
+growth: 600
+---
+type: harvestable
+structure: iron_pile_2
+growth: 600
+drop-items: false
+on-break:
+  do: dropItemAtBlock iron_ore
+---
+type: harvestable
+structure: iron_pile_3
+growth: 600
+drop-items: false
+on-break:
+  do: dropItemAtBlock iron_ore
+---
+type: harvestable
+structure: iron_pile_4
+growth: 600
+drop-items: false
+on-break:
+  do: dropItemAtBlock iron_ore
+---
+type: harvestable
+structure: iron_pile_5
+growth: 600
+drop-items: false
+on-break:
+  do: dropItemAtBlock iron_ore
+---
+type: harvestable
+structure: iron_pile_6
+growth: 600
+drop-items: false
+on-break:
+  do: dropItemAtBlock iron_ore
+---
+type: harvestable
+structure: iron_pile_7
+growth: 600
+drop-items: false
+on-break:
+  do: dropItemAtBlock iron_ore
+---
+type: harvestable
+structure: iron_pile_8
+growth: 600
+drop-items: false
+on-break:
+  do: dropItemAtBlock iron_ore
+---
+type: harvestable
+structure: iron_pile_9
+growth: 600
+drop-items: false
+on-break:
+  do: dropItemAtBlock iron_ore
+---
+type: replenished
+structure: iron_pile_10
+drop-items: false
+on-break:
+  do: dropItemAtBlock iron_ore

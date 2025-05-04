@@ -122,6 +122,13 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/examples/magic_wheat.yml",
                 "generators/examples/diamond_node.yml",
 
+                "generators/rocks/piles/stone_pile.yml",
+                "generators/rocks/piles/coal_pile.yml",
+                "generators/rocks/piles/iron_pile.yml",
+                "generators/rocks/piles/gold_pile.yml",
+                "generators/rocks/piles/diamond_pile.yml",
+                "generators/rocks/piles/emerald_pile.yml",
+
                 "generators/tutorials/hologram_tutorial.yml",
                 "generators/tutorials/function_tutorial.yml",
                 "generators/tutorials/flag_tutorial.yml",
@@ -151,6 +158,72 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/gold.yml",
                 "generators/ores/diamond.yml",
                 "generators/ores/emerald.yml",
+
+                "structures/rocks/piles/stone/stone_pile_1.yml",
+                "structures/rocks/piles/stone/stone_pile_2.yml",
+                "structures/rocks/piles/stone/stone_pile_3.yml",
+                "structures/rocks/piles/stone/stone_pile_4.yml",
+                "structures/rocks/piles/stone/stone_pile_5.yml",
+                "structures/rocks/piles/stone/stone_pile_6.yml",
+                "structures/rocks/piles/stone/stone_pile_7.yml",
+                "structures/rocks/piles/stone/stone_pile_8.yml",
+                "structures/rocks/piles/stone/stone_pile_9.yml",
+                "structures/rocks/piles/stone/stone_pile_10.yml",
+
+                "structures/rocks/piles/coal/coal_pile_1.yml",
+                "structures/rocks/piles/coal/coal_pile_2.yml",
+                "structures/rocks/piles/coal/coal_pile_3.yml",
+                "structures/rocks/piles/coal/coal_pile_4.yml",
+                "structures/rocks/piles/coal/coal_pile_5.yml",
+                "structures/rocks/piles/coal/coal_pile_6.yml",
+                "structures/rocks/piles/coal/coal_pile_7.yml",
+                "structures/rocks/piles/coal/coal_pile_8.yml",
+                "structures/rocks/piles/coal/coal_pile_9.yml",
+                "structures/rocks/piles/coal/coal_pile_10.yml",
+
+                "structures/rocks/piles/iron/iron_pile_1.yml",
+                "structures/rocks/piles/iron/iron_pile_2.yml",
+                "structures/rocks/piles/iron/iron_pile_3.yml",
+                "structures/rocks/piles/iron/iron_pile_4.yml",
+                "structures/rocks/piles/iron/iron_pile_5.yml",
+                "structures/rocks/piles/iron/iron_pile_6.yml",
+                "structures/rocks/piles/iron/iron_pile_7.yml",
+                "structures/rocks/piles/iron/iron_pile_8.yml",
+                "structures/rocks/piles/iron/iron_pile_9.yml",
+                "structures/rocks/piles/iron/iron_pile_10.yml",
+
+                "structures/rocks/piles/gold/gold_pile_1.yml",
+                "structures/rocks/piles/gold/gold_pile_2.yml",
+                "structures/rocks/piles/gold/gold_pile_3.yml",
+                "structures/rocks/piles/gold/gold_pile_4.yml",
+                "structures/rocks/piles/gold/gold_pile_5.yml",
+                "structures/rocks/piles/gold/gold_pile_6.yml",
+                "structures/rocks/piles/gold/gold_pile_7.yml",
+                "structures/rocks/piles/gold/gold_pile_8.yml",
+                "structures/rocks/piles/gold/gold_pile_9.yml",
+                "structures/rocks/piles/gold/gold_pile_10.yml",
+
+                "structures/rocks/piles/diamond/diamond_pile_1.yml",
+                "structures/rocks/piles/diamond/diamond_pile_2.yml",
+                "structures/rocks/piles/diamond/diamond_pile_3.yml",
+                "structures/rocks/piles/diamond/diamond_pile_4.yml",
+                "structures/rocks/piles/diamond/diamond_pile_5.yml",
+                "structures/rocks/piles/diamond/diamond_pile_6.yml",
+                "structures/rocks/piles/diamond/diamond_pile_7.yml",
+                "structures/rocks/piles/diamond/diamond_pile_8.yml",
+                "structures/rocks/piles/diamond/diamond_pile_9.yml",
+                "structures/rocks/piles/diamond/diamond_pile_10.yml",
+
+                "structures/rocks/piles/emerald/emerald_pile_1.yml",
+                "structures/rocks/piles/emerald/emerald_pile_2.yml",
+                "structures/rocks/piles/emerald/emerald_pile_3.yml",
+                "structures/rocks/piles/emerald/emerald_pile_4.yml",
+                "structures/rocks/piles/emerald/emerald_pile_5.yml",
+                "structures/rocks/piles/emerald/emerald_pile_6.yml",
+                "structures/rocks/piles/emerald/emerald_pile_7.yml",
+                "structures/rocks/piles/emerald/emerald_pile_8.yml",
+                "structures/rocks/piles/emerald/emerald_pile_9.yml",
+                "structures/rocks/piles/emerald/emerald_pile_10.yml",
 
                 "structures/trees/vanilla/oak/oak_tree_1.yml",
                 "structures/trees/vanilla/oak/oak_tree_2.yml",
@@ -222,6 +295,27 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "structures/trees/great_oak/great_oak_tree_4.yml",
                 "structures/trees/great_oak/great_oak_tree_5.yml",
                 "structures/trees/great_oak/great_oak_tree_6.yml"
+        );
+    }
+
+    @Override
+    public Map<SpigotVersion, List<String>> getExamplesByVersion() {
+        return Map.of(
+                SpigotVersion.V1_17, List.of(
+                        "generators/rocks/piles/copper_pile.yml",
+                        "generators/ores/copper.yml",
+
+                        "structures/rocks/piles/copper/copper_pile_1.yml",
+                        "structures/rocks/piles/copper/copper_pile_2.yml",
+                        "structures/rocks/piles/copper/copper_pile_3.yml",
+                        "structures/rocks/piles/copper/copper_pile_4.yml",
+                        "structures/rocks/piles/copper/copper_pile_5.yml",
+                        "structures/rocks/piles/copper/copper_pile_6.yml",
+                        "structures/rocks/piles/copper/copper_pile_7.yml",
+                        "structures/rocks/piles/copper/copper_pile_8.yml",
+                        "structures/rocks/piles/copper/copper_pile_9.yml",
+                        "structures/rocks/piles/copper/copper_pile_10.yml"
+                )
         );
     }
 

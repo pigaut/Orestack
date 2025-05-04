@@ -15,6 +15,7 @@ public class GeneratorTemplate implements PlaceholderSupplier {
     private final String name;
     private final List<GeneratorStage> stages;
     private Rotation rotation = Rotation.NONE;
+    private Material itemType = Material.TERRACOTTA;
 
     public GeneratorTemplate(String name, List<GeneratorStage> stages) {
         this.name = name;
@@ -35,6 +36,14 @@ public class GeneratorTemplate implements PlaceholderSupplier {
 
     public ItemStack getItem() {
         return GeneratorTools.getGeneratorTool(this);
+    }
+
+    public Material getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(Material itemType) {
+        this.itemType = itemType;
     }
 
     public int getMaxStage() {

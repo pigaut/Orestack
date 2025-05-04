@@ -14,7 +14,7 @@ language: en
 # The auto save timer, if not set or set to 0 data will only be saved on shutdown or on /orestack reload
 auto-save: 0
 
-# Blocks that should be ignored when using /orestack structure save
+# Blocks that should be ignored when using /orestack structure save <file-name>
 structure-save-blacklist:
   - AIR
   - BEDROCK
