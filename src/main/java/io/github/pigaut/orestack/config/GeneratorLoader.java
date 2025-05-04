@@ -8,9 +8,11 @@ import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.structure.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.loader.*;
+import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
+import java.util.stream.*;
 
 public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
 
@@ -63,6 +65,20 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
                 }
                 firstHarvestableFound = true;
             }
+        }
+
+        final List<BlockChange> structure = generator.getLastStage().getStructure().getBlockChanges();
+        if (structure.size() == 1) {
+            generator.setItemType(structure.get(0).getType());
+        }
+        else {
+            final Material mostCommonBlockType = structure.stream()
+                    .collect(Collectors.groupingBy(BlockChange::getType, Collectors.counting()))
+                    .entrySet().stream()
+                    .max(Map.Entry.comparingByValue())
+                    .map(Map.Entry::getKey)
+                    .orElse(Material.TERRACOTTA);
+            generator.setItemType(mostCommonBlockType);
         }
 
         return generator;
