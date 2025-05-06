@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.generator.template;
 
+import com.google.common.collect.*;
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.node.sequence.*;
 import org.jetbrains.annotations.*;
@@ -14,6 +14,7 @@ public class GeneratorTemplateManager extends Manager {
 
     private final OrestackPlugin plugin;
     private final Map<String, GeneratorTemplate> generatorsByName = new ConcurrentHashMap<>();
+    private final Multimap<String, GeneratorTemplate> generatorsByGroup = Multimaps.newListMultimap(new HashMap<>(), ArrayList::new);
 
     public GeneratorTemplateManager(OrestackPlugin plugin) {
         super(plugin);
@@ -24,6 +25,10 @@ public class GeneratorTemplateManager extends Manager {
         return new ArrayList<>(generatorsByName.keySet());
     }
 
+    public List<String> getGeneratorGroups() {
+        return new ArrayList<>(generatorsByGroup.keySet());
+    }
+
     public Collection<GeneratorTemplate> getAllGeneratorTemplates() {
         return new ArrayList<>(generatorsByName.values());
     }
@@ -32,16 +37,29 @@ public class GeneratorTemplateManager extends Manager {
         return name != null ? generatorsByName.get(name) : null;
     }
 
-    public void registerGenerator(@NotNull String name, @NotNull GeneratorTemplate generator) {
-        generatorsByName.put(name, generator);
+    public @NotNull List<GeneratorTemplate> getGeneratorTemplates(String group) {
+        return new ArrayList<>(generatorsByGroup.get(group));
+    }
+
+    public void addGenerator(@NotNull GeneratorTemplate generator) {
+        generatorsByName.put(generator.getName(), generator);
+        final String group = generator.getGroup();
+        if (group != null) {
+            generatorsByGroup.put(group, generator);
+        }
+    }
+
+    @Override
+    public void disable() {
+        generatorsByName.clear();
+        generatorsByGroup.clear();
     }
 
     @Override
     public void loadData() {
-        generatorsByName.clear();
         for (File generatorFile : plugin.getFiles("generators")) {
             final RootSequence config = plugin.loadConfigSequence(generatorFile);
-            generatorsByName.put(config.getName(), config.load(GeneratorTemplate.class));
+            this.addGenerator(config.load(GeneratorTemplate.class));
         }
     }
 

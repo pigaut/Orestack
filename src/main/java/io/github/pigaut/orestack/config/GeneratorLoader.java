@@ -2,10 +2,12 @@ package io.github.pigaut.orestack.config;
 
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.stage.*;
+import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.function.*;
 import io.github.pigaut.voxel.function.interact.block.*;
 import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.structure.*;
+import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.loader.*;
 import org.bukkit.*;
@@ -24,8 +26,9 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
     @Override
     public @NotNull GeneratorTemplate loadFromSequence(@NotNull ConfigSequence config) throws InvalidConfigurationException {
         final String name = config.getRoot().getName();
+        final String group = FolderGroup.byFile(config.getRoot().getFile(), "generators");
         final List<GeneratorStage> generatorStages = new ArrayList<>();
-        final GeneratorTemplate generator = new GeneratorTemplate(name, generatorStages);
+        final GeneratorTemplate generator = new GeneratorTemplate(name, group, generatorStages);
         for (ConfigSection nestedSection : config.getNestedSections()) {
             generatorStages.add(loadStage(generator, nestedSection));
         }

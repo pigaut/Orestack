@@ -10,6 +10,7 @@ public class GeneratorSubCommand extends LangSubCommand {
     public GeneratorSubCommand(@NotNull OrestackPlugin plugin) {
         super("generator", plugin);
         addSubCommand(new GeneratorGetSubCommand(plugin));
+        addSubCommand(new GeneratorGetGroupSubCommand(plugin));
         addSubCommand(new GeneratorGetAllSubCommand(plugin));
         addSubCommand(new GeneratorSetSubCommand(plugin));
         addSubCommand(new GeneratorRemoveSubCommand(plugin));

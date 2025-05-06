@@ -16,7 +16,7 @@ public class StructureManager extends Manager {
     private final Map<String, BlockStructure> structuresByName = new ConcurrentHashMap<>();
     private final Set<Material> blockBlacklist = new HashSet<>();
 
-    public StructureManager(EnhancedPlugin plugin) {
+    public StructureManager(EnhancedJavaPlugin plugin) {
         super(plugin);
     }
 

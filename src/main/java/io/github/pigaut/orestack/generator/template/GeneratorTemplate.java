@@ -7,23 +7,30 @@ import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.inventory.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
 public class GeneratorTemplate implements PlaceholderSupplier {
 
     private final String name;
+    private final String group;
     private final List<GeneratorStage> stages;
     private Rotation rotation = Rotation.NONE;
     private Material itemType = Material.TERRACOTTA;
 
-    public GeneratorTemplate(String name, List<GeneratorStage> stages) {
+    public GeneratorTemplate(String name, @Nullable String group, List<GeneratorStage> stages) {
         this.name = name;
+        this.group = group;
         this.stages = stages;
     }
 
     public String getName() {
         return name;
+    }
+
+    public @Nullable String getGroup() {
+        return group;
     }
 
     public Rotation getRotation() {

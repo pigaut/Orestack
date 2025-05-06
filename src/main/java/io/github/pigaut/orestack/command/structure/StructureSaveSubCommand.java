@@ -1,6 +1,5 @@
 package io.github.pigaut.orestack.command.structure;
 
-import dev.lone.itemsadder.api.*;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
@@ -10,9 +9,6 @@ import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.node.sequence.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
-import org.bukkit.block.data.*;
-import org.bukkit.block.data.type.*;
-import org.bukkit.block.data.type.Bed;
 import org.jetbrains.annotations.*;
 import org.snakeyaml.engine.v2.common.*;
 
