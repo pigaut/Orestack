@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 
 public class OrestackPlayerManager extends PlayerManager<OrestackPlayer> {
 
-    public OrestackPlayerManager(@NotNull EnhancedPlugin plugin) {
+    public OrestackPlayerManager(@NotNull EnhancedJavaPlugin plugin) {
         super(plugin, OrestackPlayer::new);
     }
 

@@ -11,7 +11,7 @@ public class ToolManager extends Manager {
     private ItemStack generatorTool;
     private ItemStack wandTool;
 
-    public ToolManager(EnhancedPlugin plugin) {
+    public ToolManager(EnhancedJavaPlugin plugin) {
         super(plugin);
     }
 

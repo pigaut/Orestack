@@ -1,4 +1,4 @@
-package io.github.pigaut.orestack.command.generator;
+package io.github.pigaut.orestack.command.generator.parameter;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.voxel.command.parameter.*;

@@ -6,12 +6,16 @@ import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.item.*;
 import io.github.pigaut.orestack.listener.*;
+import io.github.pigaut.orestack.menu.*;
+import io.github.pigaut.orestack.menu.generator.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.command.*;
+import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.structure.*;
 import io.github.pigaut.voxel.version.*;
 import org.bukkit.*;
@@ -326,13 +330,24 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public List<Listener> getPluginListeners() {
+        final List<Listener> listeners = new ArrayList<>();
+        listeners.add(new PlayerInteractListener(plugin));
+        listeners.add(new BlockBreakListener(plugin));
+        listeners.add(new BlockDestructionListener(plugin));
+        listeners.add(new CropChangeListener(plugin));
+        listeners.add(new ChunkLoadListener(plugin));
+        listeners.add(new GeneratorEventListener());
+        if (SpigotServer.isPluginLoaded("WorldGuard")) {
+            listeners.add(new WorldGuardListener(this));
+        }
+        return listeners;
+    }
+
+    @Override
+    public List<Menu> getPluginMenus() {
         return List.of(
-                new PlayerInteractListener(plugin),
-                new BlockBreakListener(plugin),
-                new BlockDestructionListener(plugin),
-                new CropChangeListener(plugin),
-                new ChunkLoadListener(plugin),
-                new GeneratorEventListener()
+                new OrestackMenu(this),
+                new GeneratorGroupMenu(this)
         );
     }
 
@@ -354,6 +369,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     public @Nullable GeneratorTemplate getGeneratorTemplate(String name) {
         return templateManager.getGeneratorTemplate(name);
+    }
+
+    public @NotNull List<GeneratorTemplate> getGeneratorTemplates(String group) {
+        return templateManager.getGeneratorTemplates(group);
     }
 
     public @NotNull GeneratorManager getGenerators() {

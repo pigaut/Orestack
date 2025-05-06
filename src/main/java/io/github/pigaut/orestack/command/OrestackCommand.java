@@ -18,6 +18,10 @@ public class OrestackCommand extends EnhancedCommand {
         this.description = "Orestack plugin commands";
         this.setAliases("ostack");
 
+//        getRootCommand().withPlayerStateExecution((player, args, placeholders) -> {
+//           player.openMenu(plugin.getMenu("orestack_menu"));
+//        });
+
         addSubCommand(new HelpSubCommand(plugin));
         addSubCommand(new ReloadSubCommand(plugin));
         addSubCommand(new ItemSubCommand(plugin));
@@ -28,5 +32,7 @@ public class OrestackCommand extends EnhancedCommand {
         addSubCommand(new StructureSubCommand(plugin));
         addSubCommand(new GetWandSubCommand(plugin));
     }
+
+
 
 }
