@@ -33,6 +33,7 @@ help-footer: '&2---------------------------------------------'
 reload-command: recharger
 reload-permission: orestack.recharger
 reload-description: 'Recharger la configuration et les données'
+already-reloading: '&4Le plugin est déjà en cours de rechargement, veuillez patienter'
 reloading: '&aRechargement du plugin Orestack... &c(Veuillez patienter)'
 reload-complete: '&aRechargement terminé avec succès'
 
@@ -158,6 +159,10 @@ set-generator-description: 'Définir le générateur sur le bloc que vous regard
 remove-generator-command: supprimer
 remove-generator-permission: orestack.generateur.supprimer
 remove-generator-description: 'Supprimer le générateur au bloc que vous regardez'
+## Obtenir les Générateurs d’un Groupe
+get-group-generators-command: obtenir-groupe
+get-group-generators-permission: orestack.generateur.obtenir-groupe
+get-group-generators-description: 'Ajoute tous les générateurs d''un dossier spécifique à votre inventaire'
 ## Obtenir tous les générateurs
 get-all-generators-command: obtenir-tout
 get-all-generators-permission: orestack.generateur.obtenir-tous

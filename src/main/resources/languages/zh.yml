@@ -33,6 +33,7 @@ help-footer: '&2---------------------------------------------' # 帮助信息尾
 reload-command: reload                 # 重载命令
 reload-permission: orestack.reload     # 重载命令权限
 reload-description: '重载配置和数据'     # 重载命令描述
+already-reloading: '&4插件正在重新加载，请稍候'
 reloading: '&a正在重载 Orestack 插件... &c(请等待)' # 正在重载
 reload-complete: '&a重载完成'           # 重载完成
 
@@ -158,6 +159,10 @@ set-generator-description: '将生成器设置在你所看的方块上' # 设置
 remove-generator-command: remove       # 移除生成器命令
 remove-generator-permission: orestack.generator.remove # 移除生成器命令权限
 remove-generator-description: '移除你所看的方块上的生成器' # 移除生成器命令描述
+## 获取组生成器
+get-group-generators-command: get-group
+get-group-generators-permission: orestack.generator.get-group
+get-group-generators-description: '将特定文件夹中的所有生成器物品添加到你的背包中'
 ## 获取所有生成器
 get-all-generators-command: get-all     # 获取所有生成器命令
 get-all-generators-permission: orestack.generator.get-all # 获取所有生成器命令权限
