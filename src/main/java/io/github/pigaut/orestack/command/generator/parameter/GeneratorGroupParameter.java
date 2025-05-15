@@ -8,7 +8,7 @@ public class GeneratorGroupParameter extends CommandParameter {
 
     public GeneratorGroupParameter(@NotNull OrestackPlugin plugin) {
         super(plugin.getLang("generator-group-parameter"),
-                (sender, args) -> plugin.getGeneratorTemplates().getGeneratorGroups());
+                (sender, args) -> plugin.getGeneratorTemplates().getAllGroups());
     }
 
 }

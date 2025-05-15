@@ -15,14 +15,14 @@ public class GeneratorGetGroupSubCommand extends LangSubCommand {
         super("get-group-generators", plugin);
         addParameter(new GeneratorGroupParameter(plugin));
         withPlayerExecution((player, args, placeholders) -> {
-            final List<GeneratorTemplate> groupGenerators = plugin.getGeneratorTemplates().getGeneratorTemplates(args[0]);
+            final List<GeneratorTemplate> groupGenerators = plugin.getGeneratorTemplates().getAll(args[0]);
 
             if (groupGenerators.isEmpty()) {
                 plugin.sendMessage(player, "group-not-found", placeholders);
                 return;
             }
 
-            for (GeneratorTemplate generator : plugin.getGeneratorTemplates().getGeneratorTemplates(args[0])) {
+            for (GeneratorTemplate generator : plugin.getGeneratorTemplates().getAll(args[0])) {
                 PlayerUtil.giveItemsOrDrop(player, generator.getItem());
             }
             plugin.sendMessage(player, "received-group-generators", placeholders);

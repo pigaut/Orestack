@@ -2,7 +2,7 @@ package io.github.pigaut.orestack.action;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.voxel.function.action.block.*;
+import io.github.pigaut.voxel.core.function.action.block.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
 

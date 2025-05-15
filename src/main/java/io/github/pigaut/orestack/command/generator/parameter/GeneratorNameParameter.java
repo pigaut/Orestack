@@ -8,7 +8,7 @@ public class GeneratorNameParameter extends CommandParameter {
 
     public GeneratorNameParameter(@NotNull OrestackPlugin plugin) {
         super(plugin.getLang("generator-name-parameter"),
-                (sender, args) -> plugin.getGeneratorTemplates().getGeneratorNames());
+                (sender, args) -> plugin.getGeneratorTemplates().getAllNames());
     }
 
 }

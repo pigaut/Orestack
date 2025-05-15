@@ -4,15 +4,9 @@ import io.github.pigaut.voxel.player.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 
-import java.util.*;
-
-public class OrestackPlayer extends AbstractPluginPlayer {
+public class OrestackPlayer extends AbstractPlayerState {
 
     private Location firstSelection = null, secondSelection = null;
-
-    public OrestackPlayer(UUID playerId) {
-        super(playerId);
-    }
 
     public OrestackPlayer(Player player) {
         super(player);

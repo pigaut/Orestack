@@ -4,9 +4,9 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.action.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.config.*;
-import io.github.pigaut.voxel.function.action.*;
-import io.github.pigaut.voxel.structure.*;
-import io.github.pigaut.voxel.structure.config.*;
+import io.github.pigaut.voxel.core.function.action.*;
+import io.github.pigaut.voxel.core.structure.*;
+import io.github.pigaut.voxel.core.structure.config.*;
 import io.github.pigaut.yaml.configurator.loader.*;
 import org.jetbrains.annotations.*;
 
@@ -14,9 +14,8 @@ public class OrestackConfigurator extends PluginConfigurator {
 
     public OrestackConfigurator(@NotNull OrestackPlugin plugin) {
         super(plugin);
+
         addLoader(GeneratorTemplate.class, new GeneratorLoader());
-        addLoader(BlockStructure.class, new BlockStructureLoader(plugin));
-        addLoader(BlockChange.class, new BlockChangeLoader());
 
         final ActionLoader actions = this.getActionLoader();
         actions.addLoader("RESET_GENERATOR", (BranchLoader<Action>) branch ->

@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.listener;
 
 import io.github.pigaut.orestack.event.*;
-import io.github.pigaut.voxel.function.*;
+import io.github.pigaut.voxel.core.function.*;
 import org.bukkit.event.*;
 
 public class GeneratorEventListener implements Listener {
