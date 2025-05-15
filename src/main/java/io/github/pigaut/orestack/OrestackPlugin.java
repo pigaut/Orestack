@@ -8,15 +8,14 @@ import io.github.pigaut.orestack.item.*;
 import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.orestack.menu.generator.*;
+import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.orestack.player.*;
-import io.github.pigaut.orestack.structure.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.server.*;
-import io.github.pigaut.voxel.structure.*;
 import io.github.pigaut.voxel.version.*;
 import org.bukkit.*;
 import org.bukkit.event.*;
@@ -29,9 +28,9 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     private static OrestackPlugin plugin;
     private final ToolManager toolManager = new ToolManager(this);
-    private final StructureManager structureManager = new StructureManager(this);
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
+    private final OrestackOptionsManager optionsManager = new OrestackOptionsManager(this);
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
     private final Database database = SQLib.createDatabase(new File(("plugins/Orestack/data")));
 
@@ -338,10 +337,9 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public List<Menu> getPluginMenus() {
-        return List.of(
-                new OrestackMenu(this),
-                new GeneratorGroupMenu(this)
+    public Map<String, Menu> getPluginMenus() {
+        return Map.of(
+                "orestack", new OrestackMenu(this)
         );
     }
 
@@ -349,24 +347,16 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return toolManager;
     }
 
-    public @NotNull StructureManager getStructures() {
-        return structureManager;
-    }
-
-    public @Nullable BlockStructure getBlockStructure(String name) {
-        return structureManager.getBlockStructure(name);
-    }
-
     public @NotNull GeneratorTemplateManager getGeneratorTemplates() {
         return templateManager;
     }
 
     public @Nullable GeneratorTemplate getGeneratorTemplate(String name) {
-        return templateManager.getGeneratorTemplate(name);
+        return templateManager.get(name);
     }
 
     public @NotNull List<GeneratorTemplate> getGeneratorTemplates(String group) {
-        return templateManager.getGeneratorTemplates(group);
+        return templateManager.getAll(group);
     }
 
     public @NotNull GeneratorManager getGenerators() {
@@ -375,6 +365,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     public @Nullable Generator getGenerator(@NotNull Location location) {
         return generatorManager.getGenerator(location);
+    }
+
+    public OrestackOptionsManager getOptions() {
+        return optionsManager;
     }
 
     public Database getDatabase() {

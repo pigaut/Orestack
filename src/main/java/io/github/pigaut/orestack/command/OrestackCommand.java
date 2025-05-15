@@ -4,11 +4,12 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.command.generator.*;
 import io.github.pigaut.orestack.command.structure.*;
 import io.github.pigaut.voxel.command.*;
-import io.github.pigaut.voxel.item.command.*;
-import io.github.pigaut.voxel.message.command.*;
-import io.github.pigaut.voxel.particle.command.*;
+import io.github.pigaut.voxel.command.node.*;
+import io.github.pigaut.voxel.core.item.command.*;
+import io.github.pigaut.voxel.core.message.command.*;
+import io.github.pigaut.voxel.core.particle.command.*;
+import io.github.pigaut.voxel.core.sound.command.*;
 import io.github.pigaut.voxel.plugin.command.*;
-import io.github.pigaut.voxel.sound.command.*;
 import org.jetbrains.annotations.*;
 
 public class OrestackCommand extends EnhancedCommand {
@@ -18,8 +19,10 @@ public class OrestackCommand extends EnhancedCommand {
         this.description = "Orestack plugin commands";
         this.setAliases("ostack");
 
-//        getRootCommand().withPlayerStateExecution((player, args, placeholders) -> {
-//           player.openMenu(plugin.getMenu("orestack_menu"));
+        final RootCommand command = this.getRootCommand();
+        command.withPermission("orestack.menu");
+//        command.withPlayerStateExecution((player, args, placeholders) -> {
+//           player.openMenu(plugin.getMenu("orestack"));
 //        });
 
         addSubCommand(new HelpSubCommand(plugin));

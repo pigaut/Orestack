@@ -8,7 +8,7 @@ public class StructureNameParameter extends CommandParameter {
 
     public StructureNameParameter(@NotNull OrestackPlugin plugin) {
         super(plugin.getLang("structure-name-parameter"),
-                (sender, args) -> plugin.getStructures().getStructureNames());
+                (sender, args) -> plugin.getStructures().getAllNames());
     }
 
 }

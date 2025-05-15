@@ -1,11 +1,12 @@
 package io.github.pigaut.orestack.menu;
 
+import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.paged.*;
 
-public class GenericPagedMenu extends PagedMenu {
+public class GenericGroupsMenu extends PagedMenu {
 
-    public GenericPagedMenu(String name, String title) {
-        super(name, title, 45);
+    public GenericGroupsMenu(String title) {
+        super(title, ChestSize.FIVE_ROWS);
 
         this.addEntrySlots(
                 10, 11, 12, 13, 14, 15, 16,
@@ -13,8 +14,6 @@ public class GenericPagedMenu extends PagedMenu {
                 28, 29, 30, 31, 31, 33, 34);
 
         buttons[40] = new BacktrackButton();
-
-
     }
 
 }

@@ -7,8 +7,7 @@ import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.orestack.util.*;
-import io.github.pigaut.voxel.function.interact.block.*;
-import io.github.pigaut.voxel.placeholder.*;
+import io.github.pigaut.voxel.core.function.interact.block.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.server.*;
 import org.bukkit.*;
@@ -116,6 +115,7 @@ public class PlayerInteractListener implements Listener {
         final Player player = event.getPlayer();
         if (!player.hasPermission(plugin.getLang("generator-place-permission"))) {
             plugin.sendMessage(player, "missing-place-permission", heldGenerator);
+            event.setCancelled(true);
             return;
         }
 

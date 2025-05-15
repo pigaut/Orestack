@@ -3,19 +3,22 @@ package io.github.pigaut.orestack.menu;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.menu.generator.*;
 import io.github.pigaut.orestack.menu.item.*;
+import io.github.pigaut.orestack.menu.structure.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.fixed.*;
 import org.bukkit.*;
 
 public class OrestackMenu extends FixedMenu {
 
-    private final GeneratorGroupMenu generatorGroupsMenu;
-    private final ItemGroupMenu itemGroupMenu;
+    private final GeneratorGroupsMenu generatorGroupsMenu;
+    private final ItemGroupsMenu itemGroupsMenu;
+    private final StructureGroupsMenu structureGroupsMenu;
 
     public OrestackMenu(OrestackPlugin plugin) {
-        super("orestack_menu", "Orestack v" + plugin.getVersion(), 45);
-        this.generatorGroupsMenu = new GeneratorGroupMenu(plugin);
-        this.itemGroupMenu = new ItemGroupMenu(plugin);
+        super("Orestack v" + plugin.getVersion(), 45);
+        this.generatorGroupsMenu = new GeneratorGroupsMenu(plugin);
+        this.itemGroupsMenu = new ItemGroupsMenu(plugin);
+        this.structureGroupsMenu = new StructureGroupsMenu(plugin);
 
         final Button panel = Button.builder()
                 .withType(Material.GRAY_STAINED_GLASS_PANE)
@@ -28,7 +31,7 @@ public class OrestackMenu extends FixedMenu {
                 .withDisplay("Items")
                 .addLore("Click to view all items")
                 .enchanted(true)
-                .onLeftClick((view, event) -> view.getViewer().openMenu(itemGroupMenu))
+                .onLeftClick((view, event) -> view.getViewer().openMenu(itemGroupsMenu))
                 .buildButton();
 
         buttons[15] = Button.builder()
@@ -44,7 +47,7 @@ public class OrestackMenu extends FixedMenu {
                 .withDisplay("Structures")
                 .addLore("Click to view all structures")
                 .enchanted(true)
-                .onLeftClick((view, event) -> view.getViewer().openMenu(plugin.getMenu("generator_menu")))
+                .onLeftClick((view, event) -> view.getViewer().openMenu(structureGroupsMenu))
                 .buildButton();
 
         buttons[22] = Button.builder()

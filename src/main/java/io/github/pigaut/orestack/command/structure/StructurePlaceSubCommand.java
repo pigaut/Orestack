@@ -2,7 +2,7 @@ package io.github.pigaut.orestack.command.structure;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.voxel.command.node.*;
-import io.github.pigaut.voxel.structure.*;
+import io.github.pigaut.voxel.core.structure.*;
 import org.bukkit.*;
 import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.block.*;
@@ -14,7 +14,7 @@ public class StructurePlaceSubCommand extends LangSubCommand {
         super("place-structure", plugin);
         addParameter(new StructureNameParameter(plugin));
         withPlayerExecution((player, args, placeholders) -> {
-            final BlockStructure structure = plugin.getBlockStructure(args[0]);
+            final BlockStructure structure = plugin.getStructure(args[0]);
             if (structure == null) {
                 plugin.sendMessage(player, "structure-not-found", placeholders);
                 return;

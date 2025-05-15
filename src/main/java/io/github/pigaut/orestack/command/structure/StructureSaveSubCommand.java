@@ -13,6 +13,7 @@ import org.jetbrains.annotations.*;
 import org.snakeyaml.engine.v2.common.*;
 
 import java.io.*;
+import java.util.*;
 
 public class StructureSaveSubCommand extends LangSubCommand {
 
@@ -49,11 +50,12 @@ public class StructureSaveSubCommand extends LangSubCommand {
             config.setFlowStyle(FlowStyle.AUTO);
             config.clear();
 
+            final Set<Material> structureBlacklist = plugin.getOptions().getStructureBlacklist();
             for (Location location : GeneratorTools.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
                 final Block block = location.getBlock();
                 final Material blockType = block.getType();
 
-                if (plugin.getStructures().isBlacklisted(blockType)) {
+                if (structureBlacklist.contains(blockType)) {
                     continue;
                 }
 
