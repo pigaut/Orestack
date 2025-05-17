@@ -93,12 +93,12 @@ public class GeneratorStage implements PlaceholderSupplier {
     @Override
     public @NotNull Placeholder[] getPlaceholders() {
         return new Placeholder[]{
-                Placeholder.of("%generator%", generator.getName()),
-                Placeholder.of("%generator_stage%", generator.indexOfStage(this)),
-                Placeholder.of("%generator_stages%", generator.getMaxStage()),
-                Placeholder.of("%generator_state%", state.toString().toLowerCase()),
-                Placeholder.of("%generator_growth_seconds%", growthTime / 20),
-                Placeholder.of("%generator_growth_minutes%", growthTime / 1200)
+                Placeholder.of("{generator}", generator.getName()),
+                Placeholder.of("{generator_stage}", generator.indexOfStage(this)),
+                Placeholder.of("{generator_stages}", generator.getMaxStage()),
+                Placeholder.of("{generator_state}", state.toString().toLowerCase()),
+                Placeholder.of("{generator_growth_seconds}", growthTime / 20),
+                Placeholder.of("{generator_growth_minutes}", growthTime / 1200)
         };
     }
 

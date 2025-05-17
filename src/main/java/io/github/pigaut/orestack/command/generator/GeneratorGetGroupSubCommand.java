@@ -9,23 +9,25 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class GeneratorGetGroupSubCommand extends LangSubCommand {
+public class GeneratorGetGroupSubCommand extends SubCommand {
 
     public GeneratorGetGroupSubCommand(@NotNull OrestackPlugin plugin) {
-        super("get-group-generators", plugin);
+        super("get-group", plugin);
+        withPermission(plugin.getPermission("generator.get-group"));
+        withDescription(plugin.getLang("generator-get-group-command"));
         addParameter(new GeneratorGroupParameter(plugin));
         withPlayerExecution((player, args, placeholders) -> {
             final List<GeneratorTemplate> groupGenerators = plugin.getGeneratorTemplates().getAll(args[0]);
 
             if (groupGenerators.isEmpty()) {
-                plugin.sendMessage(player, "group-not-found", placeholders);
+                plugin.sendMessage(player, "generator-group-not-found", placeholders);
                 return;
             }
 
-            for (GeneratorTemplate generator : plugin.getGeneratorTemplates().getAll(args[0])) {
+            for (GeneratorTemplate generator : groupGenerators) {
                 PlayerUtil.giveItemsOrDrop(player, generator.getItem());
             }
-            plugin.sendMessage(player, "received-group-generators", placeholders);
+            plugin.sendMessage(player, "received-generator-group", placeholders);
         });
     }
 

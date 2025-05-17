@@ -15,25 +15,27 @@ language: en
 auto-save: 0
 
 # Blocks that should be ignored when using /orestack structure save <file-name>
-structure-save-blacklist:
+structure-blacklist:
   - AIR
   - BEDROCK
 
-# Tools are only intended for admin use
+# The wand used to select a region
+structure-wand:
+  material: golden pickaxe
+  name: '&6&lOrestack Wand'
+  glow: true
+  lore:
+    - '&fleft-click to select first corner'
+    - '&fright-click to select second corner'
+
+# The generator item used to place and break generators
 generator-tool:
   material: terracotta   # Replaced by the last stage block
-  name: '&b&l%generator_tc% Generator (%generator_rotation_tc%)'
+  name: '&b&l{generator_tc} Generator ({generator_rotation_tc})'
   glow: true
   lore:
     - '&fright-click to place'
     - '&fleft-click to break'
     - '&fshift + left-click (air) to rotate'
 
-wand-tool:
-  material: golden pickaxe
-  name: '&6&lGenerator Wand'
-  glow: true
-  lore:
-    - '&fleft-click to select first corner'
-    - '&fright-click to select second corner'
 

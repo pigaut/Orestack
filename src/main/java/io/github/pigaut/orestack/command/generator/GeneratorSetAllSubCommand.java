@@ -12,13 +12,15 @@ import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorSetAllSubCommand extends LangSubCommand {
+public class GeneratorSetAllSubCommand extends SubCommand {
 
     public GeneratorSetAllSubCommand(@NotNull OrestackPlugin plugin) {
-        super("set-all-generators", plugin);
+        super("set-all", plugin);
+        withPermission(plugin.getPermission("generator.set-all"));
+        withDescription(plugin.getLang("generator-set-all-command"));
         addParameter(new GeneratorNameParameter(plugin));
         withPlayerExecution((player, args, placeholders) -> {
-            final OrestackPlayer playerState = plugin.getPlayer(player.getUniqueId());
+            final OrestackPlayer playerState = plugin.getPlayerState(player.getUniqueId());
             if (playerState == null) {
                 plugin.sendMessage(player, "loading-player-data", placeholders);
                 return;
@@ -35,7 +37,7 @@ public class GeneratorSetAllSubCommand extends LangSubCommand {
                 return;
             }
             final BlockStructure structure = generator.getLastStage().getStructure();
-            for (Location location : GeneratorTools.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
+            for (Location location : CuboidRegion.getAllLocations(player.getWorld(), firstSelection, secondSelection)) {
                 for (Rotation rotation : Rotation.values()) {
                     if (structure.matchBlocks(location, rotation)) {
                         try {

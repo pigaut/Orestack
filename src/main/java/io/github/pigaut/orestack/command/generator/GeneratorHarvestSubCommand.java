@@ -10,10 +10,12 @@ import org.bukkit.block.*;
 import org.bukkit.event.block.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorHarvestSubCommand extends LangSubCommand {
+public class GeneratorHarvestSubCommand extends SubCommand {
 
     public GeneratorHarvestSubCommand(@NotNull OrestackPlugin plugin) {
-        super("harvest-all-generators", plugin);
+        super("harvest-all", plugin);
+        withPermission(plugin.getPermission("generator.harvest-all"));
+        withDescription(plugin.getLang("generator-harvest-all-command"));
         addParameter(new GeneratorNameParameter(plugin));
         withPlayerExecution((player, args, placeholders) -> {
             final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);

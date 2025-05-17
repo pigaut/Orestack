@@ -7,16 +7,19 @@ import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.command.node.*;
+import io.github.pigaut.voxel.core.structure.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorRemoveAllSubCommand extends LangSubCommand {
+public class GeneratorRemoveAllSubCommand extends SubCommand {
 
     public GeneratorRemoveAllSubCommand(@NotNull OrestackPlugin plugin) {
-        super("remove-all-generators", plugin);
+        super("remove-all", plugin);
+        withPermission(plugin.getPermission("generator.remove-all"));
+        withDescription(plugin.getLang("generator-remove-all-command"));
         addParameter(new GeneratorNameParameter(plugin));
         withPlayerExecution((player, args, placeholders) -> {
-            final OrestackPlayer playerState = plugin.getPlayer(player.getUniqueId());
+            final OrestackPlayer playerState = plugin.getPlayerState(player.getUniqueId());
             if (playerState == null) {
                 plugin.sendMessage(player, "loading-player-data", placeholders);
                 return;
@@ -32,7 +35,7 @@ public class GeneratorRemoveAllSubCommand extends LangSubCommand {
                 plugin.sendMessage(player, "incomplete-region", placeholders);
                 return;
             }
-            for (Location point : GeneratorTools.getSelectedRegion(player.getWorld(), firstSelection, secondSelection)) {
+            for (Location point : CuboidRegion.getAllLocations(player.getWorld(), firstSelection, secondSelection)) {
                 final Generator blockGenerator = plugin.getGenerator(point);
                 if (blockGenerator == null) {
                     continue;

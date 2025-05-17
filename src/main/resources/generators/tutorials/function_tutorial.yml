@@ -66,7 +66,7 @@ on-click:
     # Let's start with the diamond parentheses, these are needed to define a parameter that has spaces in it
     - <chat message> <This message has spaces!>   # This statement has 1 action and 1 parameter
     # The '' are needed to define a string with special characters :{}[],?*&!|>'"%@`
-    - 'chatMessage <You clicked a: %generator_tc% Generator>'
+    - 'chatMessage <You clicked a: {generator_tc} Generator>'
     # The "" are more convenient if you need to use apostrophes in your sentence
     - "chatMessage <You can't do that>"
 

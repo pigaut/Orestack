@@ -7,8 +7,7 @@ import org.jetbrains.annotations.*;
 public class GeneratorNameParameter extends CommandParameter {
 
     public GeneratorNameParameter(@NotNull OrestackPlugin plugin) {
-        super(plugin.getLang("generator-name-parameter"),
-                (sender, args) -> plugin.getGeneratorTemplates().getAllNames());
+        super("generator-name", (sender, args) -> plugin.getGeneratorTemplates().getAllNames());
     }
 
 }

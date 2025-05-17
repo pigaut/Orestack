@@ -10,10 +10,12 @@ import org.bukkit.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorSetSubCommand extends LangSubCommand {
+public class GeneratorSetSubCommand extends SubCommand {
 
     public GeneratorSetSubCommand(@NotNull OrestackPlugin plugin) {
-        super("set-generator", plugin);
+        super("set", plugin);
+        withPermission(plugin.getPermission("generator.set"));
+        withDescription(plugin.getLang("generator-set-command"));
         addParameter(new GeneratorNameParameter(plugin));
         withPlayerExecution((player, args, placeholders) -> {
             final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);

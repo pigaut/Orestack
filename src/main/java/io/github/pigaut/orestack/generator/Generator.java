@@ -277,12 +277,12 @@ public class Generator implements PlaceholderSupplier {
 
         return Placeholder.mergeAll(
                 currentStage.getPlaceholders(),
-                Placeholder.of("%generator_world%", origin.getWorld().getName()),
-                Placeholder.of("%generator_x%", origin.getBlockX()),
-                Placeholder.of("%generator_y%", origin.getBlockY()),
-                Placeholder.of("%generator_z%", origin.getBlockZ()),
-                Placeholder.of("%generator_timer_seconds%", remainingSeconds),
-                Placeholder.of("%generator_timer_minutes%", remainingSeconds / 60)
+                Placeholder.of("{generator_world}", origin.getWorld().getName()),
+                Placeholder.of("{generator_x}", origin.getBlockX()),
+                Placeholder.of("{generator_y}", origin.getBlockY()),
+                Placeholder.of("{generator_z}", origin.getBlockZ()),
+                Placeholder.of("{generator_timer_seconds}", remainingSeconds),
+                Placeholder.of("{generator_timer_minutes}", remainingSeconds / 60)
         );
     }
 

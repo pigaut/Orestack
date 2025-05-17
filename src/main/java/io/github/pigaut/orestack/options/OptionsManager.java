@@ -1,4 +1,4 @@
-package io.github.pigaut.orestack.item;
+package io.github.pigaut.orestack.options;
 
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.manager.*;
@@ -6,12 +6,11 @@ import io.github.pigaut.yaml.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
-public class ToolManager extends Manager {
+public class OptionsManager extends Manager {
 
     private ItemStack generatorTool;
-    private ItemStack wandTool;
 
-    public ToolManager(EnhancedJavaPlugin plugin) {
+    public OptionsManager(EnhancedJavaPlugin plugin) {
         super(plugin);
     }
 
@@ -20,7 +19,6 @@ public class ToolManager extends Manager {
         super.loadData();
         final ConfigSection config = plugin.getConfiguration();
         generatorTool = config.get("generator-tool", ItemStack.class);
-        wandTool = config.get("wand-tool", ItemStack.class);
     }
 
     public @NotNull ItemStack getGeneratorTool() {
@@ -31,11 +29,4 @@ public class ToolManager extends Manager {
         this.generatorTool = generatorTool;
     }
 
-    public @NotNull ItemStack getWandTool() {
-        return wandTool.clone();
-    }
-
-    public void setWandTool(@NotNull ItemStack wandTool) {
-        this.wandTool = wandTool;
-    }
 }

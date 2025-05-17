@@ -14,9 +14,13 @@ public class GeneratorsMenu extends GenericGroupsMenu {
         super(StringFormatter.toTitleCase(group) + " Generators");
 
         for (GeneratorTemplate generator : plugin.getGeneratorTemplates(group)) {
+            final String generatorName = generator.getName();
+
             final Button button = Button.builder()
                     .withType(generator.getItem().getType())
-                    .withDisplay(generator.getName(), StringStyle.TITLE)
+                    .withDisplay("&6&o" + StringFormatter.toTitleCase(generatorName))
+                    .addLore("&7Left-Click: &fGet Generator")
+                    .onLeftClick((menuView, event) -> menuView.getViewer().performCommand("orestack generator get " + generatorName))
                     .buildButton();
 
             this.addEntry(button);

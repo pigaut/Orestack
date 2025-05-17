@@ -4,10 +4,8 @@ import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.item.*;
 import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.menu.*;
-import io.github.pigaut.orestack.menu.generator.*;
 import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.sql.*;
@@ -18,6 +16,7 @@ import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.version.*;
 import org.bukkit.*;
+import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
 
@@ -27,10 +26,10 @@ import java.util.*;
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
     private static OrestackPlugin plugin;
-    private final ToolManager toolManager = new ToolManager(this);
+    private final OptionsManager toolManager = new OptionsManager(this);
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
-    private final OrestackOptionsManager optionsManager = new OrestackOptionsManager(this);
+    private final OptionsManager optionsManager = new OptionsManager(this);
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
     private final Database database = SQLib.createDatabase(new File(("plugins/Orestack/data")));
 
@@ -55,23 +54,28 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull PlayerManager<OrestackPlayer> getPlayers() {
-        return playerManager;
-    }
-
-    @Override
     public @NotNull OrestackConfigurator getConfigurator() {
         return new OrestackConfigurator(this);
     }
 
     @Override
-    public @Nullable OrestackPlayer getPlayer(String playerName) {
-        return playerManager.getPlayer(playerName);
+    public @NotNull PlayerStateManager<? extends PlayerState> getPlayersState() {
+        return playerManager;
     }
 
     @Override
-    public @Nullable OrestackPlayer getPlayer(UUID playerId) {
-        return playerManager.getPlayer(playerId);
+    public @NotNull PlayerState getPlayerState(@NotNull Player player) {
+        return playerManager.getPlayerState(player);
+    }
+
+    @Override
+    public @Nullable OrestackPlayer getPlayerState(@NotNull String playerName) {
+        return playerManager.getPlayerState(playerName);
+    }
+
+    @Override
+    public @Nullable OrestackPlayer getPlayerState(@NotNull UUID playerId) {
+        return playerManager.getPlayerState(playerId);
     }
 
     @Override
@@ -97,9 +101,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public List<String> getPluginResources() {
         return List.of("config.yml",
-                "languages/en.yml",
-                "languages/fr.yml",
-                "languages/zh.yml");
+                "languages/en.yml");
     }
 
     @Override
@@ -343,7 +345,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         );
     }
 
-    public ToolManager getTools() {
+    public OptionsManager getTools() {
         return toolManager;
     }
 
@@ -367,7 +369,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return generatorManager.getGenerator(location);
     }
 
-    public OrestackOptionsManager getOptions() {
+    public OptionsManager getOptions() {
         return optionsManager;
     }
 

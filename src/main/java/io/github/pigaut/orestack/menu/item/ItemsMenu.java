@@ -15,7 +15,7 @@ public class ItemsMenu extends GenericGroupsMenu {
         for (Item item : plugin.getItems(group)) {
             final Button button = Button.builder()
                     .withType(item.getItemStack().getType())
-                    .withDisplay(item.getName(), StringStyle.TITLE)
+                    .withDisplay(item.getName())
                     .buildButton();
 
             this.addEntry(button);

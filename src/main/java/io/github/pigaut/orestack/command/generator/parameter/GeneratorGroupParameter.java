@@ -7,8 +7,7 @@ import org.jetbrains.annotations.*;
 public class GeneratorGroupParameter extends CommandParameter {
 
     public GeneratorGroupParameter(@NotNull OrestackPlugin plugin) {
-        super(plugin.getLang("generator-group-parameter"),
-                (sender, args) -> plugin.getGeneratorTemplates().getAllGroups());
+        super("generator-group", (sender, args) -> plugin.getGeneratorTemplates().getAllGroups());
     }
 
 }

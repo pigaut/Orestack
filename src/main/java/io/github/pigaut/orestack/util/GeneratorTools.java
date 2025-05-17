@@ -10,14 +10,11 @@ import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
 import org.jetbrains.annotations.*;
 
-import java.util.*;
-
 public class GeneratorTools {
 
     private static final OrestackPlugin plugin = OrestackPlugin.getPlugin();
 
     public static final NamespacedKey GENERATOR_KEY = new NamespacedKey("orestack", "generator");
-    public static final NamespacedKey WAND_KEY = new NamespacedKey("orestack", "wand");
 
     public static @NotNull Rotation getToolRotation(@NotNull ItemStack item) {
         final GeneratorTemplate generator = getGeneratorFromTool(item);
@@ -64,54 +61,6 @@ public class GeneratorTools {
         }
 
         return ItemPlaceholders.parseAll(generatorItem, generator);
-    }
-
-    public static boolean isWandTool(@Nullable ItemStack item) {
-        if (item == null) {
-            return false;
-        }
-        final ItemMeta meta = item.getItemMeta();
-        if (meta == null) {
-            return false;
-        }
-        return PersistentData.hasString(meta, WAND_KEY);
-    }
-
-    public static ItemStack getWandTool() {
-        final ItemStack wandItem = plugin.getTools().getWandTool();
-
-        final ItemMeta meta = wandItem.getItemMeta();
-        if (meta != null) {
-            PersistentData.setString(meta, WAND_KEY, "true");
-            wandItem.setItemMeta(meta);
-        }
-
-        return ItemPlaceholders.parseAll(wandItem);
-    }
-
-    public static List<Location> getSelectedRegion(World world, Location firstPoint, Location secondPoint) {
-        return getSelectedRegion(world,
-                firstPoint.getBlockX(), firstPoint.getBlockY(), firstPoint.getBlockZ(),
-                secondPoint.getBlockX(), secondPoint.getBlockY(), secondPoint.getBlockZ());
-    }
-
-    public static List<Location> getSelectedRegion(World world, int x1, int y1, int z1, int x2, int y2, int z2) {
-        int minX = Math.min(x1, x2);
-        int maxX = Math.max(x1, x2);
-        int minY = Math.min(y1, y2);
-        int maxY = Math.max(y1, y2);
-        int minZ = Math.min(z1, z2);
-        int maxZ = Math.max(z1, z2);
-
-        final List<Location> locations = new ArrayList<>();
-        for (int x = maxX; x >= minX; x--) {
-            for (int y = minY; y <= maxY; y++) {
-                for (int z = maxZ; z >= minZ; z--) {
-                    locations.add(new Location(world, x, y, z));
-                }
-            }
-        }
-        return locations;
     }
 
 }

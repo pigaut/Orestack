@@ -102,9 +102,9 @@ public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
 
     public Placeholder[] getPlaceholders() {
         return new Placeholder[]{
-                Placeholder.of("%generator%", name),
-                Placeholder.of("%generator_stages%", stages),
-                Placeholder.of("%generator_rotation%", rotation)
+                Placeholder.of("{generator}", name),
+                Placeholder.of("{generator_stages}", stages),
+                Placeholder.of("{generator_rotation}", rotation)
         };
     }
 
