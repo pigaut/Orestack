@@ -24,7 +24,7 @@ on-break:
       message:
         type: title
         title: "&7&lDepleted"
-        subtitle: "&7%generator_timer_seconds%s"
+        subtitle: "&7{generator_timer_seconds}s"
         fade-in: 15
         stay: 5
         fade-out: 15
@@ -101,13 +101,13 @@ drop-items: false
 hologram:
   update: 3
   offset: { x: 0, y: 0.5, z: 0 }
-  text: "&b&lDiamond [%generator_timer_seconds%s]"
+  text: "&b&lDiamond [{generator_timer_seconds}s]"
 on-break:
   - do:
       - giveItem diamond
       - chatMessage <You have mined diamond>
 
-  - if: isPlaceholder %generator_stage% 2
+  - if: isPlaceholder {generator_stage} 2
     do: playSoundAtBlock tin
 
 # Economy Example (Requires Vault and an economy plugin)

@@ -43,7 +43,7 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        final OrestackPlayer playerState = plugin.getPlayer(event.getPlayer().getUniqueId());
+        final OrestackPlayer playerState = plugin.getPlayerState(event.getPlayer().getUniqueId());
         playerState.updatePlaceholders(generator);
 
         final GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(playerState, generator, block);

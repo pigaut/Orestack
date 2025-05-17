@@ -29,12 +29,11 @@ structure:
 --- # Stage 4
 type: harvestable
 growth: 30
-drop-items: false
-regrow: false   # (USE WITH CAUTION) If false the stage won't change when mined, you need to set it manually with: setStage, nextStage or previousStage
 
 on-break:
-  actions:
-    - setStage 0
+  do:
+    - cancelEvent
+    - setGeneratorStage 0
     - dropItemAtBlock bamboo:4
 
 structure:
@@ -46,13 +45,12 @@ structure:
 --- # Stage 5
 type: harvestable
 growth: 30
-drop-items: false
-regrow: false
 growth-chance: 0.8
 
 on-break:
-  actions:
-    - setStage 0
+  do:
+    - cancelEvent
+    - setGeneratorStage 0
     - dropItemAtBlock bamboo:5
 
 structure:
@@ -65,13 +63,12 @@ structure:
 --- # Stage 6
 type: harvestable
 growth: 30
-drop-items: false
-regrow: false
 growth-chance: 0.8
 
 on-break:
-  actions:
-    - setStage 0
+  do:
+    - cancelEvent
+    - setGeneratorStage 0
     - dropItemAtBlock bamboo:6
 
 structure:
@@ -85,13 +82,12 @@ structure:
 --- # Stage 7
 type: harvestable
 growth: 30
-drop-items: false
-regrow: false
 growth-chance: 0.8
 
 on-break:
   actions:
-    - setStage 0
+    - cancelEvent
+    - setGeneratorStage 0
     - dropItemAtBlock bamboo:7
 
 structure:
@@ -105,13 +101,12 @@ structure:
 
 --- # Stage 8
 type: replenished
-drop-items: false
-regrow: false
 growth-chance: 0.8
 
 on-break:
   actions:
-    - setStage 0
+    - cancelEvent
+    - setGeneratorStage 0
     - dropItemAtBlock bamboo:8
 
 structure:

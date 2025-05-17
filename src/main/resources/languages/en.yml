@@ -1,227 +1,176 @@
-# LangNotFoundException: No message found for language 'en' with id 'placed-generator'. Please fix your language file.
-# If you get an error in console like the one above, it just means the message: 'placed-generator' is not set in en.yml
-# This might happen if you update the plugin and new messages where added, or if you modified this file.
+# --------------------------
+#    Command Placeholders
+# --------------------------
+# {command}
+# {command_name}
+# {command_description}
+# {command_permission}
 
-# Common Parameters (parameters can be used as placeholders)
-online-player-parameter: online-player   # i.e. %online-player% (if you change this value the placeholder changes too)
-world-name-parameter: world-name
-x-coordinate-parameter: x
-y-coordinate-parameter: y
-z-coordinate-parameter: z
-
-# Common Errors
-usage: '/%command% help'
+# ----------------------------
+#    Generic Command Errors
+# ----------------------------
+## Placeholders: {online-player}, {world-name}, {x}, {y}, {z}
+usage: '/{command} help'
 not-enough-args: "&4Not enough arguments"
 too-many-args: '&4Too many arguments'
 no-permission: '&4You don''t have the permission to run this command'
 player-only: '&4This command cannot be executed from console'
-player-not-online: '&4Could not find online player with name: %online-player%'
+player-not-online: '&4Could not find online player with name: {online-player}'
 loading-player-data: '&4Player data is still loading try again later'
-world-not-found: '&4Could not find a world with name: %world-name%'
-expected-coordinates: '&4Expected coordinates but received: x: %x%, y: %y%, z: %z%'
+world-not-found: '&4Could not find a world with name: {world-name}'
+expected-coordinates: '&4Expected coordinates but received: x: {x}, y: {y}, z: {z}'
 
-# Help Command
-help-command: help
-help-permission: orestack.help
-help-description: 'View a list of all available commands'
-# Message
-help-header: '&2------------     &r&l%command% Help     &2------------'
-help-line: '&a/%full_command%: &r%description%'
+# ------------------
+#    Help Command
+# ------------------
+## Description
+help-command: 'View a list of all available commands'
+## Style
+help-header: '&2------------     &r&l{command_name_tc} Help     &2------------'
+help-line: '&a/{command}: &r{command_description}'
 help-footer: '&2---------------------------------------------'
 
-# Reload Command
-reload-command: reload
-reload-permission: orestack.reload
-reload-description: 'Reload configuration and data'
+# --------------------
+#    Reload Command
+# --------------------
+## Description
+reload-command: 'Reload configuration and data'
+## Errors
 already-reloading: '&4The plugin is already reloading, please wait'
+## Success
 reloading: '&aReloading Orestack plugin... &c(Wait)'
 reload-complete: '&aReload completed successfully'
 
-# Item Command
-item-command: item
-item-permission: orestack.item
-## Parameters
-file-path-parameter: file-path
-item-name-parameter: item-name
-## Add Item
-add-item-command: add
-add-item-permission: orestack.item.add
-add-item-description: 'Save the item you''re holding to a yaml file'
-## Remove Item
-get-item-command: get
-get-item-permission: orestack.item.get
-get-item-description: 'Get an item saved in a yaml file'
+# -------------------
+#    Item Commands
+# -------------------
+## Placeholders: {item-name}, {item-group}
+## Descriptions
+item-command: ''
+item-add-command: 'Save the item you''re holding to a yaml file'
+item-get-command: 'Get the item with the given name'
+item-get-group-command: 'Get all items of a group'
 ## Errors
-file-not-found: '&4Could not find file at path: %file-path%'
-not-yaml-file: '&4The file must be a yaml file'
+file-not-found: '&4Could not find file at path: {file-path}'
+not-yaml-file: '&4The file is not a yaml file'
 not-holding-item: '&4You need to hold an item to use this command'
-item-not-found: '&4Could not find an item with name: %item-name%'
+item-not-found: '&4Could not find an item with name: {item-name}'
+item-group-not-found: '&4Could not find an item group with name: {item-group}'
 ## Success
-adding-item: '&aAdding %item-name% item to "%file-path%" file...'
-received-item: '&aYou received x1 %item-name% item'
+adding-item: '&aAdding {item-name} item to "{file-path}" file...'
+received-item: '&aYou received x1 {item-name} item'
+received-item-group: '&aYou received all {item-group} items'
 
-# Message
-message-command: message
-message-permission: orestack.message
-## Parameters
-message-name-parameter: message-name
-## Send message
-send-message-command: send
-send-message-permission: orestack.message.send
-send-message-description: 'Send a message to the target player'
-## Broadcast message
-broadcast-message-command: broadcast
-broadcast-message-permission: orestack.message.broadcast
-broadcast-message-description: 'Send a message to all online players'
+# ----------------------
+#    Message Commands
+# ----------------------
+## Placeholders: {message-name}, {online-player}
+## Descriptions
+message-command: ''
+message-send-command: 'Send a message to the target player'
+message-broadcast-command: 'Send a message to all online players'
+## Errors
+message-not-found: '&4Could not find a message with name: {message-name}'
 ## Success
-sent-message-to-player: '&aMessage sent successfully to %online-player%'
+sent-message-to-player: '&aMessage sent successfully to {online-player}'
 sent-message-to-all: '&aMessage sent successfully to all online players'
-## Errors
-message-not-found: '&4Could not find a message with name: %message-name%'
 
-# Sound
-sound-command: sound
-sound-permission: orestack.sound
-## Parameters
-sound-name-parameter: sound-name
-## Play sound
-play-sound-command: play
-play-sound-permission: orestack.sound.play
-play-sound-description: 'Plays a sound at the specified location'
-## Play sound to
-play-sound-to-command: play-to
-play-sound-to-permission: orestack.sound.play-to
-play-sound-to-description: "Plays a sound at the target player's location"
-## Success
-played-sound: '&aPlayed sound successfully at %world-name%, %x%, %y%, %z%'
-played-sound-at-player: '&aPlayed sound at %online-player%''s location'
+# -----------------------
+#    Particle Commands
+# -----------------------
+## Placeholders: {particle-name}, {world-name}, {x}, {y}, {z}
+## Descriptions
+particle-command: ''
+particle-spawn-command: 'Spawn a particle at the specified location'
+particle-spawn-to-command: 'Spawn a particle on the target player'
+particle-show-me-command: 'Spawn a particle 2 blocks in front of you'
 ## Errors
-sound-not-found: '&4Could not find a sound with name: %sound-name%'
-
-# Particle
-particle-command: particle
-particle-permission: orestack.particle
-## Parameters
-particle-name-parameter: particle-name
-## Spawn particle
-spawn-particle-command: spawn
-spawn-particle-permission: orestack.particle.spawn
-spawn-particle-description: 'Spawn a particle at the specified location'
-## Spawn particle to player
-spawn-particle-to-command: spawn-to
-spawn-particle-to-permission: orestack.particle.spawn-to
-spawn-particle-to-description: 'Spawns a particle on the target player'
-## Show me particle
-show-me-particle-command: show-me
-show-me-particle-permission: orestack.particle.show-me
-show-me-particle-description: 'Spawns a particle 2 blocks in front of you'
-## Errors
-particle-not-found: '&4Could not find a particle with name: %particle-name%'
+particle-not-found: '&4Could not find a particle with name: {particle-name}'
 ## Success
-spawned-particle: '&aSpawned a particle effect in %world-name% at x: %x%, y: %y%, z: %z%'
-spawned-particle-at-player: '&aSpawned a particle at %online-player%''s location'
+spawned-particle: '&aSpawned a particle effect at {world-name}, {x}, {y}, {z}'
+spawned-particle-at-player: '&aSpawned a particle at {online-player}''s location'
 showed-me-particle: '&aParticle spawned two blocks in front of you'
 
-# Structure Command
-structure-command: structure
-structure-permission: orestack.structure
-## Parameters
-structure-name-parameter: structure-name
-## Save Structure
-save-structure-command: save
-save-structure-permission: orestack.structure.save
-save-structure-description: 'Saves the selected region to a structure file'
-## Place Structure
-place-structure-command: place
-place-structure-permission: orestack.structure.place
-place-structure-description: 'Places the structure at the target block'
+# --------------------
+#    Sound Commands
+# --------------------
+## Placeholders: {sound-name}, {world-name}, {x}, {y}, {z}
+## Descriptions
+sound-command: ''
+sound-play-command: 'Play a sound at the given location'
+sound-play-to-command: "Play a sound at the given player's location"
+## Errors
+sound-not-found: '&4Could not find a sound with name: {sound-name}'
 ## Success
-saved-structure: '&aSaving structure to file: %file-path%'
+played-sound: '&aPlayed a sound effect at {world-name}, {x}, {y}, {z}'
+played-sound-at-player: "&aPlayed a sound at {online-player}'s location"
+
+# ------------------------
+#    Structure Commands
+# ------------------------
+## Placeholders: {structure-name}, {file-path}
+## Descriptions
+structure-command: ''
+structure-save-command: 'Saves the selected structure to a yaml file'
+structure-place-command: 'Place a structure at the target block'
+## Success
+saved-structure: '&aSaving structure to file: {file-path}'
 placed-structure: '&aPlaced structure at target block'
 ## Errors
-structure-not-found: '&4Could not find structure with name: %structure-name%'
+structure-not-found: '&4Could not find structure with name: {structure-name}'
 structure-minimum-blocks: '&4Structure must have at least two blocks in it'
+# -----------------------
 
-# Generator Command
-generator-command: generator
-generator-permission: orestack.generator
-## Parameters
-generator-name-parameter: generator-name
-generator-group-parameter: generator-group
-## Get Generator
-get-generator-command: get
-get-generator-permission: orestack.generator.get
-get-generator-description: 'Get an item used to place/break generators'
-## Set Generator
-set-generator-command: set
-set-generator-permission: orestack.generator.set
-set-generator-description: 'Set the generator to the block you''re looking at'
-## Remove Generator
-remove-generator-command: remove
-remove-generator-permission: orestack.generator.remove
-remove-generator-description: 'Remove the generator at the block you''re looking at'
-## Get Group Generators
-get-group-generators-command: get-group
-get-group-generators-permission: orestack.generator.get-group
-get-group-generators-description: 'Adds all generator items of a specific folder to your inventory'
-## Get All Generators
-get-all-generators-command: get-all
-get-all-generators-permission: orestack.generator.get-all
-get-all-generators-description: 'Adds all generator items to your inventory'
-## Set All Generators
-set-all-generators-command: set-all
-set-all-generators-permission: orestack.generator.set-all
-set-all-generators-description: 'Sets all generators in the selected region'
-## Remove All Generators
-remove-all-generators-command: remove-all
-remove-all-generators-permission: orestack.generator.remove-all
-remove-all-generators-description: 'Removes all generators in the selected region'
-## Harvest All Generators
-harvest-all-generators-command: harvest-all
-harvest-all-generators-permission: orestack.generator.harvest-all
-harvest-all-generators-description: 'Harvests all generators with the tool in main hand'
+# -----------------------
+#    Generator Command
+# -----------------------
+## Descriptions
+generator-command: ''
+generator-get-command: 'Get the generator with the given name'
+generator-get-group-command: 'Receive all generators of a group'
+generator-get-all-command: 'Receive all generators'
+generator-set-command: 'Set the generator to the block you''re looking at'
+generator-remove-command: 'Remove the generator at the block you''re looking at'
+generator-set-all-command: 'Set all generators in the selected region'
+generator-remove-all-command: 'Remove all generators in the selected region'
+generator-harvest-all-command: 'Harvest all generators with the tool in main hand'
 ## Errors
-generator-not-found: '&4Could not find generator with name: %generator-name%'
-group-not-found: '&4Could not find generator group with name: %generator-group%'
+generator-not-found: '&4Could not find generator with name: {generator-name}'
+generator-group-not-found: '&4Could not find generator group with name: {generator-group}'
 incomplete-region: '&4You need to select a region with the generator wand'
 too-far-away: '&4Cannot find a block in range, move closer'
 target-not-generator: '&4The block you''re looking at is not a generator'
 generator-overlap: '&4Too close to another generator'
 large-generator-limit: '&4The free version only allows up to 25 multi block generators'
 ## Success
-received-generator: '&aYou received x1 %generator% generator'
+received-generator: '&aYou received x1 {generator} generator'
 received-wand: '&aYou received x1 wand item'
 created-generator: '&aGenerator created successfully at target block'
 removed generator: '&aGenerator removed successfully at target block'
-received-group-generators: '&aYou received %generator-group% generators'
+received-generator-group: '&aYou received {generator-group} generators'
 received-all-generators: '&aYou received x1 of each generator item'
 created-all-generators: '&aAll generators inside of region have been set successfully'
 removed-all-generators: '&aAll generators inside of region have been removed successfully'
-harvested-all-generators: '&aAll %generator% generators have been harvested with held tool'
+harvested-all-generators: '&aAll {generator} generators have been harvested with held tool'
 
-# Generator Item
-generator-place-permission: orestack.generator.place
-generator-break-permission: orestack.generator.break
-generator-rotate-permission: orestack.generator.rotate
-placed-generator: '&aPlaced generator successfully'
-broke-generator: '&cBroke generator successfully'
-changed-generator-rotation: '&aRotated generator by 90 degrees'
-missing-place-permission: '&4You don''t have the permission to place generators'
-missing-break-permission: '&4You don''t have the permission to break generators'
-missing-rotate-permission: '&4You don''t have the permission to rotate generators'
-
-# Wand Command
-wand-command: wand
-wand-permission: orestack.generator.wand
-wand-description: 'Get a wand used to mark regions'
-
-# Wand Item
+# --------------------
+#    Selection Wand
+# --------------------
+## Command
+wand-command: 'Get a wand used to select a region'
+## Item
 selected-first-position: '&aFirst position selected'
 selected-second-position: '&aSecond position selected'
 missing-wand-permission: '&4You don''t have the permission to use the wand'
 
-
-
-
-
-
+# --------------------
+#    Generator Item
+# --------------------
+## Errors
+cannot-place-generator: '&4You don''t have the permission to place generators'
+cannot-break-generator: '&4You don''t have the permission to break generators'
+cannot-rotate-generator: '&4You don''t have the permission to rotate generators'
+## Success
+placed-generator: '&aPlaced generator successfully'
+broke-generator: '&cBroke generator successfully'
+changed-generator-rotation: '&aRotated generator by 90 degrees'

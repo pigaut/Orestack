@@ -28,7 +28,7 @@ on-break:
       - cancelEvent
       - return
 
-    # Otherwise give the player the cooldown flag
+    # Otherwise, give the player the cooldown flag
   - do: giveFlagToPlayer lodestone_cooldown
 
     # And remove it after the desired period of time

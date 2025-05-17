@@ -20,88 +20,84 @@ public class OrestackMenu extends FixedMenu {
         this.itemGroupsMenu = new ItemGroupsMenu(plugin);
         this.structureGroupsMenu = new StructureGroupsMenu(plugin);
 
-        final Button panel = Button.builder()
-                .withType(Material.GRAY_STAINED_GLASS_PANE)
-                .buildButton();
-
-        this.setButtons(panel, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 16, 17, 18, 26, 27, 28, 34, 35, 36, 37, 38, 42, 43, 44);
+        this.setButtons(Buttons.GRAY_PANEL, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 16, 17, 18, 26, 27, 28, 34, 35, 36, 37, 38, 42, 43, 44);
 
         buttons[11] = Button.builder()
                 .withType(Material.ITEM_FRAME)
-                .withDisplay("Items")
-                .addLore("Click to view all items")
+                .withDisplay("&a&lItems")
+                .addLore("&7Left-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(itemGroupsMenu))
                 .buildButton();
 
         buttons[15] = Button.builder()
                 .withType(Material.NAME_TAG)
-                .withDisplay("Messages")
-                .addLore("Click to view all messages")
+                .withDisplay("&b&lMessages")
+                .addLore("&fLeft-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(plugin.getMenu("generator_menu")))
                 .buildButton();
 
         buttons[19] = Button.builder()
                 .withType(Material.SCAFFOLDING)
-                .withDisplay("Structures")
-                .addLore("Click to view all structures")
+                .withDisplay("&e&lStructures")
+                .addLore("&7Left-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(structureGroupsMenu))
                 .buildButton();
 
         buttons[22] = Button.builder()
                 .withType(Material.FURNACE_MINECART)
-                .withDisplay("Generator Templates")
-                .addLore("Click to view all generator templates")
+                .withDisplay("&6&lGenerators")
+                .addLore("&7Left-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(generatorGroupsMenu))
                 .buildButton();
 
         buttons[25] = Button.builder()
                 .withType(Material.CAMPFIRE)
-                .withDisplay("Particles")
-                .addLore("Click to view all particle effects")
+                .withDisplay("&d&lParticle Effects")
+                .addLore("&7Left-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(plugin.getMenu("generator_menu")))
                 .buildButton();
 
         buttons[29] = Button.builder()
                 .withType(Material.ANVIL)
-                .withDisplay("Functions")
-                .addLore("Click to view all functions")
+                .withDisplay("&8&lFunctions")
+                .addLore("&7Left-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(plugin.getMenu("generator_menu")))
                 .buildButton();
 
         buttons[33] = Button.builder()
                 .withType(Material.JUKEBOX)
-                .withDisplay("Sounds")
-                .addLore("Click to view all sound effects")
+                .withDisplay("&3&lSound Effects")
+                .addLore("&7Left-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(plugin.getMenu("generator_menu")))
                 .buildButton();
 
         buttons[39] = Button.builder()
                 .withType(Material.GOLDEN_PICKAXE)
-                .withDisplay("Wand")
-                .addLore("Click to get a wand")
+                .withDisplay("&f&lWand")
+                .addLore("&7Left-Click: &fGet a wand")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().performCommand("orestack wand"))
                 .buildButton();
 
         buttons[40] = Button.builder()
                 .withType(Material.BARRIER)
-                .withDisplay("Close")
-                .addLore("Click to close")
+                .withDisplay("&c&lClose")
+                .addLore("&7Left-Click: &fClose this menu")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().closeInventory())
                 .buildButton();
 
         buttons[41] = Button.builder()
                 .withType(Material.OAK_BUTTON)
-                .withDisplay("Reload")
-                .addLore("Click to reload the plugin")
+                .withDisplay("&f&lReload")
+                .addLore("&7Left-Click: &fReload the plugin")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().performCommand("orestack reload"))
                 .buildButton();

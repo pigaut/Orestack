@@ -27,36 +27,6 @@ public class PlayerInteractListener implements Listener {
     }
 
     @EventHandler
-    public void onWandClick(PlayerInteractEvent event) {
-        if (!event.hasBlock() || !event.hasItem()
-                || event.getHand() != EquipmentSlot.HAND
-                || !GeneratorTools.isWandTool(event.getItem())) {
-            return;
-        }
-        event.setCancelled(true);
-
-        final Player player = event.getPlayer();
-        final OrestackPlayer playerState = plugin.getPlayer(player.getUniqueId());
-
-        if (!player.hasPermission(plugin.getLang("wand-permission"))) {
-            plugin.sendMessage(player, "missing-wand-permission");
-            return;
-        }
-
-        final Location targetLocation = event.getClickedBlock().getLocation();
-        if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
-            playerState.setFirstSelection(targetLocation);
-            plugin.sendMessage(player, "selected-first-position");
-            return;
-        }
-
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            playerState.setSecondSelection(targetLocation);
-            plugin.sendMessage(player, "selected-second-position");
-        }
-    }
-
-    @EventHandler
     public void onGeneratorItemClick(PlayerInteractEvent event) {
         if (event.getHand() != EquipmentSlot.HAND) {
             return;
@@ -77,8 +47,8 @@ public class PlayerInteractListener implements Listener {
 
         if (action == Action.LEFT_CLICK_AIR && player.isSneaking()) {
             event.setCancelled(true);
-            if (!player.hasPermission(plugin.getLang("generator-rotate-permission"))) {
-                plugin.sendMessage(player, "missing-rotate-permission", heldGenerator);
+            if (!player.hasPermission("orestack.generator.rotate")) {
+                plugin.sendMessage(player, "cannot-rotate-generator", heldGenerator);
                 return;
             }
             GeneratorTools.incrementToolRotation(heldItem);
@@ -95,8 +65,8 @@ public class PlayerInteractListener implements Listener {
             }
 
             event.setCancelled(true);
-            if (!player.hasPermission(plugin.getLang("generator-break-permission"))) {
-                plugin.sendMessage(player, "missing-break-permission", heldGenerator);
+            if (!player.hasPermission("orestack.generator.break")) {
+                plugin.sendMessage(player, "cannot-break-generator", heldGenerator);
                 return;
             }
             plugin.getGenerators().removeGenerator(clickedGenerator);
@@ -113,8 +83,8 @@ public class PlayerInteractListener implements Listener {
         }
 
         final Player player = event.getPlayer();
-        if (!player.hasPermission(plugin.getLang("generator-place-permission"))) {
-            plugin.sendMessage(player, "missing-place-permission", heldGenerator);
+        if (!player.hasPermission("orestack.generator.place")) {
+            plugin.sendMessage(player, "cannot-place-generator", heldGenerator);
             event.setCancelled(true);
             return;
         }
@@ -160,7 +130,7 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        final OrestackPlayer playerState = plugin.getPlayer(event.getPlayer().getUniqueId());
+        final OrestackPlayer playerState = plugin.getPlayerState(event.getPlayer().getUniqueId());
         playerState.updatePlaceholders(clickedGenerator);
 
         final GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(playerState, clickedGenerator);

@@ -10,7 +10,7 @@ growth: 100
 hologram:
   - text: "&2&lGreat Oak Tree"
     offset: { x: 2, y: 2, z: 0 }
-  - text: "&aGrowing: %generator_timer_seconds%s"
+  - text: "&aGrowing: {generator_timer_seconds}s"
     update: 3
     offset: { x: 2, y: 1.75, z: 0 }
 

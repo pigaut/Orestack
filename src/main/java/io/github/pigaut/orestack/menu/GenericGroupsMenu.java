@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.menu;
 
 import io.github.pigaut.voxel.menu.*;
+import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.paged.*;
 
 public class GenericGroupsMenu extends PagedMenu {
@@ -13,7 +14,10 @@ public class GenericGroupsMenu extends PagedMenu {
                 19, 20, 21, 22, 23, 24, 25,
                 28, 29, 30, 31, 31, 33, 34);
 
+        this.setButtons(Buttons.GRAY_PANEL, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 42, 43, 44);
+
         buttons[40] = new BacktrackButton();
+
     }
 
 }

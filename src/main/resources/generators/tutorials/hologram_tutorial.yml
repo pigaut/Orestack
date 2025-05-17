@@ -25,7 +25,7 @@ block: cobblestone
 growth: 40
 
 hologram:
-  text: '&7&lCobblestone &7[%generator_timer_seconds%s]'
+  text: '&7&lCobblestone &7[{generator_timer_seconds}s]'
   # Set the update timer (ticks) to refresh placeholders
   update: 3
   offset: { x: 0, y: 0.5, z: 0 }
@@ -42,13 +42,13 @@ growth: 40
 hologram:
   # Create an animation using a frame list
   frames:
-    - '&8&lIron &7[%generator_timer_seconds%s]'
-    - '&7&lI&8&lron &7[%generator_timer_seconds%s]'
-    - '&8&lI&7&lr&8&lon &7[%generator_timer_seconds%s]'
-    - '&8&lIr&7&lo&8&ln &7[%generator_timer_seconds%s]'
-    - '&8&lIro&7&ln &7[%generator_timer_seconds%s]'
-    - '&8&lIron &7[%generator_timer_seconds%s]'
-    - '&8&lIron &7[%generator_timer_seconds%s]'
+    - '&8&lIron &7[{generator_timer_seconds}s]'
+    - '&7&lI&8&lron &7[{generator_timer_seconds}s]'
+    - '&8&lI&7&lr&8&lon &7[{generator_timer_seconds}s]'
+    - '&8&lIr&7&lo&8&ln &7[{generator_timer_seconds}s]'
+    - '&8&lIro&7&ln &7[{generator_timer_seconds}s]'
+    - '&8&lIron &7[{generator_timer_seconds}s]'
+    - '&8&lIron &7[{generator_timer_seconds}s]'
 
   # Use update to set the speed of the animation
   update: 3

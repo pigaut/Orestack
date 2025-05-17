@@ -14,9 +14,11 @@ public class ItemGroupsMenu extends GenericGroupsMenu {
         for (String group : plugin.getItems().getAllGroups()) {
             final Button button = Button.builder()
                     .withType(Material.CHEST)
-                    .withDisplay(StringFormatter.toTitleCase(group))
-                    .addLore("[left-click] to view all items")
+                    .withDisplay("&a&l" + StringFormatter.toTitleCase(group))
+                    .addLore("&7Left-Click: &fView all")
+                    .addLore("&7Right-Click: &fGet all")
                     .onLeftClick((menuView, event) -> menuView.getViewer().openMenu(new ItemsMenu(group)))
+                    .onRightClick((menuView, event) -> menuView.getViewer().performCommand("orestack item get-group " + group))
                     .buildButton();
 
             this.addEntry(button);

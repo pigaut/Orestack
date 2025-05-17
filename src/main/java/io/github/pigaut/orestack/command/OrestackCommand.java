@@ -2,13 +2,13 @@ package io.github.pigaut.orestack.command;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.command.generator.*;
-import io.github.pigaut.orestack.command.structure.*;
 import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.command.node.*;
 import io.github.pigaut.voxel.core.item.command.*;
 import io.github.pigaut.voxel.core.message.command.*;
 import io.github.pigaut.voxel.core.particle.command.*;
 import io.github.pigaut.voxel.core.sound.command.*;
+import io.github.pigaut.voxel.core.structure.command.*;
 import io.github.pigaut.voxel.plugin.command.*;
 import org.jetbrains.annotations.*;
 
@@ -20,7 +20,7 @@ public class OrestackCommand extends EnhancedCommand {
         this.setAliases("ostack");
 
         final RootCommand command = this.getRootCommand();
-        command.withPermission("orestack.menu");
+        command.withPermission("orestack");
 //        command.withPlayerStateExecution((player, args, placeholders) -> {
 //           player.openMenu(plugin.getMenu("orestack"));
 //        });
