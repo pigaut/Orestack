@@ -123,8 +123,9 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
                 "generators/example.yml",
 
-                "generators/examples/magic_wheat.yml",
                 "generators/examples/diamond_node.yml",
+                "generators/examples/experience_ore.yml",
+                "generators/examples/magic_wheat.yml",
 
                 "generators/rocks/piles/stone_pile.yml",
                 "generators/rocks/piles/coal_pile.yml",
@@ -133,10 +134,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/rocks/piles/diamond_pile.yml",
                 "generators/rocks/piles/emerald_pile.yml",
 
-                "generators/tutorials/hologram_tutorial.yml",
-                "generators/tutorials/function_tutorial.yml",
-                "generators/tutorials/flag_tutorial.yml",
                 "generators/tutorials/drops_tutorial.yml",
+                "generators/tutorials/exp_tutorial.yml",
+                "generators/tutorials/flag_tutorial.yml",
+                "generators/tutorials/function_tutorial.yml",
+                "generators/tutorials/hologram_tutorial.yml",
 
                 "generators/trees/vanilla/oak_tree.yml",
                 "generators/trees/vanilla/birch_tree.yml",
