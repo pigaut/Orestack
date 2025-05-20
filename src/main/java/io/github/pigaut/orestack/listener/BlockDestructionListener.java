@@ -25,6 +25,13 @@ public class BlockDestructionListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
+    public void onFade(BlockFadeEvent event) {
+        if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
     public void onBlockBurn(BlockBurnEvent event) {
         if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
             event.setCancelled(true);

@@ -141,6 +141,7 @@ on-break:
       - giveItem emerald
       - spawnParticleAtBlock flame_ring
       - customMessage hologram
+      - dropExpAtBlock 10-100 5-20
       - chatMessage <You mined emerald!>
 
     else:
