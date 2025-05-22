@@ -147,6 +147,7 @@ public class Generator implements PlaceholderSupplier {
             return;
         }
         this.updating = true;
+        this.cancelGrowth();
         plugin.getScheduler().runTaskLater(1, () -> {
             final BlockStructure nextStructure = template.getStage(stage).getStructure();
             for (Block previousBlock : template.getAllOccupiedBlocks(origin, rotation)) {
@@ -229,32 +230,31 @@ public class Generator implements PlaceholderSupplier {
             currentHologram = null;
         }
 
-        if (stage.getState() != GeneratorState.REPLENISHED) {
-            if (growthTask != null && !growthTask.isCancelled()) {
-                growthTask.cancel();
-                growthStart = null;
-            }
-            growthTask = plugin.getScheduler().runTaskLater(stage.getGrowthTime(), () -> {
-                growthTask = null;
-                if (this.isLastStage()) {
-                    return;
-                }
-
-                final GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(this);
-                SpigotServer.callEvent(growthEvent);
-
-                if (!growthEvent.isCancelled()) {
-                    this.nextStage();
-                }
-            });
-            growthStart = Instant.now();
-        }
-
         final Hologram hologram = stage.getHologram();
         if (hologram != null) {
             final Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
             currentHologram = hologram.spawn(offsetLocation, rotation, false, this);
         }
+
+        if (stage.getState() == GeneratorState.REPLENISHED) {
+            return;
+        }
+
+        growthStart = Instant.now();
+        growthTask = plugin.getScheduler().runTaskLater(stage.getGrowthTime(), () -> {
+            growthTask = null;
+            if (this.isLastStage()) {
+                return;
+            }
+
+            final GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(this);
+            SpigotServer.callEvent(growthEvent);
+
+            if (!growthEvent.isCancelled()) {
+                this.nextStage();
+            }
+        });
+
     }
 
     @Override
