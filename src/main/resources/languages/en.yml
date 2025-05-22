@@ -10,7 +10,7 @@
 #    Generic Command Errors
 # ----------------------------
 ## Placeholders: {online-player}, {world-name}, {x}, {y}, {z}
-usage: '/{command} help'
+usage: '/{command_name} help'
 not-enough-args: "&4Not enough arguments"
 too-many-args: '&4Too many arguments'
 no-permission: '&4You don''t have the permission to run this command'

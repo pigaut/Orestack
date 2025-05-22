@@ -18,13 +18,6 @@ public class BlockBreakListener implements Listener {
         this.plugin = plugin;
     }
 
-//    @EventHandler(priority = EventPriority.NORMAL)
-//    public void onBreakInit(BlockBreakEvent event) {
-//        if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
-//            event.setCancelled(true);
-//        }
-//    }
-
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         final Block block = event.getBlock();
