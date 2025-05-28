@@ -6,7 +6,7 @@ import io.github.pigaut.voxel.core.function.*;
 import io.github.pigaut.voxel.core.function.interact.block.*;
 import io.github.pigaut.voxel.core.structure.*;
 import io.github.pigaut.voxel.hologram.*;
-import io.github.pigaut.voxel.util.*;
+import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.loader.*;
 import org.bukkit.*;

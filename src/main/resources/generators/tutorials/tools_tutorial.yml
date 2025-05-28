@@ -1,0 +1,138 @@
+# ============================
+#         STAGE 0
+# ============================
+---
+type: depleted
+block: bedrock
+growth: 50
+
+# ============================
+#         STAGE 1
+# ============================
+---
+type: harvestable
+block: oak_log
+growth: 50
+hologram:
+  - offset.y: 0.75
+    text: '&b&lRequired Tool: &fAxe'
+  - offset.y: 0.5
+    text: '&f<right-click> to get'
+
+on-click:
+  click: right_click_block
+  do: giveItemToPlayer iron_axe
+
+on-break:
+  # Check if the player's tool is an axe
+  if-not: toolTypeEquals <WOODEN_AXE, STONE_AXE, GOLDEN_AXE, IRON_AXE, GOLDEN_AXE, DIAMOND_AXE, NETHERITE_AXE>
+  do:
+    - chatMessage <&4You need an axe to cut down this resource>
+    - cancelEvent
+    - stop
+
+# ============================
+#         STAGE 2
+# ============================
+---
+type: harvestable
+block: diamond_ore
+growth: 50
+
+hologram:
+  - offset.y: 0.75
+    text: '&b&lRequired Tool: &fIron Pickaxe'
+  - offset.y: 0.5
+    text: '&f<right-click> to get'
+
+on-click:
+  click: right_click_block
+  do: giveItemToPlayer iron_pickaxe
+
+on-break:
+  # Check if the player's tool is an iron pickaxe or better
+  if-not: toolTypeEquals <IRON_PICKAXE, GOLDEN_PICKAXE, DIAMOND_PICKAXE, NETHERITE_PICKAXE>
+  do:
+    - chatMessage <&4You need an iron pickaxe or better to mine this resource>
+    - cancelEvent
+    - stop
+
+# ============================
+#         STAGE 3
+# ============================
+---
+type: harvestable
+block: cobweb
+growth: 50
+
+hologram:
+  - offset.y: 0.75
+    text: '&b&lRequired Tool: &fWeb Cutter'
+  - offset.y: 0.5
+    text: '&f<right-click> to get'
+
+on-click:
+  click: right_click_block
+  do: giveItemToPlayer web_cutter
+
+on-break:
+  # Check if item name is equal to "Web Cutter", case-sensitive, ignores colors
+  if-not: toolNameEquals <Web Cutter>
+  do:
+    - chatMessage <&4You need a Web Cutter to harvest this resource>
+    - cancelEvent
+    - stop
+
+# ============================
+#         STAGE 4
+# ============================
+---
+type: harvestable
+block: slime_block
+growth: 50
+
+hologram:
+  - offset.y: 0.75
+    text: '&b&lRequired Tool: &fLegendary Axe'
+  - offset.y: 0.5
+    text: '&f<right-click> to get'
+
+on-click:
+  click: right_click_block
+  do: giveItemToPlayer legendary_axe
+
+on-break:
+  if-not:
+    - toolTypeEquals gold_axe
+    # Check if lore line 1 is equal to "Legendary", case-sensitive, ignores colors
+    - toolLoreLineEquals 1 <Legendary>
+  do:
+    - chatMessage <&4You need a legendary axe to harvest this resource>
+    - cancelEvent
+    - stop
+
+# ============================
+#         STAGE 5
+# ============================
+---
+type: replenished
+block: stone_bricks
+hologram:
+  - offset.y: 0.75
+    text: '&b&lRequired Tool: &fLore Katana'
+  - offset.y: 0.5
+    text: '&f<right-click> to get'
+
+on-click:
+  click: right_click_block
+  do: giveItemToPlayer lore_katana
+
+on-break:
+  if-not:
+    - toolTypeEquals iron_sword
+    # Check if the lore matches exactly, case-sensitive, ignores colors
+    - toolLoreEquals <Silken Edge, Threadslicer, Cuts with Precision>
+  do:
+    - chatMessage <&4You need a Lore Katana to harvest this resource>
+    - cancelEvent
+    - stop

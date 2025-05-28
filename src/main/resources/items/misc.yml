@@ -1,3 +1,15 @@
+lore_katana:
+  type: iron_sword
+  lore: [Silken Edge, Threadslicer, Cuts with Precision]
+
+web_cutter:
+  type: shears
+  name: "&f&lWeb Cutter"
+
+legendary_axe:
+  type: gold_axe
+  lore: ["&6Legendary"]
+
 compressed_coal:
   type: coal
   amount: 1
