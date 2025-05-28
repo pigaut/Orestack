@@ -128,7 +128,7 @@ on-break:
       - chatMessage <&4You need shears or a fishing rod to harvest this block>
       - cancelEvent
       - return   # [!] Always place 'return' or 'stop' last, or the following actions will not run
-      - chatMessage <&4This message will not be sent because this code is unreachable!>
+      - chatMessage <&4This message will not be sent because the code is unreachable!>
 
     # This only runs if the 'return' action above is not reached
   - do: chatMessage <&aHarvesting yellow wool...>

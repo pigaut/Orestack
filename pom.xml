@@ -6,7 +6,7 @@
 
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>Orestack</artifactId>
-    <version>3.27.8</version>
+    <version>3.28.0</version>
 
     <build>
         <plugins>
@@ -26,10 +26,6 @@
                                 <relocation>
                                     <pattern>io.github.pigaut.voxel</pattern>
                                     <shadedPattern>io.github.pigaut.orestack.voxel</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>io.github.pigaut.sql</pattern>
-                                    <shadedPattern>io.github.pigaut.orestack.sql</shadedPattern>
                                 </relocation>
                             </relocations>
                             <outputFile>D:\files\Development\java\spigot\servers\1.21.4\plugins\Orestack-${project.version}.jar</outputFile>
@@ -82,15 +78,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>io.github.pigaut.sql</groupId>
+            <artifactId>SQLib</artifactId>
+            <version>1.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>io.github.pigaut.voxel</groupId>
             <artifactId>VoxelSpigot</artifactId>
             <version>1.4.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.github.pigaut.sql</groupId>
-            <artifactId>SQLib</artifactId>
-            <version>1.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

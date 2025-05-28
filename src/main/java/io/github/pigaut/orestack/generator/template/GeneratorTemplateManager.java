@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.generator.template;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.node.sequence.*;
+import org.jetbrains.annotations.*;
 
 import java.io.*;
 
@@ -16,16 +17,18 @@ public class GeneratorTemplateManager extends ManagerContainer<GeneratorTemplate
     }
 
     @Override
-    public void disable() {
-        this.clear();
+    public @Nullable String getFilesDirectory() {
+        return "generators";
     }
 
     @Override
-    public void loadData() {
-        for (File generatorFile : plugin.getFiles("generators")) {
-            final RootSequence config = plugin.loadConfigSequence(generatorFile);
-            this.add(config.load(GeneratorTemplate.class));
-        }
+    public void loadFile(@NotNull File file) {
+        final RootSequence config = new RootSequence(file, plugin.getConfigurator());
+        config.setPrefix("Generator");
+        config.load();
+
+        final GeneratorTemplate template = config.load(GeneratorTemplate.class);
+        this.add(template);
     }
 
 }

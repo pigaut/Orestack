@@ -45,8 +45,14 @@ public class GeneratorManager extends Manager {
     public void loadData() {
         generators.clear();
         generatorBlocks.clear();
-        final DataTable resourcesTable = plugin.getDatabase().tableOf("resources");
-        resourcesTable.createIfNotExists(
+
+        final Database database = plugin.getDatabase();
+        if (database == null) {
+            plugin.getLogger().severe("Could not load data because database was not found.");
+            return;
+        }
+
+        database.createTableIfNotExists("resources",
                 "world VARCHAR(255)",
                 "x INT NOT NULL",
                 "y INT NOT NULL",
@@ -57,7 +63,7 @@ public class GeneratorManager extends Manager {
                 "PRIMARY KEY (world, x, y, z)"
         );
 
-        resourcesTable.selectAll().fetchAllRows(rowQuery -> {
+        database.selectAll("resources").fetchAllRows(rowQuery -> {
             final String worldId = rowQuery.getString(1);
             final int x = rowQuery.getInt(2);
             final int y = rowQuery.getInt(3);
@@ -68,36 +74,36 @@ public class GeneratorManager extends Manager {
 
             final World world = Bukkit.getWorld(UUID.fromString(worldId));
             if (world == null) {
-                plugin.getLogger().warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
+                logger.warning("Ignored generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
                         "Reason: world does not exist.");
                 return;
             }
 
             final GeneratorTemplate template = plugin.getGeneratorTemplate(generatorName);
             if (template == null) {
-                plugin.getLogger().warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
-                        "Reason: generator does not exist.");
+                logger.warning("Ignored generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
+                        "Reason: generator template does not exist.");
                 return;
             }
 
             final Location origin = new Location(world, x, y, z);
-            final Rotation rotation = Deserializers.getEnum(Rotation.class, rotationData);
-
+            Rotation rotation = Deserializers.getEnum(Rotation.class, rotationData);
             if (rotation == null) {
-                plugin.getLogger().warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
+                rotation = Rotation.NONE;
+                logger.warning("Reset generator rotation at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
                         "Reason: invalid rotation data.");
-                return;
             }
 
             final int maxStage = template.getMaxStage();
             if (stage > maxStage) {
-                plugin.getLogger().warning("Failed to load saved generator stage. Reason: " + template.getName() +
-                        " generator supports a maximum of " + maxStage + " stages.");
+                logger.warning("Reset generator stage at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
+                        "Reason: stage data surpasses the current max stage.");
             }
 
+            final Rotation finalRotation = rotation;
             plugin.getScheduler().runTask(() -> {
                 try {
-                    Generator.create(template, origin, rotation, Math.min(stage, maxStage));
+                    Generator.create(template, origin, finalRotation, Math.min(stage, maxStage));
                 } catch (GeneratorOverlapException e) {
                     plugin.getLogger().warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
                             "Reason: generators overlapped.");
@@ -106,22 +112,29 @@ public class GeneratorManager extends Manager {
         });
     }
 
+
     @Override
     public void saveData() {
-        final DataTable resourcesTable = plugin.getDatabase().tableOf("resources");
-        resourcesTable.createIfNotExists(
-                "world VARCHAR(36)",
+        final Database database = plugin.getDatabase();
+        if (database == null) {
+            logger.severe("Could not save data because database was not found.");
+            return;
+        }
+
+        database.createTableIfNotExists("resources",
+                "world VARCHAR(255)",
                 "x INT NOT NULL",
                 "y INT NOT NULL",
                 "z INT NOT NULL",
                 "generator VARCHAR(255) NOT NULL",
-                "rotation VARCHAR(5)",
+                "rotation VARCHAR(5) NOT NULL",
                 "stage INT NOT NULL",
                 "PRIMARY KEY (world, x, y, z)"
         );
-        resourcesTable.clear();
-        final DatabaseStatement insertStatement =
-                resourcesTable.insertInto("world", "x", "y", "z", "generator", "rotation", "stage");
+
+        final DatabaseStatement insertStatement = database.merge("resources", "world, x, y, z",
+                "world", "x", "y", "z", "generator", "rotation", "stage");
+
         for (Generator generator : generators) {
             final Location location = generator.getOrigin();
             insertStatement.withParameter(location.getWorld().getUID().toString());

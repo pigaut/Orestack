@@ -8,7 +8,6 @@ import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.orestack.player.*;
-import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.player.*;
@@ -20,7 +19,6 @@ import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
 
-import java.io.*;
 import java.util.*;
 
 public class OrestackPlugin extends EnhancedJavaPlugin {
@@ -31,7 +29,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     private final GeneratorManager generatorManager = new GeneratorManager(this);
     private final OptionsManager optionsManager = new OptionsManager(this);
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
-    private final Database database = SQLib.createDatabase(new File(("plugins/Orestack/data")));
 
     public static OrestackPlugin getPlugin() {
         return plugin;
@@ -40,12 +37,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public void onLoad() {
         plugin = this;
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        database.closeConnection();
     }
 
     @Override
@@ -134,6 +125,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/tutorials/flag_tutorial.yml",
                 "generators/tutorials/function_tutorial.yml",
                 "generators/tutorials/hologram_tutorial.yml",
+                "generators/tutorials/tools_tutorial.yml",
 
                 "generators/trees/vanilla/oak_tree.yml",
                 "generators/trees/vanilla/birch_tree.yml",
@@ -347,6 +339,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         );
     }
 
+    @Override
+    public @Nullable String getDatabaseName() {
+        return "data";
+    }
+
     public OptionsManager getTools() {
         return toolManager;
     }
@@ -373,10 +370,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     public OptionsManager getOptions() {
         return optionsManager;
-    }
-
-    public Database getDatabase() {
-        return database;
     }
 
 }

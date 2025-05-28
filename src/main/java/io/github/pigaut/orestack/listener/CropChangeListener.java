@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.listener;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.util.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
