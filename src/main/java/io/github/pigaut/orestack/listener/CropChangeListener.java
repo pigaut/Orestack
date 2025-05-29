@@ -3,7 +3,6 @@ package io.github.pigaut.orestack.listener;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.voxel.bukkit.*;
-import io.github.pigaut.voxel.util.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.event.*;
@@ -24,7 +23,7 @@ public class CropChangeListener implements Listener {
     public void onWaterFlow(BlockFromToEvent event) {
         final Generator generator = plugin.getGenerator(event.getToBlock().getLocation());
         if (generator != null) {
-            plugin.getGenerators().removeGenerator(generator);
+            plugin.getGenerators().unregisterGenerator(generator);
             final Location location = generator.getOrigin();
             plugin.getLogger().warning("Removed generator at " + location.getWorld().getName() + ", " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ". " +
                     "Reason: water/lava destroyed the block.");

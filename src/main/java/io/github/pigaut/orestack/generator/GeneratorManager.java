@@ -182,7 +182,7 @@ public class GeneratorManager extends Manager {
         }
     }
 
-    public void removeGenerator(@NotNull Generator generator) {
+    public void unregisterGenerator(@NotNull Generator generator) {
         if (generator.getTemplate().getLastStage().getStructure().getBlockChanges().size() > 1) {
             largeGeneratorsPlaced--;
         }

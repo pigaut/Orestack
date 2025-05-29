@@ -5,7 +5,6 @@ import io.github.pigaut.orestack.command.generator.parameter.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
-import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.command.node.*;
 import io.github.pigaut.voxel.core.structure.*;
 import org.bukkit.*;
@@ -41,7 +40,7 @@ public class GeneratorRemoveAllSubCommand extends SubCommand {
                     continue;
                 }
                 if (blockGenerator.getTemplate() == generator) {
-                    plugin.getGenerators().removeGenerator(blockGenerator);
+                    plugin.getGenerators().unregisterGenerator(blockGenerator);
                 }
             }
             plugin.sendMessage(player, "removed-all-generators", placeholders, generator);
