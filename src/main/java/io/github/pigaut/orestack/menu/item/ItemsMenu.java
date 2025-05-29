@@ -13,9 +13,13 @@ public class ItemsMenu extends GenericGroupsMenu {
     public ItemsMenu(String group) {
         super(StringFormatter.toTitleCase(group) + " Items");
         for (Item item : plugin.getItems(group)) {
+            final String itemName = item.getName();
+
             final Button button = Button.builder()
                     .withType(item.getItemStack().getType())
-                    .withDisplay(item.getName())
+                    .withDisplay("&a&o" + StringFormatter.toTitleCase(itemName))
+                    .addLore("&7Left-Click: &fGet item")
+                    .onLeftClick((menuView, event) -> menuView.getViewer().performCommand("orestack item get " + itemName))
                     .buildButton();
 
             this.addEntry(button);

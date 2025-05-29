@@ -13,7 +13,11 @@ public class StructuresMenu extends GenericGroupsMenu {
     public StructuresMenu(String group) {
         super(StringFormatter.toTitleCase(group) + " Structures");
         for (BlockStructure structure : plugin.getStructures().getAll(group)) {
-            this.addEntry(new Button(structure.getIcon()));
+            final Button button = Button.builder()
+                    .withType(structure.getIcon().getType())
+                    .withDisplay("&e&o" + StringFormatter.toTitleCase(structure.getName()))
+                    .buildButton();
+            this.addEntry(button);
         }
     }
 

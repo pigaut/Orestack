@@ -21,9 +21,9 @@ public class OrestackCommand extends EnhancedCommand {
 
         final RootCommand command = this.getRootCommand();
         command.withPermission("orestack");
-//        command.withPlayerStateExecution((player, args, placeholders) -> {
-//           player.openMenu(plugin.getMenu("orestack"));
-//        });
+        command.withPlayerStateExecution((player, args, placeholders) -> {
+           player.openMenu(plugin.getMenu("orestack"));
+        });
 
         addSubCommand(new HelpSubCommand(plugin));
         addSubCommand(new ReloadSubCommand(plugin));
