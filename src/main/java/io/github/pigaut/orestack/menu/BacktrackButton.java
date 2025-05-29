@@ -12,8 +12,8 @@ public class BacktrackButton extends Button {
 
     static {
         icon = IconBuilder.of(Material.SPRUCE_DOOR)
-                .withDisplay("Backtrack")
-                .addLore("Go back to the previous menu")
+                .withDisplay("&c&lBack")
+                .addLore("&7Left-Click: &fGo back to the previous menu")
                 .enchanted(true)
                 .buildIcon();
     }

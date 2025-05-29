@@ -24,8 +24,12 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
 
     @Override
     public @NotNull GeneratorTemplate loadFromSequence(@NotNull ConfigSequence config) throws InvalidConfigurationException {
-        final String name = config.getRoot().getName();
-        final String group = FolderGroup.byFile(config.getRoot().getFile(), "generators");
+        if (!(config instanceof ConfigRoot root)) {
+            throw new InvalidConfigurationException(config, "Generator can only be loaded from a root configuration sequence");
+        }
+
+        final String name = root.getName();
+        final String group = FolderGroup.byFile(root.getFile(), "generators", true);
         final List<GeneratorStage> generatorStages = new ArrayList<>();
         final GeneratorTemplate generator = new GeneratorTemplate(name, group, generatorStages);
         for (ConfigSection nestedSection : config.getNestedSections()) {

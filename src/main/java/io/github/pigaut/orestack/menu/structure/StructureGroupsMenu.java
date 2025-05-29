@@ -14,8 +14,8 @@ public class StructureGroupsMenu extends GenericGroupsMenu {
         for (String group : plugin.getStructures().getAllGroups()) {
             final Button button = Button.builder()
                     .withType(Material.CHEST)
-                    .withDisplay(StringFormatter.toTitleCase(group))
-                    .addLore("[left-click] to view all structures")
+                    .withDisplay("&e&l" + StringFormatter.toTitleCase(group))
+                    .addLore("&7Left-Click: &fView all")
                     .onLeftClick((menuView, event) -> menuView.getViewer().openMenu(new StructuresMenu(group)))
                     .buildButton();
 
