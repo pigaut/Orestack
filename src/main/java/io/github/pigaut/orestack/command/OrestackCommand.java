@@ -34,6 +34,8 @@ public class OrestackCommand extends EnhancedCommand {
         addSubCommand(new GeneratorSubCommand(plugin));
         addSubCommand(new StructureSubCommand(plugin));
         addSubCommand(new GetWandSubCommand(plugin));
+        addSubCommand(new OrestackMenuCommand(plugin));
+
     }
 
 

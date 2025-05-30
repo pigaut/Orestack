@@ -10,42 +10,31 @@ import io.github.pigaut.orestack.menu.sound.*;
 import io.github.pigaut.orestack.menu.structure.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.fixed.*;
+import io.github.pigaut.voxel.menu.template.button.*;
 import org.bukkit.*;
 
 public class OrestackMenu extends FixedMenu {
 
-    private final GeneratorGroupsMenu generatorGroupsMenu;
-    private final ItemGroupsMenu itemGroupsMenu;
-    private final StructureGroupsMenu structureGroupsMenu;
-    private final MessageGroupsMenu messageGroupsMenu;
-    private final ParticleGroupsMenu particleGroupsMenu;
-    private final SoundGroupsMenu soundGroupsMenu;
-    private final FunctionGroupsMenu functionGroupsMenu;
+    private final OrestackPlugin plugin;
 
     public OrestackMenu(OrestackPlugin plugin) {
         super("Orestack v" + plugin.getVersion(), 54);
-        this.generatorGroupsMenu = new GeneratorGroupsMenu(plugin);
-        this.itemGroupsMenu = new ItemGroupsMenu(plugin);
-        this.structureGroupsMenu = new StructureGroupsMenu(plugin);
-        this.messageGroupsMenu = new MessageGroupsMenu(plugin);
-        this.particleGroupsMenu = new ParticleGroupsMenu(plugin);
-        this.soundGroupsMenu = new SoundGroupsMenu(plugin);
-        this.functionGroupsMenu = new FunctionGroupsMenu(plugin);
+        this.plugin = plugin;
+    }
 
-        this.setButtons(Buttons.GRAY_PANEL,
-                0, 1, 7, 8,
-                9, 17,
-                18, 26,
-                27, 35,
-                36, 37, 43, 44,
-                45, 46, 47, 51, 52, 53);
+    @Override
+    public Button[] createButtons() {
+        final Button[] buttons = super.createButtons();
+
+        ButtonLayout.apply(buttons, Buttons.GRAY_PANEL, 0, 1, 7, 8, 9, 17, 18,
+                26, 27, 35, 36, 37, 43, 44, 45, 46, 47, 51, 52, 53);
 
         buttons[11] = Button.builder()
                 .withType(Material.ITEM_FRAME)
                 .withDisplay("&a&lItems")
                 .addLore("&7Left-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, event) -> view.getViewer().openMenu(itemGroupsMenu))
+                .onLeftClick((view, event) -> view.getViewer().openMenu(new ItemGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[15] = Button.builder()
@@ -53,7 +42,7 @@ public class OrestackMenu extends FixedMenu {
                 .withDisplay("&b&lMessages")
                 .addLore("&fLeft-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, event) -> view.getViewer().openMenu(messageGroupsMenu))
+                .onLeftClick((view, event) -> view.getViewer().openMenu(new MessageGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[19] = Button.builder()
@@ -61,7 +50,7 @@ public class OrestackMenu extends FixedMenu {
                 .withDisplay("&e&lStructures")
                 .addLore("&7Left-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, event) -> view.getViewer().openMenu(structureGroupsMenu))
+                .onLeftClick((view, event) -> view.getViewer().openMenu(new StructureGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[22] = Button.builder()
@@ -69,7 +58,7 @@ public class OrestackMenu extends FixedMenu {
                 .withDisplay("&6&lGenerators")
                 .addLore("&7Left-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, event) -> view.getViewer().openMenu(generatorGroupsMenu))
+                .onLeftClick((view, event) -> view.getViewer().openMenu(new GeneratorGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[25] = Button.builder()
@@ -77,7 +66,7 @@ public class OrestackMenu extends FixedMenu {
                 .withDisplay("&d&lParticle Effects")
                 .addLore("&7Left-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, event) -> view.getViewer().openMenu(particleGroupsMenu))
+                .onLeftClick((view, event) -> view.getViewer().openMenu(new ParticleGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[29] = Button.builder()
@@ -85,7 +74,7 @@ public class OrestackMenu extends FixedMenu {
                 .withDisplay("&8&lFunctions")
                 .addLore("&7Left-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, event) -> view.getViewer().openMenu(functionGroupsMenu))
+                .onLeftClick((view, event) -> view.getViewer().openMenu(new FunctionGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[33] = Button.builder()
@@ -93,7 +82,7 @@ public class OrestackMenu extends FixedMenu {
                 .withDisplay("&3&lSound Effects")
                 .addLore("&7Left-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, event) -> view.getViewer().openMenu(soundGroupsMenu))
+                .onLeftClick((view, event) -> view.getViewer().openMenu(new SoundGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[48] = Button.builder()
@@ -123,6 +112,7 @@ public class OrestackMenu extends FixedMenu {
                 })
                 .buildButton();
 
+        return buttons;
     }
 
 }

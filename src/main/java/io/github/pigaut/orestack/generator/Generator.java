@@ -132,9 +132,11 @@ public class Generator implements PlaceholderSupplier {
 
     public void cancelGrowth() {
         if (growthTask != null) {
-            growthTask.cancel();
+            if (!growthTask.isCancelled()) {
+                growthTask.cancel();
+            }
+            growthTask = null;
         }
-        growthTask = null;
         growthStart = null;
     }
 

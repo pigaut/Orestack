@@ -23,51 +23,51 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
     }
 
     @Override
-    public @NotNull GeneratorTemplate loadFromSequence(@NotNull ConfigSequence config) throws InvalidConfigurationException {
-        if (!(config instanceof ConfigRoot root)) {
-            throw new InvalidConfigurationException(config, "Generator can only be loaded from a root configuration sequence");
+    public @NotNull GeneratorTemplate loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigurationException {
+        if (!(sequence instanceof ConfigRoot root)) {
+            throw new InvalidConfigurationException(sequence, "Generator can only be loaded from a root configuration sequence");
         }
 
         final String name = root.getName();
-        final String group = FolderGroup.byFile(root.getFile(), "generators", true);
+        final String group = PathGroup.byFile(root.getFile(), "generators", true);
         final List<GeneratorStage> generatorStages = new ArrayList<>();
-        final GeneratorTemplate generator = new GeneratorTemplate(name, group, generatorStages);
-        for (ConfigSection nestedSection : config.getNestedSections()) {
+        final GeneratorTemplate generator = new GeneratorTemplate(name, group, sequence, generatorStages);
+        for (ConfigSection nestedSection : sequence.getNestedSections()) {
             generatorStages.add(loadStage(generator, nestedSection));
         }
 
         if (generatorStages.size() < 2) {
-            throw new InvalidConfigurationException(config, "Generator must have at least one depleted and one replenished stage");
+            throw new InvalidConfigurationException(sequence, "Generator must have at least one depleted and one replenished stage");
         }
 
         final GeneratorStage firstStage = generatorStages.get(0);
         if (firstStage.getState() != GeneratorState.DEPLETED) {
-            throw new InvalidConfigurationException(config, "The first stage must be depleted");
+            throw new InvalidConfigurationException(sequence, "The first stage must be depleted");
         }
 
         if (firstStage.getGrowthFunction() != null) {
-            throw new InvalidConfigurationException(config, "The first stage cannot have a growth function");
+            throw new InvalidConfigurationException(sequence, "The first stage cannot have a growth function");
         }
 
         if (firstStage.getGrowthTime() == 0) {
-            throw new InvalidConfigurationException(config, "The depleted stage must have a growth time set");
+            throw new InvalidConfigurationException(sequence, "The depleted stage must have a growth time set");
         }
 
         final GeneratorStage lastStage = generatorStages.get(generatorStages.size() - 1);
         if (lastStage.getState() != GeneratorState.REPLENISHED) {
-            throw new InvalidConfigurationException(config, "The last stage must be replenished");
+            throw new InvalidConfigurationException(sequence, "The last stage must be replenished");
         }
 
         boolean firstHarvestableFound = false;
         for (int i = 1; i < generatorStages.size(); i++) {
             final GeneratorStage stage = generatorStages.get(i);
             if (stage.getState() == GeneratorState.DEPLETED) {
-                throw new InvalidConfigurationException(config, "Only the first stage should be depleted");
+                throw new InvalidConfigurationException(sequence, "Only the first stage should be depleted");
             }
 
             if (!firstHarvestableFound && stage.getState().isHarvestable()) {
                 if (stage.getGrowthChance() != null && stage.getGrowthChance() != 1.0) {
-                    throw new InvalidConfigurationException(config, "Generator must have at least one harvestable/replenished stage with 100% growth chance");
+                    throw new InvalidConfigurationException(sequence, "Generator must have at least one harvestable/replenished stage with 100% growth chance");
                 }
                 firstHarvestableFound = true;
             }
