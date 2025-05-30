@@ -173,7 +173,7 @@ public class GeneratorManager extends Manager {
         }
     }
 
-    public void removeGenerator(@NotNull Generator generator) {
+    public void unregisterGenerator(@NotNull Generator generator) {
         generators.remove(generator);
         for (Block block : generator.getAllOccupiedBlocks()) {
             generatorBlocks.remove(block.getLocation());

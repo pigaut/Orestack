@@ -5,8 +5,6 @@ import io.github.pigaut.orestack.action.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.config.*;
 import io.github.pigaut.voxel.core.function.action.*;
-import io.github.pigaut.voxel.core.structure.*;
-import io.github.pigaut.voxel.core.structure.config.*;
 import io.github.pigaut.yaml.configurator.loader.*;
 import org.jetbrains.annotations.*;
 

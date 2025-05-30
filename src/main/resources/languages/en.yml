@@ -41,6 +41,12 @@ already-reloading: '&4The plugin is already reloading, please wait'
 reloading: '&aReloading Orestack plugin... &c(Wait)'
 reload-complete: '&aReload completed successfully'
 
+# ------------------
+#    Menu Command
+# ------------------
+## Description
+orestack-menu-command: 'Open the main menu'
+
 # -------------------
 #    Item Commands
 # -------------------

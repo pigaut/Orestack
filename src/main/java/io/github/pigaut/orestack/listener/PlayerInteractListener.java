@@ -69,7 +69,7 @@ public class PlayerInteractListener implements Listener {
                 plugin.sendMessage(player, "cannot-break-generator", heldGenerator);
                 return;
             }
-            plugin.getGenerators().removeGenerator(clickedGenerator);
+            plugin.getGenerators().unregisterGenerator(clickedGenerator);
             PlayerUtil.sendActionBar(player, plugin.getLang("broke-generator"));
         }
     }
@@ -119,7 +119,7 @@ public class PlayerInteractListener implements Listener {
         }
 
         if (!clickedGenerator.matchBlocks()) {
-            plugin.getGenerators().removeGenerator(clickedGenerator);
+            plugin.getGenerators().unregisterGenerator(clickedGenerator);
             return;
         }
 

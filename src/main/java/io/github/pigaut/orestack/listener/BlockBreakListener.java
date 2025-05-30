@@ -32,7 +32,7 @@ public class BlockBreakListener implements Listener {
         }
 
         if (!generator.matchBlocks()) {
-            plugin.getGenerators().removeGenerator(generator);
+            plugin.getGenerators().unregisterGenerator(generator);
             return;
         }
 

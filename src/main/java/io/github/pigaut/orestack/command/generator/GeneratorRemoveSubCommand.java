@@ -25,7 +25,7 @@ public class GeneratorRemoveSubCommand extends SubCommand {
                 plugin.sendMessage(player, "target-not-generator", placeholders);
                 return;
             }
-            plugin.getGenerators().removeGenerator(generator);
+            plugin.getGenerators().unregisterGenerator(generator);
             plugin.sendMessage(player, "removed-generator", placeholders, generator);
         });
 

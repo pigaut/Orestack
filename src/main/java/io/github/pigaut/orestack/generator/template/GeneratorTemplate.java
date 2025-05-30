@@ -6,6 +6,7 @@ import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.voxel.util.Rotation;
+import io.github.pigaut.yaml.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.inventory.*;
@@ -17,13 +18,15 @@ public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
 
     private final String name;
     private final String group;
+    private final ConfigSequence sequence;
     private final List<GeneratorStage> stages;
     private Rotation rotation = Rotation.NONE;
     private Material itemType = Material.TERRACOTTA;
 
-    public GeneratorTemplate(String name, @Nullable String group, List<GeneratorStage> stages) {
+    public GeneratorTemplate(String name, @Nullable String group, ConfigSequence sequence, List<GeneratorStage> stages) {
         this.name = name;
         this.group = group;
+        this.sequence = sequence;
         this.stages = stages;
     }
 
@@ -35,6 +38,11 @@ public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
     @Override
     public @Nullable String getGroup() {
         return group;
+    }
+
+    @Override
+    public @NotNull ConfigSequence getField() {
+        return sequence;
     }
 
     public Rotation getRotation() {

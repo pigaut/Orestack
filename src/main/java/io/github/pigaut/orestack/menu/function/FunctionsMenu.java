@@ -1,23 +1,25 @@
 package io.github.pigaut.orestack.menu.function;
 
-import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.voxel.core.function.*;
-import io.github.pigaut.voxel.core.message.*;
+import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
+import io.github.pigaut.voxel.menu.template.menu.*;
+import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.parser.*;
 
-public class FunctionsMenu extends GenericGroupsMenu {
+public class FunctionsMenu extends FramedSelectionMenu {
 
-    private final OrestackPlugin plugin = OrestackPlugin.getPlugin();
+    private final EnhancedPlugin plugin;
 
-    public FunctionsMenu(String group) {
-        super(StringFormatter.toTitleCase(group) + " Functions");
+    public FunctionsMenu(EnhancedPlugin plugin, String group) {
+        super(StringFormatter.toTitleCase(group) + " Functions", MenuSize.BIG);
+        this.plugin = plugin;
         for (Function function : plugin.getFunctions().getAll(group)) {
 
             final Button button = Button.builder()
                     .withType(function.getIcon().getType())
                     .withDisplay("&8&o" + StringFormatter.toTitleCase(function.getName()))
+                    .addLore("")
                     .addLore("&7Left-Click: &fRun function")
                     .onLeftClick((menuView, event) -> function.run(menuView.getViewer()))
                     .buildButton();
