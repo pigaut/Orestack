@@ -40,7 +40,7 @@ public class MessageCreationMenu extends FramedMenu {
                     final Consumer<String> inputCollector = input -> {
                         player.openMenu(new ChatMessageEditor(config, input), view);
                     };
-                    final Runnable onCancel = () -> player.openMenu(this);
+                    final Runnable onCancel = () -> player.setOpenView(view);
                     player.collectChatInput("name", inputCollector, onCancel);
                 })
                 .buildButton();
@@ -56,7 +56,7 @@ public class MessageCreationMenu extends FramedMenu {
                     final Consumer<String> inputCollector = input -> {
                         player.openMenu(new ActionbarEditor(config, input), view);
                     };
-                    final Runnable onCancel = () -> player.openMenu(this);
+                    final Runnable onCancel = () -> player.setOpenView(view);
                     player.collectChatInput("name", inputCollector, onCancel);
                 })
                 .buildButton();
@@ -72,7 +72,7 @@ public class MessageCreationMenu extends FramedMenu {
                     final Consumer<String> inputCollector = input -> {
                         player.openMenu(new TitleEditor(config, input), view);
                     };
-                    final Runnable onCancel = () -> player.openMenu(this);
+                    final Runnable onCancel = () -> player.setOpenView(view);
                     player.collectChatInput("name", inputCollector, onCancel);
                 })
                 .buildButton();
