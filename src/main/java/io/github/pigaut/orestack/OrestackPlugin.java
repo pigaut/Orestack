@@ -81,7 +81,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @Nullable Integer getResourceId() {
-        return 121905;
+        return 91628;
     }
 
     @Override
