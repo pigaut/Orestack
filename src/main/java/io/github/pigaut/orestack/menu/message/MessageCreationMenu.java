@@ -12,7 +12,6 @@ import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 import java.io.*;
-import java.util.function.*;
 
 public class MessageCreationMenu extends FramedMenu {
 
@@ -33,7 +32,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .withType(Material.BOOK)
                 .withDisplay("&a&lChat")
                 .addLore("")
-                .addLore("&7Left-Click: &fCreate a new chat message")
+                .addLore("&eLeft-Click: &fCreate a new chat message")
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
@@ -50,7 +49,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .withType(Material.MAP)
                 .withDisplay("&a&lAction Bar")
                 .addLore("")
-                .addLore("&7Left-Click: &fCreate a new action bar message")
+                .addLore("&eLeft-Click: &fCreate a new action bar message")
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
@@ -67,7 +66,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .withType(Material.NAME_TAG)
                 .withDisplay("&a&lTitle")
                 .addLore("")
-                .addLore("&7Left-Click: &fCreate a new title message")
+                .addLore("&eLeft-Click: &fCreate a new title message")
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
@@ -82,9 +81,18 @@ public class MessageCreationMenu extends FramedMenu {
 
         buttons[14] = Button.builder()
                 .withType(Material.DRAGON_HEAD)
-                .withDisplay("&a&lBoss Bar &c(Coming soon)")
+                .withDisplay("&a&lBoss Bar")
                 .addLore("")
-                .addLore("&7Left-Click: &fCreate a new boss bar message")
+                .addLore("&eLeft-Click: &fCreate a new boss bar message")
+                .onLeftClick((view, event) -> {
+                    final PlayerState player = view.getViewer();
+                    player.createChatInput()
+                            .withDescription("Enter message name in chat")
+                            .onInput(input -> {
+                                player.openMenu(new BossbarEditor(config, input), view);
+                            })
+                            .collect();
+                })
                 .enchanted(true)
                 .buildButton();
 
@@ -92,7 +100,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .withType(Material.BEACON)
                 .withDisplay("&a&lHologram &c(Coming soon)")
                 .addLore("")
-                .addLore("&7Left-Click: &fCreate a new hologram message")
+                .addLore("&eLeft-Click: &fCreate a new hologram message")
                 .enchanted(true)
                 .buildButton();
 
@@ -100,7 +108,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .withType(Material.BOOKSHELF)
                 .withDisplay("&a&lMulti Message &c(Coming soon)")
                 .addLore("")
-                .addLore("&7Left-Click: &fCreate a new multi message")
+                .addLore("&eLeft-Click: &fCreate a new multi message")
                 .enchanted(true)
                 .buildButton();
 

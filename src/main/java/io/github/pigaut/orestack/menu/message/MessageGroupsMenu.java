@@ -1,7 +1,6 @@
 package io.github.pigaut.orestack.menu.message;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
@@ -18,7 +17,7 @@ public class MessageGroupsMenu extends FramedSelectionMenu {
                     .withType(Material.CHEST)
                     .withDisplay("&b&l" + StringFormatter.toTitleCase(group))
                     .addLore("")
-                    .addLore("&7Left-Click: &fView all")
+                    .addLore("&eLeft-Click: &fView all messages")
                     .onLeftClick((menuView, event) -> menuView.getViewer().openMenu(new MessagesMenu(plugin, group)))
                     .buildButton();
 

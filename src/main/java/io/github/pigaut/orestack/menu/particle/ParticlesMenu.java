@@ -21,7 +21,7 @@ public class ParticlesMenu extends FramedSelectionMenu {
                     .withType(particle.getIcon().getType())
                     .withDisplay("&d&o" + StringFormatter.toTitleCase(particle.getName()))
                     .addLore("")
-                    .addLore("&7Left-Click: &fShow-me particle")
+                    .addLore("&eLeft-Click: &fShow-me particle")
                     .onLeftClick((menuView, event) -> {
                         menuView.close();
                         final PlayerState viewer = menuView.getViewer();

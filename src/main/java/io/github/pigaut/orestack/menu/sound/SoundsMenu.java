@@ -20,7 +20,7 @@ public class SoundsMenu extends FramedSelectionMenu {
                     .withType(sound.getIcon().getType())
                     .withDisplay("&3&o" + StringFormatter.toTitleCase(sound.getName()))
                     .addLore("")
-                    .addLore("&7Left-Click: &fPlay-me sound")
+                    .addLore("&eLeft-Click: &fPlay-me sound")
                     .onLeftClick((menuView, event) -> {
                         final Player player = menuView.getViewer().asPlayer();
                         sound.play(player, player.getLocation());

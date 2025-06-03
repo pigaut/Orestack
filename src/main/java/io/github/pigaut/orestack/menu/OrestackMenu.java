@@ -32,7 +32,8 @@ public class OrestackMenu extends FixedMenu {
         buttons[11] = Button.builder()
                 .withType(Material.ITEM_FRAME)
                 .withDisplay("&a&lItems")
-                .addLore("&7Left-Click: &fView all groups")
+                .addLore("")
+                .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(new ItemGroupsMenu(plugin)))
                 .buildButton();
@@ -40,7 +41,8 @@ public class OrestackMenu extends FixedMenu {
         buttons[15] = Button.builder()
                 .withType(Material.NAME_TAG)
                 .withDisplay("&b&lMessages")
-                .addLore("&fLeft-Click: &fView all groups")
+                .addLore("")
+                .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(new MessageGroupsMenu(plugin)))
                 .buildButton();
@@ -48,7 +50,8 @@ public class OrestackMenu extends FixedMenu {
         buttons[19] = Button.builder()
                 .withType(Material.SCAFFOLDING)
                 .withDisplay("&e&lStructures")
-                .addLore("&7Left-Click: &fView all groups")
+                .addLore("")
+                .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(new StructureGroupsMenu(plugin)))
                 .buildButton();
@@ -56,7 +59,8 @@ public class OrestackMenu extends FixedMenu {
         buttons[22] = Button.builder()
                 .withType(Material.PISTON)
                 .withDisplay("&6&lGenerators")
-                .addLore("&7Left-Click: &fView all groups")
+                .addLore("")
+                .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(new GeneratorGroupsMenu(plugin)))
                 .buildButton();
@@ -64,15 +68,17 @@ public class OrestackMenu extends FixedMenu {
         buttons[25] = Button.builder()
                 .withType(Material.CAMPFIRE)
                 .withDisplay("&d&lParticle Effects")
-                .addLore("&7Left-Click: &fView all groups")
+                .addLore("")
+                .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(new ParticleGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[29] = Button.builder()
                 .withType(Material.ANVIL)
-                .withDisplay("&8&lFunctions")
-                .addLore("&7Left-Click: &fView all groups")
+                .withDisplay("&7&lFunctions")
+                .addLore("")
+                .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(new FunctionGroupsMenu(plugin)))
                 .buildButton();
@@ -80,7 +86,8 @@ public class OrestackMenu extends FixedMenu {
         buttons[33] = Button.builder()
                 .withType(Material.JUKEBOX)
                 .withDisplay("&3&lSound Effects")
-                .addLore("&7Left-Click: &fView all groups")
+                .addLore("")
+                .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(new SoundGroupsMenu(plugin)))
                 .buildButton();
@@ -88,7 +95,8 @@ public class OrestackMenu extends FixedMenu {
         buttons[48] = Button.builder()
                 .withType(Material.GOLDEN_PICKAXE)
                 .withDisplay("&f&lWand")
-                .addLore("&7Left-Click: &fGet a wand")
+                .addLore("")
+                .addLore("&eLeft-Click: &fGet a wand")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().performCommand("orestack wand"))
                 .buildButton();
@@ -96,7 +104,8 @@ public class OrestackMenu extends FixedMenu {
         buttons[49] = Button.builder()
                 .withType(Material.BARRIER)
                 .withDisplay("&c&lClose")
-                .addLore("&7Left-Click: &fClose this menu")
+                .addLore("")
+                .addLore("&eLeft-Click: &fClose this menu")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().closeInventory())
                 .buildButton();
@@ -104,7 +113,8 @@ public class OrestackMenu extends FixedMenu {
         buttons[50] = Button.builder()
                 .withType(Material.OAK_BUTTON)
                 .withDisplay("&f&lReload")
-                .addLore("&7Left-Click: &fReload the plugin")
+                .addLore("")
+                .addLore("&eLeft-Click: &fReload the plugin")
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     view.close();

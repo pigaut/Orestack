@@ -36,13 +36,10 @@ public class ActionbarEditor extends GenericMessageEditor {
                             .collect();
                 });
 
-        setMessageButton.addLore("");
-        final String message = section.getOptionalString("message", StringColor.FORMATTER).orElse("");
-        for (String splitMessage : StringUtil.splitByLength(message, 35)) {
-            setMessageButton.addLore(ChatColor.WHITE + splitMessage);
-        }
         setMessageButton.addLore("")
-                .addLore("&7Left-Click: &fTo set the message");
+                .addLore(ChatColor.WHITE + section.getOptionalString("message", StringColor.FORMATTER).orElse("none"))
+                .addLore("")
+                .addLore("&eLeft-Click: &fSet the message");
 
         buttons[20] = setMessageButton.buildButton();
 

@@ -38,14 +38,10 @@ public class TitleEditor extends GenericMessageEditor {
                             .collect();
                 });
 
-        titleButton.addLore("");
-        final String title = section.getOptionalString("title", StringColor.FORMATTER).orElse("");
-        for (String splitTitle : StringUtil.splitByLength(title, 35)) {
-            titleButton.addLore(ChatColor.WHITE + splitTitle);
-        }
         titleButton.addLore("")
-                .addLore("&7Left-Click: &fTo set the title");
-
+                .addLore(ChatColor.WHITE + section.getOptionalString("title", StringColor.FORMATTER).orElse("none"))
+                .addLore("")
+                .addLore("&eLeft-Click: &fSet the title");
 
         final ButtonBuilder subtitleButton = Button.builder()
                 .withType(Material.SPRUCE_SIGN)
@@ -62,13 +58,10 @@ public class TitleEditor extends GenericMessageEditor {
                             .collect();
                 });
 
-        subtitleButton.addLore("");
-        final String subtitle = section.getOptionalString("subtitle", StringColor.FORMATTER).orElse("");
-        for (String splitSubtitle : StringUtil.splitByLength(subtitle, 35)) {
-            subtitleButton.addLore(ChatColor.WHITE + splitSubtitle);
-        }
-        subtitleButton.addLore("")
-                .addLore("&7Left-Click: &fTo set the subtitle");
+        titleButton.addLore("")
+                .addLore(ChatColor.WHITE + section.getOptionalString("subtitle", StringColor.FORMATTER).orElse("none"))
+                .addLore("")
+                .addLore("&eLeft-Click: &fSet the subtitle");
 
         final ButtonBuilder fadeInButton = Button.builder()
                 .withType(Material.ANVIL)
@@ -92,7 +85,7 @@ public class TitleEditor extends GenericMessageEditor {
         fadeInButton.addLore("")
                 .addLore("&f" + fadeIn + " ticks")
                 .addLore("")
-                .addLore("&7Left-Click: &fSet title fade in");
+                .addLore("&eLeft-Click: &fSet title fade in");
 
         final ButtonBuilder stayButton = Button.builder()
                 .withType(Material.WHITE_BED)
@@ -116,7 +109,7 @@ public class TitleEditor extends GenericMessageEditor {
         stayButton.addLore("")
                 .addLore("&f" + stay + " ticks")
                 .addLore("")
-                .addLore("&7Left-Click: &fSet title stay");
+                .addLore("&eLeft-Click: &fSet title stay");
 
         final ButtonBuilder fadeOutButton = Button.builder()
                 .withType(Material.DAMAGED_ANVIL)
@@ -140,7 +133,7 @@ public class TitleEditor extends GenericMessageEditor {
         fadeOutButton.addLore("")
                 .addLore("&f" + fadeOut + " ticks")
                 .addLore("")
-                .addLore("&7Left-Click: &fSet title fade out");
+                .addLore("&eLeft-Click: &fSet title fade out");
 
         buttons[11] = titleButton.buildButton();
         buttons[20] = subtitleButton.buildButton();

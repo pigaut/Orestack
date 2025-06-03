@@ -23,15 +23,15 @@ public class MessagesMenu extends FramedSelectionMenu {
         for (Message message : plugin.getMessages().getAll(group)) {
             final Button button = Button.builder()
                     .withType(message.getIcon().getType())
-                    .withDisplay("&a&o" + StringFormatter.toTitleCase(message.getName()))
+                    .withDisplay("&b&o" + StringFormatter.toTitleCase(message.getName()))
                     .addLore("")
-                    .addLore("&7Left-Click: &fReceive message")
+                    .addLore("&eLeft-Click: &fReceive message")
                     .onLeftClick((menuView, event) -> {
                         menuView.close();
                         final PlayerState viewer = menuView.getViewer();
                         message.send(viewer.asPlayer());
-                        viewer.sendMessage(ChatColor.RED + "The menu will reopen in 2 seconds...");
-                        plugin.getScheduler().runTaskLater(40L, () -> {
+                        viewer.sendMessage(ChatColor.RED + "The menu will reopen in 3 seconds...");
+                        plugin.getScheduler().runTaskLater(60L, () -> {
                             viewer.setOpenView(menuView);
                         });
                     })
@@ -49,7 +49,8 @@ public class MessagesMenu extends FramedSelectionMenu {
         buttons[41] = Button.builder()
                 .withType(Material.CRAFTING_TABLE)
                 .withDisplay("&f&lCreate Message")
-                .addLore("&7Left-Click: &fCreate a new message in the " + group + " group")
+                .addLore("")
+                .addLore("&eLeft-Click: &fCreate a new message in the " + group + " group")
                 .enchanted(true)
                 .onLeftClick((view, event) -> view.getViewer().openMenu(new MessageCreationMenu(plugin, group)))
                 .buildButton();
