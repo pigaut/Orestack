@@ -38,12 +38,12 @@ public class ChatMessageEditor extends GenericMessageEditor {
                 });
 
         setMessageButton.addLore("");
-        final String message = section.getOptionalString("message", StringColor.FORMATTER).orElse("");
+        final String message = section.getOptionalString("message", StringColor.FORMATTER).orElse("none");
         for (String splitMessage : StringUtil.splitByLength(message, 35)) {
             setMessageButton.addLore(ChatColor.WHITE + splitMessage);
         }
         setMessageButton.addLore("")
-                .addLore("&7Left-Click: &fTo set the message");
+                .addLore("&eLeft-Click: &fSet the message");
 
         buttons[20] = setMessageButton.buildButton();
 

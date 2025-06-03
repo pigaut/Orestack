@@ -19,8 +19,8 @@ public class ItemGroupsMenu extends FramedSelectionMenu {
                     .withType(Material.CHEST)
                     .withDisplay("&a&l" + StringFormatter.toTitleCase(group))
                     .addLore("")
-                    .addLore("&7Left-Click: &fView all")
-                    .addLore("&7Right-Click: &fGet all")
+                    .addLore("&eLeft-Click: &fView all items")
+                    .addLore("&6Right-Click: &fGet all items")
                     .onLeftClick((menuView, event) -> menuView.getViewer().openMenu(new ItemsMenu(plugin, group)))
                     .onRightClick((menuView, event) -> menuView.getViewer().performCommand("orestack item get-group " + group))
                     .buildButton();

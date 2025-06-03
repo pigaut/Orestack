@@ -40,8 +40,8 @@ public class GenericMessageEditor extends FramedMenu {
                                 final Integer delay = Deserializers.getInteger(input);
                                 if (delay != null) {
                                     section.set("delay", delay);
-                                    player.setOpenView(view);
                                 }
+                                player.setOpenView(view);
                             })
                             .collect();
                 });
@@ -50,7 +50,7 @@ public class GenericMessageEditor extends FramedMenu {
         delayButton.addLore("")
                 .addLore("&f" + delay + " ticks")
                 .addLore("")
-                .addLore("&7Left-Click: &fSet message delay");
+                .addLore("&eLeft-Click: &fSet message delay");
 
         final ButtonBuilder repetitionsButton = Button.builder()
                 .withType(Material.REPEATER)
@@ -64,8 +64,8 @@ public class GenericMessageEditor extends FramedMenu {
                                 final Integer repetitions = Deserializers.getInteger(input);
                                 if (repetitions != null) {
                                     section.set("repetitions|loops", repetitions);
-                                    player.setOpenView(view);
                                 }
+                                player.setOpenView(view);
                             })
                             .collect();
                 });
@@ -75,7 +75,7 @@ public class GenericMessageEditor extends FramedMenu {
                 .addLore("")
                 .addLore("&f" + repetitions)
                 .addLore("")
-                .addLore("&7Left-Click: &fSet message repetitions");
+                .addLore("&eLeft-Click: &fSet message repetitions");
 
         final ButtonBuilder intervalButton = Button.builder()
                 .withType(Material.COMPARATOR)
@@ -92,8 +92,8 @@ public class GenericMessageEditor extends FramedMenu {
                                         section.set("repetitions|loops", 2);
                                     }
                                     section.set("interval", interval);
-                                    player.setOpenView(view);
                                 }
+                                player.setOpenView(view);
                             })
                             .collect();
                 });
@@ -102,7 +102,7 @@ public class GenericMessageEditor extends FramedMenu {
         intervalButton.addLore("")
                 .addLore("&f" + interval + " ticks")
                 .addLore("")
-                .addLore("&7Left-Click: &fSet message interval");
+                .addLore("&eLeft-Click: &fSet message interval");
 
         buttons[15] = delayButton.buildButton();
         buttons[24] = repetitionsButton.buildButton();

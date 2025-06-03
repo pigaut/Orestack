@@ -17,7 +17,7 @@ public class StructureGroupsMenu extends FramedSelectionMenu {
                     .withType(Material.CHEST)
                     .withDisplay("&e&l" + StringFormatter.toTitleCase(group))
                     .addLore("")
-                    .addLore("&7Left-Click: &fView all")
+                    .addLore("&eLeft-Click: &fView all")
                     .onLeftClick((menuView, event) -> menuView.getViewer().openMenu(new StructuresMenu(group)))
                     .buildButton();
 

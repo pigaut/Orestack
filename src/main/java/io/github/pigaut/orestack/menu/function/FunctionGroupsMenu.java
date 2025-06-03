@@ -17,7 +17,7 @@ public class FunctionGroupsMenu extends FramedSelectionMenu {
                     .withType(Material.CHEST)
                     .withDisplay("&8&l" + StringFormatter.toTitleCase(group))
                     .addLore("")
-                    .addLore("&7Left-Click: &fView all")
+                    .addLore("&eLeft-Click: &fView all functions")
                     .onLeftClick((menuView, event) -> menuView.getViewer().openMenu(new FunctionsMenu(plugin, group)))
                     .buildButton();
 

@@ -18,7 +18,7 @@ public class ParticleGroupsMenu extends FramedSelectionMenu {
                     .withType(Material.CHEST)
                     .withDisplay("&d&l" + StringFormatter.toTitleCase(group))
                     .addLore("")
-                    .addLore("&7Left-Click: &fView all")
+                    .addLore("&eLeft-Click: &fView all particle effects")
                     .onLeftClick((menuView, event) -> menuView.getViewer().openMenu(new ParticlesMenu(plugin, group)))
                     .buildButton();
 
