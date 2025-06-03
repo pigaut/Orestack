@@ -37,11 +37,12 @@ public class MessageCreationMenu extends FramedMenu {
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
-                    final Consumer<String> inputCollector = input -> {
-                        player.openMenu(new ChatMessageEditor(config, input), view);
-                    };
-                    final Runnable onCancel = () -> player.setOpenView(view);
-                    player.collectChatInput("name", inputCollector, onCancel);
+                    player.createChatInput()
+                            .withDescription("Enter message name in chat")
+                            .onInput(input -> {
+                                player.openMenu(new ChatMessageEditor(config, input), view);
+                            })
+                            .collect();
                 })
                 .buildButton();
 
@@ -53,11 +54,12 @@ public class MessageCreationMenu extends FramedMenu {
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
-                    final Consumer<String> inputCollector = input -> {
-                        player.openMenu(new ActionbarEditor(config, input), view);
-                    };
-                    final Runnable onCancel = () -> player.setOpenView(view);
-                    player.collectChatInput("name", inputCollector, onCancel);
+                    player.createChatInput()
+                            .withDescription("Enter message name in chat")
+                            .onInput(input -> {
+                                player.openMenu(new ActionbarEditor(config, input), view);
+                            })
+                            .collect();
                 })
                 .buildButton();
 
@@ -69,11 +71,12 @@ public class MessageCreationMenu extends FramedMenu {
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
-                    final Consumer<String> inputCollector = input -> {
-                        player.openMenu(new TitleEditor(config, input), view);
-                    };
-                    final Runnable onCancel = () -> player.setOpenView(view);
-                    player.collectChatInput("name", inputCollector, onCancel);
+                    player.createChatInput()
+                            .withDescription("Enter message name in chat")
+                            .onInput(input -> {
+                                player.openMenu(new TitleEditor(config, input), view);
+                            })
+                            .collect();
                 })
                 .buildButton();
 

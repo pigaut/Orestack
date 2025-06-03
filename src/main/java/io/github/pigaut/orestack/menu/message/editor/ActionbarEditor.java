@@ -28,12 +28,12 @@ public class ActionbarEditor extends GenericMessageEditor {
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
-                    final Consumer<String> inputCollector = input -> {
-                        section.set("message", input);
-                        player.setOpenView(view);
-                    };
-                    final Runnable onCancel = () -> player.setOpenView(view);
-                    player.collectChatInput("message", inputCollector, onCancel);
+                    player.createChatInput()
+                            .withDescription("Enter message in chat")
+                            .onInput(input -> {
+                                section.set("message", input);
+                            })
+                            .collect();
                 });
 
         setMessageButton.addLore("");
