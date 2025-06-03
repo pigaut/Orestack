@@ -29,12 +29,13 @@ public class TitleEditor extends GenericMessageEditor {
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
-                    final Consumer<String> inputCollector = input -> {
-                        section.set("title", input);
-                        player.setOpenView(view);
-                    };
-                    final Runnable onCancel = () -> player.setOpenView(view);
-                    player.collectChatInput("title", inputCollector, onCancel);
+                    player.createChatInput()
+                            .withDescription("Enter title in chat")
+                            .onInput(input -> {
+                                section.set("title", input);
+                                player.setOpenView(view);
+                            })
+                            .collect();
                 });
 
         titleButton.addLore("");
@@ -52,12 +53,13 @@ public class TitleEditor extends GenericMessageEditor {
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
-                    final Consumer<String> inputCollector = input -> {
-                        section.set("subtitle", input);
-                        player.setOpenView(view);
-                    };
-                    final Runnable onCancel = () -> player.setOpenView(view);
-                    player.collectChatInput("subtitle", inputCollector, onCancel);
+                    player.createChatInput()
+                            .withDescription("Enter subtitle in chat")
+                            .onInput(input -> {
+                                section.set("subtitle", input);
+                                player.setOpenView(view);
+                            })
+                            .collect();
                 });
 
         subtitleButton.addLore("");
@@ -74,15 +76,16 @@ public class TitleEditor extends GenericMessageEditor {
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
-                    final Consumer<String> inputCollector = input -> {
-                        final Integer fadeIn = Deserializers.getInteger(input);
-                        if (fadeIn != null) {
-                            section.set("fade-in", fadeIn);
-                        }
-                        player.setOpenView(view);
-                    };
-                    final Runnable onCancel = () -> player.setOpenView(view);
-                    player.collectChatInput("fade-in", inputCollector, onCancel);
+                    player.createChatInput()
+                            .withDescription("Enter fade-in amount in chat")
+                            .onInput(input -> {
+                                final Integer fadeIn = Deserializers.getInteger(input);
+                                if (fadeIn != null) {
+                                    section.set("fade-in", fadeIn);
+                                }
+                                player.setOpenView(view);
+                            })
+                            .collect();
                 });
 
         final int fadeIn = section.getOptionalInteger("fade-in").orElse(0);
@@ -97,15 +100,16 @@ public class TitleEditor extends GenericMessageEditor {
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
-                    final Consumer<String> inputCollector = input -> {
-                        final Integer stay = Deserializers.getInteger(input);
-                        if (stay != null) {
-                            section.set("stay", stay);
-                        }
-                        player.setOpenView(view);
-                    };
-                    final Runnable onCancel = () -> player.setOpenView(view);
-                    player.collectChatInput("stay", inputCollector, onCancel);
+                    player.createChatInput()
+                            .withDescription("Enter stay amount in chat")
+                            .onInput(input -> {
+                                final Integer stay = Deserializers.getInteger(input);
+                                if (stay != null) {
+                                    section.set("stay", stay);
+                                }
+                                player.setOpenView(view);
+                            })
+                            .collect();
                 });
 
         final int stay = section.getOptionalInteger("stay").orElse(0);
@@ -120,15 +124,16 @@ public class TitleEditor extends GenericMessageEditor {
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
-                    final Consumer<String> inputCollector = input -> {
-                        final Integer fadeOut = Deserializers.getInteger(input);
-                        if (fadeOut != null) {
-                            section.set("fade-out", fadeOut);
-                        }
-                        player.setOpenView(view);
-                    };
-                    final Runnable onCancel = () -> player.setOpenView(view);
-                    player.collectChatInput("fade-out", inputCollector, onCancel);
+                    player.createChatInput()
+                            .withDescription("Enter fade-out amount in chat")
+                            .onInput(input -> {
+                                final Integer fadeOut = Deserializers.getInteger(input);
+                                if (fadeOut != null) {
+                                    section.set("fade-out", fadeOut);
+                                }
+                                player.setOpenView(view);
+                            })
+                            .collect();
                 });
 
         final int fadeOut = section.getOptionalInteger("fade-out").orElse(0);

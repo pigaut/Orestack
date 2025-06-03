@@ -34,15 +34,16 @@ public class GenericMessageEditor extends FramedMenu {
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
-                    final Consumer<String> inputCollector = input -> {
-                        final Integer delay = Deserializers.getInteger(input);
-                        if (delay != null) {
-                            section.set("delay", delay);
-                        }
-                        player.setOpenView(view);
-                    };
-                    final Runnable onCancel = () -> player.setOpenView(view);
-                    player.collectChatInput("delay", inputCollector, onCancel);
+                    player.createChatInput()
+                            .withDescription("Enter delay amount in chat")
+                            .onInput(input -> {
+                                final Integer delay = Deserializers.getInteger(input);
+                                if (delay != null) {
+                                    section.set("delay", delay);
+                                    player.setOpenView(view);
+                                }
+                            })
+                            .collect();
                 });
 
         final int delay = section.getOptionalInteger("delay").orElse(0);
@@ -57,21 +58,22 @@ public class GenericMessageEditor extends FramedMenu {
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
-                    final Consumer<String> inputCollector = input -> {
-                        final Integer repetitions = Deserializers.getInteger(input);
-                        if (repetitions != null) {
-                            section.set("repetitions|loops", repetitions);
-                        }
-                        player.setOpenView(view);
-                    };
-                    final Runnable onCancel = () -> player.setOpenView(view);
-                    player.collectChatInput("repetitions", inputCollector, onCancel);
+                    player.createChatInput()
+                            .withDescription("Enter repetitions amount in chat")
+                            .onInput(input -> {
+                                final Integer repetitions = Deserializers.getInteger(input);
+                                if (repetitions != null) {
+                                    section.set("repetitions|loops", repetitions);
+                                    player.setOpenView(view);
+                                }
+                            })
+                            .collect();
                 });
 
         final int repetitions = section.getOptionalInteger("repetitions|loops").orElse(1);
         repetitionsButton
                 .addLore("")
-                .addLore("&f" + repetitions + " ticks")
+                .addLore("&f" + repetitions)
                 .addLore("")
                 .addLore("&7Left-Click: &fSet message repetitions");
 
@@ -81,15 +83,19 @@ public class GenericMessageEditor extends FramedMenu {
                 .enchanted(true)
                 .onLeftClick((view, event) -> {
                     final PlayerState player = view.getViewer();
-                    final Consumer<String> inputCollector = input -> {
-                        final Integer interval = Deserializers.getInteger(input);
-                        if (interval != null) {
-                            section.set("interval", interval);
-                        }
-                        player.setOpenView(view);
-                    };
-                    final Runnable onCancel = () -> player.setOpenView(view);
-                    player.collectChatInput("interval", inputCollector, onCancel);
+                    player.createChatInput()
+                            .withDescription("Enter interval amount in chat")
+                            .onInput(input -> {
+                                final Integer interval = Deserializers.getInteger(input);
+                                if (interval != null) {
+                                    if (!section.isSet("repetitions|loops")) {
+                                        section.set("repetitions|loops", 2);
+                                    }
+                                    section.set("interval", interval);
+                                    player.setOpenView(view);
+                                }
+                            })
+                            .collect();
                 });
 
         final int interval = section.getOptionalInteger("interval").orElse(0);
