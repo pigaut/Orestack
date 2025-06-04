@@ -15,7 +15,9 @@ public class ChatMessageEditor extends GenericMessageEditor {
 
     public ChatMessageEditor(EnhancedPlugin plugin, ConfigSection parent, String name) {
         super(plugin, "Edit Chat Message", parent, name);
-        parent.getSectionOrCreate(name).set("type", "chat");
+        final ConfigSection section = parent.getSectionOrCreate(name);
+        section.set("type", "chat");
+        section.set("message", "none");
     }
 
     @Override

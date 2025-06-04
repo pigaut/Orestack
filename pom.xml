@@ -68,7 +68,7 @@
         <dependency>
             <groupId>io.github.pigaut.yaml</groupId>
             <artifactId>YamlConfig</artifactId>
-            <version>3.4.11</version>
+            <version>3.4.12</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
