@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.menu.message.editor;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.player.*;
+import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.formatter.*;
 import io.github.pigaut.yaml.parser.*;
@@ -12,8 +13,8 @@ import org.jetbrains.annotations.*;
 
 public class BossbarEditor extends GenericMessageEditor {
 
-    public BossbarEditor(ConfigSection parent, String name) {
-        super("Edit Boss Bar", parent, name);
+    public BossbarEditor(EnhancedPlugin plugin, ConfigSection parent, String name) {
+        super(plugin, "Edit Boss Bar", parent, name);
         parent.getSectionOrCreate(name).set("type", "bossbar");
     }
 
@@ -147,7 +148,7 @@ public class BossbarEditor extends GenericMessageEditor {
                     view.update();
                 });
 
-        progressButton.addLore("&7Info: &fBar progress must be from 0.0 (empty) to 1.0 (full)")
+        progressButton.addLore("&7Info: &fBar progress must range from 0.0 (empty) to 1.0 (full)")
                 .addLore("");
         section.getStringList("progress").forEach(amount ->
                 progressButton.addLore("&f- " + amount));

@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.player.*;
+import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.formatter.*;
@@ -13,8 +14,8 @@ import java.util.function.*;
 
 public class TitleEditor extends GenericMessageEditor {
 
-    public TitleEditor(ConfigSection parent, String name) {
-        super("Edit Title", parent, name);
+    public TitleEditor(EnhancedPlugin plugin, ConfigSection parent, String name) {
+        super(plugin, "Edit Title", parent, name);
         parent.getSectionOrCreate(name).set("type", "title");
     }
 
