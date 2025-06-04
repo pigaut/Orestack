@@ -7,25 +7,30 @@ import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.parser.*;
 
+import java.util.*;
+
 public class FunctionsMenu extends FramedSelectionMenu {
 
     private final EnhancedPlugin plugin;
+    private final String group;
 
     public FunctionsMenu(EnhancedPlugin plugin, String group) {
         super(StringFormatter.toTitleCase(group) + " Functions", MenuSize.BIG);
         this.plugin = plugin;
-        for (Function function : plugin.getFunctions().getAll(group)) {
+        this.group = group;
+    }
 
-            final Button button = Button.builder()
-                    .withType(function.getIcon().getType())
-                    .withDisplay("&8&o" + StringFormatter.toTitleCase(function.getName()))
-                    .addLore("")
-                    .addLore("&eLeft-Click: &fRun function")
-                    .onLeftClick((menuView, event) -> function.run(menuView.getViewer()))
-                    .buildButton();
-
-            this.addEntry(button);
-        }
+    @Override
+    public List<Button> createEntries() {
+        return plugin.getFunctions().getAll(group).stream()
+                .map(function -> Button.builder()
+                        .withType(function.getIcon().getType())
+                        .withDisplay("&8&o" + StringFormatter.toTitleCase(function.getName()))
+                        .addLore("")
+                        .addLore("&eLeft-Click: &fRun function")
+                        .onLeftClick((menuView, event) -> function.run(menuView.getViewer()))
+                        .buildButton())
+                .toList();
     }
 
 }

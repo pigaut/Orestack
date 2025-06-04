@@ -6,7 +6,7 @@
 
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>Orestack</artifactId>
-    <version>3.28.4</version>
+    <version>3.28.5</version>
 
     <build>
         <plugins>
@@ -68,19 +68,19 @@
         <dependency>
             <groupId>io.github.pigaut.yaml</groupId>
             <artifactId>YamlConfig</artifactId>
-            <version>3.4.4</version>
+            <version>3.4.12</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.github.pigaut.yaml</groupId>
             <artifactId>SpigotYamlConfig</artifactId>
-            <version>3.4.1</version>
+            <version>3.4.6</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.github.pigaut.sql</groupId>
             <artifactId>SQLib</artifactId>
-            <version>1.4</version>
+            <version>1.4.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

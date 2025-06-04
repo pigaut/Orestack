@@ -101,26 +101,8 @@ public class OrestackMenu extends FixedMenu {
                 .onLeftClick((view, event) -> view.getViewer().performCommand("orestack wand"))
                 .buildButton();
 
-        buttons[49] = Button.builder()
-                .withType(Material.BARRIER)
-                .withDisplay("&c&lClose")
-                .addLore("")
-                .addLore("&eLeft-Click: &fClose this menu")
-                .enchanted(true)
-                .onLeftClick((view, event) -> view.getViewer().closeInventory())
-                .buildButton();
-
-        buttons[50] = Button.builder()
-                .withType(Material.OAK_BUTTON)
-                .withDisplay("&f&lReload")
-                .addLore("")
-                .addLore("&eLeft-Click: &fReload the plugin")
-                .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    view.close();
-                    view.getViewer().performCommand("orestack reload");
-                })
-                .buildButton();
+        buttons[49] = new CloseMenuButton();
+        buttons[50] = new PluginReloadButton(plugin);
 
         return buttons;
     }

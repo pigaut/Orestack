@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.menu.message.editor;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.player.*;
+import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.formatter.*;
 import io.github.pigaut.yaml.parser.*;
@@ -12,9 +13,11 @@ import org.jetbrains.annotations.*;
 
 public class BossbarEditor extends GenericMessageEditor {
 
-    public BossbarEditor(ConfigSection parent, String name) {
-        super("Edit Boss Bar", parent, name);
-        parent.getSectionOrCreate(name).set("type", "bossbar");
+    public BossbarEditor(EnhancedPlugin plugin, ConfigSection parent, String name) {
+        super(plugin, "Edit Boss Bar", parent, name);
+        final ConfigSection section = parent.getSectionOrCreate(name);
+        section.set("type", "bossbar");
+        section.set("title", "none");
     }
 
     @Override
@@ -37,10 +40,11 @@ public class BossbarEditor extends GenericMessageEditor {
                             .collect();
                 });
 
+        final String title = section.getOptionalString("title", StringColor.FORMATTER).orElse("");
         titleButton.addLore("")
-                .addLore(section.getOptionalString("title", StringColor.FORMATTER).orElse(""))
+                .addLore("&f" + title)
                 .addLore("")
-                .addLore("&eLeft-Click: &fSet the bar title");
+                .addLore("&eLeft-Click: &fTo set bar title");
 
         final ButtonBuilder styleButton = Button.builder()
                 .withType(Material.CHAIN)
@@ -62,11 +66,11 @@ public class BossbarEditor extends GenericMessageEditor {
                             .collect();
                 });
 
-        final String style = section.getOptionalString("style", StringStyle.TITLE).orElse("");
+        final String style = section.getOptionalString("style", StringStyle.TITLE).orElse("none");
         styleButton.addLore("")
                 .addLore("&f" + style)
                 .addLore("")
-                .addLore("&eLeft-Click: Set bar style");
+                .addLore("&eLeft-Click: &fTo set bar style");
 
         final ButtonBuilder durationButton = Button.builder()
                 .withType(Material.GLASS_BOTTLE)
@@ -86,11 +90,11 @@ public class BossbarEditor extends GenericMessageEditor {
                             .collect();
                 });
 
-        final int duration = section.getOptionalInteger("duration").orElse(0);
+        final int duration = section.getOptionalInteger("duration").orElse(100);
         durationButton.addLore("")
                 .addLore("&f" + duration + " ticks")
                 .addLore("")
-                .addLore("&eLeft-Click: &fSet bar duration");
+                .addLore("&eLeft-Click: &fTo set bar duration");
 
 
         final ButtonBuilder colorButton = Button.builder()
@@ -115,11 +119,11 @@ public class BossbarEditor extends GenericMessageEditor {
                             .collect();
                 });
 
-        final String color = section.getOptionalString("color", StringStyle.TITLE).orElse("");
+        final String color = section.getOptionalString("color", StringStyle.TITLE).orElse("none");
         colorButton.addLore("")
                 .addLore("&f" + color)
                 .addLore("")
-                .addLore("&eLeft-Click: &fSet bar color");
+                .addLore("&eLeft-Click: &fTo set bar color");
 
         final ButtonBuilder progressButton = Button.builder()
                 .withType(Material.EXPERIENCE_BOTTLE)
@@ -147,13 +151,13 @@ public class BossbarEditor extends GenericMessageEditor {
                     view.update();
                 });
 
-        progressButton.addLore("&7Info: &fBar progress must be from 0.0 (empty) to 1.0 (full)")
+        progressButton.addLore("&7Info: &fBar progress must range from 0.0 (empty) to 1.0 (full)")
                 .addLore("");
         section.getStringList("progress").forEach(amount ->
                 progressButton.addLore("&f- " + amount));
         progressButton.addLore("")
-                .addLore("&eLeft-Click: &fAdd element to list")
-                .addLore("&cRight-Click: &fRemove element from list");
+                .addLore("&eLeft-Click: &fTo add element to list")
+                .addLore("&cRight-Click: &fTo remove element from list");
 
         buttons[11] = titleButton.buildButton();
         buttons[19] = styleButton.buildButton();

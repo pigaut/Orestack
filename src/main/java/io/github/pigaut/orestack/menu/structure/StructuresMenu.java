@@ -8,19 +8,25 @@ import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.yaml.parser.*;
 
+import java.util.*;
+
 public class StructuresMenu extends FramedSelectionMenu {
 
     private final OrestackPlugin plugin = OrestackPlugin.getPlugin();
+    private final String group;
 
     public StructuresMenu(String group) {
         super(StringFormatter.toTitleCase(group) + " Structures", MenuSize.BIG);
-        for (BlockStructure structure : plugin.getStructures().getAll(group)) {
-            final Button button = Button.builder()
-                    .withType(structure.getIcon().getType())
-                    .withDisplay("&e&o" + StringFormatter.toTitleCase(structure.getName()))
-                    .buildButton();
-            this.addEntry(button);
-        }
+        this.group = group;
     }
 
+    @Override
+    public List<Button> createEntries() {
+        return plugin.getStructures().getAll(group).stream()
+                .map(structure -> Button.builder()
+                        .withType(structure.getIcon().getType())
+                        .withDisplay("&e&o" + StringFormatter.toTitleCase(structure.getName()))
+                        .buildButton())
+                .toList();
+    }
 }

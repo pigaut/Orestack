@@ -6,23 +6,17 @@ import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
-import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.node.section.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
-
-import java.io.*;
 
 public class MessageCreationMenu extends FramedMenu {
 
     private final RootSection config;
 
-    public MessageCreationMenu(EnhancedPlugin plugin, String group) {
-        super("Message Creation", MenuSize.SMALL);
-
-        final File file = PathGroup.getFile(plugin, "messages", group);
-        this.config = new RootSection(file, plugin.getConfigurator());
-        config.load();
+    public MessageCreationMenu(@NotNull EnhancedPlugin plugin, @NotNull RootSection config) {
+        super(plugin, "Message Creation", MenuSize.SMALL);
+        this.config = config;
     }
 
     @Override
@@ -39,7 +33,7 @@ public class MessageCreationMenu extends FramedMenu {
                     player.createChatInput()
                             .withDescription("Enter message name in chat")
                             .onInput(input -> {
-                                player.openMenu(new ChatMessageEditor(config, input), view);
+                                player.openMenu(new ChatMessageEditor(plugin, config, input), view.getPreviousView());
                             })
                             .collect();
                 })
@@ -56,7 +50,7 @@ public class MessageCreationMenu extends FramedMenu {
                     player.createChatInput()
                             .withDescription("Enter message name in chat")
                             .onInput(input -> {
-                                player.openMenu(new ActionbarEditor(config, input), view);
+                                player.openMenu(new ActionbarEditor(plugin, config, input), view.getPreviousView());
                             })
                             .collect();
                 })
@@ -73,7 +67,7 @@ public class MessageCreationMenu extends FramedMenu {
                     player.createChatInput()
                             .withDescription("Enter message name in chat")
                             .onInput(input -> {
-                                player.openMenu(new TitleEditor(config, input), view);
+                                player.openMenu(new TitleEditor(plugin, config, input), view.getPreviousView());
                             })
                             .collect();
                 })
@@ -89,7 +83,7 @@ public class MessageCreationMenu extends FramedMenu {
                     player.createChatInput()
                             .withDescription("Enter message name in chat")
                             .onInput(input -> {
-                                player.openMenu(new BossbarEditor(config, input), view);
+                                player.openMenu(new BossbarEditor(plugin, config, input), view.getPreviousView());
                             })
                             .collect();
                 })

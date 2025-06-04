@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.player.*;
+import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.formatter.*;
@@ -12,8 +13,8 @@ import java.util.function.*;
 
 public class ActionbarEditor extends GenericMessageEditor {
 
-    public ActionbarEditor(ConfigSection parent, String name) {
-        super("Edit Action Bar", parent, name);
+    public ActionbarEditor(EnhancedPlugin plugin, ConfigSection parent, String name) {
+        super(plugin, "Edit Action Bar", parent, name);
         parent.getSectionOrCreate(name).set("type", "actionbar");
     }
 
@@ -32,6 +33,7 @@ public class ActionbarEditor extends GenericMessageEditor {
                             .withDescription("Enter message in chat")
                             .onInput(input -> {
                                 section.set("message", input);
+                                player.setOpenView(view);
                             })
                             .collect();
                 });

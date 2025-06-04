@@ -5,6 +5,7 @@ import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.player.*;
+import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.parser.deserializer.*;
 import org.bukkit.*;
@@ -17,10 +18,19 @@ public class GenericMessageEditor extends FramedMenu {
     protected final ConfigSection parent;
     protected final String name;
 
-    public GenericMessageEditor(String title, ConfigSection parent, String name) {
-        super(title, MenuSize.BIG);
+    public GenericMessageEditor(@NotNull EnhancedPlugin plugin, @NotNull String title,
+                                @NotNull ConfigSection parent, @NotNull String name) {
+        super(plugin, title, MenuSize.BIG);
         this.parent = parent;
         this.name = name;
+    }
+
+    @Override
+    public void onClose(MenuView view) {
+        parent.getRoot().save();
+        plugin.getMessages().reload(errorsFound -> {
+            view.update();
+        });
     }
 
     @Override
@@ -107,8 +117,6 @@ public class GenericMessageEditor extends FramedMenu {
         buttons[15] = delayButton.buildButton();
         buttons[24] = repetitionsButton.buildButton();
         buttons[33] = intervalButton.buildButton();
-        buttons[39] = new ConfigLoadButton(parent.getRoot());
-        buttons[41] = new ConfigSaveButton(parent.getRoot());
         return buttons;
     }
 

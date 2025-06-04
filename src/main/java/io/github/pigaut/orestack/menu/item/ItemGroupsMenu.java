@@ -9,24 +9,29 @@ import io.github.pigaut.yaml.parser.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
+import java.util.*;
+
 public class ItemGroupsMenu extends FramedSelectionMenu {
+
+    private final OrestackPlugin plugin;
 
     public ItemGroupsMenu(OrestackPlugin plugin) {
         super("Item Groups", MenuSize.BIG);
-
-        for (String group : plugin.getItems().getAllGroups()) {
-            final Button button = Button.builder()
-                    .withType(Material.CHEST)
-                    .withDisplay("&a&l" + StringFormatter.toTitleCase(group))
-                    .addLore("")
-                    .addLore("&eLeft-Click: &fView all items")
-                    .addLore("&6Right-Click: &fGet all items")
-                    .onLeftClick((menuView, event) -> menuView.getViewer().openMenu(new ItemsMenu(plugin, group)))
-                    .onRightClick((menuView, event) -> menuView.getViewer().performCommand("orestack item get-group " + group))
-                    .buildButton();
-
-            this.addEntry(button);
-        }
+        this.plugin = plugin;
     }
 
+    @Override
+    public List<Button> createEntries() {
+        return plugin.getItems().getAllGroups().stream()
+                .map(group -> Button.builder()
+                        .withType(Material.CHEST)
+                        .withDisplay("&a&l" + StringFormatter.toTitleCase(group))
+                        .addLore("")
+                        .addLore("&eLeft-Click: &fView all items")
+                        .addLore("&6Right-Click: &fGet all items")
+                        .onLeftClick((menuView, event) -> menuView.getViewer().openMenu(new ItemsMenu(plugin, group)))
+                        .onRightClick((menuView, event) -> menuView.getViewer().performCommand("orestack item get-group " + group))
+                        .buildButton())
+                .toList();
+    }
 }
