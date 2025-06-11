@@ -2,10 +2,6 @@ chat:
   type: chat
   message: This is a chat message
 
-multi:
-  - { type: chat, message: Welcome to the server! }
-  - { type: chat, message: Feel free to look around }
-
 actionbar:
   type: actionbar
   message: Action bar message
@@ -44,3 +40,7 @@ hologram:
     offset: { y: 0.5 }
   duration: 30
   radius: { x: 1, z: 1 }
+
+multi:
+  - { type: chat, message: Welcome to the server! }
+  - { type: chat, message: Feel free to look around }

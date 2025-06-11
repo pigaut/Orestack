@@ -2,10 +2,9 @@ package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
-import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
-import io.github.pigaut.yaml.formatter.*;
 import io.github.pigaut.yaml.parser.*;
 import io.github.pigaut.yaml.parser.deserializer.*;
 import org.bukkit.*;
@@ -13,34 +12,32 @@ import org.jetbrains.annotations.*;
 
 public class BossbarEditor extends GenericMessageEditor {
 
-    public BossbarEditor(EnhancedPlugin plugin, ConfigSection parent, String name) {
-        super(plugin, "Edit Boss Bar", parent, name);
-        final ConfigSection section = parent.getSectionOrCreate(name);
-        section.set("type", "bossbar");
-        section.set("title", "none");
+    private final ConfigSequence progressSequence;
+
+    public BossbarEditor(EnhancedPlugin plugin, ConfigSection config, String name) {
+        super(plugin, "Edit Boss Bar", config, name);
+        messageSection.set("type", "bossbar");
+        progressSequence = messageSection.getSequenceOrCreate("progress");
     }
 
     @Override
     public @Nullable Button[] createButtons() {
-        final ConfigSection section = parent.getSectionOrCreate(name);
-
         final Button[] buttons = super.createButtons();
+
         final ButtonBuilder titleButton = Button.builder()
                 .withType(Material.OAK_SIGN)
                 .withDisplay("&f&lTitle")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter title in chat")
                             .onInput(input -> {
-                                section.set("title", input);
-                                player.setOpenView(view);
+                                messageSection.set("title", input);
+                                view.open();
                             })
                             .collect();
                 });
-
-        final String title = section.getOptionalString("title", StringColor.FORMATTER).orElse("");
+        final String title = messageSection.getOptionalString("title", StringColor.FORMATTER).orElse("");
         titleButton.addLore("")
                 .addLore("&f" + title)
                 .addLore("")
@@ -50,8 +47,7 @@ public class BossbarEditor extends GenericMessageEditor {
                 .withType(Material.CHAIN)
                 .withDisplay("&f&lStyle")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createMenuSelector()
                             .withDescription("Select Bar Style")
                             .addValue(new ValueInputButton(Material.OAK_WOOD, "SOLID"))
@@ -60,13 +56,12 @@ public class BossbarEditor extends GenericMessageEditor {
                             .addValue(new ValueInputButton(Material.OAK_STAIRS, "SEGMENTED_12"))
                             .addValue(new ValueInputButton(Material.OAK_SLAB, "SEGMENTED_20"))
                             .onInput(input -> {
-                                section.set("style", input);
-                                player.setOpenView(view);
+                                messageSection.set("style", input);
+                                view.open();
                             })
                             .collect();
                 });
-
-        final String style = section.getOptionalString("style", StringStyle.TITLE).orElse("none");
+        final String style = messageSection.getOptionalString("style", StringStyle.TITLE).orElse("none");
         styleButton.addLore("")
                 .addLore("&f" + style)
                 .addLore("")
@@ -76,21 +71,19 @@ public class BossbarEditor extends GenericMessageEditor {
                 .withType(Material.GLASS_BOTTLE)
                 .withDisplay("&f&lDuration")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter duration amount in chat")
                             .onInput(input -> {
                                 final Integer duration = Deserializers.getInteger(input);
                                 if (duration != null) {
-                                    section.set("duration", duration);
+                                    messageSection.set("duration", duration);
                                 }
-                                player.setOpenView(view);
+                                view.open();
                             })
                             .collect();
                 });
-
-        final int duration = section.getOptionalInteger("duration").orElse(100);
+        final int duration = messageSection.getOptionalInteger("duration").orElse(100);
         durationButton.addLore("")
                 .addLore("&f" + duration + " ticks")
                 .addLore("")
@@ -101,8 +94,7 @@ public class BossbarEditor extends GenericMessageEditor {
                 .withType(Material.RED_DYE)
                 .withDisplay("&f&lColor")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createMenuSelector()
                             .withDescription("Select Bar Color")
                             .addValue(new ValueInputButton(Material.PINK_DYE, "PINK"))
@@ -113,13 +105,12 @@ public class BossbarEditor extends GenericMessageEditor {
                             .addValue(new ValueInputButton(Material.PURPLE_DYE, "PURPLE"))
                             .addValue(new ValueInputButton(Material.WHITE_DYE, "WHITE"))
                             .onInput(input -> {
-                                section.set("color", input);
-                                player.setOpenView(view);
+                                messageSection.set("color", input);
+                                view.open();
                             })
                             .collect();
                 });
-
-        final String color = section.getOptionalString("color", StringStyle.TITLE).orElse("none");
+        final String color = messageSection.getOptionalString("color", StringStyle.TITLE).orElse("none");
         colorButton.addLore("")
                 .addLore("&f" + color)
                 .addLore("")
@@ -129,31 +120,27 @@ public class BossbarEditor extends GenericMessageEditor {
                 .withType(Material.EXPERIENCE_BOTTLE)
                 .withDisplay("&f&lProgress")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final ConfigSequence sequence = section.getSequenceOrCreate("progress");
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter bar progress in chat")
                             .onInput(input -> {
                                 final Double progress = Deserializers.getDouble(input);
                                 if (progress != null) {
-                                    sequence.add(progress);
+                                    progressSequence.add(progress);
                                 }
-                                player.setOpenView(view);
+                                view.open();
                             })
                             .collect();
                 })
-                .onRightClick((view, event) -> {
-                    final ConfigSequence sequence = section.getSequenceOrCreate("progress");
-                    if (!sequence.isEmpty()) {
-                        sequence.remove(sequence.size() - 1);
+                .onRightClick((view, player, event) -> {
+                    if (!progressSequence.isEmpty()) {
+                        progressSequence.remove(progressSequence.size() - 1);
                     }
                     view.update();
                 });
-
         progressButton.addLore("&7Info: &fBar progress must range from 0.0 (empty) to 1.0 (full)")
                 .addLore("");
-        section.getStringList("progress").forEach(amount ->
+        progressSequence.toStringList().forEach(amount ->
                 progressButton.addLore("&f- " + amount));
         progressButton.addLore("")
                 .addLore("&eLeft-Click: &fTo add element to list")

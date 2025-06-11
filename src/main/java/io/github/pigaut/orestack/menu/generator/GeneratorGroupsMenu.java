@@ -27,10 +27,10 @@ public class GeneratorGroupsMenu extends FramedSelectionMenu {
                         .addLore("")
                         .addLore("&eLeft-Click: &fView all generators")
                         .addLore("&6Right-Click: &fGet all generators")
-                        .onLeftClick((menuView, event) ->
-                                menuView.getViewer().openMenu(new GeneratorsMenu(plugin, group)))
-                        .onRightClick((menuView, event) ->
-                                menuView.getViewer().performCommand("orestack generator get-group " + group))
+                        .onLeftClick((menuView, player, event) ->
+                                player.openMenu(new GeneratorsMenu(plugin, group)))
+                        .onRightClick((menuView, player, event) ->
+                                player.performCommand("orestack generator get-group " + group))
                         .buildButton())
                 .toList();
     }

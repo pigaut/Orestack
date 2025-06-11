@@ -31,8 +31,8 @@ public class GeneratorsMenu extends FramedSelectionMenu {
                             .withDisplay("&6&o" + StringFormatter.toTitleCase(generatorName))
                             .addLore("")
                             .addLore("&eLeft-Click: &fGet Generator")
-                            .onLeftClick((menuView, event) ->
-                                    menuView.getViewer().performCommand("orestack generator get " + generatorName))
+                            .onLeftClick((menuView, player, event) ->
+                                    player.performCommand("orestack generator get " + generatorName))
                             .buildButton();
                 })
                 .toList();
