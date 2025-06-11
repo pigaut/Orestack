@@ -30,13 +30,12 @@ public class ParticlesMenu extends FramedSelectionMenu {
                         .withDisplay("&d&o" + StringFormatter.toTitleCase(particle.getName()))
                         .addLore("")
                         .addLore("&eLeft-Click: &fShow-me particle")
-                        .onLeftClick((menuView, event) -> {
-                            menuView.close();
-                            final PlayerState viewer = menuView.getViewer();
-                            viewer.performCommand("orestack particle show-me " + particle.getName());
-                            viewer.sendMessage(ChatColor.RED + "The menu will reopen in 3 seconds...");
+                        .onLeftClick((view, player, event) -> {
+                            view.close();
+                            player.performCommand("orestack particle show-me " + particle.getName());
+                            player.sendMessage(ChatColor.RED + "The menu will reopen in 3 seconds...");
                             plugin.getScheduler().runTaskLater(60L, () -> {
-                                viewer.setOpenView(menuView);
+                                view.open();
                             });
                         })
                         .buildButton())

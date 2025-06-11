@@ -29,8 +29,10 @@ public class ItemGroupsMenu extends FramedSelectionMenu {
                         .addLore("")
                         .addLore("&eLeft-Click: &fView all items")
                         .addLore("&6Right-Click: &fGet all items")
-                        .onLeftClick((menuView, event) -> menuView.getViewer().openMenu(new ItemsMenu(plugin, group)))
-                        .onRightClick((menuView, event) -> menuView.getViewer().performCommand("orestack item get-group " + group))
+                        .onLeftClick((view, player, event) ->
+                                player.openMenu(new ItemsMenu(plugin, group)))
+                        .onRightClick((view, player, event) ->
+                                player.performCommand("orestack item get-group " + group))
                         .buildButton())
                 .toList();
     }

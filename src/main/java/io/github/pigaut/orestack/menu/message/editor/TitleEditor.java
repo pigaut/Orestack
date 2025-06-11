@@ -1,48 +1,38 @@
 package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
-import io.github.pigaut.yaml.formatter.*;
 import io.github.pigaut.yaml.parser.deserializer.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
-import java.util.function.*;
-
 public class TitleEditor extends GenericMessageEditor {
 
-    public TitleEditor(EnhancedPlugin plugin, ConfigSection parent, String name) {
-        super(plugin, "Edit Title", parent, name);
-        final ConfigSection section = parent.getSectionOrCreate(name);
-        section.set("type", "title");
-        section.set("title", "none");
+    public TitleEditor(EnhancedPlugin plugin, ConfigSection config, String name) {
+        super(plugin, "Edit Title", config, name);
+        messageSection.set("type", "title");
     }
 
     @Override
     public @Nullable Button[] createButtons() {
-        final ConfigSection section = parent.getSectionOrCreate(name);
-
         final Button[] buttons = super.createButtons();
         final ButtonBuilder titleButton = Button.builder()
                 .withType(Material.OAK_SIGN)
                 .withDisplay("&f&lTitle")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter title in chat")
                             .onInput(input -> {
-                                section.set("title", input);
-                                player.setOpenView(view);
+                                messageSection.set("title", input);
+                                view.open();
                             })
                             .collect();
-                });
-
-        titleButton.addLore("")
-                .addLore(ChatColor.WHITE + section.getOptionalString("title", StringColor.FORMATTER).orElse("none"))
+                })
+                .addLore("")
+                .addLore(messageSection.getOptionalString("title", StringColor.FORMATTER).orElse("none"))
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo set the title");
 
@@ -50,91 +40,83 @@ public class TitleEditor extends GenericMessageEditor {
                 .withType(Material.SPRUCE_SIGN)
                 .withDisplay("&f&lSubtitle")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter subtitle in chat")
                             .onInput(input -> {
-                                section.set("subtitle", input);
-                                player.setOpenView(view);
+                                messageSection.set("subtitle", input);
+                                view.open();
                             })
                             .collect();
-                });
-
-        subtitleButton.addLore("")
-                .addLore(ChatColor.WHITE + section.getOptionalString("subtitle", StringColor.FORMATTER).orElse("none"))
+                })
+                .addLore("")
+                .addLore(messageSection.getOptionalString("subtitle", StringColor.FORMATTER).orElse("none"))
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo set the subtitle");
 
+        final Integer fadeIn = messageSection.getOptionalInteger("fade-in").orElse(null);
         final ButtonBuilder fadeInButton = Button.builder()
                 .withType(Material.ANVIL)
                 .withDisplay("&f&lFade In")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter fade-in amount in chat")
                             .onInput(input -> {
-                                final Integer fadeIn = Deserializers.getInteger(input);
-                                if (fadeIn != null) {
-                                    section.set("fade-in", fadeIn);
+                                final Integer amount = Deserializers.getInteger(input);
+                                if (amount != null) {
+                                    messageSection.set("fade-in", amount);
                                 }
-                                player.setOpenView(view);
+                                view.open();
                             })
                             .collect();
-                });
-
-        final int fadeIn = section.getOptionalInteger("fade-in").orElse(0);
-        fadeInButton.addLore("")
-                .addLore("&f" + fadeIn + " ticks")
+                })
                 .addLore("")
-                .addLore("&eLeft-Click: &fTo set title fade in");
+                .addLore(fadeIn != null ? (fadeIn + " ticks") : "none")
+                .addLore("")
+                .addLore("&eLeft-Click: &fTo set title fade-in amount");
 
+        final Integer stay = messageSection.getOptionalInteger("stay").orElse(null);
         final ButtonBuilder stayButton = Button.builder()
                 .withType(Material.WHITE_BED)
                 .withDisplay("&f&lStay")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter stay amount in chat")
                             .onInput(input -> {
-                                final Integer stay = Deserializers.getInteger(input);
-                                if (stay != null) {
-                                    section.set("stay", stay);
+                                final Integer amount = Deserializers.getInteger(input);
+                                if (amount != null) {
+                                    messageSection.set("stay", amount);
                                 }
-                                player.setOpenView(view);
+                                view.open();
                             })
                             .collect();
-                });
-
-        final int stay = section.getOptionalInteger("stay").orElse(0);
-        stayButton.addLore("")
-                .addLore("&f" + stay + " ticks")
+                })
                 .addLore("")
-                .addLore("&eLeft-Click: &fTo set title stay");
+                .addLore(stay != null ? (stay + " ticks") : "none")
+                .addLore("")
+                .addLore("&eLeft-Click: &fTo set title stay amount");
 
+        final Integer fadeOut = messageSection.getOptionalInteger("fade-out").orElse(null);
         final ButtonBuilder fadeOutButton = Button.builder()
                 .withType(Material.DAMAGED_ANVIL)
                 .withDisplay("&f&lFade out")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter fade-out amount in chat")
                             .onInput(input -> {
-                                final Integer fadeOut = Deserializers.getInteger(input);
-                                if (fadeOut != null) {
-                                    section.set("fade-out", fadeOut);
+                                final Integer amount = Deserializers.getInteger(input);
+                                if (amount != null) {
+                                    messageSection.set("fade-out", amount);
                                 }
-                                player.setOpenView(view);
+                                view.open();
                             })
                             .collect();
-                });
-
-        final int fadeOut = section.getOptionalInteger("fade-out").orElse(0);
-        fadeOutButton.addLore("")
-                .addLore("&f" + fadeOut + " ticks")
+                })
+                .addLore("")
+                .addLore(fadeOut != null ? (fadeOut + " ticks") : "none")
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo set title fade out");
 

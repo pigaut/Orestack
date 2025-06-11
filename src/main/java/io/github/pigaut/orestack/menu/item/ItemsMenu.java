@@ -30,7 +30,8 @@ public class ItemsMenu extends FramedSelectionMenu {
                             .withDisplay("&a&o" + StringFormatter.toTitleCase(itemName))
                             .addLore("")
                             .addLore("&eLeft-Click: &fGet item")
-                            .onLeftClick((menuView, event) -> menuView.getViewer().performCommand("orestack item get " + itemName))
+                            .onLeftClick((menuView, player, event) ->
+                                    menuView.getViewer().performCommand("orestack item get " + itemName))
                             .buildButton();
                 })
                 .toList();

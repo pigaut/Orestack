@@ -2,63 +2,51 @@ package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
-import io.github.pigaut.voxel.player.*;
+import io.github.pigaut.voxel.menu.template.menu.editor.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.parser.deserializer.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
-import java.util.function.*;
+public class GenericMessageEditor extends FramedEditorMenu {
 
-public class GenericMessageEditor extends FramedMenu {
-
-    protected final ConfigSection parent;
+    protected final ConfigSection config;
     protected final String name;
+    protected final ConfigSection messageSection;
 
     public GenericMessageEditor(@NotNull EnhancedPlugin plugin, @NotNull String title,
-                                @NotNull ConfigSection parent, @NotNull String name) {
-        super(plugin, title, MenuSize.BIG);
-        this.parent = parent;
+                                @NotNull ConfigSection config, @NotNull String name) {
+        super(plugin, config.getRoot(), title, MenuSize.BIG);
+        this.config = config;
         this.name = name;
-    }
-
-    @Override
-    public void onClose(MenuView view) {
-        parent.getRoot().save();
-        plugin.getMessages().reload(errorsFound -> {
-            view.update();
-        });
+        messageSection = config.getSectionOrCreate(name);
     }
 
     @Override
     public @Nullable Button[] createButtons() {
-        final ConfigSection section = parent.getSectionOrCreate(name);
-
         final Button[] buttons = super.createButtons();
+
+        final Integer delay = messageSection.getOptionalInteger("delay").orElse(null);
         final ButtonBuilder delayButton = Button.builder()
                 .withType(Material.CLOCK)
                 .withDisplay("&f&lDelay")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter delay amount in chat")
                             .onInput(input -> {
-                                final Integer delay = Deserializers.getInteger(input);
-                                if (delay != null) {
-                                    section.set("delay", delay);
+                                final Integer amount = Deserializers.getInteger(input);
+                                if (amount != null) {
+                                    messageSection.set("delay", amount);
                                 }
-                                player.setOpenView(view);
+                                view.open();
                             })
                             .collect();
-                });
-
-        final int delay = section.getOptionalInteger("delay").orElse(0);
-        delayButton.addLore("")
-                .addLore("&f" + delay + " ticks")
+                })
+                .addLore("")
+                .addLore(delay != null ? (delay + " ticks") : "none")
                 .addLore("")
                 .addLore("&eLeft-Click: &fSet message delay");
 
@@ -66,57 +54,52 @@ public class GenericMessageEditor extends FramedMenu {
                 .withType(Material.REPEATER)
                 .withDisplay("&f&lRepetitions")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter repetitions amount in chat")
                             .onInput(input -> {
-                                final Integer repetitions = Deserializers.getInteger(input);
-                                if (repetitions != null) {
-                                    section.set("repetitions|loops", repetitions);
+                                final Integer amount = Deserializers.getInteger(input);
+                                if (amount != null) {
+                                    messageSection.set("repetitions|loops", amount);
                                 }
-                                player.setOpenView(view);
+                                view.open();
                             })
                             .collect();
-                });
-
-        final int repetitions = section.getOptionalInteger("repetitions|loops").orElse(1);
-        repetitionsButton
+                })
                 .addLore("")
-                .addLore("&f" + repetitions)
+                .addLore(messageSection.getOptionalString("repetitions|loops").orElse("none"))
                 .addLore("")
                 .addLore("&eLeft-Click: &fSet message repetitions");
 
+        final Integer interval = messageSection.getOptionalInteger("interval").orElse(null);
         final ButtonBuilder intervalButton = Button.builder()
                 .withType(Material.COMPARATOR)
                 .withDisplay("&f&lInterval")
                 .enchanted(true)
-                .onLeftClick((view, event) -> {
-                    final PlayerState player = view.getViewer();
+                .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter interval amount in chat")
                             .onInput(input -> {
-                                final Integer interval = Deserializers.getInteger(input);
-                                if (interval != null) {
-                                    if (!section.isSet("repetitions|loops")) {
-                                        section.set("repetitions|loops", 2);
+                                final Integer amount = Deserializers.getInteger(input);
+                                if (amount != null) {
+                                    if (!messageSection.isSet("repetitions|loops")) {
+                                        messageSection.set("repetitions|loops", 2);
                                     }
-                                    section.set("interval", interval);
+                                    messageSection.set("interval", amount);
                                 }
-                                player.setOpenView(view);
+                                view.open();
                             })
                             .collect();
-                });
-
-        final int interval = section.getOptionalInteger("interval").orElse(0);
-        intervalButton.addLore("")
-                .addLore("&f" + interval + " ticks")
+                })
+                .addLore("")
+                .addLore(interval != null ? (interval + " ticks") : "none")
                 .addLore("")
                 .addLore("&eLeft-Click: &fSet message interval");
 
         buttons[15] = delayButton.buildButton();
         buttons[24] = repetitionsButton.buildButton();
         buttons[33] = intervalButton.buildButton();
+
         return buttons;
     }
 

@@ -28,7 +28,7 @@ public class FunctionsMenu extends FramedSelectionMenu {
                         .withDisplay("&8&o" + StringFormatter.toTitleCase(function.getName()))
                         .addLore("")
                         .addLore("&eLeft-Click: &fRun function")
-                        .onLeftClick((menuView, event) -> function.run(menuView.getViewer()))
+                        .onLeftClick((menuView, player, event) -> function.run(player))
                         .buildButton())
                 .toList();
     }

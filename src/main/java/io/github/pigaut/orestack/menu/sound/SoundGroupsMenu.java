@@ -26,7 +26,7 @@ public class SoundGroupsMenu extends FramedSelectionMenu {
                         .withDisplay("&3&l" + StringFormatter.toTitleCase(group))
                         .addLore("")
                         .addLore("&eLeft-Click: &fView all sound effects")
-                        .onLeftClick((menuView, event) -> menuView.getViewer().openMenu(new SoundsMenu(plugin, group)))
+                        .onLeftClick((view, player, event) -> player.openMenu(new SoundsMenu(plugin, group)))
                         .buildButton())
                 .toList();
     }
