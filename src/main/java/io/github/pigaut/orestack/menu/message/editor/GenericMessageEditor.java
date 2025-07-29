@@ -12,16 +12,11 @@ import org.jetbrains.annotations.*;
 
 public class GenericMessageEditor extends FramedEditorMenu {
 
-    protected final ConfigSection config;
-    protected final String name;
     protected final ConfigSection messageSection;
 
-    public GenericMessageEditor(@NotNull EnhancedPlugin plugin, @NotNull String title,
-                                @NotNull ConfigSection config, @NotNull String name) {
-        super(plugin, config.getRoot(), title, MenuSize.BIG);
-        this.config = config;
-        this.name = name;
-        messageSection = config.getSectionOrCreate(name);
+    public GenericMessageEditor(@NotNull String title, @NotNull ConfigSection messageSection) {
+        super(messageSection.getRoot(), title, MenuSize.BIG);
+        this.messageSection = messageSection;
     }
 
     @Override

@@ -10,9 +10,9 @@ import org.jetbrains.annotations.*;
 
 public class TitleEditor extends GenericMessageEditor {
 
-    public TitleEditor(EnhancedPlugin plugin, ConfigSection config, String name) {
-        super(plugin, "Edit Title", config, name);
-        messageSection.set("type", "title");
+    public TitleEditor(ConfigSection messageSection) {
+        super("Edit Title", messageSection);
+        this.messageSection.set("type", "title");
     }
 
     @Override

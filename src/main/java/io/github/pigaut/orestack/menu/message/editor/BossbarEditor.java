@@ -14,10 +14,10 @@ public class BossbarEditor extends GenericMessageEditor {
 
     private final ConfigSequence progressSequence;
 
-    public BossbarEditor(EnhancedPlugin plugin, ConfigSection config, String name) {
-        super(plugin, "Edit Boss Bar", config, name);
-        messageSection.set("type", "bossbar");
-        progressSequence = messageSection.getSequenceOrCreate("progress");
+    public BossbarEditor(ConfigSection messageSection) {
+        super("Edit Boss Bar", messageSection);
+        this.messageSection.set("type", "bossbar");
+        progressSequence = this.messageSection.getSequenceOrCreate("progress");
     }
 
     @Override

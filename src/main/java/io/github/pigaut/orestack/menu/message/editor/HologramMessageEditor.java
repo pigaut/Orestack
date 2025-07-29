@@ -11,8 +11,8 @@ import org.jetbrains.annotations.*;
 
 public class HologramMessageEditor extends GenericMessageEditor {
 
-    public HologramMessageEditor(EnhancedPlugin plugin, @NotNull ConfigSection config, @NotNull String name) {
-        super(plugin, "Edit Hologram Message", config, name);
+    public HologramMessageEditor(ConfigSection messageSection) {
+        super("Edit Hologram Message", messageSection);
         messageSection.set("type", "hologram");
         if (!messageSection.isSection("hologram") && !messageSection.isSequence("hologram")) {
             messageSection.getSectionOrCreate("hologram");
