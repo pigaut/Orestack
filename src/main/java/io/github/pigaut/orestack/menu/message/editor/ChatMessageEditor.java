@@ -10,8 +10,8 @@ import org.jetbrains.annotations.*;
 
 public class ChatMessageEditor extends GenericMessageEditor {
 
-    public ChatMessageEditor(EnhancedPlugin plugin, ConfigSection config, String name) {
-        super(plugin, "Edit Chat Message", config, name);
+    public ChatMessageEditor(ConfigSection messageSection) {
+        super("Edit Chat Message", messageSection);
         messageSection.set("type", "chat");
     }
 

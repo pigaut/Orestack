@@ -94,9 +94,7 @@ public class OrestackMenu extends FixedMenu {
 
         buttons[48] = Button.builder()
                 .withType(Material.GOLDEN_PICKAXE)
-                .withDisplay("&f&lWand")
-                .addLore("")
-                .addLore("&eLeft-Click: &fGet a wand")
+                .withDisplay("&fWand")
                 .enchanted(true)
                 .onLeftClick((view, player, event) -> player.performCommand("orestack wand"))
                 .buildButton();

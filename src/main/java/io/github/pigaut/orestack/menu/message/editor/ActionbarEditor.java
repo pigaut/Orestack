@@ -9,8 +9,8 @@ import org.jetbrains.annotations.*;
 
 public class ActionbarEditor extends GenericMessageEditor {
 
-    public ActionbarEditor(EnhancedPlugin plugin, ConfigSection config, String name) {
-        super(plugin, "Edit Action Bar", config, name);
+    public ActionbarEditor(ConfigSection messageSection) {
+        super("Edit Action Bar", messageSection);
         messageSection.set("type", "actionbar");
     }
 

@@ -61,11 +61,12 @@ public class MessageSelectionMenu extends FramedSelectionMenu {
                     .onLeftClick((view, player, event) -> {
                         final PlayerState viewer = view.getViewer();
                         switch (message.getType()) {
-                            case CHAT -> viewer.openMenu(new ChatMessageEditor(plugin, config, name));
-                            case ACTIONBAR -> viewer.openMenu(new ActionbarEditor(plugin, config, name));
-                            case TITLE -> viewer.openMenu(new TitleEditor(plugin, config, name));
-                            case BOSSBAR -> viewer.openMenu(new BossbarEditor(plugin, config, name));
-                            case HOLOGRAM -> viewer.openMenu(new HologramMessageEditor(plugin, config, name));
+                            case CHAT -> viewer.openMenu(new ChatMessageEditor(config.getSectionOrCreate(name)));
+                            case ACTIONBAR -> viewer.openMenu(new ActionbarEditor(config.getSectionOrCreate(name)));
+                            case TITLE -> viewer.openMenu(new TitleEditor(config.getSectionOrCreate(name)));
+                            case BOSSBAR -> viewer.openMenu(new BossbarEditor(config.getSectionOrCreate(name)));
+                            case HOLOGRAM -> viewer.openMenu(new HologramMessageEditor(config.getSectionOrCreate(name)));
+                            case MULTI -> viewer.openMenu(new MultiMessageEditor(config.getSequenceOrCreate(name)));
                         }
                     })
                     .onRightClick((view, player, event) -> {
@@ -80,11 +81,18 @@ public class MessageSelectionMenu extends FramedSelectionMenu {
 
         entries.add(Button.builder()
                 .withType(Material.LIME_DYE)
-                .withDisplay("&f&lAdd New Message")
+                .withDisplay("&f&lCreate New Message")
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo create a new message in the " + group + " group")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> player.openMenu(new MessageCreationMenu(plugin, config)))
+                .onLeftClick((view, player, event) -> {
+                    player.createChatInput()
+                            .withDescription("Enter message name in chat")
+                            .onInput(input -> {
+                                player.openMenu(new MessageCreationMenu(config.getSectionOrCreate(input), true), view);
+                            })
+                            .collect();
+                })
                 .buildButton());
 
         return entries;

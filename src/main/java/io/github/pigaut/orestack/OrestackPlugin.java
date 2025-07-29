@@ -100,12 +100,18 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return List.of(
                 "items/misc.yml",
                 "messages/misc.yml",
+
                 "effects/particles/misc.yml",
                 "effects/particles/flame.yml",
                 "effects/sounds/misc.yml",
+
                 "functions/misc.yml",
-                "functions/tools.yml",
                 "functions/trees.yml",
+                "functions/tools/axe.yml",
+                "functions/tools/hoe.yml",
+                "functions/tools/misc.yml",
+                "functions/tools/pickaxe.yml",
+                "functions/tools/shovel.yml",
 
                 "generators/example.yml",
 
