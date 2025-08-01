@@ -55,7 +55,7 @@ orestack-menu-command: 'Open the main menu'
 ## Placeholders: {item-name}, {item-group}
 ## Descriptions
 item-command: ''
-item-add-command: 'Save the item you''re holding to a yaml file'
+item-save-command: 'Save the item you''re holding to a yaml file'
 item-get-command: 'Get the item with the given name'
 item-get-group-command: 'Get all items of a group'
 ## Errors
@@ -65,7 +65,7 @@ not-holding-item: '&4You need to hold an item to use this command'
 item-not-found: '&4Could not find an item with name: {item-name}'
 item-group-not-found: '&4Could not find an item group with name: {item-group}'
 ## Success
-adding-item: '&aAdding {item-name} item to "{file-path}" file...'
+saved-item: '&aSaving {item-name} item to "{file-path}" file...'
 received-item: '&aYou received x1 {item-name} item'
 received-item-group: '&aYou received all {item-group} items'
 
