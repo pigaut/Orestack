@@ -28,7 +28,7 @@
                                     <shadedPattern>io.github.pigaut.orestack.voxel</shadedPattern>
                                 </relocation>
                             </relocations>
-                            <outputFile>D:\files\Development\java\spigot\servers\1.21.8\plugins\Orestack-${project.version}.jar</outputFile>
+                            <outputFile>D:\files\Development\java\spigot\servers\1.21.8\plugins\Orestack[free]-${project.version}.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>
