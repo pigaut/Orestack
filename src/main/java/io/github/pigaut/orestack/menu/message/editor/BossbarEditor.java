@@ -37,7 +37,7 @@ public class BossbarEditor extends GenericMessageEditor {
                             })
                             .collect();
                 });
-        final String title = messageSection.getOptionalString("title", StringColor.FORMATTER).orElse("");
+        final String title = messageSection.getOptionalString("title", StringColor.FORMATTER).orElse("none");
         titleButton.addLore("")
                 .addLore("&f" + title)
                 .addLore("")

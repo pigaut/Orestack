@@ -17,12 +17,12 @@ import org.jetbrains.annotations.*;
 import java.io.*;
 import java.util.*;
 
-public class MessageSelectionMenu extends FramedSelectionMenu {
+public class MessagesMenu extends FramedSelectionMenu {
 
     private final String group;
     private final RootSection config;
 
-    public MessageSelectionMenu(EnhancedPlugin plugin, String group) {
+    public MessagesMenu(EnhancedPlugin plugin, String group) {
         super(plugin, StringFormatter.toTitleCase(group) + " Messages", MenuSize.BIG);
         this.group = group;
         final File file = PathGroup.getFile(plugin, "messages", group);
@@ -41,7 +41,7 @@ public class MessageSelectionMenu extends FramedSelectionMenu {
     public @Nullable Button[] createButtons() {
         final Button[] buttons = super.createButtons();
 
-        buttons[38] = new ConfigLoadButton(config);
+        buttons[41] = new ConfigLoadButton(config);
 
         return buttons;
     }
@@ -81,9 +81,7 @@ public class MessageSelectionMenu extends FramedSelectionMenu {
 
         entries.add(Button.builder()
                 .withType(Material.LIME_DYE)
-                .withDisplay("&f&lCreate New Message")
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo create a new message in the " + group + " group")
+                .withDisplay("&2Create New Message")
                 .enchanted(true)
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
@@ -96,6 +94,11 @@ public class MessageSelectionMenu extends FramedSelectionMenu {
                 .buildButton());
 
         return entries;
+    }
+
+    @Override
+    public Button getToolbarButton4() {
+        return Buttons.MAIN_MENU;
     }
 
 }

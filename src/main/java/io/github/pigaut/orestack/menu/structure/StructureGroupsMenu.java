@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.menu.structure;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
+import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.yaml.parser.*;
 import org.bukkit.*;
@@ -30,4 +31,5 @@ public class StructureGroupsMenu extends FramedSelectionMenu {
                         .buildButton())
                 .toList();
     }
+
 }

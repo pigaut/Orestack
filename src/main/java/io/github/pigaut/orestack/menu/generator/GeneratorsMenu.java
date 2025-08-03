@@ -5,6 +5,7 @@ import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
+import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.yaml.parser.*;
 
@@ -36,6 +37,11 @@ public class GeneratorsMenu extends FramedSelectionMenu {
                             .buildButton();
                 })
                 .toList();
+    }
+
+    @Override
+    public Button getToolbarButton4() {
+        return Buttons.MAIN_MENU;
     }
 
 }

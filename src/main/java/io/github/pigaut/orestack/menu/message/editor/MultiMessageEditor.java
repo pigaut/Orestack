@@ -4,18 +4,20 @@ import io.github.pigaut.orestack.menu.message.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
+import io.github.pigaut.voxel.menu.template.menu.editor.*;
+import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.parser.*;
 import org.bukkit.*;
 
 import java.util.*;
 
-public class MultiMessageEditor extends FramedSelectionMenu {
+public class MultiMessageEditor extends FramedSelectionEditor {
 
     private final ConfigSequence messageSequence;
 
     public MultiMessageEditor(ConfigSequence messageSequence) {
-        super("Edit Multi-Message", MenuSize.BIG);
+        super(messageSequence.getRoot(), "Edit Multi-Message", MenuSize.BIG);
         this.messageSequence = messageSequence;
     }
 
@@ -24,7 +26,12 @@ public class MultiMessageEditor extends FramedSelectionMenu {
         final List<Button> buttons = new ArrayList<>();
 
         for (int i = 0; i < messageSequence.size(); i++) {
-            ConfigSection hologramSection = messageSequence.getSectionOrCreate(i);
+            ConfigSection messageSection = messageSequence.getSectionOrCreate(i);
+
+            if (!messageSection.isSet("type")) {
+                messageSequence.remove(i--);
+                continue;
+            }
 
             final int messageIndex = i;
             ButtonBuilder messageButton = Button.builder()
@@ -38,26 +45,34 @@ public class MultiMessageEditor extends FramedSelectionMenu {
                         view.update();
                     });
 
-            switch (hologramSection.getString("type", StringStyle.CONSTANT)) {
+            switch (messageSection.getString("type", StringStyle.CONSTANT)) {
                 case "CHAT" -> messageButton
                         .withType(Material.BOOK)
-                        .onLeftClick((view, player, event) -> player.openMenu(new ChatMessageEditor(hologramSection)));
+                        .withDisplay(messageSection.getOptionalString("message", StringColor.FORMATTER).orElse("none"))
+                        .onLeftClick((view, player, event) -> player.openMenu(new ChatMessageEditor(messageSection)));
 
                 case "ACTIONBAR" -> messageButton
                         .withType(Material.NAME_TAG)
-                        .onLeftClick((view, player, event) -> player.openMenu(new ActionbarEditor(hologramSection)));
+                        .withDisplay(messageSection.getOptionalString("message", StringColor.FORMATTER).orElse("none"))
+                        .onLeftClick((view, player, event) -> player.openMenu(new ActionbarEditor(messageSection)));
 
                 case "TITLE" -> messageButton
                         .withType(Material.MAP)
-                        .onLeftClick((view, player, event) -> player.openMenu(new TitleEditor(hologramSection)));
+                        .withDisplay(messageSection.getOptionalString("title", StringColor.FORMATTER).orElse("none"))
+                        .onLeftClick((view, player, event) -> player.openMenu(new TitleEditor(messageSection)));
 
                 case "BOSSBAR" -> messageButton
                         .withType(Material.DRAGON_HEAD)
-                        .onLeftClick((view, player, event) -> player.openMenu(new BossbarEditor(hologramSection)));
+                        .withDisplay(messageSection.getOptionalString("title", StringColor.FORMATTER).orElse("none"))
+                        .onLeftClick((view, player, event) -> player.openMenu(new BossbarEditor(messageSection)));
 
                 case "HOLOGRAM" -> messageButton
-                        .withType(Material.BEACON)
-                        .onLeftClick((view, player, event) -> player.openMenu(new HologramMessageEditor(hologramSection)));
+                            .withType(Material.BEACON)
+                            .withDisplay(messageSection.getOptionalSequence("hologram.frames")
+                                    .map(frameSequence -> frameSequence.toStringList(StringColor.FORMATTER).stream().max(Comparator.comparingInt(String::length)))
+                                    .orElse(messageSection.getOptionalString("hologram.text", StringColor.FORMATTER))
+                                    .orElse("none"))
+                            .onLeftClick((view, player, event) -> player.openMenu(new HologramMessageEditor(messageSection)));
             }
 
             buttons.add(messageButton.buildButton());
@@ -66,9 +81,7 @@ public class MultiMessageEditor extends FramedSelectionMenu {
         ButtonBuilder createMessageButton = Button.builder()
                 .withType(Material.LIME_DYE)
                 .enchanted(true)
-                .withDisplay("&a&lCreate New Message")
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo add a new message")
+                .withDisplay("&2Create New Message")
                 .onLeftClick((view, player, event) -> {
                     final MessageCreationMenu messageCreationMenu = new MessageCreationMenu(messageSequence.addSection(), false);
                     player.openMenu(messageCreationMenu);

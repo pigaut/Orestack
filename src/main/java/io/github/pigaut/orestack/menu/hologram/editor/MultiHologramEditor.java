@@ -9,7 +9,7 @@ import org.bukkit.*;
 
 import java.util.*;
 
-public class MultiHologramEditor extends FramedSelectionEditorMenu {
+public class MultiHologramEditor extends FramedSelectionEditor {
 
     private final ConfigSequence hologramSequence;
 
