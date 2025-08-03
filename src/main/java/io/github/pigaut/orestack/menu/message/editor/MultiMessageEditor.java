@@ -80,12 +80,8 @@ public class MultiMessageEditor extends FramedSelectionMenu {
         ButtonBuilder createMessageButton = Button.builder()
                 .withType(Material.LIME_DYE)
                 .enchanted(true)
-                .withDisplay("&a&lCreate New Message")
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo add a new message")
+                .withDisplay("&2Create New Message")
                 .onLeftClick((view, player, event) -> {
-                    System.out.println(player.getOpenMenu());
-                    System.out.println(player.getOpenMenu() != null ? player.getOpenMenu().getMenu().getTitle() : "NONE");
                     final MessageCreationMenu messageCreationMenu = new MessageCreationMenu(messageSequence.addSection(), false);
                     player.openMenu(messageCreationMenu);
                 });

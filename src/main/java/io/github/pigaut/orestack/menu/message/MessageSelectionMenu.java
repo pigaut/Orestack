@@ -81,9 +81,7 @@ public class MessageSelectionMenu extends FramedSelectionMenu {
 
         entries.add(Button.builder()
                 .withType(Material.LIME_DYE)
-                .withDisplay("&f&lCreate New Message")
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo create a new message in the " + group + " group")
+                .withDisplay("&2Create New Message")
                 .enchanted(true)
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
