@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.generator.template;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.voxel.plugin.manager.*;
+import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.node.sequence.*;
 import org.jetbrains.annotations.*;
 
@@ -28,7 +29,11 @@ public class GeneratorTemplateManager extends ManagerContainer<GeneratorTemplate
         config.load();
 
         final GeneratorTemplate template = config.load(GeneratorTemplate.class);
-        this.add(template);
+        try {
+            add(template);
+        } catch (DuplicateElementException e) {
+            throw new InvalidConfigurationException(config, e.getMessage());
+        }
     }
 
 }
