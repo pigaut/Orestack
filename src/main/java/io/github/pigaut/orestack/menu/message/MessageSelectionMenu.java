@@ -41,7 +41,7 @@ public class MessageSelectionMenu extends FramedSelectionMenu {
     public @Nullable Button[] createButtons() {
         final Button[] buttons = super.createButtons();
 
-        buttons[38] = new ConfigLoadButton(config);
+        buttons[41] = new ConfigLoadButton(config);
 
         return buttons;
     }

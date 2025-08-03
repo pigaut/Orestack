@@ -67,7 +67,7 @@ public class MultiMessageEditor extends FramedSelectionMenu {
 
                 case "HOLOGRAM" -> messageButton
                             .withType(Material.BEACON)
-                            .withDisplay(messageSection.getOptionalSequence("frames")
+                            .withDisplay(messageSection.getOptionalSequence("hologram.frames")
                                     .map(frameSequence -> frameSequence.toStringList(StringColor.FORMATTER).stream().max(Comparator.comparingInt(String::length)))
                                     .orElse(messageSection.getOptionalString("hologram.text", StringColor.FORMATTER))
                                     .orElse("none"))
