@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.menu.sound;
 
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
+import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.parser.*;
@@ -34,4 +35,10 @@ public class SoundsMenu extends FramedSelectionMenu {
                         .buildButton())
                 .toList();
     }
+
+    @Override
+    public Button getToolbarButton4() {
+        return Buttons.MAIN_MENU;
+    }
+
 }

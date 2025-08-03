@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.menu.message;
 import io.github.pigaut.orestack.menu.message.editor.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
+import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.*;
@@ -23,6 +24,11 @@ public class MessageCreationMenu extends FramedMenu {
     @Override
     public boolean backOnClose() {
         return true;
+    }
+
+    @Override
+    public Button getToolbarButton4() {
+        return Buttons.GRAY_PANEL;
     }
 
     @Override

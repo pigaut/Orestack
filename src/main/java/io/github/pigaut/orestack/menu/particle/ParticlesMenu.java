@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.menu.particle;
 import io.github.pigaut.voxel.core.particle.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
+import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
@@ -41,4 +42,10 @@ public class ParticlesMenu extends FramedSelectionMenu {
                         .buildButton())
                 .toList();
     }
+
+    @Override
+    public Button getToolbarButton4() {
+        return Buttons.MAIN_MENU;
+    }
+
 }

@@ -10,7 +10,7 @@ import io.github.pigaut.yaml.parser.deserializer.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
-public class GenericMessageEditor extends FramedEditorMenu {
+public class GenericMessageEditor extends FramedEditor {
 
     protected final ConfigSection messageSection;
 

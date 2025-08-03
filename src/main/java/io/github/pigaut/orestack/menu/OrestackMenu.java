@@ -9,11 +9,12 @@ import io.github.pigaut.orestack.menu.particle.*;
 import io.github.pigaut.orestack.menu.sound.*;
 import io.github.pigaut.orestack.menu.structure.*;
 import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.menu.fixed.*;
 import io.github.pigaut.voxel.menu.template.button.*;
+import io.github.pigaut.voxel.menu.template.menu.*;
 import org.bukkit.*;
+import scala.concurrent.impl.*;
 
-public class OrestackMenu extends FixedMenu {
+public class OrestackMenu extends FramedMenu {
 
     private final OrestackPlugin plugin;
 
@@ -25,9 +26,6 @@ public class OrestackMenu extends FixedMenu {
     @Override
     public Button[] createButtons() {
         final Button[] buttons = super.createButtons();
-
-        ButtonLayout.apply(buttons, Buttons.GRAY_PANEL, 0, 1, 7, 8, 9, 17, 18,
-                26, 27, 35, 36, 37, 43, 44, 45, 46, 47, 51, 52, 53);
 
         buttons[11] = Button.builder()
                 .withType(Material.ITEM_FRAME)
@@ -99,10 +97,14 @@ public class OrestackMenu extends FixedMenu {
                 .onLeftClick((view, player, event) -> player.performCommand("orestack wand"))
                 .buildButton();
 
-        buttons[49] = new CloseMenuButton();
         buttons[50] = new PluginReloadButton(plugin);
 
         return buttons;
+    }
+
+    @Override
+    public Button getToolbarButton5() {
+        return Buttons.CLOSE;
     }
 
 }

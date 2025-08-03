@@ -4,6 +4,7 @@ import io.github.pigaut.orestack.menu.message.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
+import io.github.pigaut.voxel.menu.template.menu.editor.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.parser.*;
@@ -11,12 +12,12 @@ import org.bukkit.*;
 
 import java.util.*;
 
-public class MultiMessageEditor extends FramedSelectionMenu {
+public class MultiMessageEditor extends FramedSelectionEditor {
 
     private final ConfigSequence messageSequence;
 
     public MultiMessageEditor(ConfigSequence messageSequence) {
-        super("Edit Multi-Message", MenuSize.BIG);
+        super(messageSequence.getRoot(), "Edit Multi-Message", MenuSize.BIG);
         this.messageSequence = messageSequence;
     }
 

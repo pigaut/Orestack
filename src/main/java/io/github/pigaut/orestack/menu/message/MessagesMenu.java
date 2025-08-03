@@ -17,12 +17,12 @@ import org.jetbrains.annotations.*;
 import java.io.*;
 import java.util.*;
 
-public class MessageSelectionMenu extends FramedSelectionMenu {
+public class MessagesMenu extends FramedSelectionMenu {
 
     private final String group;
     private final RootSection config;
 
-    public MessageSelectionMenu(EnhancedPlugin plugin, String group) {
+    public MessagesMenu(EnhancedPlugin plugin, String group) {
         super(plugin, StringFormatter.toTitleCase(group) + " Messages", MenuSize.BIG);
         this.group = group;
         final File file = PathGroup.getFile(plugin, "messages", group);
@@ -94,6 +94,11 @@ public class MessageSelectionMenu extends FramedSelectionMenu {
                 .buildButton());
 
         return entries;
+    }
+
+    @Override
+    public Button getToolbarButton4() {
+        return Buttons.MAIN_MENU;
     }
 
 }

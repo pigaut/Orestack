@@ -8,7 +8,7 @@ import io.github.pigaut.yaml.parser.deserializer.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
-public class GenericHologramEditor extends FramedEditorMenu {
+public class GenericHologramEditor extends FramedEditor {
 
     protected final ConfigSection hologramSection;
 
