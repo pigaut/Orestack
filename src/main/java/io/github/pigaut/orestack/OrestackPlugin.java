@@ -41,7 +41,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public boolean isPremium() {
-        return true;
+        return false;
     }
 
     @Override
