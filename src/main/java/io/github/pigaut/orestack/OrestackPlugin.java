@@ -40,6 +40,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
+    public boolean isPremium() {
+        return true;
+    }
+
+    @Override
     public @NotNull List<SpigotVersion> getCompatibleVersions() {
         return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_16_5);
     }
