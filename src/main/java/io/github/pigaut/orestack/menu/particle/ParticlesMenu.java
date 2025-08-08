@@ -1,11 +1,9 @@
 package io.github.pigaut.orestack.menu.particle;
 
-import io.github.pigaut.voxel.core.particle.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
-import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.parser.*;
 import org.bukkit.*;
@@ -35,9 +33,7 @@ public class ParticlesMenu extends FramedSelectionMenu {
                             view.close();
                             player.performCommand("orestack particle show-me " + particle.getName());
                             player.sendMessage(ChatColor.RED + "The menu will reopen in 3 seconds...");
-                            plugin.getScheduler().runTaskLater(60L, () -> {
-                                view.open();
-                            });
+                            plugin.getScheduler().runTaskLater(60L, view::open);
                         })
                         .buildButton())
                 .toList();
