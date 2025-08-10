@@ -36,6 +36,7 @@ bossbar:
 hologram:
   type: hologram
   hologram:
+    type: static
     text: '&a&l+1 Emerald'
     offset: { y: 0.5 }
   duration: 30

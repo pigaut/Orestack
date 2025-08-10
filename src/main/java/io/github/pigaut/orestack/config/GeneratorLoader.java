@@ -7,6 +7,7 @@ import io.github.pigaut.voxel.core.function.interact.block.*;
 import io.github.pigaut.voxel.core.structure.*;
 import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.plugin.manager.*;
+import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.loader.*;
 import org.bukkit.*;
@@ -104,7 +105,11 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         final Function onBreak = config.getOptional("on-break", Function.class).orElse(null);
         final Function onGrowth = config.getOptional("on-growth", Function.class).orElse(null);
         final BlockClickFunction onClick = config.getOptional("on-click", BlockClickFunction.class).orElse(null);
-        final Hologram hologram = config.getOptional("hologram", Hologram.class).orElse(null);
+
+        Hologram hologram = null;
+        if (SpigotServer.isPluginEnabled("DecentHolograms")) {
+            hologram = config.getOptional("hologram", Hologram.class).orElse(null);
+        }
 
         if (growthTime < 0) {
             throw new InvalidConfigurationException(config, "growth", "The growth timer must be a positive number");

@@ -14,10 +14,13 @@ type: harvestable
 block: horn_coral_block
 growth: 50
 hologram:
-  - offset.y: 0.75
+  - type: static
     text: '&6&lBreak-To:'
-  - offset.y: 0.5
+    offset.y: 1
+
+  - type: static
     text: '&eDrop exp at 0, 100, 0'
+    offset.y: 0.75
 
 on-break:
   do: dropExp 10 20 <0, 100, 0>
@@ -33,10 +36,13 @@ type: harvestable
 block: horn_coral_block
 growth: 50
 hologram:
-  - offset.y: 0.75
+  - type: static
     text: '&6&lBreak-To:'
-  - offset.y: 0.5
+    offset.y: 1
+
+  - type: static
     text: '&eDrop exp at player'
+    offset.y: 0.75
 
 on-break:
   do: dropExpAtPlayer 10-20 10-20
@@ -51,10 +57,13 @@ on-break:
 type: replenished
 block: horn_coral_block
 hologram:
-  - offset.y: 0.75
+  - type: static
     text: '&6&lBreak-To:'
-  - offset.y: 0.5
+    offset.y: 1
+
+  - type: static
     text: '&eDrop exp at block'
+    offset.y: 0.75
 
 on-break:
   do: dropExpAtBlock 10 10-20

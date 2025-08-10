@@ -8,7 +8,8 @@ block: iron_block
 growth: 40  # Time in ticks to grow to the next stage
 
 hologram:
-  offset: { x: 0, y: 0.5, z: 0 }
+  type: animated
+  offset: { x: 0, y: 1, z: 0 }
   update: 10  # 40 ticks of growth divided into 4 frames (40 / 4 = 10)
   frames:
     - '&a[]&7[][][]'
@@ -40,8 +41,9 @@ growth: 60
 chance: 0.8  # 80% chance to spawn, otherwise skips to the next stage
 
 hologram:
-  - update: 3
-    offset: { x: 0, y: 0.75, z: 0 }
+  - type: animated
+    update: 3
+    offset: { x: 0, y: 1, z: 0 }
     frames:
       - "&6&lG"
       - "&6&lGo"
@@ -60,8 +62,9 @@ hologram:
       - "&6&lGol"
       - "&6&lGo"
       - "&6&lG"
-  - text: "&eright-click"
-    offset: { x: 0, y: 0.5, z: 0 }
+  - type: static
+    text: "&eright-click"
+    offset: { x: 0, y: 0.75, z: 0 }
 
 on-click:
   click: right_click_block
@@ -98,10 +101,13 @@ type: harvestable
 block: diamond_block
 growth: 80
 drop-items: false
+
 hologram:
+  type: static
   update: 3
-  offset: { x: 0, y: 0.5, z: 0 }
+  offset: { x: 0, y: 1, z: 0 }
   text: "&b&lDiamond [{generator_timer_seconds}s]"
+
 on-break:
   - do:
       - giveItem diamond
@@ -130,10 +136,12 @@ drop-items: false
 exp-to-drop: 100  # Set to 0 for no experience drops, if not set, the default amount will drop
 
 hologram:
-  - text: "&2&lEmerald"
+  - type: static
+    text: "&2&lEmerald"
+    offset: { y: 1 }
+  - type: static
+    text: "&a[Replenished]"
     offset: { y: 0.75 }
-  - text: "&a[Replenished]"
-    offset: { y: 0.5 }
 
 on-break:
   - if: hasPermission orestack.generator.harvest

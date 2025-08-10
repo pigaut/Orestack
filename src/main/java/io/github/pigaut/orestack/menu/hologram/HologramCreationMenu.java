@@ -38,7 +38,7 @@ public class HologramCreationMenu extends FramedMenu {
                 .enchanted(true)
                 .onLeftClick((view, player, event) -> {
                     ConfigSection hologramSection = config.getSectionOrCreate("hologram");
-                    player.openMenu(new FixedHologramEditor(hologramSection), view.getPreviousView());
+                    player.openMenu(new StaticHologramEditor(hologramSection), view.getPreviousView());
                 })
                 .buildButton();
 

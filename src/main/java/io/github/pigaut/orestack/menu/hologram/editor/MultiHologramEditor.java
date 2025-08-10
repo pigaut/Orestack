@@ -14,7 +14,7 @@ public class MultiHologramEditor extends FramedSelectionEditor {
     private final ConfigSequence hologramSequence;
 
     public MultiHologramEditor(ConfigSequence hologramSequence) {
-        super(hologramSequence.getRoot(), "Edit Holograms", MenuSize.BIG);
+        super(hologramSequence.getRoot(), "Edit Hologram Lines", MenuSize.BIG);
         this.hologramSequence = hologramSequence;
     }
 
@@ -41,7 +41,7 @@ public class MultiHologramEditor extends FramedSelectionEditor {
             if (!animated) {
                 hologramButton.withType(Material.PAINTING)
                         .withDisplay(hologramSection.getOptionalString("text", StringColor.FORMATTER).orElse("none"))
-                        .onLeftClick((view, player, event) -> player.openMenu(new FixedHologramEditor(hologramSection)));
+                        .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSection)));
             }
             else {
                 hologramButton.withType(Material.ITEM_FRAME)
@@ -59,7 +59,7 @@ public class MultiHologramEditor extends FramedSelectionEditor {
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo add a new fixed line")
                 .addLore("&6Right-Click: &fTo add a new animated line")
-                .onLeftClick((view, player, event) -> player.openMenu(new FixedHologramEditor(hologramSequence.addSection())))
+                .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSequence.addSection())))
                 .onRightClick((view, player, event) -> player.openMenu(new AnimatedHologramEditor(hologramSequence.addSection())));
 
         buttons.add(addHologramLine.buildButton());

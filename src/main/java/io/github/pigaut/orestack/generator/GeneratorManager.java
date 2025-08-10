@@ -19,7 +19,7 @@ import java.util.concurrent.*;
 public class GeneratorManager extends Manager {
 
     private final OrestackPlugin plugin;
-    private final List<Generator> generators = new ArrayList<>();
+    private final Set<Generator> generators = new HashSet<>();
     private final Map<Location, Generator> generatorBlocks = new ConcurrentHashMap<>();
 
     public GeneratorManager(OrestackPlugin plugin) {
@@ -36,7 +36,7 @@ public class GeneratorManager extends Manager {
             }
             final HologramDisplay hologramDisplay = blockGenerator.getCurrentHologram();
             if (hologramDisplay != null) {
-                hologramDisplay.despawn();
+                hologramDisplay.destroy();
             }
         }
     }
@@ -132,6 +132,8 @@ public class GeneratorManager extends Manager {
                 "PRIMARY KEY (world, x, y, z)"
         );
 
+        database.clearTable("resources");
+
         final DatabaseStatement insertStatement = database.merge("resources", "world, x, y, z",
                 "world", "x", "y", "z", "generator", "rotation", "stage");
 
@@ -146,6 +148,7 @@ public class GeneratorManager extends Manager {
             insertStatement.withParameter(generator.getCurrentStageId());
             insertStatement.addBatch();
         }
+
         insertStatement.executeBatch();
     }
 
@@ -175,15 +178,17 @@ public class GeneratorManager extends Manager {
 
     public void unregisterGenerator(@NotNull Generator generator) {
         generators.remove(generator);
+
         for (Block block : generator.getAllOccupiedBlocks()) {
             generatorBlocks.remove(block.getLocation());
         }
+
         final BlockStructure structure = generator.getCurrentStage().getStructure();
         structure.removeBlocks(generator.getOrigin(), generator.getRotation());
 
         final HologramDisplay hologram = generator.getCurrentHologram();
         if (hologram != null && hologram.exists()) {
-            hologram.despawn();
+            hologram.destroy();
         }
     }
 

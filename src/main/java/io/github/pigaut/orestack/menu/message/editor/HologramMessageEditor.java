@@ -3,7 +3,6 @@ package io.github.pigaut.orestack.menu.message.editor;
 import io.github.pigaut.orestack.menu.hologram.*;
 import io.github.pigaut.orestack.menu.hologram.editor.*;
 import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.parser.deserializer.*;
 import org.bukkit.*;
@@ -39,7 +38,7 @@ public class HologramMessageEditor extends GenericMessageEditor {
             }
             else {
                 hologramButton.withDisplay("&f&lFixed Hologram")
-                        .onLeftClick((view, player, event) -> player.openMenu(new FixedHologramEditor(hologramSection)));
+                        .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSection)));
             }
         }
         else {
