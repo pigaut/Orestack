@@ -13,6 +13,7 @@ public class AnimatedHologramEditor extends GenericHologramEditor {
 
     public AnimatedHologramEditor(ConfigSection hologramSection) {
         super(hologramSection);
+        hologramSection.set("type", "animated");
         frameSequence = hologramSection.getSequenceOrCreate("frames");
     }
 

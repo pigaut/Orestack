@@ -6,11 +6,11 @@ import io.github.pigaut.yaml.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
-public class FixedHologramEditor extends GenericHologramEditor {
+public class StaticHologramEditor extends GenericHologramEditor {
 
-    public FixedHologramEditor(ConfigSection hologramSection) {
+    public StaticHologramEditor(ConfigSection hologramSection) {
         super(hologramSection);
-        hologramSection.remove("frames");
+        hologramSection.set("type", "static");
     }
 
     @Override

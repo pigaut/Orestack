@@ -340,7 +340,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         listeners.add(new BlockBreakListener(plugin));
         listeners.add(new BlockDestructionListener(plugin));
         listeners.add(new CropChangeListener(plugin));
-        listeners.add(new ChunkLoadListener(plugin));
         listeners.add(new GeneratorEventListener());
         if (SpigotServer.isPluginLoaded("WorldGuard")) {
             listeners.add(new WorldGuardListener(this));

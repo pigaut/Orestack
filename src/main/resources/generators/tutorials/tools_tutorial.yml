@@ -14,13 +14,15 @@ type: harvestable
 block: oak_log
 growth: 50
 hologram:
-  - offset.y: 0.75
+  - type: static
+    offset.y: 1
     text: '&b&lRequired Tool: &fAxe'
-  - offset.y: 0.5
+  - type: static
+    offset.y: 0.75
     text: '&f<right-click> to get'
 
 on-click:
-  click: right_click_block
+  action: right_click_block
   do: giveItemToPlayer iron_axe
 
 on-break:
@@ -40,13 +42,15 @@ block: diamond_ore
 growth: 50
 
 hologram:
-  - offset.y: 0.75
+  - type: static
+    offset.y: 1
     text: '&b&lRequired Tool: &fIron Pickaxe'
-  - offset.y: 0.5
+  - type: static
+    offset.y: 0.75
     text: '&f<right-click> to get'
 
 on-click:
-  click: right_click_block
+  action: right_click_block
   do: giveItemToPlayer iron_pickaxe
 
 on-break:
@@ -66,13 +70,15 @@ block: cobweb
 growth: 50
 
 hologram:
-  - offset.y: 0.75
+  - type: static
+    offset.y: 1
     text: '&b&lRequired Tool: &fWeb Cutter'
-  - offset.y: 0.5
+  - type: static
+    offset.y: 0.75
     text: '&f<right-click> to get'
 
 on-click:
-  click: right_click_block
+  action: right_click_block
   do: giveItemToPlayer web_cutter
 
 on-break:
@@ -92,13 +98,15 @@ block: slime_block
 growth: 50
 
 hologram:
-  - offset.y: 0.75
+  - type: static
+    offset.y: 1
     text: '&b&lRequired Tool: &fLegendary Axe'
-  - offset.y: 0.5
+  - type: static
+    offset.y: 0.75
     text: '&f<right-click> to get'
 
 on-click:
-  click: right_click_block
+  action: right_click_block
   do: giveItemToPlayer legendary_axe
 
 on-break:
@@ -118,13 +126,15 @@ on-break:
 type: replenished
 block: stone_bricks
 hologram:
-  - offset.y: 0.75
+  - type: static
+    offset.y: 1
     text: '&b&lRequired Tool: &fLore Katana'
-  - offset.y: 0.5
+  - type: static
+    offset.y: 0.75
     text: '&f<right-click> to get'
 
 on-click:
-  click: right_click_block
+  action: right_click_block
   do: giveItemToPlayer lore_katana
 
 on-break:

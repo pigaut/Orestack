@@ -8,11 +8,13 @@ block: bedrock
 growth: 40
 
 hologram:
+  # The hologram type: static, animated, item_display and block_display
+  type: static
   text: '&7&lDepleted'
   # Holograms do not spawn inside blocks adjust the offset until you see the hologram
   offset:
     x: 0
-    y: 0.5
+    y: 1
     z: 0
 
 # ============================
@@ -25,10 +27,11 @@ block: cobblestone
 growth: 40
 
 hologram:
+  type: static
   text: '&7&lCobblestone &7[{generator_timer_seconds}s]'
-  # Set the update timer (ticks) to refresh placeholders
+  # Set the update timer (ticks) to refresh placeholders of static holograms
   update: 3
-  offset: { x: 0, y: 0.5, z: 0 }
+  offset: { x: 0, y: 1, z: 0 }
 
 # ============================
 #         STAGE 2
@@ -40,6 +43,7 @@ block: iron_ore
 growth: 40
 
 hologram:
+  type: animated
   # Create an animation using a frame list
   frames:
     - '&8&lIron &7[{generator_timer_seconds}s]'
@@ -52,24 +56,54 @@ hologram:
 
   # Use update to set the speed of the animation
   update: 3
-  offset: { y: 0.5 }
+  offset: { y: 1 }
 
 # ============================
 #         STAGE 3
 # ============================
 
 ---
-type: replenished
+type: harvestable
 block: gold_ore
+growth: 40
+
+hologram:
+  type: item_display
+  item: iron_pickaxe
+  offset.y: 1
+
+# ============================
+#         STAGE 4
+# ============================
+
+---
+type: harvestable
+block: diamond_ore
+growth: 40
+
+hologram:
+  type: block_display
+  block: diamond_ore
+  offset.y: 1
+
+# ============================
+#         STAGE 5
+# ============================
+
+---
+type: replenished
+block: emerald_ore
 
 hologram:
   # Use a list of holograms to spawn more than one hologram
-  - text: "&f-- &6&lGold Ore &f--"
-    # One hologram line is 0.25 in height
-    offset.y: 0.75
+  - type: static
+    text: "&f-- &2&lEmerald Ore &f--"
+    # One hologram line is 0.25 in height, 0.20 will leave a little spacing
+    offset.y: 1
 
-  - frames:
-      - '&e<ready>'
+  - type: animated
+    frames:
+      - '&a<ready>'
       - '&f<ready>'
     update: 8
-    offset.y: 0.5
+    offset.y: 0.75

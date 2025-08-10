@@ -61,9 +61,10 @@ public class Generator implements PlaceholderSupplier {
         return create(template, origin, Rotation.NONE);
     }
 
-    public boolean exists() {
+    public boolean isValid() {
         for (Block block : getBlocks()) {
-            if (!plugin.getGenerators().isGenerator(block.getLocation())) {
+            final Generator generator = plugin.getGenerator(block.getLocation());
+            if (!this.equals(generator)) {
                 return false;
             }
         }
@@ -145,7 +146,7 @@ public class Generator implements PlaceholderSupplier {
     }
 
     public void setCurrentStage(int stage) {
-        if (!this.exists()) {
+        if (!this.isValid()) {
             return;
         }
         this.updating = true;
@@ -228,14 +229,13 @@ public class Generator implements PlaceholderSupplier {
         harvesting = false;
 
         if (currentHologram != null) {
-            currentHologram.despawn();
-            currentHologram = null;
+            currentHologram.destroy();
         }
 
         final Hologram hologram = stage.getHologram();
         if (hologram != null) {
             final Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
-            currentHologram = hologram.spawn(offsetLocation, rotation, false, this);
+            currentHologram = hologram.spawn(offsetLocation, rotation, this);
         }
 
         if (stage.getState() == GeneratorState.REPLENISHED) {
