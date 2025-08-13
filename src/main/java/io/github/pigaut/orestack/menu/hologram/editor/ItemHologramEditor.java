@@ -12,6 +12,7 @@ public class ItemHologramEditor extends GenericHologramEditor {
 
     public ItemHologramEditor(ConfigSection hologramSection) {
         super(hologramSection);
+        hologramSection.set("type", "item_display");
     }
 
     @Override

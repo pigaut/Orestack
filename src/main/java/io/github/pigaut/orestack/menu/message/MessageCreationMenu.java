@@ -87,8 +87,7 @@ public class MessageCreationMenu extends FramedMenu {
         buttons[15] = Button.builder()
                 .withType(Material.BEACON)
                 .enchanted(true)
-                .withDisplay("Hologram")
-                .addLore("&4Required Dependency: &cDecentHolograms")
+                .withDisplay("Hologram &c(Requires DecentHolograms)")
                 .addLore("")
                 .addLore("&eLeft-Click: &fCreate a new hologram message")
                 .onLeftClick((view, player, event) -> {

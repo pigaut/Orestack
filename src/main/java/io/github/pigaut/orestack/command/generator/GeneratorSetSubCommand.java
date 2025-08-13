@@ -24,12 +24,6 @@ public class GeneratorSetSubCommand extends SubCommand {
                 return;
             }
 
-            if (generator.getLastStage().getStructure().getBlockChanges().size() > 1
-                    && plugin.getGenerators().getLargeGeneratorsPlaced() >= 25) {
-                plugin.sendMessage(player, "large-generator-limit");
-                return;
-            }
-
             final Block targetBlock = player.getTargetBlockExact(6);
             if (targetBlock == null) {
                 plugin.sendMessage(player, "too-far-away", placeholders, generator);

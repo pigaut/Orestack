@@ -35,13 +35,13 @@ public class BlockHologramEditor extends GenericHologramEditor {
                                 return null;
                             })
                             .collectInput(input -> {
-                                hologramSection.set("text", input);
+                                hologramSection.set("block", input);
                                 view.open();
                             })
                             .beginCollection();
                 })
                 .addLore("")
-                .addLore(hologramSection.getOptionalString("block", StringColor.FORMATTER).orElse("none"))
+                .addLore(hologramSection.getOptionalString("block", StringStyle.CONSTANT).orElse("none"))
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo set hologram block");
 

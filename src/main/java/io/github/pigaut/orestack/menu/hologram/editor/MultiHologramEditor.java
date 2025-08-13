@@ -41,9 +41,10 @@ public class MultiHologramEditor extends FramedSelectionEditor {
                     });
 
             switch (hologramType) {
-                case "STATIC" -> hologramButton.withType(Material.PAINTING)
-                        .withDisplay(hologramSection.getOptionalString("text", StringColor.FORMATTER).orElse("none"))
-                        .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSection)));
+                case "STATIC" ->
+                    hologramButton.withType(Material.PAINTING)
+                            .withDisplay(hologramSection.getOptionalString("text", StringColor.FORMATTER).orElse("none"))
+                            .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSection)));
                 case "ANIMATED" -> hologramButton.withType(Material.ITEM_FRAME)
                         .withDisplay(hologramSection.getSequence("frames").getOptionalString(0).orElse("none"))
                         .onLeftClick((view, player, event) -> player.openMenu(new AnimatedHologramEditor(hologramSection)));
@@ -64,8 +65,12 @@ public class MultiHologramEditor extends FramedSelectionEditor {
                 case "BLOCK_DISPLAY" -> hologramButton.withType(Material.GRASS_BLOCK)
                         .withDisplay(hologramSection.getOptionalString("block", StringStyle.CONSTANT).orElse("none"))
                         .onLeftClick((view, player, event) -> player.openMenu(new BlockHologramEditor(hologramSection)));
+
                 default -> {
-                    continue;
+                    hologramSection.set("type", "static");
+                    hologramButton.withType(Material.PAINTING)
+                            .withDisplay(hologramSection.getOptionalString("text", StringColor.FORMATTER).orElse("none"))
+                            .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSection)));
                 }
             }
 

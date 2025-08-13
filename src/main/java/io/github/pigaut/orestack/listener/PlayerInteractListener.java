@@ -89,13 +89,6 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        if (heldGenerator.getLastStage().getStructure().getBlockChanges().size() > 1
-                && plugin.getGenerators().getLargeGeneratorsPlaced() >= 25) {
-            plugin.sendMessage(player, "large-generator-limit");
-            event.setCancelled(true);
-            return;
-        }
-
         final Block blockPlaced = event.getBlockPlaced();
         final Location targetLocation = blockPlaced.getLocation();
 

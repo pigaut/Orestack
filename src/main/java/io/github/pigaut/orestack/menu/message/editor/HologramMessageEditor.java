@@ -3,7 +3,9 @@ package io.github.pigaut.orestack.menu.message.editor;
 import io.github.pigaut.orestack.menu.hologram.*;
 import io.github.pigaut.orestack.menu.hologram.editor.*;
 import io.github.pigaut.voxel.menu.button.*;
+import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
+import io.github.pigaut.yaml.parser.*;
 import io.github.pigaut.yaml.parser.deserializer.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
@@ -27,18 +29,28 @@ public class HologramMessageEditor extends GenericMessageEditor {
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo edit hologram")
                 .addLore("&6Right-Click: &fTo change hologram type")
-                .onRightClick((view, player, event) -> player.openMenu(new HologramCreationMenu(messageSection, true)));
+                .onRightClick((view, player, event) -> {
+                    final ConfigSection hologramSection = messageSection.getSectionOrCreate("hologram");
+                    player.openMenu(new HologramCreationMenu(hologramSection, true));
+                });
 
         final ConfigField hologramField = messageSection.getField("hologram");
         if (hologramField instanceof ConfigSection hologramSection) {
-            boolean animated = hologramSection.contains("frames");
-            if (animated) {
-                hologramButton.withDisplay("&f&lAnimated Hologram")
+            final String hologramType = hologramSection.getOptionalString("type", StringStyle.CONSTANT).orElse("");
+            switch (hologramType) {
+                case "STATIC" -> hologramButton.withDisplay("&f&lStatic Hologram")
+                            .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSection)));
+                case "ANIMATED" -> hologramButton.withDisplay("&f&lAnimated Hologram")
                         .onLeftClick((view, player, event) -> player.openMenu(new AnimatedHologramEditor(hologramSection)));
-            }
-            else {
-                hologramButton.withDisplay("&f&lFixed Hologram")
-                        .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSection)));
+                case "ITEM_DISPLAY" -> hologramButton.withDisplay("&f&lItem Hologram")
+                        .onLeftClick((view, player, event) -> player.openMenu(new ItemHologramEditor(hologramSection)));
+                case "BLOCK_DISPLAY" -> hologramButton.withDisplay("&f&lBlock Hologram")
+                        .onLeftClick((view, player, event) -> player.openMenu(new BlockHologramEditor(hologramSection)));
+                default -> {
+                    hologramSection.set("type", "static");
+                    hologramButton.withDisplay("&f&lStatic Hologram")
+                            .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSection)));
+                }
             }
         }
         else {
