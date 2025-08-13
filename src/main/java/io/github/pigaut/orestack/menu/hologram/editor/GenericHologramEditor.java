@@ -29,14 +29,14 @@ public class GenericHologramEditor extends FramedEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter update amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer amount = Deserializers.getInteger(input);
                                 if (amount != null) {
                                     hologramSection.set("update", amount);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(update != null ? (update + " ticks") : "none")
@@ -50,14 +50,14 @@ public class GenericHologramEditor extends FramedEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter x-offset amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer xOffset = Deserializers.getInteger(input);
                                 if (xOffset != null) {
                                     hologramSection.set("offset.x", xOffset);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(hologramSection.getOptionalString("offset.x").orElse("none"))
@@ -71,14 +71,14 @@ public class GenericHologramEditor extends FramedEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter y-offset amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer yOffset = Deserializers.getInteger(input);
                                 if (yOffset != null) {
                                     hologramSection.set("offset.y", yOffset);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(hologramSection.getOptionalString("offset.y").orElse("none"))
@@ -92,14 +92,14 @@ public class GenericHologramEditor extends FramedEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter z-offset amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer zOffset = Deserializers.getInteger(input);
                                 if (zOffset != null) {
                                     hologramSection.set("offset.z", zOffset);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(hologramSection.getOptionalString("offset.z").orElse("none"))

@@ -31,14 +31,14 @@ public class GenericMessageEditor extends FramedEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter delay amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer amount = Deserializers.getInteger(input);
                                 if (amount != null) {
                                     messageSection.set("delay", amount);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(delay != null ? (delay + " ticks") : "none")
@@ -52,14 +52,14 @@ public class GenericMessageEditor extends FramedEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter repetitions amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer amount = Deserializers.getInteger(input);
                                 if (amount != null) {
                                     messageSection.set("repetitions|loops", amount);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(messageSection.getOptionalString("repetitions|loops").orElse("none"))
@@ -74,7 +74,7 @@ public class GenericMessageEditor extends FramedEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter interval amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer amount = Deserializers.getInteger(input);
                                 if (amount != null) {
                                     if (!messageSection.isSet("repetitions|loops")) {
@@ -84,7 +84,7 @@ public class GenericMessageEditor extends FramedEditor {
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(interval != null ? (interval + " ticks") : "none")

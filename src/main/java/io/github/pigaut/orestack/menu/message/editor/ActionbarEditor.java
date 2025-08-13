@@ -25,11 +25,11 @@ public class ActionbarEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter message in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 messageSection.set("message", input);
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(messageSection.getOptionalString("message", StringColor.FORMATTER).orElse("none"))

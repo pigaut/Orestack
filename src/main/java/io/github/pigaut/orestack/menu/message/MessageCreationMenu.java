@@ -6,6 +6,7 @@ import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.yaml.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
@@ -87,6 +88,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .withType(Material.BEACON)
                 .enchanted(true)
                 .withDisplay("Hologram")
+                .addLore("&4Required Dependency: &cDecentHolograms")
                 .addLore("")
                 .addLore("&eLeft-Click: &fCreate a new hologram message")
                 .onLeftClick((view, player, event) -> {

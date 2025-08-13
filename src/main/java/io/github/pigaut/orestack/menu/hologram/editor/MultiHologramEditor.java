@@ -1,10 +1,12 @@
 package io.github.pigaut.orestack.menu.hologram.editor;
 
+import io.github.pigaut.orestack.menu.hologram.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.menu.editor.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
+import io.github.pigaut.yaml.parser.*;
 import org.bukkit.*;
 
 import java.util.*;
@@ -23,8 +25,8 @@ public class MultiHologramEditor extends FramedSelectionEditor {
         final List<Button> buttons = new ArrayList<>();
 
         for (int i = 0; i < hologramSequence.size(); i++) {
-            ConfigSection hologramSection = hologramSequence.getSectionOrCreate(i);
-            boolean animated = hologramSection.isSequence("frames");
+            final ConfigSection hologramSection = hologramSequence.getSectionOrCreate(i);
+            final String hologramType = hologramSection.getOptionalString("type", StringStyle.CONSTANT).orElse("");
 
             final int hologramIndex = i;
             ButtonBuilder hologramButton = Button.builder()
@@ -38,15 +40,33 @@ public class MultiHologramEditor extends FramedSelectionEditor {
                         view.update();
                     });
 
-            if (!animated) {
-                hologramButton.withType(Material.PAINTING)
+            switch (hologramType) {
+                case "STATIC" -> hologramButton.withType(Material.PAINTING)
                         .withDisplay(hologramSection.getOptionalString("text", StringColor.FORMATTER).orElse("none"))
                         .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSection)));
-            }
-            else {
-                hologramButton.withType(Material.ITEM_FRAME)
+                case "ANIMATED" -> hologramButton.withType(Material.ITEM_FRAME)
                         .withDisplay(hologramSection.getSequence("frames").getOptionalString(0).orElse("none"))
                         .onLeftClick((view, player, event) -> player.openMenu(new AnimatedHologramEditor(hologramSection)));
+                case "ITEM_DISPLAY" -> {
+                    hologramButton.withType(Material.IRON_PICKAXE)
+                            .onLeftClick((view, player, event) -> player.openMenu(new ItemHologramEditor(hologramSection)));
+
+                    if (hologramSection.isSet("item")) {
+                        hologramButton.withDisplay(hologramSection.getOptionalString("item", StringStyle.CONSTANT).orElse("none"));
+                    }
+                    else if (hologramSection.isSet("item.material")) {
+                        hologramButton.withDisplay(hologramSection.getOptionalString("item.material", StringStyle.CONSTANT).orElse("none"));
+                    }
+                    else {
+                        hologramButton.withDisplay("none");
+                    }
+                }
+                case "BLOCK_DISPLAY" -> hologramButton.withType(Material.GRASS_BLOCK)
+                        .withDisplay(hologramSection.getOptionalString("block", StringStyle.CONSTANT).orElse("none"))
+                        .onLeftClick((view, player, event) -> player.openMenu(new BlockHologramEditor(hologramSection)));
+                default -> {
+                    continue;
+                }
             }
 
             buttons.add(hologramButton.buildButton());
@@ -55,12 +75,8 @@ public class MultiHologramEditor extends FramedSelectionEditor {
         ButtonBuilder addHologramLine = Button.builder()
                 .withType(Material.LIME_DYE)
                 .enchanted(true)
-                .withDisplay("&a&lAdd Hologram Line")
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo add a new fixed line")
-                .addLore("&6Right-Click: &fTo add a new animated line")
-                .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSequence.addSection())))
-                .onRightClick((view, player, event) -> player.openMenu(new AnimatedHologramEditor(hologramSequence.addSection())));
+                .withDisplay("&2Add New Hologram")
+                .onLeftClick((view, player, event) -> player.openMenu(new HologramCreationMenu(hologramSequence.addSection(), false)));
 
         buttons.add(addHologramLine.buildButton());
 

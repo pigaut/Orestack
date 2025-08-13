@@ -27,7 +27,7 @@ public class HologramMessageEditor extends GenericMessageEditor {
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo edit hologram")
                 .addLore("&6Right-Click: &fTo change hologram type")
-                .onRightClick((view, player, event) -> player.openMenu(new HologramCreationMenu(messageSection, "Select Hologram Type")));
+                .onRightClick((view, player, event) -> player.openMenu(new HologramCreationMenu(messageSection, true)));
 
         final ConfigField hologramField = messageSection.getField("hologram");
         if (hologramField instanceof ConfigSection hologramSection) {
@@ -54,14 +54,14 @@ public class HologramMessageEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter x-range amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer xRange = Deserializers.getInteger(input);
                                 if (xRange != null) {
                                     messageSection.set("radius.x", xRange);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(messageSection.getOptionalString("radius.x").orElse("none"))
@@ -75,14 +75,14 @@ public class HologramMessageEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter y-radius amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer yRange = Deserializers.getInteger(input);
                                 if (yRange != null) {
                                     messageSection.set("radius.y", yRange);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(messageSection.getOptionalString("radius.y").orElse("none"))
@@ -96,14 +96,14 @@ public class HologramMessageEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter z-radius amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer zRange = Deserializers.getInteger(input);
                                 if (zRange != null) {
                                     messageSection.set("radius.z", zRange);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(messageSection.getOptionalString("radius.z").orElse("none"))
@@ -118,14 +118,14 @@ public class HologramMessageEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter duration amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer amount = Deserializers.getInteger(input);
                                 if (amount != null) {
                                     messageSection.set("duration", amount);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(duration != null ? (duration + " ticks") : "none")

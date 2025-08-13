@@ -31,11 +31,11 @@ public class BossbarEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter title in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 messageSection.set("title", input);
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 });
         final String title = messageSection.getOptionalString("title", StringColor.FORMATTER).orElse("none");
         titleButton.addLore("")
@@ -55,11 +55,11 @@ public class BossbarEditor extends GenericMessageEditor {
                             .addValue(new ValueInputButton(Material.OAK_PLANKS, "SEGMENTED_10"))
                             .addValue(new ValueInputButton(Material.OAK_STAIRS, "SEGMENTED_12"))
                             .addValue(new ValueInputButton(Material.OAK_SLAB, "SEGMENTED_20"))
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 messageSection.set("style", input);
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 });
         final String style = messageSection.getOptionalString("style", StringStyle.TITLE).orElse("none");
         styleButton.addLore("")
@@ -74,14 +74,14 @@ public class BossbarEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter duration amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer duration = Deserializers.getInteger(input);
                                 if (duration != null) {
                                     messageSection.set("duration", duration);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 });
         final int duration = messageSection.getOptionalInteger("duration").orElse(100);
         durationButton.addLore("")
@@ -104,11 +104,11 @@ public class BossbarEditor extends GenericMessageEditor {
                             .addValue(new ValueInputButton(Material.YELLOW_DYE, "YELLOW"))
                             .addValue(new ValueInputButton(Material.PURPLE_DYE, "PURPLE"))
                             .addValue(new ValueInputButton(Material.WHITE_DYE, "WHITE"))
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 messageSection.set("color", input);
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 });
         final String color = messageSection.getOptionalString("color", StringStyle.TITLE).orElse("none");
         colorButton.addLore("")
@@ -123,14 +123,14 @@ public class BossbarEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter bar progress in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Double progress = Deserializers.getDouble(input);
                                 if (progress != null) {
                                     progressSequence.add(progress);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .onRightClick((view, player, event) -> {
                     if (!progressSequence.isEmpty()) {

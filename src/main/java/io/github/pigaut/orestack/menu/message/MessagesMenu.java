@@ -86,10 +86,10 @@ public class MessagesMenu extends FramedSelectionMenu {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter message name in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 player.openMenu(new MessageCreationMenu(config.getSectionOrCreate(input), true), view);
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .buildButton());
 

@@ -25,11 +25,11 @@ public class TitleEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter title in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 messageSection.set("title", input);
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(messageSection.getOptionalString("title", StringColor.FORMATTER).orElse("none"))
@@ -43,11 +43,11 @@ public class TitleEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter subtitle in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 messageSection.set("subtitle", input);
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(messageSection.getOptionalString("subtitle", StringColor.FORMATTER).orElse("none"))
@@ -62,14 +62,14 @@ public class TitleEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter fade-in amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer amount = Deserializers.getInteger(input);
                                 if (amount != null) {
                                     messageSection.set("fade-in", amount);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(fadeIn != null ? (fadeIn + " ticks") : "none")
@@ -84,14 +84,14 @@ public class TitleEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter stay amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer amount = Deserializers.getInteger(input);
                                 if (amount != null) {
                                     messageSection.set("stay", amount);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(stay != null ? (stay + " ticks") : "none")
@@ -106,14 +106,14 @@ public class TitleEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter fade-out amount in chat")
-                            .onInput(input -> {
+                            .collectInput(input -> {
                                 final Integer amount = Deserializers.getInteger(input);
                                 if (amount != null) {
                                     messageSection.set("fade-out", amount);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .beginCollection();
                 })
                 .addLore("")
                 .addLore(fadeOut != null ? (fadeOut + " ticks") : "none")
