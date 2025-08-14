@@ -89,28 +89,27 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        if (heldGenerator.getLastStage().getStructure().getBlockChanges().size() > 1
-                && plugin.getGenerators().getLargeGeneratorsPlaced() >= 25) {
-            plugin.sendMessage(player, "large-generator-limit");
-            event.setCancelled(true);
-            return;
-        }
-
         final Block blockPlaced = event.getBlockPlaced();
         final Location targetLocation = blockPlaced.getLocation();
 
         plugin.getScheduler().runTaskLater(1, () -> {
             blockPlaced.setType(Material.AIR, false);
+
+            final ItemStack placedItem = heldItem.clone();
+            placedItem.setAmount(1);
+
             try {
                 Generator.create(heldGenerator, targetLocation, GeneratorTools.getToolRotation(heldItem));
-            } catch (GeneratorOverlapException e) {
-                final ItemStack placedItem = heldItem.clone();
-                placedItem.setAmount(1);
+                PlayerUtil.sendActionBar(player, plugin.getLang("placed-generator"));
+            }
+            catch (GeneratorOverlapException e) {
                 PlayerUtil.giveItemsOrDrop(player, placedItem);
                 PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
-                return;
             }
-            PlayerUtil.sendActionBar(player, plugin.getLang("placed-generator"));
+            catch (GeneratorLimitException e) {
+                PlayerUtil.giveItemsOrDrop(player, placedItem);
+                PlayerUtil.sendActionBar(player, plugin.getLang("large-generator-limit"));
+            }
         });
     }
 

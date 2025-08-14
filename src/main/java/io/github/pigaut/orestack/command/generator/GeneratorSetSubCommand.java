@@ -24,25 +24,23 @@ public class GeneratorSetSubCommand extends SubCommand {
                 return;
             }
 
-            if (generator.getLastStage().getStructure().getBlockChanges().size() > 1
-                    && plugin.getGenerators().getLargeGeneratorsPlaced() >= 25) {
-                plugin.sendMessage(player, "large-generator-limit");
-                return;
-            }
-
             final Block targetBlock = player.getTargetBlockExact(6);
             if (targetBlock == null) {
                 plugin.sendMessage(player, "too-far-away", placeholders, generator);
                 return;
             }
+
             final Location location = targetBlock.getLocation();
             try {
                 Generator.create(generator, location);
-            } catch (GeneratorOverlapException e) {
-                plugin.sendMessage(player, "generator-overlap");
-                return;
+                plugin.sendMessage(player, "created-generator", placeholders, generator);
             }
-            plugin.sendMessage(player, "created-generator", placeholders, generator);
+            catch (GeneratorOverlapException e) {
+                plugin.sendMessage(player, "generator-overlap");
+            }
+            catch (GeneratorLimitException e) {
+                plugin.sendMessage(player, "large-generator-limit");
+            }
         });
     }
 

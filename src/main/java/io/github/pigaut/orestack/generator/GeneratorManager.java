@@ -109,9 +109,14 @@ public class GeneratorManager extends Manager {
             plugin.getScheduler().runTask(() -> {
                 try {
                     Generator.create(template, origin, finalRotation, Math.min(stage, maxStage));
-                } catch (GeneratorOverlapException e) {
-                    plugin.getLogger().warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
+                }
+                catch (GeneratorOverlapException e) {
+                    logger.warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
                             "Reason: generators overlapped.");
+                }
+                catch (GeneratorLimitException e) {
+                    logger.warning("Removed generator at " + world.getName() + ", " + x + ", " + y + ", " + z + ". " +
+                            "Reason: exceeded multi-block generator limit.");
                 }
             });
         });
@@ -174,8 +179,19 @@ public class GeneratorManager extends Manager {
         return generatorBlocks.get(location);
     }
 
-    public void registerGenerator(@NotNull Generator generator) {
-        if (generator.getTemplate().getLastStage().getStructure().getBlockChanges().size() > 1) {
+    public void registerGenerator(@NotNull Generator generator) throws GeneratorOverlapException, GeneratorLimitException {
+        final GeneratorTemplate template = generator.getTemplate();
+        for (Block block : template.getAllOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
+            if (plugin.getGenerators().isGenerator(block.getLocation())) {
+                throw new GeneratorOverlapException();
+            }
+        }
+
+        final BlockStructure lastStructure = template.getLastStage().getStructure();
+        if (lastStructure.getBlockChanges().size() > 1) {
+            if (largeGeneratorsPlaced >= 25) {
+                throw new GeneratorLimitException();
+            }
             largeGeneratorsPlaced++;
         }
 
@@ -186,7 +202,8 @@ public class GeneratorManager extends Manager {
     }
 
     public void unregisterGenerator(@NotNull Generator generator) {
-        if (generator.getTemplate().getLastStage().getStructure().getBlockChanges().size() > 1) {
+        final BlockStructure lastStructure = generator.getTemplate().getLastStage().getStructure();
+        if (lastStructure.getBlockChanges().size() > 1) {
             largeGeneratorsPlaced--;
         }
 
