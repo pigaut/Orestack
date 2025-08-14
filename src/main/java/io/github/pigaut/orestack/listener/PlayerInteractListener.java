@@ -37,7 +37,7 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        final GeneratorTemplate heldGenerator = GeneratorTools.getGeneratorFromTool(heldItem);
+        final GeneratorTemplate heldGenerator = GeneratorTool.getGeneratorFromTool(heldItem);
         if (heldGenerator == null) {
             return;
         }
@@ -51,7 +51,7 @@ public class PlayerInteractListener implements Listener {
                 plugin.sendMessage(player, "cannot-rotate-generator", heldGenerator);
                 return;
             }
-            GeneratorTools.incrementToolRotation(heldItem);
+            GeneratorTool.incrementToolRotation(heldItem);
             PlayerUtil.sendActionBar(player, plugin.getLang("changed-generator-rotation"));
             return;
         }
@@ -77,15 +77,22 @@ public class PlayerInteractListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onGeneratorPlace(BlockPlaceEvent event) {
         final ItemStack heldItem = event.getItemInHand();
-        final GeneratorTemplate heldGenerator = GeneratorTools.getGeneratorFromTool(heldItem);
-        if (heldGenerator == null) {
+        final String generatorName = GeneratorTool.getGeneratorNameFromTool(heldItem);
+        if (generatorName == null) {
             return;
         }
 
+        event.setCancelled(true);
+
         final Player player = event.getPlayer();
+        final GeneratorTemplate heldGenerator = plugin.getGeneratorTemplate(generatorName);
+        if (heldGenerator == null) {
+            plugin.sendMessage(player, "generator-not-exists");
+            return;
+        }
+
         if (!player.hasPermission("orestack.generator.place")) {
             plugin.sendMessage(player, "cannot-place-generator", heldGenerator);
-            event.setCancelled(true);
             return;
         }
 

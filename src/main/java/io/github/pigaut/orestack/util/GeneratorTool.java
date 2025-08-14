@@ -10,7 +10,7 @@ import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorTools {
+public class GeneratorTool {
 
     private static final OrestackPlugin plugin = OrestackPlugin.getPlugin();
 
@@ -37,6 +37,14 @@ public class GeneratorTools {
     }
 
     public static @Nullable GeneratorTemplate getGeneratorFromTool(@Nullable ItemStack item) {
+        final String generatorName = getGeneratorNameFromTool(item);
+        if (generatorName == null) {
+            return null;
+        }
+        return plugin.getGeneratorTemplate(generatorName);
+    }
+
+    public static @Nullable String getGeneratorNameFromTool(@Nullable ItemStack item) {
         if (item == null) {
             return null;
         }
@@ -44,8 +52,7 @@ public class GeneratorTools {
         if (meta == null) {
             return null;
         }
-        final String generatorName = PersistentData.getString(meta, GENERATOR_KEY);
-        return plugin.getGeneratorTemplate(generatorName);
+        return PersistentData.getString(meta, GENERATOR_KEY);
     }
 
     public static @NotNull ItemStack getGeneratorTool(@NotNull GeneratorTemplate generator) {

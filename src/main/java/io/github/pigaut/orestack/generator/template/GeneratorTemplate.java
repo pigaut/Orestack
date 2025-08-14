@@ -4,7 +4,6 @@ import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.plugin.manager.*;
-import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.voxel.util.Rotation;
 import io.github.pigaut.yaml.*;
 import org.bukkit.*;
@@ -54,7 +53,7 @@ public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
     }
 
     public ItemStack getItem() {
-        return GeneratorTools.getGeneratorTool(this);
+        return GeneratorTool.getGeneratorTool(this);
     }
 
     public Material getItemType() {
