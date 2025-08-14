@@ -29,14 +29,16 @@ public class GeneratorSetSubCommand extends SubCommand {
                 plugin.sendMessage(player, "too-far-away", placeholders, generator);
                 return;
             }
+
             final Location location = targetBlock.getLocation();
             try {
                 Generator.create(generator, location);
-            } catch (GeneratorOverlapException e) {
-                plugin.sendMessage(player, "generator-overlap");
-                return;
+                plugin.sendMessage(player, "created-generator", placeholders, generator);
             }
-            plugin.sendMessage(player, "created-generator", placeholders, generator);
+            catch (GeneratorOverlapException e) {
+                plugin.sendMessage(player, "generator-overlap");
+            }
+
         });
     }
 

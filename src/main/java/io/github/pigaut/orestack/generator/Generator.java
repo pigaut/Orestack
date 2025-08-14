@@ -42,11 +42,6 @@ public class Generator implements PlaceholderSupplier {
     }
 
     public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, Rotation rotation, int stage) throws GeneratorOverlapException {
-        for (Block block : template.getAllOccupiedBlocks(origin, rotation)) {
-            if (plugin.getGenerators().isGenerator(block.getLocation())) {
-                throw new GeneratorOverlapException();
-            }
-        }
         final Generator blockGenerator = new Generator(template, origin, stage, rotation);
         plugin.getGenerators().registerGenerator(blockGenerator);
         blockGenerator.updateState();

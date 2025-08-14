@@ -21,15 +21,10 @@ public class GeneratorManager extends Manager {
     private final OrestackPlugin plugin;
     private final Set<Generator> generators = new HashSet<>();
     private final Map<Location, Generator> generatorBlocks = new ConcurrentHashMap<>();
-    private int largeGeneratorsPlaced = 0;
 
     public GeneratorManager(OrestackPlugin plugin) {
         super(plugin);
         this.plugin = plugin;
-    }
-
-    public int getLargeGeneratorsPlaced() {
-        return largeGeneratorsPlaced;
     }
 
     @Override
@@ -174,11 +169,13 @@ public class GeneratorManager extends Manager {
         return generatorBlocks.get(location);
     }
 
-    public void registerGenerator(@NotNull Generator generator) {
-        if (generator.getTemplate().getLastStage().getStructure().getBlockChanges().size() > 1) {
-            largeGeneratorsPlaced++;
+    public void registerGenerator(@NotNull Generator generator) throws GeneratorOverlapException {
+        final GeneratorTemplate template = generator.getTemplate();
+        for (Block block : template.getAllOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
+            if (plugin.getGenerators().isGenerator(block.getLocation())) {
+                throw new GeneratorOverlapException();
+            }
         }
-
         generators.add(generator);
         for (Block block : generator.getAllOccupiedBlocks()) {
             generatorBlocks.put(block.getLocation(), generator);
@@ -186,10 +183,6 @@ public class GeneratorManager extends Manager {
     }
 
     public void unregisterGenerator(@NotNull Generator generator) {
-        if (generator.getTemplate().getLastStage().getStructure().getBlockChanges().size() > 1) {
-            largeGeneratorsPlaced--;
-        }
-
         generators.remove(generator);
 
         for (Block block : generator.getAllOccupiedBlocks()) {

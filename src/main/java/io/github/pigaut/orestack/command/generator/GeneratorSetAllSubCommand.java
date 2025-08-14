@@ -42,7 +42,8 @@ public class GeneratorSetAllSubCommand extends SubCommand {
                     if (structure.matchBlocks(location, rotation)) {
                         try {
                             Generator.create(generator, location);
-                        } catch (GeneratorOverlapException ignored) {
+                        }
+                        catch (GeneratorOverlapException ignored) {
                         }
                     }
                 }
