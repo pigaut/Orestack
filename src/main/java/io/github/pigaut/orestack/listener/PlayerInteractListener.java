@@ -101,20 +101,14 @@ public class PlayerInteractListener implements Listener {
 
         plugin.getScheduler().runTaskLater(1, () -> {
             blockPlaced.setType(Material.AIR, false);
-
-            final ItemStack placedItem = heldItem.clone();
-            placedItem.setAmount(1);
-
             try {
-                Generator.create(heldGenerator, targetLocation, GeneratorTools.getToolRotation(heldItem));
+                Generator.create(heldGenerator, targetLocation, GeneratorTool.getToolRotation(heldItem));
                 PlayerUtil.sendActionBar(player, plugin.getLang("placed-generator"));
             }
             catch (GeneratorOverlapException e) {
-                PlayerUtil.giveItemsOrDrop(player, placedItem);
                 PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
             }
             catch (GeneratorLimitException e) {
-                PlayerUtil.giveItemsOrDrop(player, placedItem);
                 PlayerUtil.sendActionBar(player, plugin.getLang("large-generator-limit"));
             }
         });

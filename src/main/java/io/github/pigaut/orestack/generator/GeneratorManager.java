@@ -50,6 +50,7 @@ public class GeneratorManager extends Manager {
     public void loadData() {
         generators.clear();
         generatorBlocks.clear();
+        largeGeneratorsPlaced = 0;
 
         final Database database = plugin.getDatabase();
         if (database == null) {
