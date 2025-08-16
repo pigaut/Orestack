@@ -37,7 +37,7 @@ help-footer: '&2---------------------------------------------'
 reload-command: 'Reload configuration and data'
 ## Errors
 already-reloading: '&4The plugin is already reloading, please wait'
-debug-configuration-errors: '&4Found {error_count} errors(s) while loading the configuration. Debug mode is enabled.'
+debug-configuration-errors: '&4Found {error_count} error(s) while loading the configuration. Debug mode is enabled.'
 configuration-errors: '&4Found {error_count} error(s) while loading the configuration. Debug mode is disabled, check the console for details.'
 ## Success
 reloading: '&aReloading Orestack plugin... &c(Wait)'
