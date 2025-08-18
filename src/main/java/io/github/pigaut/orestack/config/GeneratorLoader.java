@@ -30,7 +30,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         }
 
         final String name = root.getName();
-        final String group = PathGroup.byFile(root.getFile(), "generators", true);
+        final String group = Group.byFile(root.getFile(), "generators", true);
         final List<GeneratorStage> generatorStages = new ArrayList<>();
         final GeneratorTemplate generator = new GeneratorTemplate(name, group, sequence, generatorStages);
         for (ConfigSection nestedSection : sequence.getNestedSections()) {

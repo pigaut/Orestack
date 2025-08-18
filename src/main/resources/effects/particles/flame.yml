@@ -1,3 +1,12 @@
+rising_flames:
+  type: DIRECTIONAL
+  particle: FLAME
+  speed: 0.1
+  direction: { x: 0, y: 1, z: 0 }
+  offset: { x: 0-1, y: 0, z: 0-1 }
+  repetitions: 5
+  interval: 10
+
 flame_ring:
   - { particle: flame, count: 1, offset: {x: 1.0, y: -0.40, z: 0} }
   - { particle: flame, count: 1, offset: {x: 0.923, y: -0.40, z: 0.383} }

@@ -113,6 +113,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
                 "effects/particles/misc.yml",
                 "effects/particles/flame.yml",
+                "effects/particles/special.yml",
                 "effects/sounds/misc.yml",
 
                 "functions/misc.yml",

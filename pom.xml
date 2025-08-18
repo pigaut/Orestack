@@ -6,7 +6,14 @@
 
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>Orestack</artifactId>
-    <version>3.29.4</version>
+    <version>3.29.5</version>
+
+    <properties>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mc.version>1.16.5</mc.version>
+    </properties>
 
     <build>
         <plugins>
@@ -28,7 +35,7 @@
                                     <shadedPattern>io.github.pigaut.orestack.voxel</shadedPattern>
                                 </relocation>
                             </relocations>
-                            <outputFile>D:\files\Development\java\spigot\servers\1.21.8\plugins\Orestack-${project.version}.jar</outputFile>
+                            <outputFile>D:\files\Development\java\spigot\servers\${mc.version}\plugins\Orestack-${project.version}.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>
@@ -90,11 +97,5 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
 </project>

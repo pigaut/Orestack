@@ -25,7 +25,7 @@ public class MessagesMenu extends FramedSelectionMenu {
     public MessagesMenu(EnhancedPlugin plugin, String group) {
         super(plugin, StringFormatter.toTitleCase(group) + " Messages", MenuSize.BIG);
         this.group = group;
-        final File file = PathGroup.getFile(plugin, "messages", group);
+        final File file = Group.getFile(plugin, "messages", group);
         this.config = new RootSection(file, plugin.getConfigurator());
         config.load();
     }

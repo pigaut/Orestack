@@ -1,0 +1,49 @@
+dust:
+  type: DUST   # BASIC, DUST, DIRECTIONAL, SPELL, NOTE, DUST_TRANSITION, MATERIAL
+  color: { red: 255, green: 0, blue: 0 }
+  size: 1.0
+  count: 10
+  offset: { x: 0, y: 0, z: 0 }
+  range: { x: 1, y: 1, z: 1 }
+
+# Does not support "count" option, you can only spawn 1 at a time
+directional:
+  type: DIRECTIONAL
+  particle: FLAME
+  speed: 0.1
+  direction: { x: 0, y: 1, z: 0 }
+  offset: { x: 0-1, y: 0, z: 0-1 }
+  repetitions: 10
+  interval: 5
+
+# Does not support "count" option, you can only spawn 1 at a time
+spell:
+  type: SPELL
+  particle: SPELL_MOB  # SPELL_MOB, SPELL_MOB_AMBIENT
+  color: { red: 255, green: 0, blue: 0 }
+  offset: { x: 0, y: 0, z: 0 }
+
+# Does not support "count" option, you can only spawn 1 at a time
+note:
+  type: NOTE
+  note: 6   # 1 to 24
+  offset: { x: 0, y: 0, z: 0 }
+
+material:
+  type: MATERIAL
+  particle: BLOCK_CRACK   # BLOCK_CRACK, BLOCK_DUST, FALLING_DUST, ITEM_CRACK
+  count: 10
+  block: dirt
+  #item: iron_sword
+  offset: { x: 0, y: 0, z: 0 }
+  range: { x: 1, y: 1, z: 1 }
+
+# Works only in 1.20.6+
+#dust_transition:
+#  type: DUST_TRANSITION
+#  particle: DUST_COLOR_TRANSITION
+#  start-color: { red: 255, green: 0, blue: 0 }
+#  end-color: { red: 255, green: 255, blue: 255 }
+#  size: 1.0
+#  offset: { x: 0, y: 0, z: 0 }
+#  range: { x: 1, y: 1, z: 1 }
