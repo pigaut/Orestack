@@ -1,7 +1,6 @@
 package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.command.generator.parameter.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.command.node.*;
@@ -16,7 +15,7 @@ public class GeneratorHarvestSubCommand extends SubCommand {
         super("harvest-all", plugin);
         withPermission(plugin.getPermission("generator.harvest-all"));
         withDescription(plugin.getLang("generator-harvest-all-command"));
-        addParameter(new GeneratorNameParameter(plugin));
+        withParameter(GeneratorParameters.GENERATOR_NAME);
         withPlayerExecution((player, args, placeholders) -> {
             final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {

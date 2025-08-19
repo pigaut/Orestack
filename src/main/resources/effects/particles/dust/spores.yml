@@ -1,0 +1,188 @@
+red_dust_spore:
+  type: DUST
+  color: { red: 50-255, green: 0, blue: 0 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+green_dust_spore:
+  type: DUST
+  color: { red: 0, green: 50-255, blue: 0 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+blue_dust_spore:
+  type: DUST
+  color: { red: 0, green: 0, blue: 50-255 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+yellow_dust_spore:
+  type: DUST
+  color: { red: 50-255, green: 50-255, blue: 0 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+cyan_dust_spore:
+  type: DUST
+  color: { red: 0, green: 50-255, blue: 50-255 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+magenta_dust_spore:
+  type: DUST
+  color: { red: 50-255, green: 0, blue: 50-255 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+white_dust_spore:
+  type: DUST
+  color: { red: 50-255, green: 50-255, blue: 50-255 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+orange_dust_spore:
+  type: DUST
+  color: { red: 50-255, green: 100-200, blue: 0 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+pink_dust_spore:
+  type: DUST
+  color: { red: 200-255, green: 150-200, blue: 180-220 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+purple_dust_spore:
+  type: DUST
+  color: { red: 100-160, green: 0, blue: 100-160 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+lime_dust_spore:
+  type: DUST
+  color: { red: 0, green: 200-255, blue: 0 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+brown_dust_spore:
+  type: DUST
+  color: { red: 101-150, green: 67-100, blue: 33-70 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+navy_dust_spore:
+  type: DUST
+  color: { red: 0, green: 0, blue: 50-128 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+gold_dust_spore:
+  type: DUST
+  color: { red: 200-255, green: 180-220, blue: 0 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+teal_dust_spore:
+  type: DUST
+  color: { red: 0, green: 128-200, blue: 128-200 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+starlight_dust_spore:
+  type: DUST
+  color: { red: 200-255, green: 200-255, blue: 240-255 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+void_dust_spore:
+  type: DUST
+  color: { red: 20-80, green: 0-30, blue: 40-100 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+nature_dust_spore:
+  type: DUST
+  color: { red: 50-120, green: 80-150, blue: 30-60 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+crystal_dust_spore:
+  type: DUST
+  color: { red: 150-220, green: 180-220, blue: 220-255 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+ember_dust_spore:
+  type: DUST
+  color: { red: 180-255, green: 30-80, blue: 0-20 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+dark_dust_spore:
+  type: DUST
+  color: { red: 0-80, green: 0-80, blue: 0-80 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7

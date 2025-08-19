@@ -1,7 +1,6 @@
 package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.command.generator.parameter.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.util.*;
@@ -16,7 +15,7 @@ public class GeneratorSetSubCommand extends SubCommand {
         super("set", plugin);
         withPermission(plugin.getPermission("generator.set"));
         withDescription(plugin.getLang("generator-set-command"));
-        addParameter(new GeneratorNameParameter(plugin));
+        withParameter(GeneratorParameters.GENERATOR_NAME);
         withPlayerExecution((player, args, placeholders) -> {
             final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {

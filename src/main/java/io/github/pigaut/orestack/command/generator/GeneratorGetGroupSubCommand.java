@@ -1,7 +1,6 @@
 package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.command.generator.parameter.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.command.node.*;
 import io.github.pigaut.voxel.player.*;
@@ -15,7 +14,7 @@ public class GeneratorGetGroupSubCommand extends SubCommand {
         super("get-group", plugin);
         withPermission(plugin.getPermission("generator.get-group"));
         withDescription(plugin.getLang("generator-get-group-command"));
-        addParameter(new GeneratorGroupParameter(plugin));
+        withParameter(GeneratorParameters.GENERATOR_GROUP);
         withPlayerExecution((player, args, placeholders) -> {
             final List<GeneratorTemplate> groupGenerators = plugin.getGeneratorTemplates().getAll(args[0]);
 

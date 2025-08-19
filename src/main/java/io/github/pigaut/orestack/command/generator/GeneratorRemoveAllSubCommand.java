@@ -1,7 +1,6 @@
 package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.command.generator.parameter.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
@@ -16,7 +15,7 @@ public class GeneratorRemoveAllSubCommand extends SubCommand {
         super("remove-all", plugin);
         withPermission(plugin.getPermission("generator.remove-all"));
         withDescription(plugin.getLang("generator-remove-all-command"));
-        addParameter(new GeneratorNameParameter(plugin));
+        withParameter(GeneratorParameters.GENERATOR_NAME);
         withPlayerExecution((player, args, placeholders) -> {
             final OrestackPlayer playerState = plugin.getPlayerState(player.getUniqueId());
             if (playerState == null) {
