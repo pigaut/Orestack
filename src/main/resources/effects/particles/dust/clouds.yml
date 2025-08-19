@@ -51,7 +51,7 @@ white_dust_cloud:
   amount: 25
   uniform: false
   size: 0.1-1.0
-  color: { red: 50-255, green: 50-255, blue: 50-255 }
+  color: { red: 250-255, green: 250-255, blue: 250-255 }
   range: { x: 0.5, y: 0.5, z: 0.5 }
 
 orange_dust_cloud:
@@ -156,6 +156,14 @@ ember_dust_cloud:
   uniform: false
   size: 0.1-1.0
   color: { red: 180-255, green: 30-80, blue: 0-20 }
+  range: { x: 0.5, y: 0.5, z: 0.5 }
+
+rainbow_dust_cloud:
+  type: DUST
+  amount: 25
+  uniform: false
+  size: 0.1-1.0
+  color: { red: 50-255, green: 50-255, blue: 50-255 }
   range: { x: 0.5, y: 0.5, z: 0.5 }
 
 dark_dust_cloud:

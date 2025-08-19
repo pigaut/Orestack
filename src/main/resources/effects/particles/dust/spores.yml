@@ -54,7 +54,7 @@ magenta_dust_spore:
 
 white_dust_spore:
   type: DUST
-  color: { red: 50-255, green: 50-255, blue: 50-255 }
+  color: { red: 250-255, green: 250-255, blue: 250-255 }
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
@@ -172,6 +172,15 @@ crystal_dust_spore:
 ember_dust_spore:
   type: DUST
   color: { red: 180-255, green: 30-80, blue: 0-20 }
+  size: 0.6-1.2
+  range: { x: 0.6, y: 0.6, z: 0.6 }
+  count: 5
+  repetitions: 2
+  interval: 7
+
+rainbow_dust_spore:
+  type: DUST
+  color: { red: 50-255, green: 50-255, blue: 50-255 }
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
