@@ -72,8 +72,9 @@ public class MessagesMenu extends FramedSelectionMenu {
                     .onRightClick((view, player, event) -> {
                         view.close();
                         message.send(player.asPlayer());
-                        player.sendMessage(ChatColor.RED + "The menu will reopen in 3 seconds...");
-                        plugin.getScheduler().runTaskLater(60L, view::open);
+                        final int guiReopenDelay = plugin.getSettings().guiReopenDelay;
+                        player.sendMessage(ChatColor.RED + "The menu will reopen in " + (guiReopenDelay / 20) + " seconds...");
+                        plugin.getScheduler().runTaskLater(guiReopenDelay, view::open);
                     })
                     .buildButton();
             entries.add(messageButton);

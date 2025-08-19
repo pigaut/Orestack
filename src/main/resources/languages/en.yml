@@ -92,8 +92,10 @@ particle-command: ''
 particle-spawn-command: 'Spawn a particle at the specified location'
 particle-spawn-to-command: 'Spawn a particle on the target player'
 particle-show-me-command: 'Spawn a particle 2 blocks in front of you'
+particle-show-me-group-command: 'Spawn a group''s particle 2 blocks in front of you'
 ## Errors
 particle-not-found: '&4Could not find a particle with name: {particle-name}'
+group-particle-not-found: '&44Could not find particle in group {group-name} with name: {group-particle}'
 ## Success
 spawned-particle: '&aSpawned a particle effect at {world-name}, {x}, {y}, {z}'
 spawned-particle-at-player: '&aSpawned a particle at {online-player}''s location'

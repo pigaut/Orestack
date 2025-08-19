@@ -41,7 +41,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public boolean isPremium() {
-        return false;
+        return true;
     }
 
     @Override
@@ -114,6 +114,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "effects/particles/misc.yml",
                 "effects/particles/flame.yml",
                 "effects/particles/special.yml",
+                "effects/particles/dust/clouds.yml",
+                "effects/particles/dust/spores.yml",
+                "effects/particles/dust/fall.yml",
+                "effects/particles/dust/rise.yml",
                 "effects/sounds/misc.yml",
 
                 "functions/misc.yml",

@@ -99,6 +99,8 @@ public class OrestackMenu extends FramedMenu {
 
         buttons[50] = new PluginReloadButton(plugin);
 
+        buttons[53] = new GuiReopenDelayButton(plugin);
+
         return buttons;
     }
 
