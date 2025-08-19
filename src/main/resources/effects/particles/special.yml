@@ -1,44 +1,92 @@
+
 dust:
   type: DUST   # BASIC, DUST, DIRECTIONAL, SPELL, NOTE, DUST_TRANSITION, MATERIAL
-  color: { red: 255, green: 0, blue: 0 }
-  size: 1.0
-  count: 10
-  offset: { x: 0, y: 0, z: 0 }
+  amount: 10
   range: { x: 1, y: 1, z: 1 }
+  player-only: false
+  delay: 0
+  repetitions: 1
+  interval: 0
+  offset: { x: 0, y: 0, z: 0 }
+  color: { red: 0-255, green: 0-255, blue: 0-255 }
+  size: 0.1-1.0
+  # Uniform Explained
+  # It affects only COLOR and SIZE, and only if they use a range (1-10) not a constant (10)
+  # If true, all the particles will be the same
+  # If false, all the particles will be different
+  uniform: true
 
-# Does not support "count" option, you can only spawn 1 at a time
+# ---------------------------------------------
+# ALL DIRECTIONAL PARTICLES: (Warning: some names might change between versions)
+# portal, totem_of_undying, spit, squid_ink, large_smoke, smoke, fishing, nautilus,
+# bubble, bubble_column_up, bubble_pop, campfire_cosy_smoke, campfire_signal_smoke,
+# cloud, crit, enchanted_hit, damage_indicator, dragon_breath, enchant, end_rod, poof
+# firework, flame
+# ---------------------------------------------
+# 1.16+
+# soul, soul_fire_flame, reverse_portal
+# ---------------------------------------------
+# 1.17+
+# scrape, small_flame, electric_spark
+# ---------------------------------------------
+# 1.19+
+# sculk_charge, sculk_charge_pop, sculk_soul
+# ---------------------------------------------
+# 1.20+
+# wax_off, wax_on
+# ---------------------------------------------
+
 directional:
   type: DIRECTIONAL
   particle: FLAME
-  speed: 0.1
+  amount: 1
+  player-only: false
+  delay: 0
+  repetitions: 1
+  interval: 0
+  offset: { x: 0, y: 0, z: 0 }
   direction: { x: 0, y: 1, z: 0 }
-  offset: { x: 0-1, y: 0, z: 0-1 }
-  repetitions: 10
-  interval: 5
+  speed: 0.1
 
-# Does not support "count" option, you can only spawn 1 at a time
 spell:
   type: SPELL
   particle: SPELL_MOB  # SPELL_MOB, SPELL_MOB_AMBIENT
-  color: { red: 255, green: 0, blue: 0 }
+  amount: 3
+  range: { x: 1, y: 1, z: 1 }   #[!] ONLY 1.20.6+
+  player-only: false
+  delay: 0
+  repetitions: 1
+  interval: 0
   offset: { x: 0, y: 0, z: 0 }
+  color: { red: 255, green: 0, blue: 0 }
+  size: 1.0   #[!] ONLY 1.20.6+
+  uniform: true   #[!] ONLY 1.20.6+
 
-# Does not support "count" option, you can only spawn 1 at a time
 note:
   type: NOTE
-  note: 6   # 1 to 24
+  amount: 3
+  player-only: false
+  delay: 0
+  repetitions: 1
+  interval: 0
   offset: { x: 0, y: 0, z: 0 }
+  note: 6   # 1 to 24
+
 
 material:
   type: MATERIAL
   particle: BLOCK_CRACK   # BLOCK_CRACK, BLOCK_DUST, FALLING_DUST, ITEM_CRACK
-  count: 10
+  amount: 10
+  range: { x: 1, y: 1, z: 1 }
+  player-only: false
+  delay: 0
+  repetitions: 1
+  interval: 0
+  offset: { x: 0, y: 0, z: 0 }
   block: dirt
   #item: iron_sword
-  offset: { x: 0, y: 0, z: 0 }
-  range: { x: 1, y: 1, z: 1 }
 
-# Works only in 1.20.6+
+# Works only in 1.20.6+ (WORK IN PROGRESS)
 #dust_transition:
 #  type: DUST_TRANSITION
 #  particle: DUST_COLOR_TRANSITION
