@@ -2,13 +2,13 @@ debug: true
 
 generate-examples: true
 
-check-for-updates: true
+# Enables an update checker on startup and every 24 hours
+check-for-updates: true   # PREMIUM required to disable
 
 # Enables bStats metrics collection (https://bstats.org/plugin/bukkit/Orestack/24502)
-metrics: true   # Premium Only
+metrics: true   # PREMIUM required to disable
 
 # The language file that should be used (en = en.yml)
-# Requires server restart to take full effect
 language: en
 
 # The auto save timer, if not set or set to 0 data will only be saved on shutdown or on /orestack reload

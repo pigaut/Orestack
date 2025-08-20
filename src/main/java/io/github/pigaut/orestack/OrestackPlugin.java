@@ -85,6 +85,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
+    public boolean forceUpdates() {
+        return true;
+    }
+
+    @Override
     public @Nullable Integer getResourceId() {
         return 91628;
     }
