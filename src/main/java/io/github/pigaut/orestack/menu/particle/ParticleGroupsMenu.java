@@ -4,7 +4,7 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
-import io.github.pigaut.yaml.parser.*;
+import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
 
 import java.util.*;
@@ -23,7 +23,7 @@ public class ParticleGroupsMenu extends FramedSelectionMenu {
         return plugin.getParticles().getAllGroups().stream()
                 .map(group -> Button.builder()
                         .withType(Material.CHEST)
-                        .withDisplay("&d&l" + StringFormatter.toTitleCase(group))
+                        .withDisplay("&d&l" + CaseFormatter.toTitleCase(group))
                         .addLore("")
                         .addLore("&eLeft-Click: &fView all particle effects")
                         .onLeftClick((view, player, event) -> player.openMenu(new ParticlesMenu(plugin, group)))

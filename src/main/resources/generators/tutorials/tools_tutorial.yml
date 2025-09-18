@@ -1,15 +1,10 @@
-# ============================
-#         STAGE 0
-# ============================
----
+
+--- # ===== Stage 1 =====
 type: depleted
 block: bedrock
 growth: 50
 
-# ============================
-#         STAGE 1
-# ============================
----
+--- # ===== Stage 2 =====
 type: harvestable
 block: oak_log
 growth: 50
@@ -27,16 +22,13 @@ on-click:
 
 on-break:
   # Check if the player's tool is an axe
-  if-not: toolTypeEquals <WOODEN_AXE, STONE_AXE, GOLDEN_AXE, IRON_AXE, GOLDEN_AXE, DIAMOND_AXE, NETHERITE_AXE>
+  if-not: toolTypeEquals WOODEN_AXE, STONE_AXE, GOLDEN_AXE, IRON_AXE, GOLDEN_AXE, DIAMOND_AXE, NETHERITE_AXE
   do:
-    - chatMessage <&4You need an axe to cut down this resource>
+    - chatMessage <&4You need an axe to cut down this block>
     - cancelEvent
     - stop
 
-# ============================
-#         STAGE 2
-# ============================
----
+--- # ===== Stage 3 =====
 type: harvestable
 block: diamond_ore
 growth: 50
@@ -55,16 +47,13 @@ on-click:
 
 on-break:
   # Check if the player's tool is an iron pickaxe or better
-  if-not: toolTypeEquals <IRON_PICKAXE, GOLDEN_PICKAXE, DIAMOND_PICKAXE, NETHERITE_PICKAXE>
+  if-not: toolTypeEquals IRON_PICKAXE, GOLDEN_PICKAXE, DIAMOND_PICKAXE, NETHERITE_PICKAXE
   do:
     - chatMessage <&4You need an iron pickaxe or better to mine this resource>
     - cancelEvent
     - stop
 
-# ============================
-#         STAGE 3
-# ============================
----
+--- # ===== Stage 4 =====
 type: harvestable
 block: cobweb
 growth: 50
@@ -78,7 +67,7 @@ hologram:
     text: '&f<right-click> to get'
 
 on-click:
-  action: right_click_block
+  action: right_click
   do: giveItemToPlayer web_cutter
 
 on-break:
@@ -89,10 +78,7 @@ on-break:
     - cancelEvent
     - stop
 
-# ============================
-#         STAGE 4
-# ============================
----
+--- # ===== Stage 5 =====
 type: harvestable
 block: slime_block
 growth: 50
@@ -106,23 +92,20 @@ hologram:
     text: '&f<right-click> to get'
 
 on-click:
-  action: right_click_block
+  action: right_click
   do: giveItemToPlayer legendary_axe
 
 on-break:
   if-not:
     - toolTypeEquals gold_axe
     # Check if lore line 1 is equal to "Legendary", case-sensitive, ignores colors
-    - toolLoreLineEquals 1 <Legendary>
+    - toolLoreLineEquals Legendary line=1
   do:
     - chatMessage <&4You need a legendary axe to harvest this resource>
     - cancelEvent
     - stop
 
-# ============================
-#         STAGE 5
-# ============================
----
+--- # ===== Stage 6 =====
 type: replenished
 block: stone_bricks
 hologram:
@@ -134,7 +117,7 @@ hologram:
     text: '&f<right-click> to get'
 
 on-click:
-  action: right_click_block
+  action: right_click
   do: giveItemToPlayer lore_katana
 
 on-break:

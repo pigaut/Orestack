@@ -9,7 +9,7 @@ import io.github.pigaut.voxel.core.structure.*;
 import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.util.Rotation;
-import io.github.pigaut.yaml.parser.deserializer.*;
+import io.github.pigaut.yaml.convert.parse.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
@@ -186,7 +186,7 @@ public class GeneratorManager extends Manager {
         }
 
         final Location origin = new Location(world, x, y, z);
-        Rotation rotation = Deserializers.getEnum(Rotation.class, rotationData);
+        Rotation rotation = ParseUtil.parseEnumOrNull(Rotation.class, rotationData);
         if (rotation == null) {
             rotation = Rotation.NONE;
             logger.warning(String.format("Failed to load rotation of generator at %s, %d, %d, %d. Default rotation (NONE) has been applied.",

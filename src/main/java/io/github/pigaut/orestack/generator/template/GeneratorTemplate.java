@@ -17,15 +17,13 @@ public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
 
     private final String name;
     private final String group;
-    private final ConfigSequence sequence;
     private final List<GeneratorStage> stages;
     private Rotation rotation = Rotation.NONE;
     private Material itemType = Material.TERRACOTTA;
 
-    public GeneratorTemplate(String name, @Nullable String group, ConfigSequence sequence, List<GeneratorStage> stages) {
+    public GeneratorTemplate(String name, @Nullable String group, List<GeneratorStage> stages) {
         this.name = name;
         this.group = group;
-        this.sequence = sequence;
         this.stages = stages;
     }
 
@@ -37,11 +35,6 @@ public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
     @Override
     public @Nullable String getGroup() {
         return group;
-    }
-
-    @Override
-    public @NotNull ConfigSequence getField() {
-        return sequence;
     }
 
     public Rotation getRotation() {

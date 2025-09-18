@@ -12,7 +12,6 @@ import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import org.bukkit.*;
-import scala.concurrent.impl.*;
 
 public class OrestackMenu extends FramedMenu {
 

@@ -9,7 +9,7 @@ import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.yaml.*;
-import io.github.pigaut.yaml.configurator.loader.*;
+import io.github.pigaut.yaml.configurator.load.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -32,7 +32,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         final String name = root.getName();
         final String group = Group.byFile(root.getFile(), "generators", true);
         final List<GeneratorStage> generatorStages = new ArrayList<>();
-        final GeneratorTemplate generator = new GeneratorTemplate(name, group, sequence, generatorStages);
+        final GeneratorTemplate generator = new GeneratorTemplate(name, group, generatorStages);
         for (ConfigSection nestedSection : sequence.getNestedSections()) {
             generatorStages.add(loadStage(generator, nestedSection));
         }
@@ -91,28 +91,27 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         return generator;
     }
 
-    private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection config) {
-        final GeneratorState state = config.get("type|state", GeneratorState.class);
-        BlockStructure structure = config.getOptional("structure|structures", BlockStructure.class).orElse(null);
-        if (structure == null) {
-            structure = config.load(BlockStructure.class);
-        }
-        final boolean dropItems = config.getOptionalBoolean("drop-item|drop-items").orElse(true);
-        final Integer expToDrop = config.getOptionalInteger("exp-to-drop").orElse(null);
-        final boolean regrow = config.getOptionalBoolean("regrow").orElse(true);
-        final int growthTime = config.getOptionalInteger("growth|growth-time").orElse(0);
-        final Double chance = config.getOptionalDouble("chance|growth-chance").orElse(null);
-        final Function onBreak = config.getOptional("on-break", Function.class).orElse(null);
-        final Function onGrowth = config.getOptional("on-growth", Function.class).orElse(null);
-        final BlockClickFunction onClick = config.getOptional("on-click", BlockClickFunction.class).orElse(null);
+    private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection section) {
+        final GeneratorState state = section.getRequired("type|state", GeneratorState.class);
+        final BlockStructure structure = section.contains("structure|blocks") ?
+                section.getRequired("structure|blocks", BlockStructure.class) :
+                section.loadRequired(BlockStructure.class);
+        final boolean dropItems = section.getBoolean("drop-item|drop-items").throwOrElse(true);
+        final Integer expToDrop = section.getInteger("exp-to-drop").throwOrElse(null);
+        final boolean regrow = section.getBoolean("regrow").throwOrElse(true);
+        final int growthTime = section.getInteger("growth|growth-time").throwOrElse(0);
+        final Double chance = section.getDouble("chance|growth-chance").throwOrElse(null);
+        final Function onBreak = section.get("on-break", Function.class).throwOrElse(null);
+        final Function onGrowth = section.get("on-growth", Function.class).throwOrElse(null);
+        final BlockClickFunction onClick = section.get("on-click", BlockClickFunction.class).throwOrElse(null);
 
         Hologram hologram = null;
         if (SpigotServer.isPluginEnabled("DecentHolograms")) {
-            hologram = config.getOptional("hologram", Hologram.class).orElse(null);
+            hologram = section.get("hologram", Hologram.class).throwOrElse(null);
         }
 
         if (growthTime < 0) {
-            throw new InvalidConfigurationException(config, "growth", "The growth timer must be a positive number");
+            throw new InvalidConfigurationException(section, "growth", "The growth timer must be a positive number");
         }
 
         return new GeneratorStage(generator, state, structure, dropItems, expToDrop, regrow, growthTime,

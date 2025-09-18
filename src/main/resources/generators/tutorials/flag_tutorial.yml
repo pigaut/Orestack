@@ -2,20 +2,12 @@
 # to be able to gather, but we don't want players to camp and hoard the resource.
 # We can use flags and the scripting system to create a cooldown.
 
-# ============================
-#         STAGE 0
-# ============================
-
----
+--- # ===== Stage 1 =====
 type: depleted
 block: bedrock
 growth: 40
 
-# ============================
-#         STAGE 1
-# ============================
-
----
+--- # ===== Stage 2 =====
 type: replenished
 block: lodestone
 

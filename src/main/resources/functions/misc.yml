@@ -14,9 +14,9 @@ requireHarvestPermission:
 
 requireSpecialTool:
   if-any:
-    - toolTypeEquals <GOLD_PICKAXE, DIAMOND_PICKAXE>
-    - toolIsSimilar <IRON_INGOT, DIAMOND>
-    - toolHasCustomModel <006, 007>
+    - toolTypeEquals gold_pickaxe, diamond_pickaxe
+    - toolIsSimilar iron_ingot, diamond
+    - toolHasCustomModel 000001, 000002
   else:
     - chatMessage <&4You need a special tool to mine this block>
     - cancelEvent

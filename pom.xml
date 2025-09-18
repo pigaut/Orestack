@@ -6,7 +6,7 @@
 
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>Orestack</artifactId>
-    <version>3.29.6</version>
+    <version>3.30.0</version>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
@@ -63,7 +63,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -75,7 +75,7 @@
         <dependency>
             <groupId>io.github.pigaut.yaml</groupId>
             <artifactId>YamlConfig</artifactId>
-            <version>3.4.14</version>
+            <version>3.6.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -94,6 +94,12 @@
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <version>7.0.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>13.3.3</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

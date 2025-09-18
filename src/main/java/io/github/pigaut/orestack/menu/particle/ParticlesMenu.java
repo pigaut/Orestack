@@ -5,7 +5,7 @@ import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.plugin.*;
-import io.github.pigaut.yaml.parser.*;
+import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
 
 import java.util.*;
@@ -16,7 +16,7 @@ public class ParticlesMenu extends FramedSelectionMenu {
     private final String group;
 
     public ParticlesMenu(EnhancedPlugin plugin, String group) {
-        super(StringFormatter.toTitleCase(group) + " Particle Effects", MenuSize.BIG);
+        super(CaseFormatter.toTitleCase(group) + " Particle Effects", MenuSize.BIG);
         this.plugin = plugin;
         this.group = group;
     }
@@ -26,7 +26,7 @@ public class ParticlesMenu extends FramedSelectionMenu {
         return plugin.getParticles().getAll(group).stream()
                 .map(particle -> Button.builder()
                         .withType(particle.getIcon().getType())
-                        .withDisplay("&d&o" + StringFormatter.toTitleCase(particle.getName()))
+                        .withDisplay("&d&o" + CaseFormatter.toTitleCase(particle.getName()))
                         .addLore("")
                         .addLore("&eLeft-Click: &fShow-me particle")
                         .onLeftClick((view, player, event) -> {

@@ -1,6 +1,6 @@
 main: io.github.pigaut.orestack.OrestackPlugin
 name: Orestack
-version: 3.29.6
+version: 3.30.0
 api-version: 1.16
 author: pigaut
 description: Create resources with custom gathering mechanics
@@ -14,5 +14,4 @@ libraries:
   - com.h2database:h2:2.3.232
   - com.zaxxer:HikariCP:5.1.0
   - org.snakeyaml:snakeyaml-engine:2.9
-  - com.github.cryptomorin:XSeries:13.2.0
-
+  - com.github.cryptomorin:XSeries:13.3.0

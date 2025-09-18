@@ -5,7 +5,7 @@ import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.plugin.*;
-import io.github.pigaut.yaml.parser.*;
+import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -18,13 +18,18 @@ public class MessageGroupsMenu extends FramedSelectionMenu {
     }
 
     @Override
+    public Button getFrameButton() {
+        return Buttons.LIGHT_BLUE_PANEL;
+    }
+
+    @Override
     public List<Button> createEntries() {
         return plugin.getMessages().getAllGroups().stream()
                 .map(group -> Button.builder()
                         .withType(Material.CHEST)
-                        .withDisplay("&b&l" + StringFormatter.toTitleCase(group))
+                        .withDisplay("&b&l" + CaseFormatter.toTitleCase(group))
                         .addLore("")
-                        .addLore("&eLeft-Click: &fView all messages")
+                        .addLeftClickLore("To view all messages")
                         .onLeftClick((menuView, player, event) -> player.openMenu(new MessagesMenu(plugin, group)))
                         .buildButton())
                 .toList();

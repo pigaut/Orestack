@@ -1,26 +1,15 @@
-# ============================
-#         STAGE 0
-# ============================
 
----
+--- # ===== Stage 1 =====
 type: depleted   # Depleted stage has no drops
 block: bedrock
 growth: 40
 
-# ============================
-#         STAGE 1
-# ============================
-
----
+--- # ===== Stage 2 =====
 type: growing   # Growth stage has no drops
 block: cobblestone
 growth: 40
 
-# ============================
-#         STAGE 2
-# ============================
-
----
+--- # ===== Stage 3 =====
 type: harvestable
 block: coal_ore
 growth: 40
@@ -36,11 +25,7 @@ on-break:
     - dropItemAtPlayer COAL   # Drops the item at the player location
     - giveItemToPlayer COAL   # Gives the item to the player and drops what couldn't fit in the inventory
 
-# ============================
-#         STAGE 3
-# ============================
-
----
+--- # ===== Stage 4 =====
 type: replenished
 block: iron_ore
 

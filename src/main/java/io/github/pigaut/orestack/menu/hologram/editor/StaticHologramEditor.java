@@ -24,14 +24,14 @@ public class StaticHologramEditor extends GenericHologramEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter text in chat")
-                            .collectInput(input -> {
-                                hologramSection.set("text", input);
+                            .withInputCollector(input -> {
+                                section.set("text", input);
                                 view.open();
                             })
-                            .beginCollection();
+                            .collect();
                 })
                 .addLore("")
-                .addLore(hologramSection.getOptionalString("text", StringColor.FORMATTER).orElse("none"))
+                .addLore(section.getString("text", StringColor.FORMATTER).orElse("none"))
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo set hologram text");
 

@@ -1,10 +1,8 @@
 package io.github.pigaut.orestack.menu.hologram.editor;
 
-import io.github.pigaut.voxel.*;
 import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
-import io.github.pigaut.yaml.parser.*;
+import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -12,7 +10,7 @@ public class BlockHologramEditor extends GenericHologramEditor {
 
     public BlockHologramEditor(ConfigSection hologramSection) {
         super(hologramSection);
-        hologramSection.set("type", "block_display");
+        section.set("type", "block_display");
     }
 
     @Override
@@ -24,24 +22,16 @@ public class BlockHologramEditor extends GenericHologramEditor {
                 .withDisplay("&f&lBlock Type")
                 .enchanted(true)
                 .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
+                    player.createChatInput(Material.class)
                             .withDescription("Enter block type in chat")
-                            .checkInput(input -> {
-                                try {
-                                    SpigotLibs.deserializeMaterial(input);
-                                } catch (DeserializationException e) {
-                                    return e.getMessage();
-                                }
-                                return null;
-                            })
-                            .collectInput(input -> {
-                                hologramSection.set("block", input);
+                            .withInputCollector(input -> {
+                                section.set("block", input);
                                 view.open();
                             })
-                            .beginCollection();
+                            .collect();
                 })
                 .addLore("")
-                .addLore(hologramSection.getOptionalString("block", StringStyle.CONSTANT).orElse("none"))
+                .addLore(section.getString("block", CaseStyle.CONSTANT).orElse("none"))
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo set hologram block");
 

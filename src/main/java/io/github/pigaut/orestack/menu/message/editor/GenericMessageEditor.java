@@ -2,94 +2,85 @@ package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.menu.template.menu.*;
+import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.editor.*;
-import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.*;
-import io.github.pigaut.yaml.parser.deserializer.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 public class GenericMessageEditor extends FramedEditor {
 
-    protected final ConfigSection messageSection;
+    public GenericMessageEditor(@NotNull String title, @NotNull ConfigSection section) {
+        super(section, title, MenuSize.BIG);
+    }
 
-    public GenericMessageEditor(@NotNull String title, @NotNull ConfigSection messageSection) {
-        super(messageSection.getRoot(), title, MenuSize.BIG);
-        this.messageSection = messageSection;
+    @Override
+    public Button getFrameButton() {
+        return Buttons.LIGHT_BLUE_PANEL;
     }
 
     @Override
     public @Nullable Button[] createButtons() {
         final Button[] buttons = super.createButtons();
 
-        final Integer delay = messageSection.getOptionalInteger("delay").orElse(null);
+        final Integer delay = section.getInteger("delay").orElse(null);
         final ButtonBuilder delayButton = Button.builder()
                 .withType(Material.CLOCK)
                 .withDisplay("&f&lDelay")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
-                            .withDescription("Enter delay amount in chat")
-                            .collectInput(input -> {
-                                final Integer amount = Deserializers.getInteger(input);
-                                if (amount != null) {
-                                    messageSection.set("delay", amount);
-                                }
-                                view.open();
-                            })
-                            .beginCollection();
-                })
                 .addLore("")
                 .addLore(delay != null ? (delay + " ticks") : "none")
                 .addLore("")
-                .addLore("&eLeft-Click: &fSet message delay");
+                .addLore("To set message delay")
+                .onLeftClick((view, player, event) -> {
+                    player.createChatInput(Integer.class)
+                            .withDescription("Enter delay amount in chat")
+                            .withInputCollector(input -> {
+                                section.set("delay", input);
+                                view.open();
+                            })
+                            .collect();
+                });
 
         final ButtonBuilder repetitionsButton = Button.builder()
                 .withType(Material.REPEATER)
                 .withDisplay("&f&lRepetitions")
                 .enchanted(true)
+                .addLore("")
+                .addLore(section.getString("repetitions|loops").orElse("none"))
+                .addLore("")
+                .addLeftClickLore("To set message repetitions")
                 .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
+                    player.createChatInput(Integer.class)
                             .withDescription("Enter repetitions amount in chat")
-                            .collectInput(input -> {
-                                final Integer amount = Deserializers.getInteger(input);
-                                if (amount != null) {
-                                    messageSection.set("repetitions|loops", amount);
-                                }
+                            .withInputCollector(input -> {
+                                section.set("repetitions|loops", input);
                                 view.open();
                             })
-                            .beginCollection();
-                })
-                .addLore("")
-                .addLore(messageSection.getOptionalString("repetitions|loops").orElse("none"))
-                .addLore("")
-                .addLore("&eLeft-Click: &fSet message repetitions");
+                            .collect();
+                });
 
-        final Integer interval = messageSection.getOptionalInteger("interval").orElse(null);
+        final Integer interval = section.getInteger("interval").orElse(null);
         final ButtonBuilder intervalButton = Button.builder()
                 .withType(Material.COMPARATOR)
                 .withDisplay("&f&lInterval")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
-                            .withDescription("Enter interval amount in chat")
-                            .collectInput(input -> {
-                                final Integer amount = Deserializers.getInteger(input);
-                                if (amount != null) {
-                                    if (!messageSection.isSet("repetitions|loops")) {
-                                        messageSection.set("repetitions|loops", 2);
-                                    }
-                                    messageSection.set("interval", amount);
-                                }
-                                view.open();
-                            })
-                            .beginCollection();
-                })
                 .addLore("")
                 .addLore(interval != null ? (interval + " ticks") : "none")
                 .addLore("")
-                .addLore("&eLeft-Click: &fSet message interval");
+                .addLeftClickLore("To set message interval")
+                .onLeftClick((view, player, event) -> {
+                    player.createChatInput(Integer.class)
+                            .withDescription("Enter interval amount in chat")
+                            .withInputCollector(input -> {
+                                if (!section.isSet("repetitions|loops")) {
+                                    section.set("repetitions|loops", 2);
+                                }
+                                section.set("interval", input);
+                                view.open();
+                            })
+                            .collect();
+                });
 
         buttons[15] = delayButton.buildButton();
         buttons[24] = repetitionsButton.buildButton();

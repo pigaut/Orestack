@@ -1,12 +1,10 @@
 package io.github.pigaut.orestack.menu.function;
 
-import io.github.pigaut.orestack.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.plugin.*;
-import io.github.pigaut.yaml.parser.*;
+import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
 
 import java.util.*;
@@ -25,7 +23,7 @@ public class FunctionGroupsMenu extends FramedSelectionMenu {
         return plugin.getFunctions().getAllGroups().stream()
                 .map(group -> Button.builder()
                         .withType(Material.CHEST)
-                        .withDisplay("&8&l" + StringFormatter.toTitleCase(group))
+                        .withDisplay("&8&l" + CaseFormatter.toTitleCase(group))
                         .addLore("")
                         .addLore("&eLeft-Click: &fView all functions")
                         .onLeftClick((menuView, player, event) -> menuView.getViewer().openMenu(new FunctionsMenu(plugin, group)))

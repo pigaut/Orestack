@@ -1,13 +1,11 @@
 package io.github.pigaut.orestack.menu.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
-import io.github.pigaut.yaml.parser.*;
+import io.github.pigaut.yaml.convert.format.*;
 
 import java.util.*;
 
@@ -17,7 +15,7 @@ public class GeneratorsMenu extends FramedSelectionMenu {
     private final String group;
 
     public GeneratorsMenu(OrestackPlugin plugin, String group) {
-        super(StringFormatter.toTitleCase(group) + " Generators", MenuSize.BIG);
+        super(CaseFormatter.toTitleCase(group) + " Generators", MenuSize.BIG);
         this.plugin = plugin;
         this.group = group;
     }
@@ -29,7 +27,7 @@ public class GeneratorsMenu extends FramedSelectionMenu {
                     final String generatorName = generator.getName();
                     return Button.builder()
                             .withType(generator.getItem().getType())
-                            .withDisplay("&6&o" + StringFormatter.toTitleCase(generatorName))
+                            .withDisplay("&6&o" + CaseFormatter.toTitleCase(generatorName))
                             .addLore("")
                             .addLore("&eLeft-Click: &fGet Generator")
                             .onLeftClick((menuView, player, event) ->

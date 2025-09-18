@@ -1,10 +1,8 @@
 package io.github.pigaut.orestack.menu.hologram.editor;
 
-import io.github.pigaut.voxel.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
-import io.github.pigaut.yaml.parser.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -12,7 +10,7 @@ public class ItemHologramEditor extends GenericHologramEditor {
 
     public ItemHologramEditor(ConfigSection hologramSection) {
         super(hologramSection);
-        hologramSection.set("type", "item_display");
+        section.set("type", "item_display");
     }
 
     @Override
@@ -24,24 +22,16 @@ public class ItemHologramEditor extends GenericHologramEditor {
                 .withDisplay("&f&lItem Type")
                 .enchanted(true)
                 .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
+                    player.createChatInput(Material.class)
                             .withDescription("Enter item type in chat")
-                            .checkInput(input -> {
-                                try {
-                                    SpigotLibs.deserializeMaterial(input);
-                                } catch (DeserializationException e) {
-                                    return e.getMessage();
-                                }
-                                return null;
-                            })
-                            .collectInput(input -> {
-                                hologramSection.set("item", input);
+                            .withInputCollector(input -> {
+                                section.set("item", input);
                                 view.open();
                             })
-                            .beginCollection();
+                            .collect();
                 })
                 .addLore("")
-                .addLore(hologramSection.getOptionalString("item", StringColor.FORMATTER).orElse("none"))
+                .addLore(section.getString("item", StringColor.FORMATTER).orElse("none"))
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo set hologram item");
 

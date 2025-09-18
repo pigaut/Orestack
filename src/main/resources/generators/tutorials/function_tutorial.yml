@@ -1,41 +1,39 @@
-# ============================
-#         STAGE 0
-# ============================
 
----
+--- # ===== Stage 1 =====
 type: depleted
 block: white wool
 growth: 40
 
 # Use 'on-break' to define a function triggered when a player breaks a generator block
 on-break:
-  # Use 'do' to define one or more actions to be executed always
+  # Use 'do' to define one or more actions to be executed
   do: chatMessage <&4This resource is depleted>
+
   # Use 'chance' to define the probability of this function to run
   chance: 0.6   # 60%
+
   # Use 'delay' to define the delay after which the function will run
   delay: 60   # 3 seconds
+
   # Use 'repetitions' to define the number of times this function will run
   repetitions: 1   # 1 repetition
+
   # Use 'interval' to define the delay between each repetition
   interval: 5   # 0.25 second interval
 
-# ============================
-#         STAGE 1
-# ============================
-
----
+--- # ===== Stage 2 =====
 type: harvestable
 block: gray wool
 growth: 40
 
 # There are 3 triggers: on-break, on-click and on-growth
-on-break: { do: chatMessage <&aYou harvested gray wool!> }
+on-break:
+  do: chatMessage <&aYou harvested gray wool!>
 
 # Use 'on-click' to define a function triggered when a player interacts with a generator block
 on-click:
-  # Use 'click' to define the click type required, i.e. RIGHT_CLICK_BLOCK, LEFT_CLICK_BLOCK, PHYSICAL (pressure plates, etc..)
-  click: right_click_block
+  # Use 'action' to define the click type required, i.e. RIGHT_CLICK, LEFT_CLICK, PHYSICAL (pressure plates, etc..)
+  action: right_click
   # Now the actions will run only when a player right-clicks a generator block
   do: chatMessage <&aThis gray wool block is ready to be mined!>
 
@@ -44,11 +42,7 @@ on-growth:
   # You cannot use actions that require a player in on-growth
   do: chatMessage <&4This message will not be sent to anyone!>
 
-# ============================
-#         STAGE 2
-# ============================
-
----
+--- # ===== Stage 3 =====
 type: harvestable
 block: blue_wool
 growth: 40
@@ -64,17 +58,15 @@ on-click:
   # When are <> and '' or "" needed and why?
   do:
     # Let's start with the diamond parentheses, these are needed to define a parameter that has spaces in it
-    - <chat message> <This message has spaces!>   # This statement has 1 action and 1 parameter
+    - <chat message> <This message has spaces!>   # This statement has 1 action and 1 value
+
     # The '' are needed to define a string with special characters :{}[],?*&!|>'"%@`
     - 'chatMessage <You clicked a: {generator_tc} Generator>'
-    # The "" are more convenient if you need to use apostrophes in your sentence
+
+    # The "" are convenient if you need to use apostrophes in your sentence
     - "chatMessage <You can't do that>"
 
-# ============================
-#         STAGE 3
-# ============================
-
----
+--- # ===== Stage 4 =====
 type: harvestable
 block: red_wool
 growth: 40
@@ -82,20 +74,25 @@ growth: 40
 on-break:
   # Use 'if' to define conditions
   if: toolTypeEquals SHEARS
+
   # Use 'do' to define actions that will run if conditions are met
   do:
     - chatMessage <&aHarvesting red wool...>
-  # Use 'else' to define actions that will if conditions are NOT met
+
+  # Use 'else' to define actions that will run if conditions are NOT met
   else:
     - chatMessage <&4You need shears to harvest this generator>
     - cancelEvent   # CANCEL_EVENT in this case will cancel the block break event; the block will not break
 
 on-click:
-  click: right_click_block
+  action: right_click
+
   # Use 'if-not' to negate the conditions
   if-not: toolTypeEquals SHEARS
+
   # Now 'do' is used when the conditions are NOT met
   do: chatMessage <&4You are not holding shears, you cannot harvest this block!>
+
   # and 'else' is used for when they are not
   else: chatMessage <&aYou are holding shears, you can harvest this block!>
 
@@ -104,12 +101,14 @@ on-growth:
   if-any:
     - probability 0.5
     - onlinePlayers 10-300
+
   # Now 'do' is used when at least one condition is met
   do: playSoundAtBlock tin
-  # and 'else' is used when all conditions are unmet
+
+  # and 'else' is used when all conditions are not met
   else: playSoundAtBlock tin_tin
 
----
+--- # ===== Stage 5 =====
 type: harvestable
 block: yellow_wool
 growth: 40
@@ -123,37 +122,34 @@ on-break:
       - return   # 'return' or 'stop' can be used when in a list of functions, and it will end code execution
 
     # Some conditions accept one or more parameters
-  - if-not: toolTypeEquals <SHEARS, FISHING_ROD>
+  - if-not: toolTypeEquals shears, fishing_rod
     do:
       - chatMessage <&4You need shears or a fishing rod to harvest this block>
       - cancelEvent
       - return   # [!] Always place 'return' or 'stop' last, or the following actions will not run
       - chatMessage <&4This message will not be sent because the code is unreachable!>
 
-    # This only runs if the 'return' action above is not reached
-  - do: chatMessage <&aHarvesting yellow wool...>
-
   - if-not: hasPermission orestack.generator.harvest.reward
     do:
       - chatMessage <&4There are no rewards for you, sorry.>
       - return
 
-  - chance: 0.5   # 50% chance of function running
-    do:
+    # This block only runs if all previous clauses are passed
+  - do:
       - giveItemToPlayer diamond
-      - chatMessage <&aFound a reward! You received x1 diamond.>
+      - chatMessage <&aYou found a reward! Added 1 diamond to your inventory.>
 
     # This pattern of writing code is called guard clauses or return early,
     # in this limited YAML scripting system we can use it to our advantage
     # to write almost any logic.
 
----
+--- # ===== Stage 6 =====
 type: replenished
 block: lime_wool
 
 on-break:
   # Define global functions into the functions folder
   - requireHarvestPermission     # If you use 'return' inside a global function, the code here will continue to run
-  - requireIronPickaxeOrBetter   # But if you use 'stop' the code here will end as well
+  - requireIronPickaxeOrBetter   # But if you use 'stop' the code here will stop as well
   - do: chatMessage <&aHarvesting green wool...>
 

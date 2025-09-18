@@ -1,7 +1,6 @@
 package io.github.pigaut.orestack.listener;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.generator.*;
 import org.bukkit.block.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;

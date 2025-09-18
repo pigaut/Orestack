@@ -2,10 +2,9 @@ package io.github.pigaut.orestack.menu.sound;
 
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.plugin.*;
-import io.github.pigaut.yaml.parser.*;
+import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
 
 import java.util.*;
@@ -24,7 +23,7 @@ public class SoundGroupsMenu extends FramedSelectionMenu {
         return plugin.getSounds().getAllGroups().stream()
                 .map(group -> Button.builder()
                         .withType(Material.CHEST)
-                        .withDisplay("&3&l" + StringFormatter.toTitleCase(group))
+                        .withDisplay("&3&l" + CaseFormatter.toTitleCase(group))
                         .addLore("")
                         .addLore("&eLeft-Click: &fView all sound effects")
                         .onLeftClick((view, player, event) -> player.openMenu(new SoundsMenu(plugin, group)))
