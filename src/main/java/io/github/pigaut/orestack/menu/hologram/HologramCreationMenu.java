@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.menu.hologram;
 import io.github.pigaut.orestack.menu.hologram.editor.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
+import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.yaml.*;
 import org.bukkit.*;
@@ -22,6 +23,11 @@ public class HologramCreationMenu extends FramedMenu {
     @Override
     public boolean backOnClose() {
         return true;
+    }
+
+    @Override
+    public Button getFrameButton() {
+        return Buttons.WHITE_PANEL;
     }
 
     @Override

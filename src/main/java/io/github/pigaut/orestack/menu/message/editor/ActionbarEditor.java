@@ -1,7 +1,6 @@
 package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
 import org.bukkit.*;
@@ -11,7 +10,7 @@ public class ActionbarEditor extends GenericMessageEditor {
 
     public ActionbarEditor(ConfigSection messageSection) {
         super("Edit Action Bar", messageSection);
-        messageSection.set("type", "actionbar");
+        section.set("type", "actionbar");
     }
 
     @Override
@@ -25,14 +24,14 @@ public class ActionbarEditor extends GenericMessageEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter message in chat")
-                            .collectInput(input -> {
-                                messageSection.set("message", input);
+                            .withInputCollector(input -> {
+                                section.set("message", input);
                                 view.open();
                             })
-                            .beginCollection();
+                            .collect();
                 })
                 .addLore("")
-                .addLore(messageSection.getOptionalString("message", StringColor.FORMATTER).orElse("none"))
+                .addLore(section.getString("message", StringColor.FORMATTER).orElse("none"))
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo set the message");
 

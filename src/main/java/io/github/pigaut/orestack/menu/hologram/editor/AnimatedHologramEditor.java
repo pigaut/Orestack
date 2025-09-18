@@ -28,11 +28,11 @@ public class AnimatedHologramEditor extends GenericHologramEditor {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter frame text in chat")
-                            .collectInput(input -> {
+                            .withInputCollector(input -> {
                                 frameSequence.add(input);
                                 view.open();
                             })
-                            .beginCollection();
+                            .collect();
                 })
                 .onRightClick((view, player, event) -> {
                     if (!frameSequence.isEmpty()) {

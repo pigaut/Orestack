@@ -1,8 +1,5 @@
-# ============================
-#         STAGE 0
-# ============================
 
----
+--- # ===== Stage 1 =====
 state: depleted
 structure: great_oak_tree_0
 growth: 100
@@ -16,11 +13,7 @@ hologram:
     update: 3
     offset: { x: 2, y: 1.75, z: 0 }
 
-# ============================
-#         STAGE 1
-# ============================
-
----
+--- # ===== Stage 2 =====
 state: harvestable
 structure: great_oak_tree_1
 
@@ -36,11 +29,7 @@ on-break:
   - requireOakBlock
   - do: dropItemAtPlayer OAK_LOG:19
 
-# ============================
-#         STAGE 2
-# ============================
-
----
+--- # ===== Stage 3 =====
 state: harvestable
 structure: great_oak_tree_2
 
@@ -55,11 +44,7 @@ hologram:
     text: "&aLogs left: 21"
     offset: { x: 2, y: 1.75, z: 0 }
 
-# ============================
-#         STAGE 3
-# ============================
-
----
+--- # ===== Stage 4 =====
 state: harvestable
 structure: great_oak_tree_3
 
@@ -74,11 +59,7 @@ hologram:
     text: "&aLogs left: 22"
     offset: { x: 2, y: 1.75, z: 0 }
 
-# ============================
-#         STAGE 4
-# ============================
-
----
+--- # ===== Stage 5 =====
 state: harvestable
 structure: great_oak_tree_4
 
@@ -93,11 +74,7 @@ hologram:
     text: "&aLogs left: 23"
     offset: { x: 2, y: 1.75, z: 0 }
 
-# ============================
-#         STAGE 5
-# ============================
-
----
+--- # ===== Stage 6 =====
 state: harvestable
 structure: great_oak_tree_5
 
@@ -112,11 +89,7 @@ hologram:
     text: "&aLogs left: 24"
     offset: { x: 2, y: 1.75, z: 0 }
 
-# ============================
-#         STAGE 6
-# ============================
-
----
+--- # ===== Stage 7 =====
 state: replenished
 structure: great_oak_tree_6
 

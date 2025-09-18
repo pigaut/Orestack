@@ -1,7 +1,6 @@
 package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.voxel.command.node.*;
 import org.jetbrains.annotations.*;
 

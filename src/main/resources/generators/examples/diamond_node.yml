@@ -1,17 +1,10 @@
-# ============================
-#         STAGE 0
-# ============================
 
----
+--- # ===== Stage 1 =====
 state: depleted
 block: cobblestone
 growth: 60
 
-# ============================
-#         STAGE 1
-# ============================
-
----
+--- # ===== Stage 2 =====
 state: replenished
 structure:
   - { block: DIAMOND_ORE, offset: { x: 1, y: 0, z: 0 } }

@@ -2,41 +2,40 @@ package io.github.pigaut.orestack.menu.hologram.editor;
 
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
+import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.editor.*;
 import io.github.pigaut.yaml.*;
-import io.github.pigaut.yaml.parser.deserializer.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 public class GenericHologramEditor extends FramedEditor {
 
-    protected final ConfigSection hologramSection;
-
     public GenericHologramEditor(ConfigSection hologramSection) {
-        super(hologramSection.getRoot(), "Edit Hologram", MenuSize.BIG);
-        this.hologramSection = hologramSection;
+        super(hologramSection, "Edit Hologram", MenuSize.BIG);
+    }
+
+    @Override
+    public Button getFrameButton() {
+        return Buttons.WHITE_PANEL;
     }
 
     @Override
     public @Nullable Button[] createButtons() {
         final Button[] buttons = super.createButtons();
 
-        final Integer update = hologramSection.getOptionalInteger("update").orElse(null);
+        final Integer update = section.getInteger("update").orElse(null);
         final ButtonBuilder updateButton = Button.builder()
                 .withType(Material.REDSTONE_LAMP)
                 .withDisplay("&f&lUpdate")
                 .enchanted(true)
                 .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
+                    player.createChatInput(Integer.class)
                             .withDescription("Enter update amount in chat")
-                            .collectInput(input -> {
-                                final Integer amount = Deserializers.getInteger(input);
-                                if (amount != null) {
-                                    hologramSection.set("update", amount);
-                                }
+                            .withInputCollector(input -> {
+                                section.set("update", input);
                                 view.open();
                             })
-                            .beginCollection();
+                            .collect();
                 })
                 .addLore("")
                 .addLore(update != null ? (update + " ticks") : "none")
@@ -48,19 +47,16 @@ public class GenericHologramEditor extends FramedEditor {
                 .withDisplay("&f&lOffset X")
                 .enchanted(true)
                 .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
+                    player.createChatInput(Double.class)
                             .withDescription("Enter x-offset amount in chat")
-                            .collectInput(input -> {
-                                final Integer xOffset = Deserializers.getInteger(input);
-                                if (xOffset != null) {
-                                    hologramSection.set("offset.x", xOffset);
-                                }
+                            .withInputCollector(input -> {
+                                section.set("offset.x", input);
                                 view.open();
                             })
-                            .beginCollection();
+                            .collect();
                 })
                 .addLore("")
-                .addLore(hologramSection.getOptionalString("offset.x").orElse("none"))
+                .addLore(section.getString("offset.x").orElse("none"))
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo set hologram x offset");
 
@@ -69,19 +65,16 @@ public class GenericHologramEditor extends FramedEditor {
                 .withDisplay("&f&lOffset Y")
                 .enchanted(true)
                 .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
+                    player.createChatInput(Double.class)
                             .withDescription("Enter y-offset amount in chat")
-                            .collectInput(input -> {
-                                final Integer yOffset = Deserializers.getInteger(input);
-                                if (yOffset != null) {
-                                    hologramSection.set("offset.y", yOffset);
-                                }
+                            .withInputCollector(input -> {
+                                section.set("offset.y", input);
                                 view.open();
                             })
-                            .beginCollection();
+                            .collect();
                 })
                 .addLore("")
-                .addLore(hologramSection.getOptionalString("offset.y").orElse("none"))
+                .addLore(section.getString("offset.y").orElse("none"))
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo set hologram y offset");
 
@@ -90,19 +83,16 @@ public class GenericHologramEditor extends FramedEditor {
                 .withDisplay("&f&lOffset Z")
                 .enchanted(true)
                 .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
+                    player.createChatInput(Double.class)
                             .withDescription("Enter z-offset amount in chat")
-                            .collectInput(input -> {
-                                final Integer zOffset = Deserializers.getInteger(input);
-                                if (zOffset != null) {
-                                    hologramSection.set("offset.z", zOffset);
-                                }
+                            .withInputCollector(input -> {
+                                section.set("offset.z", input);
                                 view.open();
                             })
-                            .beginCollection();
+                            .collect();
                 })
                 .addLore("")
-                .addLore(hologramSection.getOptionalString("offset.z").orElse("none"))
+                .addLore(section.getString("offset.z").orElse("none"))
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo set hologram z offset");
 

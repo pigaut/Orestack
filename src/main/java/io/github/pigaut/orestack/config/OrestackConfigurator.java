@@ -5,7 +5,7 @@ import io.github.pigaut.orestack.action.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.config.*;
 import io.github.pigaut.voxel.core.function.action.*;
-import io.github.pigaut.yaml.configurator.loader.*;
+import io.github.pigaut.yaml.configurator.load.*;
 import org.jetbrains.annotations.*;
 
 public class OrestackConfigurator extends PluginConfigurator {
@@ -16,26 +16,26 @@ public class OrestackConfigurator extends PluginConfigurator {
         addLoader(GeneratorTemplate.class, new GeneratorLoader());
 
         final ActionLoader actions = this.getActionLoader();
-        actions.addLoader("RESET_GENERATOR", (BranchLoader<Action>) branch ->
+        actions.addLoader("RESET_GENERATOR", (ConfigLoader.Line<Action>) line ->
                 new GeneratorResetStageAction());
 
-        actions.addLoader("NEXT_STAGE", (BranchLoader<Action>) branch ->
+        actions.addLoader("NEXT_STAGE", (ConfigLoader.Line<Action>) line ->
                 new GeneratorNextStageAction());
 
-        actions.addLoader("PREVIOUS_STAGE", (BranchLoader<Action>) branch ->
+        actions.addLoader("PREVIOUS_STAGE", (ConfigLoader.Line<Action>) line ->
                 new GeneratorPreviousStageAction());
 
-        actions.addLoader("SET_STAGE", (BranchLoader<Action>) branch ->
-                new GeneratorSetStageAction(branch.getInteger("stage", 1)));
+        actions.addLoader("SET_STAGE", (ConfigLoader.Line<Action>) line ->
+                new GeneratorSetStageAction(line.getRequiredInteger(1)));
 
-        actions.addLoader("NEXT_GENERATOR_STAGE", (BranchLoader<Action>) branch ->
+        actions.addLoader("NEXT_GENERATOR_STAGE", (ConfigLoader.Line<Action>) line ->
                 new GeneratorNextStageAction());
 
-        actions.addLoader("PREVIOUS_GENERATOR_STAGE", (BranchLoader<Action>) branch ->
+        actions.addLoader("PREVIOUS_GENERATOR_STAGE", (ConfigLoader.Line<Action>) line ->
                 new GeneratorPreviousStageAction());
 
-        actions.addLoader("SET_GENERATOR_STAGE", (BranchLoader<Action>) branch ->
-                new GeneratorSetStageAction(branch.getInteger("stage", 1)));
+        actions.addLoader("SET_GENERATOR_STAGE", (ConfigLoader.Line<Action>) line ->
+                new GeneratorSetStageAction(line.getRequiredInteger(1)));
 
     }
 

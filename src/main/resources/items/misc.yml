@@ -25,11 +25,7 @@ compressed_coal:
   enchants:
     smite: 1
   attributes:
-    - type: generic.knockback_resistance
-      name: Stability
-      amount: 0.2
-      slot: mainhand
-      operation: 0
+    - knockback_resistance 0.2 operation=multiply slot=chest name=stability
   persistent-data:
     - key: orestack:item
       type: string
@@ -50,11 +46,7 @@ iron_chunk:
   enchants:
     efficiency: 1
   attributes:
-    - type: generic.armor_toughness
-      name: Toughness Boost
-      amount: 1.0
-      slot: offhand
-      operation: 0
+    - armor_toughness 1.0 slot=offhand
   persistent-data:
     - key: orestack:item
       type: string
@@ -75,11 +67,7 @@ diamond_shard:
   enchants:
     fortune: 1
   attributes:
-    - type: generic.luck
-      name: Fortune Boost
-      amount: 0.5
-      slot: mainhand
-      operation: 0
+    - luck 50 operation=percent slot=mainhand
   persistent-data:
     - key: orestack:item
       type: string

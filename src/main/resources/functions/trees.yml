@@ -1,17 +1,17 @@
 requireLogBlock:
-  if-not: blockTypeEquals <OAK_LOG, BIRCH_LOG, SPRUCE_LOG, ACACIA_LOG, JUNGLE_LOG, DARK_OAK_LOG>
+  if-not: blockTypeEquals OAK_LOG, BIRCH_LOG, SPRUCE_LOG, ACACIA_LOG, JUNGLE_LOG, DARK_OAK_LOG
   do: [ cancelEvent, stop ]
 
 requireOakBlock:
-  if-not: blockTypeEquals <OAK_LOG, OAK_WOOD>
+  if-not: blockTypeEquals OAK_LOG, OAK_WOOD
   do: [ cancelEvent, stop ]
 
 # The leaves will not be broken, and the generator will remain at the current stage
 cancelBreakIfLeaves:
-  if: blockTypeEquals <OAK_LEAVES, BIRCH_LEAVES, SPRUCE_LEAVES, ACACIA_LEAVES, JUNGLE_LEAVES, DARK_OAK_LEAVES>
+  if: blockTypeEquals OAK_LEAVES, BIRCH_LEAVES, SPRUCE_LEAVES, ACACIA_LEAVES, JUNGLE_LEAVES, DARK_OAK_LEAVES
   do: cancelEvent
 
 # The leaves will be broken normally and drop items, but the generator will remain at the current stage
 resetGeneratorIfLeaves:
-  if: blockTypeEquals <OAK_LEAVES, BIRCH_LEAVES, SPRUCE_LEAVES, ACACIA_LEAVES, JUNGLE_LEAVES, DARK_OAK_LEAVES>
+  if: blockTypeEquals OAK_LEAVES, BIRCH_LEAVES, SPRUCE_LEAVES, ACACIA_LEAVES, JUNGLE_LEAVES, DARK_OAK_LEAVES
   do: resetGenerator

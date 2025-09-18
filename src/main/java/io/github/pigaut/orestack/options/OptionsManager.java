@@ -18,7 +18,7 @@ public class OptionsManager extends Manager {
     public void loadData() {
         super.loadData();
         final ConfigSection config = plugin.getConfiguration();
-        generatorTool = config.get("generator-tool", ItemStack.class);
+        generatorTool = config.getRequired("generator-tool", ItemStack.class);
     }
 
     public @NotNull ItemStack getGeneratorTool() {

@@ -5,8 +5,7 @@ import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.plugin.*;
-import io.github.pigaut.yaml.parser.*;
-import org.bukkit.entity.*;
+import io.github.pigaut.yaml.convert.format.*;
 
 import java.util.*;
 
@@ -16,7 +15,7 @@ public class SoundsMenu extends FramedSelectionMenu {
     private final String group;
 
     public SoundsMenu(EnhancedPlugin plugin, String group) {
-        super(StringFormatter.toTitleCase(group) + " Sound Effects", MenuSize.BIG);
+        super(CaseFormatter.toTitleCase(group) + " Sound Effects", MenuSize.BIG);
         this.plugin = plugin;
         this.group = group;
     }
@@ -26,7 +25,7 @@ public class SoundsMenu extends FramedSelectionMenu {
         return plugin.getSounds().getAll(group).stream()
                 .map(sound -> Button.builder()
                         .withType(sound.getIcon().getType())
-                        .withDisplay("&3&o" + StringFormatter.toTitleCase(sound.getName()))
+                        .withDisplay("&3&o" + CaseFormatter.toTitleCase(sound.getName()))
                         .addLore("")
                         .addLore("&eLeft-Click: &fPlay-me sound")
                         .onLeftClick((menuView, player, event) -> {

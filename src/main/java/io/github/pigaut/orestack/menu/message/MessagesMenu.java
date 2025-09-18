@@ -9,8 +9,9 @@ import io.github.pigaut.voxel.menu.template.menu.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.manager.*;
+import io.github.pigaut.yaml.*;
+import io.github.pigaut.yaml.convert.format.*;
 import io.github.pigaut.yaml.node.section.*;
-import io.github.pigaut.yaml.parser.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -23,11 +24,10 @@ public class MessagesMenu extends FramedSelectionMenu {
     private final RootSection config;
 
     public MessagesMenu(EnhancedPlugin plugin, String group) {
-        super(plugin, StringFormatter.toTitleCase(group) + " Messages", MenuSize.BIG);
+        super(plugin, CaseFormatter.toTitleCase(group) + " Messages", MenuSize.BIG);
         this.group = group;
         final File file = Group.getFile(plugin, "messages", group);
-        this.config = new RootSection(file, plugin.getConfigurator());
-        config.load();
+        this.config = YamlConfig.loadSection(file, plugin.getConfigurator());
     }
 
     @Override
@@ -35,6 +35,11 @@ public class MessagesMenu extends FramedSelectionMenu {
         plugin.getMessages().reload(errorsFound -> {
             view.update();
         });
+    }
+
+    @Override
+    public Button getFrameButton() {
+        return Buttons.LIGHT_BLUE_PANEL;
     }
 
     @Override
@@ -54,7 +59,7 @@ public class MessagesMenu extends FramedSelectionMenu {
             final String name = message.getName();
             final Button messageButton = Button.builder()
                     .withType(message.getIcon().getType())
-                    .withDisplay("&b&o" + StringFormatter.toTitleCase(name))
+                    .withDisplay("&b&o" + CaseFormatter.toTitleCase(name))
                     .addLore("")
                     .addLore("&eLeft-Click: &fTo edit message")
                     .addLore("&6Right-Click: &fTo receive message")
@@ -87,10 +92,10 @@ public class MessagesMenu extends FramedSelectionMenu {
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput()
                             .withDescription("Enter message name in chat")
-                            .collectInput(input -> {
+                            .withInputCollector(input -> {
                                 player.openMenu(new MessageCreationMenu(config.getSectionOrCreate(input), true), view);
                             })
-                            .beginCollection();
+                            .collect();
                 })
                 .buildButton());
 

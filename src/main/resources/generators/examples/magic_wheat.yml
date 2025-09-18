@@ -44,14 +44,15 @@ regrow: false
 on-break:
   - if: probability 0.3
     do: spawnParticleAtBlock rain_cloud
-    else: [ setStage 0, return ]
+    else:
+      - setStage 0
+      - return
 
-  - delay: 4
-    repetitions: 7
-    interval: 4
-    do: nextGeneratorStage
+  - do: nextGeneratorStage delay=4 repetitions=7 interval=4
 
   - delay: 28
     repetitions: 4
     interval: 5
-    do: [ dropItemAtBlock wheat, dropItemAtBlock seeds ]
+    do:
+      - dropItemAtBlock wheat
+      - dropItemAtBlock seeds

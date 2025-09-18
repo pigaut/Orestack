@@ -1,8 +1,4 @@
-# ============================
-#         STAGE 0
-# ============================
-
----
+--- # ===== Stage 1 =====
 type: depleted
 block: bedrock
 growth: 40
@@ -17,11 +13,7 @@ hologram:
     y: 1
     z: 0
 
-# ============================
-#         STAGE 1
-# ============================
-
----
+--- # ===== Stage 2 =====
 type: harvestable
 block: cobblestone
 growth: 40
@@ -33,11 +25,7 @@ hologram:
   update: 3
   offset: { x: 0, y: 1, z: 0 }
 
-# ============================
-#         STAGE 2
-# ============================
-
----
+--- # ===== Stage 3 =====
 type: harvestable
 block: iron_ore
 growth: 40
@@ -58,11 +46,7 @@ hologram:
   update: 3
   offset: { y: 1 }
 
-# ============================
-#         STAGE 3
-# ============================
-
----
+--- # ===== Stage 4 =====
 type: harvestable
 block: gold_ore
 growth: 40
@@ -72,11 +56,7 @@ hologram:
   item: iron_pickaxe
   offset.y: 1
 
-# ============================
-#         STAGE 4
-# ============================
-
----
+--- # ===== Stage 5 =====
 type: harvestable
 block: diamond_ore
 growth: 40
@@ -86,11 +66,7 @@ hologram:
   block: diamond_ore
   offset.y: 1
 
-# ============================
-#         STAGE 5
-# ============================
-
----
+--- # ===== Stage 6 =====
 type: replenished
 block: emerald_ore
 
