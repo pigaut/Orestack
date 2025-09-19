@@ -1,14 +1,19 @@
+# Whether to show config errors in chat when a player uses /orestack reload
 debug: true
 
+# Generates example files and folders
 generate-examples: true
 
+# Checks for available updates on startup and every 24 hours
 check-for-updates: true
 
 # Enables bStats metrics collection (https://bstats.org/plugin/bukkit/Orestack/24502)
-metrics: true   # Premium Only
+metrics: true
+
+# Dumps the giant Orestack logo in console on startup and on reload
+dump-logo: true
 
 # The language file that should be used (en = en.yml)
-# Requires server restart to take full effect
 language: en
 
 # The auto save timer, if not set or set to 0 data will only be saved on shutdown or on /orestack reload
