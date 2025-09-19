@@ -74,7 +74,7 @@ hologram:
   # Use a list of holograms to spawn more than one hologram
   - type: static
     text: "&f-- &2&lEmerald Ore &f--"
-    # One hologram line is 0.25 in height, 0.20 will leave a little spacing
+    # One hologram line is 0.20 in height, 0.25 will leave a little spacing
     offset.y: 1
 
   - type: animated
