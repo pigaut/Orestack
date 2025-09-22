@@ -6,7 +6,7 @@ sendResourceInfo:
     - "chatMessage <&bTime Left: &f%generator_growth_seconds%s>"
 
 requireHarvestPermission:
-  if-not: playerHasPermission orestack.generator.harvest
+  if-not: hasPermission orestack.generator.harvest
   do:
     - chatMessage <&4You don't have the permission to harvest this resource>
     - cancelEvent

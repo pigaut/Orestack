@@ -13,7 +13,7 @@ block: lodestone
 
 on-break:
     # Check if the player who mined the block is on cooldown
-  - if: playerHasFlag lodestone_cooldown
+  - if: hasFlag lodestone_cooldown
     # If he is, send an error message, cancel the block break, and end code execution
     do:
       - chatMessage <&4You must wait 4 seconds to mine another lodestone>

@@ -99,7 +99,7 @@ on-click:
 on-growth:
   # Use 'if-any' to create a disjunctive condition
   if-any:
-    - probability 0.5
+    - chance 0.5
     - onlinePlayers 10-300
 
   # Now 'do' is used when at least one condition is met
@@ -115,7 +115,7 @@ growth: 40
 
 on-break:
   # Use a list to define multiple functions
-  - if-not: playerHasPermission orestack.generator.harvest
+  - if-not: hasPermission orestack.generator.harvest
     do:
       - "chatMessage <&4You don't have the permission to harvest this block>"
       - cancelEvent

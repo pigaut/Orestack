@@ -42,7 +42,7 @@ age: 7
 regrow: false
 
 on-break:
-  - if: probability 0.3
+  - if: chance 0.3
     do: spawnParticleAtBlock rain_cloud
     else:
       - setStage 0
