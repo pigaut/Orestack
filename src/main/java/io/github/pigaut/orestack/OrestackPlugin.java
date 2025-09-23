@@ -45,53 +45,38 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull List<SpigotVersion> getCompatibleVersions() {
-        return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_16_5);
-    }
-
-    @Override
-    public @NotNull OrestackConfigurator getConfigurator() {
-        return new OrestackConfigurator(this);
-    }
-
-    @Override
-    public @NotNull PlayerStateManager<? extends PlayerState> getPlayersState() {
-        return playerManager;
-    }
-
-    @Override
-    public @NotNull PlayerState getPlayerState(@NotNull Player player) {
-        return playerManager.getPlayerState(player);
-    }
-
-    @Override
-    public @Nullable OrestackPlayer getPlayerState(@NotNull String playerName) {
-        return playerManager.getPlayerState(playerName);
-    }
-
-    @Override
-    public @Nullable OrestackPlayer getPlayerState(@NotNull UUID playerId) {
-        return playerManager.getPlayerState(playerId);
-    }
-
-    @Override
     public @Nullable Integer getMetricsId() {
         return 24502;
     }
 
     @Override
-    public boolean forceMetrics() {
-        return true;
+    public @Nullable Integer getResourceId() {
+        return 121905;
     }
 
     @Override
-    public @Nullable Integer getResourceId() {
-        return 91628;
+    public @Nullable String getLogo() {
+        return """
+                
+                &9 $$$$$$\\                                  $$\\                         $$\\      \s
+                &9$$  __$$\\                                 $$ |                        $$ |     \s
+                &9$$ /  $$ | $$$$$$\\   $$$$$$\\   $$$$$$$\\ $$$$$$\\    $$$$$$\\   $$$$$$$\\ $$ |  $$\\\s
+                &9$$ |  $$ |$$  __$$\\ $$  __$$\\ $$  _____|\\_$$  _|   \\____$$\\ $$  _____|$$ | $$  |
+                &9$$ |  $$ |$$ |  \\__|$$$$$$$$ |\\$$$$$$\\    $$ |     $$$$$$$ |$$ /      $$$$$$  /\s
+                &9$$ |  $$ |$$ |      $$   ____| \\____$$\\   $$ |$$\\ $$  __$$ |$$ |      $$  _$$< \s
+                &9 $$$$$$  |$$ |      \\$$$$$$$\\ $$$$$$$  |  \\$$$$  |\\$$$$$$$ |\\$$$$$$$\\ $$ | \\$$\\\s
+                &9 \\______/ \\__|       \\_______|\\_______/    \\____/  \\_______| \\_______|\\__|  \\__|
+                """;
     }
 
     @Override
     public @Nullable String getDonationLink() {
         return "https://www.paypal.com/paypalme/Giovanni335";
+    }
+
+    @Override
+    public @NotNull List<SpigotVersion> getCompatibleVersions() {
+        return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_16_5);
     }
 
     @Override
@@ -362,6 +347,31 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public @Nullable String getDatabaseName() {
         return "data";
+    }
+
+    @Override
+    public @NotNull PlayerStateManager<? extends PlayerState> getPlayersState() {
+        return playerManager;
+    }
+
+    @Override
+    public @NotNull PlayerState getPlayerState(@NotNull Player player) {
+        return playerManager.getPlayerState(player);
+    }
+
+    @Override
+    public @Nullable OrestackPlayer getPlayerState(@NotNull String playerName) {
+        return playerManager.getPlayerState(playerName);
+    }
+
+    @Override
+    public @Nullable OrestackPlayer getPlayerState(@NotNull UUID playerId) {
+        return playerManager.getPlayerState(playerId);
+    }
+
+    @Override
+    public @NotNull OrestackConfigurator getConfigurator() {
+        return new OrestackConfigurator(this);
     }
 
     public OptionsManager getTools() {

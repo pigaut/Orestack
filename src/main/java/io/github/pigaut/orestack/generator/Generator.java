@@ -268,9 +268,19 @@ public class Generator implements PlaceholderSupplier {
         final GeneratorStage currentStage = getCurrentStage();
         final Duration timer = getTimeBeforeNextStage();
 
-        long remainingSeconds = (timer != null)
+        long secondsToNextStage = (timer != null)
                 ? Math.max(0, (currentStage.getGrowthTime() / 20) - timer.getSeconds())
                 : 0;
+
+        long secondsToReplenished = secondsToNextStage;
+        final List<GeneratorStage> stages = template.getStages();
+        for (int i = this.currentStage; i < template.getMaxStage(); i++) {
+            GeneratorStage nextStage = stages.get(i);
+            if (nextStage.getGrowthChance() != null || nextStage.getGrowthTime() == 0) {
+                continue;
+            }
+            secondsToReplenished += (nextStage.getGrowthTime() / 20);
+        }
 
         return Placeholder.mergeAll(
                 currentStage.getPlaceholders(),
@@ -278,9 +288,32 @@ public class Generator implements PlaceholderSupplier {
                 Placeholder.of("{generator_x}", origin.getBlockX()),
                 Placeholder.of("{generator_y}", origin.getBlockY()),
                 Placeholder.of("{generator_z}", origin.getBlockZ()),
-                Placeholder.of("{generator_timer_seconds}", remainingSeconds),
-                Placeholder.of("{generator_timer_minutes}", remainingSeconds / 60)
+
+                //Deprecated
+                Placeholder.of("{generator_timer_seconds}", secondsToNextStage),
+                Placeholder.of("{generator_timer_minutes}", secondsToNextStage / 60),
+
+                Placeholder.of("{generator_next_timer}", formatTimer(secondsToNextStage)),
+                Placeholder.of("{generator_next_seconds}", secondsToNextStage),
+                Placeholder.of("{generator_next_minutes}", secondsToNextStage / 60),
+                Placeholder.of("{generator_replenish_timer}", formatTimer(secondsToReplenished)),
+                Placeholder.of("{generator_replenish_seconds}", secondsToReplenished),
+                Placeholder.of("{generator_replenish_minutes}", secondsToReplenished / 60)
         );
+    }
+
+    private String formatTimer(long seconds) {
+        if (seconds < 60) {
+            return seconds + "s";
+        }
+
+        long minutes = seconds / 60;
+        long leftOverSeconds = seconds % 60;
+        if (leftOverSeconds == 0) {
+            return minutes + "m";
+        }
+
+        return minutes + "m " + leftOverSeconds + "s";
     }
 
 }
