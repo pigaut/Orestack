@@ -1,65 +1,74 @@
 type: depleted
 structure: coal_pile_1
-growth: 400
+growth: 20s
 ---
-type: harvestable
+type: ripe
 structure: coal_pile_2
-growth: 400
-drop-items: false
+growth: 20s
 on-break:
-  do: dropItemAtBlock coal
+  do:
+    - dropItemAtBlock coal doFortune=true
+    - dropExpAtBlock 0-2
 ---
-type: harvestable
+type: ripe
 structure: coal_pile_3
-growth: 400
-drop-items: false
+growth: 20s
 on-break:
-  do: dropItemAtBlock coal
+  do:
+    - dropItemAtBlock coal doFortune=true
+    - dropExpAtBlock 0-2
 ---
-type: harvestable
+type: ripe
 structure: coal_pile_4
-growth: 400
-drop-items: false
+growth: 20s
 on-break:
-  do: dropItemAtBlock coal
+  do:
+    - dropItemAtBlock coal doFortune=true
+    - dropExpAtBlock 0-2
 ---
-type: harvestable
+type: ripe
 structure: coal_pile_5
-growth: 400
-drop-items: false
+growth: 20s
 on-break:
-  do: dropItemAtBlock coal
+  do:
+    - dropItemAtBlock coal doFortune=true
+    - dropExpAtBlock 0-2
 ---
-type: harvestable
+type: ripe
 structure: coal_pile_6
-growth: 400
-drop-items: false
+growth: 20s
 on-break:
-  do: dropItemAtBlock coal
+  do:
+    - dropItemAtBlock coal doFortune=true
+    - dropExpAtBlock 0-2
 ---
-type: harvestable
+type: ripe
 structure: coal_pile_7
-growth: 400
-drop-items: false
+growth: 20s
 on-break:
-  do: dropItemAtBlock coal
+  do:
+    - dropItemAtBlock coal doFortune=true
+    - dropExpAtBlock 0-2
 ---
-type: harvestable
+type: ripe
 structure: coal_pile_8
-growth: 400
-drop-items: false
+growth: 20s
 on-break:
-  do: dropItemAtBlock coal
+  do:
+    - dropItemAtBlock coal doFortune=true
+    - dropExpAtBlock 0-2
 ---
-type: harvestable
+type: ripe
 structure: coal_pile_9
-growth: 400
-drop-items: false
+growth: 20s
 on-break:
-  do: dropItemAtBlock coal
+  do:
+    - dropItemAtBlock coal doFortune=true
+    - dropExpAtBlock 0-2
 ---
-type: replenished
+type: regrown
 structure: coal_pile_10
-drop-items: false
 on-break:
-  do: dropItemAtBlock coal
+  do:
+    - dropItemAtBlock coal doFortune=true
+    - dropExpAtBlock 0-2

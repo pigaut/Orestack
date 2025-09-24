@@ -1,65 +1,74 @@
 type: depleted
 structure: emerald_pile_1
-growth: 1400
+growth: 1m 10s
 ---
-type: harvestable
+type: ripe
 structure: emerald_pile_2
-growth: 1400
-drop-items: false
+growth: 1m 10s
 on-break:
-  do: dropItemAtBlock emerald
+  do:
+    - dropItemAtBlock emerald doFortune=true
+    - dropExpAtBlock 1-5
 ---
-type: harvestable
+type: ripe
 structure: emerald_pile_3
-growth: 1400
-drop-items: false
+growth: 1m 10s
 on-break:
-  do: dropItemAtBlock emerald
+  do:
+    - dropItemAtBlock emerald doFortune=true
+    - dropExpAtBlock 1-5
 ---
-type: harvestable
+type: ripe
 structure: emerald_pile_4
-growth: 1400
-drop-items: false
+growth: 1m 10s
 on-break:
-  do: dropItemAtBlock emerald
+  do:
+    - dropItemAtBlock emerald doFortune=true
+    - dropExpAtBlock 1-5
 ---
-type: harvestable
+type: ripe
 structure: emerald_pile_5
-growth: 1400
-drop-items: false
+growth: 1m 10s
 on-break:
-  do: dropItemAtBlock emerald
+  do:
+    - dropItemAtBlock emerald doFortune=true
+    - dropExpAtBlock 1-5
 ---
-type: harvestable
+type: ripe
 structure: emerald_pile_6
-growth: 1400
-drop-items: false
+growth: 1m 10s
 on-break:
-  do: dropItemAtBlock emerald
+  do:
+    - dropItemAtBlock emerald doFortune=true
+    - dropExpAtBlock 1-5
 ---
-type: harvestable
+type: ripe
 structure: emerald_pile_7
-growth: 1400
-drop-items: false
+growth: 1m 10s
 on-break:
-  do: dropItemAtBlock emerald
+  do:
+    - dropItemAtBlock emerald doFortune=true
+    - dropExpAtBlock 1-5
 ---
-type: harvestable
+type: ripe
 structure: emerald_pile_8
-growth: 1400
-drop-items: false
+growth: 1m 10s
 on-break:
-  do: dropItemAtBlock emerald
+  do:
+    - dropItemAtBlock emerald doFortune=true
+    - dropExpAtBlock 1-5
 ---
-type: harvestable
+type: ripe
 structure: emerald_pile_9
-growth: 1400
-drop-items: false
+growth: 1m 10s
 on-break:
-  do: dropItemAtBlock emerald
+  do:
+    - dropItemAtBlock emerald doFortune=true
+    - dropExpAtBlock 1-5
 ---
-type: replenished
+type: regrown
 structure: emerald_pile_10
-drop-items: false
 on-break:
-  do: dropItemAtBlock emerald
+  do:
+    - dropItemAtBlock emerald doFortune=true
+    - dropExpAtBlock 1-5

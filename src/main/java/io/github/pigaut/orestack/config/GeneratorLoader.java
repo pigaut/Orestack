@@ -1,20 +1,19 @@
 package io.github.pigaut.orestack.config;
 
+import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.voxel.core.function.*;
-import io.github.pigaut.voxel.core.function.interact.block.*;
 import io.github.pigaut.voxel.core.structure.*;
 import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
+import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
-import java.util.stream.*;
 
 public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
 
@@ -38,7 +37,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         }
 
         if (generatorStages.size() < 2) {
-            throw new InvalidConfigurationException(sequence, "Generator must have at least one depleted and one replenished stage");
+            throw new InvalidConfigurationException(sequence, "Generator must have at least one depleted and one regrown stage");
         }
 
         final GeneratorStage firstStage = generatorStages.get(0);
@@ -55,8 +54,8 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         }
 
         final GeneratorStage lastStage = generatorStages.get(generatorStages.size() - 1);
-        if (lastStage.getState() != GeneratorState.REPLENISHED) {
-            throw new InvalidConfigurationException(sequence, "The last stage must be replenished");
+        if (lastStage.getState() != GeneratorState.REGROWN) {
+            throw new InvalidConfigurationException(sequence, "The last stage must be regrown");
         }
 
         boolean firstHarvestableFound = false;
@@ -68,53 +67,49 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
 
             if (!firstHarvestableFound && stage.getState().isHarvestable()) {
                 if (stage.getGrowthChance() != null && stage.getGrowthChance() != 1.0) {
-                    throw new InvalidConfigurationException(sequence, "Generator must have at least one harvestable/replenished stage with 100% growth chance");
+                    throw new InvalidConfigurationException(sequence, "Generator must have at least one unripe/ripe/regrown stage with 100% growth chance");
                 }
                 firstHarvestableFound = true;
             }
         }
 
-        final List<BlockChange> structure = generator.getLastStage().getStructure().getBlockChanges();
-        if (structure.size() == 1) {
-            generator.setItemType(structure.get(0).getType());
-        }
-        else {
-            final Material mostCommonBlockType = structure.stream()
-                    .collect(Collectors.groupingBy(BlockChange::getType, Collectors.counting()))
-                    .entrySet().stream()
-                    .max(Map.Entry.comparingByValue())
-                    .map(Map.Entry::getKey)
-                    .orElse(Material.TERRACOTTA);
-            generator.setItemType(mostCommonBlockType);
-        }
+        generator.setItemType(generator.getLastStage().getStructure().getMostCommonMaterial());
 
         return generator;
     }
 
     private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection section) {
         final GeneratorState state = section.getRequired("type|state", GeneratorState.class);
+
         final BlockStructure structure = section.contains("structure|blocks") ?
                 section.getRequired("structure|blocks", BlockStructure.class) :
                 section.loadRequired(BlockStructure.class);
-        final boolean dropItems = section.getBoolean("drop-item|drop-items").throwOrElse(true);
-        final Integer expToDrop = section.getInteger("exp-to-drop").throwOrElse(null);
-        final boolean regrow = section.getBoolean("regrow").throwOrElse(true);
-        final int growthTime = section.getInteger("growth|growth-time").throwOrElse(0);
+
+        List<Material> decorativeBlocks = null;
+
+        final Boolean defaultDrops = section.getBoolean("default-drops|drops").throwOrElse(null);
+        final boolean dropItems = defaultDrops != null ? defaultDrops :
+                section.getBoolean("drop-items").throwOrElse(false);
+        final boolean dropExp = defaultDrops != null ? defaultDrops :
+                section.getBoolean("drop-exp|drop-xp").throwOrElse(false);
+
+        final int growthTime = section.get("growth|growth-time", Time.class)
+                .map(Time::toTicks)
+                .throwOrElse(0);
+
         final Double chance = section.getDouble("chance|growth-chance").throwOrElse(null);
         final Function onBreak = section.get("on-break", Function.class).throwOrElse(null);
         final Function onGrowth = section.get("on-growth", Function.class).throwOrElse(null);
-        final BlockClickFunction onClick = section.get("on-click", BlockClickFunction.class).throwOrElse(null);
+        final Function onClick = section.get("on-click", Function.class).throwOrElse(null);
 
         Hologram hologram = null;
         if (SpigotServer.isPluginEnabled("DecentHolograms")) {
             hologram = section.get("hologram", Hologram.class).throwOrElse(null);
         }
 
-        if (growthTime < 0) {
-            throw new InvalidConfigurationException(section, "growth", "The growth timer must be a positive number");
-        }
 
-        return new GeneratorStage(generator, state, structure, dropItems, expToDrop, regrow, growthTime,
+
+        return new GeneratorStage(generator, state, structure, dropItems, dropExp, growthTime,
                 chance, onBreak, onGrowth, onClick, hologram);
     }
 

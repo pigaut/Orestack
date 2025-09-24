@@ -8,12 +8,12 @@ import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorResetStageAction implements Action {
+public class GeneratorStayStageAction implements Action {
 
     @Override
     public void execute(@Nullable PlayerState player, @Nullable Event event, @Nullable Block block, @Nullable Entity target) {
         if (event instanceof GeneratorMineEvent mineEvent) {
-            mineEvent.resetStage = true;
+            mineEvent.setStayStage(true);
         }
     }
 

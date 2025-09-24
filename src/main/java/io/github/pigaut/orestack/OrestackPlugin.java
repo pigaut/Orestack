@@ -325,15 +325,12 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public List<Listener> getPluginListeners() {
-        final List<Listener> listeners = new ArrayList<>();
+        List<Listener> listeners = new ArrayList<>();
         listeners.add(new PlayerInteractListener(plugin));
         listeners.add(new BlockBreakListener(plugin));
         listeners.add(new BlockDestructionListener(plugin));
         listeners.add(new CropChangeListener(plugin));
         listeners.add(new GeneratorEventListener());
-        if (SpigotServer.isPluginLoaded("WorldGuard")) {
-            listeners.add(new WorldGuardListener(this));
-        }
         return listeners;
     }
 
@@ -355,7 +352,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull PlayerState getPlayerState(@NotNull Player player) {
+    public @NotNull OrestackPlayer getPlayerState(@NotNull Player player) {
         return playerManager.getPlayerState(player);
     }
 

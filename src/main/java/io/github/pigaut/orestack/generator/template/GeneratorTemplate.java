@@ -1,11 +1,10 @@
 package io.github.pigaut.orestack.generator.template;
 
-import io.github.pigaut.orestack.stage.*;
+import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.util.Rotation;
-import io.github.pigaut.yaml.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.inventory.*;
@@ -111,7 +110,13 @@ public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
 
     @Override
     public String toString() {
-        return "Generator{" + "name='" + name + '\'' + ", stages=" + stages + '}';
+        return "GeneratorTemplate{" +
+                "name='" + name + '\'' +
+                ", group='" + group + '\'' +
+                ", stages=" + stages +
+                ", rotation=" + rotation +
+                ", itemType=" + itemType +
+                '}';
     }
 
 }

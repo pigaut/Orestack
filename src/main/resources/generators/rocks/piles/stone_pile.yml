@@ -1,65 +1,56 @@
 type: depleted
 structure: stone_pile_1
-growth: 200
+growth: 10
 ---
-type: harvestable
+type: ripe
 structure: stone_pile_2
-growth: 200
-drop-items: false
+growth: 10
 on-break:
   do: dropItemAtBlock cobblestone
 ---
-type: harvestable
+type: ripe
 structure: stone_pile_3
-growth: 200
-drop-items: false
+growth: 10
 on-break:
   do: dropItemAtBlock cobblestone
 ---
-type: harvestable
+type: ripe
 structure: stone_pile_4
-growth: 200
-drop-items: false
+growth: 10
 on-break:
   do: dropItemAtBlock cobblestone
 ---
-type: harvestable
+type: ripe
 structure: stone_pile_5
-growth: 200
-drop-items: false
+growth: 10
 on-break:
   do: dropItemAtBlock cobblestone
 ---
-type: harvestable
+type: ripe
 structure: stone_pile_6
-growth: 200
-drop-items: false
+growth: 10
 on-break:
   do: dropItemAtBlock cobblestone
 ---
-type: harvestable
+type: ripe
 structure: stone_pile_7
-growth: 200
-drop-items: false
+growth: 10
 on-break:
   do: dropItemAtBlock cobblestone
 ---
-type: harvestable
+type: ripe
 structure: stone_pile_8
-growth: 200
-drop-items: false
+growth: 10
 on-break:
   do: dropItemAtBlock cobblestone
 ---
-type: harvestable
+type: ripe
 structure: stone_pile_9
-growth: 200
-drop-items: false
+growth: 10
 on-break:
   do: dropItemAtBlock cobblestone
 ---
-type: replenished
+type: regrown
 structure: stone_pile_10
-drop-items: false
 on-break:
   do: dropItemAtBlock cobblestone

@@ -5,9 +5,8 @@ import io.github.pigaut.orestack.event.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
-import io.github.pigaut.orestack.stage.*;
 import io.github.pigaut.orestack.util.*;
-import io.github.pigaut.voxel.core.function.interact.block.*;
+import io.github.pigaut.voxel.core.function.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.server.*;
 import org.bukkit.*;
@@ -138,9 +137,9 @@ public class PlayerInteractListener implements Listener {
         }
 
         final GeneratorStage stage = clickedGenerator.getCurrentStage();
-        final BlockClickFunction clickFunction = stage.getClickFunction();
+        final Function clickFunction = stage.getClickFunction();
         if (clickFunction != null) {
-            clickFunction.onBlockClick(playerState, event);
+            clickFunction.run(playerState, event);
         }
     }
 

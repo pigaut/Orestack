@@ -1,26 +1,25 @@
 type: depleted
+growth: 30s 1.5s
 block: air
-growth: 30
 ---
 type: growing
-block: sugar cane
-growth: 30
+growth: 30s 1.5s
+block: sugar_cane
 ---
 type: growing
+growth: 30s 1.5s
 structure:
-  - block: sugar cane
-  - block: sugar cane
+  - block: sugar_cane
+  - block: sugar_cane
     offset.y: 1
-growth: 30
 ---
-type: replenished
+type: regrown
 structure:
-  - block: sugar cane
-  - block: sugar cane
+  - block: sugar_cane
+  - block: sugar_cane
     offset.y: 1
-  - block: sugar cane
+  - block: sugar_cane
     offset.y: 2
-drop-items: false
+
 on-break:
-  actions:
-    - dropItemAtBlock sugar_cane:3
+  do: dropItemAtBlock sugar_cane amount=3

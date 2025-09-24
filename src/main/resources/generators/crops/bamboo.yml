@@ -1,58 +1,47 @@
---- # Stage 0
+--- # ===== Stage 1 =====
 type: depleted
 block: air
-growth: 30
+growth: 30s 1.5s
 
---- # Stage 1
+--- # ===== Stage 2 =====
 type: growing
 block: bamboo
 bamboo-leaves: small
-growth: 30
+growth: 30s 1.5s
 
---- # Stage 2
+--- # ===== Stage 3 =====
 type: growing
-growth: 30
-
+growth: 30s 1.5s
 structure:
   - { block: bamboo, bamboo-leaves: small }
   - { block: bamboo, bamboo-leaves: large, offset.y: 1 }
 
---- # Stage 3
+--- # ===== Stage 4 =====
 type: growing
-growth: 30
-
+growth: 30s 1.5s
 structure:
   - { block: bamboo, bamboo-leaves: small }
   - { block: bamboo, bamboo-leaves: large, offset.y: 1 }
   - { block: bamboo, bamboo-leaves: large, offset.y: 2 }
 
---- # Stage 4
-type: harvestable
-growth: 30
-
-on-break:
-  do:
-    - cancelEvent
-    - setGeneratorStage 0
-    - dropItemAtBlock bamboo:4
-
+--- # ===== Stage 5 =====
+type: ripe
+growth: 30s 1.5s
 structure:
   - { block: bamboo }
   - { block: bamboo, bamboo-leaves: small, offset.y: 1 }
   - { block: bamboo, bamboo-leaves: large, offset.y: 2 }
   - { block: bamboo, bamboo-leaves: large, offset.y: 3 }
 
---- # Stage 5
-type: harvestable
-growth: 30
-growth-chance: 0.8
-
 on-break:
   do:
-    - cancelEvent
     - setGeneratorStage 0
-    - dropItemAtBlock bamboo:5
+    - dropItemAtBlock bamboo amount=4
 
+--- # ===== Stage 6 =====
+type: ripe
+growth: 30s 1.5s
+growth-chance: 0.8
 structure:
   - { block: bamboo }
   - { block: bamboo, offset.y: 1 }
@@ -60,17 +49,15 @@ structure:
   - { block: bamboo, bamboo-leaves: large, offset.y: 3 }
   - { block: bamboo, bamboo-leaves: large, offset.y: 4 }
 
---- # Stage 6
-type: harvestable
-growth: 30
-growth-chance: 0.8
-
 on-break:
   do:
-    - cancelEvent
     - setGeneratorStage 0
-    - dropItemAtBlock bamboo:6
+    - dropItemAtBlock bamboo amount=5
 
+--- # ===== Stage 7 =====
+type: ripe
+growth: 30s 1.5s
+growth-chance: 0.8
 structure:
   - { block: bamboo }
   - { block: bamboo, offset.y: 1 }
@@ -79,16 +66,15 @@ structure:
   - { block: bamboo, bamboo-leaves: large, offset.y: 4 }
   - { block: bamboo, bamboo-leaves: large, offset.y: 5 }
 
---- # Stage 7
-type: harvestable
-growth: 30
-growth-chance: 0.8
-
 on-break:
-  actions:
-    - cancelEvent
+  do:
     - setGeneratorStage 0
-    - dropItemAtBlock bamboo:7
+    - dropItemAtBlock bamboo amount=6
+
+--- # ===== Stage 8 =====
+type: ripe
+growth: 30s 1.5s
+growth-chance: 0.8
 
 structure:
   - { block: bamboo }
@@ -99,16 +85,14 @@ structure:
   - { block: bamboo, bamboo-leaves: large, offset.y: 5 }
   - { block: bamboo, bamboo-leaves: large, offset.y: 6 }
 
---- # Stage 8
-type: replenished
-growth-chance: 0.8
-
 on-break:
-  actions:
-    - cancelEvent
+  do:
     - setGeneratorStage 0
-    - dropItemAtBlock bamboo:8
+    - dropItemAtBlock bamboo amount=7
 
+--- # ===== Stage 9 =====
+type: regrown
+growth-chance: 0.8
 structure:
   - { block: bamboo }
   - { block: bamboo, offset.y: 1 }
@@ -119,4 +103,8 @@ structure:
   - { block: bamboo, bamboo-leaves: large, offset.y: 6 }
   - { block: bamboo, bamboo-leaves: large, offset.y: 7 }
 
+on-break:
+  do:
+    - setGeneratorStage 0
+    - dropItemAtBlock bamboo amount=8
 

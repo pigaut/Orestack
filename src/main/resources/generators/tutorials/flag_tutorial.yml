@@ -8,12 +8,12 @@ block: bedrock
 growth: 40
 
 --- # ===== Stage 2 =====
-type: replenished
+type: regrown
 block: lodestone
 
 on-break:
     # Check if the player who mined the block is on cooldown
-  - if: playerHasFlag lodestone_cooldown
+  - if: hasFlag lodestone_cooldown
     # If he is, send an error message, cancel the block break, and end code execution
     do:
       - chatMessage <&4You must wait 4 seconds to mine another lodestone>
@@ -21,11 +21,11 @@ on-break:
       - return
 
     # Otherwise, give the player the cooldown flag
-  - do: giveFlagToPlayer lodestone_cooldown
+  - do: giveFlag lodestone_cooldown
 
     # And remove it after the desired period of time
   - delay: 80
-    do: takeFlagFromPlayer lodestone_cooldown
+    do: takeFlag lodestone_cooldown
 
     # This is one example on how to use flags,
     # just remember that flags are not saved when

@@ -2,12 +2,12 @@
 --- # ===== Stage 1 =====
 type: depleted
 block: bedrock
-growth: 50
+growth: 2.5
 
 --- # ===== Stage 2 =====
-type: harvestable
+type: ripe
 block: oak_log
-growth: 50
+growth: 2.5
 hologram:
   - type: static
     offset.y: 1
@@ -17,8 +17,8 @@ hologram:
     text: '&f<right-click> to get'
 
 on-click:
-  action: right_click_block
-  do: giveItemToPlayer iron_axe
+  if: clickTypeEquals right_click
+  do: giveItem iron_axe
 
 on-break:
   # Check if the player's tool is an axe
@@ -29,9 +29,9 @@ on-break:
     - stop
 
 --- # ===== Stage 3 =====
-type: harvestable
+type: ripe
 block: diamond_ore
-growth: 50
+growth: 2.5
 
 hologram:
   - type: static
@@ -42,8 +42,8 @@ hologram:
     text: '&f<right-click> to get'
 
 on-click:
-  action: right_click_block
-  do: giveItemToPlayer iron_pickaxe
+  if: clickTypeEquals right_click
+  do: giveItem iron_pickaxe
 
 on-break:
   # Check if the player's tool is an iron pickaxe or better
@@ -54,9 +54,9 @@ on-break:
     - stop
 
 --- # ===== Stage 4 =====
-type: harvestable
+type: ripe
 block: cobweb
-growth: 50
+growth: 2.5
 
 hologram:
   - type: static
@@ -67,8 +67,8 @@ hologram:
     text: '&f<right-click> to get'
 
 on-click:
-  action: right_click
-  do: giveItemToPlayer web_cutter
+  if: clickTypeEquals right_click
+  do: giveItem web_cutter
 
 on-break:
   # Check if item name is equal to "Web Cutter", case-sensitive, ignores colors
@@ -79,9 +79,9 @@ on-break:
     - stop
 
 --- # ===== Stage 5 =====
-type: harvestable
+type: ripe
 block: slime_block
-growth: 50
+growth: 2.5
 
 hologram:
   - type: static
@@ -92,8 +92,8 @@ hologram:
     text: '&f<right-click> to get'
 
 on-click:
-  action: right_click
-  do: giveItemToPlayer legendary_axe
+  if: clickTypeEquals right_click
+  do: giveItem legendary_axe
 
 on-break:
   if-not:
@@ -106,7 +106,7 @@ on-break:
     - stop
 
 --- # ===== Stage 6 =====
-type: replenished
+type: regrown
 block: stone_bricks
 hologram:
   - type: static
@@ -117,8 +117,8 @@ hologram:
     text: '&f<right-click> to get'
 
 on-click:
-  action: right_click
-  do: giveItemToPlayer lore_katana
+  if: clickTypeEquals right_click
+  do: giveItem lore_katana
 
 on-break:
   if-not:
@@ -128,4 +128,3 @@ on-break:
   do:
     - chatMessage <&4You need a Lore Katana to harvest this resource>
     - cancelEvent
-    - stop

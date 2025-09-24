@@ -2,9 +2,7 @@ type: depleted
 block: dead_horn_coral_block
 growth: 100
 ---
-type: replenished
+type: regrown
 block: horn_coral_block
-drop-items: false
-exp-to-drop: 0
 on-break:
   do: dropExpAtBlock 1 15-25

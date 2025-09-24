@@ -10,7 +10,7 @@ public class GeneratorMineEvent extends PlayerGeneratorEvent {
     private static final HandlerList HANDLERS = new HandlerList();
 
     private final Block blockMined;
-    public boolean resetStage = false;
+    private boolean stayStage = false;
 
     public GeneratorMineEvent(OrestackPlayer player, Generator generator, Block blockMined) {
         super(player, generator);
@@ -19,6 +19,14 @@ public class GeneratorMineEvent extends PlayerGeneratorEvent {
 
     public Block getBlockMined() {
         return blockMined;
+    }
+
+    public boolean isStayStage() {
+        return stayStage;
+    }
+
+    public void setStayStage(boolean stayStage) {
+        this.stayStage = stayStage;
     }
 
     @Override

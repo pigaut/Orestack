@@ -2,7 +2,7 @@
 --- # ===== Stage 1 =====
 type: depleted
 block: iron_block
-growth: 40  # Time in ticks to grow to the next stage
+growth: 30s 40  # Time in ticks to grow to the next stage, or time format: (1 hour(s) 10 m|min(s)|minute(s) 100 s|sec(s)|second(s))
 
 hologram:
   type: animated
@@ -22,7 +22,7 @@ on-break:
 --- # ===== Stage 2 =====
 type: growing
 block: gold_block
-growth: 60
+growth: 30s 3s
 chance: 0.8  # 80% chance to spawn, otherwise skips to the next stage
 
 hologram:
@@ -52,8 +52,9 @@ hologram:
     offset: { x: 0, y: 0.75, z: 0 }
 
 on-click:
-  click: right_click_block
-  if-not: isSneaking
+  if-not:
+    - clickTypeEquals left_click, physical
+    - isSneaking
   do:
     - cancelEvent
     - chatMessage <This is a gold block. Maybe you should try to mine it.>
@@ -78,10 +79,9 @@ on-break:
       - chatMessage <&aYou struck gold!>
 
 --- # ===== Stage 3 =====
-type: harvestable
+type: ripe
 block: diamond_block
-growth: 80
-drop-items: false
+growth: 30s 4s
 
 hologram:
   type: static
@@ -107,11 +107,8 @@ on-break:
 #      - takeMoney 10000
 
 --- # ===== Stage 4 =====
-type: replenished
+type: regrown
 block: emerald_block
-drop-items: false
-exp-to-drop: 100  # Set to 0 for no experience drops, if not set, the default amount will drop
-
 hologram:
   - type: static
     text: "&2&lEmerald"

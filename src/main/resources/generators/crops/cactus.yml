@@ -1,26 +1,26 @@
 type: depleted
+growth: 30s 1.5s
 block: air
-growth: 30
 ---
 type: growing
+growth: 30s 1.5s
 block: cactus
-growth: 30
 ---
 type: growing
+growth: 30s 1.5s
 structure:
   - block: cactus
   - block: cactus
     offset.y: 1
-growth: 30
 ---
-type: replenished
+type: regrown
 structure:
   - block: cactus
   - block: cactus
     offset.y: 1
   - block: cactus
     offset.y: 2
-drop-items: false
+
 on-break:
-  actions:
-    - dropItemAtBlock cactus:3
+  do:
+    - dropItemAtBlock cactus amount=3

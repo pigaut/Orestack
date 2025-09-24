@@ -4,11 +4,14 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.event.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.player.*;
-import io.github.pigaut.orestack.stage.*;
+import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.server.*;
+import org.bukkit.*;
 import org.bukkit.block.*;
+import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
+import org.bukkit.inventory.*;
 
 public class BlockBreakListener implements Listener {
 
@@ -26,8 +29,8 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        if (generator.isUpdating() || generator.isHarvesting()) {
-            event.setCancelled(true);
+        event.setCancelled(true);
+        if (generator.isUpdating()) {
             return;
         }
 
@@ -36,48 +39,35 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        final OrestackPlayer playerState = plugin.getPlayerState(event.getPlayer().getUniqueId());
+        Player player = event.getPlayer();
+        OrestackPlayer playerState = plugin.getPlayerState(player);
         playerState.updatePlaceholders(generator);
 
-        final GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(playerState, generator, block);
+        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(playerState, generator, block);
         SpigotServer.callEvent(generatorMineEvent);
-
         if (generatorMineEvent.isCancelled()) {
-            event.setCancelled(true);
             return;
         }
 
-        final GeneratorStage stage = generator.getCurrentStage();
+        GeneratorStage stage = generator.getCurrentStage();
         if (!stage.getState().isHarvestable()) {
-            event.setCancelled(true);
             return;
         }
 
-        event.setCancelled(false);
-        generator.setHarvesting(true);
-
-        final Integer expToDrop = stage.getExpToDrop();
-        if (expToDrop != null) {
-            event.setExpToDrop(expToDrop);
+        if (stage.isDropItems()) {
+            Location location = block.getLocation();
+            for (ItemStack itemDrop : block.getDrops(player.getInventory().getItemInMainHand(), player)) {
+                ItemDrop.spawn(location, itemDrop, itemDrop.getAmount());
+            }
         }
 
-        if (generatorMineEvent.resetStage) {
-            generator.reset();
+        if (stage.isDropExp()) {
+            ExpDrop.spawn(block.getLocation(), event.getExpToDrop());
         }
-        else {
+
+        if (!generatorMineEvent.isStayStage()) {
             generator.previousStage();
         }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onBlockDropItem(BlockDropItemEvent event) {
-        final Block block = event.getBlock();
-        final Generator generator = plugin.getGenerator(block.getLocation());
-        if (generator == null) {
-            return;
-        }
-        final GeneratorStage stage = generator.getCurrentStage();
-        event.setCancelled(!stage.isDropItems());
     }
 
 }

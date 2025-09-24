@@ -1,20 +1,20 @@
 ---
 type: depleted
-growth: 600
+growth: 30s
 block: oak_log
 ---
-type: harvestable
+type: ripe
 structure: oak_tree_1
-on-break: resetGeneratorIfLeaves
+on-break: stayOnStageIfLeaf
 ---
-type: harvestable
+type: ripe
 structure: oak_tree_2
-on-break: resetGeneratorIfLeaves
+on-break: stayOnStageIfLeaf
 ---
-type: harvestable
+type: ripe
 structure: oak_tree_3
-on-break: resetGeneratorIfLeaves
+on-break: stayOnStageIfLeaf
 ---
-type: replenished
+type: regrown
 structure: oak_tree_4
-on-break: resetGeneratorIfLeaves
+on-break: stayOnStageIfLeaf
