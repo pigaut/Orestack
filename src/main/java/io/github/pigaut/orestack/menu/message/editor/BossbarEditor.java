@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack.menu.message.editor;
 
+import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.util.*;

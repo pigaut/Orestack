@@ -47,14 +47,14 @@ public class GenericMessageEditor extends FramedEditor {
                 .withDisplay("&f&lRepetitions")
                 .enchanted(true)
                 .addLore("")
-                .addLore(section.getString("repetitions|loops").orElse("none"))
+                .addLore(section.getString("repeat|repetitions").orElse("none"))
                 .addLore("")
                 .addLeftClickLore("To set message repetitions")
                 .onLeftClick((view, player, event) -> {
                     player.createChatInput(Integer.class)
                             .withDescription("Enter repetitions amount in chat")
                             .withInputCollector(input -> {
-                                section.set("repetitions|loops", input);
+                                section.set("repeat|repetitions", input);
                                 view.open();
                             })
                             .collect();
@@ -73,8 +73,8 @@ public class GenericMessageEditor extends FramedEditor {
                     player.createChatInput(Integer.class)
                             .withDescription("Enter interval amount in chat")
                             .withInputCollector(input -> {
-                                if (!section.isSet("repetitions|loops")) {
-                                    section.set("repetitions|loops", 2);
+                                if (!section.isSet("repeat|repetitions")) {
+                                    section.set("repeat|repetitions", 2);
                                 }
                                 section.set("interval", input);
                                 view.open();

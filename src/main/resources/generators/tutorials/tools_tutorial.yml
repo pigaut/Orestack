@@ -1,24 +1,24 @@
 
 --- # ===== Stage 1 =====
 type: depleted
+growth: 5s
 block: bedrock
-growth: 50
 
 --- # ===== Stage 2 =====
-type: harvestable
+type: ripe
+growth: 5s
 block: oak_log
-growth: 50
 hologram:
   - type: static
-    offset.y: 1
+    offset.y: 1.25
     text: '&b&lRequired Tool: &fAxe'
   - type: static
-    offset.y: 0.75
+    offset.y: 1
     text: '&f<right-click> to get'
 
 on-click:
-  action: right_click_block
-  do: giveItemToPlayer iron_axe
+  if: clickTypeEquals right_click
+  do: giveItem iron_axe
 
 on-break:
   # Check if the player's tool is an axe
@@ -29,21 +29,21 @@ on-break:
     - stop
 
 --- # ===== Stage 3 =====
-type: harvestable
+type: ripe
+growth: 5s
 block: diamond_ore
-growth: 50
 
 hologram:
   - type: static
-    offset.y: 1
+    offset.y: 1.25
     text: '&b&lRequired Tool: &fIron Pickaxe'
   - type: static
-    offset.y: 0.75
+    offset.y: 1
     text: '&f<right-click> to get'
 
 on-click:
-  action: right_click_block
-  do: giveItemToPlayer iron_pickaxe
+  if: clickTypeEquals right_click
+  do: giveItem iron_pickaxe
 
 on-break:
   # Check if the player's tool is an iron pickaxe or better
@@ -54,21 +54,21 @@ on-break:
     - stop
 
 --- # ===== Stage 4 =====
-type: harvestable
+type: ripe
+growth: 5s
 block: cobweb
-growth: 50
 
 hologram:
   - type: static
-    offset.y: 1
+    offset.y: 1.25
     text: '&b&lRequired Tool: &fWeb Cutter'
   - type: static
-    offset.y: 0.75
+    offset.y: 1
     text: '&f<right-click> to get'
 
 on-click:
-  action: right_click
-  do: giveItemToPlayer web_cutter
+  if: clickTypeEquals right_click
+  do: giveItem web_cutter
 
 on-break:
   # Check if item name is equal to "Web Cutter", case-sensitive, ignores colors
@@ -79,21 +79,21 @@ on-break:
     - stop
 
 --- # ===== Stage 5 =====
-type: harvestable
+type: ripe
+growth: 5s
 block: slime_block
-growth: 50
 
 hologram:
   - type: static
-    offset.y: 1
+    offset.y: 1.25
     text: '&b&lRequired Tool: &fLegendary Axe'
   - type: static
-    offset.y: 0.75
+    offset.y: 1
     text: '&f<right-click> to get'
 
 on-click:
-  action: right_click
-  do: giveItemToPlayer legendary_axe
+  if: clickTypeEquals right_click
+  do: giveItem legendary_axe
 
 on-break:
   if-not:
@@ -106,26 +106,32 @@ on-break:
     - stop
 
 --- # ===== Stage 6 =====
-type: replenished
+type: regrown
 block: stone_bricks
 hologram:
   - type: static
-    offset.y: 1
+    offset.y: 1.25
     text: '&b&lRequired Tool: &fLore Katana'
   - type: static
-    offset.y: 0.75
+    offset.y: 1
     text: '&f<right-click> to get'
 
-on-click:
-  action: right_click
-  do: giveItemToPlayer lore_katana
+# Will remain on current stage when mined, you must set the stage manually. (setStage, previousStage)
+idle: true
 
-on-break:
-  if-not:
-    - toolTypeEquals iron_sword
-    # Check if the lore matches exactly, case-sensitive, ignores colors
-    - toolLoreEquals <Silken Edge, Threadslicer, Cuts with Precision>
-  do:
-    - chatMessage <&4You need a Lore Katana to harvest this resource>
-    - cancelEvent
-    - stop
+on-click:
+  - if: clickTypeEquals right_click
+    do: giveItem lore_katana
+
+  - if-not: clickTypeEquals left_click
+    do: return
+
+  - if-not:
+      - toolTypeEquals iron_sword
+      # Check if the lore matches exactly, case-sensitive, ignores colors
+      - toolLoreEquals Silken Edge, Threadslicer, Cuts with Precision
+    do:
+      - chatMessage <&4You need a Lore Katana to harvest this resource>
+      - return
+
+  - do: setStage 5

@@ -24,6 +24,21 @@ structure-blacklist:
   - AIR
   - BEDROCK
 
+# Items to apply fortune enchant from the player's tool.
+# Compatible Actions: giveItem, dropItem, dropItemAtPlayer, dropItemAtBlock. (Can be overridden with doFortune=true/false flag)
+do-fortune-whitelist:
+  - coal
+  - diamond
+  - emerald
+  - lapis_lazuli
+  - redstone
+  - quartz
+#  - raw_copper   # 1.17+
+#  - dirt         # Supports any item type
+
+# Whether to keep the blocks (regrown stage) when a generator is removed
+keep-blocks-on-remove: false
+
 # The wand used to select a region
 structure-wand:
   material: golden pickaxe

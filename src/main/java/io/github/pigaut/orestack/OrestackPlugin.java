@@ -12,7 +12,6 @@ import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
-import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.version.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -24,10 +23,9 @@ import java.util.*;
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
     private static OrestackPlugin plugin;
-    private final OptionsManager toolManager = new OptionsManager(this);
+    private final OrestackOptionsManager optionsManager = new OrestackOptionsManager(this);
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
-    private final OptionsManager optionsManager = new OptionsManager(this);
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
 
     public static OrestackPlugin getPlugin() {
@@ -45,16 +43,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @Nullable Integer getMetricsId() {
-        return 24502;
-    }
-
-    @Override
-    public @Nullable Integer getResourceId() {
-        return 121905;
-    }
-
-    @Override
     public @Nullable String getLogo() {
         return """
                 
@@ -67,6 +55,16 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 &9 $$$$$$  |$$ |      \\$$$$$$$\\ $$$$$$$  |  \\$$$$  |\\$$$$$$$ |\\$$$$$$$\\ $$ | \\$$\\\s
                 &9 \\______/ \\__|       \\_______|\\_______/    \\____/  \\_______| \\_______|\\__|  \\__|
                 """;
+    }
+
+    @Override
+    public @Nullable Integer getMetricsId() {
+        return 24502;
+    }
+
+    @Override
+    public @Nullable Integer getResourceId() {
+        return 121905;
     }
 
     @Override
@@ -118,13 +116,14 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/examples/diamond_node.yml",
                 "generators/examples/experience_ore.yml",
                 "generators/examples/magic_wheat.yml",
+                "generators/examples/great_oak_tree.yml",
 
-                "generators/rocks/piles/stone_pile.yml",
-                "generators/rocks/piles/coal_pile.yml",
-                "generators/rocks/piles/iron_pile.yml",
-                "generators/rocks/piles/gold_pile.yml",
-                "generators/rocks/piles/diamond_pile.yml",
-                "generators/rocks/piles/emerald_pile.yml",
+                "generators/deposits/stone_deposit.yml",
+                "generators/deposits/coal_deposit.yml",
+                "generators/deposits/iron_deposit.yml",
+                "generators/deposits/gold_deposit.yml",
+                "generators/deposits/diamond_deposit.yml",
+                "generators/deposits/emerald_deposit.yml",
 
                 "generators/tutorials/drops_tutorial.yml",
                 "generators/tutorials/exp_tutorial.yml",
@@ -139,7 +138,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/trees/vanilla/acacia_tree.yml",
                 "generators/trees/vanilla/jungle_tree.yml",
                 "generators/trees/vanilla/dark_oak_tree.yml",
-                "generators/trees/great_oak_tree.yml",
 
                 "generators/crops/wheat.yml",
                 "generators/crops/potato.yml",
@@ -158,71 +156,71 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/diamond.yml",
                 "generators/ores/emerald.yml",
 
-                "structures/rocks/piles/stone/stone_pile_1.yml",
-                "structures/rocks/piles/stone/stone_pile_2.yml",
-                "structures/rocks/piles/stone/stone_pile_3.yml",
-                "structures/rocks/piles/stone/stone_pile_4.yml",
-                "structures/rocks/piles/stone/stone_pile_5.yml",
-                "structures/rocks/piles/stone/stone_pile_6.yml",
-                "structures/rocks/piles/stone/stone_pile_7.yml",
-                "structures/rocks/piles/stone/stone_pile_8.yml",
-                "structures/rocks/piles/stone/stone_pile_9.yml",
-                "structures/rocks/piles/stone/stone_pile_10.yml",
+                "structures/deposits/stone/stone_deposit_1.yml",
+                "structures/deposits/stone/stone_deposit_2.yml",
+                "structures/deposits/stone/stone_deposit_3.yml",
+                "structures/deposits/stone/stone_deposit_4.yml",
+                "structures/deposits/stone/stone_deposit_5.yml",
+                "structures/deposits/stone/stone_deposit_6.yml",
+                "structures/deposits/stone/stone_deposit_7.yml",
+                "structures/deposits/stone/stone_deposit_8.yml",
+                "structures/deposits/stone/stone_deposit_9.yml",
+                "structures/deposits/stone/stone_deposit_10.yml",
 
-                "structures/rocks/piles/coal/coal_pile_1.yml",
-                "structures/rocks/piles/coal/coal_pile_2.yml",
-                "structures/rocks/piles/coal/coal_pile_3.yml",
-                "structures/rocks/piles/coal/coal_pile_4.yml",
-                "structures/rocks/piles/coal/coal_pile_5.yml",
-                "structures/rocks/piles/coal/coal_pile_6.yml",
-                "structures/rocks/piles/coal/coal_pile_7.yml",
-                "structures/rocks/piles/coal/coal_pile_8.yml",
-                "structures/rocks/piles/coal/coal_pile_9.yml",
-                "structures/rocks/piles/coal/coal_pile_10.yml",
+                "structures/deposits/coal/coal_deposit_1.yml",
+                "structures/deposits/coal/coal_deposit_2.yml",
+                "structures/deposits/coal/coal_deposit_3.yml",
+                "structures/deposits/coal/coal_deposit_4.yml",
+                "structures/deposits/coal/coal_deposit_5.yml",
+                "structures/deposits/coal/coal_deposit_6.yml",
+                "structures/deposits/coal/coal_deposit_7.yml",
+                "structures/deposits/coal/coal_deposit_8.yml",
+                "structures/deposits/coal/coal_deposit_9.yml",
+                "structures/deposits/coal/coal_deposit_10.yml",
 
-                "structures/rocks/piles/iron/iron_pile_1.yml",
-                "structures/rocks/piles/iron/iron_pile_2.yml",
-                "structures/rocks/piles/iron/iron_pile_3.yml",
-                "structures/rocks/piles/iron/iron_pile_4.yml",
-                "structures/rocks/piles/iron/iron_pile_5.yml",
-                "structures/rocks/piles/iron/iron_pile_6.yml",
-                "structures/rocks/piles/iron/iron_pile_7.yml",
-                "structures/rocks/piles/iron/iron_pile_8.yml",
-                "structures/rocks/piles/iron/iron_pile_9.yml",
-                "structures/rocks/piles/iron/iron_pile_10.yml",
+                "structures/deposits/iron/iron_deposit_1.yml",
+                "structures/deposits/iron/iron_deposit_2.yml",
+                "structures/deposits/iron/iron_deposit_3.yml",
+                "structures/deposits/iron/iron_deposit_4.yml",
+                "structures/deposits/iron/iron_deposit_5.yml",
+                "structures/deposits/iron/iron_deposit_6.yml",
+                "structures/deposits/iron/iron_deposit_7.yml",
+                "structures/deposits/iron/iron_deposit_8.yml",
+                "structures/deposits/iron/iron_deposit_9.yml",
+                "structures/deposits/iron/iron_deposit_10.yml",
 
-                "structures/rocks/piles/gold/gold_pile_1.yml",
-                "structures/rocks/piles/gold/gold_pile_2.yml",
-                "structures/rocks/piles/gold/gold_pile_3.yml",
-                "structures/rocks/piles/gold/gold_pile_4.yml",
-                "structures/rocks/piles/gold/gold_pile_5.yml",
-                "structures/rocks/piles/gold/gold_pile_6.yml",
-                "structures/rocks/piles/gold/gold_pile_7.yml",
-                "structures/rocks/piles/gold/gold_pile_8.yml",
-                "structures/rocks/piles/gold/gold_pile_9.yml",
-                "structures/rocks/piles/gold/gold_pile_10.yml",
+                "structures/deposits/gold/gold_deposit_1.yml",
+                "structures/deposits/gold/gold_deposit_2.yml",
+                "structures/deposits/gold/gold_deposit_3.yml",
+                "structures/deposits/gold/gold_deposit_4.yml",
+                "structures/deposits/gold/gold_deposit_5.yml",
+                "structures/deposits/gold/gold_deposit_6.yml",
+                "structures/deposits/gold/gold_deposit_7.yml",
+                "structures/deposits/gold/gold_deposit_8.yml",
+                "structures/deposits/gold/gold_deposit_9.yml",
+                "structures/deposits/gold/gold_deposit_10.yml",
 
-                "structures/rocks/piles/diamond/diamond_pile_1.yml",
-                "structures/rocks/piles/diamond/diamond_pile_2.yml",
-                "structures/rocks/piles/diamond/diamond_pile_3.yml",
-                "structures/rocks/piles/diamond/diamond_pile_4.yml",
-                "structures/rocks/piles/diamond/diamond_pile_5.yml",
-                "structures/rocks/piles/diamond/diamond_pile_6.yml",
-                "structures/rocks/piles/diamond/diamond_pile_7.yml",
-                "structures/rocks/piles/diamond/diamond_pile_8.yml",
-                "structures/rocks/piles/diamond/diamond_pile_9.yml",
-                "structures/rocks/piles/diamond/diamond_pile_10.yml",
+                "structures/deposits/diamond/diamond_deposit_1.yml",
+                "structures/deposits/diamond/diamond_deposit_2.yml",
+                "structures/deposits/diamond/diamond_deposit_3.yml",
+                "structures/deposits/diamond/diamond_deposit_4.yml",
+                "structures/deposits/diamond/diamond_deposit_5.yml",
+                "structures/deposits/diamond/diamond_deposit_6.yml",
+                "structures/deposits/diamond/diamond_deposit_7.yml",
+                "structures/deposits/diamond/diamond_deposit_8.yml",
+                "structures/deposits/diamond/diamond_deposit_9.yml",
+                "structures/deposits/diamond/diamond_deposit_10.yml",
 
-                "structures/rocks/piles/emerald/emerald_pile_1.yml",
-                "structures/rocks/piles/emerald/emerald_pile_2.yml",
-                "structures/rocks/piles/emerald/emerald_pile_3.yml",
-                "structures/rocks/piles/emerald/emerald_pile_4.yml",
-                "structures/rocks/piles/emerald/emerald_pile_5.yml",
-                "structures/rocks/piles/emerald/emerald_pile_6.yml",
-                "structures/rocks/piles/emerald/emerald_pile_7.yml",
-                "structures/rocks/piles/emerald/emerald_pile_8.yml",
-                "structures/rocks/piles/emerald/emerald_pile_9.yml",
-                "structures/rocks/piles/emerald/emerald_pile_10.yml",
+                "structures/deposits/emerald/emerald_deposit_1.yml",
+                "structures/deposits/emerald/emerald_deposit_2.yml",
+                "structures/deposits/emerald/emerald_deposit_3.yml",
+                "structures/deposits/emerald/emerald_deposit_4.yml",
+                "structures/deposits/emerald/emerald_deposit_5.yml",
+                "structures/deposits/emerald/emerald_deposit_6.yml",
+                "structures/deposits/emerald/emerald_deposit_7.yml",
+                "structures/deposits/emerald/emerald_deposit_8.yml",
+                "structures/deposits/emerald/emerald_deposit_9.yml",
+                "structures/deposits/emerald/emerald_deposit_10.yml",
 
                 "structures/trees/vanilla/oak/oak_tree_1.yml",
                 "structures/trees/vanilla/oak/oak_tree_2.yml",
@@ -301,19 +299,19 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     public Map<SpigotVersion, List<String>> getExamplesByVersion() {
         return Map.of(
                 SpigotVersion.V1_17, List.of(
-                        "generators/rocks/piles/copper_pile.yml",
+                        "generators/deposits/copper_deposit.yml",
                         "generators/ores/copper.yml",
 
-                        "structures/rocks/piles/copper/copper_pile_1.yml",
-                        "structures/rocks/piles/copper/copper_pile_2.yml",
-                        "structures/rocks/piles/copper/copper_pile_3.yml",
-                        "structures/rocks/piles/copper/copper_pile_4.yml",
-                        "structures/rocks/piles/copper/copper_pile_5.yml",
-                        "structures/rocks/piles/copper/copper_pile_6.yml",
-                        "structures/rocks/piles/copper/copper_pile_7.yml",
-                        "structures/rocks/piles/copper/copper_pile_8.yml",
-                        "structures/rocks/piles/copper/copper_pile_9.yml",
-                        "structures/rocks/piles/copper/copper_pile_10.yml"
+                        "structures/deposits/copper/copper_deposit_1.yml",
+                        "structures/deposits/copper/copper_deposit_2.yml",
+                        "structures/deposits/copper/copper_deposit_3.yml",
+                        "structures/deposits/copper/copper_deposit_4.yml",
+                        "structures/deposits/copper/copper_deposit_5.yml",
+                        "structures/deposits/copper/copper_deposit_6.yml",
+                        "structures/deposits/copper/copper_deposit_7.yml",
+                        "structures/deposits/copper/copper_deposit_8.yml",
+                        "structures/deposits/copper/copper_deposit_9.yml",
+                        "structures/deposits/copper/copper_deposit_10.yml"
                 )
         );
     }
@@ -325,15 +323,12 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public List<Listener> getPluginListeners() {
-        final List<Listener> listeners = new ArrayList<>();
+        List<Listener> listeners = new ArrayList<>();
         listeners.add(new PlayerInteractListener(plugin));
         listeners.add(new BlockBreakListener(plugin));
         listeners.add(new BlockDestructionListener(plugin));
         listeners.add(new CropChangeListener(plugin));
         listeners.add(new GeneratorEventListener());
-        if (SpigotServer.isPluginLoaded("WorldGuard")) {
-            listeners.add(new WorldGuardListener(this));
-        }
         return listeners;
     }
 
@@ -355,7 +350,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull PlayerState getPlayerState(@NotNull Player player) {
+    public @NotNull OrestackPlayer getPlayerState(@NotNull Player player) {
         return playerManager.getPlayerState(player);
     }
 
@@ -374,8 +369,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return new OrestackConfigurator(this);
     }
 
-    public OptionsManager getTools() {
-        return toolManager;
+    public OrestackOptionsManager getTools() {
+        return optionsManager;
     }
 
     public @NotNull GeneratorTemplateManager getGeneratorTemplates() {
@@ -398,7 +393,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return generatorManager.getGenerator(location);
     }
 
-    public OptionsManager getOptions() {
+    public OrestackOptionsManager getOrestackOptions() {
         return optionsManager;
     }
 

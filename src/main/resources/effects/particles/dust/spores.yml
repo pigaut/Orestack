@@ -4,7 +4,7 @@ red_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 green_dust_spore:
@@ -13,7 +13,7 @@ green_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 blue_dust_spore:
@@ -22,7 +22,7 @@ blue_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 yellow_dust_spore:
@@ -31,7 +31,7 @@ yellow_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 cyan_dust_spore:
@@ -40,7 +40,7 @@ cyan_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 magenta_dust_spore:
@@ -49,7 +49,7 @@ magenta_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 white_dust_spore:
@@ -58,7 +58,7 @@ white_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 orange_dust_spore:
@@ -67,7 +67,7 @@ orange_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 pink_dust_spore:
@@ -76,7 +76,7 @@ pink_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 purple_dust_spore:
@@ -85,7 +85,7 @@ purple_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 lime_dust_spore:
@@ -94,7 +94,7 @@ lime_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 brown_dust_spore:
@@ -103,7 +103,7 @@ brown_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 navy_dust_spore:
@@ -112,7 +112,7 @@ navy_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 gold_dust_spore:
@@ -121,7 +121,7 @@ gold_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 teal_dust_spore:
@@ -130,7 +130,7 @@ teal_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 starlight_dust_spore:
@@ -139,7 +139,7 @@ starlight_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 void_dust_spore:
@@ -148,7 +148,7 @@ void_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 nature_dust_spore:
@@ -157,7 +157,7 @@ nature_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 crystal_dust_spore:
@@ -166,7 +166,7 @@ crystal_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 ember_dust_spore:
@@ -175,7 +175,7 @@ ember_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 rainbow_dust_spore:
@@ -184,7 +184,7 @@ rainbow_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7
 
 dark_dust_spore:
@@ -193,5 +193,5 @@ dark_dust_spore:
   size: 0.6-1.2
   range: { x: 0.6, y: 0.6, z: 0.6 }
   count: 5
-  repetitions: 2
+  repeat: 2
   interval: 7

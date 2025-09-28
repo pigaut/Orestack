@@ -6,9 +6,9 @@ import org.bukkit.event.*;
 
 public class GeneratorEventListener implements Listener {
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onMine(GeneratorMineEvent event) {
-        final Function breakFunction = event.getGenerator().getCurrentStage().getBreakFunction();
+        Function breakFunction = event.getGenerator().getCurrentStage().getBreakFunction();
         if (breakFunction != null) {
             breakFunction.run(event.getPlayer(), event, event.getBlockMined());
         }

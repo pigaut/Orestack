@@ -5,10 +5,10 @@
 --- # ===== Stage 1 =====
 type: depleted
 block: bedrock
-growth: 40
+growth: 2s
 
 --- # ===== Stage 2 =====
-type: replenished
+type: regrown
 block: lodestone
 
 on-break:
@@ -21,11 +21,11 @@ on-break:
       - return
 
     # Otherwise, give the player the cooldown flag
-  - do: giveFlagToPlayer lodestone_cooldown
+  - do: giveFlag lodestone_cooldown
 
     # And remove it after the desired period of time
   - delay: 80
-    do: takeFlagFromPlayer lodestone_cooldown
+    do: takeFlag lodestone_cooldown
 
     # This is one example on how to use flags,
     # just remember that flags are not saved when

@@ -1,13 +1,13 @@
 
---- # ===== Stage 7 =====
+--- # ===== Stage 1 =====
 type: depleted
+growth: 5s
 block: dead_horn_coral_block
-growth: 50
 
 --- # ===== Stage 2 =====
-type: harvestable
+type: ripe
+growth: 5s
 block: horn_coral_block
-growth: 50
 hologram:
   - type: static
     text: '&6&lBreak-To:'
@@ -38,9 +38,9 @@ on-break:
   #   dropExp 50 x=100 y=65 z=200 orbs=10 world=world_nether
 
 --- # ===== Stage 3 =====
-type: harvestable
+type: ripe
+growth: 5s
 block: horn_coral_block
-growth: 50
 hologram:
   - type: static
     text: '&6&lBreak-To:'
@@ -68,7 +68,7 @@ on-break:
   #   dropExpAtPlayer 10-20 orbs=5-10
 
 --- # ===== Stage 4 =====
-type: replenished
+type: regrown
 block: horn_coral_block
 hologram:
   - type: static

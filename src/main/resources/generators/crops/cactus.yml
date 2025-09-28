@@ -1,26 +1,32 @@
+
+--- # ===== Stage 1 =====
 type: depleted
+growth: 1.5s
 block: air
-growth: 30
----
-type: growing
+
+--- # ===== Stage 2 =====
+type: unripe
+growth: 1.5s
 block: cactus
-growth: 30
----
-type: growing
-structure:
-  - block: cactus
-  - block: cactus
-    offset.y: 1
-growth: 30
----
-type: replenished
-structure:
-  - block: cactus
-  - block: cactus
-    offset.y: 1
-  - block: cactus
-    offset.y: 2
-drop-items: false
 on-break:
-  actions:
-    - dropItemAtBlock cactus:3
+  do: dropItemAtBlock cactus
+
+--- # ===== Stage 3 =====
+type: unripe
+growth: 1.5s
+structure:
+  - cactus
+  - cactus offsetY=1
+
+on-break:
+  do: dropItemAtBlock cactus amount=2
+
+--- # ===== Stage 4 =====
+type: regrown
+structure:
+  - cactus
+  - cactus offsetY=1
+  - cactus offsetY=2
+
+on-break:
+  do: dropItemAtBlock cactus amount=3

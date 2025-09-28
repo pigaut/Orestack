@@ -16,8 +16,8 @@ public class OrestackConfigurator extends PluginConfigurator {
         addLoader(GeneratorTemplate.class, new GeneratorLoader());
 
         final ActionLoader actions = this.getActionLoader();
-        actions.addLoader("RESET_GENERATOR", (ConfigLoader.Line<Action>) line ->
-                new GeneratorResetStageAction());
+        actions.addLoader("KEEP_STAGE", (ConfigLoader.Line<Action>) line ->
+                new GeneratorKeepStageAction());
 
         actions.addLoader("NEXT_STAGE", (ConfigLoader.Line<Action>) line ->
                 new GeneratorNextStageAction());
@@ -26,16 +26,7 @@ public class OrestackConfigurator extends PluginConfigurator {
                 new GeneratorPreviousStageAction());
 
         actions.addLoader("SET_STAGE", (ConfigLoader.Line<Action>) line ->
-                new GeneratorSetStageAction(line.getRequiredInteger(1)));
-
-        actions.addLoader("NEXT_GENERATOR_STAGE", (ConfigLoader.Line<Action>) line ->
-                new GeneratorNextStageAction());
-
-        actions.addLoader("PREVIOUS_GENERATOR_STAGE", (ConfigLoader.Line<Action>) line ->
-                new GeneratorPreviousStageAction());
-
-        actions.addLoader("SET_GENERATOR_STAGE", (ConfigLoader.Line<Action>) line ->
-                new GeneratorSetStageAction(line.getRequiredInteger(1)));
+                new GeneratorSetStageAction(line.getRequiredInteger(1) - 1));
 
     }
 

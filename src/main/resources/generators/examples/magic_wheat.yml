@@ -2,56 +2,56 @@
 # which will instantly grow the crop and drop extra wheat and seeds
 
 type: depleted
+growth: 1.5s
 block: wheat
 age: 0
-growth: 30
 ---
-type: growing
+type: unripe
+growth: 1.5s
 block: wheat
 age: 1
-growth: 30
 ---
-type: growing
+type: unripe
+growth: 1.5s
 block: wheat
 age: 2
-growth: 30
 ---
-type: growing
+type: unripe
+growth: 1.5s
 block: wheat
 age: 3
-growth: 30
 ---
-type: growing
+type: unripe
+growth: 1.5s
 block: wheat
 age: 4
-growth: 30
 ---
-type: growing
+type: unripe
+growth: 1.5s
 block: wheat
 age: 5
-growth: 30
 ---
-type: growing
+type: unripe
+growth: 1.5s
 block: wheat
 age: 6
-growth: 30
 ---
-type: replenished
+type: regrown
 block: wheat
 age: 7
-regrow: false
-
+default-drops: true
 on-break:
   - if: chance 0.3
-    do: spawnParticleAtBlock rain_cloud
+    do:
+      - spawnParticleAtBlock rain_cloud
     else:
-      - setStage 0
+      - setStage 1
       - return
 
-  - do: nextGeneratorStage delay=4 repetitions=7 interval=4
+  - do: nextStage delay=4 repeat=7 interval=4
 
   - delay: 28
-    repetitions: 4
+    repeat: 4
     interval: 5
     do:
       - dropItemAtBlock wheat

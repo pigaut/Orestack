@@ -5,11 +5,11 @@ import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.*;
+import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.structure.*;
-import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.plugin.manager.*;
-import io.github.pigaut.voxel.util.Rotation;
 import io.github.pigaut.yaml.convert.parse.*;
+import io.github.pigaut.voxel.bukkit.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
@@ -274,6 +274,10 @@ public class GeneratorManager extends Manager {
         final HologramDisplay hologram = generator.getCurrentHologram();
         if (hologram != null && hologram.exists()) {
             hologram.destroy();
+        }
+
+        if (plugin.getOrestackOptions().isKeepBlocksOnRemove()) {
+            generator.getTemplate().getLastStage().getStructure().updateBlocks(generator.getOrigin(), generator.getRotation());
         }
     }
 

@@ -1,38 +1,39 @@
 type: depleted
+growth: 30s 1.5s
 block: carrots
 age: 0
-growth: 30
 ---
-type: growing
+type: unripe
+growth: 30s 1.5s
 block: carrots
 age: 1
-growth: 30
 ---
-type: growing
+type: unripe
+growth: 30s 1.5s
 block: carrots
 age: 2
-growth: 30
 ---
-type: growing
+type: unripe
+growth: 30s 1.5s
 block: carrots
 age: 3
-growth: 30
 ---
-type: growing
+type: unripe
+growth: 30s 1.5s
 block: carrots
 age: 4
-growth: 30
 ---
-type: growing
+type: unripe
+growth: 1.5s
 block: carrots
 age: 5
-growth: 30
 ---
-type: growing
+type: unripe
 block: carrots
 age: 6
-growth: 30
+growth: 1.5s
 ---
-type: replenished
+type: regrown
 block: carrots
 age: 7
+default-drops: true

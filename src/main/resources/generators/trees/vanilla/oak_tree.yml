@@ -1,20 +1,29 @@
----
+
+--- # ===== Stage 1 =====
 type: depleted
-growth: 600
+growth: 30s
 block: oak_log
----
-type: harvestable
+
+--- # ===== Stage 2 =====
+type: ripe
 structure: oak_tree_1
-on-break: resetGeneratorIfLeaves
----
-type: harvestable
+decorative-blocks: [oak_leaves]
+default-drops: true
+
+--- # ===== Stage 3 =====
+type: ripe
 structure: oak_tree_2
-on-break: resetGeneratorIfLeaves
----
-type: harvestable
+decorative-blocks: [oak_leaves]
+default-drops: true
+
+--- # ===== Stage 4 =====
+type: ripe
 structure: oak_tree_3
-on-break: resetGeneratorIfLeaves
----
-type: replenished
+decorative-blocks: [oak_leaves]
+default-drops: true
+
+--- # ===== Stage 5 =====
+type: regrown
 structure: oak_tree_4
-on-break: resetGeneratorIfLeaves
+decorative-blocks: [oak_leaves]
+default-drops: true

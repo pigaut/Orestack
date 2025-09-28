@@ -1,14 +1,17 @@
 type: depleted
 block: cobblestone
-growth: 200
+growth: 10s
 ---
-type: harvestable
+type: ripe
 block: stone
-growth: 1200
+default-drops: true
+growth: 1m
 ---
-type: harvestable
+type: ripe
 block: diamond_ore
-growth: 1400
+default-drops: true
+growth: 1m 10s
 ---
-type: replenished
+type: regrown
 block: emerald_ore
+default-drops: true
