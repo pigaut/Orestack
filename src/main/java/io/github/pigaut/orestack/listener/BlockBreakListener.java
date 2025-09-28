@@ -48,7 +48,7 @@ public class BlockBreakListener implements Listener {
         OrestackPlayer playerState = plugin.getPlayerState(player);
         playerState.updatePlaceholders(generator);
 
-        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(playerState, generator, block);
+        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(playerState, generator, block, stage.isIdle());
         SpigotServer.callEvent(generatorMineEvent);
         if (generatorMineEvent.isCancelled()) {
             return;
@@ -69,7 +69,7 @@ public class BlockBreakListener implements Listener {
             ExpDrop.spawn(block.getLocation(), event.getExpToDrop());
         }
 
-        if (!generatorMineEvent.isStayStage()) {
+        if (!generatorMineEvent.isKeepStage()) {
             generator.previousStage();
         }
     }

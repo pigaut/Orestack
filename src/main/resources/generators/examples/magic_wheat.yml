@@ -45,7 +45,7 @@ on-break:
     do:
       - spawnParticleAtBlock rain_cloud
     else:
-      - setStage 0
+      - setStage 1
       - return
 
   - do: nextStage delay=4 repeat=7 interval=4

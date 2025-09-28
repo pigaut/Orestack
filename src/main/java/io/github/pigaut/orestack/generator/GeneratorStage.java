@@ -17,6 +17,7 @@ public class GeneratorStage {
     private final List<Material> decorativeBlocks;
     private final boolean dropItems;
     private final boolean dropExp;
+    private final boolean idle;
     private final int growthTime;
     private final @Nullable Double growthChance;
     private final @Nullable Function onBreak;
@@ -26,7 +27,7 @@ public class GeneratorStage {
 
     public GeneratorStage(@NotNull GeneratorTemplate generator, @NotNull GeneratorState state,
                           @NotNull BlockStructure structure, List<Material> decorativeBlocks, boolean dropItems,
-                          boolean dropExp, int growthTime, @Nullable Double growthChance, @Nullable Function onBreak,
+                          boolean dropExp, boolean idle, int growthTime, @Nullable Double growthChance, @Nullable Function onBreak,
                           @Nullable Function onGrowth, @Nullable Function onClick, @Nullable Hologram hologram) {
         this.generator = generator;
         this.state = state;
@@ -34,6 +35,7 @@ public class GeneratorStage {
         this.decorativeBlocks = decorativeBlocks;
         this.dropItems = dropItems;
         this.dropExp = dropExp;
+        this.idle = idle;
         this.growthTime = growthTime;
         this.growthChance = growthChance;
         this.onBreak = onBreak;
@@ -64,6 +66,10 @@ public class GeneratorStage {
 
     public boolean isDropExp() {
         return dropExp;
+    }
+
+    public boolean isIdle() {
+        return idle;
     }
 
     public GeneratorState getState() {

@@ -93,6 +93,8 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         final boolean dropExp = defaultDrops != null ? defaultDrops :
                 section.getBoolean("drop-exp|drop-xp").withDefault(false);
 
+        final boolean idle = section.getBoolean("idle").withDefault(false);
+
         final int growthTime = section.get("growth|growth-time", Ticks.class)
                 .map(Ticks::getCount)
                 .withDefault(0);
@@ -107,8 +109,8 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             hologram = section.get("hologram", Hologram.class).withDefault(null);
         }
 
-        return new GeneratorStage(generator, state, structure, decorativeBlocks, dropItems, dropExp, growthTime,
-                chance, onBreak, onGrowth, onClick, hologram);
+        return new GeneratorStage(generator, state, structure, decorativeBlocks, dropItems, dropExp, idle,
+                growthTime, chance, onBreak, onGrowth, onClick, hologram);
     }
 
 }

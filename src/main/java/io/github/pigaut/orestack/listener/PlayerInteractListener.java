@@ -139,7 +139,7 @@ public class PlayerInteractListener implements Listener {
         final GeneratorStage stage = clickedGenerator.getCurrentStage();
         final Function clickFunction = stage.getClickFunction();
         if (clickFunction != null) {
-            clickFunction.run(playerState, event);
+            clickFunction.run(playerState, event, event.getClickedBlock());
         }
     }
 

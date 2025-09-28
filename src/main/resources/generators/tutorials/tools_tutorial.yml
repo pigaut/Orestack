@@ -2,18 +2,18 @@
 --- # ===== Stage 1 =====
 type: depleted
 block: bedrock
-growth: 2.5
+growth: 2.5s
 
 --- # ===== Stage 2 =====
 type: ripe
 block: oak_log
-growth: 2.5
+growth: 2.5s
 hologram:
   - type: static
-    offset.y: 1
+    offset.y: 1.25
     text: '&b&lRequired Tool: &fAxe'
   - type: static
-    offset.y: 0.75
+    offset.y: 1
     text: '&f<right-click> to get'
 
 on-click:
@@ -31,14 +31,14 @@ on-break:
 --- # ===== Stage 3 =====
 type: ripe
 block: diamond_ore
-growth: 2.5
+growth: 2.5s
 
 hologram:
   - type: static
-    offset.y: 1
+    offset.y: 1.25
     text: '&b&lRequired Tool: &fIron Pickaxe'
   - type: static
-    offset.y: 0.75
+    offset.y: 1
     text: '&f<right-click> to get'
 
 on-click:
@@ -56,14 +56,14 @@ on-break:
 --- # ===== Stage 4 =====
 type: ripe
 block: cobweb
-growth: 2.5
+growth: 2.5s
 
 hologram:
   - type: static
-    offset.y: 1
+    offset.y: 1.25
     text: '&b&lRequired Tool: &fWeb Cutter'
   - type: static
-    offset.y: 0.75
+    offset.y: 1
     text: '&f<right-click> to get'
 
 on-click:
@@ -81,14 +81,14 @@ on-break:
 --- # ===== Stage 5 =====
 type: ripe
 block: slime_block
-growth: 2.5
+growth: 2.5s
 
 hologram:
   - type: static
-    offset.y: 1
+    offset.y: 1.25
     text: '&b&lRequired Tool: &fLegendary Axe'
   - type: static
-    offset.y: 0.75
+    offset.y: 1
     text: '&f<right-click> to get'
 
 on-click:
@@ -110,21 +110,28 @@ type: regrown
 block: stone_bricks
 hologram:
   - type: static
-    offset.y: 1
+    offset.y: 1.25
     text: '&b&lRequired Tool: &fLore Katana'
   - type: static
-    offset.y: 0.75
+    offset.y: 1
     text: '&f<right-click> to get'
 
-on-click:
-  if: clickTypeEquals right_click
-  do: giveItem lore_katana
+# Will remain on current stage when mined, you must set the stage manually. (setStage, previousStage)
+idle: true
 
-on-break:
-  if-not:
-    - toolTypeEquals iron_sword
-    # Check if the lore matches exactly, case-sensitive, ignores colors
-    - toolLoreEquals <Silken Edge, Threadslicer, Cuts with Precision>
-  do:
-    - chatMessage <&4You need a Lore Katana to harvest this resource>
-    - cancelEvent
+on-click:
+  - if: clickTypeEquals right_click
+    do: giveItem lore_katana
+
+  - if-not: clickTypeEquals left_click
+    do: return
+
+  - if-not:
+      - toolTypeEquals iron_sword
+      # Check if the lore matches exactly, case-sensitive, ignores colors
+      - toolLoreEquals Silken Edge, Threadslicer, Cuts with Precision
+    do:
+      - chatMessage <&4You need a Lore Katana to harvest this resource>
+      - cancelEvent
+
+  - do: setStage 5

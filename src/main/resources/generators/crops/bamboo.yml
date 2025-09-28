@@ -36,7 +36,7 @@ structure:
 
 on-break:
   do:
-    - setStage 0
+    - setStage 1
     - dropItemAtBlock bamboo amount=4
 
 --- # ===== Stage 6 =====
@@ -52,7 +52,7 @@ structure:
 
 on-break:
   do:
-    - setStage 0
+    - setStage 1
     - dropItemAtBlock bamboo amount=5
 
 --- # ===== Stage 7 =====
@@ -69,7 +69,7 @@ structure:
 
 on-break:
   do:
-    - setStage 0
+    - setStage 1
     - dropItemAtBlock bamboo amount=6
 
 --- # ===== Stage 8 =====
@@ -88,7 +88,7 @@ structure:
 
 on-break:
   do:
-    - setStage 0
+    - setStage 1
     - dropItemAtBlock bamboo amount=7
 
 --- # ===== Stage 9 =====
@@ -106,6 +106,6 @@ structure:
 
 on-break:
   do:
-    - setStage 0
+    - setStage 1
     - dropItemAtBlock bamboo amount=8
 
