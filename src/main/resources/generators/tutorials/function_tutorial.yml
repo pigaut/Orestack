@@ -1,8 +1,8 @@
 
 --- # ===== Stage 1 =====
 type: depleted
+growth: 5s
 block: white_wool
-growth: 40
 
 # 'on-break' defines a function triggered when a player tries to break a generator block
 on-break:
@@ -18,8 +18,8 @@ on-break:
 
 --- # ===== Stage 2 =====
 type: ripe
+growth: 5s
 block: gray_wool
-growth: 40
 
 on-break:
   do: chatMessage <&aYou harvested gray wool!>
@@ -37,8 +37,8 @@ on-growth:
 
 --- # ===== Stage 3 =====
 type: ripe
+growth: 5s
 block: blue_wool
-growth: 40
 
 # Multiple actions for the same trigger
 on-break:
@@ -57,8 +57,8 @@ on-click:
 
 --- # ===== Stage 4 =====
 type: ripe
+growth: 5s
 block: red_wool
-growth: 40
 
 on-break:
   - if: toolTypeEquals shears
@@ -81,8 +81,8 @@ on-growth:
 
 --- # ===== Stage 5 =====
 type: ripe
+growth: 5s
 block: yellow_wool
-growth: 40
 
 on-break:
   - if-not: hasPermission orestack.generator.harvest

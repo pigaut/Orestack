@@ -1,13 +1,13 @@
 
 --- # ===== Stage 1 =====
 type: depleted
+growth: 5s
 block: dead_horn_coral_block
-growth: 2.5
 
 --- # ===== Stage 2 =====
 type: ripe
+growth: 5s
 block: horn_coral_block
-growth: 2.5
 hologram:
   - type: static
     text: '&6&lBreak-To:'
@@ -39,8 +39,8 @@ on-break:
 
 --- # ===== Stage 3 =====
 type: ripe
+growth: 5s
 block: horn_coral_block
-growth: 2.5
 hologram:
   - type: static
     text: '&6&lBreak-To:'

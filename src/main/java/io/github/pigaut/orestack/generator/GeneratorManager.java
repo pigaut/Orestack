@@ -255,6 +255,10 @@ public class GeneratorManager extends Manager {
         if (hologram != null && hologram.exists()) {
             hologram.destroy();
         }
+
+        if (plugin.getOrestackOptions().isKeepBlocksOnRemove()) {
+            generator.getTemplate().getLastStage().getStructure().updateBlocks(generator.getOrigin(), generator.getRotation());
+        }
     }
 
 }

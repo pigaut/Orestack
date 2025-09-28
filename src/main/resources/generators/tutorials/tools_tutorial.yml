@@ -1,13 +1,13 @@
 
 --- # ===== Stage 1 =====
 type: depleted
+growth: 5s
 block: bedrock
-growth: 2.5s
 
 --- # ===== Stage 2 =====
 type: ripe
+growth: 5s
 block: oak_log
-growth: 2.5s
 hologram:
   - type: static
     offset.y: 1.25
@@ -30,8 +30,8 @@ on-break:
 
 --- # ===== Stage 3 =====
 type: ripe
+growth: 5s
 block: diamond_ore
-growth: 2.5s
 
 hologram:
   - type: static
@@ -55,8 +55,8 @@ on-break:
 
 --- # ===== Stage 4 =====
 type: ripe
+growth: 5s
 block: cobweb
-growth: 2.5s
 
 hologram:
   - type: static
@@ -80,8 +80,8 @@ on-break:
 
 --- # ===== Stage 5 =====
 type: ripe
+growth: 5s
 block: slime_block
-growth: 2.5s
 
 hologram:
   - type: static
@@ -132,6 +132,6 @@ on-click:
       - toolLoreEquals Silken Edge, Threadslicer, Cuts with Precision
     do:
       - chatMessage <&4You need a Lore Katana to harvest this resource>
-      - cancelEvent
+      - return
 
   - do: setStage 5

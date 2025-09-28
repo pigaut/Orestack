@@ -1,20 +1,20 @@
 
 --- # ===== Stage 1 =====
 type: depleted   # Depleted stage has no drops
+growth: 5s
 block: bedrock
-growth: 40
 
 --- # ===== Stage 2 =====
 type: growing    # Growth stage has no drops
+growth: 5s
 block: cobblestone
-growth: 40
 
 --- # ===== Stage 3 =====
 type: ripe
+growth: 5s
 block: coal_ore
-growth: 40
+default-drops: true   # Drops default item(s) and experience
 
-default-drops: true   # Drops default item(s) and XP
 on-break:
   do:
     - dropItemAtBlock coal            # Drops at the block
@@ -22,8 +22,12 @@ on-break:
     - giveItem coal           # Gives directly, what couldn't fit is dropped on the ground
 
 --- # ===== Stage 4 =====
-type: regrown
+type: ripe
+growth: 5s
 block: iron_ore
+drop-items: true   # Drop default item(s)
+drop-exp: true     # Drop default experience
+
 on-break:
   do:
     - dropItemAtBlock iron_ore amount=3       # Always drops 3
@@ -32,8 +36,8 @@ on-break:
 
 --- # ===== Stage 5 =====
 type: ripe
+growth: 5s
 block: redstone_ore
-growth: 3s
 
 on-break:
   do:
@@ -42,8 +46,8 @@ on-break:
 
 --- # ===== Stage 6 =====
 type: ripe
+growth: 5s
 block: lapis_ore
-growth: 3s
 
 on-break:
   do:
@@ -54,9 +58,7 @@ on-break:
 --- # ===== Stage 7 =====
 type: regrown
 block: diamond_ore
-growth: 80
 
-default-drops: true
 on-break:
   do:
     # Combine default behavior with a rare bonus drop

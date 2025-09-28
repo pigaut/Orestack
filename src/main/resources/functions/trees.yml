@@ -17,7 +17,6 @@ cancelBreakIfLeaf:
     - cancelEvent
 
 # The leaves will be broken normally and drop items if configured to do so, but the generator will remain at the current stage
-stayOnStageIfLeaf:
+keepStageIfLeaf:
   if: blockTypeEquals OAK_LEAVES, BIRCH_LEAVES, SPRUCE_LEAVES, ACACIA_LEAVES, JUNGLE_LEAVES, DARK_OAK_LEAVES
-  do:
-    - stayOnStage
+  do: keepStage

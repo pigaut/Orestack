@@ -36,7 +36,7 @@ do-fortune-whitelist:
 #  - raw_copper   # 1.17+
 #  - dirt         # Supports any item type
 
-# Weather to keep the blocks belonging to the last stage when a generator is removed
+# Whether to keep the blocks (regrown stage) when a generator is removed
 keep-blocks-on-remove: false
 
 # The wand used to select a region
