@@ -4,7 +4,7 @@ tin:
 #  pitch: 1.0
 #  offset: { x: 0, y: 0, z: 0 }
 #  delay: 5
-#  repetitions: 2
+#  repeat: 2
 
 tin_tin:
   - sound: ENTITY_EXPERIENCE_ORB_PICKUP

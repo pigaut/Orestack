@@ -4,10 +4,10 @@ version: 3.40.0
 api-version: 1.16
 author: pigaut
 description: Create resources with custom gathering mechanics
+
 softdepend:
   - Vault
   - PlaceholderAPI
-  - WorldGuard
   - DecentHolograms
 
 libraries:

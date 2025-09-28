@@ -4,13 +4,15 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.event.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.util.*;
+import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.bukkit.Rotation;
 import io.github.pigaut.voxel.core.function.*;
+import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.structure.*;
-import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.server.*;
-import io.github.pigaut.voxel.util.Rotation;
 import io.github.pigaut.voxel.util.*;
+import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.scheduler.*;
@@ -52,6 +54,10 @@ public class Generator implements PlaceholderSupplier {
 
     public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorOverlapException {
         return create(template, origin, Rotation.NONE);
+    }
+
+    public String getName() {
+        return template.getName();
     }
 
     public boolean isValid() {
@@ -100,8 +106,24 @@ public class Generator implements PlaceholderSupplier {
         return template.getAllOccupiedBlocks(origin, rotation);
     }
 
-    public @Nullable Duration getTimeBeforeNextStage() {
-        return growthStart != null ? Duration.between(growthStart, Instant.now()) : null;
+    public int getTicksToNextStage() {
+        if (growthStart == null) {
+            return 0;
+        }
+        GeneratorStage stage = getCurrentStage();
+        int timePassed = (int) (Duration.between(growthStart, Instant.now()).toMillis() / 50);
+        return stage.getGrowthTime() - timePassed;
+    }
+
+    public int getTicksToRegrownStage() {
+        int ticksToRegrown = getTicksToNextStage();
+        for (int i = currentStage + 1; i < template.getMaxStage(); i++) {
+            GeneratorStage stage = template.getStage(i);
+            if (stage.getGrowthChance() == null && stage.getGrowthTime() != 0) {
+                ticksToRegrown += stage.getGrowthTime();
+            }
+        }
+        return ticksToRegrown;
     }
 
     public int getCurrentStageId() {
@@ -122,17 +144,15 @@ public class Generator implements PlaceholderSupplier {
         }
         this.updating = true;
         this.cancelGrowth();
-        plugin.getScheduler().runTaskLater(1, () -> {
-            final BlockStructure nextStructure = template.getStage(stage).getStructure();
-            for (Block previousBlock : template.getAllOccupiedBlocks(origin, rotation)) {
-                final Block nextBlock = nextStructure.getBlockAt(origin, rotation, previousBlock.getLocation());
-                if (nextBlock == null || nextBlock.getType() != previousBlock.getType()) {
-                    previousBlock.setType(Material.AIR, false);
-                }
+        final BlockStructure nextStructure = template.getStage(stage).getStructure();
+        for (Block previousBlock : template.getAllOccupiedBlocks(origin, rotation)) {
+            final Block nextBlock = nextStructure.getBlockAt(origin, rotation, previousBlock.getLocation());
+            if (nextBlock == null || nextBlock.getType() != previousBlock.getType()) {
+                previousBlock.setType(Material.AIR, false);
             }
-            this.currentStage = stage;
-            this.updateState();
-        });
+        }
+        this.currentStage = stage;
+        this.updateState();
     }
 
     public @Nullable HologramDisplay getCurrentHologram() {
@@ -147,10 +167,6 @@ public class Generator implements PlaceholderSupplier {
             growthTask = null;
         }
         growthStart = null;
-    }
-
-    public void reset() {
-        this.setCurrentStage(currentStage);
     }
 
     public void nextStage() {
@@ -244,7 +260,6 @@ public class Generator implements PlaceholderSupplier {
                 this.nextStage();
             }
         });
-
     }
 
     @Override
@@ -258,24 +273,11 @@ public class Generator implements PlaceholderSupplier {
 
     @Override
     public @NotNull Placeholder[] getPlaceholders() {
-        final GeneratorStage stage = getCurrentStage();
-        final Duration timer = getTimeBeforeNextStage();
+        GeneratorStage stage = getCurrentStage();
+        int ticksToNextStage = getTicksToNextStage();
+        int ticksToRegrownStage = getTicksToRegrownStage();
 
-        long secondsToNextStage = (timer != null)
-                ? Math.max(0, (stage.getGrowthTime() / 20) - timer.getSeconds())
-                : 0;
-
-        long secondsToReplenished = secondsToNextStage;
-        final List<GeneratorStage> stages = template.getStages();
-        for (int i = currentStage; i < template.getMaxStage(); i++) {
-            GeneratorStage nextStage = stages.get(i);
-            if (nextStage.getGrowthChance() != null || nextStage.getGrowthTime() == 0) {
-                continue;
-            }
-            secondsToReplenished += (nextStage.getGrowthTime() / 20);
-        }
-
-        return new Placeholder[]{
+        return new Placeholder[] {
                 Placeholder.of("{generator}", template.getName()),
                 Placeholder.of("{generator_stage}", currentStage),
                 Placeholder.of("{generator_stages}", template.getMaxStage()),
@@ -285,31 +287,18 @@ public class Generator implements PlaceholderSupplier {
                 Placeholder.of("{generator_y}", origin.getBlockY()),
                 Placeholder.of("{generator_z}", origin.getBlockZ()),
 
-                //Deprecated
-                Placeholder.of("{generator_timer_seconds}", secondsToNextStage),
-                Placeholder.of("{generator_timer_minutes}", secondsToNextStage / 60),
+                Placeholder.of("{stage_timer}", Ticks.formatCompact(ticksToNextStage)),
+                Placeholder.of("{stage_timer_full}", Ticks.formatFull(ticksToNextStage)),
+                Placeholder.of("{stage_timer_hours}", Ticks.toHours(ticksToNextStage)),
+                Placeholder.of("{stage_timer_minutes}", Ticks.toMinutes(ticksToNextStage)),
+                Placeholder.of("{stage_timer_seconds}", Ticks.toSeconds(ticksToNextStage)),
 
-                Placeholder.of("{generator_next_timer}", formatTimer(secondsToNextStage)),
-                Placeholder.of("{generator_next_seconds}", secondsToNextStage),
-                Placeholder.of("{generator_next_minutes}", secondsToNextStage / 60),
-                Placeholder.of("{generator_replenish_timer}", formatTimer(secondsToReplenished)),
-                Placeholder.of("{generator_replenish_seconds}", secondsToReplenished),
-                Placeholder.of("{generator_replenish_minutes}", secondsToReplenished / 60)
+                Placeholder.of("{generator_timer}", Ticks.formatCompact(ticksToRegrownStage)),
+                Placeholder.of("{generator_timer_full}", Ticks.formatFull(ticksToRegrownStage)),
+                Placeholder.of("{generator_timer_hours}", Ticks.toHours(ticksToRegrownStage)),
+                Placeholder.of("{generator_timer_minutes}", Ticks.toMinutes(ticksToRegrownStage)),
+                Placeholder.of("{generator_timer_seconds}", Ticks.toSeconds(ticksToRegrownStage))
         };
-    }
-
-    private String formatTimer(long seconds) {
-        if (seconds < 60) {
-            return seconds + "s";
-        }
-
-        long minutes = seconds / 60;
-        long leftOverSeconds = seconds % 60;
-        if (leftOverSeconds == 0) {
-            return minutes + "m";
-        }
-
-        return minutes + "m " + leftOverSeconds + "s";
     }
 
 }

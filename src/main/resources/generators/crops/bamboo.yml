@@ -1,110 +1,111 @@
+
 --- # ===== Stage 1 =====
 type: depleted
+growth: 1.5s
 block: air
-growth: 30s 1.5s
 
 --- # ===== Stage 2 =====
 type: growing
+growth: 1.5s
 block: bamboo
 bamboo-leaves: small
-growth: 30s 1.5s
 
 --- # ===== Stage 3 =====
 type: growing
-growth: 30s 1.5s
+growth: 1.5s
 structure:
-  - { block: bamboo, bamboo-leaves: small }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 1 }
+  - bamboo bambooLeaves=small
+  - bamboo offsetY=1 bambooLeaves=large
 
 --- # ===== Stage 4 =====
 type: growing
-growth: 30s 1.5s
+growth: 1.5s
 structure:
-  - { block: bamboo, bamboo-leaves: small }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 1 }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 2 }
+  - bamboo bambooLeaves=small
+  - bamboo offsetY=1 bambooLeaves=large
+  - bamboo offsetY=2 bambooLeaves=large
 
 --- # ===== Stage 5 =====
 type: ripe
-growth: 30s 1.5s
+growth: 1.5s
 structure:
-  - { block: bamboo }
-  - { block: bamboo, bamboo-leaves: small, offset.y: 1 }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 2 }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 3 }
+  - bamboo
+  - bamboo offsetY=1 bambooLeaves=small
+  - bamboo offsetY=2 bambooLeaves=large
+  - bamboo offsetY=3 bambooLeaves=large
 
 on-break:
   do:
-    - setGeneratorStage 0
+    - setStage 0
     - dropItemAtBlock bamboo amount=4
 
 --- # ===== Stage 6 =====
 type: ripe
-growth: 30s 1.5s
+growth: 1.5s
 growth-chance: 0.8
 structure:
-  - { block: bamboo }
-  - { block: bamboo, offset.y: 1 }
-  - { block: bamboo, bamboo-leaves: small, offset.y: 2 }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 3 }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 4 }
+  - bamboo
+  - bamboo offsetY=1
+  - bamboo offsetY=2 bambooLeaves=small
+  - bamboo offsetY=3 bambooLeaves=large
+  - bamboo offsetY=4 bambooLeaves=large
 
 on-break:
   do:
-    - setGeneratorStage 0
+    - setStage 0
     - dropItemAtBlock bamboo amount=5
 
 --- # ===== Stage 7 =====
 type: ripe
-growth: 30s 1.5s
+growth: 1.5s
 growth-chance: 0.8
 structure:
-  - { block: bamboo }
-  - { block: bamboo, offset.y: 1 }
-  - { block: bamboo, offset.y: 2 }
-  - { block: bamboo, bamboo-leaves: small, offset.y: 3 }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 4 }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 5 }
+  - bamboo
+  - bamboo offsetY=1
+  - bamboo offsetY=2
+  - bamboo offsetY=3 bambooLeaves=small
+  - bamboo offsetY=4 bambooLeaves=large
+  - bamboo offsetY=5 bambooLeaves=large
 
 on-break:
   do:
-    - setGeneratorStage 0
+    - setStage 0
     - dropItemAtBlock bamboo amount=6
 
 --- # ===== Stage 8 =====
 type: ripe
-growth: 30s 1.5s
+growth: 1.5s
 growth-chance: 0.8
 
 structure:
-  - { block: bamboo }
-  - { block: bamboo, offset.y: 1 }
-  - { block: bamboo, offset.y: 2 }
-  - { block: bamboo, offset.y: 3 }
-  - { block: bamboo, bamboo-leaves: small, offset.y: 4 }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 5 }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 6 }
+  - bamboo
+  - bamboo offsetY=1
+  - bamboo offsetY=2
+  - bamboo offsetY=3
+  - bamboo offsetY=4 bambooLeaves=small
+  - bamboo offsetY=5 bambooLeaves=large
+  - bamboo offsetY=6 bambooLeaves=large
 
 on-break:
   do:
-    - setGeneratorStage 0
+    - setStage 0
     - dropItemAtBlock bamboo amount=7
 
 --- # ===== Stage 9 =====
 type: regrown
 growth-chance: 0.8
 structure:
-  - { block: bamboo }
-  - { block: bamboo, offset.y: 1 }
-  - { block: bamboo, offset.y: 2 }
-  - { block: bamboo, offset.y: 3 }
-  - { block: bamboo, offset.y: 4 }
-  - { block: bamboo, bamboo-leaves: small, offset.y: 5 }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 6 }
-  - { block: bamboo, bamboo-leaves: large, offset.y: 7 }
+  - bamboo
+  - bamboo offsetY=1
+  - bamboo offsetY=2
+  - bamboo offsetY=3
+  - bamboo offsetY=4
+  - bamboo offsetY=5 bambooLeaves=small
+  - bamboo offsetY=6 bambooLeaves=large
+  - bamboo offsetY=7 bambooLeaves=large
 
 on-break:
   do:
-    - setGeneratorStage 0
+    - setStage 0
     - dropItemAtBlock bamboo amount=8
 

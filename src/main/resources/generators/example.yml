@@ -2,7 +2,7 @@
 --- # ===== Stage 1 =====
 type: depleted
 block: iron_block
-growth: 30s 40  # Time in ticks to grow to the next stage, or time format: (1 hour(s) 10 m|min(s)|minute(s) 100 s|sec(s)|second(s))
+growth: 40  # Time in ticks to grow to the next stage, or time format: (1 hour(s) 10 m|min(s)|minute(s) 100 s|sec(s)|second(s))
 
 hologram:
   type: animated
@@ -17,12 +17,12 @@ hologram:
 on-click: []
 
 on-break:
-  do: sendTitle <&7&lDepleted> subtitle=&7{generator_timer_seconds} fadeIn=5 stay=15 fadeOut=10
+  do: sendTitle <&7&lDepleted> <subtitle=&7{generator_timer_seconds}> fadeIn=5 stay=15 fadeOut=10
 
 --- # ===== Stage 2 =====
 type: growing
 block: gold_block
-growth: 30s 3s
+growth: 3s
 chance: 0.8  # 80% chance to spawn, otherwise skips to the next stage
 
 hologram:
@@ -53,7 +53,7 @@ hologram:
 
 on-click:
   if-not:
-    - clickTypeEquals left_click, physical
+    - clickTypeEquals left_click
     - isSneaking
   do:
     - cancelEvent
@@ -81,13 +81,13 @@ on-break:
 --- # ===== Stage 3 =====
 type: ripe
 block: diamond_block
-growth: 30s 4s
+growth: 4s
 
 hologram:
   type: static
   update: 3
   offset: { x: 0, y: 1, z: 0 }
-  text: "&b&lDiamond [{generator_timer_seconds}s]"
+  text: "&b&lDiamond [{stage_timer_seconds}s]"
 
 on-break:
   - do:

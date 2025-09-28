@@ -1,36 +1,53 @@
----
+
+--- # ===== Stage 1 =====
 type: depleted
-growth: 1800
+growth: 1m 30s
 block: jungle_log
----
+
+--- # ===== Stage 2 =====
 type: ripe
 structure: jungle_tree_1
-on-break: stayOnStageIfLeaf
----
+decorative-blocks: [jungle_leaves]
+default-drops: true
+
+--- # ===== Stage 3 =====
 type: ripe
 structure: jungle_tree_2
-on-break: stayOnStageIfLeaf
----
+decorative-blocks: [jungle_leaves]
+default-drops: true
+
+--- # ===== Stage 4 =====
 type: ripe
 structure: jungle_tree_3
-on-break: stayOnStageIfLeaf
----
+decorative-blocks: [jungle_leaves]
+default-drops: true
+
+--- # ===== Stage 5 =====
 type: ripe
 structure: jungle_tree_4
-on-break: stayOnStageIfLeaf
----
+decorative-blocks: [jungle_leaves]
+default-drops: true
+
+--- # ===== Stage 6 =====
 type: ripe
 structure: jungle_tree_5
-on-break: stayOnStageIfLeaf
----
+decorative-blocks: [jungle_leaves]
+default-drops: true
+
+--- # ===== Stage 7 =====
 type: ripe
 structure: jungle_tree_6
-on-break: stayOnStageIfLeaf
----
+decorative-blocks: [jungle_leaves]
+default-drops: true
+
+--- # ===== Stage 8 =====
 type: ripe
 structure: jungle_tree_7
-on-break: stayOnStageIfLeaf
----
+decorative-blocks: [jungle_leaves]
+default-drops: true
+
+--- # ===== Stage 9 =====
 type: regrown
 structure: jungle_tree_8
-on-break: stayOnStageIfLeaf
+decorative-blocks: [jungle_leaves]
+default-drops: true

@@ -3,8 +3,9 @@ package io.github.pigaut.orestack.util;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.bukkit.Rotation;
+import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.placeholder.*;
-import io.github.pigaut.voxel.util.Rotation;
 import org.bukkit.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
@@ -15,6 +16,21 @@ public class GeneratorTool {
     private static final OrestackPlugin plugin = OrestackPlugin.getPlugin();
 
     public static final NamespacedKey GENERATOR_KEY = new NamespacedKey("orestack", "generator");
+    private static final ItemStack DEFAULT_ITEM;
+
+    static {
+        DEFAULT_ITEM = IconBuilder.of(Material.TERRACOTTA)
+                .enchanted(true)
+                .withDisplay("&b&l{generator_tc} Generator ({generator_rotation_tc})")
+                .addLore("&fright-click to place")
+                .addLore("&fleft-click to break")
+                .addLore("&fshift + left-click (air) to rotate")
+                .buildIcon();
+    }
+
+    public static @NotNull ItemStack getDefaultItem() {
+        return DEFAULT_ITEM.clone();
+    }
 
     public static @NotNull Rotation getToolRotation(@NotNull ItemStack item) {
         final GeneratorTemplate generator = getGeneratorFromTool(item);

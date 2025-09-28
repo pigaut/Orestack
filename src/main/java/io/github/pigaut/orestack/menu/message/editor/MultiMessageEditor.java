@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.orestack.menu.message.*;
+import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
@@ -74,7 +75,7 @@ public class MultiMessageEditor extends FramedSelectionEditor {
                 case "HOLOGRAM" -> messageButton
                             .withType(Material.BEACON)
                             .withDisplay(messageSection.getSequence("hologram.frames")
-                                    .map(frameSequence -> frameSequence.toStringList(StringColor.FORMATTER).stream()
+                                    .map(frameSequence -> frameSequence.toStringList(StringColor.FORMATTER).orElse(List.of()).stream()
                                             .max(Comparator.comparingInt(String::length)))
                                     .orElse(messageSection.getString("hologram.text", StringColor.FORMATTER).asOptional())
                                     .orElse("none"))

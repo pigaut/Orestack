@@ -48,10 +48,10 @@ on-break:
       - setStage 0
       - return
 
-  - do: nextGeneratorStage delay=4 repetitions=7 interval=4
+  - do: nextStage delay=4 repeat=7 interval=4
 
   - delay: 28
-    repetitions: 4
+    repeat: 4
     interval: 5
     do:
       - dropItemAtBlock wheat

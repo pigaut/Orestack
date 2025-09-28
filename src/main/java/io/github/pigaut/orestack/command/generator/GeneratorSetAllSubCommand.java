@@ -7,7 +7,7 @@ import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.command.node.*;
 import io.github.pigaut.voxel.core.structure.*;
-import io.github.pigaut.voxel.util.Rotation;
+import io.github.pigaut.voxel.bukkit.Rotation;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 

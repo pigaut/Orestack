@@ -21,7 +21,7 @@ public class BlockBreakListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
     public void onBlockBreak(BlockBreakEvent event) {
         final Block block = event.getBlock();
         final Generator generator = plugin.getGenerator(block.getLocation());
@@ -39,6 +39,11 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
+        GeneratorStage stage = generator.getCurrentStage();
+        if (stage.getDecorativeBlocks().contains(block.getType())) {
+            return;
+        }
+
         Player player = event.getPlayer();
         OrestackPlayer playerState = plugin.getPlayerState(player);
         playerState.updatePlaceholders(generator);
@@ -49,14 +54,13 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        GeneratorStage stage = generator.getCurrentStage();
         if (!stage.getState().isHarvestable()) {
             return;
         }
 
         if (stage.isDropItems()) {
-            Location location = block.getLocation();
-            for (ItemStack itemDrop : block.getDrops(player.getInventory().getItemInMainHand(), player)) {
+            Location location = block.getLocation().add(0.5, 1, 0.5);
+            for (ItemStack itemDrop : block.getDrops(player.getInventory().getItemInMainHand())) {
                 ItemDrop.spawn(location, itemDrop, itemDrop.getAmount());
             }
         }

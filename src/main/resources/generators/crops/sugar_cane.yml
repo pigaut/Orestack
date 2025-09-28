@@ -1,25 +1,33 @@
+
+--- # ===== Stage 1 =====
 type: depleted
-growth: 30s 1.5s
+growth: 1.5s
 block: air
----
-type: growing
-growth: 30s 1.5s
+
+--- # ===== Stage 2 =====
+type: unripe
+growth: 1.5s
 block: sugar_cane
----
-type: growing
-growth: 30s 1.5s
+
+on-break:
+  do: dropItemAtBlock sugar_cane
+
+--- # ===== Stage 3 =====
+type: unripe
+growth: 1.5s
 structure:
-  - block: sugar_cane
-  - block: sugar_cane
-    offset.y: 1
----
+  - sugar_cane
+  - sugar_cane offsetY=1
+
+on-break:
+  do: dropItemAtBlock sugar_cane amount=2
+
+--- # ===== Stage 4 =====
 type: regrown
 structure:
-  - block: sugar_cane
-  - block: sugar_cane
-    offset.y: 1
-  - block: sugar_cane
-    offset.y: 2
+  - sugar_cane
+  - sugar_cane offsetY=1
+  - sugar_cane offsetY=2
 
 on-break:
   do: dropItemAtBlock sugar_cane amount=3

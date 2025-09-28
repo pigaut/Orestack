@@ -2,8 +2,8 @@ package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.core.function.*;
+import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.structure.*;
-import io.github.pigaut.voxel.hologram.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -52,6 +52,10 @@ public class GeneratorStage {
 
     public @NotNull BlockStructure getStructure() {
         return structure;
+    }
+
+    public List<Material> getDecorativeBlocks() {
+        return new ArrayList<>(decorativeBlocks);
     }
 
     public boolean isDropItems() {

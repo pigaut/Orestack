@@ -3,8 +3,8 @@ package io.github.pigaut.orestack.config;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.core.function.*;
+import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.structure.*;
-import io.github.pigaut.voxel.hologram.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.yaml.*;
@@ -85,31 +85,29 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
                 section.getRequired("structure|blocks", BlockStructure.class) :
                 section.loadRequired(BlockStructure.class);
 
-        List<Material> decorativeBlocks = null;
+        List<Material> decorativeBlocks = section.getAll("decorative-blocks", Material.class);
 
-        final Boolean defaultDrops = section.getBoolean("default-drops|drops").throwOrElse(null);
+        final Boolean defaultDrops = section.getBoolean("default-drops|drops").withDefault(null);
         final boolean dropItems = defaultDrops != null ? defaultDrops :
-                section.getBoolean("drop-items").throwOrElse(false);
+                section.getBoolean("drop-items").withDefault(false);
         final boolean dropExp = defaultDrops != null ? defaultDrops :
-                section.getBoolean("drop-exp|drop-xp").throwOrElse(false);
+                section.getBoolean("drop-exp|drop-xp").withDefault(false);
 
-        final int growthTime = section.get("growth|growth-time", Time.class)
-                .map(Time::toTicks)
-                .throwOrElse(0);
+        final int growthTime = section.get("growth|growth-time", Ticks.class)
+                .map(Ticks::getCount)
+                .withDefault(0);
 
-        final Double chance = section.getDouble("chance|growth-chance").throwOrElse(null);
-        final Function onBreak = section.get("on-break", Function.class).throwOrElse(null);
-        final Function onGrowth = section.get("on-growth", Function.class).throwOrElse(null);
-        final Function onClick = section.get("on-click", Function.class).throwOrElse(null);
+        final Double chance = section.getDouble("chance|growth-chance").withDefault(null);
+        final Function onBreak = section.get("on-break", Function.class).withDefault(null);
+        final Function onGrowth = section.get("on-growth", Function.class).withDefault(null);
+        final Function onClick = section.get("on-click", Function.class).withDefault(null);
 
         Hologram hologram = null;
         if (SpigotServer.isPluginEnabled("DecentHolograms")) {
-            hologram = section.get("hologram", Hologram.class).throwOrElse(null);
+            hologram = section.get("hologram", Hologram.class).withDefault(null);
         }
 
-
-
-        return new GeneratorStage(generator, state, structure, dropItems, dropExp, growthTime,
+        return new GeneratorStage(generator, state, structure, decorativeBlocks, dropItems, dropExp, growthTime,
                 chance, onBreak, onGrowth, onClick, hologram);
     }
 
