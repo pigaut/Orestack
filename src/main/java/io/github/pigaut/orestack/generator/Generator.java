@@ -281,6 +281,7 @@ public class Generator implements PlaceholderSupplier {
                 Placeholder.of("{generator_stage}", currentStage),
                 Placeholder.of("{generator_stages}", template.getMaxStage()),
                 Placeholder.of("{generator_state}", stage.getState().toString().toLowerCase()),
+                Placeholder.of("{generator_rotation}", rotation.toString().toLowerCase()),
                 Placeholder.of("{generator_world}", origin.getWorld().getName()),
                 Placeholder.of("{generator_x}", origin.getBlockX()),
                 Placeholder.of("{generator_y}", origin.getBlockY()),
