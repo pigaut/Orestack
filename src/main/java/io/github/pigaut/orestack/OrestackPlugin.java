@@ -9,10 +9,13 @@ import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.voxel.command.*;
+import io.github.pigaut.voxel.hook.*;
 import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.version.*;
+import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
@@ -365,7 +368,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull OrestackConfigurator getConfigurator() {
+    protected Configurator createConfigurator() {
         return new OrestackConfigurator(this);
     }
 
