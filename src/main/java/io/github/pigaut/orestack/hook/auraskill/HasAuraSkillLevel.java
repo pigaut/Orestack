@@ -22,6 +22,10 @@ public class HasAuraSkillLevel implements PlayerCondition {
 
     @Override
     public @Nullable Boolean evaluate(@NotNull PlayerState player) {
+        if (!skill.isEnabled()) {
+            return null;
+        }
+
         SkillsUser skillsUser = AURA_SKILLS.getUser(player.getUniqueId());
         return level.match(skillsUser.getSkillLevel(skill));
     }

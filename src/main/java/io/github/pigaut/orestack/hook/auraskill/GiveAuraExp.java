@@ -24,6 +24,10 @@ public class GiveAuraExp implements PlayerAction {
 
     @Override
     public void execute(@NotNull PlayerState player) {
+        if (!skill.isEnabled()) {
+            return;
+        }
+
         SkillsUser skillsUser = AURA_SKILLS.getUser(player.getUniqueId());
         if (raw) {
             skillsUser.addSkillXpRaw(skill, exp.getInteger());

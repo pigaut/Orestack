@@ -319,6 +319,13 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         );
     }
 
+//    @Override
+//    public Map<String, List<String>> getExamplesByPlugin() {
+//        return Map.of(
+//                "AuraSkills", List.of("generators/examples/hooks/auraskills.yml")
+//        );
+//    }
+
     @Override
     public List<EnhancedCommand> getPluginCommands() {
         return List.of(new OrestackCommand(this));
@@ -368,7 +375,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    protected Configurator createConfigurator() {
+    public @NotNull Configurator createConfigurator() {
         return new OrestackConfigurator(this);
     }
 

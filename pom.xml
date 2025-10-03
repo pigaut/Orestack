@@ -6,7 +6,7 @@
 
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>Orestack</artifactId>
-    <version>3.40.2</version>
+    <version>3.40.3</version>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
@@ -54,6 +54,10 @@
         <repository>
             <id>sk89q-repo</id>
             <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+        <repository>
+            <id>mcmmo-repo</id>
+            <url>https://nexus.neetgames.com/repository/maven-public</url>
         </repository>
     </repositories>
 
@@ -103,6 +107,12 @@
             <groupId>dev.aurelium</groupId>
             <artifactId>auraskills-api-bukkit</artifactId>
             <version>2.2.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.gmail.nossr50.mcMMO</groupId>
+            <artifactId>mcMMO</artifactId>
+            <version>2.2.004</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
