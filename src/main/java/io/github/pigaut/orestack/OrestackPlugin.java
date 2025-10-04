@@ -319,12 +319,12 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         );
     }
 
-//    @Override
-//    public Map<String, List<String>> getExamplesByPlugin() {
-//        return Map.of(
-//                "AuraSkills", List.of("generators/examples/hooks/auraskills.yml")
-//        );
-//    }
+    @Override
+    public Map<String, List<String>> getExamplesByPlugin() {
+        return Map.of(
+                "AuraSkills", List.of("generators/examples/hooks/auraskills.yml")
+        );
+    }
 
     @Override
     public List<EnhancedCommand> getPluginCommands() {
