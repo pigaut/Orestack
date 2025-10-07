@@ -21,7 +21,7 @@ public class BlockBreakListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW)
     public void onBlockBreak(BlockBreakEvent event) {
         final Block block = event.getBlock();
         final Generator generator = plugin.getGenerator(block.getLocation());
