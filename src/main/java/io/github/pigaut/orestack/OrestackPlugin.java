@@ -85,8 +85,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public List<String> getPluginResources() {
-        return List.of("config.yml",
-                "languages/en.yml");
+        return List.of("config.yml", "languages/en.yml");
     }
 
     @Override
@@ -320,7 +319,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public Map<String, List<String>> getExamplesByPlugin() {
         return Map.of(
-                "AuraSkills", List.of("generators/examples/hooks/auraskills.yml")
+                "AuraSkills", List.of("generators/examples/hooks/mana_ore.yml"),
+                "ItemsAdder", List.of("generators/examples/hooks/ruby_ore.yml")
         );
     }
 
@@ -332,10 +332,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public List<Listener> getPluginListeners() {
         List<Listener> listeners = new ArrayList<>();
-        listeners.add(new PlayerInteractListener(plugin));
-        listeners.add(new BlockBreakListener(plugin));
-        listeners.add(new BlockDestructionListener(plugin));
-        listeners.add(new CropChangeListener(plugin));
+        listeners.add(new PlayerInteractListener(this));
+        listeners.add(new BlockBreakListener(this));
+        listeners.add(new BlockDestructionListener(this));
+        listeners.add(new CropChangeListener(this));
         listeners.add(new GeneratorEventListener());
         return listeners;
     }

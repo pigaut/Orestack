@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack.listener;
 
+import dev.lone.itemsadder.api.*;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.event.*;
 import io.github.pigaut.orestack.generator.*;
@@ -12,6 +13,8 @@ import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
 import org.bukkit.inventory.*;
+
+import java.util.*;
 
 public class BlockBreakListener implements Listener {
 
@@ -50,17 +53,23 @@ public class BlockBreakListener implements Listener {
 
         GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(playerState, generator, block, stage.isIdle());
         SpigotServer.callEvent(generatorMineEvent);
-        if (generatorMineEvent.isCancelled()) {
-            return;
-        }
-
-        if (!stage.getState().isHarvestable()) {
+        if (generatorMineEvent.isCancelled() || !stage.getState().isHarvestable()) {
             return;
         }
 
         if (stage.isDropItems()) {
+            ItemStack tool = player.getInventory().getItemInMainHand();
+            Collection<ItemStack> drops = block.getDrops(tool);
+
+            if (SpigotServer.isPluginEnabled("ItemsAdder")) {
+                CustomBlock customBlock = CustomBlock.byAlreadyPlaced(block);
+                if (customBlock != null) {
+                    drops = customBlock.getLoot(tool, true);
+                }
+            }
+
             Location location = block.getLocation().add(0.5, 1, 0.5);
-            for (ItemStack itemDrop : block.getDrops(player.getInventory().getItemInMainHand())) {
+            for (ItemStack itemDrop : drops) {
                 ItemDrop.spawn(location, itemDrop, itemDrop.getAmount());
             }
         }
