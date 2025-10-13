@@ -215,7 +215,8 @@ public class GeneratorManager extends Manager {
         plugin.getScheduler().runTask(() -> {
             try {
                 Generator.create(template, origin, finalRotation, finalStage);
-            } catch (GeneratorOverlapException ignored) {
+            }
+            catch (GeneratorOverlapException ignored) {
                 //Block overlaps are checked before scheduling the anonymous function
             }
         });
