@@ -1,5 +1,5 @@
-# This file will only appear if AuraSkills is installed on your server, but if you uninstall
-# AuraSkills, this file will still remain and log it's appropriate errors.
+# This file will only appear if AuraSkills is installed on your server,
+# but if you uninstall AuraSkills, you will need to delete this file manually.
 
 # AuraSkills conditions: hasAuraLevel, hasAuraMana
 # AuraSkills actions: giveAuraExp, giveAuraMana, takeAuraMana

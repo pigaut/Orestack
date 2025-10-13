@@ -17,11 +17,7 @@ public class GeneratorRemoveAllSubCommand extends SubCommand {
         withDescription(plugin.getLang("generator-remove-all-command"));
         withParameter(GeneratorParameters.GENERATOR_NAME);
         withPlayerExecution((player, args, placeholders) -> {
-            final OrestackPlayer playerState = plugin.getPlayerState(player.getUniqueId());
-            if (playerState == null) {
-                plugin.sendMessage(player, "loading-player-data", placeholders);
-                return;
-            }
+            final OrestackPlayer playerState = plugin.getPlayerState(player);
             final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {
                 plugin.sendMessage(player, "generator-not-found", placeholders);

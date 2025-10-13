@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.command;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.command.generator.*;
+import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.command.node.*;
 import io.github.pigaut.voxel.core.item.command.*;
@@ -22,7 +23,7 @@ public class OrestackCommand extends EnhancedCommand {
         final RootCommand command = this.getRootCommand();
         command.withPermission("orestack");
         command.withPlayerStateExecution((player, args, placeholders) -> {
-           player.openMenu(plugin.getMenu("orestack"));
+           player.openMenu(new OrestackMenu(plugin));
         });
 
         addSubCommand(new HelpSubCommand(plugin));
@@ -35,7 +36,6 @@ public class OrestackCommand extends EnhancedCommand {
         addSubCommand(new StructureSubCommand(plugin));
         addSubCommand(new GetWandSubCommand(plugin));
         addSubCommand(new OrestackMenuCommand(plugin));
-
     }
 
 

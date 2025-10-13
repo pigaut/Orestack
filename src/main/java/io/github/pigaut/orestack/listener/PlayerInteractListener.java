@@ -129,7 +129,7 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        final OrestackPlayer playerState = plugin.getPlayerState(event.getPlayer().getUniqueId());
+        final OrestackPlayer playerState = plugin.getPlayerState(event.getPlayer());
         playerState.updatePlaceholders(clickedGenerator);
 
         final GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(playerState, clickedGenerator);
