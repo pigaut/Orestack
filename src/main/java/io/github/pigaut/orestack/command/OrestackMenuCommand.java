@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.command;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.voxel.command.node.*;
 import org.jetbrains.annotations.*;
 
@@ -11,7 +12,7 @@ public class OrestackMenuCommand extends SubCommand {
         withPermission(plugin.getPermission("menu"));
         withDescription(plugin.getLang("orestack-menu-command"));
         withPlayerStateExecution((player, args, placeholders) -> {
-            player.openMenu(plugin.getMenu("orestack"));
+            player.openMenu(new OrestackMenu(plugin));
         });
     }
 

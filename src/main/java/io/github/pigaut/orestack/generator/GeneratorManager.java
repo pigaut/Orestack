@@ -43,6 +43,11 @@ public class GeneratorManager extends Manager {
     }
 
     @Override
+    public List<String> getLoadAfter() {
+        return List.of("ItemsAdder");
+    }
+
+    @Override
     public void loadData() {
         generators.clear();
         generatorBlocks.clear();

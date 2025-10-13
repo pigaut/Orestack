@@ -5,11 +5,9 @@ import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.listener.*;
-import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.voxel.command.*;
-import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.version.*;
@@ -337,14 +335,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         listeners.add(new BlockDestructionListener(this));
         listeners.add(new CropChangeListener(this));
         listeners.add(new GeneratorEventListener());
-        return listeners;
-    }
 
-    @Override
-    public Map<String, Menu> getPluginMenus() {
-        return Map.of(
-                "orestack", new OrestackMenu(this)
-        );
+        return listeners;
     }
 
     @Override
