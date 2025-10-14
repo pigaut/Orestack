@@ -115,6 +115,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/examples/experience_ore.yml",
                 "generators/examples/magic_wheat.yml",
                 "generators/examples/great_oak_tree.yml",
+                "generators/examples/chop_tree.yml",
 
                 "generators/deposits/stone_deposit.yml",
                 "generators/deposits/coal_deposit.yml",

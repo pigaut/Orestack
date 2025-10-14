@@ -1,0 +1,133 @@
+--- # ===== Stage 1 =====
+type: depleted
+growth: 30s
+block: oak_log
+
+hologram:
+  text: '&7Growing: {generator_timer}'
+  update: 3
+  offset.y: 1
+
+--- # ===== Stage 2 =====
+type: ripe
+health: 3
+structure: oak_tree_1
+idle: true
+decorative-blocks: [oak_leaves]
+hit-cooldown: 7
+
+hologram:
+  - text: Oak Tree
+    offset: { x: 1, y: 1.25 }
+
+  - text: 'Required Tool: Axe'
+    offset: { x: 1, y: 1 }
+
+  - text: '[Click to Chop]'
+    offset: { x: 1, y: 0.75}
+
+  - text: '&8[&7|||||||||||||||&a|||||&8]'
+    offset: { x: 1, y: 0.5 }
+
+on-hit:
+  - requireAxe
+  - do:
+      - damageTool
+      - damageGenerator
+      - sendHologram <&7Chop!> offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
+
+on-destroy:
+  do: dropItemAtBlock oak_log
+
+--- # ===== Stage 3 =====
+type: ripe
+health: 3
+structure: oak_tree_2
+idle: true
+decorative-blocks: [oak_leaves]
+hit-cooldown: 7
+
+hologram:
+  - text: Oak Tree
+    offset: { x: 1, y: 1.25 }
+
+  - text: 'Required Tool: Axe'
+    offset: { x: 1, y: 1 }
+
+  - text: '[Click to Chop]'
+    offset: { x: 1, y: 0.75}
+
+  - text: '&8[&7||||||||||&a||||||||||&8]'
+    offset: { x: 1, y: 0.5 }
+
+on-hit:
+  - requireAxe
+  - do:
+      - damageTool
+      - damageGenerator
+      - sendHologram <&7Chop!> offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
+
+on-destroy:
+  do: dropItemAtBlock oak_log
+
+--- # ===== Stage 4 =====
+type: ripe
+health: 3
+structure: oak_tree_3
+idle: true
+decorative-blocks: [oak_leaves]
+hit-cooldown: 7
+
+hologram:
+  - text: Oak Tree
+    offset: { x: 1, y: 1.25 }
+
+  - text: 'Required Tool: Axe'
+    offset: { x: 1, y: 1 }
+
+  - text: '[Click to Chop]'
+    offset: { x: 1, y: 0.75}
+
+  - text: '&8[&7|||||&a|||||||||||||||&8]'
+    offset: { x: 1, y: 0.5 }
+
+on-hit:
+  - requireAxe
+  - do:
+      - damageTool
+      - damageGenerator
+      - sendHologram <&7Chop!> offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
+
+on-destroy:
+  do: dropItemAtBlock oak_log
+
+--- # ===== Stage 5 =====
+type: regrown
+health: 3
+structure: oak_tree_4
+idle: true
+decorative-blocks: [oak_leaves]
+hit-cooldown: 7
+
+hologram:
+  - text: Oak Tree
+    offset: { x: 1, y: 1.25 }
+
+  - text: 'Required Tool: Axe'
+    offset: { x: 1, y: 1 }
+
+  - text: '[Click to Chop]'
+    offset: { x: 1, y: 0.75}
+
+  - text: '&8[&a||||||||||||||||||||&8]'
+    offset: { x: 1, y: 0.5 }
+
+on-hit:
+  - requireAxe
+  - do:
+      - damageTool
+      - damageGenerator
+      - sendHologram <&7Chop!> offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
+
+on-destroy:
+  do: dropItemAtBlock oak_log

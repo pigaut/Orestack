@@ -130,9 +130,13 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        OrestackPlayer playerState = plugin.getPlayerState(event.getPlayer());
+        Block block = event.getClickedBlock();
         GeneratorStage stage = clickedGenerator.getCurrentStage();
+        if (stage.getDecorativeBlocks().contains(block.getType())) {
+            return;
+        }
 
+        OrestackPlayer playerState = plugin.getPlayerState(event.getPlayer());
         if (!playerState.hasFlag("orestack:interact_cooldown")) {
             playerState.updatePlaceholders(clickedGenerator);
             playerState.addTemporaryFlag("orestack:interact_cooldown", 4);
@@ -142,7 +146,7 @@ public class PlayerInteractListener implements Listener {
             if (!generatorInteractEvent.isCancelled()) {
                 Function clickFunction = stage.getClickFunction();
                 if (clickFunction != null) {
-                    clickFunction.run(playerState, event, event.getClickedBlock());
+                    clickFunction.run(playerState, event, block);
                 }
             }
         }
@@ -156,7 +160,7 @@ public class PlayerInteractListener implements Listener {
             if (!generatorHitEvent.isCancelled()) {
                 Function hitFunction = stage.getHitFunction();
                 if (hitFunction != null) {
-                    hitFunction.run(playerState, event, event.getClickedBlock());
+                    hitFunction.run(playerState, event, block);
                 }
             }
         }
