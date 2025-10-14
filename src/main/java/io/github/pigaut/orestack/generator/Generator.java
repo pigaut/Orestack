@@ -3,12 +3,14 @@ package io.github.pigaut.orestack.generator;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.event.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
 import io.github.pigaut.voxel.core.function.*;
 import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.structure.*;
 import io.github.pigaut.voxel.placeholder.*;
+import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.util.*;
@@ -26,16 +28,19 @@ public class Generator implements PlaceholderSupplier {
 
     private final GeneratorTemplate template;
     private final Location origin;
+    private final Block block;
     private final Rotation rotation;
     private int currentStage;
     private @Nullable BukkitTask growthTask = null;
     private @Nullable Instant growthStart = null;
     private @Nullable HologramDisplay currentHologram = null;
+    private @Nullable Double health;
     private boolean updating = false;
 
     private Generator(GeneratorTemplate generator, Location origin, int currentStage, Rotation rotation) {
         this.template = generator;
         this.origin = origin.clone();
+        this.block = origin.getBlock();
         this.currentStage = currentStage;
         this.rotation = rotation;
     }
@@ -91,6 +96,29 @@ public class Generator implements PlaceholderSupplier {
 
     public @NotNull Location getOrigin() {
         return origin.clone();
+    }
+
+    public @Nullable Double getHealth() {
+        return health;
+    }
+
+    public void damage(@Nullable PlayerState damageDealer, double amount) {
+        if (health == null) {
+            return;
+        }
+        health = Math.max(0, health - amount);
+        if (health == 0) {
+            health = null;
+            GeneratorDestroyEvent event = new GeneratorDestroyEvent(damageDealer, this);
+            SpigotServer.callEvent(event);
+            if (!event.isCancelled()) {
+                Function onDestroy = getCurrentStage().getDestroyFunction();
+                if (onDestroy != null) {
+                    onDestroy.dispatch(damageDealer, event, block, null);
+                }
+                previousStage();
+            }
+        }
     }
 
     public Rotation getRotation() {
@@ -204,7 +232,7 @@ public class Generator implements PlaceholderSupplier {
 
         final Function growthFunction = nextStage.getGrowthFunction();
         if (growthFunction != null) {
-            growthFunction.run(origin.getBlock());
+            growthFunction.run(block);
         }
 
         this.setCurrentStage(peekStage);
@@ -240,6 +268,8 @@ public class Generator implements PlaceholderSupplier {
             final Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
             currentHologram = hologram.spawn(offsetLocation, rotation, this);
         }
+
+        health = stage.getHealth();
 
         if (stage.getState() == GeneratorState.REGROWN) {
             return;

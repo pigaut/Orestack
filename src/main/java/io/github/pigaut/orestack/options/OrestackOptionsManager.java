@@ -1,13 +1,13 @@
 package io.github.pigaut.orestack.options;
 
+import io.github.pigaut.orestack.damage.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.*;
+import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;
-import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
-import org.checkerframework.checker.units.qual.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -16,6 +16,13 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
 
     private boolean keepBlocksOnRemove;
     private ItemStack generatorTool;
+
+    // Generator health options
+    private int hitCooldown;
+    private Amount defaultDamage;
+    private boolean efficiencyDamage;
+    private boolean reducedCooldownDamage;
+    private List<ToolDamage> damageByTool;
 
     public OrestackOptionsManager(EnhancedJavaPlugin plugin) {
         super(plugin);
@@ -33,6 +40,22 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
         generatorTool = config.get("generator-tool", ItemStack.class)
                 .withDefault(GeneratorTool.getDefaultItem(), errorsFound::add);
 
+        // Generator health options
+        hitCooldown = config.getInteger("hit-cooldown")
+                .withDefault(4, errorsFound::add);
+
+        defaultDamage = config.get("default-damage", Amount.class)
+                .withDefault(Amount.ONE, errorsFound::add);
+
+        efficiencyDamage = config.getBoolean("efficiency-damage")
+                .withDefault(true, errorsFound::add);
+
+        reducedCooldownDamage = config.getBoolean("reduced-cooldown-damage")
+                .withDefault(true, errorsFound::add);
+
+        damageByTool = config.getElements("damage-by-tool", ToolDamage.class)
+                .withDefault(List.of(), errorsFound::add);
+
         return errorsFound;
     }
 
@@ -42,6 +65,27 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
 
     public @NotNull ItemStack getGeneratorTool() {
         return generatorTool.clone();
+    }
+
+    public boolean isEfficiencyDamage() {
+        return efficiencyDamage;
+    }
+
+    public int getHitCooldown() {
+        return hitCooldown;
+    }
+
+    public boolean isReducedCooldownDamage() {
+        return reducedCooldownDamage;
+    }
+
+    public @NotNull Amount getToolDamage(@NotNull Material toolType, @NotNull Material blockType) {
+        for (ToolDamage toolDamage : damageByTool) {
+            if (toolDamage.test(toolType, blockType)) {
+                return toolDamage.getDamage(toolType);
+            }
+        }
+        return defaultDamage;
     }
 
 }

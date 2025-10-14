@@ -70,17 +70,18 @@ public class BlockBreakListener implements Listener {
 
             Location location = block.getLocation().add(0.5, 1, 0.5);
             for (ItemStack itemDrop : drops) {
-                ItemDrop.spawn(location, itemDrop, itemDrop.getAmount());
+                ItemUtil.dropItem(location, itemDrop, itemDrop.getAmount());
             }
         }
 
         if (stage.isDropExp()) {
-            ExpDrop.spawn(block.getLocation(), event.getExpToDrop());
+            Exp.drop(block.getLocation(), event.getExpToDrop());
         }
 
         if (!generatorMineEvent.isKeepStage()) {
             generator.previousStage();
         }
+
     }
 
 }

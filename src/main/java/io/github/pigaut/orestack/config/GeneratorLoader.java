@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack.config;
 
+import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.core.function.*;
@@ -16,6 +17,12 @@ import org.jetbrains.annotations.*;
 import java.util.*;
 
 public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
+
+    private final OrestackPlugin plugin;
+
+    public GeneratorLoader(OrestackPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public @NotNull String getProblemDescription() {
@@ -100,9 +107,16 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
                 .withDefault(0);
 
         final Double chance = section.getDouble("chance|growth-chance").withDefault(null);
+        final Double health = section.getDouble("health").withDefault(null);
+        int hitCooldown = section.getInteger("hit-cooldown")
+                .filter(Predicates.greaterThan(1), "Hit cooldown must be greater than 1")
+                .withDefault(plugin.getOrestackOptions().getHitCooldown());
+
         final Function onBreak = section.get("on-break", Function.class).withDefault(null);
         final Function onGrowth = section.get("on-growth", Function.class).withDefault(null);
         final Function onClick = section.get("on-click", Function.class).withDefault(null);
+        final Function onHit = section.get("on-hit", Function.class).withDefault(null);
+        final Function onDestroy = section.get("on-destroy", Function.class).withDefault(null);
 
         Hologram hologram = null;
         if (SpigotServer.isPluginEnabled("DecentHolograms")) {
@@ -110,7 +124,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         }
 
         return new GeneratorStage(generator, state, structure, decorativeBlocks, dropItems, dropExp, idle,
-                growthTime, chance, onBreak, onGrowth, onClick, hologram);
+                growthTime, chance, health, hitCooldown, hologram, onBreak, onGrowth, onClick, onHit, onDestroy);
     }
 
 }
