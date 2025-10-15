@@ -53,7 +53,7 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
         reducedCooldownDamage = config.getBoolean("reduced-cooldown-damage")
                 .withDefault(true, errorsFound::add);
 
-        damageByTool = config.getElements("damage-by-tool", ToolDamage.class)
+        damageByTool = config.getElements("damage-by-tool-type", ToolDamage.class)
                 .withDefault(List.of(), errorsFound::add);
 
         return errorsFound;

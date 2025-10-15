@@ -10,53 +10,46 @@ hologram:
 
 --- # ===== Stage 2 =====
 type: ripe
-health: 3
+health: 5   # If you set the health idle will be true by default
+hit-cooldown: 7   # The cooldown before on-hit is triggered.
 structure: oak_tree_1
-idle: true
-decorative-blocks: [oak_leaves]
-hit-cooldown: 7
+decorative-blocks: [oak_leaves]   # These blocks do not trigger functions (on-break, on-click, on-hit)
 
 hologram:
   - text: Oak Tree
     offset: { x: 1, y: 1.25 }
-
   - text: 'Required Tool: Axe'
     offset: { x: 1, y: 1 }
-
   - text: '[Click to Chop]'
     offset: { x: 1, y: 0.75}
-
   - text: '&8[&7|||||||||||||||&a|||||&8]'
     offset: { x: 1, y: 0.5 }
 
+# Triggered when a player left-clicks a block
 on-hit:
-  - requireAxe
+  - requireAxe   # Global function from functions/tools/axe.yml
   - do:
       - damageTool
-      - damageGenerator
+      - damageGenerator #1-10 # You can specify an amount or leave it blank to use the tool damage in config.yml
       - sendHologram <&7Chop!> offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
 
+# Triggered when a generator runs out of health (You can remove health with damageGenerator)
 on-destroy:
   do: dropItemAtBlock oak_log
 
 --- # ===== Stage 3 =====
 type: ripe
-health: 3
-structure: oak_tree_2
-idle: true
-decorative-blocks: [oak_leaves]
+health: 10
 hit-cooldown: 7
-
+structure: oak_tree_2
+decorative-blocks: [oak_leaves]
 hologram:
   - text: Oak Tree
     offset: { x: 1, y: 1.25 }
-
   - text: 'Required Tool: Axe'
     offset: { x: 1, y: 1 }
-
   - text: '[Click to Chop]'
     offset: { x: 1, y: 0.75}
-
   - text: '&8[&7||||||||||&a||||||||||&8]'
     offset: { x: 1, y: 0.5 }
 
@@ -72,22 +65,18 @@ on-destroy:
 
 --- # ===== Stage 4 =====
 type: ripe
-health: 3
-structure: oak_tree_3
-idle: true
-decorative-blocks: [oak_leaves]
+health: 15
 hit-cooldown: 7
+structure: oak_tree_3
+decorative-blocks: [oak_leaves]
 
 hologram:
   - text: Oak Tree
     offset: { x: 1, y: 1.25 }
-
   - text: 'Required Tool: Axe'
     offset: { x: 1, y: 1 }
-
   - text: '[Click to Chop]'
     offset: { x: 1, y: 0.75}
-
   - text: '&8[&7|||||&a|||||||||||||||&8]'
     offset: { x: 1, y: 0.5 }
 
@@ -103,22 +92,18 @@ on-destroy:
 
 --- # ===== Stage 5 =====
 type: regrown
-health: 3
-structure: oak_tree_4
-idle: true
-decorative-blocks: [oak_leaves]
+health: 20
 hit-cooldown: 7
+structure: oak_tree_4
+decorative-blocks: [oak_leaves]
 
 hologram:
   - text: Oak Tree
     offset: { x: 1, y: 1.25 }
-
   - text: 'Required Tool: Axe'
     offset: { x: 1, y: 1 }
-
   - text: '[Click to Chop]'
     offset: { x: 1, y: 0.75}
-
   - text: '&8[&a||||||||||||||||||||&8]'
     offset: { x: 1, y: 0.5 }
 
