@@ -20,15 +20,21 @@ public class GeneratorStage {
     private final boolean idle;
     private final int growthTime;
     private final @Nullable Double growthChance;
+    private final @Nullable Double health;
+    private final int hitCooldown;
+    private final @Nullable Hologram hologram;
     private final @Nullable Function onBreak;
     private final @Nullable Function onGrowth;
     private final @Nullable Function onClick;
-    private final @Nullable Hologram hologram;
+    private final @Nullable Function onHit;
+    private final @Nullable Function onDestroy;
 
     public GeneratorStage(@NotNull GeneratorTemplate generator, @NotNull GeneratorState state,
                           @NotNull BlockStructure structure, List<Material> decorativeBlocks, boolean dropItems,
-                          boolean dropExp, boolean idle, int growthTime, @Nullable Double growthChance, @Nullable Function onBreak,
-                          @Nullable Function onGrowth, @Nullable Function onClick, @Nullable Hologram hologram) {
+                          boolean dropExp, boolean idle, int growthTime, @Nullable Double growthChance,
+                          @Nullable Double health, int hitCooldown, @Nullable Hologram hologram,
+                          @Nullable Function onBreak, @Nullable Function onGrowth, @Nullable Function onClick,
+                          @Nullable Function onHit, @Nullable Function onDestroy) {
         this.generator = generator;
         this.state = state;
         this.structure = structure;
@@ -38,9 +44,13 @@ public class GeneratorStage {
         this.idle = idle;
         this.growthTime = growthTime;
         this.growthChance = growthChance;
+        this.health = health;
+        this.hitCooldown = hitCooldown;
         this.onBreak = onBreak;
         this.onGrowth = onGrowth;
         this.onClick = onClick;
+        this.onHit = onHit;
+        this.onDestroy = onDestroy;
         this.hologram = hologram;
     }
 
@@ -68,6 +78,14 @@ public class GeneratorStage {
         return dropExp;
     }
 
+    public @Nullable Double getHealth() {
+        return health;
+    }
+
+    public int getHitCooldown() {
+        return hitCooldown;
+    }
+
     public boolean isIdle() {
         return idle;
     }
@@ -90,6 +108,14 @@ public class GeneratorStage {
 
     public @Nullable Function getClickFunction() {
         return onClick;
+    }
+
+    public @Nullable Function getHitFunction() {
+        return onHit;
+    }
+
+    public @Nullable Function getDestroyFunction() {
+        return onDestroy;
     }
 
     public @Nullable Hologram getHologram() {

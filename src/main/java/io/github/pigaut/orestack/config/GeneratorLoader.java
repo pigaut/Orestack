@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack.config;
 
+import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.core.function.*;
@@ -16,6 +17,12 @@ import org.jetbrains.annotations.*;
 import java.util.*;
 
 public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
+
+    private final OrestackPlugin plugin;
+
+    public GeneratorLoader(OrestackPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public @NotNull String getProblemDescription() {
@@ -87,30 +94,37 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
 
         List<Material> decorativeBlocks = section.getAll("decorative-blocks", Material.class);
 
-        final Boolean defaultDrops = section.getBoolean("default-drops|drops").withDefault(null);
-        final boolean dropItems = defaultDrops != null ? defaultDrops :
+        Boolean defaultDrops = section.getBoolean("default-drops|drops").withDefault(null);
+        boolean dropItems = defaultDrops != null ? defaultDrops :
                 section.getBoolean("drop-items").withDefault(false);
-        final boolean dropExp = defaultDrops != null ? defaultDrops :
+        boolean dropExp = defaultDrops != null ? defaultDrops :
                 section.getBoolean("drop-exp|drop-xp").withDefault(false);
 
-        final boolean idle = section.getBoolean("idle").withDefault(false);
+        Double health = section.getDouble("health").withDefault(null);
+        boolean idle = section.getBoolean("idle").withDefault(health != null);
 
-        final int growthTime = section.get("growth|growth-time", Ticks.class)
+        int growthTime = section.get("growth|growth-time", Ticks.class)
                 .map(Ticks::getCount)
                 .withDefault(0);
+        Double chance = section.getDouble("chance|growth-chance").withDefault(null);
 
-        final Double chance = section.getDouble("chance|growth-chance").withDefault(null);
-        final Function onBreak = section.get("on-break", Function.class).withDefault(null);
-        final Function onGrowth = section.get("on-growth", Function.class).withDefault(null);
-        final Function onClick = section.get("on-click", Function.class).withDefault(null);
+        int hitCooldown = section.getInteger("hit-cooldown")
+                .filter(Predicates.greaterThan(1), "Hit cooldown must be greater than 1")
+                .withDefault(plugin.getOrestackOptions().getHitCooldown());
 
         Hologram hologram = null;
         if (SpigotServer.isPluginEnabled("DecentHolograms")) {
             hologram = section.get("hologram", Hologram.class).withDefault(null);
         }
 
+        Function onBreak = section.get("on-break", Function.class).withDefault(null);
+        Function onGrowth = section.get("on-growth", Function.class).withDefault(null);
+        Function onClick = section.get("on-click", Function.class).withDefault(null);
+        Function onHit = section.get("on-hit", Function.class).withDefault(null);
+        Function onDestroy = section.get("on-destroy", Function.class).withDefault(null);
+
         return new GeneratorStage(generator, state, structure, decorativeBlocks, dropItems, dropExp, idle,
-                growthTime, chance, onBreak, onGrowth, onClick, hologram);
+                growthTime, chance, health, hitCooldown, hologram, onBreak, onGrowth, onClick, onHit, onDestroy);
     }
 
 }
