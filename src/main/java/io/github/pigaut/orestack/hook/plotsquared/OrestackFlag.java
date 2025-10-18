@@ -16,4 +16,5 @@ public class OrestackFlag extends BooleanFlag<OrestackFlag> {
     protected OrestackFlag flagOf(@NonNull Boolean value) {
         return value ? RESOURCES_TRUE : RESOURCES_FALSE;
     }
+
 }

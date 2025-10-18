@@ -67,11 +67,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @Nullable String getDonationLink() {
-        return "https://www.paypal.com/paypalme/Giovanni335";
-    }
-
-    @Override
     public @NotNull List<SpigotVersion> getCompatibleVersions() {
         return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_16_5);
     }

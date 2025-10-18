@@ -60,17 +60,21 @@ apply-fortune:
   - lapis_lazuli
   - redstone
   - quartz
+#  - raw_iron     # 1.17+
 #  - raw_copper   # 1.17+
 #  - dirt         # Supports any item type
 
+############################################################
+#                   Generator Cooldowns
+############################################################
+
+# The default delay between each hit, it can be overridden in the generator stage.
+hit-cooldown: 4   # ticks
 
 ############################################################
 #                 Generator Health Mechanic
 ############################################################
 # Compatible actions: damageGenerator
-
-# The default delay between each hit, it can be overridden in the generator stage.
-hit-cooldown: 4   # If the player hits faster that this, the hit will be ignored.
 
 # The default damage dealt.
 default-damage: 1
@@ -108,7 +112,7 @@ damage-by-tool-type:
       #- pale_oak_log    # 1.21+
       #- pale_oak_wood   # 1.21+
     tools:
-      #air: 1 # use air to set the damage for an empty hand
+      air: 1   # use air to set the damage for an empty hand
       wooden_axe: 1-3
       stone_axe: 2-4
       iron_axe: 3-5
