@@ -5,13 +5,13 @@ debug: true
 generate-examples: true
 
 # Checks for available updates on startup and every 24 hours
-check-for-updates: true   # PREMIUM required to disable
+check-for-updates: true   # Premium required to disable
 
 # Enables bStats metrics collection (https://bstats.org/plugin/bukkit/Orestack/24502)
-metrics: true   # PREMIUM required to disable
+metrics: true   # Premium required to disable
 
 # Dumps the giant Orestack logo in console on startup and on reload
-dump-logo: true   # PREMIUM required to disable
+dump-logo: true   # Premium required to disable
 
 # The language file that should be used (en = en.yml)
 language: en

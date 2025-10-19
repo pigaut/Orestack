@@ -1,15 +1,19 @@
 package io.github.pigaut.orestack;
 
+import com.plotsquared.core.*;
+import com.plotsquared.core.plot.flag.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.orestack.hook.plotsquared.*;
 import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;
@@ -54,6 +58,19 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 &9 $$$$$$  |$$ |      \\$$$$$$$\\ $$$$$$$  |  \\$$$$  |\\$$$$$$$ |\\$$$$$$$\\ $$ | \\$$\\\s
                 &9 \\______/ \\__|       \\_______|\\_______/    \\____/  \\_______| \\_______|\\__|  \\__|
                 """;
+    }
+
+    @Override
+    public void createHooks() {
+        if (SpigotServer.isPluginEnabled("PlotSquared")) {
+            GlobalFlagContainer.getInstance().addFlag(OrestackFlag.GENERATORS_FALSE);
+
+            PlotSquaredListener listener = new PlotSquaredListener(this);
+            registerListener(listener);
+
+            PlotAPI plotAPI = new PlotAPI();
+            plotAPI.registerListener(listener);
+        }
     }
 
     @Override
