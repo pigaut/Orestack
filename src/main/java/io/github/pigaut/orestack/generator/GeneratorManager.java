@@ -22,15 +22,10 @@ public class GeneratorManager extends Manager {
     private final OrestackPlugin plugin;
     private final Set<Generator> generators = new HashSet<>();
     private final Map<Location, Generator> generatorBlocks = new ConcurrentHashMap<>();
-    private int largeGeneratorsPlaced = 0;
 
     public GeneratorManager(OrestackPlugin plugin) {
         super(plugin);
         this.plugin = plugin;
-    }
-
-    public int getLargeGeneratorsPlaced() {
-        return largeGeneratorsPlaced;
     }
 
     @Override
@@ -56,7 +51,6 @@ public class GeneratorManager extends Manager {
     public void loadData() {
         generators.clear();
         generatorBlocks.clear();
-        largeGeneratorsPlaced = 0;
 
         final Database database = plugin.getDatabase();
         if (database == null) {
@@ -221,7 +215,7 @@ public class GeneratorManager extends Manager {
         plugin.getScheduler().runTask(() -> {
             try {
                 Generator.create(template, origin, finalRotation, finalStage);
-            } catch (GeneratorOverlapException | GeneratorLimitException ignored) {
+            } catch (GeneratorOverlapException ignored) {
                 //Block overlaps are checked before scheduling the anonymous functions
             }
         });
@@ -239,20 +233,12 @@ public class GeneratorManager extends Manager {
         return generatorBlocks.get(location);
     }
 
-    public void registerGenerator(@NotNull Generator generator) throws GeneratorOverlapException, GeneratorLimitException {
+    public void registerGenerator(@NotNull Generator generator) throws GeneratorOverlapException {
         final GeneratorTemplate template = generator.getTemplate();
         for (Block block : template.getAllOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
             if (plugin.getGenerators().isGenerator(block.getLocation())) {
                 throw new GeneratorOverlapException();
             }
-        }
-
-        final BlockStructure lastStructure = template.getLastStage().getStructure();
-        if (lastStructure.getBlockChanges().size() > 1) {
-            if (largeGeneratorsPlaced >= 25) {
-                throw new GeneratorLimitException();
-            }
-            largeGeneratorsPlaced++;
         }
 
         generators.add(generator);
@@ -262,11 +248,6 @@ public class GeneratorManager extends Manager {
     }
 
     public void unregisterGenerator(@NotNull Generator generator) {
-        final BlockStructure lastStructure = generator.getTemplate().getLastStage().getStructure();
-        if (lastStructure.getBlockChanges().size() > 1) {
-            largeGeneratorsPlaced--;
-        }
-
         generators.remove(generator);
 
         for (Block block : generator.getAllOccupiedBlocks()) {

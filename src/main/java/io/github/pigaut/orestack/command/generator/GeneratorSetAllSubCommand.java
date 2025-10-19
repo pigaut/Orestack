@@ -38,7 +38,7 @@ public class GeneratorSetAllSubCommand extends SubCommand {
                         try {
                             Generator.create(generator, location);
                         }
-                        catch (GeneratorOverlapException | GeneratorLimitException ignored) {
+                        catch (GeneratorOverlapException ignored) {
                         }
                     }
                 }

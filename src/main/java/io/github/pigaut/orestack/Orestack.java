@@ -1,6 +1,5 @@
-package io.github.pigaut.orestack.api;
+package io.github.pigaut.orestack;
 
-import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.block.*;
