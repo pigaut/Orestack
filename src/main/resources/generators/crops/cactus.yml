@@ -1,19 +1,19 @@
 
 --- # ===== Stage 1 =====
 type: depleted
-growth: 1.5s
+growth: 3s
 block: air
 
 --- # ===== Stage 2 =====
 type: unripe
-growth: 1.5s
+growth: 3s
 block: cactus
 on-break:
   do: dropItemAtBlock cactus
 
 --- # ===== Stage 3 =====
 type: unripe
-growth: 1.5s
+growth: 3s
 structure:
   - cactus
   - cactus offsetY=1

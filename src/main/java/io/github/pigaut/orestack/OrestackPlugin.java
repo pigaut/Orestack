@@ -61,19 +61,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public void createHooks() {
-        if (SpigotServer.isPluginEnabled("PlotSquared")) {
-            GlobalFlagContainer.getInstance().addFlag(OrestackFlag.GENERATORS_FALSE);
-
-            PlotSquaredListener listener = new PlotSquaredListener(this);
-            registerListener(listener);
-
-            PlotAPI plotAPI = new PlotAPI();
-            plotAPI.registerListener(listener);
-        }
-    }
-
-    @Override
     public @Nullable Integer getMetricsId() {
         return 24502;
     }

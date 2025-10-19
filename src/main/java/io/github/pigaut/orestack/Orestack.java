@@ -1,7 +1,9 @@
 package io.github.pigaut.orestack;
 
+import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.yaml.amount.*;
+import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.enchantments.*;
 import org.bukkit.entity.*;
@@ -11,6 +13,14 @@ import org.jetbrains.annotations.*;
 public class Orestack {
 
     private static final OrestackPlugin plugin = OrestackPlugin.getPlugin();
+
+    public static GeneratorTemplate getGeneratorTemplate(String name) {
+        return plugin.getGeneratorTemplate(name);
+    }
+
+    public static boolean isGenerator(Location location) {
+        return plugin.getGenerators().isGenerator(location);
+    }
 
     public static double getGeneratorDamage(@NotNull Player player, @NotNull Block block) {
         OrestackOptionsManager options = plugin.getOrestackOptions();

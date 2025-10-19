@@ -1,15 +1,15 @@
 type: depleted
-growth: 30s 1.5s
+growth: 3s
 block: beetroots
 age: 0
 ---
 type: unripe
-growth: 30s 1.5s
+growth: 3s
 block: beetroots
 age: 1
 ---
 type: unripe
-growth: 30s 1.5s
+growth: 3s
 block: beetroots
 age: 2
 ---

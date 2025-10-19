@@ -19,12 +19,26 @@ import java.util.*;
 
 public class PlotSquaredListener implements Listener {
 
-    private final BreakFlag BREAK_ALL = new BreakAllFlag();
-
+    private final BreakFlag breakAllFlag;
     private final OrestackPlugin plugin;
 
     public PlotSquaredListener(OrestackPlugin plugin) {
         this.plugin = plugin;
+
+        StringJoiner joiner = new StringJoiner(",");
+        for (Material material : Material.values()) {
+            joiner.add(material.toString());
+        }
+
+        BreakFlag breakAllFlag = null;
+        try {
+            breakAllFlag = GlobalFlagContainer.getInstance().getFlag(BreakFlag.class).parse(joiner.toString());
+        }
+        catch (FlagParseException e) {
+            e.printStackTrace();
+            plugin.getColoredLogger().warning("Could not create break flag for PlotSquared.");
+        }
+        this.breakAllFlag = breakAllFlag;
     }
 
     private static class BreakAllFlag extends BreakFlag {
@@ -38,7 +52,9 @@ public class PlotSquaredListener implements Listener {
                 final BlockState blockState = BlockUtil.get(material.toString());
                 if (blockState != null) {
                     final BlockTypeWrapper blockTypeWrapper = BlockTypeWrapper.get(blockState.getBlockType());
-                    parsedBlocks.add(blockTypeWrapper);
+                    if (blockTypeWrapper != null) {
+                        parsedBlocks.add(blockTypeWrapper);
+                    }
                 }
             }
             return parsedBlocks;
@@ -56,7 +72,7 @@ public class PlotSquaredListener implements Listener {
         }
 
         if (flag instanceof OrestackFlag orestackFlag && orestackFlag.getValue()) {
-            plot.setFlag(BREAK_ALL);
+            plot.setFlag(breakAllFlag);
         }
     }
 

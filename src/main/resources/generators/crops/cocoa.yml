@@ -1,11 +1,11 @@
 type: depleted
-growth: 30s 1.5s
+growth: 3s
 block: cocoa
 direction: north   # Can be rotated in game with generator item (You still must specify a default direction)
 age: 0
 ---
 type: unripe
-growth: 30s 1.5s
+growth: 3s
 block: cocoa
 direction: north
 age: 1
