@@ -68,8 +68,14 @@ apply-fortune:
 #                   Generator Cooldowns
 ############################################################
 
+# The default delay between each click, it can be overridden in the generator stage.
+click-cooldown: 4   # ticks
+
 # The default delay between each hit, it can be overridden in the generator stage.
 hit-cooldown: 4   # ticks
+
+# The default delay between each harvest attempt (right-click), it can be overridden in the generator stage.
+harvest-cooldown: 4   # ticks
 
 ############################################################
 #                 Generator Health Mechanic

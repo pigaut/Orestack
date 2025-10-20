@@ -7,12 +7,10 @@ block: air
 --- # ===== Stage 2 =====
 type: regrown
 block: fern
-idle: true
+idle: true # Breaking the block will do nothing
 
-on-click:
-  - if-not: clickTypeEquals right_click
-    do: return
-
+# Triggered when a player right-clicks a generator
+on-harvest:
   - if-not: toolTypeEquals shears
     do:
       - sendActionbar <&cYou need shears to harvest hemp.>

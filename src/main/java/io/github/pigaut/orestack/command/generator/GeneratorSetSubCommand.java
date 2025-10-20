@@ -37,9 +37,6 @@ public class GeneratorSetSubCommand extends SubCommand {
             catch (GeneratorOverlapException e) {
                 plugin.sendMessage(player, "generator-overlap");
             }
-            catch (GeneratorLimitException e) {
-                plugin.sendMessage(player, "large-generator-limit");
-            }
         });
     }
 

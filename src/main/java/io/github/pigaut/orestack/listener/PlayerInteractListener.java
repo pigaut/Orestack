@@ -107,9 +107,6 @@ public class PlayerInteractListener implements Listener {
             catch (GeneratorOverlapException e) {
                 PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
             }
-            catch (GeneratorLimitException e) {
-                PlayerUtil.sendActionBar(player, plugin.getLang("large-generator-limit"));
-            }
         });
     }
 
@@ -140,13 +137,13 @@ public class PlayerInteractListener implements Listener {
         }
 
         OrestackPlayer playerState = plugin.getPlayerState(event.getPlayer());
-        if (!playerState.hasFlag("orestack:interact_cooldown")) {
-            playerState.updatePlaceholders(clickedGenerator);
-            playerState.addTemporaryFlag("orestack:interact_cooldown", 4);
+        if (!playerState.hasFlag("orestack:click_cooldown")) {
+            playerState.addTemporaryFlag("orestack:click_cooldown", stage.getClickCooldown());
 
             GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(playerState, clickedGenerator);
             SpigotServer.callEvent(generatorInteractEvent);
             if (!generatorInteractEvent.isCancelled()) {
+                playerState.updatePlaceholders(clickedGenerator);
                 Function clickFunction = stage.getClickFunction();
                 if (clickFunction != null) {
                     clickFunction.run(playerState, event, block);
@@ -155,15 +152,29 @@ public class PlayerInteractListener implements Listener {
         }
 
         if (event.getAction() == Action.LEFT_CLICK_BLOCK && !playerState.hasFlag("orestack:hit_cooldown")) {
-            playerState.updatePlaceholders(clickedGenerator);
             playerState.addTemporaryFlag("orestack:hit_cooldown", stage.getHitCooldown());
 
             GeneratorHitEvent generatorHitEvent = new GeneratorHitEvent(playerState, clickedGenerator);
             SpigotServer.callEvent(generatorHitEvent);
             if (!generatorHitEvent.isCancelled()) {
+                playerState.updatePlaceholders(clickedGenerator);
                 Function hitFunction = stage.getHitFunction();
                 if (hitFunction != null) {
                     hitFunction.run(playerState, event, block);
+                }
+            }
+        }
+
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !playerState.hasFlag("orestack:harvest_cooldown")) {
+            playerState.addTemporaryFlag("orestack:harvest_cooldown", stage.getHarvestCooldown());
+
+            GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(playerState, clickedGenerator);
+            SpigotServer.callEvent(generatorHarvestEvent);
+            if (!generatorHarvestEvent.isCancelled()) {
+                playerState.updatePlaceholders(clickedGenerator);
+                Function harvestFunction = stage.getHarvestFunction();
+                if (harvestFunction != null) {
+                    harvestFunction.run(playerState, event, block);
                 }
             }
         }

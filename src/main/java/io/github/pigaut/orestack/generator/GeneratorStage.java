@@ -128,7 +128,7 @@ public class GeneratorStage {
         return onHit;
     }
 
-    public @Nullable Function getOnHarvest() {
+    public @Nullable Function getHarvestFunction() {
         return onHarvest;
     }
 

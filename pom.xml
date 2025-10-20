@@ -7,7 +7,7 @@
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>Orestack</artifactId>
     <name>Orestack Plugin</name>
-    <version>3.41.4</version>
+    <version>3.41.5</version>
     <description>A Spigot plugin used to create resources with custom gathering mechanics</description>
     <url>https://www.spigotmc.org/resources/121905/</url>
     <developers>
@@ -45,7 +45,7 @@
                                 </relocation>
                             </relocations>
                             <outputFile>
-                                D:\files\Development\java\spigot\servers\${mc.version}\plugins\Orestack[free]-${project.version}.jar
+                                D:\files\Development\java\spigot\servers\${mc.version}\plugins\Orestack-${project.version}.jar
                             </outputFile>
                         </configuration>
                     </execution>
