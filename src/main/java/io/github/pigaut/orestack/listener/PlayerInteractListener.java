@@ -107,6 +107,9 @@ public class PlayerInteractListener implements Listener {
             catch (GeneratorOverlapException e) {
                 PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
             }
+            catch (GeneratorLimitException e) {
+                plugin.sendMessage(player, "large-generator-limit");
+            }
         });
     }
 

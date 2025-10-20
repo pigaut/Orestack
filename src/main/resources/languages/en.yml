@@ -152,6 +152,7 @@ too-far-away: '&4Cannot find a block in range, move closer'
 target-not-generator: '&4The block you''re looking at is not a generator'
 generator-not-exists: '&4This generator no longer exists or is invalid'
 generator-overlap: '&4Too close to another generator'
+large-generator-limit: '&4The free version only allows up to 25 multi-block generators'
 ## Success
 received-generator: '&aYou received x1 {generator} generator'
 received-wand: '&aYou received x1 wand item'
