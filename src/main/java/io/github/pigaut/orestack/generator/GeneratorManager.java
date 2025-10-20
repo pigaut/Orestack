@@ -216,13 +216,20 @@ public class GeneratorManager extends Manager {
             }
         }
 
+        final BlockStructure lastStructure = template.getLastStage().getStructure();
+        if (lastStructure.getBlockChanges().size() > 1) {
+            if (largeGeneratorsPlaced >= 25) {
+                throw new GeneratorLimitException();
+            }
+        }
+
         final int finalStage = Math.min(stage, template.getMaxStage());
         final Rotation finalRotation = rotation;
         plugin.getScheduler().runTask(() -> {
             try {
                 Generator.create(template, origin, finalRotation, finalStage);
             } catch (GeneratorOverlapException | GeneratorLimitException ignored) {
-                //Block overlaps are checked before scheduling the anonymous functions
+                //Block overlaps and limits are checked before scheduling
             }
         });
     }
