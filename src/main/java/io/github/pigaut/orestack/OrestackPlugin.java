@@ -1,19 +1,15 @@
 package io.github.pigaut.orestack;
 
-import com.plotsquared.core.*;
-import com.plotsquared.core.plot.flag.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.hook.plotsquared.*;
 import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
-import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;
@@ -26,18 +22,19 @@ import java.util.*;
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
     private static OrestackPlugin plugin;
+
     private final OrestackOptionsManager optionsManager = new OrestackOptionsManager(this);
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
 
-    public static OrestackPlugin getPlugin() {
-        return plugin;
-    }
-
     @Override
     public void onLoad() {
         plugin = this;
+    }
+
+    public static OrestackPlugin getPlugin() {
+        return plugin;
     }
 
     @Override
@@ -58,19 +55,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 &9 $$$$$$  |$$ |      \\$$$$$$$\\ $$$$$$$  |  \\$$$$  |\\$$$$$$$ |\\$$$$$$$\\ $$ | \\$$\\\s
                 &9 \\______/ \\__|       \\_______|\\_______/    \\____/  \\_______| \\_______|\\__|  \\__|
                 """;
-    }
-
-    @Override
-    public void createHooks() {
-        if (SpigotServer.isPluginEnabled("PlotSquared")) {
-            GlobalFlagContainer.getInstance().addFlag(OrestackFlag.GENERATORS_FALSE);
-
-            PlotSquaredListener listener = new PlotSquaredListener(this);
-            registerListener(listener);
-
-            PlotAPI plotAPI = new PlotAPI();
-            plotAPI.registerListener(listener);
-        }
     }
 
     @Override
@@ -161,11 +145,18 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/crops/cactus.yml",
                 "generators/crops/bamboo.yml",
 
+                "generators/fibers/cotton.yml",
+                "generators/fibers/flax.yml",
+                "generators/fibers/hemp.yml",
+
                 "generators/ores/coal.yml",
                 "generators/ores/iron.yml",
                 "generators/ores/gold.yml",
                 "generators/ores/diamond.yml",
                 "generators/ores/emerald.yml",
+                "generators/ores/amethyst/amethyst.yml",
+                "generators/ores/amethyst/amethyst_wall.yml",
+                "generators/ores/amethyst/amethyst_ceiling.yml",
 
                 "structures/deposits/stone/stone_deposit_1.yml",
                 "structures/deposits/stone/stone_deposit_2.yml",

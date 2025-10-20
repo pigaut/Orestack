@@ -280,10 +280,10 @@ public class GeneratorManager extends Manager {
             generatorBlocks.remove(block.getLocation());
         }
 
-        final BlockStructure structure = generator.getCurrentStage().getStructure();
+        BlockStructure structure = generator.getCurrentStage().getStructure();
         structure.removeBlocks(generator.getOrigin(), generator.getRotation());
 
-        final HologramDisplay hologram = generator.getCurrentHologram();
+        HologramDisplay hologram = generator.getCurrentHologram();
         if (hologram != null && hologram.exists()) {
             hologram.destroy();
         }

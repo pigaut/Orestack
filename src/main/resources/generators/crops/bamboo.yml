@@ -1,25 +1,25 @@
 
 --- # ===== Stage 1 =====
 type: depleted
-growth: 1.5s
+growth: 3s
 block: air
 
 --- # ===== Stage 2 =====
 type: growing
-growth: 1.5s
+growth: 3s
 block: bamboo
 bamboo-leaves: small
 
 --- # ===== Stage 3 =====
 type: growing
-growth: 1.5s
+growth: 3s
 structure:
   - bamboo bambooLeaves=small
   - bamboo offsetY=1 bambooLeaves=large
 
 --- # ===== Stage 4 =====
 type: growing
-growth: 1.5s
+growth: 3s
 structure:
   - bamboo bambooLeaves=small
   - bamboo offsetY=1 bambooLeaves=large
@@ -27,7 +27,7 @@ structure:
 
 --- # ===== Stage 5 =====
 type: ripe
-growth: 1.5s
+growth: 3s
 structure:
   - bamboo
   - bamboo offsetY=1 bambooLeaves=small
@@ -41,7 +41,7 @@ on-break:
 
 --- # ===== Stage 6 =====
 type: ripe
-growth: 1.5s
+growth: 3s
 growth-chance: 0.8
 structure:
   - bamboo
@@ -57,7 +57,7 @@ on-break:
 
 --- # ===== Stage 7 =====
 type: ripe
-growth: 1.5s
+growth: 3s
 growth-chance: 0.8
 structure:
   - bamboo
@@ -74,7 +74,7 @@ on-break:
 
 --- # ===== Stage 8 =====
 type: ripe
-growth: 1.5s
+growth: 3s
 growth-chance: 0.8
 
 structure:
