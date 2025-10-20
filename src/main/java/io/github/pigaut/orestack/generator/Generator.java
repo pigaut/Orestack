@@ -45,18 +45,18 @@ public class Generator implements PlaceholderSupplier {
         this.rotation = rotation;
     }
 
-    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, Rotation rotation, int stage) throws GeneratorOverlapException {
+    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, Rotation rotation, int stage) throws GeneratorOverlapException, GeneratorLimitException {
         final Generator blockGenerator = new Generator(template, origin, stage, rotation);
         plugin.getGenerators().registerGenerator(blockGenerator);
         blockGenerator.updateState();
         return blockGenerator;
     }
 
-    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, Rotation rotation) throws GeneratorOverlapException {
+    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, Rotation rotation) throws GeneratorOverlapException, GeneratorLimitException {
         return create(template, origin, rotation, template.getMaxStage());
     }
 
-    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorOverlapException {
+    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorOverlapException, GeneratorLimitException {
         return create(template, origin, Rotation.NONE);
     }
 

@@ -23,6 +23,8 @@ public class GeneratorManager extends Manager {
     private final Set<Generator> generators = new HashSet<>();
     private final Map<Location, Generator> generatorBlocks = new ConcurrentHashMap<>();
 
+    private int largeGeneratorsPlaced = 0;
+
     public GeneratorManager(OrestackPlugin plugin) {
         super(plugin);
         this.plugin = plugin;
@@ -210,13 +212,20 @@ public class GeneratorManager extends Manager {
             }
         }
 
+        final BlockStructure lastStructure = template.getLastStage().getStructure();
+        if (lastStructure.getBlockChanges().size() > 1) {
+            if (largeGeneratorsPlaced >= 25) {
+                throw new GeneratorLimitException();
+            }
+        }
+
         final int finalStage = Math.min(stage, template.getMaxStage());
         final Rotation finalRotation = rotation;
         plugin.getScheduler().runTask(() -> {
             try {
                 Generator.create(template, origin, finalRotation, finalStage);
-            } catch (GeneratorOverlapException ignored) {
-                //Block overlaps are checked before scheduling the anonymous functions
+            } catch (GeneratorOverlapException | GeneratorLimitException ignored) {
+                //Block overlaps and limits are checked before scheduling
             }
         });
     }
@@ -233,12 +242,20 @@ public class GeneratorManager extends Manager {
         return generatorBlocks.get(location);
     }
 
-    public void registerGenerator(@NotNull Generator generator) throws GeneratorOverlapException {
+    public void registerGenerator(@NotNull Generator generator) throws GeneratorOverlapException, GeneratorLimitException {
         final GeneratorTemplate template = generator.getTemplate();
         for (Block block : template.getAllOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
             if (plugin.getGenerators().isGenerator(block.getLocation())) {
                 throw new GeneratorOverlapException();
             }
+        }
+
+        final BlockStructure lastStructure = template.getLastStage().getStructure();
+        if (lastStructure.getBlockChanges().size() > 1) {
+            if (largeGeneratorsPlaced >= 25) {
+                throw new GeneratorLimitException();
+            }
+            largeGeneratorsPlaced++;
         }
 
         generators.add(generator);
@@ -248,16 +265,20 @@ public class GeneratorManager extends Manager {
     }
 
     public void unregisterGenerator(@NotNull Generator generator) {
-        generators.remove(generator);
+        BlockStructure lastStructure = generator.getTemplate().getLastStage().getStructure();
+        if (lastStructure.getBlockChanges().size() > 1) {
+            largeGeneratorsPlaced--;
+        }
 
+        generators.remove(generator);
         for (Block block : generator.getAllOccupiedBlocks()) {
             generatorBlocks.remove(block.getLocation());
         }
 
-        final BlockStructure structure = generator.getCurrentStage().getStructure();
+        BlockStructure structure = generator.getCurrentStage().getStructure();
         structure.removeBlocks(generator.getOrigin(), generator.getRotation());
 
-        final HologramDisplay hologram = generator.getCurrentHologram();
+        HologramDisplay hologram = generator.getCurrentHologram();
         if (hologram != null && hologram.exists()) {
             hologram.destroy();
         }

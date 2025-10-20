@@ -20,30 +20,35 @@ public class GeneratorSetAllSubCommand extends SubCommand {
         withParameter(GeneratorParameters.GENERATOR_NAME);
         withPlayerExecution((player, args, placeholders) -> {
             final OrestackPlayer playerState = plugin.getPlayerState(player);
-            final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
-            if (generator == null) {
+            final GeneratorTemplate template = plugin.getGeneratorTemplate(args[0]);
+            if (template == null) {
                 plugin.sendMessage(player, "generator-not-found", placeholders);
                 return;
             }
             final Location firstSelection = playerState.getFirstSelection();
             final Location secondSelection = playerState.getSecondSelection();
             if (firstSelection == null || secondSelection == null) {
-                plugin.sendMessage(player, "incomplete-region", placeholders, generator);
+                plugin.sendMessage(player, "incomplete-region", placeholders, template);
                 return;
             }
-            final BlockStructure structure = generator.getLastStage().getStructure();
+            final BlockStructure structure = template.getLastStage().getStructure();
             for (Location location : CuboidRegion.getAllLocations(player.getWorld(), firstSelection, secondSelection)) {
                 for (Rotation rotation : Rotation.values()) {
                     if (structure.matchBlocks(location, rotation)) {
                         try {
-                            Generator.create(generator, location);
+                            Generator.create(template, location);
                         }
                         catch (GeneratorOverlapException ignored) {
+                            // Ignore if generator overlaps
+                        }
+                        catch (GeneratorLimitException e) {
+                            plugin.sendMessage(player, "large-generator-limit", placeholders, template);
+                            return;
                         }
                     }
                 }
             }
-            plugin.sendMessage(player, "created-all-generators", placeholders, generator);
+            plugin.sendMessage(player, "created-all-generators", placeholders, template);
         });
     }
 

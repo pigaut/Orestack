@@ -17,8 +17,12 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
     private boolean keepBlocksOnRemove;
     private ItemStack generatorTool;
 
-    // Generator health options
+    // Cooldowns
+    private int clickCooldown;
     private int hitCooldown;
+    private int harvestCooldown;
+
+    // Generator health options
     private Amount defaultDamage;
     private boolean efficiencyDamage;
     private boolean reducedCooldownDamage;
@@ -40,10 +44,17 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
         generatorTool = config.get("generator-tool", ItemStack.class)
                 .withDefault(GeneratorTool.getDefaultItem(), errorsFound::add);
 
-        // Generator health options
+        // Generator cooldowns
+        clickCooldown = config.getInteger("click-cooldown")
+                .withDefault(4, errorsFound::add);
+
         hitCooldown = config.getInteger("hit-cooldown")
                 .withDefault(4, errorsFound::add);
 
+        harvestCooldown = config.getInteger("harvest-cooldown")
+                .withDefault(4, errorsFound::add);
+
+        // Generator health options
         defaultDamage = config.get("default-damage", Amount.class)
                 .withDefault(Amount.ONE, errorsFound::add);
 
@@ -73,6 +84,14 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
 
     public int getHitCooldown() {
         return hitCooldown;
+    }
+
+    public int getClickCooldown() {
+        return clickCooldown;
+    }
+
+    public int getHarvestCooldown() {
+        return harvestCooldown;
     }
 
     public boolean isReducedCooldownDamage() {

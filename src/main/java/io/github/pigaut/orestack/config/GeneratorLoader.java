@@ -100,17 +100,32 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         boolean dropExp = defaultDrops != null ? defaultDrops :
                 section.getBoolean("drop-exp|drop-xp").withDefault(false);
 
-        Double health = section.getDouble("health").withDefault(null);
+        Double health = section.getDouble("health")
+                .filter(Predicates.greaterThan(0), "Health must be greater than or equal to 1.")
+                .withDefault(null);
+
         boolean idle = section.getBoolean("idle").withDefault(health != null);
+
+        if (health != null && !idle) {
+            throw new InvalidConfigurationException(section, "idle", "Generator Stage with health set must be idle.");
+        }
 
         int growthTime = section.get("growth|growth-time", Ticks.class)
                 .map(Ticks::getCount)
                 .withDefault(0);
         Double chance = section.getDouble("chance|growth-chance").withDefault(null);
 
+        int clickCooldown = section.getInteger("click-cooldown")
+                .filter(Predicates.greaterThan(1), "Click cooldown must be greater than 1")
+                .withDefault(plugin.getOrestackOptions().getClickCooldown());
+
         int hitCooldown = section.getInteger("hit-cooldown")
                 .filter(Predicates.greaterThan(1), "Hit cooldown must be greater than 1")
                 .withDefault(plugin.getOrestackOptions().getHitCooldown());
+
+        int harvestCooldown = section.getInteger("harvest-cooldown")
+                .filter(Predicates.greaterThan(1), "Harvest cooldown must be greater than 1")
+                .withDefault(plugin.getOrestackOptions().getClickCooldown());
 
         Hologram hologram = null;
         if (SpigotServer.isPluginEnabled("DecentHolograms")) {
@@ -121,10 +136,12 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         Function onGrowth = section.get("on-growth", Function.class).withDefault(null);
         Function onClick = section.get("on-click", Function.class).withDefault(null);
         Function onHit = section.get("on-hit", Function.class).withDefault(null);
+        Function onHarvest = section.get("on-harvest", Function.class).withDefault(null);
         Function onDestroy = section.get("on-destroy", Function.class).withDefault(null);
 
         return new GeneratorStage(generator, state, structure, decorativeBlocks, dropItems, dropExp, idle,
-                growthTime, chance, health, hitCooldown, hologram, onBreak, onGrowth, onClick, onHit, onDestroy);
+                growthTime, chance, health, clickCooldown, hitCooldown, harvestCooldown, hologram,
+                onBreak, onGrowth, onClick, onHit, onHarvest, onDestroy);
     }
 
 }
