@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.listener;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.event.*;
+import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
@@ -116,34 +116,36 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        final Generator clickedGenerator = plugin.getGenerator(event.getClickedBlock().getLocation());
-        if (clickedGenerator == null) {
+        final Generator generator = plugin.getGenerator(event.getClickedBlock().getLocation());
+        if (generator == null) {
             return;
         }
 
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        Action action = event.getAction();
+        if (action == Action.RIGHT_CLICK_BLOCK) {
             event.setCancelled(true);
         }
 
-        if (!clickedGenerator.matchBlocks()) {
-            plugin.getGenerators().unregisterGenerator(clickedGenerator);
+        if (!generator.matchBlocks()) {
+            plugin.getGenerators().unregisterGenerator(generator);
             return;
         }
 
         Block block = event.getClickedBlock();
-        GeneratorStage stage = clickedGenerator.getCurrentStage();
+        GeneratorStage stage = generator.getCurrentStage();
         if (stage.getDecorativeBlocks().contains(block.getType())) {
             return;
         }
 
-        OrestackPlayer playerState = plugin.getPlayerState(event.getPlayer());
+        Player player = event.getPlayer();
+        OrestackPlayer playerState = plugin.getPlayerState(player);
         if (!playerState.hasFlag("orestack:click_cooldown")) {
             playerState.addTemporaryFlag("orestack:click_cooldown", stage.getClickCooldown());
 
-            GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(playerState, clickedGenerator);
+            GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(player, action);
             SpigotServer.callEvent(generatorInteractEvent);
             if (!generatorInteractEvent.isCancelled()) {
-                playerState.updatePlaceholders(clickedGenerator);
+                playerState.updatePlaceholders(generator);
                 Function clickFunction = stage.getClickFunction();
                 if (clickFunction != null) {
                     clickFunction.run(playerState, event, block);
@@ -151,13 +153,13 @@ public class PlayerInteractListener implements Listener {
             }
         }
 
-        if (event.getAction() == Action.LEFT_CLICK_BLOCK && !playerState.hasFlag("orestack:hit_cooldown")) {
+        if (action == Action.LEFT_CLICK_BLOCK && !playerState.hasFlag("orestack:hit_cooldown")) {
             playerState.addTemporaryFlag("orestack:hit_cooldown", stage.getHitCooldown());
 
-            GeneratorHitEvent generatorHitEvent = new GeneratorHitEvent(playerState, clickedGenerator);
+            GeneratorHitEvent generatorHitEvent = new GeneratorHitEvent(player);
             SpigotServer.callEvent(generatorHitEvent);
             if (!generatorHitEvent.isCancelled()) {
-                playerState.updatePlaceholders(clickedGenerator);
+                playerState.updatePlaceholders(generator);
                 Function hitFunction = stage.getHitFunction();
                 if (hitFunction != null) {
                     hitFunction.run(playerState, event, block);
@@ -165,13 +167,13 @@ public class PlayerInteractListener implements Listener {
             }
         }
 
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !playerState.hasFlag("orestack:harvest_cooldown")) {
+        if (action == Action.RIGHT_CLICK_BLOCK && !playerState.hasFlag("orestack:harvest_cooldown")) {
             playerState.addTemporaryFlag("orestack:harvest_cooldown", stage.getHarvestCooldown());
 
-            GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(playerState, clickedGenerator);
+            GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(player);
             SpigotServer.callEvent(generatorHarvestEvent);
             if (!generatorHarvestEvent.isCancelled()) {
-                playerState.updatePlaceholders(clickedGenerator);
+                playerState.updatePlaceholders(generator);
                 Function harvestFunction = stage.getHarvestFunction();
                 if (harvestFunction != null) {
                     harvestFunction.run(playerState, event, block);

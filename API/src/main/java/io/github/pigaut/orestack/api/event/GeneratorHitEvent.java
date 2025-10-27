@@ -1,16 +1,19 @@
-package io.github.pigaut.orestack.event;
+package io.github.pigaut.orestack.api.event;
 
-import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.orestack.player.*;
+import io.github.pigaut.voxel.event.*;
+import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorHarvestEvent extends PlayerGeneratorEvent {
+/**
+ * Called when a player left-clicks a non-decorative generator block.
+ */
+public class GeneratorHitEvent extends PlayerEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
-    public GeneratorHarvestEvent(OrestackPlayer player, Generator generator) {
-        super(player, generator);
+    public GeneratorHitEvent(@NotNull Player player) {
+        super(player);
     }
 
     @Override

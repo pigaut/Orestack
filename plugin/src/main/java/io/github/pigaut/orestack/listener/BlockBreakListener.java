@@ -2,10 +2,11 @@ package io.github.pigaut.orestack.listener;
 
 import dev.lone.itemsadder.api.*;
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.event.*;
+import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.core.function.*;
 import io.github.pigaut.voxel.server.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -51,10 +52,15 @@ public class BlockBreakListener implements Listener {
         OrestackPlayer playerState = plugin.getPlayerState(player);
         playerState.updatePlaceholders(generator);
 
-        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(playerState, generator, block, stage.isIdle());
+        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(player, block, stage.isIdle());
         SpigotServer.callEvent(generatorMineEvent);
         if (generatorMineEvent.isCancelled() || !stage.getState().isHarvestable()) {
             return;
+        }
+
+        Function breakFunction = stage.getBreakFunction();
+        if (breakFunction != null) {
+            breakFunction.run(playerState, event, block);
         }
 
         if (stage.isDropItems()) {

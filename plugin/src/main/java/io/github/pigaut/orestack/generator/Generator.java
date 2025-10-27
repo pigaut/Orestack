@@ -1,9 +1,8 @@
 package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.event.*;
+import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
 import io.github.pigaut.voxel.core.function.*;
@@ -102,14 +101,14 @@ public class Generator implements PlaceholderSupplier {
         return health;
     }
 
-    public void damage(@Nullable PlayerState damageDealer, double amount) {
+    public void damage(PlayerState damageDealer, double amount) {
         if (health == null) {
             return;
         }
         health = Math.max(0, health - amount);
         if (health == 0) {
             health = null;
-            GeneratorDestroyEvent event = new GeneratorDestroyEvent(damageDealer, this);
+            GeneratorDestroyEvent event = new GeneratorDestroyEvent(damageDealer.asPlayer());
             SpigotServer.callEvent(event);
             if (!event.isCancelled()) {
                 Function onDestroy = getCurrentStage().getDestroyFunction();
@@ -282,7 +281,7 @@ public class Generator implements PlaceholderSupplier {
                 return;
             }
 
-            final GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(this);
+            GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(origin, block);
             SpigotServer.callEvent(growthEvent);
 
             if (!growthEvent.isCancelled()) {

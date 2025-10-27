@@ -5,16 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.pigaut.orestack</groupId>
-    <artifactId>Orestack</artifactId>
+    <artifactId>OrestackPlugin</artifactId>
+    <packaging>jar</packaging>
+    <version>3.41.6</version>
     <name>Orestack Plugin</name>
-    <version>3.41.5</version>
     <description>A Spigot plugin used to create resources with custom gathering mechanics</description>
     <url>https://www.spigotmc.org/resources/121905/</url>
-    <developers>
-        <developer>
-            <name>pigaut</name>
-        </developer>
-    </developers>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
@@ -94,12 +90,19 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>24.1.0</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.pigaut.orestack.api</groupId>
+            <artifactId>OrestackAPI</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.snakeyaml</groupId>
