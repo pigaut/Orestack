@@ -338,7 +338,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         listeners.add(new BlockBreakListener(this));
         listeners.add(new BlockDestructionListener(this));
         listeners.add(new CropChangeListener(this));
-        listeners.add(new GeneratorEventListener());
 
         return listeners;
     }
