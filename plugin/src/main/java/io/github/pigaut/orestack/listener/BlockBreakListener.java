@@ -54,13 +54,16 @@ public class BlockBreakListener implements Listener {
 
         GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(player, block, stage.isIdle());
         SpigotServer.callEvent(generatorMineEvent);
-        if (generatorMineEvent.isCancelled() || !stage.getState().isHarvestable()) {
-            return;
+
+        if (!generatorMineEvent.isCancelled()) {
+            Function breakFunction = stage.getBreakFunction();
+            if (breakFunction != null) {
+                breakFunction.run(playerState, generatorMineEvent, block);
+            }
         }
 
-        Function breakFunction = stage.getBreakFunction();
-        if (breakFunction != null) {
-            breakFunction.run(playerState, event, block);
+        if (generatorMineEvent.isCancelled() || !stage.getState().isHarvestable()) {
+            return;
         }
 
         if (stage.isDropItems()) {
