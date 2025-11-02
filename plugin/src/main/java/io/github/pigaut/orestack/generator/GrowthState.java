@@ -1,6 +1,6 @@
 package io.github.pigaut.orestack.generator;
 
-public enum GeneratorState {
+public enum GrowthState {
     DEPLETED     (false, false),
     GROWING      (false, true),
     UNRIPE       (true, true),
@@ -10,7 +10,7 @@ public enum GeneratorState {
     private final boolean harvestable;
     private final boolean transitional;
 
-    GeneratorState(boolean harvestable, boolean transitional) {
+    GrowthState(boolean harvestable, boolean transitional) {
         this.harvestable = harvestable;
         this.transitional = transitional;
     }

@@ -47,6 +47,21 @@ structure-blacklist:
   - BEDROCK
 
 ############################################################
+#                        Vein Miner
+############################################################
+
+# Vein Miner aliases
+vein-miner-aliases:
+  - veinminer
+  - vein-miner
+
+# How many blocks are broken based on the enchant level.
+vein-size-by-level:
+  1: 3
+  2: 7
+  3: 12
+
+############################################################
 #                           Drops
 ############################################################
 # Compatible Actions: giveItem, dropItem, dropItemAtPlayer, dropItemAtBlock

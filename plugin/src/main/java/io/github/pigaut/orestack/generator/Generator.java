@@ -270,7 +270,7 @@ public class Generator implements PlaceholderSupplier {
 
         health = stage.getHealth();
 
-        if (stage.getState() == GeneratorState.REGROWN) {
+        if (stage.getState() == GrowthState.REGROWN) {
             return;
         }
 

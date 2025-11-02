@@ -6,7 +6,10 @@ import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
+import io.github.pigaut.yaml.node.scalar.*;
+import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
+import org.bukkit.enchantments.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
@@ -21,6 +24,10 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
     private int clickCooldown;
     private int hitCooldown;
     private int harvestCooldown;
+
+    // VeinMiner options
+    private List<String> veinMinerAliases;
+    private Map<Integer, Integer> veinSizeByLevel;
 
     // Generator health options
     private Amount defaultDamage;
@@ -43,6 +50,25 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
 
         generatorTool = config.get("generator-tool", ItemStack.class)
                 .withDefault(GeneratorTool.getDefaultItem(), errorsFound::add);
+
+        // Vein miner options
+        veinMinerAliases = config.getStrings("vein-miner-aliases")
+                .withDefault(List.of("vein-miner", "veinminer"), errorsFound::add);
+
+        veinSizeByLevel = new HashMap<>();
+        for (ConfigScalar scalar : config.getSectionOrCreate("vein-size-by-level").getNestedScalars()) {
+            Integer veinSize = scalar.toInteger()
+                    .filter(Predicates.isPositive(), "Vein size must be positive")
+                    .withDefault(null, errorsFound::add);
+
+            Integer enchantLevel = ((KeyedScalar) scalar).getIntegerKey()
+                    .filter(Predicates.isPositive(), "Enchant level must be positive")
+                    .withDefault(null, errorsFound::add);
+
+            if (veinSize != null && enchantLevel != null) {
+                veinSizeByLevel.put(enchantLevel, veinSize);
+            }
+        }
 
         // Generator cooldowns
         clickCooldown = config.getInteger("click-cooldown")
@@ -105,6 +131,27 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
             }
         }
         return defaultDamage;
+    }
+
+    public int getToolVeinMineSize(@NotNull ItemStack tool) {
+        if (!tool.hasItemMeta()) {
+            return 1;
+        }
+
+        for (Map.Entry<Enchantment, Integer> enchantLevel : tool.getItemMeta().getEnchants().entrySet()) {
+            Enchantment enchant = enchantLevel.getKey();
+            if (!enchant.isRegistered()) {
+                continue;
+            }
+            String enchantName = enchant.getKeyOrThrow().getKey();
+            if (!veinMinerAliases.contains(enchantName)) {
+                continue;
+            }
+
+            return veinSizeByLevel.getOrDefault(enchantLevel.getValue(), 1);
+        }
+
+        return 1;
     }
 
 }
