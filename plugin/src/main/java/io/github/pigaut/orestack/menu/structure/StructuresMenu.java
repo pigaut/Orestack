@@ -11,7 +11,7 @@ import java.util.*;
 
 public class StructuresMenu extends FramedSelectionMenu {
 
-    private final OrestackPlugin plugin = OrestackPlugin.getPlugin();
+    private final OrestackPlugin plugin = OrestackPlugin.getInstance();
     private final String group;
 
     public StructuresMenu(String group) {

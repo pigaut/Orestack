@@ -13,6 +13,7 @@ import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;
+import org.bukkit.enchantments.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
@@ -27,13 +28,14 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
+    private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
 
     @Override
     public void onLoad() {
         plugin = this;
     }
 
-    public static OrestackPlugin getPlugin() {
+    public static OrestackPlugin getInstance() {
         return plugin;
     }
 
@@ -398,6 +400,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     public OrestackOptionsManager getOrestackOptions() {
         return optionsManager;
+    }
+
+    public GeneratorOptionsManager getGeneratorOptions() {
+        return generatorOptionsManager;
     }
 
 }
