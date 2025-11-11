@@ -30,6 +30,16 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
     }
 
     @Override
+    public @NotNull GeneratorTemplate loadFromScalar(ConfigScalar scalar) throws InvalidConfigurationException {
+        String generatorName = scalar.toString();
+        GeneratorTemplate generatorTemplate = plugin.getGeneratorTemplate(generatorName);
+        if (generatorTemplate == null) {
+            throw new InvalidConfigurationException(scalar, "Could not find generator with name: '" + generatorName + "'");
+        }
+        return generatorTemplate;
+    }
+
+    @Override
     public @NotNull GeneratorTemplate loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigurationException {
         if (!(sequence instanceof ConfigRoot root)) {
             throw new InvalidConfigurationException(sequence, "Generator can only be loaded from a root configuration sequence");

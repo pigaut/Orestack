@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
 
 public class Orestack {
 
-    private static final OrestackPlugin plugin = OrestackPlugin.getPlugin();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     public static GeneratorTemplate getGeneratorTemplate(String name) {
         return plugin.getGeneratorTemplate(name);

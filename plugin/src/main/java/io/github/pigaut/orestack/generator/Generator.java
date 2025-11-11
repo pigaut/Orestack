@@ -23,7 +23,7 @@ import java.util.*;
 
 public class Generator implements PlaceholderSupplier {
 
-    private static final OrestackPlugin plugin = OrestackPlugin.getPlugin();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     private final GeneratorTemplate template;
     private final Location origin;
@@ -95,6 +95,10 @@ public class Generator implements PlaceholderSupplier {
 
     public @NotNull Location getOrigin() {
         return origin.clone();
+    }
+
+    public @NotNull Block getBlock() {
+        return block;
     }
 
     public @Nullable Double getHealth() {

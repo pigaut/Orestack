@@ -5,7 +5,7 @@ import io.github.pigaut.voxel.command.*;
 
 public class GeneratorParameters {
 
-    private static final OrestackPlugin plugin = OrestackPlugin.getPlugin();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     public static final CommandParameter GENERATOR_NAME = CommandParameter.create("generator-name",
             (commandSender, strings) -> plugin.getGeneratorTemplates().getAllNames());

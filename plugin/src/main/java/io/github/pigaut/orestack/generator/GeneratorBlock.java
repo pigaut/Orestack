@@ -11,16 +11,17 @@ import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class GeneratorLogic {
+public class GeneratorBlock {
 
-    private static final OrestackPlugin plugin = OrestackPlugin.getPlugin();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
-    private GeneratorLogic() {}
+    private GeneratorBlock() {}
 
-    public static void breakBlock(Generator generator, Player player, Block block, int expToDrop) {
+    public static void mineBlock(@NotNull Generator generator, @NotNull Player player, @NotNull Block block, int expToDrop) {
         if (generator.isUpdating()) {
             return;
         }

@@ -50,19 +50,23 @@ structure-blacklist:
 #                        Vein Miner
 ############################################################
 
-# Whitelist for single block generators that should work with the veinminer enchantment
-vein-generators:
-  - coal_ore   # Then name of the generator file without '.yml' extension
-  - iron_ore
- # - copper_ore   # 1.17+
-  - gold_ore
-  - diamond_ore
-  - emerald_ore
+# Whether veinminer should be enabled or not
+vein-miner: false
 
-# VeinMiner enchant aliases. (Based on the enchantment plugin you use, it might be different)
+# VeinMiner enchant aliases. (Based on the enchantment plugin you use it might differ)
 vein-miner-aliases:
   - veinminer
   - vein-miner
+  - vein_miner
+
+# Whitelist for single block generators that should work with the veinminer enchantment
+vein-generators:
+  - coal   # Then name of the generator file without '.yml' extension
+  - iron
+ # - copper   # 1.17+
+  - gold
+  - diamond
+  - emerald
 
 # How many blocks are broken based on the enchant level.
 vein-size-by-level:

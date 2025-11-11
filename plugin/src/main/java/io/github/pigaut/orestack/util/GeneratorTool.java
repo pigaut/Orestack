@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
 
 public class GeneratorTool {
 
-    private static final OrestackPlugin plugin = OrestackPlugin.getPlugin();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     public static final NamespacedKey GENERATOR_KEY = new NamespacedKey("orestack", "generator");
     private static final ItemStack DEFAULT_ITEM;

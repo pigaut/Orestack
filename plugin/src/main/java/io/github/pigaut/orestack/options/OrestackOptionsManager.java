@@ -4,6 +4,7 @@ import io.github.pigaut.orestack.damage.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.manager.*;
+import io.github.pigaut.voxel.util.reflection.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.node.scalar.*;
@@ -26,6 +27,7 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
     private int harvestCooldown;
 
     // VeinMiner options
+    private boolean veinMiner;
     private List<String> veinMinerAliases;
     private Map<Integer, Integer> veinSizeByLevel;
 
@@ -52,6 +54,9 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
                 .withDefault(GeneratorTool.getDefaultItem(), errorsFound::add);
 
         // Vein miner options
+        veinMiner = config.getBoolean("vein-miner")
+                .withDefault(false, errorsFound::add);
+
         veinMinerAliases = config.getStrings("vein-miner-aliases")
                 .withDefault(List.of("vein-miner", "veinminer"), errorsFound::add);
 
@@ -133,22 +138,38 @@ public class OrestackOptionsManager extends Manager implements ConfigBacked {
         return defaultDamage;
     }
 
-    public int getToolVeinMineSize(@NotNull ItemStack tool) {
+    public boolean isVeinMiner() {
+        return veinMiner;
+    }
+
+    private final boolean spigotEnchants = Reflection.onClass(Enchantment.class)
+            .matchMethod("getKeyOrNull");
+
+    public int getToolMaxVeinSize(@NotNull ItemStack tool) {
         if (!tool.hasItemMeta()) {
             return 1;
         }
 
-        for (Map.Entry<Enchantment, Integer> enchantLevel : tool.getItemMeta().getEnchants().entrySet()) {
-            Enchantment enchant = enchantLevel.getKey();
-            if (!enchant.isRegistered()) {
-                continue;
+        for (Map.Entry<Enchantment, Integer> enchantToLevel : tool.getItemMeta().getEnchants().entrySet()) {
+            Enchantment enchant = enchantToLevel.getKey();
+
+            NamespacedKey enchantKey;
+            if (spigotEnchants) {
+                enchantKey = enchant.getKeyOrNull();
             }
-            String enchantName = enchant.getKeyOrThrow().getKey();
-            if (!veinMinerAliases.contains(enchantName)) {
+            else {
+                enchantKey = enchant.getKey();
+            }
+
+            if (enchantKey == null) {
                 continue;
             }
 
-            return veinSizeByLevel.getOrDefault(enchantLevel.getValue(), 1);
+            if (!veinMinerAliases.contains(enchantKey.getKey())) {
+                continue;
+            }
+
+            return veinSizeByLevel.getOrDefault(enchantToLevel.getValue(), 1);
         }
 
         return 1;

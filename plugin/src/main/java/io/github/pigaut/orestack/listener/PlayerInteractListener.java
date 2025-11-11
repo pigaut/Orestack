@@ -25,7 +25,7 @@ public class PlayerInteractListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onGeneratorItemClick(PlayerInteractEvent event) {
         if (event.getHand() != EquipmentSlot.HAND) {
             return;
@@ -73,7 +73,7 @@ public class PlayerInteractListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onGeneratorPlace(BlockPlaceEvent event) {
         final ItemStack heldItem = event.getItemInHand();
         final String generatorName = GeneratorTool.getGeneratorNameFromTool(heldItem);
@@ -110,10 +110,18 @@ public class PlayerInteractListener implements Listener {
         });
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onGeneratorInteract(PlayerInteractEvent event) {
         if (!event.hasBlock() || event.getHand() != EquipmentSlot.HAND) {
             return;
+        }
+
+        if (event.hasItem()) {
+            final ItemStack heldItem = event.getItem();
+            final String generatorName = GeneratorTool.getGeneratorNameFromTool(heldItem);
+            if (generatorName != null) {
+                return;
+            }
         }
 
         final Generator generator = plugin.getGenerator(event.getClickedBlock().getLocation());
