@@ -1,15 +1,21 @@
 package io.github.pigaut.orestack;
 
+import com.plotsquared.core.events.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.orestack.hook.plotsquared.*;
 import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.voxel.command.*;
+import io.github.pigaut.voxel.listener.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.plugin.boot.*;
+import io.github.pigaut.voxel.plugin.boot.phase.*;
+import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;
@@ -41,7 +47,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public boolean isPremium() {
-        return false;
+        return true;
     }
 
     @Override
@@ -72,6 +78,16 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public @NotNull List<SpigotVersion> getCompatibleVersions() {
         return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_16_5);
+    }
+
+    @Override
+    public List<BootPhase> getStartupRequirements() {
+        return List.of(
+                BootPhase.SERVER_LOADED,
+                BootPhase.WORLDS_LOADED,
+                BootPhase.ITEMSADDER_DATA_LOADED,
+                BootPhase.pluginEnabled("PlotSquared") // Marked as load-before inside plugin.yml
+        );
     }
 
     @Override
@@ -334,13 +350,23 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
+    public List<Listener> getStartupListeners() {
+        List<Listener> listeners = new ArrayList<>();
+
+        if (SpigotServer.isPluginLoaded("PlotSquared")) {
+            listeners.add(new PlotBlockBreakListener(this));
+        }
+
+        return listeners;
+    }
+
+    @Override
     public List<Listener> getPluginListeners() {
         List<Listener> listeners = new ArrayList<>();
         listeners.add(new PlayerInteractListener(this));
         listeners.add(new BlockBreakListener(this));
         listeners.add(new BlockDestructionListener(this));
         listeners.add(new CropChangeListener(this));
-
         return listeners;
     }
 

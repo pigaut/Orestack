@@ -1,20 +1,24 @@
 main: io.github.pigaut.orestack.OrestackPlugin
 name: Orestack
-version: 3.41.9
+version: 3.41.10
 api-version: 1.16
 author: pigaut
 description: Create resources with custom gathering mechanics
 
+load: STARTUP
+loadbefore:
+  - WorldEdit
+  - PlotSquared
+
 softdepend:
   - Vault
-  - WorldGuard
   - PlaceholderAPI
   - DecentHolograms
   - AuraSkills
   - mcMMO
-  - PlotSquared
   - ItemsAdder
   - Nexo
+  - Multiverse-Core
 
 libraries:
   - com.h2database:h2:2.3.232

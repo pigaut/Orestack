@@ -8,6 +8,7 @@ import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
+import org.bukkit.event.world.*;
 
 public class BlockBreakListener implements Listener {
 
@@ -17,7 +18,7 @@ public class BlockBreakListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
         Generator generator = plugin.getGenerator(block.getLocation());
