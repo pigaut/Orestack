@@ -30,6 +30,16 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
     }
 
     @Override
+    public @NotNull GeneratorTemplate loadFromScalar(ConfigScalar scalar) throws InvalidConfigurationException {
+        String generatorName = scalar.toString();
+        GeneratorTemplate generatorTemplate = plugin.getGeneratorTemplate(generatorName);
+        if (generatorTemplate == null) {
+            throw new InvalidConfigurationException(scalar, "Could not find generator with name: '" + generatorName + "'");
+        }
+        return generatorTemplate;
+    }
+
+    @Override
     public @NotNull GeneratorTemplate loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigurationException {
         if (!(sequence instanceof ConfigRoot root)) {
             throw new InvalidConfigurationException(sequence, "Generator can only be loaded from a root configuration sequence");
@@ -48,7 +58,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         }
 
         final GeneratorStage firstStage = generatorStages.get(0);
-        if (firstStage.getState() != GeneratorState.DEPLETED) {
+        if (firstStage.getState() != GrowthState.DEPLETED) {
             throw new InvalidConfigurationException(sequence, "The first stage must be depleted");
         }
 
@@ -61,14 +71,14 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         }
 
         final GeneratorStage lastStage = generatorStages.get(generatorStages.size() - 1);
-        if (lastStage.getState() != GeneratorState.REGROWN) {
+        if (lastStage.getState() != GrowthState.REGROWN) {
             throw new InvalidConfigurationException(sequence, "The last stage must be regrown");
         }
 
         boolean firstHarvestableFound = false;
         for (int i = 1; i < generatorStages.size(); i++) {
             final GeneratorStage stage = generatorStages.get(i);
-            if (stage.getState() == GeneratorState.DEPLETED) {
+            if (stage.getState() == GrowthState.DEPLETED) {
                 throw new InvalidConfigurationException(sequence, "Only the first stage should be depleted");
             }
 
@@ -86,7 +96,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
     }
 
     private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection section) {
-        final GeneratorState state = section.getRequired("type|state", GeneratorState.class);
+        final GrowthState state = section.getRequired("type|state", GrowthState.class);
 
         final BlockStructure structure = section.contains("structure|blocks") ?
                 section.getRequired("structure|blocks", BlockStructure.class) :

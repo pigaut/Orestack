@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
 
 public class DamageGeneratorAction implements Action {
 
-    private final OrestackPlugin plugin = OrestackPlugin.getPlugin();
+    private final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     private final Amount damageAmount;
 

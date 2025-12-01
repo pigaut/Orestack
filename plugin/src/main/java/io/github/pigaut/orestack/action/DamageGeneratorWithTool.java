@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
 
 public class DamageGeneratorWithTool implements Action {
 
-    private final OrestackPlugin plugin = OrestackPlugin.getPlugin();
+    private final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     @Override
     public void execute(@Nullable PlayerState playerState, @Nullable Event event, @Nullable Block block, @Nullable Entity entity) {

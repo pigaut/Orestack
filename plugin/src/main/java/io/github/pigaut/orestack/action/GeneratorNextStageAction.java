@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 
 public class GeneratorNextStageAction implements BlockAction {
 
-    private final OrestackPlugin plugin = OrestackPlugin.getPlugin();
+    private final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     @Override
     public void execute(@NotNull Block block) {

@@ -8,11 +8,11 @@ import org.bukkit.event.entity.*;
 
 import java.util.*;
 
-public class BlockDestructionListener implements Listener {
+public class BlockEventListener implements Listener {
 
     private final OrestackPlugin plugin;
 
-    public BlockDestructionListener(OrestackPlugin plugin) {
+    public BlockEventListener(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

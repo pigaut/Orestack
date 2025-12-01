@@ -12,7 +12,7 @@ import java.util.*;
 public class GeneratorStage {
 
     private final GeneratorTemplate generator;
-    private final GeneratorState state;
+    private final GrowthState state;
     private final BlockStructure structure;
     private final List<Material> decorativeBlocks;
     private final boolean dropItems;
@@ -32,7 +32,7 @@ public class GeneratorStage {
     private final @Nullable Function onHarvest;
     private final @Nullable Function onDestroy;
 
-    public GeneratorStage(@NotNull GeneratorTemplate generator, @NotNull GeneratorState state,
+    public GeneratorStage(@NotNull GeneratorTemplate generator, @NotNull GrowthState state,
                           @NotNull BlockStructure structure, List<Material> decorativeBlocks, boolean dropItems,
                           boolean dropExp, boolean idle, int growthTime, @Nullable Double growthChance, @Nullable Double health,
                           int clickCooldown, int hitCooldown, int harvestCooldown, @Nullable Hologram hologram,
@@ -104,7 +104,7 @@ public class GeneratorStage {
         return idle;
     }
 
-    public GeneratorState getState() {
+    public GrowthState getState() {
         return state;
     }
 

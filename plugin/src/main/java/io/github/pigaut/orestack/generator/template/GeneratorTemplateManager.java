@@ -1,6 +1,8 @@
 package io.github.pigaut.orestack.generator.template;
 
+import io.github.pigaut.voxel.core.structure.*;
 import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.plugin.boot.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.*;
 import org.jetbrains.annotations.*;
@@ -16,11 +18,6 @@ public class GeneratorTemplateManager extends ConfigBackedManager.Sequence<Gener
     @Override
     public String getPrefix() {
         return "Generator";
-    }
-
-    @Override
-    public List<String> getLoadAfter() {
-        return List.of("ItemsAdder");
     }
 
     @Override

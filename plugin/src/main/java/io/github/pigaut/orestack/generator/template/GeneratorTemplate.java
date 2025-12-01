@@ -2,9 +2,9 @@ package io.github.pigaut.orestack.generator.template;
 
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.util.*;
+import io.github.pigaut.voxel.bukkit.Rotation;
 import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.plugin.manager.*;
-import io.github.pigaut.voxel.bukkit.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.inventory.*;
@@ -17,6 +17,7 @@ public class GeneratorTemplate implements Iterable<GeneratorStage>, Identifiable
     private final String name;
     private final String group;
     private final List<GeneratorStage> stages;
+    private final boolean multiBlock;
     private Rotation rotation = Rotation.NONE;
     private Material itemType = Material.TERRACOTTA;
 
@@ -24,6 +25,13 @@ public class GeneratorTemplate implements Iterable<GeneratorStage>, Identifiable
         this.name = name;
         this.group = group;
         this.stages = stages;
+        boolean multiBlock = false;
+        for (GeneratorStage stage : stages) {
+            if (stage.getStructure().hasMultipleBlocks()) {
+                multiBlock = true;
+            }
+        }
+        this.multiBlock = multiBlock;
     }
 
     @Override
@@ -34,6 +42,10 @@ public class GeneratorTemplate implements Iterable<GeneratorStage>, Identifiable
     @Override
     public @Nullable String getGroup() {
         return group;
+    }
+
+    public boolean isMultiBlock() {
+        return multiBlock;
     }
 
     public Rotation getRotation() {
