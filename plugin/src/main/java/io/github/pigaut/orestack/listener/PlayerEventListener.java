@@ -54,31 +54,6 @@ public class PlayerEventListener implements Listener {
 
     @EventHandler
     public void onBlockInteract(PlayerInteractEvent event) {
-        if (!player.hasPermission("orestack.generator.place")) {
-            plugin.sendMessage(player, "cannot-place-generator", heldGenerator);
-            return;
-        }
-
-        final Block blockPlaced = event.getBlockPlaced();
-        final Location targetLocation = blockPlaced.getLocation();
-
-        plugin.getScheduler().runTaskLater(1, () -> {
-            blockPlaced.setType(Material.AIR, false);
-            try {
-                Generator.create(heldGenerator, targetLocation, GeneratorTool.getToolRotation(heldItem));
-                PlayerUtil.sendActionBar(player, plugin.getLang("placed-generator"));
-            }
-            catch (GeneratorOverlapException e) {
-                PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
-            }
-            catch (GeneratorLimitException e) {
-                plugin.sendMessage(player, "large-generator-limit");
-            }
-        });
-    }
-
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onGeneratorInteract(PlayerInteractEvent event) {
         if (!event.hasBlock() || event.getHand() != EquipmentSlot.HAND) {
             return;
         }
@@ -239,6 +214,8 @@ public class PlayerEventListener implements Listener {
             }
             catch (GeneratorOverlapException e) {
                 PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
+            } catch (GeneratorLimitException e) {
+                plugin.sendMessage(player, "large-generator-limit");
             }
         });
     }
