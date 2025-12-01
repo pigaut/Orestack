@@ -4,16 +4,19 @@ import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.orestack.hook.itemsadder.*;
+import io.github.pigaut.orestack.hook.plotsquared.*;
 import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.player.*;
-import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.plugin.boot.*;
+import io.github.pigaut.voxel.plugin.boot.phase.*;
+import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;
-import org.bukkit.enchantments.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
@@ -30,18 +33,45 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
     private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
 
-    @Override
-    public void onLoad() {
-        plugin = this;
-    }
-
     public static OrestackPlugin getInstance() {
         return plugin;
     }
 
     @Override
-    public boolean isPremium() {
-        return false;
+    public void onLoad() {
+        plugin = this;
+    }
+
+    @Override
+    public List<BootPhase> getStartupRequirements() {
+        return List.of(
+                BootPhase.SERVER_LOADED,
+                BootPhase.WORLDS_LOADED,
+                BootPhase.ITEMSADDER_DATA_LOADED
+        );
+    }
+
+    public List<StartupTask> getStartupTasks() {
+        List<StartupTask> startupTasks = new ArrayList<>();
+
+        if (SpigotServer.isPluginLoaded("PlotSquared")) {
+            startupTasks.add(StartupTask.create()
+                    .require(BootPhase.pluginEnabled("PlotSquared"))
+                    .onReady(() -> registerListener(new PlotBlockDamageListener(this))));
+        }
+
+        return startupTasks;
+    }
+
+    @Override
+    public void registerHooks() {
+        if (SpigotServer.isPluginLoaded("ItemsAdder")) {
+            registerListener(new ItemsAdderDropListener());
+        }
+
+        if (SpigotServer.isPluginLoaded("PlotSquared")) {
+            registerListener(new PlotBlockBreakListener(this));
+        }
     }
 
     @Override
@@ -72,6 +102,21 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public @NotNull List<SpigotVersion> getCompatibleVersions() {
         return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_16_5);
+    }
+
+    @Override
+    public @NotNull List<String> getCompatiblePlugins() {
+        return List.of(
+                "Vault",
+                "PlaceholderAPI",
+                "DecentHolograms",
+                "AuraSkills",
+                "mcMMO",
+                "ItemsAdder",
+                "Nexo",
+                "PlotSquared",
+                "Multiverse-Core"
+        );
     }
 
     @Override
@@ -336,17 +381,25 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public List<Listener> getPluginListeners() {
         List<Listener> listeners = new ArrayList<>();
-        listeners.add(new PlayerInteractListener(this));
-        listeners.add(new BlockBreakListener(this));
-        listeners.add(new BlockDestructionListener(this));
-        listeners.add(new CropChangeListener(this));
-
+        listeners.add(new PlayerEventListener(this));
+        listeners.add(new BlockEventListener(this));
+        listeners.add(new CropEventListener(this));
         return listeners;
     }
 
     @Override
     public @Nullable String getDatabaseName() {
         return "data";
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
+    }
+
+    @Override
+    public @NotNull Configurator createConfigurator() {
+        return new OrestackConfigurator(this);
     }
 
     @Override
@@ -367,11 +420,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public @Nullable OrestackPlayer getPlayerState(@NotNull UUID playerId) {
         return playerManager.getPlayerState(playerId);
-    }
-
-    @Override
-    public @NotNull Configurator createConfigurator() {
-        return new OrestackConfigurator(this);
     }
 
     public OrestackOptionsManager getTools() {

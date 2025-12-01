@@ -4,6 +4,8 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.orestack.hook.veinminer.*;
+import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.core.function.*;
@@ -17,79 +19,41 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.*;
 
-public class PlayerInteractListener implements Listener {
+public class PlayerEventListener implements Listener {
 
     private final OrestackPlugin plugin;
 
-    public PlayerInteractListener(OrestackPlugin plugin) {
+    public PlayerEventListener(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onGeneratorItemClick(PlayerInteractEvent event) {
-        if (event.getHand() != EquipmentSlot.HAND) {
-            return;
-        }
-
-        final ItemStack heldItem = event.getItem();
-        if (heldItem == null) {
-            return;
-        }
-
-        final GeneratorTemplate heldGenerator = GeneratorTool.getGeneratorFromTool(heldItem);
-        if (heldGenerator == null) {
-            return;
-        }
-
-        final Player player = event.getPlayer();
-        final Action action = event.getAction();
-
-        if (action == Action.LEFT_CLICK_AIR && player.isSneaking()) {
-            event.setCancelled(true);
-            if (!player.hasPermission("orestack.generator.rotate")) {
-                plugin.sendMessage(player, "cannot-rotate-generator", heldGenerator);
-                return;
-            }
-            GeneratorTool.incrementToolRotation(heldItem);
-            PlayerUtil.sendActionBar(player, plugin.getLang("changed-generator-rotation"));
-            return;
-        }
-
-        final Block clickedBlock = event.getClickedBlock();
-
-        if (action == Action.LEFT_CLICK_BLOCK) {
-            final Generator clickedGenerator = plugin.getGenerator(clickedBlock.getLocation());
-            if (clickedGenerator == null || !clickedGenerator.getTemplate().equals(heldGenerator)) {
-                return;
-            }
-
-            event.setCancelled(true);
-            if (!player.hasPermission("orestack.generator.break")) {
-                plugin.sendMessage(player, "cannot-break-generator", heldGenerator);
-                return;
-            }
-            plugin.getGenerators().unregisterGenerator(clickedGenerator);
-            PlayerUtil.sendActionBar(player, plugin.getLang("broke-generator"));
-        }
-    }
-
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onGeneratorPlace(BlockPlaceEvent event) {
-        final ItemStack heldItem = event.getItemInHand();
-        final String generatorName = GeneratorTool.getGeneratorNameFromTool(heldItem);
-        if (generatorName == null) {
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onBlockBreak(BlockBreakEvent event) {
+        Block block = event.getBlock();
+        Generator generator = plugin.getGenerator(block.getLocation());
+        if (generator == null) {
             return;
         }
 
         event.setCancelled(true);
 
-        final Player player = event.getPlayer();
-        final GeneratorTemplate heldGenerator = plugin.getGeneratorTemplate(generatorName);
-        if (heldGenerator == null) {
-            plugin.sendMessage(player, "generator-not-exists");
-            return;
+        Player player = event.getPlayer();
+        int expToDrop = event.getExpToDrop();
+
+        OrestackOptionsManager options = plugin.getOrestackOptions();
+        if (options.isVeinMiner()) {
+            int maxVeinSize = options.getToolMaxVeinSize(player.getInventory().getItemInMainHand());
+            if (maxVeinSize > 1) {
+                GeneratorBlockVein.mineBlocks(generator, player, maxVeinSize, expToDrop);
+                return;
+            }
         }
 
+        GeneratorBlock.mineBlock(generator, player, block, expToDrop);
+    }
+
+    @EventHandler
+    public void onBlockInteract(PlayerInteractEvent event) {
         if (!player.hasPermission("orestack.generator.place")) {
             plugin.sendMessage(player, "cannot-place-generator", heldGenerator);
             return;
@@ -192,6 +156,91 @@ public class PlayerInteractListener implements Listener {
             }
         }
 
+    }
+
+    @EventHandler
+    public void onItemClick(PlayerInteractEvent event) {
+        if (event.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
+
+        final ItemStack heldItem = event.getItem();
+        if (heldItem == null) {
+            return;
+        }
+
+        final GeneratorTemplate heldGenerator = GeneratorTool.getGeneratorFromTool(heldItem);
+        if (heldGenerator == null) {
+            return;
+        }
+
+        final Player player = event.getPlayer();
+        final Action action = event.getAction();
+
+        if (action == Action.LEFT_CLICK_AIR && player.isSneaking()) {
+            event.setCancelled(true);
+            if (!player.hasPermission("orestack.generator.rotate")) {
+                plugin.sendMessage(player, "cannot-rotate-generator", heldGenerator);
+                return;
+            }
+            GeneratorTool.incrementToolRotation(heldItem);
+            PlayerUtil.sendActionBar(player, plugin.getLang("changed-generator-rotation"));
+            return;
+        }
+
+        final Block clickedBlock = event.getClickedBlock();
+
+        if (action == Action.LEFT_CLICK_BLOCK) {
+            final Generator clickedGenerator = plugin.getGenerator(clickedBlock.getLocation());
+            if (clickedGenerator == null || !clickedGenerator.getTemplate().equals(heldGenerator)) {
+                return;
+            }
+
+            event.setCancelled(true);
+            if (!player.hasPermission("orestack.generator.break")) {
+                plugin.sendMessage(player, "cannot-break-generator", heldGenerator);
+                return;
+            }
+            plugin.getGenerators().unregisterGenerator(clickedGenerator);
+            PlayerUtil.sendActionBar(player, plugin.getLang("broke-generator"));
+        }
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        final ItemStack heldItem = event.getItemInHand();
+        final String generatorName = GeneratorTool.getGeneratorNameFromTool(heldItem);
+        if (generatorName == null) {
+            return;
+        }
+
+        event.setCancelled(true);
+
+        final Player player = event.getPlayer();
+        final GeneratorTemplate heldGenerator = plugin.getGeneratorTemplate(generatorName);
+        if (heldGenerator == null) {
+            plugin.sendMessage(player, "generator-not-exists");
+            return;
+        }
+
+        if (!player.hasPermission("orestack.generator.place")) {
+            plugin.sendMessage(player, "cannot-place-generator", heldGenerator);
+            return;
+        }
+
+        final Block blockPlaced = event.getBlockPlaced();
+        final Location targetLocation = blockPlaced.getLocation();
+
+        plugin.getScheduler().runTaskLater(1, () -> {
+            blockPlaced.setType(Material.AIR, false);
+            try {
+                Generator.create(heldGenerator, targetLocation, GeneratorTool.getToolRotation(heldItem));
+                PlayerUtil.sendActionBar(player, plugin.getLang("placed-generator"));
+            }
+            catch (GeneratorOverlapException e) {
+                PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
+            }
+        });
     }
 
 }

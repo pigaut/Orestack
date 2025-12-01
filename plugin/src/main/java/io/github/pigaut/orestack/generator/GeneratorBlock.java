@@ -1,6 +1,5 @@
 package io.github.pigaut.orestack.generator;
 
-import dev.lone.itemsadder.api.*;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.player.*;
@@ -31,51 +30,56 @@ public class GeneratorBlock {
             return;
         }
 
-        GeneratorStage stage = generator.getCurrentStage();
-        if (stage.getDecorativeBlocks().contains(block.getType())) {
+        GeneratorStage generatorStage = generator.getCurrentStage();
+        if (generatorStage.getDecorativeBlocks().contains(block.getType())) {
             return;
         }
 
         OrestackPlayer playerState = plugin.getPlayerState(player);
         playerState.updatePlaceholders(generator);
 
-        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(player, block, stage.isIdle());
-        SpigotServer.callEvent(generatorMineEvent);
+        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(player, block);
+        {
+            if (generatorStage.isIdle()) {
+                generatorMineEvent.setIdle(true);
+            }
+
+            if (generatorStage.isDropItems()) {
+                ItemStack tool = player.getInventory().getItemInMainHand();
+                generatorMineEvent.setItemDrops(block.getDrops(tool));
+            }
+
+            if (generatorStage.isDropExp()) {
+                generatorMineEvent.setExpDrops(expToDrop);
+            }
+
+            SpigotServer.callEvent(generatorMineEvent);
+        }
 
         if (!generatorMineEvent.isCancelled()) {
-            Function breakFunction = stage.getBreakFunction();
+            Function breakFunction = generatorStage.getBreakFunction();
             if (breakFunction != null) {
                 breakFunction.run(playerState, generatorMineEvent, block);
             }
         }
 
-        if (generatorMineEvent.isCancelled() || !stage.getState().isHarvestable()) {
-            return;
-        }
-
-        if (stage.isDropItems()) {
-            ItemStack tool = player.getInventory().getItemInMainHand();
-            Collection<ItemStack> drops = block.getDrops(tool);
-
-            if (SpigotServer.isPluginEnabled("ItemsAdder")) {
-                CustomBlock customBlock = CustomBlock.byAlreadyPlaced(block);
-                if (customBlock != null) {
-                    drops = customBlock.getLoot(tool, true);
+        if (!generatorMineEvent.isCancelled() && generatorStage.getState().isHarvestable()) {
+            Collection<ItemStack> itemDrops = generatorMineEvent.getItemDrops();
+            if (itemDrops != null) {
+                Location location = block.getLocation().add(0.5, 1, 0.5);
+                for (ItemStack itemDrop : generatorMineEvent.getItemDrops()) {
+                    ItemUtil.dropItem(location, itemDrop, itemDrop.getAmount());
                 }
             }
 
-            Location location = block.getLocation().add(0.5, 1, 0.5);
-            for (ItemStack itemDrop : drops) {
-                ItemUtil.dropItem(location, itemDrop, itemDrop.getAmount());
+            int expDrops = generatorMineEvent.getExpDrops();
+            if (expDrops != 0) {
+                Exp.drop(block.getLocation(), expToDrop);
             }
-        }
 
-        if (stage.isDropExp()) {
-            Exp.drop(block.getLocation(), expToDrop);
-        }
-
-        if (!generatorMineEvent.isKeepStage()) {
-            generator.previousStage();
+            if (!generatorMineEvent.isIdle()) {
+                generator.previousStage();
+            }
         }
     }
 

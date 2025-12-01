@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.options;
 import io.github.pigaut.orestack.damage.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.plugin.boot.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.util.reflection.*;
 import io.github.pigaut.yaml.*;

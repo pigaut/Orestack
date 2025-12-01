@@ -1,4 +1,4 @@
-package io.github.pigaut.orestack.util.veinminer;
+package io.github.pigaut.orestack.hook.veinminer;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
