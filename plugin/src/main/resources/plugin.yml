@@ -6,19 +6,10 @@ author: pigaut
 description: Create resources with custom gathering mechanics
 
 load: STARTUP
+
 loadbefore:
   - WorldEdit
   - PlotSquared
-
-softdepend:
-  - Vault
-  - PlaceholderAPI
-  - DecentHolograms
-  - AuraSkills
-  - mcMMO
-  - ItemsAdder
-  - Nexo
-  - Multiverse-Core
 
 libraries:
   - com.h2database:h2:2.3.232

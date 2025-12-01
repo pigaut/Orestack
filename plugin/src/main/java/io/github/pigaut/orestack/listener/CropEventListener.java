@@ -11,11 +11,11 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.*;
 
-public class CropChangeListener implements Listener {
+public class CropEventListener implements Listener {
 
     private final OrestackPlugin plugin;
 
-    public CropChangeListener(OrestackPlugin plugin) {
+    public CropEventListener(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 
