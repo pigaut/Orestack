@@ -40,7 +40,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .withDisplay("Chat")
                 .addLore("")
                 .addLeftClickLore("To create a new chat message")
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
                     final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
                     player.openMenu(chatMessageEditor, view.getPreviousView());
                 })
@@ -52,7 +52,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .withDisplay("Action Bar")
                 .addLore("")
                 .addLeftClickLore("To create a new action bar message")
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
                     final Menu actionbarEditor = new ActionbarEditor(messageSection);
                     player.openMenu(actionbarEditor, view.getPreviousView());
                 })
@@ -64,7 +64,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .withDisplay("Title")
                 .addLore("")
                 .addLeftClickLore("To create a new title message")
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
                     final Menu titleEditor = new TitleEditor(messageSection);
                     player.openMenu(titleEditor, view.getPreviousView());
                 })
@@ -76,7 +76,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .withDisplay("Boss Bar")
                 .addLore("")
                 .addLeftClickLore("To create a new boss bar message")
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
                     final Menu bossbarEditor = new BossbarEditor(messageSection);
                     player.openMenu(bossbarEditor, view.getPreviousView());
                 })
@@ -89,7 +89,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .addLore("&c&o[!] Requires DecentHolograms")
                 .addLore("")
                 .addLeftClickLore("To create a new hologram message")
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
                     final Menu hologramMessageEditor = new HologramMessageEditor(messageSection);
                     player.openMenu(hologramMessageEditor, view.getPreviousView());
                 })
@@ -102,7 +102,7 @@ public class MessageCreationMenu extends FramedMenu {
                     .withDisplay("Multi Message")
                     .addLore("")
                     .addLeftClickLore("To create a new multi message")
-                    .onLeftClick((view, player, event) -> {
+                    .onLeftClick((view, player) -> {
                         final Menu multiMessageEditor = new MultiMessageEditor(messageSection.convertToSequence());
                         player.openMenu(multiMessageEditor, view.getPreviousView());
                     })

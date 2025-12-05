@@ -22,14 +22,14 @@ public class StaticHologramEditor extends GenericHologramEditor {
                 .withType(Material.OAK_SIGN)
                 .withDisplay("&f&lText")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
-                            .withDescription("Enter text in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput()
+                            .description("Enter text in chat")
+                            .onInput(input -> {
                                 section.set("text", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
                 .addLore("")
                 .addLore(section.getString("text", StringColor.FORMATTER).orElse("none"))

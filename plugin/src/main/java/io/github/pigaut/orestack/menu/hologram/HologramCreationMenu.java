@@ -40,7 +40,7 @@ public class HologramCreationMenu extends FramedMenu {
                 .addLore("")
                 .addLore("&eLeft-Click: &fCreate a new fixed hologram")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
                     player.openMenu(new StaticHologramEditor(hologramSection), view.getPreviousView());
                 })
                 .buildButton();
@@ -51,7 +51,7 @@ public class HologramCreationMenu extends FramedMenu {
                 .addLore("")
                 .addLore("&eLeft-Click: &fCreate a new animated hologram")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
                     player.openMenu(new AnimatedHologramEditor(hologramSection), view.getPreviousView());
                 })
                 .buildButton();
@@ -62,7 +62,7 @@ public class HologramCreationMenu extends FramedMenu {
                 .addLore("")
                 .addLore("&eLeft-Click: &fCreate a new item hologram")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
                     player.openMenu(new ItemHologramEditor(hologramSection), view.getPreviousView());
                 })
                 .buildButton();
@@ -73,7 +73,7 @@ public class HologramCreationMenu extends FramedMenu {
                 .addLore("")
                 .addLore("&eLeft-Click: &fCreate a new block hologram")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
                     player.openMenu(new BlockHologramEditor(hologramSection), view.getPreviousView());
                 })
                 .buildButton();
@@ -85,7 +85,7 @@ public class HologramCreationMenu extends FramedMenu {
                     .addLore("")
                     .addLore("&eLeft-Click: &fCreate a new multi line hologram")
                     .enchanted(true)
-                    .onLeftClick((view, player, event) -> {
+                    .onLeftClick((view, player) -> {
                         final ConfigSequence hologramSequence = hologramSection.convertToSequence();
                         player.openMenu(new MultiHologramEditor(hologramSequence), view.getPreviousView());
                     })

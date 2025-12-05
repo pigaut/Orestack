@@ -42,7 +42,7 @@ public class MultiHologramEditor extends FramedSelectionEditor {
                     .addLore("")
                     .addLore("&eLeft-Click: &fTo edit hologram")
                     .addLore("&cRight-Click: &fTo remove hologram")
-                    .onRightClick((view, playerState, event) -> {
+                    .onRightClick((view, playerState) -> {
                         hologramSequence.remove(hologramIndex);
                         view.update();
                     });
@@ -51,13 +51,13 @@ public class MultiHologramEditor extends FramedSelectionEditor {
                 case "STATIC" ->
                     hologramButton.withType(Material.PAINTING)
                             .withDisplay(hologramSection.getString("text", StringColor.FORMATTER).orElse("none"))
-                            .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSection)));
+                            .onLeftClick((view, player) -> player.openMenu(new StaticHologramEditor(hologramSection)));
                 case "ANIMATED" -> hologramButton.withType(Material.ITEM_FRAME)
                         .withDisplay(hologramSection.getString("frames[0]").orElse("none"))
-                        .onLeftClick((view, player, event) -> player.openMenu(new AnimatedHologramEditor(hologramSection)));
+                        .onLeftClick((view, player) -> player.openMenu(new AnimatedHologramEditor(hologramSection)));
                 case "ITEM_DISPLAY" -> {
                     hologramButton.withType(Material.IRON_PICKAXE)
-                            .onLeftClick((view, player, event) -> player.openMenu(new ItemHologramEditor(hologramSection)));
+                            .onLeftClick((view, player) -> player.openMenu(new ItemHologramEditor(hologramSection)));
 
                     if (hologramSection.isSet("item")) {
                         hologramButton.withDisplay(hologramSection.getString("item", CaseStyle.CONSTANT).orElse("none"));
@@ -71,13 +71,13 @@ public class MultiHologramEditor extends FramedSelectionEditor {
                 }
                 case "BLOCK_DISPLAY" -> hologramButton.withType(Material.GRASS_BLOCK)
                         .withDisplay(hologramSection.getString("block", CaseStyle.CONSTANT).orElse("none"))
-                        .onLeftClick((view, player, event) -> player.openMenu(new BlockHologramEditor(hologramSection)));
+                        .onLeftClick((view, player) -> player.openMenu(new BlockHologramEditor(hologramSection)));
 
                 default -> {
                     hologramSection.set("type", "static");
                     hologramButton.withType(Material.PAINTING)
                             .withDisplay(hologramSection.getString("text", StringColor.FORMATTER).orElse("none"))
-                            .onLeftClick((view, player, event) -> player.openMenu(new StaticHologramEditor(hologramSection)));
+                            .onLeftClick((view, player) -> player.openMenu(new StaticHologramEditor(hologramSection)));
                 }
             }
 
@@ -88,7 +88,7 @@ public class MultiHologramEditor extends FramedSelectionEditor {
                 .withType(Material.LIME_DYE)
                 .enchanted(true)
                 .withDisplay("&2Add New Hologram")
-                .onLeftClick((view, player, event) ->
+                .onLeftClick((view, player) ->
                         player.openMenu(new HologramCreationMenu(hologramSequence.addEmptySection(), false)));
 
         buttons.add(addHologramLine.buildButton());

@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack;
 
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.options.*;
+import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -23,12 +23,12 @@ public class Orestack {
     }
 
     public static double getGeneratorDamage(@NotNull Player player, @NotNull Block block) {
-        OrestackOptionsManager options = plugin.getOrestackOptions();
+        OrestackSettings settings = plugin.getSettings();
 
         ItemStack tool = player.getInventory().getItemInMainHand();
-        Amount baseDamage = options.getToolDamage(tool.getType(), block.getType());
+        Amount baseDamage = settings.getToolDamage(tool.getType(), block.getType());
 
-        if (options.isEfficiencyDamage()) {
+        if (settings.isEfficiencyDamage()) {
             int efficiencyLevel = tool.getEnchantmentLevel(Enchantment.EFFICIENCY);
             if (efficiencyLevel != 0) {
                 baseDamage = baseDamage.transform(value -> value + efficiencyLevel);
@@ -36,7 +36,7 @@ public class Orestack {
         }
 
         double damage = baseDamage.getDouble();
-        if (options.isReducedCooldownDamage()) {
+        if (settings.isReducedCooldownDamage()) {
             damage *= player.getAttackCooldown();
         }
 

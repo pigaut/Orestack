@@ -29,7 +29,7 @@ public class ParticlesMenu extends FramedSelectionMenu {
                         .withDisplay("&d&o" + CaseFormatter.toTitleCase(particle.getName()))
                         .addLore("")
                         .addLore("&eLeft-Click: &fShow-me particle")
-                        .onLeftClick((view, player, event) -> {
+                        .onLeftClick((view, player) -> {
                             view.close();
                             player.performCommand("orestack particle show-me " + particle.getName());
                             final int guiReopenDelay = plugin.getSettings().guiReopenDelay;

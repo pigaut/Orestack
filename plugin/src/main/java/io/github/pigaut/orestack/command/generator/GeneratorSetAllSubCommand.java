@@ -16,7 +16,7 @@ public class GeneratorSetAllSubCommand extends SubCommand {
     public GeneratorSetAllSubCommand(@NotNull OrestackPlugin plugin) {
         super("set-all", plugin);
         withPermission(plugin.getPermission("generator.set-all"));
-        withDescription(plugin.getLang("generator-set-all-command"));
+        withDescription(plugin.getTranslation("generator-set-all-command"));
         withParameter(GeneratorParameters.GENERATOR_NAME);
         withPlayerExecution((player, args, placeholders) -> {
             final OrestackPlayer playerState = plugin.getPlayerState(player);

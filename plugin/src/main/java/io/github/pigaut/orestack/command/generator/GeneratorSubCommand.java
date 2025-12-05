@@ -9,7 +9,7 @@ public class GeneratorSubCommand extends SubCommand {
     public GeneratorSubCommand(@NotNull OrestackPlugin plugin) {
         super("generator", plugin);
         withPermission(plugin.getPermission("generator"));
-        withDescription(plugin.getLang("generator-command"));
+        withDescription(plugin.getTranslation("generator-command"));
         addSubCommand(new GeneratorGetSubCommand(plugin));
         addSubCommand(new GeneratorGetGroupSubCommand(plugin));
         addSubCommand(new GeneratorGetAllSubCommand(plugin));

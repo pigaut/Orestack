@@ -41,7 +41,8 @@ debug-configuration-errors: '&4Found {error_count} error(s) while loading the co
 configuration-errors: '&4Found {error_count} error(s) while loading the configuration. Debug mode is disabled, check the console for details.'
 ## Success
 reloading: '&aReloading Orestack plugin... &c(Wait)'
-reload-complete: '&aReload completed successfully'
+reload-completed: '&aReload completed successfully.'
+reload-completed-with-errors: '&aReload completed with the following errors:'
 
 # ------------------
 #    Menu Command

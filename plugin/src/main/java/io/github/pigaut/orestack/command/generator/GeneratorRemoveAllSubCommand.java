@@ -14,7 +14,7 @@ public class GeneratorRemoveAllSubCommand extends SubCommand {
     public GeneratorRemoveAllSubCommand(@NotNull OrestackPlugin plugin) {
         super("remove-all", plugin);
         withPermission(plugin.getPermission("generator.remove-all"));
-        withDescription(plugin.getLang("generator-remove-all-command"));
+        withDescription(plugin.getTranslation("generator-remove-all-command"));
         withParameter(GeneratorParameters.GENERATOR_NAME);
         withPlayerExecution((player, args, placeholders) -> {
             final OrestackPlayer playerState = plugin.getPlayerState(player);

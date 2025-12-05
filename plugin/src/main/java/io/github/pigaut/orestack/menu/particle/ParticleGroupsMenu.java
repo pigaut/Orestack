@@ -26,7 +26,7 @@ public class ParticleGroupsMenu extends FramedSelectionMenu {
                         .withDisplay("&d&l" + CaseFormatter.toTitleCase(group))
                         .addLore("")
                         .addLore("&eLeft-Click: &fView all particle effects")
-                        .onLeftClick((view, player, event) -> player.openMenu(new ParticlesMenu(plugin, group)))
+                        .onLeftClick((view, player) -> player.openMenu(new ParticlesMenu(plugin, group)))
                         .buildButton())
                 .toList();
     }

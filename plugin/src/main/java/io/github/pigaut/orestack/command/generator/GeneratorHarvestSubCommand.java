@@ -14,7 +14,7 @@ public class GeneratorHarvestSubCommand extends SubCommand {
     public GeneratorHarvestSubCommand(@NotNull OrestackPlugin plugin) {
         super("harvest-all", plugin);
         withPermission(plugin.getPermission("generator.harvest-all"));
-        withDescription(plugin.getLang("generator-harvest-all-command"));
+        withDescription(plugin.getTranslation("generator-harvest-all-command"));
         withParameter(GeneratorParameters.GENERATOR_NAME);
         withPlayerExecution((player, args, placeholders) -> {
             final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
