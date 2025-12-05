@@ -25,14 +25,12 @@ import java.util.*;
 
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
+    private static OrestackPlugin plugin;
     private final OrestackSettings settings = new OrestackSettings(this);
-
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
     private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
-
-    private static OrestackPlugin plugin;
 
     public static OrestackPlugin getInstance() {
         return plugin;
@@ -46,6 +44,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public @NotNull OrestackSettings getSettings() {
         return settings;
+    }
+
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 
     @Override
