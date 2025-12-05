@@ -49,11 +49,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public boolean isPremium() {
-        return true;
-    }
-
-    @Override
     public void registerHooks() {
         if (SpigotServer.isPluginLoaded("ItemsAdder")) {
             registerListener(new ItemsAdderDropListener());
@@ -145,7 +140,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "ItemsAdder",
                 "Nexo",
                 "PlotSquared",
-                "Multiverse-Core"
+                "Multiverse-Core",
+                "CraftEngine"
         );
     }
 
@@ -399,7 +395,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     public Map<String, List<String>> getExamplesByPlugin() {
         return Map.of(
                 "AuraSkills", List.of("generators/examples/hooks/mana_ore.yml"),
-                "ItemsAdder", List.of("generators/examples/hooks/ruby_ore.yml")
+                "ItemsAdder", List.of("generators/examples/hooks/ruby_ore.yml"),
+                "CraftEngine", List.of("generators/examples/hooks/topaz_ore.yml")
         );
     }
 
