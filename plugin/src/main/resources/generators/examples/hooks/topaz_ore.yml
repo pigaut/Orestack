@@ -9,13 +9,13 @@ block: cobblestone
 --- # ===== Stage 2 =====
 type: ripe
 growth: 3s
-block: iron_ore
+block: diamond_ore
 default-drops: true
 
 --- # ===== Stage 3 =====
 type: ripe
 growth: 3s
-block: gold_ore
+block: emerald_ore
 default-drops: true
 
 --- # ===== Stage 4 =====
