@@ -46,31 +46,31 @@ public class MultiMessageEditor extends FramedSelectionEditor {
                     .addLore("")
                     .addLore("&eLeft-Click: &fTo edit message")
                     .addLore("&cRight-Click: &fTo remove message")
-                    .onRightClick((view, playerState, event) -> {
+                    .onRightClick((menuView, playerState) -> {
                         messageSequence.remove(messageIndex);
-                        view.update();
+                        menuView.update();
                     });
 
             switch (messageSection.getRequiredString("type", CaseStyle.CONSTANT)) {
                 case "CHAT" -> messageButton
                         .withType(Material.BOOK)
                         .withDisplay(messageSection.getString("message", StringColor.FORMATTER).orElse("none"))
-                        .onLeftClick((view, player, event) -> player.openMenu(new ChatMessageEditor(messageSection)));
+                        .onLeftClick((view, player) -> player.openMenu(new ChatMessageEditor(messageSection)));
 
                 case "ACTIONBAR" -> messageButton
                         .withType(Material.NAME_TAG)
                         .withDisplay(messageSection.getString("message", StringColor.FORMATTER).orElse("none"))
-                        .onLeftClick((view, player, event) -> player.openMenu(new ActionbarEditor(messageSection)));
+                        .onLeftClick((view, player) -> player.openMenu(new ActionbarEditor(messageSection)));
 
                 case "TITLE" -> messageButton
                         .withType(Material.MAP)
                         .withDisplay(messageSection.getString("title", StringColor.FORMATTER).orElse("none"))
-                        .onLeftClick((view, player, event) -> player.openMenu(new TitleEditor(messageSection)));
+                        .onLeftClick((view, player) -> player.openMenu(new TitleEditor(messageSection)));
 
                 case "BOSSBAR" -> messageButton
                         .withType(Material.DRAGON_HEAD)
                         .withDisplay(messageSection.getString("title", StringColor.FORMATTER).orElse("none"))
-                        .onLeftClick((view, player, event) -> player.openMenu(new BossbarEditor(messageSection)));
+                        .onLeftClick((view, player) -> player.openMenu(new BossbarEditor(messageSection)));
 
                 case "HOLOGRAM" -> messageButton
                             .withType(Material.BEACON)
@@ -79,7 +79,7 @@ public class MultiMessageEditor extends FramedSelectionEditor {
                                             .max(Comparator.comparingInt(String::length)))
                                     .orElse(messageSection.getString("hologram.text", StringColor.FORMATTER).asOptional())
                                     .orElse("none"))
-                            .onLeftClick((view, player, event) -> player.openMenu(new HologramMessageEditor(messageSection)));
+                            .onLeftClick((view, player) -> player.openMenu(new HologramMessageEditor(messageSection)));
             }
 
             buttons.add(messageButton.buildButton());
@@ -89,7 +89,7 @@ public class MultiMessageEditor extends FramedSelectionEditor {
                 .withType(Material.LIME_DYE)
                 .enchanted(true)
                 .withDisplay("&2Create New Message")
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
                     final MessageCreationMenu messageCreationMenu = new MessageCreationMenu(messageSequence.addEmptySection(), false);
                     player.openMenu(messageCreationMenu);
                 });

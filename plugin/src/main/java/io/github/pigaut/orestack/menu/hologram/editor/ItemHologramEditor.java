@@ -22,14 +22,14 @@ public class ItemHologramEditor extends GenericHologramEditor {
                 .withType(Material.GRASS_BLOCK)
                 .withDisplay("&f&lItem Type")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Material.class)
-                            .withDescription("Enter item type in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Material.class)
+                            .description("Enter item type in chat")
+                            .onInput(input -> {
                                 section.set("item", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
                 .addLore("")
                 .addLore(section.getString("item", StringColor.FORMATTER).orElse("none"))

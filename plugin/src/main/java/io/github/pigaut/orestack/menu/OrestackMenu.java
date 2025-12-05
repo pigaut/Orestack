@@ -32,7 +32,7 @@ public class OrestackMenu extends FramedMenu {
                 .addLore("")
                 .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> player.openMenu(new ItemGroupsMenu(plugin)))
+                .onLeftClick((view, player) -> player.openMenu(new ItemGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[15] = Button.builder()
@@ -41,7 +41,7 @@ public class OrestackMenu extends FramedMenu {
                 .addLore("")
                 .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> player.openMenu(new MessageGroupsMenu(plugin)))
+                .onLeftClick((view, player) -> player.openMenu(new MessageGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[19] = Button.builder()
@@ -50,7 +50,7 @@ public class OrestackMenu extends FramedMenu {
                 .addLore("")
                 .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> player.openMenu(new StructureGroupsMenu(plugin)))
+                .onLeftClick((view, player) -> player.openMenu(new StructureGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[22] = Button.builder()
@@ -59,7 +59,7 @@ public class OrestackMenu extends FramedMenu {
                 .addLore("")
                 .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> player.openMenu(new GeneratorGroupsMenu(plugin)))
+                .onLeftClick((view, player) -> player.openMenu(new GeneratorGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[25] = Button.builder()
@@ -68,7 +68,7 @@ public class OrestackMenu extends FramedMenu {
                 .addLore("")
                 .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> player.openMenu(new ParticleGroupsMenu(plugin)))
+                .onLeftClick((view, player) -> player.openMenu(new ParticleGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[29] = Button.builder()
@@ -77,7 +77,7 @@ public class OrestackMenu extends FramedMenu {
                 .addLore("")
                 .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> player.openMenu(new FunctionGroupsMenu(plugin)))
+                .onLeftClick((view, player) -> player.openMenu(new FunctionGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[33] = Button.builder()
@@ -86,14 +86,14 @@ public class OrestackMenu extends FramedMenu {
                 .addLore("")
                 .addLore("&eLeft-Click: &fView all groups")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> player.openMenu(new SoundGroupsMenu(plugin)))
+                .onLeftClick((view, player) -> player.openMenu(new SoundGroupsMenu(plugin)))
                 .buildButton();
 
         buttons[48] = Button.builder()
                 .withType(Material.GOLDEN_PICKAXE)
                 .withDisplay("&fWand")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> player.performCommand("orestack wand"))
+                .onLeftClick((view, player) -> player.performCommand("orestack wand"))
                 .buildButton();
 
         buttons[50] = new PluginReloadButton(plugin);

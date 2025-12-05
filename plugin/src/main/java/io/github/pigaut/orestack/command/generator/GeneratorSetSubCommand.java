@@ -14,7 +14,7 @@ public class GeneratorSetSubCommand extends SubCommand {
     public GeneratorSetSubCommand(@NotNull OrestackPlugin plugin) {
         super("set", plugin);
         withPermission(plugin.getPermission("generator.set"));
-        withDescription(plugin.getLang("generator-set-command"));
+        withDescription(plugin.getTranslation("generator-set-command"));
         withParameter(GeneratorParameters.GENERATOR_NAME);
         withPlayerExecution((player, args, placeholders) -> {
             final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);

@@ -12,7 +12,7 @@ public class GeneratorRemoveSubCommand extends SubCommand {
     public GeneratorRemoveSubCommand(@NotNull OrestackPlugin plugin) {
         super("remove", plugin);
         withPermission(plugin.getPermission("generator.remove"));
-        withDescription(plugin.getLang("generator-remove-command"));
+        withDescription(plugin.getTranslation("generator-remove-command"));
         withPlayerExecution((player, args, placeholders) -> {
             final Block targetBlock = player.getTargetBlockExact(6);
             if (targetBlock == null) {

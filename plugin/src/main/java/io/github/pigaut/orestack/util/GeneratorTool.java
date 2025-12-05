@@ -43,7 +43,7 @@ public class GeneratorTool {
             return;
         }
         generator.setRotation(generator.getRotation().next());
-        final ItemMeta templateMeta = plugin.getTools().getGeneratorTool().getItemMeta();
+        final ItemMeta templateMeta = plugin.getSettings().getGeneratorTool().getItemMeta();
         if (templateMeta != null) {
             PersistentData.setString(templateMeta, GENERATOR_KEY, generator.getName());
             item.setItemMeta(templateMeta);
@@ -72,7 +72,7 @@ public class GeneratorTool {
     }
 
     public static @NotNull ItemStack getGeneratorTool(@NotNull GeneratorTemplate generator) {
-        final ItemStack generatorItem = plugin.getTools().getGeneratorTool();
+        final ItemStack generatorItem = plugin.getSettings().getGeneratorTool();
 
         final Material material = generator.getItemType();
         generatorItem.setType(Crops.isCrop(material) ? Crops.getCropSeeds(material) : material);

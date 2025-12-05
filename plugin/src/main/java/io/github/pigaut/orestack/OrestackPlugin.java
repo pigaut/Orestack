@@ -7,8 +7,8 @@ import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.hook.itemsadder.*;
 import io.github.pigaut.orestack.hook.plotsquared.*;
 import io.github.pigaut.orestack.listener.*;
-import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.orestack.player.*;
+import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.boot.*;
@@ -25,13 +25,14 @@ import java.util.*;
 
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
-    private static OrestackPlugin plugin;
+    private final OrestackSettings settings = new OrestackSettings(this);
 
-    private final OrestackOptionsManager optionsManager = new OrestackOptionsManager(this);
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
     private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
     private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
+
+    private static OrestackPlugin plugin;
 
     public static OrestackPlugin getInstance() {
         return plugin;
@@ -43,24 +44,13 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public List<BootPhase> getStartupRequirements() {
-        return List.of(
-                BootPhase.SERVER_LOADED,
-                BootPhase.WORLDS_LOADED,
-                BootPhase.ITEMSADDER_DATA_LOADED
-        );
+    public @NotNull OrestackSettings getSettings() {
+        return settings;
     }
 
-    public List<StartupTask> getStartupTasks() {
-        List<StartupTask> startupTasks = new ArrayList<>();
-
-        if (SpigotServer.isPluginLoaded("PlotSquared")) {
-            startupTasks.add(StartupTask.create()
-                    .require(BootPhase.pluginEnabled("PlotSquared"))
-                    .onReady(() -> registerListener(new PlotBlockDamageListener(this))));
-        }
-
-        return startupTasks;
+    @Override
+    public boolean isPremium() {
+        return true;
     }
 
     @Override
@@ -72,6 +62,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         if (SpigotServer.isPluginLoaded("PlotSquared")) {
             registerListener(new PlotBlockBreakListener(this));
         }
+    }
+
+    @Override
+    public @Nullable String getDatabaseName() {
+        return "data";
     }
 
     @Override
@@ -96,7 +91,42 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @Nullable Integer getResourceId() {
-        return 121905;
+        return 91628;
+    }
+
+    @Override
+    public List<BootPhase> getStartupRequirements() {
+        return List.of(
+                BootPhase.SERVER_LOADED,
+                BootPhase.WORLDS_LOADED,
+                BootPhase.ITEMSADDER_DATA_LOADED
+        );
+    }
+
+    public List<StartupTask> getStartupTasks() {
+        List<StartupTask> startupTasks = new ArrayList<>();
+
+        if (SpigotServer.isPluginLoaded("PlotSquared")) {
+            startupTasks.add(StartupTask.create()
+                    .require(BootPhase.pluginEnabled("PlotSquared"))
+                    .onReady(() -> registerListener(new PlotBlockDamageListener(this))));
+        }
+
+        return startupTasks;
+    }
+
+    @Override
+    public List<EnhancedCommand> getDefaultCommands() {
+        return List.of(new OrestackCommand(this));
+    }
+
+    @Override
+    public List<Listener> getDefaultListeners() {
+        List<Listener> listeners = new ArrayList<>();
+        listeners.add(new PlayerEventListener(this));
+        listeners.add(new BlockEventListener(this));
+        listeners.add(new CropEventListener(this));
+        return listeners;
     }
 
     @Override
@@ -120,12 +150,12 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull List<String> getPluginDirectories() {
+    public @NotNull List<String> getDefaultDirectories() {
         return List.of("items", "generators", "messages", "languages", "functions", "effects/particles", "effects/sounds");
     }
 
     @Override
-    public List<String> getPluginResources() {
+    public List<String> getDefaultResources() {
         return List.of("config.yml", "languages/en.yml");
     }
 
@@ -374,30 +404,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public List<EnhancedCommand> getPluginCommands() {
-        return List.of(new OrestackCommand(this));
-    }
-
-    @Override
-    public List<Listener> getPluginListeners() {
-        List<Listener> listeners = new ArrayList<>();
-        listeners.add(new PlayerEventListener(this));
-        listeners.add(new BlockEventListener(this));
-        listeners.add(new CropEventListener(this));
-        return listeners;
-    }
-
-    @Override
-    public @Nullable String getDatabaseName() {
-        return "data";
-    }
-
-    @Override
-    public boolean isPremium() {
-        return true;
-    }
-
-    @Override
     public @NotNull Configurator createConfigurator() {
         return new OrestackConfigurator(this);
     }
@@ -413,17 +419,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @Nullable OrestackPlayer getPlayerState(@NotNull String playerName) {
-        return playerManager.getPlayerState(playerName);
-    }
-
-    @Override
     public @Nullable OrestackPlayer getPlayerState(@NotNull UUID playerId) {
         return playerManager.getPlayerState(playerId);
-    }
-
-    public OrestackOptionsManager getTools() {
-        return optionsManager;
     }
 
     public @NotNull GeneratorTemplateManager getGeneratorTemplates() {
@@ -444,10 +441,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     public @Nullable Generator getGenerator(@NotNull Location location) {
         return generatorManager.getGenerator(location);
-    }
-
-    public OrestackOptionsManager getOrestackOptions() {
-        return optionsManager;
     }
 
     public GeneratorOptionsManager getGeneratorOptions() {

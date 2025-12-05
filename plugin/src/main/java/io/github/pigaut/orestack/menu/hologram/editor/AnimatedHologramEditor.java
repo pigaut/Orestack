@@ -25,16 +25,16 @@ public class AnimatedHologramEditor extends GenericHologramEditor {
                 .withType(Material.OAK_SIGN)
                 .enchanted(true)
                 .withDisplay("&f&lFrames")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
-                            .withDescription("Enter frame text in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput()
+                            .description("Enter frame text in chat")
+                            .onInput(input -> {
                                 frameSequence.add(input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
-                .onRightClick((view, player, event) -> {
+                .onRightClick((view, player) -> {
                     if (!frameSequence.isEmpty()) {
                         frameSequence.remove(frameSequence.size() - 1);
                     }

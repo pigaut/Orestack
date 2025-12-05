@@ -24,17 +24,17 @@ public class GenericParticleEditor extends FramedEditor {
                 .withType(Material.CLOCK)
                 .withDisplay("&f&lDelay")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
-                            .withDescription("Enter delay amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput()
+                            .description("Enter delay amount in chat")
+                            .onInput(input -> {
                                 final Integer amount = ParseUtil.parseIntegerOrNull(input);
                                 if (amount != null) {
                                     section.set("delay", amount);
                                 }
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
                 .addLore("")
                 .addLore(delay != null ? (delay + " ticks") : "none")
@@ -49,14 +49,14 @@ public class GenericParticleEditor extends FramedEditor {
                 .addLore(section.getString("repeat|repetitions").orElse("none"))
                 .addLore("")
                 .addLeftClickLore("To set message repetitions")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Integer.class)
-                            .withDescription("Enter repetitions amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Integer.class)
+                            .description("Enter repetitions amount in chat")
+                            .onInput(input -> {
                                 section.set("repeat|repetitions", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         final Integer interval = section.getInteger("interval").orElse(null);
@@ -68,17 +68,17 @@ public class GenericParticleEditor extends FramedEditor {
                 .addLore(interval != null ? (interval + " ticks") : "none")
                 .addLore("")
                 .addLeftClickLore("To set message interval")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Integer.class)
-                            .withDescription("Enter interval amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Integer.class)
+                            .description("Enter interval amount in chat")
+                            .onInput(input -> {
                                 if (!section.isSet("repeat|repetitions")) {
                                     section.set("repeat|repetitions", 2);
                                 }
                                 section.set("interval", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         final ButtonBuilder offsetButton = Button.builder()
@@ -93,32 +93,32 @@ public class GenericParticleEditor extends FramedEditor {
                 .addLeftClickLore("To set &cx &foffset")
                 .addRightClickLore("To set &ay &foffset")
                 .addLeftClickLore("To set &9z &foffset")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Double.class)
-                            .withDescription("Enter x offset in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Double.class)
+                            .description("Enter x offset in chat")
+                            .onInput(input -> {
                                 section.set("offset.x", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
-                .onRightClick((view, player, event) -> {
-                    player.createChatInput(Double.class)
-                            .withDescription("Enter y offset in chat")
-                            .withInputCollector(input -> {
+                .onRightClick((view, player) -> {
+                    player.collectChatInput(Double.class)
+                            .description("Enter y offset in chat")
+                            .onInput(input -> {
                                 section.set("offset.y", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
-                .onShiftLeftClick((view, player, event) -> {
-                    player.createChatInput(Double.class)
-                            .withDescription("Enter z offset in chat")
-                            .withInputCollector(input -> {
+                .onShiftLeftClick((view, player) -> {
+                    player.collectChatInput(Double.class)
+                            .description("Enter z offset in chat")
+                            .onInput(input -> {
                                 section.set("offset.z", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         final ButtonBuilder rangeButton = Button.builder()
@@ -133,32 +133,32 @@ public class GenericParticleEditor extends FramedEditor {
                 .addLeftClickLore("To set &cx &foffset")
                 .addRightClickLore("To set &ay &foffset")
                 .addLeftClickLore("To set &9z &foffset")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Double.class)
-                            .withDescription("Enter x offset in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Double.class)
+                            .description("Enter x offset in chat")
+                            .onInput(input -> {
                                 section.set("offset.x", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
-                .onRightClick((view, player, event) -> {
-                    player.createChatInput(Double.class)
-                            .withDescription("Enter y offset in chat")
-                            .withInputCollector(input -> {
+                .onRightClick((view, player) -> {
+                    player.collectChatInput(Double.class)
+                            .description("Enter y offset in chat")
+                            .onInput(input -> {
                                 section.set("offset.y", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
-                .onShiftLeftClick((view, player, event) -> {
-                    player.createChatInput(Double.class)
-                            .withDescription("Enter z offset in chat")
-                            .withInputCollector(input -> {
+                .onShiftLeftClick((view, player) -> {
+                    player.collectChatInput(Double.class)
+                            .description("Enter z offset in chat")
+                            .onInput(input -> {
                                 section.set("offset.z", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         buttons[15] = delayButton.buildButton();

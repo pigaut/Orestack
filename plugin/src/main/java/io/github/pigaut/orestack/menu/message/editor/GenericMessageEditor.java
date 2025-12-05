@@ -32,14 +32,14 @@ public class GenericMessageEditor extends FramedEditor {
                 .addLore(delay != null ? (delay + " ticks") : "none")
                 .addLore("")
                 .addLore("To set message delay")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Integer.class)
-                            .withDescription("Enter delay amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Integer.class)
+                            .description("Enter delay amount in chat")
+                            .onInput(input -> {
                                 section.set("delay", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         final ButtonBuilder repetitionsButton = Button.builder()
@@ -50,14 +50,14 @@ public class GenericMessageEditor extends FramedEditor {
                 .addLore(section.getString("repeat|repetitions").orElse("none"))
                 .addLore("")
                 .addLeftClickLore("To set message repetitions")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Integer.class)
-                            .withDescription("Enter repetitions amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Integer.class)
+                            .description("Enter repetitions amount in chat")
+                            .onInput(input -> {
                                 section.set("repeat|repetitions", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         final Integer interval = section.getInteger("interval").orElse(null);
@@ -69,17 +69,17 @@ public class GenericMessageEditor extends FramedEditor {
                 .addLore(interval != null ? (interval + " ticks") : "none")
                 .addLore("")
                 .addLeftClickLore("To set message interval")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Integer.class)
-                            .withDescription("Enter interval amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Integer.class)
+                            .description("Enter interval amount in chat")
+                            .onInput(input -> {
                                 if (!section.isSet("repeat|repetitions")) {
                                     section.set("repeat|repetitions", 2);
                                 }
                                 section.set("interval", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         buttons[15] = delayButton.buildButton();

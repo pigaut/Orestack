@@ -21,14 +21,14 @@ public class BlockHologramEditor extends GenericHologramEditor {
                 .withType(Material.GRASS_BLOCK)
                 .withDisplay("&f&lBlock Type")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Material.class)
-                            .withDescription("Enter block type in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Material.class)
+                            .description("Enter block type in chat")
+                            .onInput(input -> {
                                 section.set("block", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
                 .addLore("")
                 .addLore(section.getString("block", CaseStyle.CONSTANT).orElse("none"))

@@ -25,14 +25,14 @@ public class TitleEditor extends GenericMessageEditor {
                 .addLore(section.getString("title", StringColor.FORMATTER).orElse("none"))
                 .addLore("")
                 .addLeftClickLore("To set the title")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
-                            .withDescription("Enter title in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput()
+                            .description("Enter title in chat")
+                            .onInput(input -> {
                                 section.set("title", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         final ButtonBuilder subtitleButton = Button.builder()
@@ -43,14 +43,14 @@ public class TitleEditor extends GenericMessageEditor {
                 .addLore(section.getString("subtitle", StringColor.FORMATTER).orElse("none"))
                 .addLore("")
                 .addLeftClickLore("To set the subtitle")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
-                            .withDescription("Enter subtitle in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput()
+                            .description("Enter subtitle in chat")
+                            .onInput(input -> {
                                 section.set("subtitle", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         final Integer fadeIn = section.getInteger("fade-in").orElse(null);
@@ -62,14 +62,14 @@ public class TitleEditor extends GenericMessageEditor {
                 .addLore(fadeIn != null ? (fadeIn + " ticks") : "none")
                 .addLore("")
                 .addLeftClickLore("To set title fade-in amount")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Integer.class)
-                            .withDescription("Enter fade-in amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Integer.class)
+                            .description("Enter fade-in amount in chat")
+                            .onInput(input -> {
                                 section.set("fade-in", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         final Integer stay = section.getInteger("stay").orElse(null);
@@ -81,14 +81,14 @@ public class TitleEditor extends GenericMessageEditor {
                 .addLore(stay != null ? (stay + " ticks") : "none")
                 .addLore("")
                 .addLeftClickLore("To set title stay amount")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Integer.class)
-                            .withDescription("Enter stay amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Integer.class)
+                            .description("Enter stay amount in chat")
+                            .onInput(input -> {
                                 section.set("stay", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         final Integer fadeOut = section.getInteger("fade-out").orElse(null);
@@ -100,14 +100,14 @@ public class TitleEditor extends GenericMessageEditor {
                 .addLore(fadeOut != null ? (fadeOut + " ticks") : "none")
                 .addLore("")
                 .addLeftClickLore("To set title fade out")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Integer.class)
-                            .withDescription("Enter fade-out amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Integer.class)
+                            .description("Enter fade-out amount in chat")
+                            .onInput(input -> {
                                 section.set("fade-out", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         buttons[11] = titleButton.buildButton();
