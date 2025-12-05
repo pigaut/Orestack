@@ -28,7 +28,7 @@ public class SoundsMenu extends FramedSelectionMenu {
                         .withDisplay("&3&o" + CaseFormatter.toTitleCase(sound.getName()))
                         .addLore("")
                         .addLore("&eLeft-Click: &fPlay-me sound")
-                        .onLeftClick((menuView, player, event) -> {
+                        .onLeftClick((menuView, player) -> {
                             sound.play(player.asPlayer(), player.getLocation());
                         })
                         .buildButton())

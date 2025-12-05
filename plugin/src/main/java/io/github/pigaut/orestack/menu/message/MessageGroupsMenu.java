@@ -30,7 +30,7 @@ public class MessageGroupsMenu extends FramedSelectionMenu {
                         .withDisplay("&b&l" + CaseFormatter.toTitleCase(group))
                         .addLore("")
                         .addLeftClickLore("To view all messages")
-                        .onLeftClick((menuView, player, event) -> player.openMenu(new MessagesMenu(plugin, group)))
+                        .onLeftClick((menuView, player) -> player.openMenu(new MessagesMenu(plugin, group)))
                         .buildButton())
                 .toList();
     }

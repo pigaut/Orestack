@@ -127,15 +127,15 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
 
         int clickCooldown = section.getInteger("click-cooldown")
                 .filter(Predicates.greaterThan(1), "Click cooldown must be greater than 1")
-                .withDefault(plugin.getOrestackOptions().getClickCooldown());
+                .withDefault(plugin.getSettings().getClickCooldown());
 
         int hitCooldown = section.getInteger("hit-cooldown")
                 .filter(Predicates.greaterThan(1), "Hit cooldown must be greater than 1")
-                .withDefault(plugin.getOrestackOptions().getHitCooldown());
+                .withDefault(plugin.getSettings().getHitCooldown());
 
         int harvestCooldown = section.getInteger("harvest-cooldown")
                 .filter(Predicates.greaterThan(1), "Harvest cooldown must be greater than 1")
-                .withDefault(plugin.getOrestackOptions().getClickCooldown());
+                .withDefault(plugin.getSettings().getClickCooldown());
 
         Hologram hologram = null;
         if (SpigotServer.isPluginEnabled("DecentHolograms")) {

@@ -1,10 +1,10 @@
 # Whether to show config errors in chat when a player uses /orestack reload
 debug: true
 
-# Generates example files and folders
+# Generates example files
 generate-examples: true
 
-# Checks for available updates on startup and every 24 hours
+# Checks for available updates on startup and on reload
 check-for-updates: true
 
 # Enables bStats metrics collection (https://bstats.org/plugin/bukkit/Orestack/24502)
@@ -19,10 +19,23 @@ language: en
 # The auto save timer, if not set or set to 0 data will only be saved on shutdown or on /orestack reload
 auto-save: 0
 
+# The time to wait for other plugins to finish loading their worlds after server startup is complete.
+# Increase if you notice Orestack is not detecting your custom worlds.
+world-load-timeout: 3s
+
+# How long to keep player data after they leave the server.
+# Avoids players quitting and joining back to reset their flags.
+player-cache-duration: 30s
+
 # Whether to keep the blocks (regrown stage) when a generator is removed
 keep-blocks-on-remove: false
 
-# The wand used to select a region
+# Blocks that should be ignored when using /orestack structure save <file-name>
+structure-blacklist:
+  - AIR
+  - BEDROCK
+
+# The wand used to select a region (admin tool)
 structure-wand:
   material: golden pickaxe
   name: '&6&lOrestack Wand'
@@ -31,7 +44,7 @@ structure-wand:
     - '&fleft-click to select first corner'
     - '&fright-click to select second corner'
 
-# The generator item used to place and break generators
+# The generator item used to place and break generators (admin tool)
 generator-tool:
   material: terracotta   # Replaced by the last stage block
   name: '&b&l{generator_tc} Generator ({generator_rotation_tc})'
@@ -41,19 +54,16 @@ generator-tool:
     - '&fleft-click to break'
     - '&fshift + left-click (air) to rotate'
 
-# Blocks that should be ignored when using /orestack structure save <file-name>
-structure-blacklist:
-  - AIR
-  - BEDROCK
-
 ############################################################
 #                        Vein Miner
 ############################################################
+# By placing single-block generators next to each other (3x3 radius),
+# they can be harvested simultaneously by a tool with the VeinMiner enchant.
 
 # Whether veinminer should be enabled or not
 vein-miner: false
 
-# VeinMiner enchant aliases. (Based on the enchantment plugin you use it might differ)
+# VeinMiner enchant aliases. (Based on the enchantment plugin you use it might be different)
 vein-miner-aliases:
   - veinminer
   - vein-miner
@@ -99,7 +109,7 @@ apply-fortune:
 # The default delay between each click, it can be overridden in the generator stage.
 click-cooldown: 4   # ticks
 
-# The default delay between each hit, it can be overridden in the generator stage.
+# The default delay between each hit (left-click), it can be overridden in the generator stage.
 hit-cooldown: 4   # ticks
 
 # The default delay between each harvest attempt (right-click), it can be overridden in the generator stage.
@@ -121,6 +131,24 @@ reduced-cooldown-damage: true
 
 # The damage amount for a block based on the tool type.
 damage-by-tool-type:
+  # ===== Ores =====
+  - blocks:
+      - cobblestone
+      - stone
+      - coal_ore
+      #- copper_ore   # 1.17+
+      - iron_ore
+      - gold_ore
+      - diamond_ore
+      - emerald_ore
+    tools:
+      wooden_pickaxe: 1-3
+      stone_pickaxe: 2-4
+      iron_axe: 3-5
+      gold_axe: 4-6
+      diamond_axe: 5-7
+      netherite_axe: 6-8
+
   # ===== Wood =====
   - blocks:
       - oak_log
@@ -149,24 +177,6 @@ damage-by-tool-type:
       air: 1   # use air to set the damage for an empty hand
       wooden_axe: 1-3
       stone_axe: 2-4
-      iron_axe: 3-5
-      gold_axe: 4-6
-      diamond_axe: 5-7
-      netherite_axe: 6-8
-
-  # ===== Ores =====
-  - blocks:
-      - cobblestone
-      - stone
-      - coal_ore
-      #- copper_ore   # 1.17+
-      - iron_ore
-      - gold_ore
-      - diamond_ore
-      - emerald_ore
-    tools:
-      wooden_pickaxe: 1-3
-      stone_pickaxe: 2-4
       iron_axe: 3-5
       gold_axe: 4-6
       diamond_axe: 5-7

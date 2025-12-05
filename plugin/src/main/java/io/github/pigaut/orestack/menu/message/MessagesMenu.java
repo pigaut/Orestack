@@ -63,7 +63,7 @@ public class MessagesMenu extends FramedSelectionMenu {
                     .addLore("")
                     .addLore("&eLeft-Click: &fTo edit message")
                     .addLore("&6Right-Click: &fTo receive message")
-                    .onLeftClick((view, player, event) -> {
+                    .onLeftClick((view, player) -> {
                         final PlayerState viewer = view.getViewer();
                         switch (message.getType()) {
                             case CHAT -> viewer.openMenu(new ChatMessageEditor(config.getSectionOrCreate(name)));
@@ -74,7 +74,7 @@ public class MessagesMenu extends FramedSelectionMenu {
                             case MULTI -> viewer.openMenu(new MultiMessageEditor(config.getSequenceOrCreate(name)));
                         }
                     })
-                    .onRightClick((view, player, event) -> {
+                    .onRightClick((view, player) -> {
                         view.close();
                         message.send(player.asPlayer());
                         final int guiReopenDelay = plugin.getSettings().guiReopenDelay;
@@ -89,13 +89,13 @@ public class MessagesMenu extends FramedSelectionMenu {
                 .withType(Material.LIME_DYE)
                 .withDisplay("&2Create New Message")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
-                            .withDescription("Enter message name in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput()
+                            .description("Enter message name in chat")
+                            .onInput(input -> {
                                 player.openMenu(new MessageCreationMenu(config.getSectionOrCreate(input), true), view);
                             })
-                            .collect();
+                            .start();
                 })
                 .buildButton());
 

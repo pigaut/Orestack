@@ -22,14 +22,14 @@ public class ActionbarEditor extends GenericMessageEditor {
                 .withType(Material.OAK_SIGN)
                 .withDisplay("&f&lMessage")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
-                            .withDescription("Enter message in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput()
+                            .description("Enter message in chat")
+                            .onInput(input -> {
                                 section.set("message", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
                 .addLore("")
                 .addLore(section.getString("message", StringColor.FORMATTER).orElse("none"))

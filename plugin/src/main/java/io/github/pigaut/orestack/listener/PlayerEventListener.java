@@ -5,8 +5,8 @@ import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.hook.veinminer.*;
-import io.github.pigaut.orestack.options.*;
 import io.github.pigaut.orestack.player.*;
+import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.core.function.*;
 import io.github.pigaut.voxel.player.*;
@@ -40,9 +40,9 @@ public class PlayerEventListener implements Listener {
         Player player = event.getPlayer();
         int expToDrop = event.getExpToDrop();
 
-        OrestackOptionsManager options = plugin.getOrestackOptions();
-        if (options.isVeinMiner()) {
-            int maxVeinSize = options.getToolMaxVeinSize(player.getInventory().getItemInMainHand());
+        OrestackSettings settings = plugin.getSettings();
+        if (settings.isVeinMiner()) {
+            int maxVeinSize = settings.getToolMaxVeinSize(player.getInventory().getItemInMainHand());
             if (maxVeinSize > 1) {
                 GeneratorBlockVein.mineBlocks(generator, player, maxVeinSize, expToDrop);
                 return;
@@ -159,7 +159,7 @@ public class PlayerEventListener implements Listener {
                 return;
             }
             GeneratorTool.incrementToolRotation(heldItem);
-            PlayerUtil.sendActionBar(player, plugin.getLang("changed-generator-rotation"));
+            PlayerUtil.sendActionBar(player, plugin.getTranslation("changed-generator-rotation"));
             return;
         }
 
@@ -177,7 +177,7 @@ public class PlayerEventListener implements Listener {
                 return;
             }
             plugin.getGenerators().unregisterGenerator(clickedGenerator);
-            PlayerUtil.sendActionBar(player, plugin.getLang("broke-generator"));
+            PlayerUtil.sendActionBar(player, plugin.getTranslation("broke-generator"));
         }
     }
 
@@ -210,10 +210,10 @@ public class PlayerEventListener implements Listener {
             blockPlaced.setType(Material.AIR, false);
             try {
                 Generator.create(heldGenerator, targetLocation, GeneratorTool.getToolRotation(heldItem));
-                PlayerUtil.sendActionBar(player, plugin.getLang("placed-generator"));
+                PlayerUtil.sendActionBar(player, plugin.getTranslation("placed-generator"));
             }
             catch (GeneratorOverlapException e) {
-                PlayerUtil.sendActionBar(player, plugin.getLang("generator-overlap"));
+                PlayerUtil.sendActionBar(player, plugin.getTranslation("generator-overlap"));
             }
         });
     }

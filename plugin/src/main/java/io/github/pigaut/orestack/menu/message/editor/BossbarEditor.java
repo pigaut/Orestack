@@ -21,9 +21,9 @@ public class BossbarEditor extends GenericMessageEditor {
 
     @Override
     public @Nullable Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
+        Button[] buttons = super.createButtons();
 
-        final ButtonBuilder titleButton = Button.builder()
+        ButtonBuilder titleButton = Button.builder()
                 .withType(Material.OAK_SIGN)
                 .withDisplay("&f&lTitle")
                 .enchanted(true)
@@ -31,17 +31,17 @@ public class BossbarEditor extends GenericMessageEditor {
                 .addLore(section.getString("title", StringColor.FORMATTER).orElse("none"))
                 .addLore("")
                 .addLeftClickLore("To set bar title")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
-                            .withDescription("Enter title in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput()
+                            .description("Enter title in chat")
+                            .onInput(input -> {
                                 section.set("title", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
-        final ButtonBuilder styleButton = Button.builder()
+        ButtonBuilder styleButton = Button.builder()
                 .withType(Material.CHAIN)
                 .withDisplay("&f&lStyle")
                 .enchanted(true)
@@ -49,22 +49,22 @@ public class BossbarEditor extends GenericMessageEditor {
                 .addLore(section.getString("style", CaseStyle.TITLE).orElse("none"))
                 .addLore("")
                 .addLeftClickLore("To set bar style")
-                .onLeftClick((view, player, event) -> {
-                    player.createMenuInputSelection()
-                            .withDescription("Select Bar Style")
+                .onLeftClick((view, player) -> {
+                    player.collectMenuSelection()
+                            .description("Select Bar Style")
                             .addValue(new ValueInputButton(Material.OAK_WOOD, "SOLID"))
                             .addValue(new ValueInputButton(Material.OAK_LOG, "SEGMENTED_6"))
                             .addValue(new ValueInputButton(Material.OAK_PLANKS, "SEGMENTED_10"))
                             .addValue(new ValueInputButton(Material.OAK_STAIRS, "SEGMENTED_12"))
                             .addValue(new ValueInputButton(Material.OAK_SLAB, "SEGMENTED_20"))
-                            .withInputCollector(input -> {
+                            .onInput(input -> {
                                 section.set("style", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
-        final ButtonBuilder durationButton = Button.builder()
+        ButtonBuilder durationButton = Button.builder()
                 .withType(Material.GLASS_BOTTLE)
                 .withDisplay("&f&lDuration")
                 .enchanted(true)
@@ -72,17 +72,17 @@ public class BossbarEditor extends GenericMessageEditor {
                 .addLore(section.getInteger("duration").orElse(100) + " ticks")
                 .addLore("")
                 .addLeftClickLore("To set bar duration")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Integer.class)
-                            .withDescription("Enter duration amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Integer.class)
+                            .description("Enter duration amount in chat")
+                            .onInput(input -> {
                                 section.set("duration", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
-        final ButtonBuilder colorButton = Button.builder()
+        ButtonBuilder colorButton = Button.builder()
                 .withType(Material.RED_DYE)
                 .withDisplay("&f&lColor")
                 .enchanted(true)
@@ -90,9 +90,9 @@ public class BossbarEditor extends GenericMessageEditor {
                 .addLore(section.getString("color", CaseStyle.TITLE).orElse("none"))
                 .addLore("")
                 .addLore("&eLeft-Click: &fTo set bar color")
-                .onLeftClick((view, player, event) -> {
-                    player.createMenuInputSelection()
-                            .withDescription("Select Bar Color")
+                .onLeftClick((view, player) -> {
+                    player.collectMenuSelection()
+                            .description("Select Bar Color")
                             .addValue(new ValueInputButton(Material.PINK_DYE, "PINK"))
                             .addValue(new ValueInputButton(Material.BLUE_DYE, "BLUE"))
                             .addValue(new ValueInputButton(Material.RED_DYE, "RED"))
@@ -100,14 +100,14 @@ public class BossbarEditor extends GenericMessageEditor {
                             .addValue(new ValueInputButton(Material.YELLOW_DYE, "YELLOW"))
                             .addValue(new ValueInputButton(Material.PURPLE_DYE, "PURPLE"))
                             .addValue(new ValueInputButton(Material.WHITE_DYE, "WHITE"))
-                            .withInputCollector(input -> {
+                            .onInput(input -> {
                                 section.set("color", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
-        final ButtonBuilder progressButton = Button.builder()
+        ButtonBuilder progressButton = Button.builder()
                 .withType(Material.EXPERIENCE_BOTTLE)
                 .withDisplay("&f&lProgress")
                 .enchanted(true)
@@ -117,16 +117,16 @@ public class BossbarEditor extends GenericMessageEditor {
                 .addLeftClickLore("To add element to list")
                 .addRightClickLore("To remove element from list")
                 .addLore(progressSequence.stream().map(amount -> "- " + amount).toList())
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Double.class)
-                            .withDescription("Enter bar progress in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Double.class)
+                            .description("Enter bar progress in chat")
+                            .onInput(input -> {
                                 progressSequence.add(input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
-                .onRightClick((view, player, event) -> {
+                .onRightClick((view, player) -> {
                     if (!progressSequence.isEmpty()) {
                         progressSequence.remove(progressSequence.size() - 1);
                     }

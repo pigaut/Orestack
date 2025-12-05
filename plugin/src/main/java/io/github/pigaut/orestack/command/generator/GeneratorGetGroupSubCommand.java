@@ -13,7 +13,7 @@ public class GeneratorGetGroupSubCommand extends SubCommand {
     public GeneratorGetGroupSubCommand(@NotNull OrestackPlugin plugin) {
         super("get-group", plugin);
         withPermission(plugin.getPermission("generator.get-group"));
-        withDescription(plugin.getLang("generator-get-group-command"));
+        withDescription(plugin.getTranslation("generator-get-group-command"));
         withParameter(GeneratorParameters.GENERATOR_GROUP);
         withPlayerExecution((player, args, placeholders) -> {
             final List<GeneratorTemplate> groupGenerators = plugin.getGeneratorTemplates().getAll(args[0]);

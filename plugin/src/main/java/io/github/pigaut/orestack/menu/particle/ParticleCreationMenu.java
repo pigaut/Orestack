@@ -32,7 +32,7 @@ public class ParticleCreationMenu extends FramedMenu {
                 .addLore("")
                 .addLeftClickLore("Create a new basic particle")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
 //                    player.openMenu(chatMessageEditor, view.getPreviousView());
                 })
@@ -44,7 +44,7 @@ public class ParticleCreationMenu extends FramedMenu {
                 .addLore("")
                 .addLeftClickLore("Create a new dust particle")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
 //                    player.openMenu(chatMessageEditor, view.getPreviousView());
                 })
@@ -56,7 +56,7 @@ public class ParticleCreationMenu extends FramedMenu {
                 .addLore("")
                 .addLeftClickLore("Create a new directional particle")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
 //                    player.openMenu(chatMessageEditor, view.getPreviousView());
                 })
@@ -68,7 +68,7 @@ public class ParticleCreationMenu extends FramedMenu {
                 .addLore("")
                 .addLeftClickLore("Create a new spell particle")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
 //                    player.openMenu(chatMessageEditor, view.getPreviousView());
                 })
@@ -80,7 +80,7 @@ public class ParticleCreationMenu extends FramedMenu {
                 .addLore("")
                 .addLeftClickLore("Create a new note particle")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
 //                    player.openMenu(chatMessageEditor, view.getPreviousView());
                 })
@@ -92,7 +92,7 @@ public class ParticleCreationMenu extends FramedMenu {
                 .addLore("")
                 .addLeftClickLore("Create a new material particle")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
 //                    player.openMenu(chatMessageEditor, view.getPreviousView());
                 })
@@ -104,7 +104,7 @@ public class ParticleCreationMenu extends FramedMenu {
                 .addLore("")
                 .addLeftClickLore("Create a new dust transition particle")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
+                .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
 //                    player.openMenu(chatMessageEditor, view.getPreviousView());
                 })

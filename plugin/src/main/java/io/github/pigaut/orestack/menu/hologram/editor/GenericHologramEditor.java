@@ -28,14 +28,14 @@ public class GenericHologramEditor extends FramedEditor {
                 .withType(Material.REDSTONE_LAMP)
                 .withDisplay("&f&lUpdate")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Integer.class)
-                            .withDescription("Enter update amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Integer.class)
+                            .description("Enter update amount in chat")
+                            .onInput(input -> {
                                 section.set("update", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
                 .addLore("")
                 .addLore(update != null ? (update + " ticks") : "none")
@@ -46,14 +46,14 @@ public class GenericHologramEditor extends FramedEditor {
                 .withType(Material.RED_WOOL)
                 .withDisplay("&f&lOffset X")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Double.class)
-                            .withDescription("Enter x-offset amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Double.class)
+                            .description("Enter x-offset amount in chat")
+                            .onInput(input -> {
                                 section.set("offset.x", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
                 .addLore("")
                 .addLore(section.getString("offset.x").orElse("none"))
@@ -64,14 +64,14 @@ public class GenericHologramEditor extends FramedEditor {
                 .withType(Material.LIME_WOOL)
                 .withDisplay("&f&lOffset Y")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Double.class)
-                            .withDescription("Enter y-offset amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Double.class)
+                            .description("Enter y-offset amount in chat")
+                            .onInput(input -> {
                                 section.set("offset.y", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
                 .addLore("")
                 .addLore(section.getString("offset.y").orElse("none"))
@@ -82,14 +82,14 @@ public class GenericHologramEditor extends FramedEditor {
                 .withType(Material.BLUE_WOOL)
                 .withDisplay("&f&lOffset Z")
                 .enchanted(true)
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput(Double.class)
-                            .withDescription("Enter z-offset amount in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput(Double.class)
+                            .description("Enter z-offset amount in chat")
+                            .onInput(input -> {
                                 section.set("offset.z", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 })
                 .addLore("")
                 .addLore(section.getString("offset.z").orElse("none"))

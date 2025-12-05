@@ -26,7 +26,7 @@ public class StructureGroupsMenu extends FramedSelectionMenu {
                         .withDisplay("&e&l" + CaseFormatter.toTitleCase(group))
                         .addLore("")
                         .addLore("&eLeft-Click: &fView all")
-                        .onLeftClick((menuView, player, event) -> menuView.getViewer().openMenu(new StructuresMenu(group)))
+                        .onLeftClick((menuView, player) -> menuView.getViewer().openMenu(new StructuresMenu(group)))
                         .buildButton())
                 .toList();
     }

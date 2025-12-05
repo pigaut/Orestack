@@ -27,14 +27,14 @@ public class ChatMessageEditor extends GenericMessageEditor {
                 .addLore(StringUtil.splitByLength(message, 35))
                 .addLore("")
                 .addLeftClickLore("To set the message")
-                .onLeftClick((view, player, event) -> {
-                    player.createChatInput()
-                            .withDescription("Enter message in chat")
-                            .withInputCollector(input -> {
+                .onLeftClick((view, player) -> {
+                    player.collectChatInput()
+                            .description("Enter message in chat")
+                            .onInput(input -> {
                                 section.set("message", input);
                                 view.open();
                             })
-                            .collect();
+                            .start();
                 });
 
         buttons[20] = messageButton.buildButton();
