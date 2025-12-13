@@ -183,16 +183,16 @@ public class PlayerEventListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        final ItemStack heldItem = event.getItemInHand();
-        final String generatorName = GeneratorTool.getGeneratorNameFromTool(heldItem);
+        ItemStack heldItem = event.getItemInHand();
+        String generatorName = GeneratorTool.getGeneratorNameFromTool(heldItem);
         if (generatorName == null) {
             return;
         }
 
         event.setCancelled(true);
 
-        final Player player = event.getPlayer();
-        final GeneratorTemplate heldGenerator = plugin.getGeneratorTemplate(generatorName);
+        Player player = event.getPlayer();
+        GeneratorTemplate heldGenerator = plugin.getGeneratorTemplate(generatorName);
         if (heldGenerator == null) {
             plugin.sendMessage(player, "generator-not-exists");
             return;
@@ -203,10 +203,10 @@ public class PlayerEventListener implements Listener {
             return;
         }
 
-        final Block blockPlaced = event.getBlockPlaced();
-        final Location targetLocation = blockPlaced.getLocation();
+        Block blockPlaced = event.getBlockPlaced();
+        Location targetLocation = blockPlaced.getLocation();
 
-        plugin.getScheduler().runTaskLater(1, () -> {
+        plugin.getRegionScheduler(targetLocation).runTaskLater(1, () -> {
             blockPlaced.setType(Material.AIR, false);
             try {
                 Generator.create(heldGenerator, targetLocation, GeneratorTool.getToolRotation(heldItem));

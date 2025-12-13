@@ -17,20 +17,20 @@ import java.util.*;
 
 public class OrestackSettings extends Settings {
 
+    private final boolean spigotEnchants = Reflection.onClass(Enchantment.class)
+            .matchMethod("getKeyOrNull");
     // Generic settings
     private boolean keepBlocksOnRemove;
     private ItemStack generatorTool;
-
-    // Cooldowns
-    private int clickCooldown;
-    private int hitCooldown;
-    private int harvestCooldown;
-
     // VeinMiner settings
     private boolean veinMiner;
     private List<String> veinMinerAliases;
     private Map<Integer, Integer> veinSizeByLevel;
-
+    // Generator
+    private Amount defaultToolDamage;
+    private int clickCooldown;
+    private int hitCooldown;
+    private int harvestCooldown;
     // Generator health settings
     private Amount defaultDamage;
     private boolean efficiencyDamage;
@@ -53,7 +53,23 @@ public class OrestackSettings extends Settings {
         generatorTool = config.get("generator-tool", ItemStack.class)
                 .withDefault(GeneratorTool.getDefaultItem(), errors::add);
 
-        // Vein miner options
+        // Generator settings
+        defaultToolDamage = config.get("default-tool-damage", Amount.class)
+                .withDefault(Amount.ONE, errors::add);
+
+        clickCooldown = config.getInteger("click-cooldown")
+                .filter(Predicates.isPositive(), "Cooldown ticks must be a positive amount")
+                .withDefault(4, errors::add);
+
+        hitCooldown = config.getInteger("hit-cooldown")
+                .filter(Predicates.isPositive(), "Cooldown ticks must be a positive amount")
+                .withDefault(4, errors::add);
+
+        harvestCooldown = config.getInteger("harvest-cooldown")
+                .filter(Predicates.isPositive(), "Cooldown ticks must be a positive amount")
+                .withDefault(4, errors::add);
+
+        // Vein miner settings
         veinMiner = config.getBoolean("vein-miner")
                 .withDefault(false, errors::add);
 
@@ -74,16 +90,6 @@ public class OrestackSettings extends Settings {
                 veinSizeByLevel.put(enchantLevel, veinSize);
             }
         }
-
-        // Generator cooldowns
-        clickCooldown = config.getInteger("click-cooldown")
-                .withDefault(4, errors::add);
-
-        hitCooldown = config.getInteger("hit-cooldown")
-                .withDefault(4, errors::add);
-
-        harvestCooldown = config.getInteger("harvest-cooldown")
-                .withDefault(4, errors::add);
 
         // Generator health options
         defaultDamage = config.get("default-damage", Amount.class)
@@ -111,6 +117,14 @@ public class OrestackSettings extends Settings {
 
     public boolean isEfficiencyDamage() {
         return efficiencyDamage;
+    }
+
+    public boolean isDefaultToolDamage() {
+        return !defaultToolDamage.match(0);
+    }
+
+    public Amount getDefaultToolDamage() {
+        return defaultToolDamage;
     }
 
     public int getHitCooldown() {
@@ -142,9 +156,6 @@ public class OrestackSettings extends Settings {
         return veinMiner;
     }
 
-    private final boolean spigotEnchants = Reflection.onClass(Enchantment.class)
-            .matchMethod("getKeyOrNull");
-
     public int getToolMaxVeinSize(@NotNull ItemStack tool) {
         if (!tool.hasItemMeta()) {
             return 1;
@@ -156,8 +167,7 @@ public class OrestackSettings extends Settings {
             NamespacedKey enchantKey;
             if (spigotEnchants) {
                 enchantKey = enchant.getKeyOrNull();
-            }
-            else {
+            } else {
                 enchantKey = enchant.getKey();
             }
 

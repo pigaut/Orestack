@@ -4,6 +4,7 @@ import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.core.function.*;
 import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.structure.*;
+import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -17,6 +18,7 @@ public class GeneratorStage {
     private final List<Material> decorativeBlocks;
     private final boolean dropItems;
     private final boolean dropExp;
+    private final Amount toolDamage;
     private final boolean idle;
     private final int growthTime;
     private final @Nullable Double growthChance;
@@ -34,8 +36,8 @@ public class GeneratorStage {
 
     public GeneratorStage(@NotNull GeneratorTemplate generator, @NotNull GrowthState state,
                           @NotNull BlockStructure structure, List<Material> decorativeBlocks, boolean dropItems,
-                          boolean dropExp, boolean idle, int growthTime, @Nullable Double growthChance, @Nullable Double health,
-                          int clickCooldown, int hitCooldown, int harvestCooldown, @Nullable Hologram hologram,
+                          boolean dropExp, Amount toolDamage, boolean idle, int growthTime, @Nullable Double growthChance,
+                          @Nullable Double health, int clickCooldown, int hitCooldown, int harvestCooldown, @Nullable Hologram hologram,
                           @Nullable Function onBreak, @Nullable Function onGrowth, @Nullable Function onClick,
                           @Nullable Function onHit, @Nullable Function onHarvest, @Nullable Function onDestroy) {
         this.generator = generator;
@@ -44,6 +46,7 @@ public class GeneratorStage {
         this.decorativeBlocks = decorativeBlocks;
         this.dropItems = dropItems;
         this.dropExp = dropExp;
+        this.toolDamage = toolDamage;
         this.idle = idle;
         this.growthTime = growthTime;
         this.growthChance = growthChance;
@@ -82,6 +85,10 @@ public class GeneratorStage {
 
     public boolean isDropExp() {
         return dropExp;
+    }
+
+    public Amount getToolDamage() {
+        return toolDamage;
     }
 
     public @Nullable Double getHealth() {

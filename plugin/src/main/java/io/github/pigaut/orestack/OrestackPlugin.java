@@ -10,7 +10,7 @@ import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.command.*;
-import io.github.pigaut.voxel.player.*;
+import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.boot.*;
 import io.github.pigaut.voxel.plugin.boot.phase.*;
 import io.github.pigaut.voxel.server.*;
@@ -29,7 +29,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     private final OrestackSettings settings = new OrestackSettings(this);
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
-    private final OrestackPlayerManager playerManager = new OrestackPlayerManager(this);
+    private final OrestackPlayerStateManager playerManager = new OrestackPlayerStateManager(this);
     private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
 
     public static OrestackPlugin getInstance() {
@@ -89,7 +89,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @Nullable Integer getResourceId() {
-        return 91628;
+        return 121905;
     }
 
     @Override
@@ -409,7 +409,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull PlayerStateManager<? extends PlayerState> getPlayersState() {
+    public @NotNull OrestackPlayerStateManager getPlayersState() {
         return playerManager;
     }
 

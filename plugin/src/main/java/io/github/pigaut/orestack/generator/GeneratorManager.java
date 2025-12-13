@@ -32,10 +32,9 @@ public class GeneratorManager extends Manager {
     public void disable() {
         for (Generator blockGenerator : generators) {
             blockGenerator.cancelGrowth();
-            for (Block block : blockGenerator.getAllOccupiedBlocks()) {
-                block.setType(Material.AIR, false);
-            }
-            final HologramDisplay hologramDisplay = blockGenerator.getCurrentHologram();
+            blockGenerator.removeBlocks();
+
+            HologramDisplay hologramDisplay = blockGenerator.getCurrentHologram();
             if (hologramDisplay != null) {
                 hologramDisplay.destroy();
             }
@@ -229,7 +228,7 @@ public class GeneratorManager extends Manager {
     }
 
     public void registerGenerator(@NotNull Generator generator) throws GeneratorOverlapException {
-        final GeneratorTemplate template = generator.getTemplate();
+        GeneratorTemplate template = generator.getTemplate();
         for (Block block : template.getAllOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
             if (plugin.getGenerators().isGenerator(block.getLocation())) {
                 throw new GeneratorOverlapException();
@@ -249,7 +248,7 @@ public class GeneratorManager extends Manager {
         }
 
         BlockStructure structure = generator.getCurrentStage().getStructure();
-        structure.removeBlocks(generator.getOrigin(), generator.getRotation());
+        structure.remove(generator.getOrigin(), generator.getRotation());
 
         HologramDisplay hologram = generator.getCurrentHologram();
         if (hologram != null && hologram.exists()) {
@@ -257,7 +256,7 @@ public class GeneratorManager extends Manager {
         }
 
         if (plugin.getSettings().isKeepBlocksOnRemove()) {
-            generator.getTemplate().getLastStage().getStructure().updateBlocks(generator.getOrigin(), generator.getRotation());
+            generator.getTemplate().getLastStage().getStructure().place(generator.getOrigin(), generator.getRotation());
         }
     }
 

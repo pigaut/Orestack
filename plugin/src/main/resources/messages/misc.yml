@@ -40,7 +40,7 @@ hologram:
     text: '&a&l+1 Emerald'
     offset: { y: 1 }
   duration: 30
-  radius: { x: 1, z: 1 }
+  range: { x: 1, y: 0, z: 1 }
 
 multi:
   - { type: chat, message: Welcome to the server! }
