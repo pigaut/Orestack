@@ -34,7 +34,7 @@ public class GeneratorSetAllSubCommand extends SubCommand {
             final BlockStructure structure = template.getLastStage().getStructure();
             for (Location location : CuboidRegion.getAllLocations(player.getWorld(), firstSelection, secondSelection)) {
                 for (Rotation rotation : Rotation.values()) {
-                    if (structure.matchBlocks(location, rotation)) {
+                    if (structure.isPlaced(location, rotation)) {
                         try {
                             Generator.create(template, location);
                         }

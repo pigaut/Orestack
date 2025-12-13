@@ -2,10 +2,12 @@ package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
+import io.github.pigaut.orestack.damage.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.function.*;
 import io.github.pigaut.voxel.server.*;
+import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -53,6 +55,9 @@ public class GeneratorBlock {
                 generatorMineEvent.setExpDrops(expToDrop);
             }
 
+            int toolDamage = generatorStage.getToolDamage().getInteger();
+            generatorMineEvent.setToolDamage(toolDamage);
+
             SpigotServer.callEvent(generatorMineEvent);
         }
 
@@ -64,17 +69,21 @@ public class GeneratorBlock {
         }
 
         if (!generatorMineEvent.isCancelled() && generatorStage.getState().isHarvestable()) {
+            Location dropLocation = block.getLocation().add(0.5, 1, 0.5);
+
             Collection<ItemStack> itemDrops = generatorMineEvent.getItemDrops();
             if (itemDrops != null) {
-                Location location = block.getLocation().add(0.5, 1, 0.5);
-                for (ItemStack itemDrop : generatorMineEvent.getItemDrops()) {
-                    ItemUtil.dropItem(location, itemDrop, itemDrop.getAmount());
-                }
+                ItemUtil.dropItems(dropLocation, itemDrops);
             }
 
             int expDrops = generatorMineEvent.getExpDrops();
             if (expDrops != 0) {
-                Exp.drop(block.getLocation(), expToDrop);
+                Exp.drop(dropLocation, expDrops);
+            }
+
+            int toolDamage = generatorMineEvent.getToolDamage();
+            if (toolDamage != 0) {
+                ItemUtil.damagePlayerTool(player, toolDamage);
             }
 
             if (!generatorMineEvent.isIdle()) {

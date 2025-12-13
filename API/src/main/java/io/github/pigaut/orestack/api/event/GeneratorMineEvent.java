@@ -21,6 +21,7 @@ public class GeneratorMineEvent extends PlayerEvent {
     private boolean idle = false;
     private @Nullable Collection<ItemStack> drops = null;
     private int expToDrop = 0;
+    private int toolDamage = 0;
 
     public GeneratorMineEvent(@NotNull Player player, @NotNull Block blockMined) {
         super(player);
@@ -92,8 +93,28 @@ public class GeneratorMineEvent extends PlayerEvent {
      * @throws IllegalArgumentException if the value is negative
      */
     public void setExpDrops(int expToDrop) {
-        Preconditions.checkArgument(expToDrop > -1, "Exp drop amount must be a positive number.");
+        Preconditions.checkArgument(expToDrop > -1, "Exp drop must be a positive amount");
         this.expToDrop = expToDrop;
+    }
+
+    /**
+     * Gets how much damage is applied to the tool when a generator block is mined.
+     *
+     * @return the damage applied to the tool
+     */
+    public int getToolDamage() {
+        return toolDamage;
+    }
+
+    /**
+     * Sets how much damage is applied to the tool when a generator block is mined.
+     *
+     * @param toolDamage the damage to apply to the tool
+     * @throws IllegalArgumentException if the value is negative
+     */
+    public void setToolDamage(int toolDamage) {
+        Preconditions.checkArgument(toolDamage > -1, "Tool damage must be a positive amount");
+        this.toolDamage = toolDamage;
     }
 
 }
