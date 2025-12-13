@@ -9,6 +9,7 @@ import io.github.pigaut.voxel.core.structure.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.yaml.*;
+import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.configurator.load.*;
 import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
@@ -45,10 +46,11 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             throw new InvalidConfigurationException(sequence, "Generator can only be loaded from a root configuration sequence");
         }
 
-        final String name = root.getName();
-        final String group = Group.byFile(root.getFile(), "generators", true);
-        final List<GeneratorStage> generatorStages = new ArrayList<>();
-        final GeneratorTemplate generator = new GeneratorTemplate(name, group, generatorStages);
+        String name = root.getName();
+        String group = Group.byFile(root.getFile(), "generators", true);
+
+        List<GeneratorStage> generatorStages = new ArrayList<>();
+        GeneratorTemplate generator = new GeneratorTemplate(name, group, generatorStages);
         for (ConfigSection nestedSection : sequence.getNestedSections()) {
             generatorStages.add(loadStage(generator, nestedSection));
         }
@@ -110,6 +112,9 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         boolean dropExp = defaultDrops != null ? defaultDrops :
                 section.getBoolean("drop-exp|drop-xp").withDefault(false);
 
+        Amount toolDamage = section.get("tool-damage", Amount.class)
+                .withDefault(plugin.getSettings().getDefaultToolDamage());
+
         Double health = section.getDouble("health")
                 .filter(Predicates.greaterThan(0), "Health must be greater than or equal to 1.")
                 .withDefault(null);
@@ -149,9 +154,9 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         Function onHarvest = section.get("on-harvest", Function.class).withDefault(null);
         Function onDestroy = section.get("on-destroy", Function.class).withDefault(null);
 
-        return new GeneratorStage(generator, state, structure, decorativeBlocks, dropItems, dropExp, idle,
-                growthTime, chance, health, clickCooldown, hitCooldown, harvestCooldown, hologram,
-                onBreak, onGrowth, onClick, onHit, onHarvest, onDestroy);
+        return new GeneratorStage(generator, state, structure, decorativeBlocks, dropItems, dropExp,
+                toolDamage, idle, growthTime, chance, health, clickCooldown, hitCooldown, harvestCooldown,
+                hologram, onBreak, onGrowth, onClick, onHit, onHarvest, onDestroy);
     }
 
 }

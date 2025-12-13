@@ -10,6 +10,7 @@ import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.structure.*;
 import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.player.*;
+import io.github.pigaut.voxel.plugin.task.*;
 import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.util.*;
@@ -29,15 +30,17 @@ public class Generator implements PlaceholderSupplier {
     private final Location origin;
     private final Block block;
     private final Rotation rotation;
+
     private int currentStage;
-    private @Nullable BukkitTask growthTask = null;
+    private @Nullable Task growthTask = null;
     private @Nullable Instant growthStart = null;
     private @Nullable HologramDisplay currentHologram = null;
     private @Nullable Double health;
+
     private boolean updating = false;
 
-    private Generator(GeneratorTemplate generator, Location origin, int currentStage, Rotation rotation) {
-        this.template = generator;
+    private Generator(GeneratorTemplate template, Location origin, int currentStage, Rotation rotation) {
+        this.template = template;
         this.origin = origin.clone();
         this.block = origin.getBlock();
         this.currentStage = currentStage;
@@ -65,7 +68,7 @@ public class Generator implements PlaceholderSupplier {
 
     public boolean isValid() {
         for (Block block : getBlocks()) {
-            final Generator generator = plugin.getGenerator(block.getLocation());
+            Generator generator = plugin.getGenerator(block.getLocation());
             if (!this.equals(generator)) {
                 return false;
             }
@@ -86,7 +89,7 @@ public class Generator implements PlaceholderSupplier {
     }
 
     public boolean matchBlocks() {
-        return getCurrentStage().getStructure().matchBlocks(origin, rotation);
+        return getCurrentStage().getStructure().isPlaced(origin, rotation);
     }
 
     public @NotNull GeneratorTemplate getTemplate() {
@@ -129,7 +132,7 @@ public class Generator implements PlaceholderSupplier {
     }
 
     public List<Block> getBlocks() {
-        return getCurrentStage().getStructure().getBlocks(origin, rotation);
+        return getCurrentStage().getStructure().getOccupiedBlocks(origin, rotation);
     }
 
     public Set<Block> getAllOccupiedBlocks() {
@@ -164,25 +167,24 @@ public class Generator implements PlaceholderSupplier {
         return template.getStage(currentStage);
     }
 
-    public void setCurrentStage(int stage) {
-        if (stage < 0 || stage > template.getMaxStage()) {
+    public void setCurrentStage(int newStage) {
+        if (newStage < 0 || newStage > template.getMaxStage()) {
             return;
         }
 
-        if (!this.isValid()) {
+        if (!isValid()) {
             return;
         }
-        this.updating = true;
-        this.cancelGrowth();
-        final BlockStructure nextStructure = template.getStage(stage).getStructure();
-        for (Block previousBlock : template.getAllOccupiedBlocks(origin, rotation)) {
-            final Block nextBlock = nextStructure.getBlockAt(origin, rotation, previousBlock.getLocation());
-            if (nextBlock == null || nextBlock.getType() != previousBlock.getType()) {
-                previousBlock.setType(Material.AIR, false);
-            }
-        }
-        this.currentStage = stage;
-        this.updateState();
+
+        updating = true;
+        cancelGrowth();
+
+        BlockStructure oldStructure = getCurrentStage().getStructure();
+        BlockStructure newStructure = template.getStage(newStage).getStructure();
+        oldStructure.subtract(newStructure, origin, rotation);
+
+        currentStage = newStage;
+        updateState();
     }
 
     public @Nullable HologramDisplay getCurrentHologram() {
@@ -197,6 +199,11 @@ public class Generator implements PlaceholderSupplier {
             growthTask = null;
         }
         growthStart = null;
+    }
+
+    public void removeBlocks() {
+        GeneratorStage stage = getCurrentStage();
+        stage.getStructure().remove(origin, rotation);
     }
 
     public void nextStage() {
@@ -258,15 +265,15 @@ public class Generator implements PlaceholderSupplier {
     }
 
     private void updateState() {
-        final GeneratorStage stage = getCurrentStage();
-        stage.getStructure().updateBlocks(origin, rotation);
+        GeneratorStage stage = getCurrentStage();
+        stage.getStructure().place(origin, rotation);
         updating = false;
 
         if (currentHologram != null) {
             currentHologram.destroy();
         }
 
-        final Hologram hologram = stage.getHologram();
+        Hologram hologram = stage.getHologram();
         if (hologram != null) {
             final Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
             currentHologram = hologram.spawn(offsetLocation, rotation, this);
@@ -280,16 +287,14 @@ public class Generator implements PlaceholderSupplier {
 
         growthStart = Instant.now();
         growthTask = plugin.getScheduler().runTaskLater(stage.getGrowthTime(), () -> {
-            growthTask = null;
-            if (this.isLastStage()) {
+            if (isLastStage()) {
                 return;
             }
-
+            growthTask = null;
             GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(origin, block);
             SpigotServer.callEvent(growthEvent);
-
             if (!growthEvent.isCancelled()) {
-                this.nextStage();
+                nextStage();
             }
         });
     }

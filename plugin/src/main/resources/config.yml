@@ -54,6 +54,25 @@ generator-tool:
     - '&fleft-click to break'
     - '&fshift + left-click (air) to rotate'
 
+
+############################################################
+#                        Generator
+############################################################
+
+# ===== Tool Damage ===== #
+# The default damage to apply to the tool or 0 to disable (Can be overridden inside a generator stage)
+default-tool-damage: 1
+
+# ===== Cooldowns ===== #
+# The default delay in ticks between each click, it can be overridden in the generator stage.
+click-cooldown: 4
+
+# The default delay in ticks between each hit (left-click), it can be overridden in the generator stage.
+hit-cooldown: 4
+
+# The default delay in ticks between each harvest attempt (right-click), it can be overridden in the generator stage.
+harvest-cooldown: 4
+
 ############################################################
 #                        Vein Miner
 ############################################################
@@ -85,9 +104,9 @@ vein-size-by-level:
   3: 12
 
 ############################################################
-#                           Drops
+#                         Drops
 ############################################################
-# Compatible Actions: giveItem, dropItem, dropItemAtPlayer, dropItemAtBlock
+# Compatible Actions: giveItem, dropItemAtPlayer, dropItemAtBlock, dropItem.
 
 # Items affected by the Fortune enchantment from the player's tool.
 # Can be overridden with the 'doFortune=true|false' flag in individual actions.
@@ -101,19 +120,6 @@ apply-fortune:
 #  - raw_iron     # 1.17+
 #  - raw_copper   # 1.17+
 #  - dirt         # Supports any item type
-
-############################################################
-#                   Generator Cooldowns
-############################################################
-
-# The default delay between each click, it can be overridden in the generator stage.
-click-cooldown: 4   # ticks
-
-# The default delay between each hit (left-click), it can be overridden in the generator stage.
-hit-cooldown: 4   # ticks
-
-# The default delay between each harvest attempt (right-click), it can be overridden in the generator stage.
-harvest-cooldown: 4   # ticks
 
 ############################################################
 #                 Generator Health Mechanic

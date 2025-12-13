@@ -2,11 +2,13 @@ package io.github.pigaut.orestack.generator.template;
 
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.util.*;
+import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
 import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
+import org.bukkit.block.structure.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
@@ -96,7 +98,7 @@ public class GeneratorTemplate implements Iterable<GeneratorStage>, Identifiable
         int currentStage = getMaxStage();
         for (int i = getMaxStage(); i >= 0; i--) {
             final GeneratorStage stage = getStage(i);
-            if (stage.getStructure().matchBlocks(origin, rotation)) {
+            if (stage.getStructure().isPlaced(origin, rotation)) {
                 currentStage = i;
                 break;
             }
@@ -105,9 +107,9 @@ public class GeneratorTemplate implements Iterable<GeneratorStage>, Identifiable
     }
 
     public Set<Block> getAllOccupiedBlocks(Location location, Rotation rotation) {
-        final Set<Block> blocks = new HashSet<>();
+        Set<Block> blocks = new HashSet<>();
         for (GeneratorStage stage : stages) {
-            blocks.addAll(stage.getStructure().getBlocks(location, rotation));
+            blocks.addAll(stage.getStructure().getOccupiedBlocks(location, rotation));
         }
         return blocks;
     }
