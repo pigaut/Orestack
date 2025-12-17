@@ -1,17 +1,23 @@
+# Print the stack trace of configuration errors for development purposes
+debug: false
+
 # Whether to show config errors in chat when a player uses /orestack reload
-debug: true
+show-reload-errors: true
+
+# Whether to use colors in console messages
+colored-console: true
 
 # Generates example files
 generate-examples: true
 
 # Checks for available updates on startup and on reload
-check-for-updates: true   # Premium required to disable
+check-for-updates: true
 
 # Enables bStats metrics collection (https://bstats.org/plugin/bukkit/Orestack/24502)
-metrics: true   # Consider keeping this on to support development, thank you.
+metrics: true   # Keep this on if you want to support development. (No performance impact)
 
 # Dumps the giant Orestack logo in console on startup and on reload
-dump-logo: true   # Premium required to disable
+dump-logo: true
 
 # The language file that should be used (en = en.yml)
 language: en
@@ -59,7 +65,7 @@ generator-tool:
 #                        Generator
 ############################################################
 
-# ===== Tool Damage ===== #
+# ===== Tool Durability Damage ===== #
 # The default damage to apply to the tool or 0 to disable (Can be overridden inside a generator stage)
 default-tool-damage: 1
 
