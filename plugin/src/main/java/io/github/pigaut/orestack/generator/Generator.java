@@ -207,11 +207,11 @@ public class Generator implements PlaceholderSupplier {
     }
 
     public void nextStage() {
-        if (this.isLastStage()) {
+        if (isLastStage()) {
             return;
         }
 
-        final GeneratorStage currentStage = this.getCurrentStage();
+        GeneratorStage currentStage = this.getCurrentStage();
         if (currentStage.getGrowthTime() == 0) {
             return;
         }
@@ -228,7 +228,7 @@ public class Generator implements PlaceholderSupplier {
 
         boolean shouldGrow = false;
         while (!shouldGrow) {
-            final Double growthChance = nextStage.getGrowthChance();
+            Double growthChance = nextStage.getGrowthChance();
             if (growthChance != null && !Probability.test(growthChance)) {
                 if (currentStage.getState().isHarvestable()) {
                     return;
@@ -240,12 +240,12 @@ public class Generator implements PlaceholderSupplier {
             shouldGrow = true;
         }
 
-        final Function growthFunction = nextStage.getGrowthFunction();
+        Function growthFunction = nextStage.getGrowthFunction();
         if (growthFunction != null) {
             growthFunction.run(block);
         }
 
-        this.setCurrentStage(peekStage);
+        setCurrentStage(peekStage);
     }
 
     public void previousStage() {
@@ -271,11 +271,12 @@ public class Generator implements PlaceholderSupplier {
 
         if (currentHologram != null) {
             currentHologram.destroy();
+            currentHologram = null;
         }
 
         Hologram hologram = stage.getHologram();
         if (hologram != null) {
-            final Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
+            Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
             currentHologram = hologram.spawn(offsetLocation, rotation, this);
         }
 
