@@ -14,13 +14,12 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class GeneratorTemplate implements Iterable<GeneratorStage>, Identifiable, PlaceholderSupplier {
+public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
 
     private final String name;
     private final String group;
     private final List<GeneratorStage> stages;
     private final boolean multiBlock;
-    private Rotation rotation = Rotation.NONE;
     private Material itemType = Material.TERRACOTTA;
 
     public GeneratorTemplate(String name, @Nullable String group, List<GeneratorStage> stages) {
@@ -48,18 +47,6 @@ public class GeneratorTemplate implements Iterable<GeneratorStage>, Identifiable
 
     public boolean isMultiBlock() {
         return multiBlock;
-    }
-
-    public Rotation getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(Rotation rotation) {
-        this.rotation = rotation;
-    }
-
-    public ItemStack getItem() {
-        return GeneratorTool.getGeneratorTool(this);
     }
 
     public Material getItemType() {
@@ -118,7 +105,6 @@ public class GeneratorTemplate implements Iterable<GeneratorStage>, Identifiable
         return new Placeholder[]{
                 Placeholder.of("{generator}", name),
                 Placeholder.of("{generator_stages}", stages),
-                Placeholder.of("{generator_rotation}", rotation)
         };
     }
 
@@ -128,14 +114,8 @@ public class GeneratorTemplate implements Iterable<GeneratorStage>, Identifiable
                 "name='" + name + '\'' +
                 ", group='" + group + '\'' +
                 ", stages=" + stages +
-                ", rotation=" + rotation +
                 ", itemType=" + itemType +
                 '}';
-    }
-
-    @Override
-    public @NotNull Iterator<GeneratorStage> iterator() {
-        return stages.iterator();
     }
 
 }
