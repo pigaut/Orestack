@@ -53,7 +53,7 @@ structure-wand:
 # The generator item used to place and break generators (admin tool)
 generator-tool:
   material: terracotta   # Replaced by the last stage block
-  name: '&b&l{generator_tc} Generator ({generator_rotation_tc})'
+  name: '&b&l{generator_tc} Generator ({generator_tool_rotation_tc})'
   glow: true
   lore:
     - '&fright-click to place'

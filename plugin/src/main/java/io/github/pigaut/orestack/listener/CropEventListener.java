@@ -21,10 +21,10 @@ public class CropEventListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onWaterFlow(BlockFromToEvent event) {
-        final Generator generator = plugin.getGenerator(event.getToBlock().getLocation());
+        Generator generator = plugin.getGenerator(event.getToBlock().getLocation());
         if (generator != null) {
+            Location location = generator.getOrigin();
             plugin.getGenerators().unregisterGenerator(generator);
-            final Location location = generator.getOrigin();
             plugin.getLogger().warning("Removed generator at " + location.getWorld().getName() + ", " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ". " +
                     "Reason: water/lava destroyed the block.");
         }
@@ -32,8 +32,8 @@ public class CropEventListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onCropPhysics(BlockPhysicsEvent event) {
-        final Block block = event.getBlock();
-        if (Crops.isCrop(block.getType())) {
+        Block block = event.getBlock();
+        if (MaterialUtil.isCrop(block.getType())) {
             if (plugin.getGenerators().isGenerator(block.getLocation())) {
                 event.setCancelled(true);
             }
@@ -70,10 +70,10 @@ public class CropEventListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onTrample(PlayerInteractEvent event) {
-        final Block block = event.getClickedBlock();
+        Block block = event.getClickedBlock();
         if (event.getAction() == Action.PHYSICAL && block.getType() == Material.FARMLAND) {
-            final Location cropLocation = block.getLocation().add(0, 1, 0);
-            final Generator generator = plugin.getGenerator(cropLocation);
+            Location cropLocation = block.getLocation().add(0, 1, 0);
+            Generator generator = plugin.getGenerator(cropLocation);
             if (generator != null) {
                 event.setCancelled(true);
             }
@@ -82,10 +82,10 @@ public class CropEventListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onTrample(EntityInteractEvent event) {
-        final Block block = event.getBlock();
+        Block block = event.getBlock();
         if (block.getType() == Material.FARMLAND) {
-            final Location cropLocation = block.getLocation().add(0, 1, 0);
-            final Generator generator = plugin.getGenerator(cropLocation);
+            Location cropLocation = block.getLocation().add(0, 1, 0);
+            Generator generator = plugin.getGenerator(cropLocation);
             if (generator != null) {
                 event.setCancelled(true);
             }
