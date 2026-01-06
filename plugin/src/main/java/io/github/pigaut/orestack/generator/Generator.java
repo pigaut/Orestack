@@ -277,7 +277,7 @@ public class Generator implements PlaceholderSupplier {
         Hologram hologram = stage.getHologram();
         if (hologram != null) {
             Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
-            currentHologram = hologram.spawn(offsetLocation, rotation, this);
+            currentHologram = hologram.spawn(offsetLocation, rotation, List.of(this));
         }
 
         health = stage.getHealth();

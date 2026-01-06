@@ -59,7 +59,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             throw new InvalidConfigurationException(sequence, "Generator must have at least one depleted and one regrown stage");
         }
 
-        final GeneratorStage firstStage = generatorStages.get(0);
+        GeneratorStage firstStage = generatorStages.get(0);
         if (firstStage.getState() != GrowthState.DEPLETED) {
             throw new InvalidConfigurationException(sequence, "The first stage must be depleted");
         }
@@ -72,7 +72,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             throw new InvalidConfigurationException(sequence, "The depleted stage must have a growth time set");
         }
 
-        final GeneratorStage lastStage = generatorStages.get(generatorStages.size() - 1);
+        GeneratorStage lastStage = generatorStages.get(generatorStages.size() - 1);
         if (lastStage.getState() != GrowthState.REGROWN) {
             throw new InvalidConfigurationException(sequence, "The last stage must be regrown");
         }
@@ -98,9 +98,9 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
     }
 
     private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection section) {
-        final GrowthState state = section.getRequired("type|state", GrowthState.class);
+        GrowthState state = section.getRequired("type|state", GrowthState.class);
 
-        final BlockStructure structure = section.contains("structure|blocks") ?
+        BlockStructure structure = section.contains("structure|blocks") ?
                 section.getRequired("structure|blocks", BlockStructure.class) :
                 section.loadRequired(BlockStructure.class);
 
