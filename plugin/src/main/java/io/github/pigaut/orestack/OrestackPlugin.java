@@ -138,14 +138,16 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return List.of(
                 "Vault",
                 "PlaceholderAPI",
+                "Multiverse-Core",
                 "DecentHolograms",
                 "AuraSkills",
                 "mcMMO",
                 "ItemsAdder",
                 "Nexo",
+                "CraftEngine",
                 "PlotSquared",
-                "Multiverse-Core",
-                "CraftEngine"
+                "MythicMobs",
+                "ExecutableItems"
         );
     }
 
