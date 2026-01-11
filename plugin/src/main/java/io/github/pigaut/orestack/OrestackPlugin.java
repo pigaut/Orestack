@@ -147,7 +147,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "CraftEngine",
                 "PlotSquared",
                 "MythicMobs",
-                "ExecutableItems"
+                "ExecutableItems",
+                "EcoItems"
         );
     }
 
