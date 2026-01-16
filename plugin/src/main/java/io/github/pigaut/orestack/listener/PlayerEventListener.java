@@ -12,6 +12,7 @@ import io.github.pigaut.voxel.bukkit.Rotation;
 import io.github.pigaut.voxel.core.function.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.server.*;
+import io.github.pigaut.voxel.server.Server;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -90,7 +91,7 @@ public class PlayerEventListener implements Listener {
             playerState.addTemporaryFlag("orestack:click_cooldown", stage.getClickCooldown());
 
             GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(player, action);
-            SpigotServer.callEvent(generatorInteractEvent);
+            Server.callEvent(generatorInteractEvent);
             if (!generatorInteractEvent.isCancelled()) {
                 playerState.updatePlaceholders(generator);
                 Function clickFunction = stage.getClickFunction();
@@ -104,7 +105,7 @@ public class PlayerEventListener implements Listener {
             playerState.addTemporaryFlag("orestack:hit_cooldown", stage.getHitCooldown());
 
             GeneratorHitEvent generatorHitEvent = new GeneratorHitEvent(player);
-            SpigotServer.callEvent(generatorHitEvent);
+            Server.callEvent(generatorHitEvent);
             if (!generatorHitEvent.isCancelled()) {
                 playerState.updatePlaceholders(generator);
                 Function hitFunction = stage.getHitFunction();
@@ -118,7 +119,7 @@ public class PlayerEventListener implements Listener {
             playerState.addTemporaryFlag("orestack:harvest_cooldown", stage.getHarvestCooldown());
 
             GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(player);
-            SpigotServer.callEvent(generatorHarvestEvent);
+            Server.callEvent(generatorHarvestEvent);
             if (!generatorHarvestEvent.isCancelled()) {
                 playerState.updatePlaceholders(generator);
                 Function harvestFunction = stage.getHarvestFunction();

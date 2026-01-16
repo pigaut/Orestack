@@ -8,6 +8,7 @@ import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.structure.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.server.*;
+import io.github.pigaut.voxel.server.Server;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.configurator.load.*;
@@ -143,7 +144,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
                 .withDefault(plugin.getSettings().getClickCooldown());
 
         Hologram hologram = null;
-        if (SpigotServer.isPluginEnabled("DecentHolograms")) {
+        if (Server.isPluginEnabled("DecentHolograms")) {
             hologram = section.get("hologram", Hologram.class).withDefault(null);
         }
 

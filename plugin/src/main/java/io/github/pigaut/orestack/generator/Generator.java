@@ -12,6 +12,7 @@ import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.task.*;
 import io.github.pigaut.voxel.server.*;
+import io.github.pigaut.voxel.server.Server;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
@@ -116,7 +117,7 @@ public class Generator implements PlaceholderSupplier {
         if (health == 0) {
             health = null;
             GeneratorDestroyEvent event = new GeneratorDestroyEvent(damageDealer.asPlayer());
-            SpigotServer.callEvent(event);
+            Server.callEvent(event);
             if (!event.isCancelled()) {
                 Function onDestroy = getCurrentStage().getDestroyFunction();
                 if (onDestroy != null) {
@@ -293,7 +294,7 @@ public class Generator implements PlaceholderSupplier {
             }
             growthTask = null;
             GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(origin, block);
-            SpigotServer.callEvent(growthEvent);
+            Server.callEvent(growthEvent);
             if (!growthEvent.isCancelled()) {
                 nextStage();
             }
