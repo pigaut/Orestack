@@ -24,9 +24,9 @@ public class GeneratorHarvestSubCommand extends SubCommand {
             }
             for (Generator blockGenerator : plugin.getGenerators().getAllGenerators()) {
                 if (blockGenerator.getTemplate() == generator) {
-                    final Block block = blockGenerator.getBlocks().get(0);
-                    final BlockBreakEvent event = new BlockBreakEvent(block, player);
-                    SpigotServer.callEvent(event);
+                    Block block = blockGenerator.getBlocks().get(0);
+                    BlockBreakEvent event = new BlockBreakEvent(block, player);
+                    Server.callEvent(event);
                 }
             }
             plugin.sendMessage(player, "harvested-all-generators", placeholders, generator);

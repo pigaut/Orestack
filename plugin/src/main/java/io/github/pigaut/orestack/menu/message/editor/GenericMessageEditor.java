@@ -31,7 +31,7 @@ public class GenericMessageEditor extends FramedEditor {
                 .addLore("")
                 .addLore(delay != null ? (delay + " ticks") : "none")
                 .addLore("")
-                .addLore("To set message delay")
+                .addLeftClickLore("To set message delay")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Integer.class)
                             .description("Enter delay amount in chat")

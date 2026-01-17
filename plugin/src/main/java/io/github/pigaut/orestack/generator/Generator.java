@@ -12,6 +12,7 @@ import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.task.*;
 import io.github.pigaut.voxel.server.*;
+import io.github.pigaut.voxel.server.Server;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
@@ -116,7 +117,7 @@ public class Generator implements PlaceholderSupplier {
         if (health == 0) {
             health = null;
             GeneratorDestroyEvent event = new GeneratorDestroyEvent(damageDealer.asPlayer());
-            SpigotServer.callEvent(event);
+            Server.callEvent(event);
             if (!event.isCancelled()) {
                 Function onDestroy = getCurrentStage().getDestroyFunction();
                 if (onDestroy != null) {
@@ -207,11 +208,11 @@ public class Generator implements PlaceholderSupplier {
     }
 
     public void nextStage() {
-        if (this.isLastStage()) {
+        if (isLastStage()) {
             return;
         }
 
-        final GeneratorStage currentStage = this.getCurrentStage();
+        GeneratorStage currentStage = this.getCurrentStage();
         if (currentStage.getGrowthTime() == 0) {
             return;
         }
@@ -228,7 +229,7 @@ public class Generator implements PlaceholderSupplier {
 
         boolean shouldGrow = false;
         while (!shouldGrow) {
-            final Double growthChance = nextStage.getGrowthChance();
+            Double growthChance = nextStage.getGrowthChance();
             if (growthChance != null && !Probability.test(growthChance)) {
                 if (currentStage.getState().isHarvestable()) {
                     return;
@@ -240,12 +241,12 @@ public class Generator implements PlaceholderSupplier {
             shouldGrow = true;
         }
 
-        final Function growthFunction = nextStage.getGrowthFunction();
+        Function growthFunction = nextStage.getGrowthFunction();
         if (growthFunction != null) {
             growthFunction.run(block);
         }
 
-        this.setCurrentStage(peekStage);
+        setCurrentStage(peekStage);
     }
 
     public void previousStage() {
@@ -271,12 +272,13 @@ public class Generator implements PlaceholderSupplier {
 
         if (currentHologram != null) {
             currentHologram.destroy();
+            currentHologram = null;
         }
 
         Hologram hologram = stage.getHologram();
         if (hologram != null) {
-            final Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
-            currentHologram = hologram.spawn(offsetLocation, rotation, this);
+            Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
+            currentHologram = hologram.spawn(offsetLocation, rotation, List.of(this));
         }
 
         health = stage.getHealth();
@@ -292,7 +294,7 @@ public class Generator implements PlaceholderSupplier {
             }
             growthTask = null;
             GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(origin, block);
-            SpigotServer.callEvent(growthEvent);
+            Server.callEvent(growthEvent);
             if (!growthEvent.isCancelled()) {
                 nextStage();
             }

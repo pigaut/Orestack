@@ -26,7 +26,7 @@ public class GeneratorsMenu extends FramedSelectionMenu {
                 .map(generator -> {
                     final String generatorName = generator.getName();
                     return Button.builder()
-                            .withType(generator.getItem().getType())
+                            .withType(generator.getItemType())
                             .withDisplay("&6&o" + CaseFormatter.toTitleCase(generatorName))
                             .addLore("")
                             .addLore("&eLeft-Click: &fGet Generator")

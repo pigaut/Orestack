@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.command.node.*;
 import io.github.pigaut.voxel.player.*;
 import org.jetbrains.annotations.*;
@@ -14,7 +15,7 @@ public class GeneratorGetAllSubCommand extends SubCommand {
         withDescription(plugin.getTranslation("generator-get-all-command"));
         withPlayerExecution((player, args, placeholders) -> {
             for (GeneratorTemplate generator : plugin.getGeneratorTemplates().getAll()) {
-                PlayerUtil.giveItemsOrDrop(player, generator.getItem());
+                PlayerUtil.giveItemsOrDrop(player, GeneratorTool.createItem(generator));
             }
             plugin.sendMessage(player, "received-all-generators", placeholders);
         });

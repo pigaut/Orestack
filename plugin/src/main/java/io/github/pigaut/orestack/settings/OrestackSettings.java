@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.settings;
 
 import io.github.pigaut.orestack.damage.*;
 import io.github.pigaut.orestack.util.*;
+import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.util.reflection.*;
 import io.github.pigaut.yaml.*;
@@ -19,18 +20,22 @@ public class OrestackSettings extends Settings {
 
     private final boolean spigotEnchants = Reflection.onClass(Enchantment.class)
             .matchMethod("getKeyOrNull");
+
     // Generic settings
     private boolean keepBlocksOnRemove;
     private ItemStack generatorTool;
+
     // VeinMiner settings
     private boolean veinMiner;
     private List<String> veinMinerAliases;
     private Map<Integer, Integer> veinSizeByLevel;
+
     // Generator
     private Amount defaultToolDamage;
     private int clickCooldown;
     private int hitCooldown;
     private int harvestCooldown;
+
     // Generator health settings
     private Amount defaultDamage;
     private boolean efficiencyDamage;
@@ -51,7 +56,8 @@ public class OrestackSettings extends Settings {
                 .withDefault(false, errors::add);
 
         generatorTool = config.get("generator-tool", ItemStack.class)
-                .withDefault(GeneratorTool.getDefaultItem(), errors::add);
+                .filter(ItemUtil::isNotAir, "Item type cannot be air")
+                .withDefault(GeneratorTool.getItemTemplate(), errors::add);
 
         // Generator settings
         defaultToolDamage = config.get("default-tool-damage", Amount.class)

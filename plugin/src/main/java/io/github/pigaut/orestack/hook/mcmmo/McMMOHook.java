@@ -19,7 +19,7 @@ public class McMMOHook {
             throw new InvalidConfigurationException(line, "McMMO is not loaded/enabled");
         };
 
-        if (!SpigotServer.isPluginEnabled("McMMO")) {
+        if (!Server.isPluginEnabled("McMMO")) {
             conditions.addLoader("HAS_MCMMO_LEVEL", NOT_ENABLED_LOADER);
             return;
         }
@@ -39,7 +39,7 @@ public class McMMOHook {
             throw new InvalidConfigurationException(line, "McMMO is not loaded/enabled");
         };
 
-        if (!SpigotServer.isPluginEnabled("McMMO")) {
+        if (!Server.isPluginEnabled("McMMO")) {
             actions.addLoader("GIVE_MCMMO_EXP", NOT_ENABLED_LOADER);
             actions.addLoader("TAKE_MCMMO_EXP", NOT_ENABLED_LOADER);
             actions.addLoader("RESET_MCMMO_COOLDOWNS", NOT_ENABLED_LOADER);

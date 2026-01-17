@@ -37,8 +37,8 @@ help-footer: '&2---------------------------------------------'
 reload-command: 'Reload configuration and data'
 ## Errors
 already-reloading: '&4The plugin is already reloading, please wait'
-debug-configuration-errors: '&4Found {error_count} error(s) while loading the configuration. Debug mode is enabled.'
-configuration-errors: '&4Found {error_count} error(s) while loading the configuration. Debug mode is disabled, check the console for details.'
+debug-configuration-errors: '&4Found {error_count} error(s) while loading the configuration.'
+configuration-errors: '&4Found {error_count} error(s) while loading the configuration. Check the console for details.'
 ## Success
 reloading: '&aReloading Orestack plugin... &c(Wait)'
 reload-completed: '&aReload completed successfully.'
@@ -151,7 +151,6 @@ generator-group-not-found: '&4Could not find generator group with name: {generat
 incomplete-region: '&4You need to select a region with the generator wand'
 too-far-away: '&4Cannot find a block in range, move closer'
 target-not-generator: '&4The block you''re looking at is not a generator'
-generator-not-exists: '&4This generator no longer exists or is invalid'
 generator-overlap: '&4Too close to another generator'
 ## Success
 received-generator: '&aYou received x1 {generator} generator'
@@ -178,6 +177,8 @@ missing-wand-permission: '&4You don''t have the permission to use the wand'
 #    Generator Item
 # --------------------
 ## Errors
+generator-not-exists: '&4This generator no longer exists or is invalid'
+corrupt-tool-rotation: '&4This generator item has corrupted rotation data'
 cannot-place-generator: '&4You don''t have the permission to place generators'
 cannot-break-generator: '&4You don''t have the permission to break generators'
 cannot-rotate-generator: '&4You don''t have the permission to rotate generators'

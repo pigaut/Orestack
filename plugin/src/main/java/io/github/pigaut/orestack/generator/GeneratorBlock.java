@@ -7,6 +7,7 @@ import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.function.*;
 import io.github.pigaut.voxel.server.*;
+import io.github.pigaut.voxel.server.Server;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -58,7 +59,7 @@ public class GeneratorBlock {
             int toolDamage = generatorStage.getToolDamage().getInteger();
             generatorMineEvent.setToolDamage(toolDamage);
 
-            SpigotServer.callEvent(generatorMineEvent);
+            Server.callEvent(generatorMineEvent);
         }
 
         if (!generatorMineEvent.isCancelled()) {
