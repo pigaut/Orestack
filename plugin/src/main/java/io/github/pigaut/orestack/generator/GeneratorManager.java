@@ -52,7 +52,7 @@ public class GeneratorManager extends Manager {
         generatorBlocks.clear();
         largeGeneratorsPlaced = 0;
 
-        final Database database = plugin.getDatabase();
+        Database database = plugin.getDatabase();
         if (database == null) {
             logger.severe("Could not load data because database was not found.");
             return;

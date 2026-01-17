@@ -14,6 +14,7 @@ import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.boot.*;
 import io.github.pigaut.voxel.plugin.boot.phase.*;
 import io.github.pigaut.voxel.server.*;
+import io.github.pigaut.voxel.server.Server;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;
@@ -25,12 +26,13 @@ import java.util.*;
 
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
-    private static OrestackPlugin plugin;
     private final OrestackSettings settings = new OrestackSettings(this);
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
     private final OrestackPlayerStateManager playerManager = new OrestackPlayerStateManager(this);
     private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
+
+    private static OrestackPlugin plugin;
 
     public static OrestackPlugin getInstance() {
         return plugin;
@@ -53,11 +55,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public void registerHooks() {
-        if (SpigotServer.isPluginLoaded("ItemsAdder")) {
+        if (Server.isPluginLoaded("ItemsAdder")) {
             registerListener(new ItemsAdderDropListener());
         }
 
-        if (SpigotServer.isPluginLoaded("PlotSquared")) {
+        if (Server.isPluginLoaded("PlotSquared")) {
             registerListener(new PlotBlockBreakListener(this));
         }
     }
@@ -104,7 +106,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     public List<StartupTask> getStartupTasks() {
         List<StartupTask> startupTasks = new ArrayList<>();
 
-        if (SpigotServer.isPluginLoaded("PlotSquared")) {
+        if (Server.isPluginLoaded("PlotSquared")) {
             startupTasks.add(StartupTask.create()
                     .require(BootPhase.pluginEnabled("PlotSquared"))
                     .onReady(() -> registerListener(new PlotBlockDamageListener(this))));
@@ -128,8 +130,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull List<SpigotVersion> getCompatibleVersions() {
-        return SpigotVersion.getVersionsNewerThan(SpigotVersion.V1_16_5);
+    public @NotNull List<Version> getCompatibleVersions() {
+        return Version.getVersionsNewerThan(Version.V1_16_5);
     }
 
     @Override
@@ -137,14 +139,17 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return List.of(
                 "Vault",
                 "PlaceholderAPI",
+                "Multiverse-Core",
                 "DecentHolograms",
                 "AuraSkills",
                 "mcMMO",
                 "ItemsAdder",
                 "Nexo",
+                "CraftEngine",
                 "PlotSquared",
-                "Multiverse-Core",
-                "CraftEngine"
+                "MythicMobs",
+                "ExecutableItems",
+                "EcoItems"
         );
     }
 
@@ -220,6 +225,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/crops/sugar_cane.yml",
                 "generators/crops/cactus.yml",
                 "generators/crops/bamboo.yml",
+                "generators/crops/chorus/small_chorus_plant.yml",
+                "generators/crops/chorus/chorus_plant.yml",
 
                 "generators/fibers/cotton.yml",
                 "generators/fibers/flax.yml",
@@ -233,6 +240,16 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/amethyst/amethyst.yml",
                 "generators/ores/amethyst/amethyst_wall.yml",
                 "generators/ores/amethyst/amethyst_ceiling.yml",
+
+                "structures/crops/chorus/chorus_plant_2.yml",
+                "structures/crops/chorus/chorus_plant_3.yml",
+                "structures/crops/chorus/chorus_plant_4.yml",
+                "structures/crops/chorus/chorus_plant_5.yml",
+                "structures/crops/chorus/chorus_plant_6.yml",
+
+                "structures/crops/chorus/small_chorus_plant_2.yml",
+                "structures/crops/chorus/small_chorus_plant_3.yml",
+                "structures/crops/chorus/small_chorus_plant_4.yml",
 
                 "structures/deposits/stone/stone_deposit_1.yml",
                 "structures/deposits/stone/stone_deposit_2.yml",
@@ -374,9 +391,9 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public Map<SpigotVersion, List<String>> getExamplesByVersion() {
+    public Map<Version, List<String>> getExamplesByVersion() {
         return Map.of(
-                SpigotVersion.V1_17, List.of(
+                Version.V1_17, List.of(
                         "generators/deposits/copper_deposit.yml",
                         "generators/ores/copper.yml",
 

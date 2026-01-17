@@ -19,7 +19,7 @@ public class AuraSkillsHook {
             throw new InvalidConfigurationException(line, "AuraSkills is not loaded/enabled");
         };
 
-        if (!SpigotServer.isPluginEnabled("AuraSkills")) {
+        if (!Server.isPluginEnabled("AuraSkills")) {
             conditions.addLoader("HAS_AURA_LEVEL", NOT_ENABLED_LOADER);
             conditions.addLoader("HAS_AURA_MANA", NOT_ENABLED_LOADER);
             return;
@@ -43,7 +43,7 @@ public class AuraSkillsHook {
             throw new InvalidConfigurationException(line, "AuraSkills is not loaded/enabled");
         };
 
-        if (!SpigotServer.isPluginEnabled("AuraSkills")) {
+        if (!Server.isPluginEnabled("AuraSkills")) {
             actions.addLoader("GIVE_AURA_EXP", NOT_ENABLED_LOADER);
             actions.addLoader("GIVE_AURA_MANA", NOT_ENABLED_LOADER);
             actions.addLoader("TAKE_AURA_MANA", NOT_ENABLED_LOADER);
