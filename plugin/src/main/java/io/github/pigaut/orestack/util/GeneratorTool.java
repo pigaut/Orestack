@@ -38,17 +38,7 @@ public class GeneratorTool {
 
     public static @NotNull ItemStack createItem(@NotNull GeneratorTemplate generator) {
         ItemStack generatorItem = plugin.getSettings().getGeneratorTool();
-
-        Material itemType = generator.getItemType();
-        if (MaterialUtil.isAir(itemType)) {
-            generatorItem.setType(Material.TERRACOTTA);
-        }
-        else if (MaterialUtil.isCrop(itemType)) {
-            generatorItem.setType(MaterialUtil.getCropSeeds(itemType));
-        }
-        else {
-            generatorItem.setType(itemType);
-        }
+        generatorItem.setType(generator.getItemType());
 
         ItemMeta meta = generatorItem.getItemMeta();
         updateToolData(meta, generator, "NONE");

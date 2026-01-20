@@ -49,12 +49,20 @@ public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
         return multiBlock;
     }
 
-    public Material getItemType() {
+    public @NotNull Material getItemType() {
         return itemType;
     }
 
     public void setItemType(Material itemType) {
-        this.itemType = itemType;
+        if (MaterialUtil.isAir(itemType)) {
+            this.itemType = Material.TERRACOTTA;
+        }
+        else if (MaterialUtil.isCrop(itemType)) {
+            this.itemType = MaterialUtil.getCropSeeds(itemType);
+        }
+        else {
+            this.itemType = itemType;
+        }
     }
 
     public int getMaxStage() {

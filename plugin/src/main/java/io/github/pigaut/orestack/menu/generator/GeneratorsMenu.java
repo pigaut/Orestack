@@ -24,7 +24,7 @@ public class GeneratorsMenu extends FramedSelectionMenu {
     public List<Button> createEntries() {
         return plugin.getGeneratorTemplates(group).stream()
                 .map(generator -> {
-                    final String generatorName = generator.getName();
+                    String generatorName = generator.getName();
                     return Button.builder()
                             .withType(generator.getItemType())
                             .withDisplay("&6&o" + CaseFormatter.toTitleCase(generatorName))

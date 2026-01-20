@@ -130,7 +130,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull List<Version> getCompatibleVersions() {
+    public @NotNull List<Integer> getCompatibleVersions() {
         return Version.getVersionsNewerThan(Version.V1_16_5);
     }
 
@@ -391,11 +391,12 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public Map<Version, List<String>> getExamplesByVersion() {
+    public Map<Integer, List<String>> getExamplesByVersion() {
         return Map.of(
                 Version.V1_17, List.of(
                         "generators/deposits/copper_deposit.yml",
                         "generators/ores/copper.yml",
+                        "generators/crops/glow_berries.yml",
 
                         "structures/deposits/copper/copper_deposit_1.yml",
                         "structures/deposits/copper/copper_deposit_2.yml",
