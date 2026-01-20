@@ -14,7 +14,7 @@ hologram:
 
 --- # ===== Stage 2 =====
 type: ripe
-growth: 0   # default is 0, if set to 0 stage will be skipped when growing
+harvest-only: true   # If true this stage will be skipped during growth
 structure: great_oak_tree_1
 decorative-blocks: [oak_leaves, stripped_oak_wood]
 on-break:
@@ -29,7 +29,7 @@ hologram:
 
 --- # ===== Stage 3 =====
 type: ripe
-growth: 0
+harvest-only: true
 structure: great_oak_tree_2
 decorative-blocks: [oak_leaves, stripped_oak_wood]
 on-break:
@@ -44,7 +44,7 @@ hologram:
 
 --- # ===== Stage 4 =====
 type: ripe
-growth: 0
+harvest-only: true
 structure: great_oak_tree_3
 decorative-blocks: [oak_leaves, stripped_oak_wood]
 on-break:
@@ -60,7 +60,7 @@ hologram:
 --- # ===== Stage 5 =====
 type: ripe
 structure: great_oak_tree_4
-growth: 0
+harvest-only: true
 decorative-blocks: [oak_leaves, stripped_oak_wood]
 on-break:
   do: dropItemAtBlock oak_log
@@ -74,7 +74,7 @@ hologram:
 
 --- # ===== Stage 6 =====
 type: ripe
-growth: 0
+harvest-only: true
 structure: great_oak_tree_5
 decorative-blocks: [oak_leaves, stripped_oak_wood]
 on-break:

@@ -18,7 +18,7 @@ import java.util.*;
 
 public class OrestackSettings extends Settings {
 
-    private final boolean spigotEnchants = Reflection.onClass(Enchantment.class)
+    private final boolean spigotEnchants = Reflect.onClass(Enchantment.class)
             .matchMethod("getKeyOrNull");
 
     // Generic settings
