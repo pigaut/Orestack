@@ -128,9 +128,12 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             throw new InvalidConfigurationException(section, "idle", "Generator Stage with health set must be idle.");
         }
 
+        Boolean harvestOnly = section.getBoolean("harvest-only").withDefault(null);
         int growthTime = section.get("growth|growth-time", Ticks.class)
+                .filter(harvestOnly == null || !harvestOnly, "Cannot set growth time while harvest-only is true")
                 .map(Ticks::getCount)
                 .withDefault(0);
+
         Double chance = section.getDouble("chance|growth-chance").withDefault(null);
 
         int clickCooldown = section.getInteger("click-cooldown")
