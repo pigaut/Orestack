@@ -20,9 +20,7 @@ loading-player-data: '&4Player data is still loading try again later'
 world-not-found: '&4Could not find a world with name: {world-name}'
 expected-coordinates: '&4Expected coordinates but received: x: {x}, y: {y}, z: {z}'
 
-# ------------------
-#    Help Command
-# ------------------
+# ===== Help Command ===== #
 ## Description
 help-command: 'View a list of all available commands'
 ## Style
@@ -30,9 +28,17 @@ help-header: '&2------------     &r&l{command_name_tc} Help     &2------------'
 help-line: '&a/{command}: &r{command_description}'
 help-footer: '&2---------------------------------------------'
 
-# --------------------
-#    Reload Command
-# --------------------
+# ===== Wiki Command ===== #
+wiki-command: 'Receive a link to the Orestack wiki website'
+player-wiki: '[json]{"text":"Click to open the wiki","color":"aqua","clickEvent":{"action":"open_url","value":"https://pigaut.gitbook.io/orestack/"},"hoverEvent":{"action":"show_text","contents":"https://pigaut.gitbook.io/orestack/"}}'
+console-wiki: 'Orestack Wiki: https://pigaut.gitbook.io/orestack/'
+
+# ===== Support Command ===== #
+support-command: 'Receive a link to the Orestack discord server'
+player-support: '[json]{"text":"Click to join the discord server","color":"aqua","clickEvent":{"action":"open_url","value":"https://discord.com/invite/wFVbBSgrX2"},"hoverEvent":{"action":"show_text","contents":"https://discord.com/invite/wFVbBSgrX2"}}'
+console-support: 'Orestack Discord: https://discord.com/invite/wFVbBSgrX2'
+
+# ===== Reload Command ===== #
 ## Description
 reload-command: 'Reload configuration and data'
 ## Errors
