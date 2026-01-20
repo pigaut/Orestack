@@ -227,6 +227,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/crops/bamboo.yml",
                 "generators/crops/chorus/small_chorus_plant.yml",
                 "generators/crops/chorus/chorus_plant.yml",
+                "generators/crops/sweet_berry_bush.yml",
 
                 "generators/fibers/cotton.yml",
                 "generators/fibers/flax.yml",
