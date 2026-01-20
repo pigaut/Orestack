@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.config;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.function.*;
 import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.structure.*;
@@ -93,7 +94,8 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             }
         }
 
-        generator.setItemType(generator.getLastStage().getStructure().getMostCommonMaterial());
+        Material mostCommonMaterial = generator.getLastStage().getStructure().getMostCommonMaterial();
+        generator.setItemType(mostCommonMaterial);
 
         return generator;
     }
