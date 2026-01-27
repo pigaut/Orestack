@@ -36,8 +36,7 @@ bossbar:
 hologram:
   type: hologram
   hologram:
-    type: static
-    text: '&a&l+1 Emerald'
+    line: '&a&l+1 Emerald'
     offset: { y: 1 }
   duration: 30
   range: { x: 1, y: 0, z: 1 }

@@ -22,10 +22,10 @@ public class StructureGroupsMenu extends FramedSelectionMenu {
     public List<Button> createEntries() {
         return plugin.getStructures().getAllGroups().stream()
                 .map(group -> Button.builder()
-                        .withType(Material.CHEST)
-                        .withDisplay("&e&l" + CaseFormatter.toTitleCase(group))
-                        .addLore("")
-                        .addLore("&eLeft-Click: &fView all")
+                        .type(Material.CHEST)
+                        .name("&e&l" + CaseFormatter.toTitleCase(group))
+                        .addEmptyLine()
+                        .addLine("&eLeft-Click: &fView all")
                         .onLeftClick((menuView, player) -> menuView.getViewer().openMenu(new StructuresMenu(group)))
                         .buildButton())
                 .toList();

@@ -2,6 +2,8 @@ package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.orestack.menu.hologram.*;
 import io.github.pigaut.orestack.menu.hologram.editor.*;
+import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.convert.format.*;
@@ -10,123 +12,118 @@ import org.jetbrains.annotations.*;
 
 public class HologramMessageEditor extends GenericMessageEditor {
 
-    public HologramMessageEditor(ConfigSection messageSection) {
-        super("Edit Hologram Message", messageSection);
-        messageSection.set("type", "hologram");
-        if (!messageSection.isSection("hologram") && !messageSection.isSequence("hologram")) {
-            messageSection.getSectionOrCreate("hologram");
+    public HologramMessageEditor(ConfigSection section) {
+        super("Edit Hologram Message", section);
+        section.set("type", "hologram");
+        if (!section.isSection("hologram") && !section.isSequence("hologram")) {
+            section.set("hologram.line", "not set");
         }
     }
 
     @Override
     public @Nullable Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
-        final ButtonBuilder hologramButton = Button.builder()
+        Button[] buttons = super.createButtons();
+        ButtonBuilder hologramButton = Button.builder()
                 .enchanted(true)
-                .withType(Material.BEACON)
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo edit hologram")
-                .addLore("&6Right-Click: &fTo change hologram type")
+                .type(Material.BEACON)
+                .addEmptyLine()
+                .addLeftClickLine("To edit hologram")
+                .addRightClickLine("To change hologram type")
                 .onRightClick((view, player) -> {
-                    final ConfigSection hologramSection = section.getSectionOrCreate("hologram");
+                    ConfigSection hologramSection = section.getSectionOrCreate("hologram");
                     player.openMenu(new HologramCreationMenu(hologramSection, true));
                 });
 
-        final ConfigField hologramField = section.getRequiredField("hologram");
-        if (hologramField instanceof ConfigSection hologramSection) {
-            final String hologramType = hologramSection.getString("type", CaseStyle.CONSTANT).orElse("");
-            switch (hologramType) {
-                case "STATIC" -> hologramButton.withDisplay("&f&lStatic Hologram")
-                            .onLeftClick((view, player) -> player.openMenu(new StaticHologramEditor(hologramSection)));
-                case "ANIMATED" -> hologramButton.withDisplay("&f&lAnimated Hologram")
+        if (section.isSection("hologram")) {
+            ConfigSection hologramSection = section.getSectionOrCreate("hologram");
+            if (hologramSection.contains("line|text")) {
+                hologramButton.name("&f&lSingle-Line Hologram")
+                        .onLeftClick((view, player) -> player.openMenu(new SingleLineHologramEditor(hologramSection)));
+            }
+            else if (hologramSection.contains("lines")) {
+                hologramButton.name("&f&lMulti-Line Hologram")
+                        .onLeftClick((view, player) -> player.openMenu(new MultiLineHologramEditor(hologramSection)));
+            }
+            else if (hologramSection.contains("frames")) {
+                hologramButton.name("&f&lAnimated Hologram")
                         .onLeftClick((view, player) -> player.openMenu(new AnimatedHologramEditor(hologramSection)));
-                case "ITEM_DISPLAY" -> hologramButton.withDisplay("&f&lItem Hologram")
+            }
+            else if (hologramSection.contains("item")) {
+                hologramButton.name("&f&lItem Hologram")
                         .onLeftClick((view, player) -> player.openMenu(new ItemHologramEditor(hologramSection)));
-                case "BLOCK_DISPLAY" -> hologramButton.withDisplay("&f&lBlock Hologram")
+            }
+            else if (hologramSection.contains("block")) {
+                hologramButton.name("&f&lBlock Hologram")
                         .onLeftClick((view, player) -> player.openMenu(new BlockHologramEditor(hologramSection)));
-                default -> {
-                    hologramSection.set("type", "static");
-                    hologramButton.withDisplay("&f&lStatic Hologram")
-                            .onLeftClick((view, player) -> player.openMenu(new StaticHologramEditor(hologramSection)));
-                }
+            }
+            else {
+                hologramButton.type(Material.BARRIER).name("&c&lInvalid");
             }
         }
         else {
             ConfigSequence hologramSequence = section.getSequenceOrCreate("hologram");
-            hologramButton.withDisplay("&f&lMulti-line Hologram")
+            hologramButton.name("&f&lMulti Hologram")
                     .onLeftClick((view, player) -> player.openMenu(new MultiHologramEditor(hologramSequence)));
         }
 
-        final ButtonBuilder xRangeButton = Button.builder()
-                .withType(Material.RED_WOOL)
-                .withDisplay("&f&lRange X")
+        ButtonBuilder xRangeButton = Button.builder()
+                .type(Material.RED_WOOL)
                 .enchanted(true)
-                .addLore("")
-                .addLore(section.getString("radius.x").orElse("none"))
-                .addLore("")
-                .addLeftClickLore("To set hologram x radius")
+                .name("&f&lRange X")
+                .addEmptyLine()
+                .addLine(section.getString("range|radius.x").orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set hologram x-range")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Double.class)
-                            .description("Enter x-range amount in chat")
-                            .onInput(input -> {
-                                section.set("radius.x", input);
-                                view.open();
-                            })
+                            .description("Enter hologram x-range in chat")
+                            .onInput(input -> section.set("range|radius.x", input))
                             .start();
                 });
 
-        final ButtonBuilder yRangeButton = Button.builder()
-                .withType(Material.LIME_WOOL)
-                .withDisplay("&f&lRange Y")
+        ButtonBuilder yRangeButton = Button.builder()
+                .type(Material.LIME_WOOL)
                 .enchanted(true)
-                .addLore("")
-                .addLore(section.getString("radius.y").orElse("none"))
-                .addLore("")
-                .addLeftClickLore("To set hologram y radius")
+                .name("&f&lRange Y")
+                .addEmptyLine()
+                .addLine(section.getString("range|radius.y").orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set hologram y-range")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Double.class)
-                            .description("Enter y-radius amount in chat")
-                            .onInput(input -> {
-                                section.set("radius.y", input);
-                                view.open();
-                            })
+                            .description("Enter hologram y-range in chat")
+                            .onInput(input -> section.set("range|radius.y", input))
                             .start();
                 });
 
-        final ButtonBuilder zRangeButton = Button.builder()
-                .withType(Material.BLUE_WOOL)
-                .withDisplay("&f&lRange Z")
+        ButtonBuilder zRangeButton = Button.builder()
+                .type(Material.BLUE_WOOL)
                 .enchanted(true)
-                .addLore("")
-                .addLore(section.getString("radius.z").orElse("none"))
-                .addLore("")
-                .addLeftClickLore("To set hologram z radius")
+                .name("&f&lRange Z")
+                .addEmptyLine()
+                .addLine(section.getString("range|radius.z").orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set hologram z-radius")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Double.class)
-                            .description("Enter z-radius amount in chat")
-                            .onInput(input -> {
-                                section.set("radius.z", input);
-                                view.open();
-                            })
+                            .description("Enter hologram z-radius in chat")
+                            .onInput(input -> section.set("range|radius.z", input))
                             .start();
                 });
 
-        final String duration = section.getString("duration").orElse(null);
-        final ButtonBuilder durationButton = Button.builder()
-                .withType(Material.GLASS_BOTTLE)
-                .withDisplay("&f&lDuration")
+        String duration = section.getString("duration").orElse(null);
+        ButtonBuilder durationButton = Button.builder()
+                .type(Material.GLASS_BOTTLE)
                 .enchanted(true)
-                .addLore("")
-                .addLore(duration != null ? (duration + " ticks") : "none")
-                .addLore("")
-                .addLeftClickLore("To set hologram duration")
+                .name("&f&lDuration")
+                .addEmptyLine()
+                .addLine(duration != null ? (duration + " ticks") : "not set")
+                .addEmptyLine()
+                .addLeftClickLine("To set hologram duration")
                 .onLeftClick((view, player) -> {
-                    player.collectChatInput()
+                    player.collectChatInput(Double.class)
                             .description("Enter duration amount in chat")
-                            .onInput(input -> {
-                                section.set("duration", input);
-                                view.open();
-                            })
+                            .onInput(input -> section.set("duration", input))
                             .start();
                 });
 
@@ -138,4 +135,5 @@ public class HologramMessageEditor extends GenericMessageEditor {
 
         return buttons;
     }
+
 }

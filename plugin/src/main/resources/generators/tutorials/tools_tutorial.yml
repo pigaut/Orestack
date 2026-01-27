@@ -9,15 +9,12 @@ type: ripe
 growth: 5s
 block: oak_log
 hologram:
-  - type: static
-    offset.y: 1.25
-    text: '&b&lRequired Tool: &fAxe'
-  - type: static
-    offset.y: 1
-    text: '&f<right-click> to get'
+  offset.y: 1.25
+  lines:
+    - '&b&lRequired Tool: &fAxe'
+    - '&f<right-click> to get'
 
-on-click:
-  if: clickTypeEquals right_click
+on-right-click:
   do: giveItem iron_axe
 
 on-break:
@@ -34,15 +31,12 @@ growth: 5s
 block: diamond_ore
 
 hologram:
-  - type: static
-    offset.y: 1.25
-    text: '&b&lRequired Tool: &fIron Pickaxe'
-  - type: static
-    offset.y: 1
-    text: '&f<right-click> to get'
+  offset.y: 1.25
+  lines:
+    - '&b&lRequired Tool: &fIron Pickaxe'
+    - '&f<right-click> to get'
 
-on-click:
-  if: clickTypeEquals right_click
+on-right-click:
   do: giveItem iron_pickaxe
 
 on-break:
@@ -59,15 +53,12 @@ growth: 5s
 block: cobweb
 
 hologram:
-  - type: static
-    offset.y: 1.25
-    text: '&b&lRequired Tool: &fWeb Cutter'
-  - type: static
-    offset.y: 1
-    text: '&f<right-click> to get'
+  offset.y: 1.25
+  lines:
+    - '&b&lRequired Tool: &fWeb Cutter'
+    - '&f<right-click> to get'
 
-on-click:
-  if: clickTypeEquals right_click
+on-right-click:
   do: giveItem web_cutter
 
 on-break:
@@ -84,15 +75,12 @@ growth: 5s
 block: slime_block
 
 hologram:
-  - type: static
-    offset.y: 1.25
-    text: '&b&lRequired Tool: &fLegendary Axe'
-  - type: static
-    offset.y: 1
-    text: '&f<right-click> to get'
+  offset.y: 1.25
+  lines:
+    - '&b&lRequired Tool: &fLegendary Axe'
+    - '&f<right-click> to get'
 
-on-click:
-  if: clickTypeEquals right_click
+on-right-click:
   do: giveItem legendary_axe
 
 on-break:
@@ -108,13 +96,12 @@ on-break:
 --- # ===== Stage 6 =====
 type: regrown
 block: stone_bricks
+
 hologram:
-  - type: static
-    offset.y: 1.25
-    text: '&b&lRequired Tool: &fLore Katana'
-  - type: static
-    offset.y: 1
-    text: '&f<right-click> to get'
+  offset.y: 1.25
+  lines:
+    - '&b&lRequired Tool: &fLore Katana'
+    - '&f<right-click> to get'
 
 # Will remain on current stage when mined, you must set the stage manually. (setStage, previousStage)
 idle: true

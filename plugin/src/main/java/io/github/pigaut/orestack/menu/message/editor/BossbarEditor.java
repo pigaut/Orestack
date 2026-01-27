@@ -24,13 +24,13 @@ public class BossbarEditor extends GenericMessageEditor {
         Button[] buttons = super.createButtons();
 
         ButtonBuilder titleButton = Button.builder()
-                .withType(Material.OAK_SIGN)
-                .withDisplay("&f&lTitle")
+                .type(Material.OAK_SIGN)
+                .name("&f&lTitle")
                 .enchanted(true)
-                .addLore("")
-                .addLore(section.getString("title", StringColor.FORMATTER).orElse("none"))
-                .addLore("")
-                .addLeftClickLore("To set bar title")
+                .addEmptyLine()
+                .addLine(section.getString("title", StringColor.FORMATTER).orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set bar title")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput()
                             .description("Enter title in chat")
@@ -42,13 +42,13 @@ public class BossbarEditor extends GenericMessageEditor {
                 });
 
         ButtonBuilder styleButton = Button.builder()
-                .withType(Material.CHAIN)
-                .withDisplay("&f&lStyle")
+                .type(Material.CHAIN)
+                .name("&f&lStyle")
                 .enchanted(true)
-                .addLore("")
-                .addLore(section.getString("style", CaseStyle.TITLE).orElse("none"))
-                .addLore("")
-                .addLeftClickLore("To set bar style")
+                .addEmptyLine()
+                .addLine(section.getString("style", CaseStyle.TITLE).orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set bar style")
                 .onLeftClick((view, player) -> {
                     player.collectMenuSelection()
                             .description("Select Bar Style")
@@ -65,13 +65,13 @@ public class BossbarEditor extends GenericMessageEditor {
                 });
 
         ButtonBuilder durationButton = Button.builder()
-                .withType(Material.GLASS_BOTTLE)
-                .withDisplay("&f&lDuration")
+                .type(Material.GLASS_BOTTLE)
+                .name("&f&lDuration")
                 .enchanted(true)
-                .addLore("")
-                .addLore(section.getInteger("duration").orElse(100) + " ticks")
-                .addLore("")
-                .addLeftClickLore("To set bar duration")
+                .addEmptyLine()
+                .addLine(section.getInteger("duration").orElse(100) + " ticks")
+                .addEmptyLine()
+                .addLeftClickLine("To set bar duration")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Integer.class)
                             .description("Enter duration amount in chat")
@@ -83,13 +83,13 @@ public class BossbarEditor extends GenericMessageEditor {
                 });
 
         ButtonBuilder colorButton = Button.builder()
-                .withType(Material.RED_DYE)
-                .withDisplay("&f&lColor")
+                .type(Material.RED_DYE)
+                .name("&f&lColor")
                 .enchanted(true)
-                .addLore("")
-                .addLore(section.getString("color", CaseStyle.TITLE).orElse("none"))
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo set bar color")
+                .addEmptyLine()
+                .addLine(section.getString("color", CaseStyle.TITLE).orElse("not set"))
+                .addEmptyLine()
+                .addLine("&eLeft-Click: &fTo set bar color")
                 .onLeftClick((view, player) -> {
                     player.collectMenuSelection()
                             .description("Select Bar Color")
@@ -108,15 +108,15 @@ public class BossbarEditor extends GenericMessageEditor {
                 });
 
         ButtonBuilder progressButton = Button.builder()
-                .withType(Material.EXPERIENCE_BOTTLE)
-                .withDisplay("&f&lProgress")
+                .type(Material.EXPERIENCE_BOTTLE)
+                .name("&f&lProgress")
                 .enchanted(true)
-                .addLore("&7Info: &fBar progress must range from 0.0 (empty) to 1.0 (full)")
-                .addLore("")
-                .addLore("")
-                .addLeftClickLore("To add element to list")
-                .addRightClickLore("To remove element from list")
-                .addLore(progressSequence.stream().map(amount -> "- " + amount).toList())
+                .addLine("&7Info: &fBar progress must range from 0.0 (empty) to 1.0 (full)")
+                .addEmptyLine()
+                .addLines(progressSequence.stream().map(amount -> "- " + amount).toList())
+                .addEmptyLine()
+                .addLeftClickLine("To add element to list")
+                .addRightClickLine("To remove element from list")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Double.class)
                             .description("Enter bar progress in chat")

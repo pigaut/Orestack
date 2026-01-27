@@ -25,10 +25,10 @@ public class GeneratorTool {
     static {
         ITEM_TEMPLATE = IconBuilder.of(Material.TERRACOTTA)
                 .enchanted(true)
-                .withDisplay("&b&l{generator_tc} Generator ({generator_rotation_tc})")
-                .addLore("&fright-click to place")
-                .addLore("&fleft-click to break")
-                .addLore("&fshift + left-click (air) to rotate")
+                .name("&b&l{generator_tc} Generator ({generator_rotation_tc})")
+                .addLine("&fright-click to place")
+                .addLine("&fleft-click to break")
+                .addLine("&fshift + left-click (air) to rotate")
                 .buildIcon();
     }
 

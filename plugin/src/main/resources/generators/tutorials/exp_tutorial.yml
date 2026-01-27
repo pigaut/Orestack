@@ -9,13 +9,10 @@ type: ripe
 growth: 5s
 block: horn_coral_block
 hologram:
-  - type: static
-    text: '&6&lBreak-To:'
-    offset.y: 1
-
-  - type: static
-    text: '&eDrop exp at 0, 100, 0'
-    offset.y: 0.75
+  lines:
+    - '&6&lBreak-To:'
+    - '&eDrop exp at 0, 100, 0'
+  offset.y: 1
 
 on-break:
   do: dropExp 10 orbs=20 x=0, y=0, z=0
@@ -42,13 +39,10 @@ type: ripe
 growth: 5s
 block: horn_coral_block
 hologram:
-  - type: static
-    text: '&6&lBreak-To:'
-    offset.y: 1
-
-  - type: static
-    text: '&eDrop exp at player'
-    offset.y: 0.75
+  lines:
+    - '&6&lBreak-To:'
+    - '&eDrop exp at player'
+  offset.y: 1
 
 on-break:
   do: dropExpAtPlayer 100 orbs=12-18
@@ -71,13 +65,10 @@ on-break:
 type: regrown
 block: horn_coral_block
 hologram:
-  - type: static
-    text: '&6&lBreak-To:'
-    offset.y: 1
-
-  - type: static
-    text: '&eDrop exp at block'
-    offset.y: 0.75
+  lines:
+    - '&6&lBreak-To:'
+    - '&eDrop exp at block'
+  offset.y: 1
 
 on-break:
   do: dropExpAtBlock 10 orbs

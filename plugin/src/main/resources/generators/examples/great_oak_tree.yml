@@ -1,16 +1,13 @@
-
 --- # ===== Stage 1 =====
 type: depleted
 structure: great_oak_tree_0
 growth: 5s
 hologram:
-  - type: static
-    text: "&2&lGreat Oak Tree"
-    offset: { x: 2, y: 2.5, z: 0 }
-  - type: static
-    text: "&aGrowing: {generator_timer}"
-    update: 3
-    offset: { x: 2, y: 2.25, z: 0 }
+  offset: { x: 2, y: 2.5, z: 0 }
+  update: 3
+  lines:
+    - '&2&lGreat Oak Tree'
+    - '&aGrowing: {generator_timer}'
 
 --- # ===== Stage 2 =====
 type: ripe
@@ -20,12 +17,10 @@ decorative-blocks: [oak_leaves, stripped_oak_wood]
 on-break:
   do: dropItemAtBlock oak_log amount=20
 hologram:
-  - type: static
-    text: "&2&lGreat Oak Tree"
-    offset: { x: 2, y: 2.5, z: 0 }
-  - type: static
-    text: "&aLogs left: 20"
-    offset: { x: 2, y: 2.25, z: 0 }
+  offset: { x: 2, y: 2.5, z: 0 }
+  lines:
+    - '&2&lGreat Oak Tree'
+    - '&aLogs left: 20'
 
 --- # ===== Stage 3 =====
 type: ripe
@@ -35,12 +30,10 @@ decorative-blocks: [oak_leaves, stripped_oak_wood]
 on-break:
   do: dropItemAtBlock oak_log
 hologram:
-  - type: static
-    text: "&2&lGreat Oak Tree"
-    offset: { x: 2, y: 2.5, z: 0 }
-  - type: static
-    text: "&aLogs left: 21"
-    offset: { x: 2, y: 2.25, z: 0 }
+  offset: { x: 2, y: 2.5, z: 0 }
+  lines:
+    - '&2&lGreat Oak Tree'
+    - '&aLogs left: 21'
 
 --- # ===== Stage 4 =====
 type: ripe
@@ -50,12 +43,10 @@ decorative-blocks: [oak_leaves, stripped_oak_wood]
 on-break:
   do: dropItemAtBlock oak_log
 hologram:
-  - type: static
-    text: "&2&lGreat Oak Tree"
-    offset: { x: 2, y: 2.5, z: 0 }
-  - type: static
-    text: "&aLogs left: 22"
-    offset: { x: 2, y: 2.25, z: 0 }
+  offset: { x: 2, y: 2.5, z: 0 }
+  lines:
+    - '&2&lGreat Oak Tree'
+    - '&aLogs left: 22'
 
 --- # ===== Stage 5 =====
 type: ripe
@@ -65,12 +56,10 @@ decorative-blocks: [oak_leaves, stripped_oak_wood]
 on-break:
   do: dropItemAtBlock oak_log
 hologram:
-  - type: static
-    text: "&2&lGreat Oak Tree"
-    offset: { x: 2, y: 2.5, z: 0 }
-  - type: static
-    text: "&aLogs left: 23"
-    offset: { x: 2, y: 2.25, z: 0 }
+  offset: { x: 2, y: 2.5, z: 0 }
+  lines:
+    - '&2&lGreat Oak Tree'
+    - '&aLogs left: 23'
 
 --- # ===== Stage 6 =====
 type: ripe
@@ -80,12 +69,10 @@ decorative-blocks: [oak_leaves, stripped_oak_wood]
 on-break:
   do: dropItemAtBlock oak_log
 hologram:
-  - type: static
-    text: "&2&lGreat Oak Tree"
-    offset: { x: 2, y: 2.5, z: 0 }
-  - type: static
-    text: "&aLogs left: 24"
-    offset: { x: 2, y: 2.25, z: 0 }
+  offset: { x: 2, y: 2.5, z: 0 }
+  lines:
+    - '&2&lGreat Oak Tree'
+    - '&aLogs left: 24'
 
 --- # ===== Stage 7 =====
 type: regrown
@@ -94,9 +81,7 @@ decorative-blocks: [oak_leaves, stripped_oak_wood]
 on-break:
   do: dropItemAtBlock oak_log
 hologram:
-  - type: static
-    text: "&2&lGreat Oak Tree"
-    offset: { x: 2, y: 2.5, z: 0 }
-  - type: static
-    text: "&aLogs left: 25"
-    offset: { x: 2, y: 2.25, z: 0 }
+  offset: { x: 2, y: 2.5, z: 0 }
+  lines:
+    - '&2&lGreat Oak Tree'
+    - '&aLogs left: 25'

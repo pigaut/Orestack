@@ -6,7 +6,6 @@ import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.voxel.menu.template.button.*;
 import io.github.pigaut.voxel.menu.template.menu.editor.*;
-import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
@@ -32,66 +31,74 @@ public class MultiHologramEditor extends FramedSelectionEditor {
         final List<Button> buttons = new ArrayList<>();
 
         for (int i = 0; i < hologramSequence.size(); i++) {
-            final ConfigSection hologramSection = hologramSequence.getSectionOrCreate(i);
-            final String hologramType = hologramSection.getString("type", CaseStyle.CONSTANT).orElse("");
+            ConfigSection hologramSection = hologramSequence.getSectionOrCreate(i);
 
-            final int hologramIndex = i;
+            int hologramIndex = i;
             ButtonBuilder hologramButton = Button.builder()
-                    .withAmount(hologramIndex + 1)
+                    .amount(hologramIndex + 1)
                     .enchanted(true)
-                    .addLore("")
-                    .addLore("&eLeft-Click: &fTo edit hologram")
-                    .addLore("&cRight-Click: &fTo remove hologram")
+                    .addEmptyLine()
+                    .addLeftClickLine("To edit hologram")
+                    .addRightClickLine("To remove hologram")
                     .onRightClick((view, playerState) -> {
                         hologramSequence.remove(hologramIndex);
                         view.update();
                     });
 
-            switch (hologramType) {
-                case "STATIC" ->
-                    hologramButton.withType(Material.PAINTING)
-                            .withDisplay(hologramSection.getString("text", StringColor.FORMATTER).orElse("none"))
-                            .onLeftClick((view, player) -> player.openMenu(new StaticHologramEditor(hologramSection)));
-                case "ANIMATED" -> hologramButton.withType(Material.ITEM_FRAME)
-                        .withDisplay(hologramSection.getString("frames[0]").orElse("none"))
+            if (hologramSection.contains("line|text")) {
+                hologramButton.type(Material.NAME_TAG)
+                        .name(hologramSection.getString("line|text", StringColor.FORMATTER).orElse("not set"))
+                        .onLeftClick((view, player) -> player.openMenu(new SingleLineHologramEditor(hologramSection)));
+            }
+
+            else if (hologramSection.contains("lines")) {
+                hologramButton.type(Material.OAK_SIGN)
+                        .name(hologramSection.getString("lines[0]", StringColor.FORMATTER).orElse("not set"))
+                        .onLeftClick((view, player) -> player.openMenu(new SingleLineHologramEditor(hologramSection)));
+            }
+
+            else if (hologramSection.contains("frames")) {
+                hologramButton.type(Material.PAINTING)
+                        .name(hologramSection.getString("frames[0]").orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new AnimatedHologramEditor(hologramSection)));
-                case "ITEM_DISPLAY" -> {
-                    hologramButton.withType(Material.IRON_PICKAXE)
-                            .onLeftClick((view, player) -> player.openMenu(new ItemHologramEditor(hologramSection)));
+            }
 
-                    if (hologramSection.isSet("item")) {
-                        hologramButton.withDisplay(hologramSection.getString("item", CaseStyle.CONSTANT).orElse("none"));
-                    }
-                    else if (hologramSection.isSet("item.material")) {
-                        hologramButton.withDisplay(hologramSection.getString("item.material", CaseStyle.CONSTANT).orElse("none"));
-                    }
-                    else {
-                        hologramButton.withDisplay("none");
-                    }
+            else if (hologramSection.contains("item")) {
+                hologramButton.type(Material.IRON_PICKAXE)
+                        .onLeftClick((view, player) -> player.openMenu(new ItemHologramEditor(hologramSection)));
+
+                if (hologramSection.contains("item")) {
+                    hologramButton.name(hologramSection.getString("item").orElse("not set"));
                 }
-                case "BLOCK_DISPLAY" -> hologramButton.withType(Material.GRASS_BLOCK)
-                        .withDisplay(hologramSection.getString("block", CaseStyle.CONSTANT).orElse("none"))
+                else if (hologramSection.contains("item.material")) {
+                    hologramButton.name(hologramSection.getString("item.material", CaseStyle.TITLE).orElse("not set"));
+                }
+                else {
+                    hologramButton.name("not set");
+                }
+            }
+
+            else if (hologramSection.contains("block")) {
+                hologramButton.type(Material.GRASS_BLOCK)
+                        .name(hologramSection.getString("block", CaseStyle.TITLE).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new BlockHologramEditor(hologramSection)));
+            }
 
-                default -> {
-                    hologramSection.set("type", "static");
-                    hologramButton.withType(Material.PAINTING)
-                            .withDisplay(hologramSection.getString("text", StringColor.FORMATTER).orElse("none"))
-                            .onLeftClick((view, player) -> player.openMenu(new StaticHologramEditor(hologramSection)));
-                }
+            else {
+                hologramButton.type(Material.BARRIER).name("&4Invalid");
             }
 
             buttons.add(hologramButton.buildButton());
         }
 
-        ButtonBuilder addHologramLine = Button.builder()
-                .withType(Material.LIME_DYE)
+        ButtonBuilder addHologramButton = Button.builder()
+                .type(Material.LIME_DYE)
                 .enchanted(true)
-                .withDisplay("&2Add New Hologram")
+                .name("&2Add New Hologram")
                 .onLeftClick((view, player) ->
                         player.openMenu(new HologramCreationMenu(hologramSequence.addEmptySection(), false)));
 
-        buttons.add(addHologramLine.buildButton());
+        buttons.add(addHologramButton.buildButton());
 
         return buttons;
     }

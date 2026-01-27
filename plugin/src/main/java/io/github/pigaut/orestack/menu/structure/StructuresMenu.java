@@ -23,8 +23,8 @@ public class StructuresMenu extends FramedSelectionMenu {
     public List<Button> createEntries() {
         return plugin.getStructures().getAll(group).stream()
                 .map(structure -> Button.builder()
-                        .withType(structure.getIcon().getType())
-                        .withDisplay("&e&o" + CaseFormatter.toTitleCase(structure.getName()))
+                        .type(structure.getIcon().getType())
+                        .name("&e&o" + CaseFormatter.toTitleCase(structure.getName()))
                         .buildButton())
                 .toList();
     }

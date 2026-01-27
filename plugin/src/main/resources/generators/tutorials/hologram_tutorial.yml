@@ -1,38 +1,50 @@
 
---- # ===== Stage 1 =====
+--- #===== Stage 1 =====#
 type: depleted
 growth: 5s
 block: bedrock
 
+# Single-Line Hologram
 hologram:
-  # The hologram type: static, animated, item_display and block_display
-  type: static
-  text: '&7&lDepleted'
+  line: '&7&lSingle-Line'
   # Holograms do not spawn inside blocks adjust the offset until you see the hologram
   offset:
     x: 0
     y: 1
     z: 0
 
---- # ===== Stage 2 =====
+--- #===== Stage 2 =====#
 type: ripe
 growth: 5s
 block: cobblestone
 
+# Single-Line Hologram with placeholders
 hologram:
-  type: static
-  text: '&7&lCobblestone &7[{stage_timer}]'
-  # Set the update timer (ticks) to refresh placeholders of static holograms
+  line: '&7&lSingle-Line &7[{stage_timer}]'
+  # Set the update frequency to refresh placeholders
   update: 3
   offset: { x: 0, y: 1, z: 0 }
 
---- # ===== Stage 3 =====
+--- #===== Stage 3 =====#
+type: ripe
+growth: 5s
+block: coal_ore
+
+# Multi-Line Hologram with placeholders
+hologram:
+  lines:
+    - '&7&lMulti-Line'
+    - '&7Grows in: {stage_timer}'
+  update: 3
+  offset: { x: 0, y: 1, z: 0 }
+
+--- #===== Stage 4 =====#
 type: ripe
 growth: 5s
 block: iron_ore
 
+# Animated Hologram
 hologram:
-  type: animated
   # Create an animation using a frame list
   frames:
     - '&8&lIron &7[{stage_timer}]'
@@ -47,40 +59,43 @@ hologram:
   update: 3
   offset: { y: 1 }
 
---- # ===== Stage 4 =====
+--- #===== Stage 5 =====#
 type: ripe
 growth: 5s
 block: gold_ore
 
+# Item Hologram
 hologram:
-  type: item_display
   item: iron_pickaxe
   offset.y: 1
 
---- # ===== Stage 5 =====
+--- #===== Stage 6 =====#
 type: ripe
 growth: 5s
 block: diamond_ore
 
+# Block Hologram
 hologram:
-  type: block_display
   block: diamond_ore
   offset.y: 1
 
---- # ===== Stage 6 =====
+--- #===== Stage 7 =====#
 type: regrown
 block: emerald_ore
 
+# Multi Hologram (multiple holograms with different offsets)
 hologram:
-  # Use a list of holograms to spawn more than one hologram
-  - type: static
-    text: "&f-- &2&lEmerald Ore &f--"
-    # One hologram line is 0.20 in height, 0.25 will leave a little spacing
+  # Hologram 1
+  - line: "&f-- &2&lSingle-Line &f--"
     offset.y: 1
 
-  - type: animated
-    frames:
-      - '&a<ready>'
-      - '&f<ready>'
+  # Hologram 2
+  - frames:
+      - '&a<animated!>'
+      - '&f<animated!>'
     update: 8
     offset.y: 0.75
+
+  # Hologram 3
+  - item: diamond
+    offset.y: 0.25

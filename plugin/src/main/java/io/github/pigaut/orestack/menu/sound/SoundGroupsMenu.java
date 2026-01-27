@@ -22,10 +22,10 @@ public class SoundGroupsMenu extends FramedSelectionMenu {
     public List<Button> createEntries() {
         return plugin.getSounds().getAllGroups().stream()
                 .map(group -> Button.builder()
-                        .withType(Material.CHEST)
-                        .withDisplay("&3&l" + CaseFormatter.toTitleCase(group))
-                        .addLore("")
-                        .addLore("&eLeft-Click: &fView all sound effects")
+                        .type(Material.CHEST)
+                        .name("&3&l" + CaseFormatter.toTitleCase(group))
+                        .addEmptyLine()
+                        .addLine("&eLeft-Click: &fView all sound effects")
                         .onLeftClick((view, player) -> player.openMenu(new SoundsMenu(plugin, group)))
                         .buildButton())
                 .toList();

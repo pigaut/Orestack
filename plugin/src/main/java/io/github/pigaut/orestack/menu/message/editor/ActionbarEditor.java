@@ -19,8 +19,8 @@ public class ActionbarEditor extends GenericMessageEditor {
         final Button[] buttons = super.createButtons();
 
         final ButtonBuilder messageButton = Button.builder()
-                .withType(Material.OAK_SIGN)
-                .withDisplay("&f&lMessage")
+                .type(Material.OAK_SIGN)
+                .name("&f&lMessage")
                 .enchanted(true)
                 .onLeftClick((view, player) -> {
                     player.collectChatInput()
@@ -31,10 +31,10 @@ public class ActionbarEditor extends GenericMessageEditor {
                             })
                             .start();
                 })
-                .addLore("")
-                .addLore(section.getString("message", StringColor.FORMATTER).orElse("none"))
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo set the message");
+                .addEmptyLine()
+                .addLine(section.getString("message", StringColor.FORMATTER).orElse("not set"))
+                .addEmptyLine()
+                .addLine("&eLeft-Click: &fTo set the message");
 
         buttons[20] = messageButton.buildButton();
 
