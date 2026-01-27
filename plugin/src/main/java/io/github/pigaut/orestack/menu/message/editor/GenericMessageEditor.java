@@ -25,13 +25,13 @@ public class GenericMessageEditor extends FramedEditor {
 
         final Integer delay = section.getInteger("delay").orElse(null);
         final ButtonBuilder delayButton = Button.builder()
-                .withType(Material.CLOCK)
-                .withDisplay("&f&lDelay")
+                .type(Material.CLOCK)
+                .name("&f&lDelay")
                 .enchanted(true)
-                .addLore("")
-                .addLore(delay != null ? (delay + " ticks") : "none")
-                .addLore("")
-                .addLeftClickLore("To set message delay")
+                .addEmptyLine()
+                .addLine(delay != null ? (delay + " ticks") : "not set")
+                .addEmptyLine()
+                .addLeftClickLine("To set message delay")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Integer.class)
                             .description("Enter delay amount in chat")
@@ -43,13 +43,13 @@ public class GenericMessageEditor extends FramedEditor {
                 });
 
         final ButtonBuilder repetitionsButton = Button.builder()
-                .withType(Material.REPEATER)
-                .withDisplay("&f&lRepetitions")
+                .type(Material.REPEATER)
+                .name("&f&lRepetitions")
                 .enchanted(true)
-                .addLore("")
-                .addLore(section.getString("repeat|repetitions").orElse("none"))
-                .addLore("")
-                .addLeftClickLore("To set message repetitions")
+                .addEmptyLine()
+                .addLine(section.getString("repeat|repetitions").orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set message repetitions")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Integer.class)
                             .description("Enter repetitions amount in chat")
@@ -62,13 +62,13 @@ public class GenericMessageEditor extends FramedEditor {
 
         final Integer interval = section.getInteger("interval").orElse(null);
         final ButtonBuilder intervalButton = Button.builder()
-                .withType(Material.COMPARATOR)
-                .withDisplay("&f&lInterval")
+                .type(Material.COMPARATOR)
+                .name("&f&lInterval")
                 .enchanted(true)
-                .addLore("")
-                .addLore(interval != null ? (interval + " ticks") : "none")
-                .addLore("")
-                .addLeftClickLore("To set message interval")
+                .addEmptyLine()
+                .addLine(interval != null ? (interval + " ticks") : "not set")
+                .addEmptyLine()
+                .addLeftClickLine("To set message interval")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Integer.class)
                             .description("Enter interval amount in chat")

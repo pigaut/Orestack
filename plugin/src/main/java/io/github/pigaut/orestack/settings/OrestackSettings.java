@@ -64,15 +64,15 @@ public class OrestackSettings extends Settings {
                 .withDefault(Amount.ONE, errors::add);
 
         clickCooldown = config.getInteger("click-cooldown")
-                .filter(Predicates.isPositive(), "Cooldown ticks must be a positive amount")
+                .filter(Filters.isPositive(), "Cooldown ticks must be a positive amount")
                 .withDefault(4, errors::add);
 
         hitCooldown = config.getInteger("hit-cooldown")
-                .filter(Predicates.isPositive(), "Cooldown ticks must be a positive amount")
+                .filter(Filters.isPositive(), "Cooldown ticks must be a positive amount")
                 .withDefault(4, errors::add);
 
         harvestCooldown = config.getInteger("harvest-cooldown")
-                .filter(Predicates.isPositive(), "Cooldown ticks must be a positive amount")
+                .filter(Filters.isPositive(), "Cooldown ticks must be a positive amount")
                 .withDefault(4, errors::add);
 
         // Vein miner settings
@@ -85,11 +85,11 @@ public class OrestackSettings extends Settings {
         veinSizeByLevel = new HashMap<>();
         for (ConfigScalar scalar : config.getSectionOrCreate("vein-size-by-level").getNestedScalars()) {
             Integer veinSize = scalar.toInteger()
-                    .filter(Predicates.isPositive(), "Vein size must be positive")
+                    .filter(Filters.isPositive(), "Vein size must be positive")
                     .withDefault(null, errors::add);
 
             Integer enchantLevel = ((KeyedScalar) scalar).getIntegerKey()
-                    .filter(Predicates.isPositive(), "Enchant level must be positive")
+                    .filter(Filters.isPositive(), "Enchant level must be positive")
                     .withDefault(null, errors::add);
 
             if (veinSize != null && enchantLevel != null) {

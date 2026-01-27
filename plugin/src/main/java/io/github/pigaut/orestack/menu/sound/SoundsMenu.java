@@ -24,10 +24,10 @@ public class SoundsMenu extends FramedSelectionMenu {
     public List<Button> createEntries() {
         return plugin.getSounds().getAll(group).stream()
                 .map(sound -> Button.builder()
-                        .withType(sound.getIcon().getType())
-                        .withDisplay("&3&o" + CaseFormatter.toTitleCase(sound.getName()))
-                        .addLore("")
-                        .addLore("&eLeft-Click: &fPlay-me sound")
+                        .type(sound.getIcon().getType())
+                        .name("&3&o" + CaseFormatter.toTitleCase(sound.getName()))
+                        .addEmptyLine()
+                        .addLine("&eLeft-Click: &fPlay-me sound")
                         .onLeftClick((menuView, player) -> {
                             sound.play(player.asPlayer(), player.getLocation());
                         })

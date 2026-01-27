@@ -22,11 +22,11 @@ public class GeneratorGroupsMenu extends FramedSelectionMenu {
     public List<Button> createEntries() {
         return plugin.getGeneratorTemplates().getAllGroups().stream()
                 .map(group -> Button.builder()
-                        .withType(Material.CHEST)
-                        .withDisplay("&6&l" + CaseFormatter.toTitleCase(group))
-                        .addLore("")
-                        .addLore("&eLeft-Click: &fView all generators")
-                        .addLore("&6Right-Click: &fGet all generators")
+                        .type(Material.CHEST)
+                        .name("&6&l" + CaseFormatter.toTitleCase(group))
+                        .addEmptyLine()
+                        .addLine("&eLeft-Click: &fView all generators")
+                        .addLine("&6Right-Click: &fGet all generators")
                         .onLeftClick((menuView, player) ->
                                 player.openMenu(new GeneratorsMenu(plugin, group)))
                         .onRightClick((menuView, player) ->

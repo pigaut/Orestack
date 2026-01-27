@@ -4,7 +4,7 @@ growth: 30s
 block: oak_log
 
 hologram:
-  text: '&7Growing: {generator_timer}'
+  line: '&7Growing: {generator_timer}'
   update: 3
   offset.y: 1
 
@@ -16,14 +16,11 @@ structure: oak_tree_1
 decorative-blocks: [oak_leaves]   # These blocks do not trigger functions (on-break, on-click, on-hit)
 
 hologram:
-  - text: Oak Tree
-    offset: { x: 1, y: 1.25 }
-  - text: 'Required Tool: Axe'
-    offset: { x: 1, y: 1 }
-  - text: '[Click to Chop]'
-    offset: { x: 1, y: 0.75}
-  - text: '&8[&7|||||||||||||||&a|||||&8]'
-    offset: { x: 1, y: 0.5 }
+  lines:
+    - 'Required Tool: Axe'
+    - '[Click to Chop]'
+    - '&8[&7|||||||||||||||&a|||||&8]'
+  offset: { x: 1, y: 1.25 }
 
 # Triggered when a player left-clicks a block
 on-hit:
@@ -43,15 +40,13 @@ health: 10
 hit-cooldown: 7
 structure: oak_tree_2
 decorative-blocks: [oak_leaves]
+
 hologram:
-  - text: Oak Tree
-    offset: { x: 1, y: 1.25 }
-  - text: 'Required Tool: Axe'
-    offset: { x: 1, y: 1 }
-  - text: '[Click to Chop]'
-    offset: { x: 1, y: 0.75}
-  - text: '&8[&7||||||||||&a||||||||||&8]'
-    offset: { x: 1, y: 0.5 }
+  lines:
+    - 'Required Tool: Axe'
+    - '[Click to Chop]'
+    - '&8[&7||||||||||&a||||||||||&8]'
+  offset: { x: 1, y: 1.25 }
 
 on-hit:
   - requireAxe
@@ -71,14 +66,11 @@ structure: oak_tree_3
 decorative-blocks: [oak_leaves]
 
 hologram:
-  - text: Oak Tree
-    offset: { x: 1, y: 1.25 }
-  - text: 'Required Tool: Axe'
-    offset: { x: 1, y: 1 }
-  - text: '[Click to Chop]'
-    offset: { x: 1, y: 0.75}
-  - text: '&8[&7|||||&a|||||||||||||||&8]'
-    offset: { x: 1, y: 0.5 }
+  lines:
+    - 'Required Tool: Axe'
+    - '[Click to Chop]'
+    - '&8[&7|||||&a|||||||||||||||&8]'
+  offset: { x: 1, y: 1.25 }
 
 on-hit:
   - requireAxe
@@ -98,14 +90,11 @@ structure: oak_tree_4
 decorative-blocks: [oak_leaves]
 
 hologram:
-  - text: Oak Tree
-    offset: { x: 1, y: 1.25 }
-  - text: 'Required Tool: Axe'
-    offset: { x: 1, y: 1 }
-  - text: '[Click to Chop]'
-    offset: { x: 1, y: 0.75}
-  - text: '&8[&a||||||||||||||||||||&8]'
-    offset: { x: 1, y: 0.5 }
+  lines:
+    - 'Required Tool: Axe'
+    - '[Click to Chop]'
+    - '&8[&a||||||||||||||||||||&8]'
+  offset: { x: 1, y: 1.25 }
 
 on-hit:
   - requireAxe

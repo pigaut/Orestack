@@ -24,10 +24,10 @@ public class FunctionsMenu extends FramedSelectionMenu {
     public List<Button> createEntries() {
         return plugin.getFunctions().getAll(group).stream()
                 .map(function -> Button.builder()
-                        .withType(function.getIcon().getType())
-                        .withDisplay("&8&o" + CaseFormatter.toTitleCase(function.getName()))
-                        .addLore("")
-                        .addLore("&eLeft-Click: &fRun function")
+                        .type(function.getIcon().getType())
+                        .name("&8&o" + CaseFormatter.toTitleCase(function.getName()))
+                        .addEmptyLine()
+                        .addLine("&eLeft-Click: &fRun function")
                         .onLeftClick((menuView, player) -> function.run(player))
                         .buildButton())
                 .toList();

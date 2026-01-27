@@ -35,11 +35,11 @@ public class MessageCreationMenu extends FramedMenu {
         final Button[] buttons = super.createButtons();
 
         buttons[10] = Button.builder()
-                .withType(Material.BOOK)
+                .type(Material.BOOK)
                 .enchanted(true)
-                .withDisplay("Chat")
-                .addLore("")
-                .addLeftClickLore("To create a new chat message")
+                .name("Chat")
+                .addEmptyLine()
+                .addLeftClickLine("To create a new chat message")
                 .onLeftClick((view, player) -> {
                     final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
                     player.openMenu(chatMessageEditor, view.getPreviousView());
@@ -47,11 +47,11 @@ public class MessageCreationMenu extends FramedMenu {
                 .buildButton();
 
         buttons[11] = Button.builder()
-                .withType(Material.MAP)
+                .type(Material.MAP)
                 .enchanted(true)
-                .withDisplay("Action Bar")
-                .addLore("")
-                .addLeftClickLore("To create a new action bar message")
+                .name("Action Bar")
+                .addEmptyLine()
+                .addLeftClickLine("To create a new action bar message")
                 .onLeftClick((view, player) -> {
                     final Menu actionbarEditor = new ActionbarEditor(messageSection);
                     player.openMenu(actionbarEditor, view.getPreviousView());
@@ -59,11 +59,11 @@ public class MessageCreationMenu extends FramedMenu {
                 .buildButton();
 
         buttons[12] = Button.builder()
-                .withType(Material.NAME_TAG)
+                .type(Material.NAME_TAG)
                 .enchanted(true)
-                .withDisplay("Title")
-                .addLore("")
-                .addLeftClickLore("To create a new title message")
+                .name("Title")
+                .addEmptyLine()
+                .addLeftClickLine("To create a new title message")
                 .onLeftClick((view, player) -> {
                     final Menu titleEditor = new TitleEditor(messageSection);
                     player.openMenu(titleEditor, view.getPreviousView());
@@ -71,11 +71,11 @@ public class MessageCreationMenu extends FramedMenu {
                 .buildButton();
 
         buttons[14] = Button.builder()
-                .withType(Material.DRAGON_HEAD)
+                .type(Material.DRAGON_HEAD)
                 .enchanted(true)
-                .withDisplay("Boss Bar")
-                .addLore("")
-                .addLeftClickLore("To create a new boss bar message")
+                .name("Boss Bar")
+                .addEmptyLine()
+                .addLeftClickLine("To create a new boss bar message")
                 .onLeftClick((view, player) -> {
                     final Menu bossbarEditor = new BossbarEditor(messageSection);
                     player.openMenu(bossbarEditor, view.getPreviousView());
@@ -83,12 +83,12 @@ public class MessageCreationMenu extends FramedMenu {
                 .buildButton();
 
         buttons[15] = Button.builder()
-                .withType(Material.BEACON)
+                .type(Material.BEACON)
                 .enchanted(true)
-                .withDisplay("Hologram")
-                .addLore("&c&o[!] Requires DecentHolograms")
-                .addLore("")
-                .addLeftClickLore("To create a new hologram message")
+                .name("Hologram")
+                .addLine("&c&o[!] Requires DecentHolograms")
+                .addEmptyLine()
+                .addLeftClickLine("To create a new hologram message")
                 .onLeftClick((view, player) -> {
                     final Menu hologramMessageEditor = new HologramMessageEditor(messageSection);
                     player.openMenu(hologramMessageEditor, view.getPreviousView());
@@ -97,11 +97,11 @@ public class MessageCreationMenu extends FramedMenu {
 
         if (multiMessageButton) {
             buttons[16] = Button.builder()
-                    .withType(Material.BOOKSHELF)
+                    .type(Material.BOOKSHELF)
                     .enchanted(true)
-                    .withDisplay("Multi Message")
-                    .addLore("")
-                    .addLeftClickLore("To create a new multi message")
+                    .name("Multi Message")
+                    .addEmptyLine()
+                    .addLeftClickLine("To create a new multi message")
                     .onLeftClick((view, player) -> {
                         final Menu multiMessageEditor = new MultiMessageEditor(messageSection.convertToSequence());
                         player.openMenu(multiMessageEditor, view.getPreviousView());

@@ -27,10 +27,10 @@ public class ParticleCreationMenu extends FramedMenu {
         final Button[] buttons = super.createButtons();
 
         buttons[10] = Button.builder()
-                .withType(Material.CAMPFIRE)
-                .withDisplay("Basic")
-                .addLore("")
-                .addLeftClickLore("Create a new basic particle")
+                .type(Material.CAMPFIRE)
+                .name("Basic")
+                .addEmptyLine()
+                .addLeftClickLine("Create a new basic particle")
                 .enchanted(true)
                 .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
@@ -39,10 +39,10 @@ public class ParticleCreationMenu extends FramedMenu {
                 .buildButton();
 
         buttons[11] = Button.builder()
-                .withType(Material.REDSTONE)
-                .withDisplay("Dust (colored)")
-                .addLore("")
-                .addLeftClickLore("Create a new dust particle")
+                .type(Material.REDSTONE)
+                .name("Dust (colored)")
+                .addEmptyLine()
+                .addLeftClickLine("Create a new dust particle")
                 .enchanted(true)
                 .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
@@ -51,10 +51,10 @@ public class ParticleCreationMenu extends FramedMenu {
                 .buildButton();
 
         buttons[12] = Button.builder()
-                .withType(Material.ARROW)
-                .withDisplay("Directional (moving)")
-                .addLore("")
-                .addLeftClickLore("Create a new directional particle")
+                .type(Material.ARROW)
+                .name("Directional (moving)")
+                .addEmptyLine()
+                .addLeftClickLine("Create a new directional particle")
                 .enchanted(true)
                 .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
@@ -63,10 +63,10 @@ public class ParticleCreationMenu extends FramedMenu {
                 .buildButton();
 
         buttons[13] = Button.builder()
-                .withType(Material.POTION)
-                .withDisplay("Spell (colored)")
-                .addLore("")
-                .addLeftClickLore("Create a new spell particle")
+                .type(Material.POTION)
+                .name("Spell (colored)")
+                .addEmptyLine()
+                .addLeftClickLine("Create a new spell particle")
                 .enchanted(true)
                 .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
@@ -75,10 +75,10 @@ public class ParticleCreationMenu extends FramedMenu {
                 .buildButton();
 
         buttons[14] = Button.builder()
-                .withType(Material.NOTE_BLOCK)
-                .withDisplay("Note (colored)")
-                .addLore("")
-                .addLeftClickLore("Create a new note particle")
+                .type(Material.NOTE_BLOCK)
+                .name("Note (colored)")
+                .addEmptyLine()
+                .addLeftClickLine("Create a new note particle")
                 .enchanted(true)
                 .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
@@ -87,10 +87,10 @@ public class ParticleCreationMenu extends FramedMenu {
                 .buildButton();
 
         buttons[15] = Button.builder()
-                .withType(Material.STONE)
-                .withDisplay("Material")
-                .addLore("")
-                .addLeftClickLore("Create a new material particle")
+                .type(Material.STONE)
+                .name("Material")
+                .addEmptyLine()
+                .addLeftClickLine("Create a new material particle")
                 .enchanted(true)
                 .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);
@@ -99,10 +99,10 @@ public class ParticleCreationMenu extends FramedMenu {
                 .buildButton();
 
         buttons[16] = Button.builder()
-                .withType(Material.GLOWSTONE_DUST)
-                .withDisplay("Dust Transition (colored)")
-                .addLore("")
-                .addLeftClickLore("Create a new dust transition particle")
+                .type(Material.GLOWSTONE_DUST)
+                .name("Dust Transition (colored)")
+                .addEmptyLine()
+                .addLeftClickLine("Create a new dust transition particle")
                 .enchanted(true)
                 .onLeftClick((view, player) -> {
 //                    final Menu chatMessageEditor = new ChatMessageEditor(messageSection);

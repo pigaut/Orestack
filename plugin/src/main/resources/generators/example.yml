@@ -5,7 +5,6 @@ block: iron_block
 growth: 40  # Time in ticks to grow to the next stage, or time format: (1 hour(s) 10 m|min(s)|minute(s) 100 s|sec(s)|second(s))
 
 hologram:
-  type: animated
   offset: { x: 0, y: 1, z: 0 }
   update: 10  # 40 ticks of growth divided into 4 frames (40 / 4 = 10)
   frames:
@@ -26,8 +25,7 @@ growth: 3s
 chance: 0.8  # 80% chance to spawn, otherwise skips to the next stage
 
 hologram:
-  - type: animated
-    update: 3
+  - update: 3
     offset: { x: 0, y: 1, z: 0 }
     frames:
       - "&6&lG"
@@ -47,8 +45,7 @@ hologram:
       - "&6&lGol"
       - "&6&lGo"
       - "&6&lG"
-  - type: static
-    text: "&eright-click"
+  - line: "&eright-click"
     offset: { x: 0, y: 0.75, z: 0 }
 
 on-click:
@@ -84,10 +81,9 @@ block: diamond_block
 growth: 4s
 
 hologram:
-  type: static
   update: 3
   offset: { x: 0, y: 1, z: 0 }
-  text: "&b&lDiamond [{stage_timer_seconds}s]"
+  line: "&b&lDiamond [{stage_timer_seconds}s]"
 
 on-break:
   - do:
@@ -109,13 +105,12 @@ on-break:
 --- # ===== Stage 4 =====
 type: regrown
 block: emerald_block
+
 hologram:
-  - type: static
-    text: "&2&lEmerald"
-    offset: { y: 1 }
-  - type: static
-    text: "&a[Replenished]"
-    offset: { y: 0.75 }
+  offset: { y: 1 }
+  lines:
+    - '&2&lEmerald'
+    - '&a[Replenished]'
 
 on-break:
   - if: hasPermission orestack.generator.harvest

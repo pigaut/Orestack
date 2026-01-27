@@ -41,11 +41,11 @@ public class MultiMessageEditor extends FramedSelectionEditor {
 
             final int messageIndex = i;
             ButtonBuilder messageButton = Button.builder()
-                    .withAmount(messageIndex + 1)
+                    .amount(messageIndex + 1)
                     .enchanted(true)
-                    .addLore("")
-                    .addLore("&eLeft-Click: &fTo edit message")
-                    .addLore("&cRight-Click: &fTo remove message")
+                    .addEmptyLine()
+                    .addLine("&eLeft-Click: &fTo edit message")
+                    .addLine("&cRight-Click: &fTo remove message")
                     .onRightClick((menuView, playerState) -> {
                         messageSequence.remove(messageIndex);
                         menuView.update();
@@ -53,32 +53,32 @@ public class MultiMessageEditor extends FramedSelectionEditor {
 
             switch (messageSection.getRequiredString("type", CaseStyle.CONSTANT)) {
                 case "CHAT" -> messageButton
-                        .withType(Material.BOOK)
-                        .withDisplay(messageSection.getString("message", StringColor.FORMATTER).orElse("none"))
+                        .type(Material.BOOK)
+                        .name(messageSection.getString("message", StringColor.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new ChatMessageEditor(messageSection)));
 
                 case "ACTIONBAR" -> messageButton
-                        .withType(Material.NAME_TAG)
-                        .withDisplay(messageSection.getString("message", StringColor.FORMATTER).orElse("none"))
+                        .type(Material.NAME_TAG)
+                        .name(messageSection.getString("message", StringColor.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new ActionbarEditor(messageSection)));
 
                 case "TITLE" -> messageButton
-                        .withType(Material.MAP)
-                        .withDisplay(messageSection.getString("title", StringColor.FORMATTER).orElse("none"))
+                        .type(Material.MAP)
+                        .name(messageSection.getString("title", StringColor.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new TitleEditor(messageSection)));
 
                 case "BOSSBAR" -> messageButton
-                        .withType(Material.DRAGON_HEAD)
-                        .withDisplay(messageSection.getString("title", StringColor.FORMATTER).orElse("none"))
+                        .type(Material.DRAGON_HEAD)
+                        .name(messageSection.getString("title", StringColor.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new BossbarEditor(messageSection)));
 
                 case "HOLOGRAM" -> messageButton
-                            .withType(Material.BEACON)
-                            .withDisplay(messageSection.getSequence("hologram.frames")
+                            .type(Material.BEACON)
+                            .name(messageSection.getSequence("hologram.frames")
                                     .map(frameSequence -> frameSequence.toStringList(StringColor.FORMATTER).orElse(List.of()).stream()
                                             .max(Comparator.comparingInt(String::length)))
                                     .orElse(messageSection.getString("hologram.text", StringColor.FORMATTER).asOptional())
-                                    .orElse("none"))
+                                    .orElse("not set"))
                             .onLeftClick((view, player) -> player.openMenu(new HologramMessageEditor(messageSection)));
             }
 
@@ -86,9 +86,9 @@ public class MultiMessageEditor extends FramedSelectionEditor {
         }
 
         ButtonBuilder createMessageButton = Button.builder()
-                .withType(Material.LIME_DYE)
+                .type(Material.LIME_DYE)
                 .enchanted(true)
-                .withDisplay("&2Create New Message")
+                .name("&2Create New Message")
                 .onLeftClick((view, player) -> {
                     final MessageCreationMenu messageCreationMenu = new MessageCreationMenu(messageSequence.addEmptySection(), false);
                     player.openMenu(messageCreationMenu);

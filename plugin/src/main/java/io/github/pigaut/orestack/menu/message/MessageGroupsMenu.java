@@ -26,10 +26,10 @@ public class MessageGroupsMenu extends FramedSelectionMenu {
     public List<Button> createEntries() {
         return plugin.getMessages().getAllGroups().stream()
                 .map(group -> Button.builder()
-                        .withType(Material.CHEST)
-                        .withDisplay("&b&l" + CaseFormatter.toTitleCase(group))
-                        .addLore("")
-                        .addLeftClickLore("To view all messages")
+                        .type(Material.CHEST)
+                        .name("&b&l" + CaseFormatter.toTitleCase(group))
+                        .addEmptyLine()
+                        .addLeftClickLine("To view all messages")
                         .onLeftClick((menuView, player) -> player.openMenu(new MessagesMenu(plugin, group)))
                         .buildButton())
                 .toList();

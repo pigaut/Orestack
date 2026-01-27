@@ -1,11 +1,10 @@
 package io.github.pigaut.orestack.menu.hologram.editor;
 
+import io.github.pigaut.voxel.menu.*;
 import io.github.pigaut.voxel.menu.button.*;
 import io.github.pigaut.yaml.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
-
-import java.util.*;
 
 public class AnimatedHologramEditor extends GenericHologramEditor {
 
@@ -13,21 +12,41 @@ public class AnimatedHologramEditor extends GenericHologramEditor {
 
     public AnimatedHologramEditor(ConfigSection hologramSection) {
         super(hologramSection);
-        hologramSection.set("type", "animated");
         frameSequence = hologramSection.getSequenceOrCreate("frames");
+        ensureMinimumAnimationFrames();
+    }
+
+    private void ensureMinimumAnimationFrames() {
+        if (frameSequence.size() < 2) {
+            frameSequence.clear();
+            frameSequence.add("n");
+            frameSequence.add("no");
+            frameSequence.add("not");
+            frameSequence.add("not ");
+            frameSequence.add("not s");
+            frameSequence.add("not se");
+            frameSequence.add("not set");
+            frameSequence.add("not set");
+            frameSequence.add("not set");
+        }
     }
 
     @Override
     public @Nullable Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
+        Button[] buttons = super.createButtons();
 
-        final ButtonBuilder framesButton = Button.builder()
-                .withType(Material.OAK_SIGN)
+        ButtonBuilder framesButton = Button.builder()
+                .type(Material.OAK_SIGN)
                 .enchanted(true)
-                .withDisplay("&f&lFrames")
+                .name("&f&lFrames")
+                .addEmptyLine()
+                .addLines(frameSequence.toStringList().streamElements().map(lore -> "- " + lore).toList())
+                .addEmptyLine()
+                .addLeftClickLine("To add element to list")
+                .addLeftClickLine("To remove element from list")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput()
-                            .description("Enter frame text in chat")
+                            .description("Enter hologram frame text in chat")
                             .onInput(input -> {
                                 frameSequence.add(input);
                                 view.open();
@@ -37,17 +56,18 @@ public class AnimatedHologramEditor extends GenericHologramEditor {
                 .onRightClick((view, player) -> {
                     if (!frameSequence.isEmpty()) {
                         frameSequence.remove(frameSequence.size() - 1);
+                        view.update();
                     }
-                    view.update();
-                })
-                .addLore("")
-                .addLore(frameSequence.isEmpty() ? List.of("none") : frameSequence.toStringList().stream().map(lore -> "- " + lore).toList())
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo add element to list")
-                .addLore("&cRight-Click: &fTo remove element from list");
+                });
 
         buttons[20] = framesButton.buildButton();
         return buttons;
+    }
+
+    @Override
+    public void onClose(MenuView view) {
+        ensureMinimumAnimationFrames();
+        super.onClose(view);
     }
 
 }

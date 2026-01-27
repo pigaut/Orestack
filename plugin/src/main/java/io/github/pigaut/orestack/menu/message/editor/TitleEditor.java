@@ -18,13 +18,13 @@ public class TitleEditor extends GenericMessageEditor {
     public @Nullable Button[] createButtons() {
         final Button[] buttons = super.createButtons();
         final ButtonBuilder titleButton = Button.builder()
-                .withType(Material.OAK_SIGN)
-                .withDisplay("&f&lTitle")
+                .type(Material.OAK_SIGN)
+                .name("&f&lTitle")
                 .enchanted(true)
-                .addLore("")
-                .addLore(section.getString("title", StringColor.FORMATTER).orElse("none"))
-                .addLore("")
-                .addLeftClickLore("To set the title")
+                .addEmptyLine()
+                .addLine(section.getString("title", StringColor.FORMATTER).orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set the title")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput()
                             .description("Enter title in chat")
@@ -36,13 +36,13 @@ public class TitleEditor extends GenericMessageEditor {
                 });
 
         final ButtonBuilder subtitleButton = Button.builder()
-                .withType(Material.SPRUCE_SIGN)
-                .withDisplay("&f&lSubtitle")
+                .type(Material.SPRUCE_SIGN)
+                .name("&f&lSubtitle")
                 .enchanted(true)
-                .addLore("")
-                .addLore(section.getString("subtitle", StringColor.FORMATTER).orElse("none"))
-                .addLore("")
-                .addLeftClickLore("To set the subtitle")
+                .addEmptyLine()
+                .addLine(section.getString("subtitle", StringColor.FORMATTER).orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set the subtitle")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput()
                             .description("Enter subtitle in chat")
@@ -55,13 +55,13 @@ public class TitleEditor extends GenericMessageEditor {
 
         final Integer fadeIn = section.getInteger("fade-in").orElse(null);
         final ButtonBuilder fadeInButton = Button.builder()
-                .withType(Material.ANVIL)
-                .withDisplay("&f&lFade In")
+                .type(Material.ANVIL)
+                .name("&f&lFade In")
                 .enchanted(true)
-                .addLore("")
-                .addLore(fadeIn != null ? (fadeIn + " ticks") : "none")
-                .addLore("")
-                .addLeftClickLore("To set title fade-in amount")
+                .addEmptyLine()
+                .addLine(fadeIn != null ? (fadeIn + " ticks") : "not set")
+                .addEmptyLine()
+                .addLeftClickLine("To set title fade-in amount")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Integer.class)
                             .description("Enter fade-in amount in chat")
@@ -74,13 +74,13 @@ public class TitleEditor extends GenericMessageEditor {
 
         final Integer stay = section.getInteger("stay").orElse(null);
         final ButtonBuilder stayButton = Button.builder()
-                .withType(Material.WHITE_BED)
-                .withDisplay("&f&lStay")
+                .type(Material.WHITE_BED)
+                .name("&f&lStay")
                 .enchanted(true)
-                .addLore("")
-                .addLore(stay != null ? (stay + " ticks") : "none")
-                .addLore("")
-                .addLeftClickLore("To set title stay amount")
+                .addEmptyLine()
+                .addLine(stay != null ? (stay + " ticks") : "not set")
+                .addEmptyLine()
+                .addLeftClickLine("To set title stay amount")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Integer.class)
                             .description("Enter stay amount in chat")
@@ -93,13 +93,13 @@ public class TitleEditor extends GenericMessageEditor {
 
         final Integer fadeOut = section.getInteger("fade-out").orElse(null);
         final ButtonBuilder fadeOutButton = Button.builder()
-                .withType(Material.DAMAGED_ANVIL)
-                .withDisplay("&f&lFade out")
+                .type(Material.DAMAGED_ANVIL)
+                .name("&f&lFade out")
                 .enchanted(true)
-                .addLore("")
-                .addLore(fadeOut != null ? (fadeOut + " ticks") : "none")
-                .addLore("")
-                .addLeftClickLore("To set title fade out")
+                .addEmptyLine()
+                .addLine(fadeOut != null ? (fadeOut + " ticks") : "not set")
+                .addEmptyLine()
+                .addLeftClickLine("To set title fade out")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Integer.class)
                             .description("Enter fade-out amount in chat")

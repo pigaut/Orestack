@@ -32,61 +32,78 @@ public class HologramCreationMenu extends FramedMenu {
 
     @Override
     public @Nullable Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
+        Button[] buttons = super.createButtons();
 
         buttons[10] = Button.builder()
-                .withType(Material.PAINTING)
-                .withDisplay("&fFixed Hologram")
-                .addLore("")
-                .addLore("&eLeft-Click: &fCreate a new fixed hologram")
+                .type(Material.NAME_TAG)
                 .enchanted(true)
+                .name("Single-Line Hologram")
+                .addEmptyLine()
+                .addLeftClickLine("Create a new single-line hologram")
                 .onLeftClick((view, player) -> {
-                    player.openMenu(new StaticHologramEditor(hologramSection), view.getPreviousView());
+                    hologramSection.clear();
+                    player.openMenu(new SingleLineHologramEditor(hologramSection), view.getPreviousView());
                 })
                 .buildButton();
 
         buttons[11] = Button.builder()
-                .withType(Material.ITEM_FRAME)
-                .withDisplay("&fAnimated Hologram")
-                .addLore("")
-                .addLore("&eLeft-Click: &fCreate a new animated hologram")
+                .type(Material.OAK_SIGN)
                 .enchanted(true)
+                .name("Multi-Line Hologram")
+                .addEmptyLine()
+                .addLeftClickLine("Create a new multi-line hologram")
                 .onLeftClick((view, player) -> {
-                    player.openMenu(new AnimatedHologramEditor(hologramSection), view.getPreviousView());
+                    hologramSection.clear();
+                    player.openMenu(new MultiLineHologramEditor(hologramSection), view.getPreviousView());
                 })
                 .buildButton();
 
         buttons[12] = Button.builder()
-                .withType(Material.IRON_PICKAXE)
-                .withDisplay("&fItem Hologram")
-                .addLore("")
-                .addLore("&eLeft-Click: &fCreate a new item hologram")
+                .type(Material.PAINTING)
                 .enchanted(true)
+                .name("Animated Hologram")
+                .addEmptyLine()
+                .addLeftClickLine("Create a new animated hologram")
                 .onLeftClick((view, player) -> {
-                    player.openMenu(new ItemHologramEditor(hologramSection), view.getPreviousView());
+                    hologramSection.clear();
+                    player.openMenu(new AnimatedHologramEditor(hologramSection), view.getPreviousView());
                 })
                 .buildButton();
 
         buttons[14] = Button.builder()
-                .withType(Material.GRASS_BLOCK)
-                .withDisplay("&fBlock Hologram")
-                .addLore("")
-                .addLore("&eLeft-Click: &fCreate a new block hologram")
+                .type(Material.IRON_PICKAXE)
                 .enchanted(true)
+                .name("Item Hologram")
+                .addEmptyLine()
+                .addLeftClickLine("Create a new item hologram")
                 .onLeftClick((view, player) -> {
+                    hologramSection.clear();
+                    player.openMenu(new ItemHologramEditor(hologramSection), view.getPreviousView());
+                })
+                .buildButton();
+
+        buttons[15] = Button.builder()
+                .type(Material.GRASS_BLOCK)
+                .enchanted(true)
+                .name("Block Hologram")
+                .addEmptyLine()
+                .addLeftClickLine("Create a new block hologram")
+                .onLeftClick((view, player) -> {
+                    hologramSection.clear();
                     player.openMenu(new BlockHologramEditor(hologramSection), view.getPreviousView());
                 })
                 .buildButton();
 
         if (multiHologramButton) {
-            buttons[15] = Button.builder()
-                    .withType(Material.BOOKSHELF)
-                    .withDisplay("&fMulti-Line Hologram")
-                    .addLore("")
-                    .addLore("&eLeft-Click: &fCreate a new multi line hologram")
+            buttons[16] = Button.builder()
+                    .type(Material.BOOKSHELF)
                     .enchanted(true)
+                    .name("Multi Hologram")
+                    .addEmptyLine()
+                    .addLeftClickLine("Create a new multi hologram")
                     .onLeftClick((view, player) -> {
-                        final ConfigSequence hologramSequence = hologramSection.convertToSequence();
+                        ConfigSequence hologramSequence = hologramSection.convertToSequence();
+                        hologramSequence.clear();
                         player.openMenu(new MultiHologramEditor(hologramSequence), view.getPreviousView());
                     })
                     .buildButton();

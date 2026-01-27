@@ -44,7 +44,7 @@ public class MessagesMenu extends FramedSelectionMenu {
 
     @Override
     public @Nullable Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
+        Button[] buttons = super.createButtons();
 
         buttons[41] = new ConfigLoadButton(config);
 
@@ -56,15 +56,15 @@ public class MessagesMenu extends FramedSelectionMenu {
         final List<Button> entries = new ArrayList<>();
 
         for (Message message : plugin.getMessages().getAll(group)) {
-            final String name = message.getName();
-            final Button messageButton = Button.builder()
-                    .withType(message.getIcon().getType())
-                    .withDisplay("&b&o" + CaseFormatter.toTitleCase(name))
-                    .addLore("")
-                    .addLore("&eLeft-Click: &fTo edit message")
-                    .addLore("&6Right-Click: &fTo receive message")
+            String name = message.getName();
+            Button messageButton = Button.builder()
+                    .type(message.getIcon().getType())
+                    .name("&b&o" + CaseFormatter.toTitleCase(name))
+                    .addEmptyLine()
+                    .addLine("&eLeft-Click: &fTo edit message")
+                    .addLine("&6Right-Click: &fTo receive message")
                     .onLeftClick((view, player) -> {
-                        final PlayerState viewer = view.getViewer();
+                        PlayerState viewer = view.getViewer();
                         switch (message.getType()) {
                             case CHAT -> viewer.openMenu(new ChatMessageEditor(config.getSectionOrCreate(name)));
                             case ACTIONBAR -> viewer.openMenu(new ActionbarEditor(config.getSectionOrCreate(name)));
@@ -77,7 +77,7 @@ public class MessagesMenu extends FramedSelectionMenu {
                     .onRightClick((view, player) -> {
                         view.close();
                         message.send(player);
-                        final int guiReopenDelay = plugin.getSettings().guiReopenDelay;
+                        int guiReopenDelay = plugin.getSettings().guiReopenDelay;
                         player.sendMessage(ChatColor.RED + "The menu will reopen in " + (guiReopenDelay / 20) + " seconds...");
                         plugin.getScheduler().runTaskLater(guiReopenDelay, view::open);
                     })
@@ -86,8 +86,8 @@ public class MessagesMenu extends FramedSelectionMenu {
         }
 
         entries.add(Button.builder()
-                .withType(Material.LIME_DYE)
-                .withDisplay("&2Create New Message")
+                .type(Material.LIME_DYE)
+                .name("&2Create New Message")
                 .enchanted(true)
                 .onLeftClick((view, player) -> {
                     player.collectChatInput()

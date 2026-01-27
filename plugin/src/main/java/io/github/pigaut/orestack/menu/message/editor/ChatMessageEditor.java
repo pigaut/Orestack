@@ -16,17 +16,17 @@ public class ChatMessageEditor extends GenericMessageEditor {
 
     @Override
     public @Nullable Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
+        Button[] buttons = super.createButtons();
 
-        final String message = section.getString("message", StringColor.FORMATTER).orElse("none");
-        final ButtonBuilder messageButton = Button.builder()
-                .withType(Material.OAK_SIGN)
-                .withDisplay("&f&lMessage")
+        String message = section.getString("message", StringColor.FORMATTER).orElse("not set");
+        ButtonBuilder messageButton = Button.builder()
+                .type(Material.OAK_SIGN)
+                .name("&f&lMessage")
                 .enchanted(true)
-                .addLore("")
-                .addLore(StringUtil.splitByLength(message, 35))
-                .addLore("")
-                .addLeftClickLore("To set the message")
+                .addEmptyLine()
+                .addLines(StringUtil.splitByLength(message, 35))
+                .addEmptyLine()
+                .addLeftClickLine("To set the message")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput()
                             .description("Enter message in chat")
