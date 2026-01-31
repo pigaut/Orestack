@@ -48,10 +48,8 @@ hologram:
   - line: "&eright-click"
     offset: { x: 0, y: 0.75, z: 0 }
 
-on-click:
-  if-not:
-    - clickTypeEquals left_click
-    - isSneaking
+on-right-click:
+  if-not: isSneaking
   do:
     - cancelEvent
     - chatMessage <This is a gold block. Maybe you should try to mine it.>
@@ -69,7 +67,7 @@ on-break:
       - cancelEvent
       - return
 
-  - chance: 0.5
+  - if: chance 0.5
     do:
       - spawnParticleAtBlock explosion
       - dropItemAtBlock gold_ingot
@@ -118,7 +116,7 @@ on-break:
       - giveItem emerald
       - spawnParticleAtBlock flame_ring
       - dropExpAtBlock 10-100 orbs=5-20
-      - sendMessage hologram
+      - sendMessage hologram_example
 
     else:
       - cancelEvent

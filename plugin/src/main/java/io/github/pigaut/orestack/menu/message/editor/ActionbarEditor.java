@@ -9,26 +9,25 @@ import org.jetbrains.annotations.*;
 
 public class ActionbarEditor extends GenericMessageEditor {
 
-    public ActionbarEditor(ConfigSection messageSection) {
-        super("Edit Action Bar", messageSection);
-        section.set("type", "actionbar");
+    public ActionbarEditor(ConfigSection section) {
+        super("Edit Action Bar", section);
+        if (!section.isSet("actionbar|action-bar")) {
+            section.set("actionbar|action-bar", "not set");
+        }
     }
 
     @Override
     public @Nullable Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
+        Button[] buttons = super.createButtons();
 
-        final ButtonBuilder messageButton = Button.builder()
+        ButtonBuilder messageButton = Button.builder()
                 .type(Material.OAK_SIGN)
                 .name("&f&lMessage")
                 .enchanted(true)
                 .onLeftClick((view, player) -> {
                     player.collectChatInput()
                             .description("Enter message in chat")
-                            .onInput(input -> {
-                                section.set("message", input);
-                                view.open();
-                            })
+                            .onInput(input -> section.set("message", input))
                             .start();
                 })
                 .addEmptyLine()
