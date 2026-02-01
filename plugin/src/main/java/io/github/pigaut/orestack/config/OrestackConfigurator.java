@@ -41,7 +41,7 @@ public class OrestackConfigurator extends PluginConfigurator {
 
         actions.addLoader("DAMAGE_GENERATOR", (Line<Action>) line -> {
             ConfigOptional<Amount> amount = line.get(1, Amount.class);
-            if (amount.isEmpty()) {
+            if (!amount.isSetInConfig()) {
                 return new DamageGeneratorWithTool();
             }
             return new DamageGeneratorAction(amount.withDefault(Amount.ONE));

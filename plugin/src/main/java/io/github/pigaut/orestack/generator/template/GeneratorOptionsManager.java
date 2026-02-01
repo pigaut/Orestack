@@ -25,7 +25,7 @@ public class GeneratorOptionsManager extends Manager implements ConfigBacked {
 
         ConfigSection config = plugin.getConfiguration();
 
-        veinGenerators = config.getElements("vein-generators", GeneratorTemplate.class)
+        veinGenerators = config.getList("vein-generators", GeneratorTemplate.class)
                 .withDefault(List.of(), errorsFound::add);
 
         return errorsFound;

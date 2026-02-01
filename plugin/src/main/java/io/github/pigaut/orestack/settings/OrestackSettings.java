@@ -56,7 +56,7 @@ public class OrestackSettings extends Settings {
                 .withDefault(false, errors::add);
 
         generatorTool = config.get("generator-tool", ItemStack.class)
-                .filter(ItemUtil::isNotAir, "Item type cannot be air")
+                .require(ItemUtil::isNotAir, "Item type cannot be air")
                 .withDefault(GeneratorTool.getItemTemplate(), errors::add);
 
         // Generator settings
@@ -64,32 +64,32 @@ public class OrestackSettings extends Settings {
                 .withDefault(Amount.ONE, errors::add);
 
         clickCooldown = config.getInteger("click-cooldown")
-                .filter(Filters.isPositive(), "Cooldown ticks must be a positive amount")
+                .require(Requirements.isPositive(), "Cooldown ticks must be a positive amount")
                 .withDefault(4, errors::add);
 
         hitCooldown = config.getInteger("hit-cooldown")
-                .filter(Filters.isPositive(), "Cooldown ticks must be a positive amount")
+                .require(Requirements.isPositive(), "Cooldown ticks must be a positive amount")
                 .withDefault(4, errors::add);
 
         harvestCooldown = config.getInteger("harvest-cooldown")
-                .filter(Filters.isPositive(), "Cooldown ticks must be a positive amount")
+                .require(Requirements.isPositive(), "Cooldown ticks must be a positive amount")
                 .withDefault(4, errors::add);
 
         // Vein miner settings
         veinMiner = config.getBoolean("vein-miner")
                 .withDefault(false, errors::add);
 
-        veinMinerAliases = config.getStrings("vein-miner-aliases")
-                .withDefault(List.of("vein-miner", "veinminer"), errors::add);
+        veinMinerAliases = config.getStringList("vein-miner-aliases")
+                .withDefault(List.of("veinminer", "vein-miner", "vein_miner"), errors::add);
 
         veinSizeByLevel = new HashMap<>();
         for (ConfigScalar scalar : config.getSectionOrCreate("vein-size-by-level").getNestedScalars()) {
             Integer veinSize = scalar.toInteger()
-                    .filter(Filters.isPositive(), "Vein size must be positive")
+                    .require(Requirements.isPositive(), "Vein size must be positive")
                     .withDefault(null, errors::add);
 
             Integer enchantLevel = ((KeyedScalar) scalar).getIntegerKey()
-                    .filter(Filters.isPositive(), "Enchant level must be positive")
+                    .require(Requirements.isPositive(), "Enchant level must be positive")
                     .withDefault(null, errors::add);
 
             if (veinSize != null && enchantLevel != null) {
@@ -107,7 +107,7 @@ public class OrestackSettings extends Settings {
         reducedCooldownDamage = config.getBoolean("reduced-cooldown-damage")
                 .withDefault(true, errors::add);
 
-        damageByTool = config.getElements("damage-by-tool-type", ToolDamage.class)
+        damageByTool = config.getList("damage-by-tool-type", ToolDamage.class)
                 .withDefault(List.of(), errors::add);
 
         return errors;
