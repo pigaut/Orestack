@@ -18,7 +18,7 @@ public class ChatMessageEditor extends GenericMessageEditor {
             section.set("chat|message|messages[0]", "not set");
         }
         else if (section.isSet("chat|message|messages")) {
-            String chatLine = section.getRequiredString("chat|message|messages");
+            String chatLine = section.getString("chat|message|messages").orElse("");
             section.set("chat|message|messages[0]", chatLine);
         }
     }
