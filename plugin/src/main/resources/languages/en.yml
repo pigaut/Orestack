@@ -1,15 +1,12 @@
-# --------------------------
-#    Command Placeholders
-# --------------------------
+
+#===== Command Placeholders =====#
 # {command}
 # {command_name}
 # {command_description}
 # {command_permission}
 
-# ----------------------------
-#    Generic Command Errors
-# ----------------------------
-## Placeholders: {online-player}, {world-name}, {x}, {y}, {z}
+#===== Generic Command Errors =====#
+# Placeholders: {online-player}, {world-name}, {x}, {y}, {z}, {file-path}
 usage: '/{command_name} help'
 not-enough-args: "&4Not enough arguments"
 too-many-args: '&4Too many arguments'
@@ -19,33 +16,36 @@ player-not-online: '&4Could not find online player with name: {online-player}'
 loading-player-data: '&4Player data is still loading try again later'
 world-not-found: '&4Could not find a world with name: {world-name}'
 expected-coordinates: '&4Expected coordinates but received: x: {x}, y: {y}, z: {z}'
+file-not-found: '&4Could not find file at path: {file-path}'
+not-yaml-file: '&4File at path: {file-path} is not a yaml file'
+file-load-error: '&4An error occurred when loading file at path: {file-path}'
 
-# ===== Help Command ===== #
-## Description
+#===== Help Command =====#
+# Description
 help-command: 'View a list of all available commands'
-## Style
+# Style
 help-header: '&2------------     &r&l{command_name_tc} Help     &2------------'
 help-line: '&a/{command}: &r{command_description}'
 help-footer: '&2---------------------------------------------'
 
-# ===== Wiki Command ===== #
+#===== Wiki Command =====#
 wiki-command: 'Receive a link to the Orestack wiki website'
 player-wiki: '[json]{"text":"Click to open the wiki","color":"aqua","clickEvent":{"action":"open_url","value":"https://pigaut.gitbook.io/orestack/"},"hoverEvent":{"action":"show_text","contents":"https://pigaut.gitbook.io/orestack/"}}'
 console-wiki: 'Orestack Wiki: https://pigaut.gitbook.io/orestack/'
 
-# ===== Support Command ===== #
+#===== Support Command =====#
 support-command: 'Receive a link to the Orestack discord server'
 player-support: '[json]{"text":"Click to join the discord server","color":"aqua","clickEvent":{"action":"open_url","value":"https://discord.com/invite/wFVbBSgrX2"},"hoverEvent":{"action":"show_text","contents":"https://discord.com/invite/wFVbBSgrX2"}}'
 console-support: 'Orestack Discord: https://discord.com/invite/wFVbBSgrX2'
 
-# ===== Reload Command ===== #
-## Description
+#===== Reload Command =====#
+# Description
 reload-command: 'Reload configuration and data'
-## Errors
+# Errors
 already-reloading: '&4The plugin is already reloading, please wait'
 debug-configuration-errors: '&4Found {error_count} error(s) while loading the configuration.'
 configuration-errors: '&4Found {error_count} error(s) while loading the configuration. Check the console for details.'
-## Success
+# Success
 reloading: '&aReloading Orestack plugin... &c(Wait)'
 reload-completed: '&aReload completed successfully.'
 reload-completed-with-errors: '&aReload completed with the following errors:'
@@ -66,8 +66,6 @@ item-save-command: 'Save the item you''re holding to a yaml file'
 item-get-command: 'Get the item with the given name'
 item-get-group-command: 'Get all items of a group'
 ## Errors
-file-not-found: '&4Could not find file at path: {file-path}'
-not-yaml-file: '&4The file is not a yaml file'
 not-holding-item: '&4You need to hold an item to use this command'
 item-not-found: '&4Could not find an item with name: {item-name}'
 item-group-not-found: '&4Could not find an item group with name: {item-group}'

@@ -34,11 +34,6 @@ public class MultiMessageEditor extends FramedSelectionEditor {
         for (int i = 0; i < messageSequence.size(); i++) {
             ConfigSection messageSection = messageSequence.getSectionOrCreate(i);
 
-            if (!messageSection.isSet("type")) {
-                messageSequence.remove(i--);
-                continue;
-            }
-
             final int messageIndex = i;
             ButtonBuilder messageButton = Button.builder()
                     .amount(messageIndex + 1)
@@ -46,40 +41,42 @@ public class MultiMessageEditor extends FramedSelectionEditor {
                     .addEmptyLine()
                     .addLine("&eLeft-Click: &fTo edit message")
                     .addLine("&cRight-Click: &fTo remove message")
-                    .onRightClick((menuView, playerState) -> {
+                    .onRightClick((view, player) -> {
                         messageSequence.remove(messageIndex);
-                        menuView.update();
+                        view.update();
                     });
 
-            switch (messageSection.getRequiredString("type", CaseStyle.CONSTANT)) {
-                case "CHAT" -> messageButton
-                        .type(Material.BOOK)
-                        .name(messageSection.getString("message", StringColor.FORMATTER).orElse("not set"))
+            if (messageSection.contains("chat|message|messages")) {
+                messageButton.type(Material.BOOK)
+                        .name(messageSection.getString("chat|message|messages", StringColor.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new ChatMessageEditor(messageSection)));
-
-                case "ACTIONBAR" -> messageButton
-                        .type(Material.NAME_TAG)
+            }
+            else if (messageSection.contains("actionbar|action-bar")) {
+                messageButton.type(Material.NAME_TAG)
                         .name(messageSection.getString("message", StringColor.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new ActionbarEditor(messageSection)));
-
-                case "TITLE" -> messageButton
-                        .type(Material.MAP)
+            }
+            else if (messageSection.contains("title")) {
+                messageButton.type(Material.MAP)
                         .name(messageSection.getString("title", StringColor.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new TitleEditor(messageSection)));
-
-                case "BOSSBAR" -> messageButton
-                        .type(Material.DRAGON_HEAD)
+            }
+            else if (messageSection.contains("bossbar|boss-bar")) {
+                messageButton.type(Material.DRAGON_HEAD)
                         .name(messageSection.getString("title", StringColor.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new BossbarEditor(messageSection)));
-
-                case "HOLOGRAM" -> messageButton
-                            .type(Material.BEACON)
-                            .name(messageSection.getSequence("hologram.frames")
-                                    .map(frameSequence -> frameSequence.toStringList(StringColor.FORMATTER).orElse(List.of()).stream()
-                                            .max(Comparator.comparingInt(String::length)))
-                                    .orElse(messageSection.getString("hologram.text", StringColor.FORMATTER).asOptional())
-                                    .orElse("not set"))
-                            .onLeftClick((view, player) -> player.openMenu(new HologramMessageEditor(messageSection)));
+            }
+            else if (messageSection.contains("hologram")) {
+                messageButton.type(Material.BEACON)
+                        .name(messageSection.getSequence("hologram.frames")
+                                .map(frameSequence -> frameSequence.toStringList(StringColor.FORMATTER).orElse(List.of()).stream()
+                                        .max(Comparator.comparingInt(String::length)))
+                                .orElse(messageSection.getString("hologram.text", StringColor.FORMATTER).asOptional())
+                                .orElse("not set"))
+                        .onLeftClick((view, player) -> player.openMenu(new HologramMessageEditor(messageSection)));
+            }
+            else {
+                messageButton.type(Material.BARRIER).name("&4Invalid");
             }
 
             buttons.add(messageButton.buildButton());
@@ -90,7 +87,7 @@ public class MultiMessageEditor extends FramedSelectionEditor {
                 .enchanted(true)
                 .name("&2Create New Message")
                 .onLeftClick((view, player) -> {
-                    final MessageCreationMenu messageCreationMenu = new MessageCreationMenu(messageSequence.addEmptySection(), false);
+                    MessageCreationMenu messageCreationMenu = new MessageCreationMenu(messageSequence.addEmptySection(), false);
                     player.openMenu(messageCreationMenu);
                 });
 

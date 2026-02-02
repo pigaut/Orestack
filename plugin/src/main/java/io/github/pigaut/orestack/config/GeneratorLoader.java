@@ -100,7 +100,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         return generator;
     }
 
-    private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection section) {
+    private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection section) throws InvalidConfigurationException {
         GrowthState state = section.getRequired("type|state", GrowthState.class);
 
         BlockStructure structure = section.contains("structure|blocks") ?

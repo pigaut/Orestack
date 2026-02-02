@@ -1,19 +1,4 @@
 
-# Old
-old_chat:
-  type: chat
-  message: This is a chat message
-
-# New
-new_chat:
-  message: This is a chat message
-
-# Multi line chat
-multi_chat:
-  message:
-    - This is a chat message
-    - and this is another!
-
 chat_example:
   message: 'This is a chat message'
 

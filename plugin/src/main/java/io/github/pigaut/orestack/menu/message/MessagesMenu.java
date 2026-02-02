@@ -26,8 +26,8 @@ public class MessagesMenu extends FramedSelectionMenu {
     public MessagesMenu(EnhancedPlugin plugin, String group) {
         super(plugin, CaseFormatter.toTitleCase(group) + " Messages", MenuSize.BIG);
         this.group = group;
-        final File file = Group.getFile(plugin, "messages", group);
-        this.config = YamlConfig.loadSection(file, plugin.getConfigurator());
+        File file = Group.getFile(plugin, "messages", group);
+        this.config = YamlConfig.loadSection(file, plugin.getConfigurator(), error -> {});
     }
 
     @Override
