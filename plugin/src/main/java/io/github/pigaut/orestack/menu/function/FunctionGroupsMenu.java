@@ -22,10 +22,10 @@ public class FunctionGroupsMenu extends FramedSelectionMenu {
     public List<Button> createEntries() {
         return plugin.getFunctions().getAllGroups().stream()
                 .map(group -> Button.builder()
-                        .withType(Material.CHEST)
-                        .withDisplay("&8&l" + CaseFormatter.toTitleCase(group))
-                        .addLore("")
-                        .addLore("&eLeft-Click: &fView all functions")
+                        .type(Material.CHEST)
+                        .name("&8&l" + CaseFormatter.toTitleCase(group))
+                        .addEmptyLine()
+                        .addLine("&eLeft-Click: &fView all functions")
                         .onLeftClick((menuView, player) -> menuView.getViewer().openMenu(new FunctionsMenu(plugin, group)))
                         .buildButton())
                 .toList();

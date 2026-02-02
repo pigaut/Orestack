@@ -25,10 +25,10 @@ public class ParticlesMenu extends FramedSelectionMenu {
     public List<Button> createEntries() {
         return plugin.getParticles().getAll(group).stream()
                 .map(particle -> Button.builder()
-                        .withType(particle.getIcon().getType())
-                        .withDisplay("&d&o" + CaseFormatter.toTitleCase(particle.getName()))
-                        .addLore("")
-                        .addLore("&eLeft-Click: &fShow-me particle")
+                        .type(particle.getIcon().getType())
+                        .name("&d&o" + CaseFormatter.toTitleCase(particle.getName()))
+                        .addEmptyLine()
+                        .addLine("&eLeft-Click: &fShow-me particle")
                         .onLeftClick((view, player) -> {
                             view.close();
                             player.performCommand("orestack particle show-me " + particle.getName());

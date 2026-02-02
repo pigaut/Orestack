@@ -7,7 +7,7 @@
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>OrestackPlugin</artifactId>
     <packaging>jar</packaging>
-    <version>3.42.3</version>
+    <version>3.42.6</version>
     <name>Orestack Plugin</name>
     <description>A Spigot plugin used to create resources with custom gathering mechanics</description>
     <url>https://www.spigotmc.org/resources/121905/</url>
@@ -123,7 +123,7 @@
         <dependency>
             <groupId>io.github.pigaut.yaml</groupId>
             <artifactId>YamlConfig</artifactId>
-            <version>3.6.0</version>
+            <version>3.7.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

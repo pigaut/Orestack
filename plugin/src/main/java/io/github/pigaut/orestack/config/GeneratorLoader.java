@@ -100,7 +100,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         return generator;
     }
 
-    private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection section) {
+    private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection section) throws InvalidConfigurationException {
         GrowthState state = section.getRequired("type|state", GrowthState.class);
 
         BlockStructure structure = section.contains("structure|blocks") ?
@@ -119,7 +119,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
                 .withDefault(plugin.getSettings().getDefaultToolDamage());
 
         Double health = section.getDouble("health")
-                .filter(Predicates.greaterThan(0), "Health must be greater than or equal to 1.")
+                .require(Requirements.greaterThan(0), "Health must be greater than or equal to 1.")
                 .withDefault(null);
 
         boolean idle = section.getBoolean("idle").withDefault(health != null);
@@ -130,22 +130,22 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
 
         Boolean harvestOnly = section.getBoolean("harvest-only").withDefault(null);
         int growthTime = section.get("growth|growth-time", Ticks.class)
-                .filter(harvestOnly == null || !harvestOnly, "Cannot set growth time while harvest-only is true")
+                .require(harvestOnly == null || !harvestOnly, "Cannot set growth time while harvest-only is true")
                 .map(Ticks::getCount)
                 .withDefault(0);
 
         Double chance = section.getDouble("chance|growth-chance").withDefault(null);
 
         int clickCooldown = section.getInteger("click-cooldown")
-                .filter(Predicates.greaterThan(1), "Click cooldown must be greater than 1")
+                .require(Requirements.greaterThan(1), "Click cooldown must be greater than 1")
                 .withDefault(plugin.getSettings().getClickCooldown());
 
         int hitCooldown = section.getInteger("hit-cooldown")
-                .filter(Predicates.greaterThan(1), "Hit cooldown must be greater than 1")
+                .require(Requirements.greaterThan(1), "Hit cooldown must be greater than 1")
                 .withDefault(plugin.getSettings().getHitCooldown());
 
         int harvestCooldown = section.getInteger("harvest-cooldown")
-                .filter(Predicates.greaterThan(1), "Harvest cooldown must be greater than 1")
+                .require(Requirements.greaterThan(1), "Harvest cooldown must be greater than 1")
                 .withDefault(plugin.getSettings().getClickCooldown());
 
         Hologram hologram = null;
@@ -156,8 +156,8 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         Function onBreak = section.get("on-break", Function.class).withDefault(null);
         Function onGrowth = section.get("on-growth", Function.class).withDefault(null);
         Function onClick = section.get("on-click", Function.class).withDefault(null);
-        Function onHit = section.get("on-hit", Function.class).withDefault(null);
-        Function onHarvest = section.get("on-harvest", Function.class).withDefault(null);
+        Function onHit = section.get("on-hit|on-left-click", Function.class).withDefault(null);
+        Function onHarvest = section.get("on-harvest|on-right-click", Function.class).withDefault(null);
         Function onDestroy = section.get("on-destroy", Function.class).withDefault(null);
 
         return new GeneratorStage(generator, state, structure, decorativeBlocks, dropItems, dropExp,

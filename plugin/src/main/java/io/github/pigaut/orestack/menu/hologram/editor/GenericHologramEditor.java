@@ -21,80 +21,67 @@ public class GenericHologramEditor extends FramedEditor {
 
     @Override
     public @Nullable Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
+        Button[] buttons = super.createButtons();
 
-        final Integer update = section.getInteger("update").orElse(null);
-        final ButtonBuilder updateButton = Button.builder()
-                .withType(Material.REDSTONE_LAMP)
-                .withDisplay("&f&lUpdate")
+        ButtonBuilder updateButton = Button.builder()
+                .type(Material.REDSTONE_LAMP)
                 .enchanted(true)
+                .name("&f&lUpdate")
+                .addEmptyLine()
+                .addLine(section.getString("update").orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set hologram update timer")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Integer.class)
-                            .description("Enter update amount in chat")
-                            .onInput(input -> {
-                                section.set("update", input);
-                                view.open();
-                            })
+                            .description("Enter hologram update in chat")
+                            .onInput(input -> section.set("update", input))
                             .start();
-                })
-                .addLore("")
-                .addLore(update != null ? (update + " ticks") : "none")
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo set hologram update");
+                });
 
-        final ButtonBuilder xOffsetButton = Button.builder()
-                .withType(Material.RED_WOOL)
-                .withDisplay("&f&lOffset X")
+        ButtonBuilder xOffsetButton = Button.builder()
+                .type(Material.RED_WOOL)
                 .enchanted(true)
+                .name("&f&lOffset X")
+                .addEmptyLine()
+                .addLine(section.getString("offset.x").orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set hologram x-offset")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Double.class)
-                            .description("Enter x-offset amount in chat")
-                            .onInput(input -> {
-                                section.set("offset.x", input);
-                                view.open();
-                            })
+                            .description("Enter hologram x-offset in chat")
+                            .onInput(input -> section.set("offset.x", input))
                             .start();
-                })
-                .addLore("")
-                .addLore(section.getString("offset.x").orElse("none"))
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo set hologram x offset");
+                });
 
-        final ButtonBuilder yOffsetButton = Button.builder()
-                .withType(Material.LIME_WOOL)
-                .withDisplay("&f&lOffset Y")
+        ButtonBuilder yOffsetButton = Button.builder()
+                .type(Material.LIME_WOOL)
                 .enchanted(true)
+                .name("&f&lOffset Y")
+                .addEmptyLine()
+                .addLine(section.getString("offset.y").orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set hologram y-offset")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Double.class)
-                            .description("Enter y-offset amount in chat")
-                            .onInput(input -> {
-                                section.set("offset.y", input);
-                                view.open();
-                            })
+                            .description("Enter hologram y-offset in chat")
+                            .onInput(input -> section.set("offset.y", input))
                             .start();
-                })
-                .addLore("")
-                .addLore(section.getString("offset.y").orElse("none"))
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo set hologram y offset");
+                });
 
-        final ButtonBuilder zOffsetButton = Button.builder()
-                .withType(Material.BLUE_WOOL)
-                .withDisplay("&f&lOffset Z")
+        ButtonBuilder zOffsetButton = Button.builder()
+                .type(Material.BLUE_WOOL)
                 .enchanted(true)
+                .name("&f&lOffset Z")
+                .addEmptyLine()
+                .addLine(section.getString("offset.z").orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set hologram z-offset")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Double.class)
-                            .description("Enter z-offset amount in chat")
-                            .onInput(input -> {
-                                section.set("offset.z", input);
-                                view.open();
-                            })
+                            .description("Enter hologram z-offset in chat")
+                            .onInput(input -> section.set("offset.z", input))
                             .start();
-                })
-                .addLore("")
-                .addLore(section.getString("offset.z").orElse("none"))
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo set hologram z offset");
+                });
 
         buttons[21] = updateButton.buildButton();
         buttons[15] = xOffsetButton.buildButton();

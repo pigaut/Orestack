@@ -14,10 +14,10 @@ type: regrown
 block: lapis_block
 
 hologram:
-  - text: '&b&lAuraSkills Mana Ore'
-    offset.y: 1.25
-  - text: '&3[right-click] &7| &9[shift + right-click]'
-    offset.y: 1
+  lines:
+    - '&b&lAuraSkills Mana Ore'
+    - '&3[right-click] &7| &9[shift + right-click]'
+  offset.y: 1
 
 on-break:
   # Skill list: farming, foraging, mining, fishing, excavation, archery, fighting, defense, agility, endurance, alchemy, enchanting.

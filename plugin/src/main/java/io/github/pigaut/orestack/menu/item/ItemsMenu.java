@@ -26,10 +26,10 @@ public class ItemsMenu extends FramedSelectionMenu {
                 .map(item -> {
                     final String itemName = item.getName();
                     return Button.builder()
-                            .withType(item.getItemStack().getType())
-                            .withDisplay("&a&o" + CaseFormatter.toTitleCase(itemName))
-                            .addLore("")
-                            .addLore("&eLeft-Click: &fGet item")
+                            .type(item.getItemStack().getType())
+                            .name("&a&o" + CaseFormatter.toTitleCase(itemName))
+                            .addEmptyLine()
+                            .addLine("&eLeft-Click: &fGet item")
                             .onLeftClick((menuView, player) ->
                                     menuView.getViewer().performCommand("orestack item get " + itemName))
                             .buildButton();

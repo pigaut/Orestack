@@ -22,10 +22,10 @@ public class ParticleGroupsMenu extends FramedSelectionMenu {
     public List<Button> createEntries() {
         return plugin.getParticles().getAllGroups().stream()
                 .map(group -> Button.builder()
-                        .withType(Material.CHEST)
-                        .withDisplay("&d&l" + CaseFormatter.toTitleCase(group))
-                        .addLore("")
-                        .addLore("&eLeft-Click: &fView all particle effects")
+                        .type(Material.CHEST)
+                        .name("&d&l" + CaseFormatter.toTitleCase(group))
+                        .addEmptyLine()
+                        .addLine("&eLeft-Click: &fView all particle effects")
                         .onLeftClick((view, player) -> player.openMenu(new ParticlesMenu(plugin, group)))
                         .buildButton())
                 .toList();

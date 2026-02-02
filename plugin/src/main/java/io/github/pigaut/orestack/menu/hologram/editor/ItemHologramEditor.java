@@ -11,17 +11,23 @@ public class ItemHologramEditor extends GenericHologramEditor {
 
     public ItemHologramEditor(ConfigSection hologramSection) {
         super(hologramSection);
-        section.set("type", "item_display");
+        if (!hologramSection.isSet("item")) {
+            section.set("item", Material.IRON_PICKAXE);
+        }
     }
 
     @Override
     public @Nullable Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
+        Button[] buttons = super.createButtons();
 
-        final ButtonBuilder blockButton = Button.builder()
-                .withType(Material.GRASS_BLOCK)
-                .withDisplay("&f&lItem Type")
+        ButtonBuilder blockButton = Button.builder()
+                .type(Material.GRASS_BLOCK)
                 .enchanted(true)
+                .name("&f&lItem Type")
+                .addEmptyLine()
+                .addLine(section.getString("item", StringColor.FORMATTER).orElse("not set"))
+                .addEmptyLine()
+                .addLeftClickLine("To set the hologram item")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Material.class)
                             .description("Enter item type in chat")
@@ -30,11 +36,7 @@ public class ItemHologramEditor extends GenericHologramEditor {
                                 view.open();
                             })
                             .start();
-                })
-                .addLore("")
-                .addLore(section.getString("item", StringColor.FORMATTER).orElse("none"))
-                .addLore("")
-                .addLore("&eLeft-Click: &fTo set hologram item");
+                });
 
         buttons[20] = blockButton.buildButton();
 

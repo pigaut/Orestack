@@ -37,6 +37,7 @@ type: unripe
 growth: 1.5s
 block: wheat
 age: 6
+
 --- # ===== Stage 8 =====
 type: regrown
 block: wheat

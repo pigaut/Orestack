@@ -22,11 +22,11 @@ public class ItemGroupsMenu extends FramedSelectionMenu {
     public List<Button> createEntries() {
         return plugin.getItems().getAllGroups().stream()
                 .map(group -> Button.builder()
-                        .withType(Material.CHEST)
-                        .withDisplay("&a&l" + CaseFormatter.toTitleCase(group))
-                        .addLore("")
-                        .addLore("&eLeft-Click: &fView all items")
-                        .addLore("&6Right-Click: &fGet all items")
+                        .type(Material.CHEST)
+                        .name("&a&l" + CaseFormatter.toTitleCase(group))
+                        .addEmptyLine()
+                        .addLine("&eLeft-Click: &fView all items")
+                        .addLine("&6Right-Click: &fGet all items")
                         .onLeftClick((view, player) ->
                                 player.openMenu(new ItemsMenu(plugin, group)))
                         .onRightClick((view, player) ->
