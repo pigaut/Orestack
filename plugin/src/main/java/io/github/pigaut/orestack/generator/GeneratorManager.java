@@ -29,10 +29,6 @@ public class GeneratorManager extends Manager {
         this.plugin = plugin;
     }
 
-    public int getLargeGeneratorsPlaced() {
-        return largeGeneratorsPlaced;
-    }
-
     @Override
     public void disable() {
         for (Generator blockGenerator : generators) {
@@ -212,7 +208,7 @@ public class GeneratorManager extends Manager {
 
         final BlockStructure lastStructure = template.getLastStage().getStructure();
         if (lastStructure.getBlockChanges().size() > 1) {
-            if (largeGeneratorsPlaced >= 25) {
+            if (largeGeneratorsPlaced >= 5) {
                 throw new GeneratorLimitException();
             }
         }
@@ -250,7 +246,7 @@ public class GeneratorManager extends Manager {
 
         final BlockStructure lastStructure = template.getLastStage().getStructure();
         if (lastStructure.getBlockChanges().size() > 1) {
-            if (largeGeneratorsPlaced >= 25) {
+            if (largeGeneratorsPlaced >= 5) {
                 throw new GeneratorLimitException();
             }
             largeGeneratorsPlaced++;
