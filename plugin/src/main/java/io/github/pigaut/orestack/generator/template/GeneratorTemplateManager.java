@@ -21,13 +21,12 @@ public class GeneratorTemplateManager extends ConfigBackedManager.Sequence<Gener
     }
 
     @Override
-    public void loadFromSequence(ConfigSequence sequence) throws InvalidConfigurationException {
-        GeneratorTemplate template = sequence.loadRequired(GeneratorTemplate.class);
+    public void loadFromSequence(ConfigSequence sequence) throws InvalidConfigException {
+        GeneratorTemplate template = sequence.getRequired(GeneratorTemplate.class);
         try {
             add(template);
-        }
-        catch (DuplicateElementException e) {
-            throw new InvalidConfigurationException(sequence, e.getMessage());
+        } catch (DuplicateElementException e) {
+            throw new InvalidConfigException(sequence, e.getMessage());
         }
     }
 

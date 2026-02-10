@@ -19,8 +19,8 @@ public class ToolDamageLoader implements ConfigLoader<ToolDamage> {
     }
 
     @Override
-    public @NotNull ToolDamage loadFromSection(@NotNull ConfigSection section) throws InvalidConfigurationException {
-        List<Material> blockTypes = section.getAll("blocks", Material.class);
+    public @NotNull ToolDamage loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
+        List<Material> blockTypes = section.getAllRequired("blocks", Material.class);
         Map<Material, Amount> damageByTool = new HashMap<>();
 
         ConfigSection toolSection = section.getSectionOrCreate("tools");

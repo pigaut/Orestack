@@ -33,19 +33,19 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
     }
 
     @Override
-    public @NotNull GeneratorTemplate loadFromScalar(ConfigScalar scalar) throws InvalidConfigurationException {
+    public @NotNull GeneratorTemplate loadFromScalar(ConfigScalar scalar) throws InvalidConfigException {
         String generatorName = scalar.toString();
         GeneratorTemplate generatorTemplate = plugin.getGeneratorTemplate(generatorName);
         if (generatorTemplate == null) {
-            throw new InvalidConfigurationException(scalar, "Could not find generator with name: '" + generatorName + "'");
+            throw new InvalidConfigException(scalar, "Could not find generator with name: '" + generatorName + "'");
         }
         return generatorTemplate;
     }
 
     @Override
-    public @NotNull GeneratorTemplate loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigurationException {
+    public @NotNull GeneratorTemplate loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigException {
         if (!(sequence instanceof ConfigRoot root)) {
-            throw new InvalidConfigurationException(sequence, "Generator can only be loaded from a root configuration sequence");
+            throw new InvalidConfigException(sequence, "Generator can only be loaded from a root configuration sequence");
         }
 
         String name = root.getName();
@@ -58,37 +58,37 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         }
 
         if (generatorStages.size() < 2) {
-            throw new InvalidConfigurationException(sequence, "Generator must have at least one depleted and one regrown stage");
+            throw new InvalidConfigException(sequence, "Generator must have at least one depleted and one regrown stage");
         }
 
         GeneratorStage firstStage = generatorStages.get(0);
         if (firstStage.getState() != GrowthState.DEPLETED) {
-            throw new InvalidConfigurationException(sequence, "The first stage must be depleted");
+            throw new InvalidConfigException(sequence, "The first stage must be depleted");
         }
 
         if (firstStage.getGrowthFunction() != null) {
-            throw new InvalidConfigurationException(sequence, "The first stage cannot have a growth function");
+            throw new InvalidConfigException(sequence, "The first stage cannot have a growth function");
         }
 
         if (firstStage.getGrowthTime() == 0) {
-            throw new InvalidConfigurationException(sequence, "The depleted stage must have a growth time set");
+            throw new InvalidConfigException(sequence, "The depleted stage must have a growth time set");
         }
 
         GeneratorStage lastStage = generatorStages.get(generatorStages.size() - 1);
         if (lastStage.getState() != GrowthState.REGROWN) {
-            throw new InvalidConfigurationException(sequence, "The last stage must be regrown");
+            throw new InvalidConfigException(sequence, "The last stage must be regrown");
         }
 
         boolean firstHarvestableFound = false;
         for (int i = 1; i < generatorStages.size(); i++) {
             final GeneratorStage stage = generatorStages.get(i);
             if (stage.getState() == GrowthState.DEPLETED) {
-                throw new InvalidConfigurationException(sequence, "Only the first stage should be depleted");
+                throw new InvalidConfigException(sequence, "Only the first stage should be depleted");
             }
 
             if (!firstHarvestableFound && stage.getState().isHarvestable()) {
                 if (stage.getGrowthChance() != null && stage.getGrowthChance() != 1.0) {
-                    throw new InvalidConfigurationException(sequence, "Generator must have at least one unripe/ripe/regrown stage with 100% growth chance");
+                    throw new InvalidConfigException(sequence, "Generator must have at least one unripe/ripe/regrown stage with 100% growth chance");
                 }
                 firstHarvestableFound = true;
             }
@@ -100,14 +100,14 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         return generator;
     }
 
-    private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection section) throws InvalidConfigurationException {
+    private GeneratorStage loadStage(GeneratorTemplate generator, ConfigSection section) throws InvalidConfigException {
         GrowthState state = section.getRequired("type|state", GrowthState.class);
 
         BlockStructure structure = section.contains("structure|blocks") ?
                 section.getRequired("structure|blocks", BlockStructure.class) :
-                section.loadRequired(BlockStructure.class);
+                section.getRequired(BlockStructure.class);
 
-        List<Material> decorativeBlocks = section.getAll("decorative-blocks", Material.class);
+        List<Material> decorativeBlocks = section.getAllRequired("decorative-blocks", Material.class);
 
         Boolean defaultDrops = section.getBoolean("default-drops|drops").withDefault(null);
         boolean dropItems = defaultDrops != null ? defaultDrops :
@@ -125,12 +125,12 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         boolean idle = section.getBoolean("idle").withDefault(health != null);
 
         if (health != null && !idle) {
-            throw new InvalidConfigurationException(section, "idle", "Generator Stage with health set must be idle.");
+            throw new InvalidConfigException(section, "idle", "Generator Stage with health set must be idle.");
         }
 
         Boolean harvestOnly = section.getBoolean("harvest-only").withDefault(null);
         int growthTime = section.get("growth|growth-time", Ticks.class)
-                .require(harvestOnly == null || !harvestOnly, "Cannot set growth time while harvest-only is true")
+                .check(harvestOnly == null || !harvestOnly, "Cannot set growth time while harvest-only is true")
                 .map(Ticks::getCount)
                 .withDefault(0);
 

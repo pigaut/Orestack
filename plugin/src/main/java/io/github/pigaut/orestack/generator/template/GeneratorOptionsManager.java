@@ -20,13 +20,13 @@ public class GeneratorOptionsManager extends Manager implements ConfigBacked {
     }
 
     @Override
-    public @NotNull List<ConfigurationException> loadConfigurationData() {
-        List<ConfigurationException> errorsFound = new ArrayList<>();
+    public @NotNull List<ConfigException> loadConfigurationData() {
+        List<ConfigException> errorsFound = new ArrayList<>();
 
         ConfigSection config = plugin.getConfiguration();
 
         veinGenerators = config.getList("vein-generators", GeneratorTemplate.class)
-                .withDefault(List.of(), errorsFound::add);
+                .withDefaultOrElse(List.of(), errorsFound::add);
 
         return errorsFound;
     }
