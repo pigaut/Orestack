@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack;
 
+import io.github.pigaut.orestack.advertise.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.generator.*;
@@ -13,7 +14,6 @@ import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.boot.*;
 import io.github.pigaut.voxel.plugin.boot.phase.*;
-import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.server.Server;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
@@ -31,6 +31,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     private final GeneratorManager generatorManager = new GeneratorManager(this);
     private final OrestackPlayerStateManager playerManager = new OrestackPlayerStateManager(this);
     private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
+    private final AdvertisementManager advertisementManager = new AdvertisementManager(this);
 
     private static OrestackPlugin plugin;
 
@@ -126,6 +127,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         listeners.add(new PlayerEventListener(this));
         listeners.add(new BlockEventListener(this));
         listeners.add(new CropEventListener(this));
+        listeners.add(new AdvertisementListener(this));
         return listeners;
     }
 
@@ -161,6 +163,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public List<String> getDefaultResources() {
         return List.of("config.yml", "languages/en.yml");
+    }
+
+    public AdvertisementManager getAdvertisements() {
+        return advertisementManager;
     }
 
     @Override
