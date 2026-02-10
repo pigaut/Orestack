@@ -16,7 +16,7 @@ public class McMMOHook {
         ConditionLoader conditions = configurator.getConditionLoader();
 
         ConfigLoader.Line<Condition> NOT_ENABLED_LOADER = line -> {
-            throw new InvalidConfigurationException(line, "McMMO is not loaded/enabled");
+            throw new InvalidConfigException(line, "McMMO is not loaded/enabled");
         };
 
         if (!Server.isPluginEnabled("McMMO")) {
@@ -36,7 +36,7 @@ public class McMMOHook {
         ActionLoader actions = configurator.getActionLoader();
 
         ConfigLoader.Line<Action> NOT_ENABLED_LOADER = line -> {
-            throw new InvalidConfigurationException(line, "McMMO is not loaded/enabled");
+            throw new InvalidConfigException(line, "McMMO is not loaded/enabled");
         };
 
         if (!Server.isPluginEnabled("McMMO")) {

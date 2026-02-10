@@ -1,0 +1,23 @@
+sendResourceInfo:
+  do:
+    - "chatMessage <--- &b&l%generator_tc% Resource &f--->"
+    - "chatMessage <&bState: &f%generator_state_tc%>"
+    - "chatMessage <&bProgress: &f%generator_stage%/%generator_stages%>"
+    - "chatMessage <&bTime Left: &f%generator_growth_seconds%s>"
+
+requireHarvestPermission:
+  if-not: hasPermission orestack.generator.harvest
+  do:
+    - chatMessage <&4You don't have the permission to harvest this resource>
+    - cancelEvent
+    - stop
+
+requireSpecialTool:
+  if-any:
+    - toolTypeEquals gold_pickaxe, diamond_pickaxe
+    - toolIsSimilar iron_ingot, diamond
+    - toolHasCustomModel 000001, 000002
+  else:
+    - chatMessage <&4You need a special tool to mine this block>
+    - cancelEvent
+    - stop

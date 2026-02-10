@@ -9,8 +9,8 @@ import io.github.pigaut.orestack.hook.mcmmo.*;
 import io.github.pigaut.voxel.config.*;
 import io.github.pigaut.voxel.core.function.action.*;
 import io.github.pigaut.voxel.core.function.condition.config.*;
+import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
-import io.github.pigaut.yaml.optional.*;
 import org.jetbrains.annotations.*;
 
 import static io.github.pigaut.yaml.configurator.load.ConfigLoader.Line;
@@ -41,7 +41,7 @@ public class OrestackConfigurator extends PluginConfigurator {
 
         actions.addLoader("DAMAGE_GENERATOR", (Line<Action>) line -> {
             ConfigOptional<Amount> amount = line.get(1, Amount.class);
-            if (!amount.isSetInConfig()) {
+            if (!amount.existsInConfig()) {
                 return new DamageGeneratorWithTool();
             }
             return new DamageGeneratorAction(amount.withDefault(Amount.ONE));
