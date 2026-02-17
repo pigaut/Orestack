@@ -25,7 +25,7 @@ public class AdvertisementListener implements Listener {
 
         String premiumReminder = plugin.getAdvertisements().getPremiumReminder();
         if (!premiumReminder.isEmpty()) {
-            plugin.getScheduler().runTaskLater(Amount.ranged(200, 600).getInteger(), () -> {
+            plugin.getScheduler().runTaskLater(Amount.between(200, 600).intValue(), () -> {
                 Chat.send(player, premiumReminder);
             });
         }
