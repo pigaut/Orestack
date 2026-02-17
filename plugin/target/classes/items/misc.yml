@@ -1,0 +1,78 @@
+lore_katana:
+  type: iron_sword
+  lore: [Silken Edge, Threadslicer, Cuts with Precision]
+
+web_cutter:
+  type: shears
+  name: "&f&lWeb Cutter"
+
+legendary_axe:
+  type: gold_axe
+  lore: ["&6Legendary"]
+
+generic_pickaxe:
+  type: iron_pickaxe
+  name: '&7&lGeneric Pickaxe'
+  #max-durability: 10   # 1.20.5+
+
+compressed_coal:
+  type: coal
+  amount: 1
+  name: "&8Compressed Coal"
+  lore:
+    - "&7A dense chunk of coal, ready for use."
+  model-data: 1003
+  repair-cost: 10
+  flags:
+    - hide enchants
+  unbreakable: false
+  enchants:
+    smite: 1
+  attributes:
+    - knockback_resistance 0.2 operation=multiply slot=chest name=stability
+  persistent-data:
+    - key: orestack:item
+      type: string
+      value: compressed_coal
+
+iron_chunk:
+  type: iron_ore
+  amount: 1
+  name: "&fRaw Iron Chunk"
+  lore:
+    - "&7A rough piece of unrefined iron."
+  model-data: 1002
+  damage: 0
+  repair-cost: 25
+  flags:
+    - hide attributes
+  unbreakable: false
+  enchants:
+    efficiency: 1
+  attributes:
+    - armor_toughness 1.0 slot=offhand
+  persistent-data:
+    - key: orestack:item
+      type: string
+      value: raw_iron_chunk
+
+diamond_shard:
+  type: diamond
+  amount: 1
+  name: "&bDiamond Shard"
+  lore:
+    - "&7A small fragment of a diamond."
+  model-data: 1001
+  damage: 0
+  repair-cost: 50
+  flags:
+    - hide enchants
+  unbreakable: false
+  enchants:
+    fortune: 1
+  attributes:
+    - luck 50 operation=percent slot=mainhand
+  persistent-data:
+    - key: orestack:item
+      type: string
+      value: diamond_shard

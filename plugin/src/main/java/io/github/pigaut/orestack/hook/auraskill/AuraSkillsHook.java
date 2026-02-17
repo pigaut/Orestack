@@ -16,7 +16,7 @@ public class AuraSkillsHook {
         ConditionLoader conditions = configurator.getConditionLoader();
 
         ConfigLoader.Line<Condition> NOT_ENABLED_LOADER = line -> {
-            throw new InvalidConfigurationException(line, "AuraSkills is not loaded/enabled");
+            throw new InvalidConfigException(line, "AuraSkills is not loaded/enabled");
         };
 
         if (!Server.isPluginEnabled("AuraSkills")) {
@@ -40,7 +40,7 @@ public class AuraSkillsHook {
         ActionLoader actions = configurator.getActionLoader();
 
         ConfigLoader.Line<Action> NOT_ENABLED_LOADER = line -> {
-            throw new InvalidConfigurationException(line, "AuraSkills is not loaded/enabled");
+            throw new InvalidConfigException(line, "AuraSkills is not loaded/enabled");
         };
 
         if (!Server.isPluginEnabled("AuraSkills")) {

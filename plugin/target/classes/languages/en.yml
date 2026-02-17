@@ -1,0 +1,192 @@
+
+#===== Command Placeholders =====#
+# {command}
+# {command_name}
+# {command_description}
+# {command_permission}
+
+#===== Generic Command Errors =====#
+# Placeholders: {online-player}, {world-name}, {x}, {y}, {z}, {file-path}
+usage: '/{command_name} help'
+not-enough-args: "&4Not enough arguments"
+too-many-args: '&4Too many arguments'
+no-permission: '&4You don''t have the permission to run this command'
+player-only: '&4This command cannot be executed from console'
+player-not-online: '&4Could not find online player with name: {online-player}'
+loading-player-data: '&4Player data is still loading try again later'
+world-not-found: '&4Could not find a world with name: {world-name}'
+expected-coordinates: '&4Expected coordinates but received: x: {x}, y: {y}, z: {z}'
+file-not-found: '&4Could not find file at path: {file-path}'
+not-yaml-file: '&4File at path: {file-path} is not a yaml file'
+file-load-error: '&4An error occurred when loading file at path: {file-path}'
+
+#===== Help Command =====#
+# Description
+help-command: 'View a list of all available commands'
+# Style
+help-header: '&2------------     &r&l{command_name_tc} Help     &2------------'
+help-line: '&a/{command}: &r{command_description}'
+help-footer: '&2---------------------------------------------'
+
+#===== Wiki Command =====#
+wiki-command: 'Receive a link to the Orestack wiki website'
+player-wiki: '[json]{"text":"Click to open the wiki","color":"aqua","clickEvent":{"action":"open_url","value":"https://pigaut.gitbook.io/orestack/"},"hoverEvent":{"action":"show_text","contents":"https://pigaut.gitbook.io/orestack/"}}'
+console-wiki: 'Orestack Wiki: https://pigaut.gitbook.io/orestack/'
+
+#===== Support Command =====#
+support-command: 'Receive a link to the Orestack discord server'
+player-support: '[json]{"text":"Click to join the discord server","color":"aqua","clickEvent":{"action":"open_url","value":"https://discord.com/invite/wFVbBSgrX2"},"hoverEvent":{"action":"show_text","contents":"https://discord.com/invite/wFVbBSgrX2"}}'
+console-support: 'Orestack Discord: https://discord.com/invite/wFVbBSgrX2'
+
+#===== Reload Command =====#
+# Description
+reload-command: 'Reload configuration and data'
+# Errors
+already-reloading: '&4The plugin is already reloading, please wait'
+debug-configuration-errors: '&4Found {error_count} error(s) while loading the configuration.'
+configuration-errors: '&4Found {error_count} error(s) while loading the configuration. Check the console for details.'
+# Success
+reloading: '&aReloading Orestack plugin... &c(Wait)'
+reload-completed: '&aReload completed successfully.'
+reload-completed-with-errors: '&aReload completed with the following errors:'
+
+# ------------------
+#    Menu Command
+# ------------------
+## Description
+orestack-menu-command: 'Open the main menu'
+
+# -------------------
+#    Item Commands
+# -------------------
+## Placeholders: {item-name}, {item-group}
+## Descriptions
+item-command: ''
+item-save-command: 'Save the item you''re holding to a yaml file'
+item-get-command: 'Get the item with the given name'
+item-get-group-command: 'Get all items of a group'
+## Errors
+not-holding-item: '&4You need to hold an item to use this command'
+item-not-found: '&4Could not find an item with name: {item-name}'
+item-group-not-found: '&4Could not find an item group with name: {item-group}'
+## Success
+saved-item: '&aSaving {item-name} item to "{file-path}" file...'
+received-item: '&aYou received x1 {item-name} item'
+received-item-group: '&aYou received all {item-group} items'
+
+# ----------------------
+#    Message Commands
+# ----------------------
+## Placeholders: {message-name}, {online-player}
+## Descriptions
+message-command: ''
+message-send-command: 'Send a message to the target player'
+message-broadcast-command: 'Send a message to all online players'
+## Errors
+message-not-found: '&4Could not find a message with name: {message-name}'
+## Success
+sent-message-to-player: '&aMessage sent successfully to {online-player}'
+sent-message-to-all: '&aMessage sent successfully to all online players'
+
+# -----------------------
+#    Particle Commands
+# -----------------------
+## Placeholders: {particle-name}, {world-name}, {x}, {y}, {z}
+## Descriptions
+particle-command: ''
+particle-spawn-command: 'Spawn a particle at the specified location'
+particle-spawn-to-command: 'Spawn a particle on the target player'
+particle-show-me-command: 'Spawn a particle 2 blocks in front of you'
+particle-show-me-group-command: 'Spawn a group''s particle 2 blocks in front of you'
+## Errors
+particle-not-found: '&4Could not find a particle with name: {particle-name}'
+group-particle-not-found: '&44Could not find particle in group {group-name} with name: {group-particle}'
+## Success
+spawned-particle: '&aSpawned a particle effect at {world-name}, {x}, {y}, {z}'
+spawned-particle-at-player: '&aSpawned a particle at {online-player}''s location'
+showed-me-particle: '&aParticle spawned two blocks in front of you'
+
+# --------------------
+#    Sound Commands
+# --------------------
+## Placeholders: {sound-name}, {world-name}, {x}, {y}, {z}
+## Descriptions
+sound-command: ''
+sound-play-command: 'Play a sound at the given location'
+sound-play-to-command: "Play a sound at the given player's location"
+## Errors
+sound-not-found: '&4Could not find a sound with name: {sound-name}'
+## Success
+played-sound: '&aPlayed a sound effect at {world-name}, {x}, {y}, {z}'
+played-sound-at-player: "&aPlayed a sound at {online-player}'s location"
+
+# ------------------------
+#    Structure Commands
+# ------------------------
+## Placeholders: {structure-name}, {file-path}
+## Descriptions
+structure-command: ''
+structure-save-command: 'Saves the selected structure to a yaml file'
+structure-place-command: 'Place a structure at the target block'
+## Success
+saved-structure: '&aSaving structure to file: {file-path}'
+placed-structure: '&aPlaced structure at target block'
+## Errors
+structure-not-found: '&4Could not find structure with name: {structure-name}'
+structure-minimum-blocks: '&4Structure must have at least two blocks in it'
+# -----------------------
+
+# -----------------------
+#    Generator Command
+# -----------------------
+## Descriptions
+generator-command: ''
+generator-get-command: 'Get the generator with the given name'
+generator-get-group-command: 'Receive all generators of a group'
+generator-get-all-command: 'Receive all generators'
+generator-set-command: 'Set the generator to the block you''re looking at'
+generator-remove-command: 'Remove the generator at the block you''re looking at'
+generator-set-all-command: 'Set all generators in the selected region'
+generator-remove-all-command: 'Remove all generators in the selected region'
+generator-harvest-all-command: 'Harvest all generators with the tool in main hand'
+## Errors
+generator-not-found: '&4Could not find generator with name: {generator-name}'
+generator-group-not-found: '&4Could not find generator group with name: {generator-group}'
+incomplete-region: '&4You need to select a region with the generator wand'
+too-far-away: '&4Cannot find a block in range, move closer'
+target-not-generator: '&4The block you''re looking at is not a generator'
+generator-overlap: '&4Too close to another generator'
+## Success
+received-generator: '&aYou received x1 {generator} generator'
+received-wand: '&aYou received x1 wand item'
+created-generator: '&aGenerator created successfully at target block'
+removed generator: '&aGenerator removed successfully at target block'
+received-generator-group: '&aYou received {generator-group} generators'
+received-all-generators: '&aYou received x1 of each generator item'
+created-all-generators: '&aAll generators inside of region have been set successfully'
+removed-all-generators: '&aAll generators inside of region have been removed successfully'
+harvested-all-generators: '&aAll {generator} generators have been harvested with held tool'
+
+# --------------------
+#    Selection Wand
+# --------------------
+## Command
+wand-command: 'Get a wand used to select a region'
+## Item
+selected-first-position: '&aFirst position selected'
+selected-second-position: '&aSecond position selected'
+missing-wand-permission: '&4You don''t have the permission to use the wand'
+
+# --------------------
+#    Generator Item
+# --------------------
+## Errors
+generator-not-exists: '&4This generator no longer exists or is invalid'
+corrupt-tool-rotation: '&4This generator item has corrupted rotation data'
+cannot-place-generator: '&4You don''t have the permission to place generators'
+cannot-break-generator: '&4You don''t have the permission to break generators'
+cannot-rotate-generator: '&4You don''t have the permission to rotate generators'
+## Success
+placed-generator: '&aPlaced generator successfully'
+broke-generator: '&cBroke generator successfully'
+changed-generator-rotation: '&aRotated generator by 90 degrees'

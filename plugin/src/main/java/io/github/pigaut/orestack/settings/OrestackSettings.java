@@ -47,50 +47,50 @@ public class OrestackSettings extends Settings {
     }
 
     @Override
-    public @NotNull List<ConfigurationException> loadConfigurationData() {
-        List<ConfigurationException> errors = super.loadConfigurationData();
+    public @NotNull List<ConfigException> loadConfigurationData() {
+        List<ConfigException> errors = super.loadConfigurationData();
 
         ConfigSection config = plugin.getConfiguration();
 
         keepBlocksOnRemove = config.getBoolean("keep-blocks-on-remove")
-                .withDefault(false, errors::add);
+                .withDefaultOrElse(false, errors::add);
 
         generatorTool = config.get("generator-tool", ItemStack.class)
                 .require(ItemUtil::isNotAir, "Item type cannot be air")
-                .withDefault(GeneratorTool.getItemTemplate(), errors::add);
+                .withDefaultOrElse(GeneratorTool.getItemTemplate(), errors::add);
 
         // Generator settings
         defaultToolDamage = config.get("default-tool-damage", Amount.class)
-                .withDefault(Amount.ONE, errors::add);
+                .withDefaultOrElse(Amount.ONE, errors::add);
 
         clickCooldown = config.getInteger("click-cooldown")
-                .require(Requirements.isPositive(), "Cooldown ticks must be a positive amount")
-                .withDefault(4, errors::add);
+                .require(Requirements.positive())
+                .withDefaultOrElse(4, errors::add);
 
         hitCooldown = config.getInteger("hit-cooldown")
-                .require(Requirements.isPositive(), "Cooldown ticks must be a positive amount")
-                .withDefault(4, errors::add);
+                .require(Requirements.positive())
+                .withDefaultOrElse(4, errors::add);
 
         harvestCooldown = config.getInteger("harvest-cooldown")
-                .require(Requirements.isPositive(), "Cooldown ticks must be a positive amount")
-                .withDefault(4, errors::add);
+                .require(Requirements.positive())
+                .withDefaultOrElse(4, errors::add);
 
         // Vein miner settings
         veinMiner = config.getBoolean("vein-miner")
-                .withDefault(false, errors::add);
+                .withDefaultOrElse(false, errors::add);
 
         veinMinerAliases = config.getStringList("vein-miner-aliases")
-                .withDefault(List.of("veinminer", "vein-miner", "vein_miner"), errors::add);
+                .withDefaultOrElse(List.of("veinminer", "vein-miner", "vein_miner"), errors::add);
 
         veinSizeByLevel = new HashMap<>();
-        for (ConfigScalar scalar : config.getSectionOrCreate("vein-size-by-level").getNestedScalars()) {
+        for (KeyedScalar scalar : config.getSectionOrCreate("vein-size-by-level").getNestedScalars()) {
             Integer veinSize = scalar.toInteger()
-                    .require(Requirements.isPositive(), "Vein size must be positive")
-                    .withDefault(null, errors::add);
+                    .require(Requirements.positive())
+                    .withDefaultOrElse(null, errors::add);
 
-            Integer enchantLevel = ((KeyedScalar) scalar).getIntegerKey()
-                    .require(Requirements.isPositive(), "Enchant level must be positive")
-                    .withDefault(null, errors::add);
+            Integer enchantLevel = scalar.getIntegerKey()
+                    .require(Requirements.positive())
+                    .withDefaultOrElse(null, errors::add);
 
             if (veinSize != null && enchantLevel != null) {
                 veinSizeByLevel.put(enchantLevel, veinSize);
@@ -99,16 +99,16 @@ public class OrestackSettings extends Settings {
 
         // Generator health options
         defaultDamage = config.get("default-damage", Amount.class)
-                .withDefault(Amount.ONE, errors::add);
+                .withDefaultOrElse(Amount.ONE, errors::add);
 
         efficiencyDamage = config.getBoolean("efficiency-damage")
-                .withDefault(true, errors::add);
+                .withDefaultOrElse(true, errors::add);
 
         reducedCooldownDamage = config.getBoolean("reduced-cooldown-damage")
-                .withDefault(true, errors::add);
+                .withDefaultOrElse(true, errors::add);
 
         damageByTool = config.getList("damage-by-tool-type", ToolDamage.class)
-                .withDefault(List.of(), errors::add);
+                .withDefaultOrElse(List.of(), errors::add);
 
         return errors;
     }

@@ -56,7 +56,7 @@ public class GeneratorBlock {
                 generatorMineEvent.setExpDrops(expToDrop);
             }
 
-            int toolDamage = generatorStage.getToolDamage().getInteger();
+            int toolDamage = generatorStage.getToolDamage().intValue();
             generatorMineEvent.setToolDamage(toolDamage);
 
             Server.callEvent(generatorMineEvent);
@@ -74,7 +74,9 @@ public class GeneratorBlock {
 
             Collection<ItemStack> itemDrops = generatorMineEvent.getItemDrops();
             if (itemDrops != null) {
-                ItemUtil.dropItems(dropLocation, itemDrops);
+                for (ItemStack itemDrop : itemDrops) {
+                    ItemUtil.dropItem(dropLocation, itemDrop);
+                }
             }
 
             int expDrops = generatorMineEvent.getExpDrops();

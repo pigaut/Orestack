@@ -18,7 +18,7 @@ public class GiveMcMMOExp implements McMMOPlayerAction {
 
     @Override
     public void execute(@NotNull McMMOPlayer player) {
-        player.beginXpGain(skill, expAmount.getInteger(), XPGainReason.UNKNOWN, XPGainSource.CUSTOM);
+        player.beginXpGain(skill, expAmount.intValue(), XPGainReason.UNKNOWN, XPGainSource.CUSTOM);
     }
 
 }
