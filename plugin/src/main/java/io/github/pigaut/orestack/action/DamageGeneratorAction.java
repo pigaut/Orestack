@@ -31,7 +31,7 @@ public class DamageGeneratorAction implements Action {
             return;
         }
 
-        generator.damage(playerState, damageAmount.getDouble());
+        generator.damage(playerState, damageAmount.doubleValue());
     }
 
 }

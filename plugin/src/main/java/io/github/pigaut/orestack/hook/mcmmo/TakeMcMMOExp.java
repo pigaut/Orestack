@@ -17,7 +17,7 @@ public class TakeMcMMOExp implements McMMOPlayerAction {
 
     @Override
     public void execute(@NotNull McMMOPlayer player) {
-        player.removeXp(skill, Math.max(0, player.getSkillXpLevel(skill) - expAmount.getInteger()));
+        player.removeXp(skill, Math.max(0, player.getSkillXpLevel(skill) - expAmount.intValue()));
     }
 
 }

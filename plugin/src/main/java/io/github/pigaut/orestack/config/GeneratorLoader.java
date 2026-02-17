@@ -119,7 +119,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
                 .withDefault(plugin.getSettings().getDefaultToolDamage());
 
         Double health = section.getDouble("health")
-                .require(Requirements.greaterThan(0), "Health must be greater than or equal to 1.")
+                .require(Requirements.positive())
                 .withDefault(null);
 
         boolean idle = section.getBoolean("idle").withDefault(health != null);
@@ -137,15 +137,15 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         Double chance = section.getDouble("chance|growth-chance").withDefault(null);
 
         int clickCooldown = section.getInteger("click-cooldown")
-                .require(Requirements.greaterThan(1), "Click cooldown must be greater than 1")
+                .require(Requirements.min(1))
                 .withDefault(plugin.getSettings().getClickCooldown());
 
         int hitCooldown = section.getInteger("hit-cooldown")
-                .require(Requirements.greaterThan(1), "Hit cooldown must be greater than 1")
+                .require(Requirements.min(1))
                 .withDefault(plugin.getSettings().getHitCooldown());
 
         int harvestCooldown = section.getInteger("harvest-cooldown")
-                .require(Requirements.greaterThan(1), "Harvest cooldown must be greater than 1")
+                .require(Requirements.min(1))
                 .withDefault(plugin.getSettings().getClickCooldown());
 
         Hologram hologram = null;
