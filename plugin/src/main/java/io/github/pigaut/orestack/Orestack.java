@@ -35,7 +35,7 @@ public class Orestack {
             }
         }
 
-        double damage = baseDamage.getDouble();
+        double damage = baseDamage.doubleValue();
         if (settings.isReducedCooldownDamage()) {
             damage *= player.getAttackCooldown();
         }

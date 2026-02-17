@@ -30,10 +30,10 @@ public class GiveAuraExp implements PlayerAction {
 
         SkillsUser skillsUser = AURA_SKILLS.getUser(player.getUniqueId());
         if (raw) {
-            skillsUser.addSkillXpRaw(skill, exp.getInteger());
+            skillsUser.addSkillXpRaw(skill, exp.intValue());
         }
         else {
-            skillsUser.addSkillXp(skill, exp.getInteger());
+            skillsUser.addSkillXp(skill, exp.intValue());
         }
     }
 

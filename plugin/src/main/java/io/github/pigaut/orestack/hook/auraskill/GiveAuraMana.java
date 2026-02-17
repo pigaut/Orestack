@@ -21,7 +21,7 @@ public class GiveAuraMana implements PlayerAction {
     public void execute(@NotNull PlayerState player) {
         SkillsUser skillsUser = AURA_SKILLS.getUser(player.getUniqueId());
 
-        double totalMana = skillsUser.getMana() + manaAmount.getDouble();
+        double totalMana = skillsUser.getMana() + manaAmount.doubleValue();
         skillsUser.setMana(Math.min(totalMana, skillsUser.getMaxMana()));
     }
 
