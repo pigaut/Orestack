@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f3639682-e00d-4301-8c91-811b0d634316" name="Changes" comment="version 3.42.9&#10;&#10;- Added AutoSmelt enchant support" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;pigaut&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/pigaut/Orestack.git&quot;,
+    &quot;accountId&quot;: &quot;e2007187-a587-43ac-af7a-ae1eda5c01ba&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="downloadDocsAutomatically" value="true" />
+        <option name="downloadSourcesAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="397p4xhSTjUivj3OuOnWJodja9Z" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="sortByType" value="true" />
+    <option name="sortKey" value="BY_TYPE" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "JAR Application.1.21.8.executor": "Run",
+    "Maven.OrestackAPI [clean].executor": "Run",
+    "Maven.OrestackPlugin [clean,package...].executor": "Run",
+    "Maven.OrestackPlugin [clean].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "free-version",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/files/Development/java/spigot/projects/Orestack/.idea",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "project.propVCSSupport.ChangelistConflict"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\files\Development\java\spigot\projects\Orestack\.idea" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\sorre\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f3639682-e00d-4301-8c91-811b0d634316" name="Changes" comment="version 3.42.6&#10;&#10;- Improvements to YamlConfig library&#10;&#10;- Fixed multi message editor" />
+      <created>1770056777844</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1770056777844</updated>
+    </task>
+    <task id="LOCAL-00001" summary="version 3.42.7&#10;&#10;- Improvements to YamlConfig library&#10;&#10;- Fixed an amethyst block bug">
+      <option name="closed" value="true" />
+      <created>1770720109826</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1770720109826</updated>
+    </task>
+    <task id="LOCAL-00002" summary="version 3.42.7&#10;&#10;- Improvements to YamlConfig library&#10;&#10;- Fixed an amethyst block bug&#10;&#10;- Set multi-block generator limit to 5">
+      <option name="closed" value="true" />
+      <created>1770725681024</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1770725681024</updated>
+    </task>
+    <task id="LOCAL-00003" summary="version 3.42.8&#10;&#10;- Added premium discount reminders when the plugin is on discount.">
+      <option name="closed" value="true" />
+      <created>1770728314695</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1770728314695</updated>
+    </task>
+    <task id="LOCAL-00004" summary="version 3.42.8&#10;&#10;- Added premium discount reminders when the plugin is on discount.">
+      <option name="closed" value="true" />
+      <created>1771005846116</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1771005846116</updated>
+    </task>
+    <task id="LOCAL-00005" summary="version 3.42.9&#10;&#10;- Added AutoSmelt enchant support">
+      <option name="closed" value="true" />
+      <created>1771318254278</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1771318254278</updated>
+    </task>
+    <task id="LOCAL-00006" summary="version 3.42.9&#10;&#10;- Added AutoSmelt enchant support">
+      <option name="closed" value="true" />
+      <created>1771323901261</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1771323901261</updated>
+    </task>
+    <task id="LOCAL-00007" summary="version 3.42.9&#10;&#10;- Added AutoSmelt enchant support">
+      <option name="closed" value="true" />
+      <created>1771844481662</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1771844481662</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="version 3.42.6&#10;&#10;- Improvements to YamlConfig library&#10;&#10;- Fixed multi message editor" />
+    <MESSAGE value="version 3.42.7&#10;&#10;- Improvements to YamlConfig library&#10;&#10;- Fixed an amethyst block bug" />
+    <MESSAGE value="version 3.42.7&#10;&#10;- Improvements to YamlConfig library&#10;&#10;- Fixed an amethyst block bug&#10;&#10;- Set multi-block generator limit to 5" />
+    <MESSAGE value="version 3.42.8&#10;&#10;- Added premium discount reminders when the plugin is on discount." />
+    <MESSAGE value="version 3.42.9&#10;&#10;- Added AutoSmelt enchant support" />
+    <option name="LAST_COMMIT_MESSAGE" value="version 3.42.9&#10;&#10;- Added AutoSmelt enchant support" />
+  </component>
+</project>
