@@ -20,7 +20,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="development" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -69,7 +69,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "free-version",
+    "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/files/Development/java/spigot/projects/Orestack/.idea",
@@ -161,5 +161,15 @@
     <MESSAGE value="version 3.42.8&#10;&#10;- Added premium discount reminders when the plugin is on discount." />
     <MESSAGE value="version 3.42.9&#10;&#10;- Added AutoSmelt enchant support" />
     <option name="LAST_COMMIT_MESSAGE" value="version 3.42.9&#10;&#10;- Added AutoSmelt enchant support" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.UnsupportedOperationException" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
