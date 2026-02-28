@@ -238,9 +238,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "generators/ores/gold.yml",
                 "generators/ores/diamond.yml",
                 "generators/ores/emerald.yml",
-                "generators/ores/amethyst/amethyst.yml",
-                "generators/ores/amethyst/amethyst_wall.yml",
-                "generators/ores/amethyst/amethyst_ceiling.yml",
 
                 "structures/crops/chorus/chorus_plant_2.yml",
                 "structures/crops/chorus/chorus_plant_3.yml",
@@ -398,6 +395,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                         "generators/deposits/copper_deposit.yml",
                         "generators/ores/copper.yml",
                         "generators/crops/glow_berries.yml",
+
+                        "generators/ores/amethyst/amethyst.yml",
+                        "generators/ores/amethyst/amethyst_wall.yml",
+                        "generators/ores/amethyst/amethyst_ceiling.yml",
 
                         "structures/deposits/copper/copper_deposit_1.yml",
                         "structures/deposits/copper/copper_deposit_2.yml",
