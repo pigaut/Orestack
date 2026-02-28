@@ -30,7 +30,7 @@ public class AdvertisementManager extends Manager {
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(5000);
 
-            status.load(conn.getInputStream());
+            status.loadFromStream(conn.getInputStream());
         } catch (Exception ignored) {
         }
 
