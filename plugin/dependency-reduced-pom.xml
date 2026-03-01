@@ -4,10 +4,19 @@
   <groupId>io.github.pigaut.orestack</groupId>
   <artifactId>OrestackPlugin</artifactId>
   <name>Orestack Plugin</name>
-  <version>3.42.12</version>
+  <version>3.42.13</version>
   <description>A Spigot plugin used to create resources with custom gathering mechanics</description>
   <url>https://www.spigotmc.org/resources/121905/</url>
   <build>
+    <resources>
+      <resource>
+        <filtering>true</filtering>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>plugin.yml</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
