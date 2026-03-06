@@ -5,11 +5,13 @@ import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.*;
+import io.github.pigaut.voxel.core.structure.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.convert.parse.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
+import org.bukkit.block.Structure;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -209,7 +211,7 @@ public class GeneratorManager extends Manager {
             }
         }
 
-        BlockStructure lastStructure = template.getLastStage().getStructure();
+        StructureTemplate lastStructure = template.getLastStage().getStructureTemplate();
         if (lastStructure.getBlockChanges().size() > 1) {
             if (largeGeneratorsPlaced >= 5) {
                 throw new GeneratorLimitException();
@@ -251,7 +253,7 @@ public class GeneratorManager extends Manager {
             removedBlocks.add(block.getState());
         }
 
-        final BlockStructure lastStructure = template.getLastStage().getStructure();
+        StructureTemplate lastStructure = template.getLastStage().getStructureTemplate();
         if (lastStructure.getBlockChanges().size() > 1) {
             if (largeGeneratorsPlaced >= 5) {
                 throw new GeneratorLimitException();
@@ -270,7 +272,7 @@ public class GeneratorManager extends Manager {
     }
 
     public void unregisterGenerator(@NotNull Generator generator) {
-        final BlockStructure lastStructure = generator.getTemplate().getLastStage().getStructure();
+        StructureTemplate lastStructure = generator.getTemplate().getLastStage().getStructureTemplate();
         if (lastStructure.getBlockChanges().size() > 1) {
             largeGeneratorsPlaced--;
         }
