@@ -1,10 +1,14 @@
 package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.util.*;
+import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.bukkit.Rotation;
 import io.github.pigaut.voxel.command.node.*;
+import io.github.pigaut.voxel.server.Server;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
@@ -17,19 +21,27 @@ public class GeneratorSetSubCommand extends SubCommand {
         withDescription(plugin.getTranslation("generator-set-command"));
         withParameter(GeneratorParameters.GENERATOR_NAME);
         withPlayerExecution((player, args, placeholders) -> {
-            final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
+            GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {
                 plugin.sendMessage(player, "generator-not-found", placeholders);
                 return;
             }
 
-            final Block targetBlock = player.getTargetBlockExact(6);
+            Block targetBlock = player.getTargetBlockExact(6);
             if (targetBlock == null) {
                 plugin.sendMessage(player, "too-far-away", placeholders, generator);
                 return;
             }
 
-            final Location location = targetBlock.getLocation();
+            Location location = targetBlock.getLocation();
+
+            GeneratorPlaceEvent generatorPlaceEvent = new GeneratorPlaceEvent(generator.getName(), player, generator.getOccupiedBlocks(location, Rotation.NONE));
+            Server.callEvent(generatorPlaceEvent);
+            if (generatorPlaceEvent.isCancelled()) {
+                PlayerUtil.sendActionBar(player, plugin.getTranslation("generator-conflict"));
+                return;
+            }
+
             try {
                 Generator.create(generator, location);
                 plugin.sendMessage(player, "created-generator", placeholders, generator);

@@ -1,11 +1,13 @@
 package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.*;
 import io.github.pigaut.voxel.plugin.manager.*;
+import io.github.pigaut.voxel.server.Server;
 import io.github.pigaut.yaml.convert.parse.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
 import org.bukkit.*;
@@ -31,7 +33,7 @@ public class GeneratorManager extends Manager {
     public void disable() {
         for (Generator generator : generators) {
             GeneratorState state = generator.getState();
-            state.cancelGrowth();
+            state.cancelGrowthTask();
             state.removeBlocks();
             state.removeHologram();
             List<BlockState> removedBlocks = this.removedBlocks.remove(generator);
@@ -201,7 +203,7 @@ public class GeneratorManager extends Manager {
                     worldName, x, y, z));
         }
 
-        for (Block block : template.getAllOccupiedBlocks(origin, rotation)) {
+        for (Block block : template.getOccupiedBlocks(origin, rotation)) {
             if (plugin.getGenerators().isGenerator(block.getLocation())) {
                 throw new GeneratorOverlapException(world.getName(), x, y, z);
             }
@@ -234,7 +236,7 @@ public class GeneratorManager extends Manager {
         GeneratorTemplate template = generator.getTemplate();
 
         List<BlockState> removedBlocks = new ArrayList<>();
-        for (Block block : template.getAllOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
+        for (Block block : template.getOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
             if (plugin.getGenerators().isGenerator(block.getLocation())) {
                 throw new GeneratorOverlapException();
             }

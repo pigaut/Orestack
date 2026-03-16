@@ -41,6 +41,5 @@ public class SingleLineHologramEditor extends GenericHologramEditor {
     @Override
     public void onClose(MenuView view) {
         super.onClose(view);
-        System.out.println(section);
     }
 }

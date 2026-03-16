@@ -1,7 +1,6 @@
 package io.github.pigaut.orestack.api.event;
 
-import io.github.pigaut.voxel.event.*;
-import io.github.pigaut.yaml.util.*;
+import com.google.common.base.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
@@ -13,18 +12,20 @@ import java.util.*;
 /**
  * Called when a player breaks a non-decorative generator block.
  */
-public class GeneratorMineEvent extends PlayerEvent {
+public class GeneratorMineEvent extends GeneratorEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
+    private final Player player;
     private final Block blockMined;
     private boolean idle = false;
     private @Nullable Collection<ItemStack> drops = null;
     private int expToDrop = 0;
     private int toolDamage = 0;
 
-    public GeneratorMineEvent(@NotNull Player player, @NotNull Block blockMined) {
-        super(player);
+    public GeneratorMineEvent(String generator, int stage, Player player, Block blockMined) {
+        super(generator, stage);
+        this.player = player;
         this.blockMined = blockMined;
     }
 
@@ -35,6 +36,10 @@ public class GeneratorMineEvent extends PlayerEvent {
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;
+    }
+
+    public @NotNull Player getPlayer() {
+        return player;
     }
 
     public @NotNull Block getBlockMined() {

@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.settings;
 
-import io.github.pigaut.orestack.damage.*;
+import com.cryptomorin.xseries.*;
+import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.plugin.*;
@@ -9,7 +10,9 @@ import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.node.scalar.*;
 import org.bukkit.*;
+import org.bukkit.block.*;
 import org.bukkit.enchantments.*;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
@@ -196,6 +199,27 @@ public class OrestackSettings extends Settings {
         }
 
         return 1;
+    }
+
+    private final Enchantment EFFICIENCY = XEnchantment.EFFICIENCY.get();
+
+    public double getGeneratorDamage(@NotNull Player player, @NotNull Block block) {
+        ItemStack tool = player.getInventory().getItemInMainHand();
+        Amount baseDamage = getToolDamage(tool.getType(), block.getType());
+
+        if (isEfficiencyDamage()) {
+            int efficiencyLevel = tool.getEnchantmentLevel(EFFICIENCY);
+            if (efficiencyLevel != 0) {
+                baseDamage = baseDamage.transform(value -> value + efficiencyLevel);
+            }
+        }
+
+        double damage = baseDamage.doubleValue();
+        if (isReducedCooldownDamage()) {
+            damage *= player.getAttackCooldown();
+        }
+
+        return damage;
     }
 
 }

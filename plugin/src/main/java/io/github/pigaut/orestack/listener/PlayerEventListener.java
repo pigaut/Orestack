@@ -12,11 +12,9 @@ import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
 import io.github.pigaut.voxel.core.function.*;
-import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.server.Server;
 import org.bukkit.*;
 import org.bukkit.block.*;
-import org.bukkit.block.data.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
@@ -97,7 +95,7 @@ public class PlayerEventListener implements Listener {
         if (!playerState.hasFlag("orestack:click_cooldown")) {
             playerState.addTemporaryFlag("orestack:click_cooldown", stage.getClickCooldown());
 
-            GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(player, action);
+            GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(generator.getName(), generator.getState().getCurrentStage(), player, action);
             Server.callEvent(generatorInteractEvent);
             if (!generatorInteractEvent.isCancelled()) {
                 playerState.updatePlaceholders(generator.getState());
@@ -111,7 +109,7 @@ public class PlayerEventListener implements Listener {
         if (action == Action.LEFT_CLICK_BLOCK && !playerState.hasFlag("orestack:hit_cooldown")) {
             playerState.addTemporaryFlag("orestack:hit_cooldown", stage.getHitCooldown());
 
-            GeneratorHitEvent generatorHitEvent = new GeneratorHitEvent(player);
+            GeneratorHitEvent generatorHitEvent = new GeneratorHitEvent(generator.getName(), generator.getState().getCurrentStage(), player);
             Server.callEvent(generatorHitEvent);
             if (!generatorHitEvent.isCancelled()) {
                 playerState.updatePlaceholders(generator.getState());
@@ -125,7 +123,7 @@ public class PlayerEventListener implements Listener {
         if (action == Action.RIGHT_CLICK_BLOCK && !playerState.hasFlag("orestack:harvest_cooldown")) {
             playerState.addTemporaryFlag("orestack:harvest_cooldown", stage.getHarvestCooldown());
 
-            GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(player);
+            GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(generator.getName(), generator.getState().getCurrentStage(), player);
             Server.callEvent(generatorHarvestEvent);
             if (!generatorHarvestEvent.isCancelled()) {
                 playerState.updatePlaceholders(generator.getState());
@@ -171,6 +169,9 @@ public class PlayerEventListener implements Listener {
         }
 
         Block clickedBlock = event.getClickedBlock();
+        if (clickedBlock == null) {
+            return;
+        }
 
         if (action == Action.LEFT_CLICK_BLOCK) {
             Generator clickedGenerator = plugin.getGenerator(clickedBlock.getLocation());
@@ -190,11 +191,10 @@ public class PlayerEventListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        Block block = event.getBlockPlaced();
-        Location location = block.getLocation();
+        Location location = event.getBlockPlaced().getLocation();
 
         if (plugin.getGenerators().isGenerator(location)) {
             plugin.sendMessage(player, "generator-occupied-block");
@@ -222,6 +222,13 @@ public class PlayerEventListener implements Listener {
         Rotation rotation = GeneratorTool.getRotation(heldItem);
         if (rotation == null) {
             plugin.sendMessage(player, "corrupt-tool-rotation", generator);
+            return;
+        }
+
+        GeneratorPlaceEvent generatorPlaceEvent = new GeneratorPlaceEvent(generator.getName(), player, generator.getOccupiedBlocks(location, rotation));
+        Server.callEvent(generatorPlaceEvent);
+        if (generatorPlaceEvent.isCancelled()) {
+            PlayerUtil.sendActionBar(player, plugin.getTranslation("generator-conflict"));
             return;
         }
 

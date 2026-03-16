@@ -2,8 +2,9 @@ package io.github.pigaut.orestack.config;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.action.*;
-import io.github.pigaut.orestack.damage.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.orestack.health.*;
+import io.github.pigaut.orestack.health.config.*;
 import io.github.pigaut.orestack.hook.auraskill.*;
 import io.github.pigaut.orestack.hook.mcmmo.*;
 import io.github.pigaut.voxel.config.*;
@@ -22,6 +23,7 @@ public class OrestackConfigurator extends PluginConfigurator {
 
         addLoader(GeneratorTemplate.class, new GeneratorLoader(plugin));
         addLoader(ToolDamage.class, new ToolDamageLoader());
+        addLoader(HealthBar.class, new HealthBarLoader());
 
         final ConditionLoader conditions = getConditionLoader();
         final ActionLoader actions = getActionLoader();
@@ -42,7 +44,13 @@ public class OrestackConfigurator extends PluginConfigurator {
         actions.addLoader("HARVEST_GENERATOR", (Line<Action>) line ->
                 new GeneratorHarvestAction());
 
+        actions.addLoader("REGROW_GENERATOR", (Line<Action>) line ->
+                new GeneratorRegrowAction());
+
         actions.addLoader("SET_STAGE", (Line<Action>) line ->
+                new GeneratorSetStageAction(line.getRequiredInteger(1) - 1));
+
+        actions.addLoader("SET_GENERATOR_STAGE", (Line<Action>) line ->
                 new GeneratorSetStageAction(line.getRequiredInteger(1) - 1));
 
         actions.addLoader("DAMAGE_GENERATOR", (Line<Action>) line -> {

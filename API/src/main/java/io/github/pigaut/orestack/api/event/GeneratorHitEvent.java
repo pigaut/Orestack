@@ -1,6 +1,5 @@
 package io.github.pigaut.orestack.api.event;
 
-import io.github.pigaut.voxel.event.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
@@ -8,12 +7,19 @@ import org.jetbrains.annotations.*;
 /**
  * Called when a player left-clicks a non-decorative generator block.
  */
-public class GeneratorHitEvent extends PlayerEvent {
+public class GeneratorHitEvent extends GeneratorEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
-    public GeneratorHitEvent(@NotNull Player player) {
-        super(player);
+    private final Player player;
+
+    public GeneratorHitEvent(String generator, int stage, Player player) {
+        super(generator, stage);
+        this.player = player;
+    }
+
+    public @NotNull Player getPlayer() {
+        return player;
     }
 
     @Override

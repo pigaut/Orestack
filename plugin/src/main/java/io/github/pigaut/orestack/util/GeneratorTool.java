@@ -45,7 +45,7 @@ public class GeneratorTool {
         generatorItem.setItemMeta(meta);
 
         Placeholder rotationPlaceholder = Placeholder.of("{generator_tool_rotation}", "NONE");
-        return ItemPlaceholders.parseAll(generatorItem, generator, rotationPlaceholder);
+        return PlaceholderUtil.parseAll(generatorItem, generator, rotationPlaceholder);
     }
 
     public static boolean isValidItem(@NotNull ItemStack item) {
@@ -96,7 +96,7 @@ public class GeneratorTool {
         item.setItemMeta(meta);
 
         Placeholder rotationPlaceholder = Placeholder.of("{generator_tool_rotation}", newRotation.toString());
-        ItemPlaceholders.parseAll(item, generator, rotationPlaceholder);
+        PlaceholderUtil.parseAll(item, generator, rotationPlaceholder);
     }
 
     private static void updateToolData(@NotNull ItemMeta meta, @NotNull GeneratorTemplate generator, @NotNull String rotationData) {

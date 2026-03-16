@@ -98,7 +98,7 @@ public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
         return currentStage;
     }
 
-    public Set<Block> getAllOccupiedBlocks(Location location, Rotation rotation) {
+    public Set<Block> getOccupiedBlocks(@NotNull Location location, @NotNull Rotation rotation) {
         Set<Block> blocks = new HashSet<>();
         for (GeneratorStage stage : stages) {
             blocks.addAll(stage.getStructureTemplate().getOccupiedBlocks(location, rotation));

@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack;
 
+import io.github.pigaut.orestack.api.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.generator.*;
@@ -9,11 +10,11 @@ import io.github.pigaut.orestack.hook.plotsquared.*;
 import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.settings.*;
+import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.command.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.boot.*;
 import io.github.pigaut.voxel.plugin.boot.phase.*;
-import io.github.pigaut.voxel.server.*;
 import io.github.pigaut.voxel.server.Server;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
@@ -41,6 +42,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public void onLoad() {
         plugin = this;
+    }
+
+    @Override
+    public void onStartup() {
+        Orestack.setApiInstance(new SimpleOrestackAPI(this));
     }
 
     @Override

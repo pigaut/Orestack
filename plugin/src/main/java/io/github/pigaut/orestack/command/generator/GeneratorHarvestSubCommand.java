@@ -17,16 +17,18 @@ public class GeneratorHarvestSubCommand extends SubCommand {
         withDescription(plugin.getTranslation("generator-harvest-all-command"));
         withParameter(GeneratorParameters.GENERATOR_NAME);
         withPlayerExecution((player, args, placeholders) -> {
-            final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
+            GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {
                 plugin.sendMessage(player, "generator-not-found", placeholders);
                 return;
             }
-            for (Generator blockGenerator : plugin.getGenerators().getAllGenerators()) {
-                if (blockGenerator.getTemplate() == generator) {
-                    Block block = blockGenerator.getBlocks().get(0);
-                    BlockBreakEvent event = new BlockBreakEvent(block, player);
-                    Server.callEvent(event);
+            for (Generator geneator : plugin.getGenerators().getAllGenerators()) {
+                if (geneator.getTemplate() == generator) {
+                    for (Block block : geneator.getOccupiedBlocks()) {
+                        BlockBreakEvent event = new BlockBreakEvent(block, player);
+                        Server.callEvent(event);
+                        break;
+                    }
                 }
             }
             plugin.sendMessage(player, "harvested-all-generators", placeholders, generator);

@@ -1,18 +1,13 @@
 package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.stage.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
-import io.github.pigaut.voxel.core.function.*;
-import io.github.pigaut.voxel.core.hologram.*;
-import io.github.pigaut.voxel.core.structure.*;
 import io.github.pigaut.voxel.core.structure.Structure;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.util.*;
-import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
@@ -23,23 +18,29 @@ public class Generator {
 
     private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
-    private final GeneratorTemplate template;
-    private final Location origin;
-    private final Rotation rotation;
-
+    protected final GeneratorTemplate template;
+    protected final Location origin;
+    protected final Rotation rotation;
     private final GeneratorState state;
 
-    private Generator(GeneratorTemplate template, Location origin, Rotation rotation) {
+    public Generator(GeneratorTemplate template, Location origin, Rotation rotation) {
         this.template = template;
-        this.origin = origin.clone();
+        this.origin = origin;
         this.rotation = rotation;
         this.state = new GeneratorState(this);
+    }
+
+    public Generator(GeneratorTemplate template, Location origin, Rotation rotation, GeneratorState state) {
+        this.template = template;
+        this.origin = origin;
+        this.rotation = rotation;
+        this.state = state;
     }
 
     public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, @NotNull Rotation rotation, int stage) throws GeneratorOverlapException {
         Generator generator = new Generator(template, origin, rotation);
         plugin.getGenerators().registerGenerator(generator);
-        generator.setStage(stage);
+        GeneratorUtil.init(generator, stage);
         return generator;
     }
 
@@ -55,20 +56,57 @@ public class Generator {
         return template.getName();
     }
 
+    public @NotNull GeneratorStage getStage() {
+        return template.getStage(state.getCurrentStage());
+    }
+
+    public void setStage(int stage) {
+        GeneratorUtil.setStage(this, stage);
+    }
+
+    public @NotNull GeneratorState getState() {
+        return state;
+    }
+
     public @NotNull GeneratorStage getStage(int stage) {
         return template.getStage(stage);
+    }
+
+    public boolean isFullyGrown() {
+        return state.getCurrentStage() >= template.getMaxStage();
+    }
+
+    public boolean isDepleted() {
+        return state.getCurrentStage() <= 0;
     }
 
     public int getMaxStage() {
         return template.getMaxStage();
     }
 
-    public boolean isDepleted() {
-        return state.isDepleted();
+    public @NotNull GeneratorTemplate getTemplate() {
+        return template;
     }
 
-    public boolean isFullyGrown() {
-        return state.isFullyGrown();
+    public @NotNull Location getOrigin() {
+        return origin.clone();
+    }
+
+    public @NotNull Rotation getRotation() {
+        return rotation;
+    }
+
+    public @NotNull Block getBlock() {
+        return origin.getBlock();
+    }
+
+    public Set<Block> getOccupiedBlocks() {
+        GeneratorStage stage = getStage();
+        return stage.getStructureTemplate().getOccupiedBlocks(origin, rotation);
+    }
+
+    public Set<Block> getAllOccupiedBlocks() {
+        return template.getOccupiedBlocks(origin, rotation);
     }
 
     public boolean isValid() {
@@ -85,7 +123,7 @@ public class Generator {
     }
 
     public void remove() {
-        state.cancelGrowth();
+        state.cancelGrowthTask();
         state.removeBlocks();
         state.removeHologram();
 
@@ -96,120 +134,63 @@ public class Generator {
         plugin.getGenerators().unregisterGenerator(this);
     }
 
-    public @NotNull GeneratorTemplate getTemplate() {
-        return template;
+    public void harvest() {
+        GeneratorUtil.harvest(this);
     }
 
-    public @NotNull Location getOrigin() {
-        return origin.clone();
+    public void grow(int growthAmount) {
+        GeneratorUtil.grow(this, growthAmount);
     }
 
-    public @NotNull Block getBlock() {
-        return origin.getBlock();
+    public void grow() {
+        GeneratorUtil.grow(this, 1);
     }
 
-    public @Nullable Double getHealth() {
-        return state.getHealth();
-    }
-
-    public void setHealth(double newHealth) {
-        state.setHealth(newHealth);
+    public void regrow() {
+        GeneratorUtil.setStage(this, template.getMaxStage());
     }
 
     public void damage(@NotNull PlayerState damageDealer, double amount) {
         GeneratorUtil.damage(this, damageDealer, amount);
     }
 
-    public @NotNull Rotation getRotation() {
-        return rotation;
-    }
+    public @Nullable Integer getNextGrowthStage(int growthAmount) {
+        int stageIndex = state.getCurrentStage() + growthAmount;
 
-    public List<Block> getBlocks() {
-        GeneratorStage stage = getStage();
-        return stage.getStructureTemplate().getOccupiedBlocks(origin, rotation);
-    }
-
-    public Set<Block> getAllOccupiedBlocks() {
-        return template.getAllOccupiedBlocks(origin, rotation);
-    }
-
-    public @NotNull GeneratorState getState() {
-        return state;
-    }
-
-    public @NotNull GeneratorStage getStage() {
-        return template.getStage(state.getCurrentStage());
-    }
-
-    public void setStage(int newStage) {
-        state.setStage(newStage);
-    }
-
-    public void grow() {
-        if (isFullyGrown()) {
-            return;
+        int maxStage = getMaxStage();
+        if (stageIndex >= maxStage) {
+            return maxStage;
         }
 
         GeneratorStage currentStage = this.getStage();
-        if (currentStage.getGrowthTime() == 0) {
-            return;
-        }
-
-        int peekStage = state.getCurrentStage() + 1;
-        GeneratorStage nextStage = template.getStage(peekStage);
-        while (nextStage.getGrowthTime() == 0) {
-            if (peekStage >= template.getMaxStage()) {
-                break;
+        for (int i = stageIndex; i < maxStage; i++) {
+            GeneratorStage nextStage = template.getStage(i);
+            if (nextStage.growsInstantly()) {
+                continue;
             }
-            peekStage++;
-            nextStage = template.getStage(peekStage);
-        }
 
-        boolean shouldGrow = false;
-        while (!shouldGrow) {
             Double growthChance = nextStage.getGrowthChance();
             if (growthChance != null && !Probability.test(growthChance)) {
                 if (currentStage.getState().isHarvestable()) {
-                    return;
+                    return null;
                 }
-                peekStage++;
-                nextStage = template.getStage(peekStage);
                 continue;
             }
-            shouldGrow = true;
+            return i;
         }
 
-        Function growthFunction = nextStage.getGrowthFunction();
-        if (growthFunction != null) {
-            growthFunction.run(getBlock());
-        }
-
-        state.setStage(peekStage);
+        return maxStage;
     }
 
-    public void harvest() {
-        if (isDepleted()) {
-            return;
-        }
-
-        int peekStage = state.getCurrentStage();
-        GeneratorStage previousStage;
+    public int getNextHarvestingStage() {
+        int stageIndex = state.getCurrentStage();
+        GeneratorStage stage;
         do {
-            peekStage--;
-            previousStage = template.getStage(peekStage);
+            stageIndex--;
+            stage = template.getStage(stageIndex);
         }
-        while (previousStage.getState().isTransitional());
-
-        state.setStage(peekStage);
+        while (stage.getState().isTransitional());
+        return stageIndex;
     }
-
-    @Override
-    public String toString() {
-        return "BlockGenerator{" +
-                "generator=" + template.getName() +
-                ", location=" + origin +
-                '}';
-    }
-
 
 }

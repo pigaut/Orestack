@@ -1,25 +1,19 @@
 package io.github.pigaut.orestack.generator;
 
-import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.stage.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.voxel.bukkit.Rotation;
 import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.structure.*;
-import io.github.pigaut.voxel.core.structure.Structure;
 import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.plugin.task.*;
 import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
-import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
 
 import java.time.*;
-import java.util.*;
 
 public class GeneratorState implements PlaceholderSupplier {
-    
+
     private final Generator generator;
 
     private int currentStage = 0;
@@ -33,20 +27,20 @@ public class GeneratorState implements PlaceholderSupplier {
         this.generator = generator;
     }
 
-    public boolean isDepleted() {
-        return currentStage <= 0;
-    }
-
-    public boolean isFullyGrown() {
-        return currentStage >= generator.getTemplate().getMaxStage();
-    }
-
     public int getCurrentStage() {
         return currentStage;
     }
 
-    public @NotNull Structure getStructure() {
+    public void setCurrentStage(int currentStage) {
+        this.currentStage = currentStage;
+    }
+
+    public Structure getStructure() {
         return structure;
+    }
+
+    public void setStructure(@NotNull Structure structure) {
+        this.structure = structure;
     }
 
     public @Nullable Double getHealth() {
@@ -54,29 +48,8 @@ public class GeneratorState implements PlaceholderSupplier {
     }
 
     public void setHealth(@Nullable Double health) {
-        Preconditions.checkArgument(health == null || health >= 1, "Health cannot be less than 1");
+        Preconditions.checkArgument(health == null || health > 0, "Health must be greater than 0");
         this.health = health;
-    }
-
-    public int getTicksToNextStage() {
-        if (growthStart == null) {
-            return 0;
-        }
-        GeneratorStage stage = generator.getTemplate().getStage(currentStage);
-        int timePassed = (int) (Duration.between(growthStart, Instant.now()).toMillis() / 50);
-        return stage.getGrowthTime() - timePassed;
-    }
-
-    public int getTicksToRegrownStage() {
-        GeneratorTemplate template = generator.getTemplate();
-        int ticksToRegrown = getTicksToNextStage();
-        for (int i = currentStage + 1; i < template.getMaxStage(); i++) {
-            GeneratorStage stage = template.getStage(i);
-            if (stage.getGrowthChance() == null && stage.getGrowthTime() != 0) {
-                ticksToRegrown += stage.getGrowthTime();
-            }
-        }
-        return ticksToRegrown;
     }
 
     public @Nullable Task getGrowthTask() {
@@ -87,7 +60,24 @@ public class GeneratorState implements PlaceholderSupplier {
         this.growthTask = growthTask;
     }
 
-    public void cancelGrowth() {
+    public @Nullable Instant getGrowthStart() {
+        return growthStart;
+    }
+
+    public void setGrowthStart(@Nullable Instant growthStart) {
+        this.growthStart = growthStart;
+    }
+
+    public @Nullable HologramDisplay getHologram() {
+        return hologram;
+    }
+
+    public void setHologram(@Nullable HologramDisplay hologram) {
+        this.hologram = hologram;
+    }
+
+    public void cancelGrowthTask() {
+        growthStart = null;
         if (growthTask != null) {
             if (!growthTask.isCancelled()) {
                 growthTask.cancel();
@@ -107,44 +97,25 @@ public class GeneratorState implements PlaceholderSupplier {
         }
     }
 
-    public @Nullable HologramDisplay getHologram() {
-        return hologram;
+    public int getTicksToNextStage() {
+        if (growthStart == null) {
+            return 0;
+        }
+        GeneratorStage stage = generator.getStage(currentStage);
+        int timePassed = (int) (Duration.between(growthStart, Instant.now()).toMillis() / 50);
+        return stage.getGrowthTime() - timePassed;
     }
 
-    public void setStage(int newStage) {
-        if (newStage < 0 || newStage > generator.getMaxStage()) {
-            return;
+    public int getTicksToRegrownStage() {
+        GeneratorTemplate template = generator.getTemplate();
+        int ticksToRegrown = getTicksToNextStage();
+        for (int i = currentStage + 1; i < template.getMaxStage(); i++) {
+            GeneratorStage stage = template.getStage(i);
+            if (stage.getGrowthChance() == null && stage.getGrowthTime() != 0) {
+                ticksToRegrown += stage.getGrowthTime();
+            }
         }
-
-        cancelGrowth();
-        currentStage = newStage;
-
-        GeneratorStage stage = generator.getStage(currentStage);
-        StructureTemplate newStructure = stage.getStructureTemplate();
-
-        if (structure != null) {
-            structure.subtract(newStructure);
-        }
-
-        Location origin = generator.getOrigin();
-        Rotation rotation = generator.getRotation();
-
-        structure = new Structure(newStructure, origin, rotation);
-        structure.place();
-
-        removeHologram();
-        Hologram newHologram = stage.getHologram();
-        if (newHologram != null) {
-            Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
-            hologram = newHologram.spawn(offsetLocation, generator.getRotation(), List.of(this));
-        }
-
-        health = stage.getHealth();
-
-        if (stage.getState() != GrowthState.REGROWN) {
-            growthStart = Instant.now();
-            GeneratorUtil.startGrowth(generator, origin, stage.getGrowthTime());
-        }
+        return ticksToRegrown;
     }
 
     @Override
@@ -154,7 +125,7 @@ public class GeneratorState implements PlaceholderSupplier {
         int ticksToRegrownStage = getTicksToRegrownStage();
 
         Location origin = generator.getOrigin();
-        return new Placeholder[] {
+        return new Placeholder[]{
                 Placeholder.of("{generator}", generator.getName()),
                 Placeholder.of("{generator_stage}", currentStage),
                 Placeholder.of("{generator_stages}", generator.getMaxStage()),

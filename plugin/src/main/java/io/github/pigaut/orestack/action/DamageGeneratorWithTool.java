@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.action;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.core.function.action.*;
 import io.github.pigaut.voxel.player.*;
 import org.bukkit.block.*;
@@ -24,7 +25,8 @@ public class DamageGeneratorWithTool implements Action {
             return;
         }
 
-        generator.damage(playerState, Orestack.getGeneratorDamage(playerState.asPlayer(), block));
+        OrestackSettings settings = plugin.getSettings();
+        generator.damage(playerState, settings.getGeneratorDamage(playerState.asPlayer(), block));
     }
 
 }

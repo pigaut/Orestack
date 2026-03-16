@@ -1,5 +1,6 @@
-package io.github.pigaut.orestack.damage;
+package io.github.pigaut.orestack.health.config;
 
+import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.voxel.config.deserializer.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;

@@ -67,6 +67,10 @@ public class GeneratorStage {
         return generator;
     }
 
+    public boolean growsInstantly() {
+        return growthTime == 0;
+    }
+
     public int getGrowthTime() {
         return growthTime;
     }
