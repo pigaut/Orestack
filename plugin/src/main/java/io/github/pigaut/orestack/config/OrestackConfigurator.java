@@ -35,13 +35,22 @@ public class OrestackConfigurator extends PluginConfigurator {
         actions.addLoader("KEEP_STAGE", (Line<Action>) line ->
                 new GeneratorKeepPhaseAction());
 
+        actions.addLoader("KEEP_PHASE", (Line<Action>) line ->
+                new GeneratorKeepPhaseAction());
+
         actions.addLoader("NEXT_STAGE", (Line<Action>) line ->
+                new GeneratorGrowAction());
+
+        actions.addLoader("NEXT_PHASE", (Line<Action>) line ->
                 new GeneratorGrowAction());
 
         actions.addLoader("GROW_GENERATOR", (Line<Action>) line ->
                 new GeneratorGrowAction());
 
         actions.addLoader("PREVIOUS_STAGE", (Line<Action>) line ->
+                new GeneratorHarvestAction());
+
+        actions.addLoader("PREVIOUS_PHASE", (Line<Action>) line ->
                 new GeneratorHarvestAction());
 
         actions.addLoader("HARVEST_GENERATOR", (Line<Action>) line ->
@@ -54,6 +63,12 @@ public class OrestackConfigurator extends PluginConfigurator {
                 new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1));
 
         actions.addLoader("SET_GENERATOR_STAGE", (Line<Action>) line ->
+                new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1));
+
+        actions.addLoader("SET_PHASE", (Line<Action>) line ->
+                new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1));
+
+        actions.addLoader("SET_GENERATOR_PHASE", (Line<Action>) line ->
                 new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1));
 
         actions.addLoader("DAMAGE_GENERATOR", (Line<Action>) line -> {

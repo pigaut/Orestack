@@ -96,6 +96,7 @@ public class PlayerEventListener implements Listener {
         ContextBuilder contextBuilder = Context.builder()
                 .withPlayer(player)
                 .withPlayerState(plugin.getPlayerState(player))
+                .withAction(action)
                 .withTool(player.getInventory().getItemInMainHand())
                 .withBlock(block);
 
