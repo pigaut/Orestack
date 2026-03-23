@@ -4,8 +4,9 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
-import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.placeholder.*;
+import io.github.pigaut.voxel.core.context.*;
+import io.github.pigaut.voxel.core.menu.button.*;
+import io.github.pigaut.voxel.core.placeholder.*;
 import io.github.pigaut.yaml.convert.parse.*;
 import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
@@ -36,16 +37,20 @@ public class GeneratorTool {
         return ITEM_TEMPLATE.clone();
     }
 
-    public static @NotNull ItemStack createItem(@NotNull GeneratorTemplate generator) {
+    public static @NotNull ItemStack createItem(@NotNull GeneratorTemplate generatorTemplate) {
         ItemStack generatorItem = plugin.getSettings().getGeneratorTool();
-        generatorItem.setType(generator.getItemType());
+        generatorItem.setType(generatorTemplate.getItemType());
 
         ItemMeta meta = generatorItem.getItemMeta();
-        updateToolData(meta, generator, "NONE");
+        updateToolData(meta, generatorTemplate, "NONE");
         generatorItem.setItemMeta(meta);
 
-        Placeholder rotationPlaceholder = Placeholder.of("{generator_tool_rotation}", "NONE");
-        return PlaceholderUtil.parseAll(generatorItem, generator, rotationPlaceholder);
+        Context context = Context.builder()
+                .with(GeneratorTemplate.class, generatorTemplate)
+                .withPlaceholder("generator_tool_rotation", "NONE")
+                .build();
+
+        return PlaceholderUtil.parseAll(plugin, context, generatorItem);
     }
 
     public static boolean isValidItem(@NotNull ItemStack item) {
@@ -91,12 +96,16 @@ public class GeneratorTool {
         }
 
         ItemMeta meta = plugin.getSettings().getGeneratorTool().getItemMeta();
-        GeneratorTemplate generator = getGeneratorTemplate(item);
-        updateToolData(meta, generator, newRotation);
+        GeneratorTemplate generatorTemplate = getGeneratorTemplate(item);
+        updateToolData(meta, generatorTemplate, newRotation);
         item.setItemMeta(meta);
 
-        Placeholder rotationPlaceholder = Placeholder.of("{generator_tool_rotation}", newRotation.toString());
-        PlaceholderUtil.parseAll(item, generator, rotationPlaceholder);
+        Context context = Context.builder()
+                .with(GeneratorTemplate.class, generatorTemplate)
+                .withPlaceholder("generator_tool_rotation", newRotation)
+                .build();
+
+        PlaceholderUtil.parseAll(plugin, context, item);
     }
 
     private static void updateToolData(@NotNull ItemMeta meta, @NotNull GeneratorTemplate generator, @NotNull String rotationData) {

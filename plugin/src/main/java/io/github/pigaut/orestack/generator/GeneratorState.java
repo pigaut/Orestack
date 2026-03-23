@@ -1,38 +1,36 @@
 package io.github.pigaut.orestack.generator;
 
-import io.github.pigaut.orestack.generator.stage.*;
+import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.core.hologram.*;
-import io.github.pigaut.voxel.core.structure.*;
-import io.github.pigaut.voxel.placeholder.*;
+import io.github.pigaut.voxel.data.structure.*;
 import io.github.pigaut.voxel.plugin.task.*;
 import io.github.pigaut.yaml.util.*;
-import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 import java.time.*;
 
-public class GeneratorState implements PlaceholderSupplier {
+public class GeneratorState {
 
     private final Generator generator;
 
-    private int currentStage = 0;
+    private int currentPhase = 0;
     private Structure structure;
     private @Nullable Task growthTask = null;
     private @Nullable Instant growthStart = null;
-    private @Nullable HologramDisplay hologram = null;
     private @Nullable Double health;
+    private @Nullable Hologram hologram = null;
 
     public GeneratorState(@NotNull Generator generator) {
         this.generator = generator;
     }
 
-    public int getCurrentStage() {
-        return currentStage;
+    public int getCurrentPhase() {
+        return currentPhase;
     }
 
-    public void setCurrentStage(int currentStage) {
-        this.currentStage = currentStage;
+    public void setCurrentPhase(int currentPhase) {
+        this.currentPhase = currentPhase;
     }
 
     public Structure getStructure() {
@@ -44,12 +42,33 @@ public class GeneratorState implements PlaceholderSupplier {
     }
 
     public @Nullable Double getHealth() {
+        if (!generator.getTemplate().hasHealth()) {
+            return null;
+        }
+
+        double totalHealth = 0.0;
+        for (int i = 0; i < currentPhase; i++) {
+            Double phaseHealth = generator.getPhase(i).getMaxHealth();
+            if (phaseHealth != null) {
+                totalHealth += phaseHealth;
+            }
+        }
+
+        if (health != null) {
+            totalHealth += health;
+        }
+
+        return totalHealth;
+    }
+
+    public @Nullable Double getPhaseHealth() {
         return health;
     }
 
     public void setHealth(@Nullable Double health) {
         Preconditions.checkArgument(health == null || health > 0, "Health must be greater than 0");
         this.health = health;
+        updateHologram();
     }
 
     public @Nullable Task getGrowthTask() {
@@ -68,11 +87,11 @@ public class GeneratorState implements PlaceholderSupplier {
         this.growthStart = growthStart;
     }
 
-    public @Nullable HologramDisplay getHologram() {
+    public @Nullable Hologram getHologram() {
         return hologram;
     }
 
-    public void setHologram(@Nullable HologramDisplay hologram) {
+    public void setHologram(@Nullable Hologram hologram) {
         this.hologram = hologram;
     }
 
@@ -90,64 +109,38 @@ public class GeneratorState implements PlaceholderSupplier {
         structure.remove();
     }
 
+    public void updateHologram() {
+        if (hologram != null && hologram.exists()) {
+            hologram.update();
+        }
+    }
+
     public void removeHologram() {
         if (hologram != null) {
-            hologram.destroy();
+            hologram.remove();
             hologram = null;
         }
     }
 
-    public int getTicksToNextStage() {
+    public int getTicksToNextPhase() {
         if (growthStart == null) {
             return 0;
         }
-        GeneratorStage stage = generator.getStage(currentStage);
+        GeneratorPhase phase = generator.getPhase(currentPhase);
         int timePassed = (int) (Duration.between(growthStart, Instant.now()).toMillis() / 50);
-        return stage.getGrowthTime() - timePassed;
+        return phase.getGrowthTime() - timePassed;
     }
 
-    public int getTicksToRegrownStage() {
+    public int getTicksToRegrownPhase() {
         GeneratorTemplate template = generator.getTemplate();
-        int ticksToRegrown = getTicksToNextStage();
-        for (int i = currentStage + 1; i < template.getMaxStage(); i++) {
-            GeneratorStage stage = template.getStage(i);
-            if (stage.getGrowthChance() == null && stage.getGrowthTime() != 0) {
-                ticksToRegrown += stage.getGrowthTime();
+        int ticksToRegrown = getTicksToNextPhase();
+        for (int i = currentPhase + 1; i < template.getMaxPhase(); i++) {
+            GeneratorPhase phase = template.getPhase(i);
+            if (phase.getGrowthChance() == null && phase.getGrowthTime() != 0) {
+                ticksToRegrown += phase.getGrowthTime();
             }
         }
         return ticksToRegrown;
-    }
-
-    @Override
-    public @NotNull Placeholder[] getPlaceholders() {
-        GeneratorStage stage = generator.getStage(currentStage);
-        int ticksToNextStage = getTicksToNextStage();
-        int ticksToRegrownStage = getTicksToRegrownStage();
-
-        Location origin = generator.getOrigin();
-        return new Placeholder[]{
-                Placeholder.of("{generator}", generator.getName()),
-                Placeholder.of("{generator_stage}", currentStage),
-                Placeholder.of("{generator_stages}", generator.getMaxStage()),
-                Placeholder.of("{generator_state}", stage.getState().toString().toLowerCase()),
-                Placeholder.of("{generator_rotation}", generator.getRotation().toString().toLowerCase()),
-                Placeholder.of("{generator_world}", origin.getWorld().getName()),
-                Placeholder.of("{generator_x}", origin.getBlockX()),
-                Placeholder.of("{generator_y}", origin.getBlockY()),
-                Placeholder.of("{generator_z}", origin.getBlockZ()),
-
-                Placeholder.of("{stage_timer}", Ticks.formatCompact(ticksToNextStage)),
-                Placeholder.of("{stage_timer_full}", Ticks.formatFull(ticksToNextStage)),
-                Placeholder.of("{stage_timer_hours}", Ticks.toHours(ticksToNextStage)),
-                Placeholder.of("{stage_timer_minutes}", Ticks.toMinutes(ticksToNextStage)),
-                Placeholder.of("{stage_timer_seconds}", Ticks.toSeconds(ticksToNextStage)),
-
-                Placeholder.of("{generator_timer}", Ticks.formatCompact(ticksToRegrownStage)),
-                Placeholder.of("{generator_timer_full}", Ticks.formatFull(ticksToRegrownStage)),
-                Placeholder.of("{generator_timer_hours}", Ticks.toHours(ticksToRegrownStage)),
-                Placeholder.of("{generator_timer_minutes}", Ticks.toMinutes(ticksToRegrownStage)),
-                Placeholder.of("{generator_timer_seconds}", Ticks.toSeconds(ticksToRegrownStage))
-        };
     }
 
 }

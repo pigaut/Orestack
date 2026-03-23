@@ -14,23 +14,28 @@ public class HealthBarLoader implements ConfigLoader<HealthBar> {
 
     @Override
     public @Nullable String getErrorDescription() {
-        return "invalid health bar";
+        return "invalid health healthBar";
     }
 
     @Override
     public @NotNull HealthBar loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
-        String id = section.getKey();
-        Map<Amount, String> barsByHealth = new HashMap<>();
+        String barId = section.getKey();
 
+        Map<Integer, String> barByHealthPercentage = new HashMap<>();
         for (KeyedScalar nestedScalar : section.getNestedScalars()) {
-            Amount health = nestedScalar.getKeyAs(Amount.class)
-                    .map(amount -> amount.transform(value -> value / 100))
+            Amount healthPercent = nestedScalar.getKeyAs(Amount.class)
+                    .require(Requirements.amountBetween(0, 100))
                     .orThrow();
 
-            String bar = nestedScalar.toString(StringColor.FORMATTER);
-            barsByHealth.put(health, bar);
+            String healthBar = nestedScalar.toString(StringColor.FORMATTER);
+
+            for (int i = 0; i <= 100; i++) {
+                if (healthPercent.match(i)) {
+                    barByHealthPercentage.put(i, healthBar);
+                }
+            }
         }
 
-        return new HealthBar(id, barsByHealth);
+        return new HealthBar(barId, barByHealthPercentage);
     }
 }

@@ -23,8 +23,8 @@ public class GeneratorMineEvent extends GeneratorEvent {
     private int expToDrop = 0;
     private int toolDamage = 0;
 
-    public GeneratorMineEvent(String generator, int stage, Player player, Block blockMined) {
-        super(generator, stage);
+    public GeneratorMineEvent(String generator, int phase, Player player, Block blockMined) {
+        super(generator, phase);
         this.player = player;
         this.blockMined = blockMined;
     }
@@ -47,18 +47,18 @@ public class GeneratorMineEvent extends GeneratorEvent {
     }
 
     /**
-     * Checks whether the generator should keep its current stage after being mined.
+     * Checks whether the generator should keep its current phase after being mined.
      *
-     * @return {@code true} if the generator retains its stage; {@code false} if it should go to the previous stage
+     * @return {@code true} if the generator retains its phase; {@code false} if it should go to the previous phase
      */
     public boolean isIdle() {
         return idle;
     }
 
     /**
-     * Sets whether the generator should keep its current stage after being destroyed.
+     * Sets whether the generator should keep its current phase after being destroyed.
      *
-     * @param idle {@code true} to retain the generator's stage; {@code false} to go to the previous stage
+     * @param idle {@code true} to retain the generator's phase; {@code false} to go to the previous phase
      */
     public void setIdle(boolean idle) {
         this.idle = idle;

@@ -1,4 +1,4 @@
---- # ===== Stage 1 =====
+--- # ===== Phase 1 =====
 type: depleted
 structure: great_oak_tree_0
 growth: 30s
@@ -10,9 +10,9 @@ hologram:
     - '&2&lGreat Oak Tree'
     - '&aGrowing: {generator_timer}'
 
---- # ===== Stage 2 =====
+--- # ===== Phase 2 =====
 type: ripe
-harvest-only: true   # If true this stage will be skipped during growth
+harvest-only: true   # If true this phase will be skipped during growth
 structure: great_oak_tree_1
 decorative-blocks: [oak_leaves, stripped_oak_wood]
 hologram:
@@ -25,7 +25,7 @@ hologram:
 on-break:
   do: dropItemAtBlock oak_log amount=20
 
---- # ===== Stage 3 =====
+--- # ===== Phase 3 =====
 type: ripe
 harvest-only: true
 structure: great_oak_tree_2
@@ -40,7 +40,7 @@ hologram:
 on-break:
   do: dropItemAtBlock oak_log
 
---- # ===== Stage 4 =====
+--- # ===== Phase 4 =====
 type: ripe
 harvest-only: true
 structure: great_oak_tree_3
@@ -55,7 +55,7 @@ hologram:
 on-break:
   do: dropItemAtBlock oak_log
 
---- # ===== Stage 5 =====
+--- # ===== Phase 5 =====
 type: ripe
 structure: great_oak_tree_4
 harvest-only: true
@@ -70,7 +70,7 @@ hologram:
 on-break:
   do: dropItemAtBlock oak_log
 
---- # ===== Stage 6 =====
+--- # ===== Phase 6 =====
 type: ripe
 harvest-only: true
 structure: great_oak_tree_5
@@ -85,7 +85,7 @@ hologram:
 on-break:
   do: dropItemAtBlock oak_log
 
---- # ===== Stage 7 =====
+--- # ===== Phase 7 =====
 type: regrown
 structure: great_oak_tree_6
 decorative-blocks: [oak_leaves, stripped_oak_wood]

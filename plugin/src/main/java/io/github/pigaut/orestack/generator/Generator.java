@@ -1,15 +1,16 @@
 package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.generator.stage.*;
+import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
-import io.github.pigaut.voxel.core.structure.Structure;
-import io.github.pigaut.voxel.player.*;
+import io.github.pigaut.voxel.core.context.*;
+import io.github.pigaut.voxel.data.structure.Structure;
 import io.github.pigaut.voxel.util.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
+import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -37,15 +38,15 @@ public class Generator {
         this.state = state;
     }
 
-    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, @NotNull Rotation rotation, int stage) throws GeneratorOverlapException {
+    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, @NotNull Rotation rotation, int phase) throws GeneratorOverlapException {
         Generator generator = new Generator(template, origin, rotation);
         plugin.getGenerators().registerGenerator(generator);
-        GeneratorUtil.init(generator, stage);
+        GeneratorUtil.init(generator, phase);
         return generator;
     }
 
     public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, @NotNull Rotation rotation) throws GeneratorOverlapException {
-        return create(template, origin, rotation, template.getMaxStage());
+        return create(template, origin, rotation, template.getMaxPhase());
     }
 
     public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorOverlapException {
@@ -56,32 +57,32 @@ public class Generator {
         return template.getName();
     }
 
-    public @NotNull GeneratorStage getStage() {
-        return template.getStage(state.getCurrentStage());
+    public @NotNull GeneratorPhase getPhase() {
+        return template.getPhase(state.getCurrentPhase());
     }
 
-    public void setStage(int stage) {
-        GeneratorUtil.setStage(this, stage);
+    public void setPhase(int phase) {
+        GeneratorUtil.setPhase(this, phase);
     }
 
     public @NotNull GeneratorState getState() {
         return state;
     }
 
-    public @NotNull GeneratorStage getStage(int stage) {
-        return template.getStage(stage);
+    public @NotNull GeneratorPhase getPhase(int phase) {
+        return template.getPhase(phase);
     }
 
     public boolean isFullyGrown() {
-        return state.getCurrentStage() >= template.getMaxStage();
+        return state.getCurrentPhase() >= template.getMaxPhase();
     }
 
     public boolean isDepleted() {
-        return state.getCurrentStage() <= 0;
+        return state.getCurrentPhase() <= 0;
     }
 
-    public int getMaxStage() {
-        return template.getMaxStage();
+    public int getMaxPhase() {
+        return template.getMaxPhase();
     }
 
     public @NotNull GeneratorTemplate getTemplate() {
@@ -101,8 +102,8 @@ public class Generator {
     }
 
     public Set<Block> getOccupiedBlocks() {
-        GeneratorStage stage = getStage();
-        return stage.getStructureTemplate().getOccupiedBlocks(origin, rotation);
+        GeneratorPhase phase = getPhase();
+        return phase.getStructureTemplate().getOccupiedBlocks(origin, rotation);
     }
 
     public Set<Block> getAllOccupiedBlocks() {
@@ -128,7 +129,7 @@ public class Generator {
         state.removeHologram();
 
         if (plugin.getSettings().isKeepBlocksOnRemove()) {
-            template.getLastStage().getStructureTemplate().place(origin, rotation);
+            template.getLastPhase().getStructureTemplate().place(origin, rotation);
         }
 
         plugin.getGenerators().unregisterGenerator(this);
@@ -147,31 +148,47 @@ public class Generator {
     }
 
     public void regrow() {
-        GeneratorUtil.setStage(this, template.getMaxStage());
+        GeneratorUtil.setPhase(this, template.getMaxPhase());
     }
 
-    public void damage(@NotNull PlayerState damageDealer, double amount) {
-        GeneratorUtil.damage(this, damageDealer, amount);
+    public void damage(@NotNull Player player, @NotNull Context context, double amount) {
+        GeneratorUtil.damage(this, player, context, amount);
     }
 
-    public @Nullable Integer getNextGrowthStage(int growthAmount) {
-        int stageIndex = state.getCurrentStage() + growthAmount;
+    public int getTicksToNextPhase() {
+        return state.getTicksToNextPhase();
+    }
 
-        int maxStage = getMaxStage();
-        if (stageIndex >= maxStage) {
-            return maxStage;
+    public int getTicksToRegrownPhase() {
+        return state.getTicksToRegrownPhase();
+    }
+
+    public @Nullable Double getTotalHealth() {
+        return state.getHealth();
+    }
+
+    public @Nullable Double getHealth() {
+        return state.getPhaseHealth();
+    }
+
+    public @Nullable Integer getNextGrowthPhase(int growthAmount) {
+        int phaseIndex = state.getCurrentPhase() + growthAmount;
+
+        int maxPhase = getMaxPhase();
+        if (phaseIndex >= maxPhase) {
+            return maxPhase;
         }
 
-        GeneratorStage currentStage = this.getStage();
-        for (int i = stageIndex; i < maxStage; i++) {
-            GeneratorStage nextStage = template.getStage(i);
-            if (nextStage.growsInstantly()) {
+        GeneratorPhase currentPhase = this.getPhase();
+        for (int i = phaseIndex; i < maxPhase; i++) {
+            GeneratorPhase nextPhase = template.getPhase(i);
+            if (nextPhase.growsInstantly()) {
                 continue;
             }
 
-            Double growthChance = nextStage.getGrowthChance();
+            Double growthChance = nextPhase.getGrowthChance();
             if (growthChance != null && !Probability.test(growthChance)) {
-                if (currentStage.getState().isHarvestable()) {
+                if (currentPhase.getState().isHarvestable()) {
                     return null;
                 }
                 continue;
@@ -179,18 +196,18 @@ public class Generator {
             return i;
         }
 
-        return maxStage;
+        return maxPhase;
     }
 
-    public int getNextHarvestingStage() {
-        int stageIndex = state.getCurrentStage();
-        GeneratorStage stage;
+    public int getNextHarvestingPhase() {
+        int phaseIndex = state.getCurrentPhase();
+        GeneratorPhase phase;
         do {
-            stageIndex--;
-            stage = template.getStage(stageIndex);
+            phaseIndex--;
+            phase = template.getPhase(phaseIndex);
         }
-        while (stage.getState().isTransitional());
-        return stageIndex;
+        while (phase.getState().isTransitional());
+        return phaseIndex;
     }
 
 }

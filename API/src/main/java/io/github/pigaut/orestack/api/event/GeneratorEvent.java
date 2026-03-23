@@ -6,12 +6,12 @@ import org.jetbrains.annotations.*;
 public abstract class GeneratorEvent extends Event implements Cancellable {
 
     private final String generator;
-    private final int stage;
+    private final int phase;
     private boolean cancelled = false;
 
-    protected GeneratorEvent(String generator, int stage) {
+    protected GeneratorEvent(String generator, int phase) {
         this.generator = generator;
-        this.stage = stage;
+        this.phase = phase;
     }
 
     /**
@@ -24,12 +24,20 @@ public abstract class GeneratorEvent extends Event implements Cancellable {
     }
 
     /**
-     * Returns the current stage of the generator that triggered the event.
-     *
-     * @return the current stage of the generator
+     * Deprecated use GeneratorEvent#getGeneratorPhase
      */
+    @Deprecated(forRemoval = true)
     public int getGeneratorStage() {
-        return stage;
+        return phase;
+    }
+
+    /**
+     * Returns the current phase of the generator that triggered the event.
+     *
+     * @return the current phase of the generator
+     */
+    public int getGeneratorPhase() {
+        return phase;
     }
 
     @Override

@@ -2,10 +2,10 @@ package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.orestack.menu.message.*;
 import io.github.pigaut.voxel.bukkit.*;
-import io.github.pigaut.voxel.menu.*;
-import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.menu.template.button.*;
-import io.github.pigaut.voxel.menu.template.menu.editor.*;
+import io.github.pigaut.voxel.core.menu.*;
+import io.github.pigaut.voxel.core.menu.button.*;
+import io.github.pigaut.voxel.core.menu.template.button.*;
+import io.github.pigaut.voxel.core.menu.template.menu.editor.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.convert.format.*;
@@ -51,7 +51,7 @@ public class MultiMessageEditor extends FramedSelectionEditor {
                         .name(messageSection.getString("chat|message|messages", StringColor.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new ChatMessageEditor(messageSection)));
             }
-            else if (messageSection.contains("actionbar|action-bar")) {
+            else if (messageSection.contains("actionbar|action-healthBar")) {
                 messageButton.type(Material.NAME_TAG)
                         .name(messageSection.getString("message", StringColor.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new ActionbarEditor(messageSection)));
@@ -61,7 +61,7 @@ public class MultiMessageEditor extends FramedSelectionEditor {
                         .name(messageSection.getString("title", StringColor.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new TitleEditor(messageSection)));
             }
-            else if (messageSection.contains("bossbar|boss-bar")) {
+            else if (messageSection.contains("bossbar|boss-healthBar")) {
                 messageButton.type(Material.DRAGON_HEAD)
                         .name(messageSection.getString("title", StringColor.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new BossbarEditor(messageSection)));

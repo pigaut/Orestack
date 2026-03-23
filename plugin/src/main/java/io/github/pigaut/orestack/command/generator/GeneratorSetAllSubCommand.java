@@ -6,11 +6,12 @@ import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.util.*;
-import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
-import io.github.pigaut.voxel.command.node.*;
-import io.github.pigaut.voxel.core.structure.*;
-import io.github.pigaut.voxel.server.Server;
+
+
+import io.github.pigaut.voxel.core.command.node.*;
+import io.github.pigaut.voxel.data.structure.*;
+import io.github.pigaut.voxel.util.Server;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -21,23 +22,23 @@ public class GeneratorSetAllSubCommand extends SubCommand {
         withPermission(plugin.getPermission("generator.set-all"));
         withDescription(plugin.getTranslation("generator-set-all-command"));
         withParameter(GeneratorParameters.GENERATOR_NAME);
-        withPlayerExecution((player, args, placeholders) -> {
+        withPlayerExecution((player, context, args) -> {
             OrestackPlayer playerState = plugin.getPlayerState(player);
 
             GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {
-                plugin.sendMessage(player, "generator-not-found", placeholders);
+                plugin.sendMessage(player, context, "generator-not-found");
                 return;
             }
 
             Location firstSelection = playerState.getFirstSelection();
             Location secondSelection = playerState.getSecondSelection();
             if (firstSelection == null || secondSelection == null) {
-                plugin.sendMessage(player, "incomplete-region", placeholders, generator);
+                plugin.sendMessage(player, context, "incomplete-region");
                 return;
             }
 
-            StructureTemplate structure = generator.getLastStage().getStructureTemplate();
+            StructureTemplate structure = generator.getLastPhase().getStructureTemplate();
             for (Location location : CuboidRegion.getAllLocations(player.getWorld(), firstSelection, secondSelection)) {
                 for (Rotation rotation : Rotation.values()) {
                     if (structure.isPlaced(location, rotation)) {
@@ -56,7 +57,7 @@ public class GeneratorSetAllSubCommand extends SubCommand {
                 }
             }
 
-            plugin.sendMessage(player, "created-all-generators", placeholders, generator);
+            plugin.sendMessage(player, context, "created-all-generators");
         });
     }
 

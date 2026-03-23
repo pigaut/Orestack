@@ -6,7 +6,7 @@ import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
 
 /**
- * Called when a generator grows to the next stage.
+ * Called when a generator grows to the next phase.
  */
 public class GeneratorGrowthEvent extends GeneratorEvent {
 
@@ -14,8 +14,8 @@ public class GeneratorGrowthEvent extends GeneratorEvent {
 
     private final Location origin;
 
-    public GeneratorGrowthEvent(String generator, int stage, @NotNull Location origin) {
-        super(generator, stage);
+    public GeneratorGrowthEvent(String generator, int phase, @NotNull Location origin) {
+        super(generator, phase);
         this.origin = origin;
     }
 

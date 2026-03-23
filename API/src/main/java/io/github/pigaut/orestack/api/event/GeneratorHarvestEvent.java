@@ -13,8 +13,8 @@ public class GeneratorHarvestEvent extends GeneratorEvent {
 
     private final Player player;
 
-    public GeneratorHarvestEvent(String generator, int stage, Player player) {
-        super(generator, stage);
+    public GeneratorHarvestEvent(String generator, int phase, Player player) {
+        super(generator, phase);
         this.player = player;
     }
 

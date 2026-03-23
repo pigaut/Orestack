@@ -4,8 +4,8 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
-import io.github.pigaut.voxel.command.node.*;
-import io.github.pigaut.voxel.core.structure.*;
+import io.github.pigaut.voxel.core.command.node.*;
+import io.github.pigaut.voxel.data.structure.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -16,19 +16,21 @@ public class GeneratorRemoveAllSubCommand extends SubCommand {
         withPermission(plugin.getPermission("generator.remove-all"));
         withDescription(plugin.getTranslation("generator-remove-all-command"));
         withParameter(GeneratorParameters.GENERATOR_NAME);
-        withPlayerExecution((player, args, placeholders) -> {
+        withPlayerExecution((player, context, args) -> {
             OrestackPlayer playerState = plugin.getPlayerState(player);
             GeneratorTemplate generatorTemplate = plugin.getGeneratorTemplate(args[0]);
             if (generatorTemplate == null) {
-                plugin.sendMessage(player, "generator-not-found", placeholders);
+                plugin.sendMessage(player, context, "generator-not-found");
                 return;
             }
+
             Location firstSelection = playerState.getFirstSelection();
             Location secondSelection = playerState.getSecondSelection();
             if (firstSelection == null || secondSelection == null) {
-                plugin.sendMessage(player, "incomplete-region", placeholders);
+                plugin.sendMessage(player, context, "incomplete-region");
                 return;
             }
+
             for (Location point : CuboidRegion.getAllLocations(player.getWorld(), firstSelection, secondSelection)) {
                 Generator foundGenerator = plugin.getGenerator(point);
                 if (foundGenerator == null) {
@@ -38,7 +40,8 @@ public class GeneratorRemoveAllSubCommand extends SubCommand {
                     foundGenerator.remove();
                 }
             }
-            plugin.sendMessage(player, "removed-all-generators", placeholders, generatorTemplate);
+
+            plugin.sendMessage(player, context, "removed-all-generators");
         });
     }
 

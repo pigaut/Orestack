@@ -14,5 +14,4 @@ public class InstanceGenerator extends Generator {
         super(template, origin, rotation);
     }
 
-
 }

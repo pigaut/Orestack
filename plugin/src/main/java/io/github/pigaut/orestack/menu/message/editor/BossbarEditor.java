@@ -1,8 +1,8 @@
 package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.voxel.bukkit.*;
-import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.menu.template.button.*;
+import io.github.pigaut.voxel.core.menu.button.*;
+import io.github.pigaut.voxel.core.menu.template.button.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.convert.format.*;
@@ -16,8 +16,8 @@ public class BossbarEditor extends GenericMessageEditor {
 
     public BossbarEditor(ConfigSection section) {
         super("Edit Boss Bar", section);
-        if (!section.isSet("bossbar|boss-bar")) {
-            section.set("bossbar|boss-bar", "not set");
+        if (!section.isSet("bossbar|boss-healthBar")) {
+            section.set("bossbar|boss-healthBar", "not set");
         }
     }
 
@@ -30,13 +30,13 @@ public class BossbarEditor extends GenericMessageEditor {
                 .name("&f&lTitle")
                 .enchanted(true)
                 .addEmptyLine()
-                .addLine(section.getString("bossbar|boss-bar", StringColor.FORMATTER).orElse("not set"))
+                .addLine(section.getString("bossbar|boss-healthBar", StringColor.FORMATTER).orElse("not set"))
                 .addEmptyLine()
-                .addLeftClickLine("To set bar title")
+                .addLeftClickLine("To set healthBar title")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput()
                             .description("Enter bossbar title in chat")
-                            .onInput(input -> section.set("bossbar|boss-bar", input))
+                            .onInput(input -> section.set("bossbar|boss-healthBar", input))
                             .start();
                 });
 
@@ -47,7 +47,7 @@ public class BossbarEditor extends GenericMessageEditor {
                 .addEmptyLine()
                 .addLine(section.getString("style", CaseStyle.TITLE).orElse("not set"))
                 .addEmptyLine()
-                .addLeftClickLine("To select the bar style")
+                .addLeftClickLine("To select the healthBar style")
                 .onLeftClick((view, player) -> {
                     player.collectMenuSelection()
                             .description("Select Bar Style")
@@ -67,7 +67,7 @@ public class BossbarEditor extends GenericMessageEditor {
                 .addEmptyLine()
                 .addLine(section.getInteger("duration").orElse(100) + " ticks")
                 .addEmptyLine()
-                .addLeftClickLine("To set bar duration")
+                .addLeftClickLine("To set healthBar duration")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Ticks.class)
                             .description("Enter duration amount in chat")
@@ -82,7 +82,7 @@ public class BossbarEditor extends GenericMessageEditor {
                 .addEmptyLine()
                 .addLine(section.getString("color", CaseStyle.TITLE).orElse("not set"))
                 .addEmptyLine()
-                .addLine("&eLeft-Click: &fTo select the bar color")
+                .addLine("&eLeft-Click: &fTo select the healthBar color")
                 .onLeftClick((view, player) -> {
                     player.collectMenuSelection()
                             .description("Select Bar Color")

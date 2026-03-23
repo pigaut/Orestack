@@ -15,8 +15,8 @@ public class GeneratorInteractEvent extends GeneratorEvent {
     private final Player player;
     private final Action action;
 
-    public GeneratorInteractEvent(String generator, int stage, Player player, Action action) {
-        super(generator, stage);
+    public GeneratorInteractEvent(String generator, int phase, Player player, Action action) {
+        super(generator, phase);
         this.player = player;
         this.action = action;
     }

@@ -23,22 +23,28 @@ public interface OrestackAPI {
     boolean isGenerator(@NotNull Location location);
 
 //    /**
-//     * Gets the maximum stage of the generator at the given location.
+//     * Gets the maximum phase of the generator at the given location.
 //     *
 //     * @param location the generator location
-//     * @return the maximum stage the generator can reach
+//     * @return the maximum phase the generator can reach
 //     * @throws IllegalArgumentException if the location is not a generator
 //     */
-//    int getGeneratorMaxStage(@NotNull Location location);
+//    int getGeneratorMaxPhase(@NotNull Location location);
 
     /**
-     * Sets the growth stage of the generator at the given location.
+     * Deprecated, use OrestackAPI#setGeneratorPhase
+     */
+    @Deprecated // for removal
+    void setGeneratorStage(@NotNull Location location, int stage) throws IllegalArgumentException;
+
+    /**
+     * Sets the growth phase of the generator at the given location.
      *
      * @param location the generator location
-     * @param stage the stage to set; must be between 0 and the generator's maximum stage
+     * @param phase the phase to set; must be between 0 and the generator's maximum phase
      * @throws IllegalArgumentException if the location is not a generator
      */
-    void setGeneratorStage(@NotNull Location location, int stage) throws IllegalArgumentException;
+    void setGeneratorPhase(@NotNull Location location, int phase) throws IllegalArgumentException;
 
     /**
      * Resets the generator at the given location to its initial state.
@@ -49,7 +55,7 @@ public interface OrestackAPI {
     void regrow(@NotNull Location location) throws IllegalArgumentException;
 
     /**
-     * Increases the generator stage by one.
+     * Increases the generator phase by one.
      *
      * @param location the generator location
      * @throws IllegalArgumentException if the location is not a generator
@@ -57,10 +63,10 @@ public interface OrestackAPI {
     void grow(@NotNull Location location) throws IllegalArgumentException;
 
     /**
-     * Increases the generator stage by the specified amount.
+     * Increases the generator phase by the specified amount.
      *
      * @param location the generator location
-     * @param amount the number of stages to grow
+     * @param amount the number of phases to grow
      * @throws IllegalArgumentException if the location is not a generator
      */
     void grow(@NotNull Location location, int amount) throws IllegalArgumentException;

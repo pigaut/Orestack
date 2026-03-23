@@ -1,8 +1,8 @@
 
---- # ===== Stage 1 =====
+--- # ===== Phase 1 =====
 type: depleted
 block: iron_block
-growth: 40  # Time in ticks to grow to the next stage, or time format: (1 hour(s) 10 m|min(s)|minute(s) 100 s|sec(s)|second(s))
+growth: 40  # Time in ticks to grow to the next phase, or time format: (1 hour(s) 10 m|min(s)|minute(s) 100 s|sec(s)|second(s))
 
 hologram:
   offset: { x: 0, y: 1, z: 0 }
@@ -18,11 +18,11 @@ on-click: []
 on-break:
   do: sendTitle <&7&lDepleted> <subtitle=&7{generator_timer_seconds}> fadeIn=5 stay=15 fadeOut=10
 
---- # ===== Stage 2 =====
+--- # ===== Phase 2 =====
 type: growing
 block: gold_block
 growth: 3s
-chance: 0.8  # 80% chance to spawn, otherwise skips to the next stage
+chance: 0.8  # 80% chance to spawn, otherwise skips to the next phase
 
 hologram:
   - update: 3
@@ -73,7 +73,7 @@ on-break:
       - dropItemAtBlock gold_ingot
       - chatMessage <&aYou struck gold!>
 
---- # ===== Stage 3 =====
+--- # ===== Phase 3 =====
 type: ripe
 block: diamond_block
 growth: 4s
@@ -81,7 +81,7 @@ growth: 4s
 hologram:
   update: 3
   offset: { x: 0, y: 1, z: 0 }
-  line: "&b&lDiamond [{stage_timer_seconds}s]"
+  line: "&b&lDiamond [{phase_timer_seconds}s]"
 
 on-break:
   - do:
@@ -100,7 +100,7 @@ on-break:
 #      - chatMessage <Just kidding give it back lol>
 #      - takeMoney 10000
 
---- # ===== Stage 4 =====
+--- # ===== Phase 4 =====
 type: regrown
 block: emerald_block
 

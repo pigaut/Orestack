@@ -1,15 +1,16 @@
 package io.github.pigaut.orestack.config;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.action.*;
+import io.github.pigaut.orestack.core.action.*;
+import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.orestack.health.config.*;
 import io.github.pigaut.orestack.hook.auraskill.*;
 import io.github.pigaut.orestack.hook.mcmmo.*;
-import io.github.pigaut.voxel.config.*;
-import io.github.pigaut.voxel.core.function.action.*;
-import io.github.pigaut.voxel.core.function.condition.config.*;
+import io.github.pigaut.voxel.core.config.*;
+import io.github.pigaut.voxel.data.function.action.*;
+import io.github.pigaut.voxel.data.function.condition.config.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
@@ -22,6 +23,8 @@ public class OrestackConfigurator extends PluginConfigurator {
         super(plugin);
 
         addLoader(GeneratorTemplate.class, new GeneratorLoader(plugin));
+        addLoader(GeneratorPhase.class, new GeneratorPhaseLoader(plugin));
+
         addLoader(ToolDamage.class, new ToolDamageLoader());
         addLoader(HealthBar.class, new HealthBarLoader());
 
@@ -30,7 +33,7 @@ public class OrestackConfigurator extends PluginConfigurator {
 
         // Generator Actions
         actions.addLoader("KEEP_STAGE", (Line<Action>) line ->
-                new GeneratorKeepStageAction());
+                new GeneratorKeepPhaseAction());
 
         actions.addLoader("NEXT_STAGE", (Line<Action>) line ->
                 new GeneratorGrowAction());
@@ -48,10 +51,10 @@ public class OrestackConfigurator extends PluginConfigurator {
                 new GeneratorRegrowAction());
 
         actions.addLoader("SET_STAGE", (Line<Action>) line ->
-                new GeneratorSetStageAction(line.getRequiredInteger(1) - 1));
+                new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1));
 
         actions.addLoader("SET_GENERATOR_STAGE", (Line<Action>) line ->
-                new GeneratorSetStageAction(line.getRequiredInteger(1) - 1));
+                new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1));
 
         actions.addLoader("DAMAGE_GENERATOR", (Line<Action>) line -> {
             ConfigOptional<Amount> amount = line.get(1, Amount.class);

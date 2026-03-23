@@ -1,10 +1,12 @@
-package io.github.pigaut.orestack.action;
+package io.github.pigaut.orestack.core.action;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.settings.*;
-import io.github.pigaut.voxel.core.function.action.*;
-import io.github.pigaut.voxel.player.*;
+import io.github.pigaut.voxel.core.context.*;
+import io.github.pigaut.voxel.core.player.*;
+import io.github.pigaut.voxel.data.function.action.*;
+import io.github.pigaut.voxel.data.function.action.player.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
@@ -15,8 +17,10 @@ public class DamageGeneratorWithTool implements Action {
     private final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     @Override
-    public void execute(@Nullable PlayerState playerState, @Nullable Event event, @Nullable Block block, @Nullable Entity entity) {
-        if (playerState == null || block == null) {
+    public void execute(@NotNull Context context) {
+        Player player = context.player();
+        Block block = context.block();
+        if (player == null || block == null) {
             return;
         }
 
@@ -26,7 +30,7 @@ public class DamageGeneratorWithTool implements Action {
         }
 
         OrestackSettings settings = plugin.getSettings();
-        generator.damage(playerState, settings.getGeneratorDamage(playerState.asPlayer(), block));
+        generator.damage(player, context, settings.getGeneratorDamage(player, block));
     }
 
 }

@@ -4,7 +4,7 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.voxel.player.*;
+import io.github.pigaut.voxel.core.context.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
@@ -30,18 +30,23 @@ public class SimpleOrestackAPI implements OrestackAPI {
     }
 
 //    @Override
-//    public int getGeneratorMaxStage(@NotNull Location location) {
+//    public int getGeneratorMaxPhase(@NotNull Location location) {
 //        Generator generator = getGenerator(location);
-//        return generator.getMaxStage();
+//        return generator.getMaxPhase();
 //    }
 
     @Override
     public void setGeneratorStage(@NotNull Location location, int stage) throws IllegalArgumentException {
+        setGeneratorPhase(location, stage);
+    }
+
+    @Override
+    public void setGeneratorPhase(@NotNull Location location, int phase) throws IllegalArgumentException {
         Generator generator = getGenerator(location);
-        if (stage < 0 || stage > generator.getMaxStage()) {
-            throw new IllegalArgumentException("Stage is out of bounds for this generator.");
+        if (phase < 0 || phase > generator.getMaxPhase()) {
+            throw new IllegalArgumentException("Phase is out of bounds for this generator.");
         }
-        generator.setStage(stage);
+        generator.setPhase(phase);
     }
 
     private @NotNull Generator getGenerator(@NotNull Location location) throws IllegalArgumentException {
@@ -79,8 +84,14 @@ public class SimpleOrestackAPI implements OrestackAPI {
     @Override
     public void damage(@NotNull Location location, @NotNull Player player, int amount) throws IllegalArgumentException {
         Generator generator = getGenerator(location);
-        PlayerState playerState = plugin.getPlayerState(player);
-        generator.damage(playerState, amount);
+        Context context = Context.builder()
+                .withPlayer(player)
+                .withPlayerState(plugin.getPlayerState(player))
+                .withTool(player.getInventory().getItemInMainHand())
+                .withBlock(location.getBlock())
+                .build();
+
+        generator.damage(player, context, amount);
     }
 
 }

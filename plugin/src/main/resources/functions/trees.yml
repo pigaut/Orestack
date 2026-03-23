@@ -10,13 +10,13 @@ requireOakBlock:
     - cancelEvent
     - stop
 
-# The leaves will not be broken, and the generator will remain at the current stage
+# The leaves will not be broken, and the generator will remain at the current phase
 cancelBreakIfLeaf:
   if: blockTypeEquals OAK_LEAVES, BIRCH_LEAVES, SPRUCE_LEAVES, ACACIA_LEAVES, JUNGLE_LEAVES, DARK_OAK_LEAVES
   do:
     - cancelEvent
 
-# The leaves will be broken normally and drop items if configured to do so, but the generator will remain at the current stage
-keepStageIfLeaf:
+# The leaves will be broken normally and drop items if configured to do so, but the generator will remain at the current phase
+keepPhaseIfLeaf:
   if: blockTypeEquals OAK_LEAVES, BIRCH_LEAVES, SPRUCE_LEAVES, ACACIA_LEAVES, JUNGLE_LEAVES, DARK_OAK_LEAVES
-  do: keepStage
+  do: keepPhase

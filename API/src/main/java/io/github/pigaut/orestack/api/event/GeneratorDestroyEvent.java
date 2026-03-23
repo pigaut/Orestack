@@ -13,8 +13,8 @@ public class GeneratorDestroyEvent extends GeneratorEvent {
 
     private final Player player;
 
-    public GeneratorDestroyEvent(String generator, int stage, Player player) {
-        super(generator, stage);
+    public GeneratorDestroyEvent(String generator, int phase, Player player) {
+        super(generator, phase);
         this.player = player;
     }
 

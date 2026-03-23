@@ -1,18 +1,16 @@
-package io.github.pigaut.orestack.generator.stage;
+package io.github.pigaut.orestack.generator.phase;
 
-import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.voxel.core.function.*;
 import io.github.pigaut.voxel.core.hologram.*;
-import io.github.pigaut.voxel.core.structure.*;
+import io.github.pigaut.voxel.data.function.*;
+import io.github.pigaut.voxel.data.structure.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class GeneratorStage {
+public class GeneratorPhase {
 
-    private final GeneratorTemplate generator;
     private final GrowthState state;
     private final StructureTemplate structure;
     private final List<Material> decorativeBlocks;
@@ -26,7 +24,7 @@ public class GeneratorStage {
     private final int clickCooldown;
     private final int hitCooldown;
     private final int harvestCooldown;
-    private final @Nullable Hologram hologram;
+    private final @Nullable HologramTemplate hologramTemplate;
     private final @Nullable Function onBreak;
     private final @Nullable Function onGrowth;
     private final @Nullable Function onClick;
@@ -34,13 +32,11 @@ public class GeneratorStage {
     private final @Nullable Function onHarvest;
     private final @Nullable Function onDestroy;
 
-    public GeneratorStage(@NotNull GeneratorTemplate generator, @NotNull GrowthState state,
-                          @NotNull StructureTemplate structure, List<Material> decorativeBlocks, boolean dropItems,
-                          boolean dropExp, Amount toolDamage, boolean idle, int growthTime, @Nullable Double growthChance,
-                          @Nullable Double health, int clickCooldown, int hitCooldown, int harvestCooldown, @Nullable Hologram hologram,
+    public GeneratorPhase(@NotNull GrowthState state, @NotNull StructureTemplate structure, List<Material> decorativeBlocks,
+                          boolean dropItems, boolean dropExp, Amount toolDamage, boolean idle, int growthTime, @Nullable Double growthChance,
+                          @Nullable Double health, int clickCooldown, int hitCooldown, int harvestCooldown, @Nullable HologramTemplate hologramTemplate,
                           @Nullable Function onBreak, @Nullable Function onGrowth, @Nullable Function onClick,
                           @Nullable Function onHit, @Nullable Function onHarvest, @Nullable Function onDestroy) {
-        this.generator = generator;
         this.state = state;
         this.structure = structure;
         this.decorativeBlocks = decorativeBlocks;
@@ -60,11 +56,7 @@ public class GeneratorStage {
         this.onHit = onHit;
         this.onHarvest = onHarvest;
         this.onDestroy = onDestroy;
-        this.hologram = hologram;
-    }
-
-    public @NotNull GeneratorTemplate getGenerator() {
-        return generator;
+        this.hologramTemplate = hologramTemplate;
     }
 
     public boolean growsInstantly() {
@@ -95,7 +87,7 @@ public class GeneratorStage {
         return toolDamage;
     }
 
-    public @Nullable Double getHealth() {
+    public @Nullable Double getMaxHealth() {
         return health;
     }
 
@@ -147,22 +139,33 @@ public class GeneratorStage {
         return onDestroy;
     }
 
-    public @Nullable Hologram getHologram() {
-        return hologram;
+    public @Nullable HologramTemplate getHologramTemplate() {
+        return hologramTemplate;
     }
 
     @Override
     public String toString() {
-        return "GeneratorStage{" +
-                "generator=" + generator.getName() +
-                ", state=" + state +
+        return "GeneratorPhase{" +
+                "state=" + state +
                 ", structure=" + structure +
+                ", decorativeBlocks=" + decorativeBlocks +
+                ", dropItems=" + dropItems +
+                ", dropExp=" + dropExp +
+                ", toolDamage=" + toolDamage +
+                ", idle=" + idle +
                 ", growthTime=" + growthTime +
                 ", growthChance=" + growthChance +
+                ", health=" + health +
+                ", clickCooldown=" + clickCooldown +
+                ", hitCooldown=" + hitCooldown +
+                ", harvestCooldown=" + harvestCooldown +
+                ", hologramTemplate=" + hologramTemplate +
                 ", onBreak=" + onBreak +
                 ", onGrowth=" + onGrowth +
                 ", onClick=" + onClick +
-                ", hologram=" + hologram +
+                ", onHit=" + onHit +
+                ", onHarvest=" + onHarvest +
+                ", onDestroy=" + onDestroy +
                 '}';
     }
 

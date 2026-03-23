@@ -1,66 +1,66 @@
 
---- # ===== Stage 1 =====
+--- # ===== Phase 1 =====
 type: depleted
 growth: 40s
 structure: copper_deposit_1
 
---- # ===== Stage 2 =====
+--- # ===== Phase 2 =====
 type: ripe
 growth: 40s
 structure: copper_deposit_2
 decorative-blocks: [cobblestone, cobblestone_slab, orange_terracotta]
 default-drops: true
 
---- # ===== Stage 3 =====
+--- # ===== Phase 3 =====
 type: ripe
 growth: 40s
 structure: copper_deposit_3
 decorative-blocks: [cobblestone, cobblestone_slab, orange_terracotta]
 default-drops: true
 
---- # ===== Stage 4 =====
+--- # ===== Phase 4 =====
 type: ripe
 growth: 40s
 structure: copper_deposit_4
 decorative-blocks: [cobblestone, cobblestone_slab, orange_terracotta]
 default-drops: true
 
---- # ===== Stage 5 =====
+--- # ===== Phase 5 =====
 type: ripe
 growth: 40s
 structure: copper_deposit_5
 decorative-blocks: [cobblestone, cobblestone_slab, orange_terracotta]
 default-drops: true
 
---- # ===== Stage 6 =====
+--- # ===== Phase 6 =====
 type: ripe
 growth: 40s
 structure: copper_deposit_6
 decorative-blocks: [cobblestone, cobblestone_slab, orange_terracotta]
 default-drops: true
 
---- # ===== Stage 7 =====
+--- # ===== Phase 7 =====
 type: ripe
 growth: 40s
 structure: copper_deposit_7
 decorative-blocks: [cobblestone, cobblestone_slab, orange_terracotta]
 default-drops: true
 
---- # ===== Stage 8 =====
+--- # ===== Phase 8 =====
 type: ripe
 growth: 40s
 structure: copper_deposit_8
 decorative-blocks: [cobblestone, cobblestone_slab, orange_terracotta]
 default-drops: true
 
---- # ===== Stage 9 =====
+--- # ===== Phase 9 =====
 type: ripe
 growth: 40s
 structure: copper_deposit_9
 decorative-blocks: [cobblestone, cobblestone_slab, orange_terracotta]
 default-drops: true
 
---- # ===== Stage 10 =====
+--- # ===== Phase 10 =====
 type: regrown
 structure: copper_deposit_10
 decorative-blocks: [cobblestone, cobblestone_slab, orange_terracotta]
