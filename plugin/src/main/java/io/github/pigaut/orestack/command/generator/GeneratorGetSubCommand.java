@@ -1,11 +1,14 @@
 package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.*;
-import io.github.pigaut.voxel.command.node.*;
-import io.github.pigaut.voxel.player.*;
+
+
+import io.github.pigaut.voxel.core.command.node.*;
+import io.github.pigaut.voxel.core.context.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorGetSubCommand extends SubCommand {
@@ -15,14 +18,15 @@ public class GeneratorGetSubCommand extends SubCommand {
         withPermission(plugin.getPermission("generator.get"));
         withDescription(plugin.getTranslation("generator-get-command"));
         withParameter(GeneratorParameters.GENERATOR_NAME);
-        withPlayerExecution((player, args, placeholders) -> {
-            final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
+        withPlayerExecution((player, context, args) -> {
+            GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {
-                plugin.sendMessage(player, "generator-not-found", placeholders);
+                plugin.sendMessage(player, context, "generator-not-found");
                 return;
             }
+
             PlayerUtil.giveItemsOrDrop(player, GeneratorTool.createItem(generator));
-            plugin.sendMessage(player, "received-generator", placeholders, generator);
+            plugin.sendMessage(player, context, "received-generator");
         });
     }
 

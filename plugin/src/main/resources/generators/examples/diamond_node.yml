@@ -1,10 +1,10 @@
 
---- # ===== Stage 1 =====
+--- # ===== Phase 1 =====
 state: depleted
 block: cobblestone
 growth: 3s
 
---- # ===== Stage 2 =====
+--- # ===== Phase 2 =====
 state: regrown
 
 structure:

@@ -1,21 +1,21 @@
 package io.github.pigaut.orestack.api.event;
 
-import io.github.pigaut.voxel.event.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
 
 /**
- * Called when a generator grows to the next stage.
+ * Called when a generator grows to the next phase.
  */
-public class GeneratorGrowthEvent extends CancellableEvent {
+public class GeneratorGrowthEvent extends GeneratorEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
     private final Location origin;
 
-    public GeneratorGrowthEvent(@NotNull Location origin) {
+    public GeneratorGrowthEvent(String generator, int phase, @NotNull Location origin) {
+        super(generator, phase);
         this.origin = origin;
     }
 

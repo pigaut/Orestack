@@ -1,17 +1,17 @@
 
---- # ===== Stage 1 ===== #
+--- # ===== Phase 1 ===== #
 type: depleted
 growth: 3s
 block: sweet_berry_bush
 age: 0
 
---- # ===== Stage 2 ===== #
+--- # ===== Phase 2 ===== #
 type: growing
 growth: 3s
 block: sweet_berry_bush
 age: 1
 
---- # ===== Stage 3 ===== #
+--- # ===== Phase 3 ===== #
 type: ripe
 growth: 3s
 block: sweet_berry_bush
@@ -23,7 +23,7 @@ on-right-click:
     - dropItemAtBlock sweet_berries 1-2
     - harvestGenerator
 
---- # ===== Stage 4 ===== #
+--- # ===== Phase 4 ===== #
 type: regrown
 growth: 3s
 block: sweet_berry_bush

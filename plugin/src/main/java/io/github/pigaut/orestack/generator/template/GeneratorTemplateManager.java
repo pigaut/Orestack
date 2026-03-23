@@ -1,6 +1,5 @@
 package io.github.pigaut.orestack.generator.template;
 
-import io.github.pigaut.voxel.core.structure.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.boot.*;
 import io.github.pigaut.voxel.plugin.manager.*;

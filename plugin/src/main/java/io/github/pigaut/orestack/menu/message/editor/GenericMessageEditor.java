@@ -1,9 +1,9 @@
 package io.github.pigaut.orestack.menu.message.editor;
 
-import io.github.pigaut.voxel.menu.*;
-import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.menu.template.button.*;
-import io.github.pigaut.voxel.menu.template.menu.editor.*;
+import io.github.pigaut.voxel.core.menu.*;
+import io.github.pigaut.voxel.core.menu.button.*;
+import io.github.pigaut.voxel.core.menu.template.button.*;
+import io.github.pigaut.voxel.core.menu.template.menu.editor.*;
 import io.github.pigaut.yaml.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;

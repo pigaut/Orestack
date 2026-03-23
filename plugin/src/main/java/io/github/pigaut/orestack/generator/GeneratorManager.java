@@ -34,7 +34,7 @@ public class GeneratorManager extends Manager {
     public void disable() {
         for (Generator generator : generators) {
             GeneratorState state = generator.getState();
-            state.cancelGrowth();
+            state.cancelGrowthTask();
             state.removeBlocks();
             state.removeHologram();
             List<BlockState> removedBlocks = this.removedBlocks.remove(generator);
@@ -88,10 +88,10 @@ public class GeneratorManager extends Manager {
             final int z = rowQuery.getInt(4);
             final String generatorName = rowQuery.getString(5);
             final String rotationData = rowQuery.getString(6);
-            final int stage = rowQuery.getInt(7);
+            final int phase = rowQuery.getInt(7);
 
             try {
-                registerGenerator(worldId, x, y, z, generatorName, rotationData, stage);
+                registerGenerator(worldId, x, y, z, generatorName, rotationData, phase);
             }
             catch (GeneratorCreateException e) {
                 logger.warning(e.getMessage());
@@ -103,7 +103,7 @@ public class GeneratorManager extends Manager {
                         .withParameter(z)
                         .withParameter(generatorName)
                         .withParameter(rotationData)
-                        .withParameter(stage)
+                        .withParameter(phase)
                         .executeUpdate();
             }
         });
@@ -115,10 +115,10 @@ public class GeneratorManager extends Manager {
             final int z = rowQuery.getInt(4);
             final String generatorName = rowQuery.getString(5);
             final String rotationData = rowQuery.getString(6);
-            final int stage = rowQuery.getInt(7);
+            final int phase = rowQuery.getInt(7);
 
             try {
-                registerGenerator(worldId, x, y, z, generatorName, rotationData, stage);
+                registerGenerator(worldId, x, y, z, generatorName, rotationData, phase);
                 logger.info(String.format("Restored generator at %s, %d, %d, %d. Reason: generator is no longer invalid.",
                     SpigotLibs.getWorldName(UUID.fromString(worldId)), x, y, z));
                 database.createStatement("DELETE FROM invalid_resources WHERE world = ? AND x = ? AND y = ? AND z = ?")
@@ -167,7 +167,7 @@ public class GeneratorManager extends Manager {
             insertStatement.withParameter(location.getBlockZ());
             insertStatement.withParameter(generator.getTemplate().getName());
             insertStatement.withParameter(generator.getRotation().toString());
-            insertStatement.withParameter(generator.getState().getCurrentStage());
+            insertStatement.withParameter(generator.getState().getCurrentPhase());
             insertStatement.addBatch();
         }
 
@@ -179,7 +179,7 @@ public class GeneratorManager extends Manager {
         return true;
     }
 
-    private void registerGenerator(String worldId, int x, int y, int z, String generatorName, String rotationData, int stage) throws GeneratorCreateException {
+    private void registerGenerator(String worldId, int x, int y, int z, String generatorName, String rotationData, int phase) throws GeneratorCreateException {
         World world = Bukkit.getWorld(UUID.fromString(worldId));
         if (world == null) {
             throw new GeneratorCreateException(worldId, x, y, z, "world not found");
@@ -199,18 +199,19 @@ public class GeneratorManager extends Manager {
                     worldName, x, y, z));
         }
 
-        int maxStage = template.getMaxStage();
-        if (stage > maxStage) {
-            logger.warning(String.format("Failed to load stage of generator at %s, %d, %d, %d. Maximum stage (" + maxStage + ") has been applied.",
+        int maxPhase = template.getMaxPhase();
+        if (phase > maxPhase) {
+            logger.warning(String.format("Failed to load phase of generator at %s, %d, %d, %d. Maximum phase (" + maxPhase + ") has been applied.",
                     worldName, x, y, z));
         }
 
-        for (Block block : template.getAllOccupiedBlocks(origin, rotation)) {
+        for (Block block : template.getOccupiedBlocks(origin, rotation)) {
             if (plugin.getGenerators().isGenerator(block.getLocation())) {
                 throw new GeneratorOverlapException(world.getName(), x, y, z);
             }
         }
 
+        int finalPhase = Math.min(phase, template.getMaxPhase());
         StructureTemplate lastStructure = template.getLastStage().getStructureTemplate();
         if (lastStructure.getBlockChanges().size() > 1) {
             if (largeGeneratorsPlaced >= 5) {
@@ -246,7 +247,7 @@ public class GeneratorManager extends Manager {
         GeneratorTemplate template = generator.getTemplate();
 
         List<BlockState> removedBlocks = new ArrayList<>();
-        for (Block block : template.getAllOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
+        for (Block block : template.getOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
             if (plugin.getGenerators().isGenerator(block.getLocation())) {
                 throw new GeneratorOverlapException();
             }

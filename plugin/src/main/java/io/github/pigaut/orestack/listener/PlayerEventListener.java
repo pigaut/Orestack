@@ -3,7 +3,7 @@ package io.github.pigaut.orestack.listener;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.orestack.generator.stage.*;
+import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.hook.veinminer.*;
 import io.github.pigaut.orestack.player.*;
@@ -11,12 +11,12 @@ import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
-import io.github.pigaut.voxel.core.function.*;
-import io.github.pigaut.voxel.player.*;
-import io.github.pigaut.voxel.server.Server;
+import io.github.pigaut.voxel.core.context.*;
+import io.github.pigaut.voxel.data.function.*;
+import io.github.pigaut.voxel.util.Server;
+
 import org.bukkit.*;
 import org.bukkit.block.*;
-import org.bukkit.block.data.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
@@ -32,7 +32,7 @@ public class PlayerEventListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onBlockBreak(BlockBreakEvent event) {
+    public void handleGeneratorBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
         Generator generator = plugin.getGenerator(block.getLocation());
         if (generator == null) {
@@ -57,7 +57,7 @@ public class PlayerEventListener implements Listener {
     }
 
     @EventHandler
-    public void onBlockInteract(PlayerInteractEvent event) {
+    public void handleGeneratorBlockInteract(PlayerInteractEvent event) {
         if (!event.hasBlock() || event.getHand() != EquipmentSlot.HAND) {
             return;
         }
@@ -88,50 +88,60 @@ public class PlayerEventListener implements Listener {
             }
         }
 
-        GeneratorStage stage = generator.getStage();
-        if (stage.getDecorativeBlocks().contains(block.getType())) {
+        GeneratorPhase phase = generator.getPhase();
+        if (phase.getDecorativeBlocks().contains(block.getType())) {
             return;
         }
 
+        ContextBuilder contextBuilder = Context.builder()
+                .withPlayer(player)
+                .withPlayerState(plugin.getPlayerState(player))
+                .withAction(action)
+                .withTool(player.getInventory().getItemInMainHand())
+                .withBlock(block);
+
         OrestackPlayer playerState = plugin.getPlayerState(player);
         if (!playerState.hasFlag("orestack:click_cooldown")) {
-            playerState.addTemporaryFlag("orestack:click_cooldown", stage.getClickCooldown());
+            playerState.addTemporaryFlag("orestack:click_cooldown", phase.getClickCooldown());
 
-            GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(player, action);
+            GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(generator.getName(), generator.getState().getCurrentPhase(), player, action);
             Server.callEvent(generatorInteractEvent);
+
             if (!generatorInteractEvent.isCancelled()) {
-                playerState.updatePlaceholders(generator.getState());
-                Function clickFunction = stage.getClickFunction();
+                Function clickFunction = phase.getClickFunction();
                 if (clickFunction != null) {
-                    clickFunction.run(playerState, event, block);
+                    Context context = contextBuilder.withEvent(generatorInteractEvent).build();
+                    clickFunction.run(context);
                 }
             }
         }
 
         if (action == Action.LEFT_CLICK_BLOCK && !playerState.hasFlag("orestack:hit_cooldown")) {
-            playerState.addTemporaryFlag("orestack:hit_cooldown", stage.getHitCooldown());
+            playerState.addTemporaryFlag("orestack:hit_cooldown", phase.getHitCooldown());
 
-            GeneratorHitEvent generatorHitEvent = new GeneratorHitEvent(player);
+            GeneratorHitEvent generatorHitEvent = new GeneratorHitEvent(generator.getName(), generator.getState().getCurrentPhase(), player);
             Server.callEvent(generatorHitEvent);
+
             if (!generatorHitEvent.isCancelled()) {
-                playerState.updatePlaceholders(generator.getState());
-                Function hitFunction = stage.getHitFunction();
+                Function hitFunction = phase.getHitFunction();
                 if (hitFunction != null) {
-                    hitFunction.run(playerState, event, block);
+                    Context context = contextBuilder.withEvent(generatorHitEvent).build();
+                    hitFunction.run(context);
                 }
             }
         }
 
         if (action == Action.RIGHT_CLICK_BLOCK && !playerState.hasFlag("orestack:harvest_cooldown")) {
-            playerState.addTemporaryFlag("orestack:harvest_cooldown", stage.getHarvestCooldown());
+            playerState.addTemporaryFlag("orestack:harvest_cooldown", phase.getHarvestCooldown());
 
-            GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(player);
+            GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(generator.getName(), generator.getState().getCurrentPhase(), player);
             Server.callEvent(generatorHarvestEvent);
+
             if (!generatorHarvestEvent.isCancelled()) {
-                playerState.updatePlaceholders(generator.getState());
-                Function harvestFunction = stage.getHarvestFunction();
+                Function harvestFunction = phase.getHarvestFunction();
                 if (harvestFunction != null) {
-                    harvestFunction.run(playerState, event, block);
+                    Context context = contextBuilder.withEvent(generatorHarvestEvent).build();
+                    harvestFunction.run(context);
                 }
             }
         }
@@ -139,7 +149,7 @@ public class PlayerEventListener implements Listener {
     }
 
     @EventHandler
-    public void onItemClick(PlayerInteractEvent event) {
+    public void handleGeneratorItemInteract(PlayerInteractEvent event) {
         if (event.getHand() != EquipmentSlot.HAND) {
             return;
         }
@@ -156,12 +166,20 @@ public class PlayerEventListener implements Listener {
 
         Player player = event.getPlayer();
         Action action = event.getAction();
+        Block clickedBlock = event.getClickedBlock();
+
+        Context context = Context.builder()
+                .withPlayer(player)
+                .withPlayerState(plugin.getPlayerState(player))
+                .withTool(heldItem)
+                .withBlock(clickedBlock)
+                .build();
 
         if (action == Action.LEFT_CLICK_AIR && player.isSneaking()) {
             event.setCancelled(true);
 
             if (!player.hasPermission("orestack.generator.rotate")) {
-                plugin.sendMessage(player, "cannot-rotate-generator", heldGenerator);
+                plugin.sendMessage(player, context, "cannot-rotate-generator");
                 return;
             }
 
@@ -170,7 +188,9 @@ public class PlayerEventListener implements Listener {
             return;
         }
 
-        Block clickedBlock = event.getClickedBlock();
+        if (clickedBlock == null) {
+            return;
+        }
 
         if (action == Action.LEFT_CLICK_BLOCK) {
             Generator clickedGenerator = plugin.getGenerator(clickedBlock.getLocation());
@@ -179,9 +199,9 @@ public class PlayerEventListener implements Listener {
             }
 
             event.setCancelled(true);
-
+            context = context.with(Generator.class, clickedGenerator);
             if (!player.hasPermission("orestack.generator.break")) {
-                plugin.sendMessage(player, "cannot-break-generator", heldGenerator);
+                plugin.sendMessage(player, context, "cannot-break-generator");
                 return;
             }
 
@@ -190,14 +210,19 @@ public class PlayerEventListener implements Listener {
         }
     }
 
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
+    @EventHandler(ignoreCancelled = true)
+    public void handleGeneratorPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        Block block = event.getBlockPlaced();
-        Location location = block.getLocation();
+        Location location = event.getBlockPlaced().getLocation();
+        Context context = Context.builder()
+                .withPlayer(player)
+                .withPlayerState(plugin.getPlayerState(player))
+                .withTool(event.getItemInHand())
+                .withBlock(event.getBlockPlaced())
+                .build();
 
         if (plugin.getGenerators().isGenerator(location)) {
-            plugin.sendMessage(player, "generator-occupied-block");
+            plugin.sendMessage(player, context, "generator-occupied-block");
             event.setCancelled(true);
             return;
         }
@@ -208,26 +233,35 @@ public class PlayerEventListener implements Listener {
         }
 
         event.setCancelled(true);
-        GeneratorTemplate generator = GeneratorTool.getGeneratorTemplate(heldItem);
-        if (generator == null) {
-            plugin.sendMessage(player, "generator-not-exists");
+
+        GeneratorTemplate generatorTemplate = GeneratorTool.getGeneratorTemplate(heldItem);
+        if (generatorTemplate == null) {
+            plugin.sendMessage(player, context, "generator-not-exists");
             return;
         }
 
+        context = context.with(GeneratorTemplate.class, generatorTemplate);
         if (!player.hasPermission("orestack.generator.place")) {
-            plugin.sendMessage(player, "cannot-place-generator", generator);
+            plugin.sendMessage(player, context, "cannot-place-generator");
             return;
         }
 
         Rotation rotation = GeneratorTool.getRotation(heldItem);
         if (rotation == null) {
-            plugin.sendMessage(player, "corrupt-tool-rotation", generator);
+            plugin.sendMessage(player, context, "corrupt-tool-rotation");
+            return;
+        }
+
+        GeneratorPlaceEvent generatorPlaceEvent = new GeneratorPlaceEvent(generatorTemplate.getName(), player, generatorTemplate.getOccupiedBlocks(location, rotation));
+        Server.callEvent(generatorPlaceEvent);
+        if (generatorPlaceEvent.isCancelled()) {
+            PlayerUtil.sendActionBar(player, plugin.getTranslation("generator-conflict"));
             return;
         }
 
         plugin.getRegionScheduler(location).runTaskLater(1, () -> {
             try {
-                Generator.create(generator, location, rotation);
+                Generator.create(generatorTemplate, location, rotation);
                 PlayerUtil.sendActionBar(player, plugin.getTranslation("placed-generator"));
             }
             catch (GeneratorOverlapException e) {

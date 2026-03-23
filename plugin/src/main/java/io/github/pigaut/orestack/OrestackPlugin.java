@@ -1,8 +1,10 @@
 package io.github.pigaut.orestack;
 
+import io.github.pigaut.orestack.api.*;
 import io.github.pigaut.orestack.advertise.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
+import io.github.pigaut.orestack.core.placeholder.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.hook.itemsadder.*;
@@ -10,10 +12,13 @@ import io.github.pigaut.orestack.hook.plotsquared.*;
 import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.settings.*;
-import io.github.pigaut.voxel.command.*;
+import io.github.pigaut.orestack.util.*;
+import io.github.pigaut.voxel.core.command.*;
+import io.github.pigaut.voxel.core.placeholder.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.boot.*;
 import io.github.pigaut.voxel.plugin.boot.phase.*;
+import io.github.pigaut.voxel.util.Server;
 import io.github.pigaut.voxel.server.Server;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
@@ -26,14 +31,13 @@ import java.util.*;
 
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
+    private static OrestackPlugin plugin;
     private final OrestackSettings settings = new OrestackSettings(this);
     private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
     private final OrestackPlayerStateManager playerManager = new OrestackPlayerStateManager(this);
     private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
     private final AdvertisementManager advertisementManager = new AdvertisementManager(this);
-
-    private static OrestackPlugin plugin;
 
     public static OrestackPlugin getInstance() {
         return plugin;
@@ -45,8 +49,38 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
+    public void onStartup() {
+        Orestack.setApiInstance(new SimpleOrestackAPI(this));
+    }
+
+    @Override
+    public void onShutdown() {
+
+    }
+
+    @Override
     public @NotNull OrestackSettings getSettings() {
         return settings;
+    }
+
+    @Override
+    public @NotNull Configurator createConfigurator() {
+        return new OrestackConfigurator(this);
+    }
+
+    @Override
+    public @NotNull OrestackPlayerStateManager getPlayersState() {
+        return playerManager;
+    }
+
+    @Override
+    public @NotNull OrestackPlayer getPlayerState(@NotNull Player player) {
+        return playerManager.getPlayerState(player);
+    }
+
+    @Override
+    public @Nullable OrestackPlayer getPlayerState(@NotNull UUID playerId) {
+        return playerManager.getPlayerState(playerId);
     }
 
     @Override
@@ -73,10 +107,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public @Nullable String getLogo() {
         return """
-                             
-                             ┏━┓┏━┓┏━╸┏━┓╺┳╸┏━┓┏━╸╻┏\s
-                             ┃ ┃┣┳┛┣╸ ┗━┓ ┃ ┣━┫┃  ┣┻┓
-                             ┗━┛╹┗╸┗━╸┗━┛ ╹ ╹ ╹┗━╸╹ ╹""";
+                
+                ┏━┓┏━┓┏━╸┏━┓╺┳╸┏━┓┏━╸╻┏\s
+                ┃ ┃┣┳┛┣╸ ┗━┓ ┃ ┣━┫┃  ┣┻┓
+                ┗━┛╹┗╸┗━╸┗━┛ ╹ ╹ ╹┗━╸╹ ╹""";
     }
 
     @Override
@@ -111,18 +145,21 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public List<EnhancedCommand> getDefaultCommands() {
-        return List.of(new OrestackCommand(this));
+    public void registerCommands(@NotNull CommandRegistry commands) {
+        commands.registerCommand(new OrestackCommand(this));
     }
 
     @Override
-    public List<Listener> getDefaultListeners() {
-        List<Listener> listeners = new ArrayList<>();
-        listeners.add(new PlayerEventListener(this));
-        listeners.add(new BlockEventListener(this));
-        listeners.add(new CropEventListener(this));
-        listeners.add(new AdvertisementListener(this));
-        return listeners;
+    public void registerPlaceholders(@NotNull PlaceholderRegistry placeholders) {
+        OrestackPlaceholders.registerAll(this, placeholders);
+    }
+
+    @Override
+    public void registerListeners() {
+        registerListener(new PlayerEventListener(this));
+        registerListener(new BlockEventListener(this));
+        registerListener(new CropEventListener(this));
+        registerListener(new AdvertisementListener(this));
     }
 
     @Override
@@ -421,26 +458,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "ItemsAdder", List.of("generators/examples/hooks/ruby_ore.yml"),
                 "CraftEngine", List.of("generators/examples/hooks/topaz_ore.yml")
         );
-    }
-
-    @Override
-    public @NotNull Configurator createConfigurator() {
-        return new OrestackConfigurator(this);
-    }
-
-    @Override
-    public @NotNull OrestackPlayerStateManager getPlayersState() {
-        return playerManager;
-    }
-
-    @Override
-    public @NotNull OrestackPlayer getPlayerState(@NotNull Player player) {
-        return playerManager.getPlayerState(player);
-    }
-
-    @Override
-    public @Nullable OrestackPlayer getPlayerState(@NotNull UUID playerId) {
-        return playerManager.getPlayerState(playerId);
     }
 
     public @NotNull GeneratorTemplateManager getGeneratorTemplates() {

@@ -3,8 +3,9 @@ package io.github.pigaut.orestack.command.generator;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.voxel.command.node.*;
-import io.github.pigaut.voxel.server.*;
+
+import io.github.pigaut.voxel.core.command.node.*;
+import io.github.pigaut.voxel.util.*;
 import org.bukkit.block.*;
 import org.bukkit.event.block.*;
 import org.jetbrains.annotations.*;
@@ -16,20 +17,22 @@ public class GeneratorHarvestSubCommand extends SubCommand {
         withPermission(plugin.getPermission("generator.harvest-all"));
         withDescription(plugin.getTranslation("generator-harvest-all-command"));
         withParameter(GeneratorParameters.GENERATOR_NAME);
-        withPlayerExecution((player, args, placeholders) -> {
-            final GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
+        withPlayerExecution((player, context, args) -> {
+            GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {
-                plugin.sendMessage(player, "generator-not-found", placeholders);
+                plugin.sendMessage(player, context, "generator-not-found");
                 return;
             }
-            for (Generator blockGenerator : plugin.getGenerators().getAllGenerators()) {
-                if (blockGenerator.getTemplate() == generator) {
-                    Block block = blockGenerator.getBlocks().get(0);
-                    BlockBreakEvent event = new BlockBreakEvent(block, player);
-                    Server.callEvent(event);
+            for (Generator geneator : plugin.getGenerators().getAllGenerators()) {
+                if (geneator.getTemplate() == generator) {
+                    for (Block block : geneator.getOccupiedBlocks()) {
+                        BlockBreakEvent event = new BlockBreakEvent(block, player);
+                        Server.callEvent(event);
+                        break;
+                    }
                 }
             }
-            plugin.sendMessage(player, "harvested-all-generators", placeholders, generator);
+            plugin.sendMessage(player, context, "harvested-all-generators");
         });
     }
 

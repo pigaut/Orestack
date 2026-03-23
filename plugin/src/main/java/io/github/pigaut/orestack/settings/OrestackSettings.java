@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.settings;
 
-import io.github.pigaut.orestack.damage.*;
+import com.cryptomorin.xseries.*;
+import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.plugin.*;
@@ -9,7 +10,9 @@ import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.node.scalar.*;
 import org.bukkit.*;
+import org.bukkit.block.*;
 import org.bukkit.enchantments.*;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
@@ -41,6 +44,7 @@ public class OrestackSettings extends Settings {
     private boolean efficiencyDamage;
     private boolean reducedCooldownDamage;
     private List<ToolDamage> damageByTool;
+    private List<HealthBar> healthBars;
 
     public OrestackSettings(EnhancedPlugin plugin) {
         super(plugin);
@@ -113,6 +117,9 @@ public class OrestackSettings extends Settings {
         damageByTool = config.getList("damage-by-tool-type", ToolDamage.class)
                 .withDefaultOrElse(List.of(), errors::add);
 
+        healthBars = config.getAll("health-bars", HealthBar.class)
+                .withDefaultOrElse(List.of(), errors::add);
+
         return errors;
     }
 
@@ -124,7 +131,8 @@ public class OrestackSettings extends Settings {
         return restoreOriginalBlocksOnRemove;
     }
 
-    public @NotNull ItemStack getGeneratorTool() {
+    @NotNull
+    public ItemStack getGeneratorTool() {
         return generatorTool.clone();
     }
 
@@ -156,13 +164,19 @@ public class OrestackSettings extends Settings {
         return reducedCooldownDamage;
     }
 
-    public @NotNull Amount getToolDamage(@NotNull Material toolType, @NotNull Material blockType) {
+    @NotNull
+    public Amount getToolDamage(@NotNull Material toolType, @NotNull Material blockType) {
         for (ToolDamage toolDamage : damageByTool) {
             if (toolDamage.test(toolType, blockType)) {
                 return toolDamage.getDamage(toolType);
             }
         }
         return defaultDamage;
+    }
+
+    @NotNull
+    public List<HealthBar> getHealthBars() {
+        return new ArrayList<>(healthBars);
     }
 
     public boolean isVeinMiner() {
@@ -196,6 +210,27 @@ public class OrestackSettings extends Settings {
         }
 
         return 1;
+    }
+
+    private final Enchantment EFFICIENCY = XEnchantment.EFFICIENCY.get();
+
+    public double getGeneratorDamage(@NotNull Player player, @NotNull Block block) {
+        ItemStack tool = player.getInventory().getItemInMainHand();
+        Amount baseDamage = getToolDamage(tool.getType(), block.getType());
+
+        if (isEfficiencyDamage()) {
+            int efficiencyLevel = tool.getEnchantmentLevel(EFFICIENCY);
+            if (efficiencyLevel != 0) {
+                baseDamage = baseDamage.transform(value -> value + efficiencyLevel);
+            }
+        }
+
+        double damage = baseDamage.doubleValue();
+        if (isReducedCooldownDamage()) {
+            damage *= player.getAttackCooldown();
+        }
+
+        return damage;
     }
 
 }

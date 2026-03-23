@@ -1,10 +1,10 @@
 
---- # ===== Stage 1 ======
+--- # ===== Phase 1 ======
 type: depleted
 growth: 5s
 block: air
 
---- # ===== Stage 2 ======
+--- # ===== Phase 2 ======
 type: regrown
 block: lily_of_the_valley
 idle: true # Breaking the block will do nothing

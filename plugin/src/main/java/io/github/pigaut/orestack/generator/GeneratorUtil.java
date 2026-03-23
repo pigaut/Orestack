@@ -2,19 +2,22 @@ package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
-import io.github.pigaut.orestack.generator.stage.*;
-import io.github.pigaut.orestack.player.*;
+import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.voxel.bukkit.*;
-import io.github.pigaut.voxel.core.function.*;
-import io.github.pigaut.voxel.player.*;
-import io.github.pigaut.voxel.plugin.task.*;
-import io.github.pigaut.voxel.server.Server;
+import io.github.pigaut.voxel.bukkit.Rotation;
+import io.github.pigaut.voxel.core.context.*;
+import io.github.pigaut.voxel.core.hologram.*;
+import io.github.pigaut.voxel.data.function.*;
+import io.github.pigaut.voxel.data.structure.*;
+import io.github.pigaut.voxel.data.structure.Structure;
+import io.github.pigaut.voxel.util.Server;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
+import java.time.*;
 import java.util.*;
 
 public class GeneratorUtil {
@@ -27,43 +30,49 @@ public class GeneratorUtil {
             return;
         }
 
-        GeneratorStage generatorStage = generator.getStage();
-        if (generatorStage.getDecorativeBlocks().contains(block.getType())) {
+        GeneratorPhase generatorPhase = generator.getPhase();
+        if (generatorPhase.getDecorativeBlocks().contains(block.getType())) {
             return;
         }
 
-        OrestackPlayer playerState = plugin.getPlayerState(player);
-        playerState.updatePlaceholders(generator.getState());
-
-        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(player, block);
+        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(generator.getName(), generator.getState().getCurrentPhase(), player, block);
         {
-            if (generatorStage.isIdle()) {
+            if (generatorPhase.isIdle()) {
                 generatorMineEvent.setIdle(true);
             }
 
-            if (generatorStage.isDropItems()) {
+            if (generatorPhase.isDropItems()) {
                 ItemStack tool = player.getInventory().getItemInMainHand();
                 generatorMineEvent.setItemDrops(block.getDrops(tool));
             }
 
-            if (generatorStage.isDropExp()) {
+            if (generatorPhase.isDropExp()) {
                 generatorMineEvent.setExpDrops(expToDrop);
             }
 
-            int toolDamage = generatorStage.getToolDamage().intValue();
+            int toolDamage = generatorPhase.getToolDamage().intValue();
             generatorMineEvent.setToolDamage(toolDamage);
 
             Server.callEvent(generatorMineEvent);
         }
 
         if (!generatorMineEvent.isCancelled()) {
-            Function breakFunction = generatorStage.getBreakFunction();
+            Function breakFunction = generatorPhase.getBreakFunction();
             if (breakFunction != null) {
-                breakFunction.run(playerState, generatorMineEvent, block);
+                Context context = Context.builder()
+                        .withPlayer(player)
+                        .withPlayerState(plugin.getPlayerState(player))
+                        .withTool(player.getInventory().getItemInMainHand())
+                        .withBlock(block)
+                        .with(Generator.class, generator)
+                        .withEvent(generatorMineEvent)
+                        .build();
+
+                breakFunction.run(context);
             }
         }
 
-        if (!generatorMineEvent.isCancelled() && generatorStage.getState().isHarvestable()) {
+        if (!generatorMineEvent.isCancelled() && generatorPhase.getState().isHarvestable()) {
             Location dropLocation = block.getLocation().add(0.5, 1, 0.5);
 
             Collection<ItemStack> itemDrops = generatorMineEvent.getItemDrops();
@@ -84,56 +93,137 @@ public class GeneratorUtil {
             }
 
             if (!generatorMineEvent.isIdle()) {
-                generator.harvest();
+                harvest(generator);
             }
         }
     }
 
-    public static void startGrowth(Generator generator, Location origin, int growthTime) {
-        GeneratorState state = generator.getState();
-
-        Task growthTask = plugin.getScheduler().runTaskLater(growthTime, () -> {
-            state.setGrowthTask(null);
-
-            if (generator.isFullyGrown()) {
-                return;
-            }
-
-            GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(origin);
-            Server.callEvent(growthEvent);
-
-            if (!growthEvent.isCancelled()) {
-                generator.grow();
-            }
-        });
-        state.setGrowthTask(growthTask);
-
+    public static void init(@NotNull Generator generator, int phaseIndex) {
+        setPhase(generator, phaseIndex, true, true);
     }
 
-    public static void damage(@NotNull Generator generator, @NotNull PlayerState damageDealer, double damage) {
-        Double health = generator.getHealth();
+    public static void grow(@NotNull Generator generator, int growthAmount) {
+        if (generator.isFullyGrown()) {
+            return;
+        }
+
+        GeneratorPhase currentPhase = generator.getPhase();
+        if (currentPhase.getGrowthTime() == 0) {
+            return;
+        }
+
+        Integer nextPhaseIndex = generator.getNextGrowthPhase(growthAmount);
+        if (nextPhaseIndex == null) {
+            return;
+        }
+
+        // Call generator growth event
+        GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(generator.getName(), generator.getState().getCurrentPhase(), generator.getOrigin());
+        Server.callEvent(growthEvent);
+        if (growthEvent.isCancelled()) {
+            return;
+        }
+
+        setPhase(generator, nextPhaseIndex, false, true);
+    }
+
+    public static void harvest(@NotNull Generator generator) {
+        if (generator.isDepleted()) {
+            return;
+        }
+
+        int nextPhaseIndex = generator.getNextHarvestingPhase();
+        setPhase(generator, nextPhaseIndex, false, false);
+    }
+
+    public static void setPhase(@NotNull Generator generator, int phaseIndex) {
+        setPhase(generator, phaseIndex, false, true);
+    }
+
+    private static void setPhase(@NotNull Generator generator, int phaseIndex, boolean init, boolean growing) {
+        if (phaseIndex < 0 || phaseIndex > generator.getMaxPhase()) {
+            return;
+        }
+
+        GeneratorPhase newPhase = generator.getPhase(phaseIndex);
+        GeneratorState state = generator.getState();
+        Location origin = generator.getOrigin();
+        Rotation rotation = generator.getRotation();
+        Context context = Context.builder()
+                .withBlock(origin.getBlock())
+                .with(Generator.class, generator)
+                .build();
+
+        // Replace phase
+        state.setCurrentPhase(phaseIndex);
+
+        // Replace structure
+        Structure existingStructure = state.getStructure();
+        StructureTemplate newStructure = newPhase.getStructureTemplate();
+        if (init) {
+            state.setStructure(newStructure.place(origin, rotation));
+        }
+        else {
+            state.setStructure(existingStructure.replace(newStructure));
+        }
+
+        // Replace health
+        Double newHealth = newPhase.getMaxHealth();
+        state.setHealth(newHealth);
+
+        // Replace hologram
+        state.removeHologram();
+        HologramTemplate newHologram = newPhase.getHologramTemplate();
+        if (newHologram != null) {
+            Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
+            state.setHologram(newHologram.spawn(offsetLocation, rotation, context));
+        }
+
+        // Replace growth task
+        state.cancelGrowthTask();
+        if (newPhase.getState() != GrowthState.REGROWN) {
+            int growthTime = newPhase.getGrowthTime();
+            state.setGrowthStart(Instant.now());
+            state.setGrowthTask(plugin.getScheduler().runTaskLater(growthTime, () -> {
+                state.setGrowthTask(null);
+                grow(generator, 1);
+            }));
+        }
+
+        // Run custom functions
+        if (growing) {
+            Function growthFunction = newPhase.getGrowthFunction();
+            if (growthFunction != null) {
+                growthFunction.run(context);
+            }
+        }
+    }
+
+    public static void damage(@NotNull Generator generator, @NotNull Player player, @NotNull Context context, double damage) {
+        GeneratorState state = generator.getState();
+        Double health = state.getPhaseHealth();
         if (health == null) {
             return;
         }
 
         double newHealth = Math.max(0, health - damage);
-        if (newHealth != 0) {
-            generator.setHealth(newHealth);
+        if (newHealth > 0) {
+            state.setHealth(newHealth);
             return;
         }
 
-        GeneratorDestroyEvent event = new GeneratorDestroyEvent(damageDealer.asPlayer());
+        GeneratorDestroyEvent event = new GeneratorDestroyEvent(generator.getName(), generator.getState().getCurrentPhase(), player);
         Server.callEvent(event);
         if (event.isCancelled()) {
             return;
         }
 
-        Function onDestroy = generator.getStage().getDestroyFunction();
+        Function onDestroy = generator.getPhase().getDestroyFunction();
         if (onDestroy != null) {
-            onDestroy.dispatch(damageDealer, event, generator.getBlock(), null);
+            onDestroy.run(context);
         }
 
-        generator.harvest();
+        harvest(generator);
     }
 
 }

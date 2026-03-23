@@ -1,17 +1,17 @@
 
---- # ===== Stage 1 =====
+--- # ===== Phase 1 =====
 type: depleted
 growth: 3s
 block: air
 
---- # ===== Stage 2 =====
+--- # ===== Phase 2 =====
 type: unripe
 growth: 3s
 block: cactus
 on-break:
   do: dropItemAtBlock cactus
 
---- # ===== Stage 3 =====
+--- # ===== Phase 3 =====
 type: unripe
 growth: 3s
 structure:
@@ -21,7 +21,7 @@ structure:
 on-break:
   do: dropItemAtBlock cactus amount=2
 
---- # ===== Stage 4 =====
+--- # ===== Phase 4 =====
 type: regrown
 structure:
   - cactus
