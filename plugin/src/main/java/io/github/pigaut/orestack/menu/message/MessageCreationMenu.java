@@ -1,10 +1,10 @@
 package io.github.pigaut.orestack.menu.message;
 
 import io.github.pigaut.orestack.menu.message.editor.*;
-import io.github.pigaut.voxel.menu.*;
-import io.github.pigaut.voxel.menu.button.*;
-import io.github.pigaut.voxel.menu.template.button.*;
-import io.github.pigaut.voxel.menu.template.menu.*;
+import io.github.pigaut.voxel.core.menu.*;
+import io.github.pigaut.voxel.core.menu.button.*;
+import io.github.pigaut.voxel.core.menu.template.button.*;
+import io.github.pigaut.voxel.core.menu.template.menu.*;
 import io.github.pigaut.yaml.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
@@ -51,7 +51,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .enchanted(true)
                 .name("Action Bar")
                 .addEmptyLine()
-                .addLeftClickLine("To create a new action bar message")
+                .addLeftClickLine("To create a new action healthBar message")
                 .onLeftClick((view, player) -> {
                     final Menu actionbarEditor = new ActionbarEditor(messageSection);
                     player.openMenu(actionbarEditor, view.getPreviousView());
@@ -75,7 +75,7 @@ public class MessageCreationMenu extends FramedMenu {
                 .enchanted(true)
                 .name("Boss Bar")
                 .addEmptyLine()
-                .addLeftClickLine("To create a new boss bar message")
+                .addLeftClickLine("To create a new boss healthBar message")
                 .onLeftClick((view, player) -> {
                     final Menu bossbarEditor = new BossbarEditor(messageSection);
                     player.openMenu(bossbarEditor, view.getPreviousView());

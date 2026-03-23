@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.voxel.command.*;
+import io.github.pigaut.voxel.core.command.*;
 
 public class GeneratorParameters {
 

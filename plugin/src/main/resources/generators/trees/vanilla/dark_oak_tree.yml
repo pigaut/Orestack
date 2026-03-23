@@ -1,166 +1,166 @@
 
---- # ===== Stage 1 =====
+--- # ===== Phase 1 =====
 type: depleted
 growth: 2m 30s
 structure: dark_oak_tree_1
 
---- # ===== Stage 2 =====
+--- # ===== Phase 2 =====
 type: ripe
 structure: dark_oak_tree_2
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 3 =====
+--- # ===== Phase 3 =====
 type: ripe
 structure: dark_oak_tree_3
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 4 =====
+--- # ===== Phase 4 =====
 type: ripe
 structure: dark_oak_tree_4
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 5 =====
+--- # ===== Phase 5 =====
 type: ripe
 structure: dark_oak_tree_5
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 6 =====
+--- # ===== Phase 6 =====
 type: ripe
 structure: dark_oak_tree_6
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 7 =====
+--- # ===== Phase 7 =====
 type: ripe
 structure: dark_oak_tree_7
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 8 =====
+--- # ===== Phase 8 =====
 type: ripe
 structure: dark_oak_tree_8
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 9 =====
+--- # ===== Phase 9 =====
 type: ripe
 structure: dark_oak_tree_9
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 10 =====
+--- # ===== Phase 10 =====
 type: ripe
 structure: dark_oak_tree_10
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 11 =====
+--- # ===== Phase 11 =====
 type: ripe
 structure: dark_oak_tree_11
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 12 =====
+--- # ===== Phase 12 =====
 type: ripe
 structure: dark_oak_tree_12
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 13 =====
+--- # ===== Phase 13 =====
 type: ripe
 structure: dark_oak_tree_13
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 14 =====
+--- # ===== Phase 14 =====
 type: ripe
 structure: dark_oak_tree_14
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 15 =====
+--- # ===== Phase 15 =====
 type: ripe
 structure: dark_oak_tree_15
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 16 =====
+--- # ===== Phase 16 =====
 type: ripe
 structure: dark_oak_tree_16
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 17 =====
+--- # ===== Phase 17 =====
 type: ripe
 structure: dark_oak_tree_17
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 18 =====
+--- # ===== Phase 18 =====
 type: ripe
 structure: dark_oak_tree_18
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 19 =====
+--- # ===== Phase 19 =====
 type: ripe
 structure: dark_oak_tree_19
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 20 =====
+--- # ===== Phase 20 =====
 type: ripe
 structure: dark_oak_tree_20
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 21 =====
+--- # ===== Phase 21 =====
 type: ripe
 structure: dark_oak_tree_21
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 22 =====
+--- # ===== Phase 22 =====
 type: ripe
 structure: dark_oak_tree_22
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 23 =====
+--- # ===== Phase 23 =====
 type: ripe
 structure: dark_oak_tree_23
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 24 =====
+--- # ===== Phase 24 =====
 type: ripe
 structure: dark_oak_tree_24
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 25 =====
+--- # ===== Phase 25 =====
 type: ripe
 structure: dark_oak_tree_25
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 26 =====
+--- # ===== Phase 26 =====
 type: ripe
 structure: dark_oak_tree_26
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 27 =====
+--- # ===== Phase 27 =====
 type: ripe
 structure: dark_oak_tree_27
 decorative-blocks: [dark_oak_leaves]
 default-drops: true
 
---- # ===== Stage 28 =====
+--- # ===== Phase 28 =====
 type: regrown
 structure: dark_oak_tree_28
 decorative-blocks: [dark_oak_leaves]

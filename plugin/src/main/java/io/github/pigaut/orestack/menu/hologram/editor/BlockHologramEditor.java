@@ -1,6 +1,6 @@
 package io.github.pigaut.orestack.menu.hologram.editor;
 
-import io.github.pigaut.voxel.menu.button.*;
+import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;

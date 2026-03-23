@@ -1,23 +1,23 @@
 
---- # ===== Stage 1 =====
+--- # ===== Phase 1 =====
 type: depleted
 growth: 3s
 block: air
 
---- # ===== Stage 2 =====
+--- # ===== Phase 2 =====
 type: growing
 growth: 3s
 block: bamboo
 bamboo-leaves: small
 
---- # ===== Stage 3 =====
+--- # ===== Phase 3 =====
 type: growing
 growth: 3s
 structure:
   - bamboo bambooLeaves=small
   - bamboo offsetY=1 bambooLeaves=large
 
---- # ===== Stage 4 =====
+--- # ===== Phase 4 =====
 type: growing
 growth: 3s
 structure:
@@ -25,7 +25,7 @@ structure:
   - bamboo offsetY=1 bambooLeaves=large
   - bamboo offsetY=2 bambooLeaves=large
 
---- # ===== Stage 5 =====
+--- # ===== Phase 5 =====
 type: ripe
 growth: 3s
 structure:
@@ -36,10 +36,10 @@ structure:
 
 on-break:
   do:
-    - setStage 1
+    - setPhase 1
     - dropItemAtBlock bamboo amount=4
 
---- # ===== Stage 6 =====
+--- # ===== Phase 6 =====
 type: ripe
 growth: 3s
 growth-chance: 0.8
@@ -52,10 +52,10 @@ structure:
 
 on-break:
   do:
-    - setStage 1
+    - setPhase 1
     - dropItemAtBlock bamboo amount=5
 
---- # ===== Stage 7 =====
+--- # ===== Phase 7 =====
 type: ripe
 growth: 3s
 growth-chance: 0.8
@@ -69,10 +69,10 @@ structure:
 
 on-break:
   do:
-    - setStage 1
+    - setPhase 1
     - dropItemAtBlock bamboo amount=6
 
---- # ===== Stage 8 =====
+--- # ===== Phase 8 =====
 type: ripe
 growth: 3s
 growth-chance: 0.8
@@ -88,10 +88,10 @@ structure:
 
 on-break:
   do:
-    - setStage 1
+    - setPhase 1
     - dropItemAtBlock bamboo amount=7
 
---- # ===== Stage 9 =====
+--- # ===== Phase 9 =====
 type: regrown
 growth-chance: 0.8
 structure:
@@ -106,6 +106,6 @@ structure:
 
 on-break:
   do:
-    - setStage 1
+    - setPhase 1
     - dropItemAtBlock bamboo amount=8
 

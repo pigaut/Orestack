@@ -1,38 +1,33 @@
 package io.github.pigaut.orestack.generator.template;
 
-import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.orestack.util.*;
+import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
-import io.github.pigaut.voxel.placeholder.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
-import org.bukkit.block.structure.*;
-import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
+public class GeneratorTemplate implements Identifiable {
 
     private final String name;
     private final String group;
-    private final List<GeneratorStage> stages;
+    private final List<GeneratorPhase> phases;
     private final boolean multiBlock;
-    private Material itemType = Material.TERRACOTTA;
+    private final @Nullable Double maxHealth;
+    private Material itemType;
 
-    public GeneratorTemplate(String name, @Nullable String group, List<GeneratorStage> stages) {
+    public GeneratorTemplate(@NotNull String name, @Nullable String group,
+                             @NotNull List<GeneratorPhase> phases, Material itemType,
+                             boolean multiBlock, @Nullable Double maxHealth) {
         this.name = name;
         this.group = group;
-        this.stages = stages;
-        boolean multiBlock = false;
-        for (GeneratorStage stage : stages) {
-            if (stage.getStructure().hasMultipleBlocks()) {
-                multiBlock = true;
-            }
-        }
+        this.phases = phases;
+        setItemType(itemType);
         this.multiBlock = multiBlock;
+        this.maxHealth = maxHealth;
     }
 
     @Override
@@ -47,6 +42,14 @@ public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
 
     public boolean isMultiBlock() {
         return multiBlock;
+    }
+
+    public boolean hasHealth() {
+        return maxHealth != null;
+    }
+
+    public @Nullable Double getMaxHealth() {
+        return maxHealth;
     }
 
     public @NotNull Material getItemType() {
@@ -65,55 +68,48 @@ public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
         }
     }
 
-    public int getMaxStage() {
-        return stages.size() - 1;
+    public int getMaxPhase() {
+        return phases.size() - 1;
     }
 
-    public List<GeneratorStage> getStages() {
-        return new ArrayList<>(stages);
+    public List<GeneratorPhase> getPhases() {
+        return new ArrayList<>(phases);
     }
 
-    public GeneratorStage getStage(int stage) {
-        return stages.get(stage);
+    public GeneratorPhase getPhase(int phase) {
+        return phases.get(phase);
     }
 
-    public GeneratorStage getLastStage() {
-        return stages.get(getMaxStage());
+    public GeneratorPhase getLastPhase() {
+        return phases.get(getMaxPhase());
     }
 
-    public int indexOfStage(GeneratorStage stage) {
-        final int index = stages.indexOf(stage);
+    public int indexOfPhase(GeneratorPhase phase) {
+        final int index = phases.indexOf(phase);
         if (index == -1) {
-            throw new IllegalArgumentException("Generator does not contain that stage");
+            throw new IllegalArgumentException("Generator does not contain that phase");
         }
         return index;
     }
 
-    public int getStageFromStructure(Location origin, Rotation rotation) {
-        int currentStage = getMaxStage();
-        for (int i = getMaxStage(); i >= 0; i--) {
-            final GeneratorStage stage = getStage(i);
-            if (stage.getStructure().isPlaced(origin, rotation)) {
-                currentStage = i;
+    public int getPhaseFromStructure(Location origin, Rotation rotation) {
+        int currentPhase = getMaxPhase();
+        for (int i = getMaxPhase(); i >= 0; i--) {
+            final GeneratorPhase phase = getPhase(i);
+            if (phase.getStructureTemplate().isPlaced(origin, rotation)) {
+                currentPhase = i;
                 break;
             }
         }
-        return currentStage;
+        return currentPhase;
     }
 
-    public Set<Block> getAllOccupiedBlocks(Location location, Rotation rotation) {
+    public Set<Block> getOccupiedBlocks(@NotNull Location location, @NotNull Rotation rotation) {
         Set<Block> blocks = new HashSet<>();
-        for (GeneratorStage stage : stages) {
-            blocks.addAll(stage.getStructure().getOccupiedBlocks(location, rotation));
+        for (GeneratorPhase phase : phases) {
+            blocks.addAll(phase.getStructureTemplate().getOccupiedBlocks(location, rotation));
         }
         return blocks;
-    }
-
-    public Placeholder[] getPlaceholders() {
-        return new Placeholder[]{
-                Placeholder.of("{generator}", name),
-                Placeholder.of("{generator_stages}", stages),
-        };
     }
 
     @Override
@@ -121,7 +117,7 @@ public class GeneratorTemplate implements Identifiable, PlaceholderSupplier {
         return "GeneratorTemplate{" +
                 "name='" + name + '\'' +
                 ", group='" + group + '\'' +
-                ", stages=" + stages +
+                ", phases=" + phases +
                 ", itemType=" + itemType +
                 '}';
     }

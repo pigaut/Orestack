@@ -1,4 +1,4 @@
-package io.github.pigaut.orestack.damage;
+package io.github.pigaut.orestack.health;
 
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;

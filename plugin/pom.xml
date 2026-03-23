@@ -7,7 +7,7 @@
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>OrestackPlugin</artifactId>
     <packaging>jar</packaging>
-    <version>3.42.11</version>
+    <version>3.44.0</version>
     <name>Orestack Plugin</name>
     <description>A Spigot plugin used to create resources with custom gathering mechanics</description>
     <url>https://www.spigotmc.org/resources/121905/</url>
@@ -20,6 +20,12 @@
     </properties>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -96,6 +102,12 @@
             <version>24.1.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>io.github.pigaut.orestack.api</groupId>
+            <artifactId>OrestackAPI</artifactId>
+            <version>1.8</version>
+            <scope>compile</scope>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>io.papermc.paper</groupId>-->
 <!--            <artifactId>paper-api</artifactId>-->
@@ -107,12 +119,6 @@
             <artifactId>spigot-api</artifactId>
             <version>1.21.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.github.pigaut.orestack.api</groupId>
-            <artifactId>OrestackAPI</artifactId>
-            <version>1.2</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.snakeyaml</groupId>

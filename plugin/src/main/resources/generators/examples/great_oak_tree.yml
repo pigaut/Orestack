@@ -1,87 +1,100 @@
---- # ===== Stage 1 =====
+--- # ===== Phase 1 =====
 type: depleted
 structure: great_oak_tree_0
-growth: 5s
+growth: 30s
 hologram:
   offset: { x: 2, y: 2.5, z: 0 }
   update: 3
+  view-distance: 15
   lines:
     - '&2&lGreat Oak Tree'
     - '&aGrowing: {generator_timer}'
 
---- # ===== Stage 2 =====
+--- # ===== Phase 2 =====
 type: ripe
-harvest-only: true   # If true this stage will be skipped during growth
+harvest-only: true   # If true this phase will be skipped during growth
 structure: great_oak_tree_1
 decorative-blocks: [oak_leaves, stripped_oak_wood]
-on-break:
-  do: dropItemAtBlock oak_log amount=20
 hologram:
   offset: { x: 2, y: 2.5, z: 0 }
+  view-distance: 15
   lines:
     - '&2&lGreat Oak Tree'
     - '&aLogs left: 20'
 
---- # ===== Stage 3 =====
+on-break:
+  do: dropItemAtBlock oak_log amount=20
+
+--- # ===== Phase 3 =====
 type: ripe
 harvest-only: true
 structure: great_oak_tree_2
 decorative-blocks: [oak_leaves, stripped_oak_wood]
-on-break:
-  do: dropItemAtBlock oak_log
 hologram:
   offset: { x: 2, y: 2.5, z: 0 }
+  view-distance: 15
   lines:
     - '&2&lGreat Oak Tree'
     - '&aLogs left: 21'
 
---- # ===== Stage 4 =====
+on-break:
+  do: dropItemAtBlock oak_log
+
+--- # ===== Phase 4 =====
 type: ripe
 harvest-only: true
 structure: great_oak_tree_3
 decorative-blocks: [oak_leaves, stripped_oak_wood]
-on-break:
-  do: dropItemAtBlock oak_log
 hologram:
   offset: { x: 2, y: 2.5, z: 0 }
+  view-distance: 15
   lines:
     - '&2&lGreat Oak Tree'
     - '&aLogs left: 22'
 
---- # ===== Stage 5 =====
+on-break:
+  do: dropItemAtBlock oak_log
+
+--- # ===== Phase 5 =====
 type: ripe
 structure: great_oak_tree_4
 harvest-only: true
 decorative-blocks: [oak_leaves, stripped_oak_wood]
-on-break:
-  do: dropItemAtBlock oak_log
 hologram:
   offset: { x: 2, y: 2.5, z: 0 }
+  view-distance: 15
   lines:
     - '&2&lGreat Oak Tree'
     - '&aLogs left: 23'
 
---- # ===== Stage 6 =====
+on-break:
+  do: dropItemAtBlock oak_log
+
+--- # ===== Phase 6 =====
 type: ripe
 harvest-only: true
 structure: great_oak_tree_5
 decorative-blocks: [oak_leaves, stripped_oak_wood]
-on-break:
-  do: dropItemAtBlock oak_log
 hologram:
   offset: { x: 2, y: 2.5, z: 0 }
+  view-distance: 15
   lines:
     - '&2&lGreat Oak Tree'
     - '&aLogs left: 24'
 
---- # ===== Stage 7 =====
+on-break:
+  do: dropItemAtBlock oak_log
+
+--- # ===== Phase 7 =====
 type: regrown
 structure: great_oak_tree_6
 decorative-blocks: [oak_leaves, stripped_oak_wood]
-on-break:
-  do: dropItemAtBlock oak_log
 hologram:
   offset: { x: 2, y: 2.5, z: 0 }
+  view-distance: 15
   lines:
     - '&2&lGreat Oak Tree'
     - '&aLogs left: 25'
+
+on-break:
+  do: dropItemAtBlock oak_log

@@ -1,8 +1,8 @@
 package io.github.pigaut.orestack.menu.hologram.editor;
 
 import io.github.pigaut.voxel.bukkit.*;
-import io.github.pigaut.voxel.menu.*;
-import io.github.pigaut.voxel.menu.button.*;
+import io.github.pigaut.voxel.core.menu.*;
+import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.yaml.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
@@ -41,6 +41,5 @@ public class SingleLineHologramEditor extends GenericHologramEditor {
     @Override
     public void onClose(MenuView view) {
         super.onClose(view);
-        System.out.println(section);
     }
 }

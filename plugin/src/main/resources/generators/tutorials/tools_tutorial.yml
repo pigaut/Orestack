@@ -1,10 +1,10 @@
 
---- # ===== Stage 1 =====
+--- # ===== Phase 1 =====
 type: depleted
 growth: 5s
 block: bedrock
 
---- # ===== Stage 2 =====
+--- # ===== Phase 2 =====
 type: ripe
 growth: 5s
 block: oak_log
@@ -25,7 +25,7 @@ on-break:
     - cancelEvent
     - stop
 
---- # ===== Stage 3 =====
+--- # ===== Phase 3 =====
 type: ripe
 growth: 5s
 block: diamond_ore
@@ -47,7 +47,7 @@ on-break:
     - cancelEvent
     - stop
 
---- # ===== Stage 4 =====
+--- # ===== Phase 4 =====
 type: ripe
 growth: 5s
 block: cobweb
@@ -69,7 +69,7 @@ on-break:
     - cancelEvent
     - stop
 
---- # ===== Stage 5 =====
+--- # ===== Phase 5 =====
 type: ripe
 growth: 5s
 block: slime_block
@@ -93,7 +93,7 @@ on-break:
     - cancelEvent
     - stop
 
---- # ===== Stage 6 =====
+--- # ===== Phase 6 =====
 type: regrown
 block: stone_bricks
 
@@ -103,7 +103,7 @@ hologram:
     - '&b&lRequired Tool: &fLore Katana'
     - '&f<right-click> to get'
 
-# Will remain on current stage when mined, you must set the stage manually. (setStage, previousStage)
+# Will remain on current phase when mined, you must set the phase manually. (setPhase, harvestGenerator)
 idle: true
 
 on-click:
@@ -121,4 +121,4 @@ on-click:
       - chatMessage <&4You need a Lore Katana to harvest this resource>
       - return
 
-  - do: setStage 5
+  - do: setPhase 5

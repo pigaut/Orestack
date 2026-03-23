@@ -1,14 +1,14 @@
---- # ===== Stage 1 =====
+--- # ===== Phase 1 =====
 type: depleted
 growth: 30s
 block: oak_log
 
 hologram:
-  line: '&7Growing: {generator_timer}'
   update: 3
   offset.y: 1
+  line: '&7Growing: {generator_timer}'
 
---- # ===== Stage 2 =====
+--- # ===== Phase 2 =====
 type: ripe
 health: 5   # If you set the health idle will be true by default
 hit-cooldown: 7   # The cooldown before on-hit is triggered.
@@ -16,11 +16,12 @@ structure: oak_tree_1
 decorative-blocks: [oak_leaves]   # These blocks do not trigger functions (on-break, on-click, on-hit)
 
 hologram:
+  offset: { x: 1, y: 1.25 }
   lines:
     - 'Required Tool: Axe'
     - '[Click to Chop]'
-    - '&8[&7|||||||||||||||&a|||||&8]'
-  offset: { x: 1, y: 1.25 }
+    - '{generator_health_bar:simple}'
+
 
 # Triggered when a player left-clicks a block
 on-hit:
@@ -34,19 +35,19 @@ on-hit:
 on-destroy:
   do: dropItemAtBlock oak_log
 
---- # ===== Stage 3 =====
+--- # ===== Phase 3 =====
 type: ripe
-health: 10
+health: 5
 hit-cooldown: 7
 structure: oak_tree_2
 decorative-blocks: [oak_leaves]
 
 hologram:
+  offset: { x: 1, y: 1.25 }
   lines:
     - 'Required Tool: Axe'
     - '[Click to Chop]'
-    - '&8[&7||||||||||&a||||||||||&8]'
-  offset: { x: 1, y: 1.25 }
+    - '{generator_health_bar:simple}'
 
 on-hit:
   - requireAxe
@@ -58,19 +59,19 @@ on-hit:
 on-destroy:
   do: dropItemAtBlock oak_log
 
---- # ===== Stage 4 =====
+--- # ===== Phase 4 =====
 type: ripe
-health: 15
+health: 5
 hit-cooldown: 7
 structure: oak_tree_3
 decorative-blocks: [oak_leaves]
 
 hologram:
+  offset: { x: 1, y: 1.25 }
   lines:
     - 'Required Tool: Axe'
     - '[Click to Chop]'
-    - '&8[&7|||||&a|||||||||||||||&8]'
-  offset: { x: 1, y: 1.25 }
+    - '{generator_health_bar:simple}'
 
 on-hit:
   - requireAxe
@@ -82,19 +83,19 @@ on-hit:
 on-destroy:
   do: dropItemAtBlock oak_log
 
---- # ===== Stage 5 =====
+--- # ===== Phase 5 =====
 type: regrown
-health: 20
+health: 5
 hit-cooldown: 7
 structure: oak_tree_4
 decorative-blocks: [oak_leaves]
 
 hologram:
+  offset: { x: 1, y: 1.25 }
   lines:
     - 'Required Tool: Axe'
     - '[Click to Chop]'
-    - '&8[&a||||||||||||||||||||&8]'
-  offset: { x: 1, y: 1.25 }
+    - '{generator_health_bar:simple}'
 
 on-hit:
   - requireAxe

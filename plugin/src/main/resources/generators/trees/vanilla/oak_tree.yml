@@ -1,28 +1,28 @@
 
---- # ===== Stage 1 =====
+--- # ===== Phase 1 =====
 type: depleted
 growth: 30s
 block: oak_log
 
---- # ===== Stage 2 =====
+--- # ===== Phase 2 =====
 type: ripe
 structure: oak_tree_1
 decorative-blocks: [oak_leaves]
 default-drops: true
 
---- # ===== Stage 3 =====
+--- # ===== Phase 3 =====
 type: ripe
 structure: oak_tree_2
 decorative-blocks: [oak_leaves]
 default-drops: true
 
---- # ===== Stage 4 =====
+--- # ===== Phase 4 =====
 type: ripe
 structure: oak_tree_3
 decorative-blocks: [oak_leaves]
 default-drops: true
 
---- # ===== Stage 5 =====
+--- # ===== Phase 5 =====
 type: regrown
 structure: oak_tree_4
 decorative-blocks: [oak_leaves]

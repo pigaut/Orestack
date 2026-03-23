@@ -1,5 +1,5 @@
 
---- # ===== Stage 1 ===== #
+--- # ===== Phase 1 ===== #
 type: depleted
 growth: 7s
 blocks:
@@ -8,7 +8,7 @@ blocks:
   - cave_vines_plant offsetY=-2
   - cave_vines       offsetY=-3
 
---- # ===== Stage 2 ===== #
+--- # ===== Phase 2 ===== #
 type: regrown
 blocks:
   - cave_vines_plant
@@ -17,7 +17,7 @@ blocks:
   - cave_vines       vinesBerries=true offsetY=-3
 
 idle: true
-on-harvest:
+on-right-click:
   do:
     - dropItemAtBlock glow_berries
-    - previousStage chance=0.33
+    - harvestGenerator chance=0.33

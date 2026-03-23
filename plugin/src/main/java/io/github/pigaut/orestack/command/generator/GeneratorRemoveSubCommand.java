@@ -2,7 +2,7 @@ package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.voxel.command.node.*;
+import io.github.pigaut.voxel.core.command.node.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
@@ -13,20 +13,21 @@ public class GeneratorRemoveSubCommand extends SubCommand {
         super("remove", plugin);
         withPermission(plugin.getPermission("generator.remove"));
         withDescription(plugin.getTranslation("generator-remove-command"));
-        withPlayerExecution((player, args, placeholders) -> {
-            final Block targetBlock = player.getTargetBlockExact(6);
+        withPlayerExecution((player, context, args) -> {
+            Block targetBlock = player.getTargetBlockExact(6);
             if (targetBlock == null) {
-                plugin.sendMessage(player, "too-far-away", placeholders);
+                plugin.sendMessage(player, context, "too-far-away");
                 return;
             }
-            final Location location = targetBlock.getLocation();
-            final Generator generator = plugin.getGenerator(location);
+            Location location = targetBlock.getLocation();
+            Generator generator = plugin.getGenerator(location);
             if (generator == null) {
-                plugin.sendMessage(player, "target-not-generator", placeholders);
+                plugin.sendMessage(player, context, "target-not-generator");
                 return;
             }
-            plugin.getGenerators().unregisterGenerator(generator);
-            plugin.sendMessage(player, "removed-generator", placeholders, generator);
+
+            generator.remove();
+            plugin.sendMessage(player, context, "removed-generator");
         });
 
     }

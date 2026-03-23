@@ -1,5 +1,5 @@
 
---- #===== Stage 1 =====#
+--- #===== Phase 1 =====#
 type: depleted
 growth: 5s
 block: bedrock
@@ -13,19 +13,19 @@ hologram:
     y: 1
     z: 0
 
---- #===== Stage 2 =====#
+--- #===== Phase 2 =====#
 type: ripe
 growth: 5s
 block: cobblestone
 
 # Single-Line Hologram with placeholders
 hologram:
-  line: '&7&lSingle-Line &7[{stage_timer}]'
+  line: '&7&lSingle-Line &7[{phase_timer}]'
   # Set the update frequency to refresh placeholders
   update: 3
   offset: { x: 0, y: 1, z: 0 }
 
---- #===== Stage 3 =====#
+--- #===== Phase 3 =====#
 type: ripe
 growth: 5s
 block: coal_ore
@@ -34,11 +34,11 @@ block: coal_ore
 hologram:
   lines:
     - '&7&lMulti-Line'
-    - '&7Grows in: {stage_timer}'
+    - '&7Grows in: {phase_timer}'
   update: 3
   offset: { x: 0, y: 1, z: 0 }
 
---- #===== Stage 4 =====#
+--- #===== Phase 4 =====#
 type: ripe
 growth: 5s
 block: iron_ore
@@ -47,19 +47,19 @@ block: iron_ore
 hologram:
   # Create an animation using a frame list
   frames:
-    - '&8&lIron &7[{stage_timer}]'
-    - '&7&lI&8&lron &7[{stage_timer}]'
-    - '&8&lI&7&lr&8&lon &7[{stage_timer}]'
-    - '&8&lIr&7&lo&8&ln &7[{stage_timer}]'
-    - '&8&lIro&7&ln &7[{stage_timer}]'
-    - '&8&lIron &7[{stage_timer}]'
-    - '&8&lIron &7[{stage_timer}]'
+    - '&8&lIron &7[{phase_timer}]'
+    - '&7&lI&8&lron &7[{phase_timer}]'
+    - '&8&lI&7&lr&8&lon &7[{phase_timer}]'
+    - '&8&lIr&7&lo&8&ln &7[{phase_timer}]'
+    - '&8&lIro&7&ln &7[{phase_timer}]'
+    - '&8&lIron &7[{phase_timer}]'
+    - '&8&lIron &7[{phase_timer}]'
 
   # Use update to set the speed of the animation
   update: 3
   offset: { y: 1 }
 
---- #===== Stage 5 =====#
+--- #===== Phase 5 =====#
 type: ripe
 growth: 5s
 block: gold_ore
@@ -69,7 +69,7 @@ hologram:
   item: iron_pickaxe
   offset.y: 1
 
---- #===== Stage 6 =====#
+--- #===== Phase 6 =====#
 type: ripe
 growth: 5s
 block: diamond_ore
@@ -79,7 +79,7 @@ hologram:
   block: diamond_ore
   offset.y: 1
 
---- #===== Stage 7 =====#
+--- #===== Phase 7 =====#
 type: regrown
 block: emerald_ore
 

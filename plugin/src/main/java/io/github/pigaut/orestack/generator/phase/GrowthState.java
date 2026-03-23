@@ -1,4 +1,4 @@
-package io.github.pigaut.orestack.generator;
+package io.github.pigaut.orestack.generator.phase;
 
 public enum GrowthState {
     DEPLETED     (false, false),

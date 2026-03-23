@@ -1,4 +1,11 @@
-# Print the stack trace of configuration errors for development purposes
+
+config-version: 1
+
+#░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░▀█▀░█▀▀
+#░█░█░█▀▀░█░█░█▀▀░█▀▄░░█░░█░░
+#░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░▀▀▀
+
+# Print the stacktrace of configuration errors for development purposes
 debug: false
 
 # Whether to show config errors in chat when a player uses /orestack reload
@@ -11,13 +18,13 @@ colored-console: true
 generate-examples: true
 
 # Checks for available updates on startup and on reload
-check-for-updates: true
+check-for-updates: true   # Premium required to disable
 
 # Enables bStats metrics collection (https://bstats.org/plugin/bukkit/Orestack/24502)
 metrics: true   # Keep this on if you want to support development. (No performance impact)
 
 # Dumps the giant Orestack logo in console on startup and on reload
-dump-logo: true
+dump-logo: true   # Premium required to disable
 
 # The language file that should be used (en = en.yml)
 language: en
@@ -32,9 +39,6 @@ world-load-timeout: 3s
 # How long to keep player data after they leave the server.
 # Avoids players quitting and joining back to reset their flags.
 player-cache-duration: 30s
-
-# Whether to keep the blocks (regrown stage) when a generator is removed
-keep-blocks-on-remove: false
 
 # Blocks that should be ignored when using /orestack structure save <file-name>
 structure-blacklist:
@@ -52,7 +56,7 @@ structure-wand:
 
 # The generator item used to place and break generators (admin tool)
 generator-tool:
-  material: terracotta   # Replaced by the last stage block
+  material: terracotta   # Replaced by the last phase block
   name: '&b&l{generator_tc} Generator ({generator_tool_rotation_tc})'
   glow: true
   lore:
@@ -60,28 +64,16 @@ generator-tool:
     - '&fleft-click to break'
     - '&fshift + left-click (air) to rotate'
 
+#░█░█░█▀█░█░░░█▀█░█▀▀░█▀▄░█▀█░█▄█
+#░█▀█░█░█░█░░░█░█░█░█░█▀▄░█▀█░█░█
+#░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀
 
-############################################################
-#                        Generator
-############################################################
+# The default hologram view distance, can be overridden inside individual holograms
+hologram-view-distance: 15
 
-# ===== Tool Durability Damage ===== #
-# The default damage to apply to the tool or 0 to disable (Can be overridden inside a generator stage)
-default-tool-damage: 1
-
-# ===== Cooldowns ===== #
-# The default delay in ticks between each click, it can be overridden in the generator stage.
-click-cooldown: 4
-
-# The default delay in ticks between each hit (left-click), it can be overridden in the generator stage.
-hit-cooldown: 4
-
-# The default delay in ticks between each harvest attempt (right-click), it can be overridden in the generator stage.
-harvest-cooldown: 4
-
-############################################################
-#                     Fortune Enchant                      #
-############################################################
+#░█▀▀░█▀█░█▀▄░▀█▀░█░█░█▀█░█▀▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀
+#░█▀▀░█░█░█▀▄░░█░░█░█░█░█░█▀▀░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░
+#░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░
 # Compatible Actions: giveItem, dropItemAtPlayer, dropItemAtBlock, dropItem.
 
 # Drops affected by the Fortune enchantment from the player's tool.
@@ -97,9 +89,10 @@ apply-fortune:
 #  - raw_copper   # 1.17+
 #  - dirt         # Supports any item type
 
-############################################################
-#                    Auto-Smelt Enchant                    #
-############################################################
+
+#░█▀█░█░█░▀█▀░█▀█░░░░░█▀▀░█▄█░█▀▀░█░░░▀█▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀
+#░█▀█░█░█░░█░░█░█░▄▄▄░▀▀█░█░█░█▀▀░█░░░░█░░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░
+#░▀░▀░▀▀▀░░▀░░▀▀▀░░░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░░▀░░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░
 # Compatible Actions: giveItem, dropItemAtPlayer, dropItemAtBlock, dropItem.
 
 # Whether auto-smelt should be enabled by default when dropping items
@@ -108,10 +101,11 @@ auto-smelt: true
 
 # AutoSmelt enchant aliases. (Based on the enchantment plugin you use it might be different)
 auto-smelt-aliases:
-  - autosmelt     # EcoEnchants, CrazyEnchantments
+  - autosmelt        # EcoEnchants, CrazyEnchantments
+  - infernal_touch   # EcoEnchants
   - auto-smelt
-  - smelter       # ExcellentEnchants
-  - smelting      # AdvancedEnchantments
+  - smelter          # ExcellentEnchants
+  - smelting         # AdvancedEnchantments
 
 # Drops affected by the auto-smelt enchant from the player's tool.
 smeltable-items:
@@ -121,7 +115,7 @@ smeltable-items:
 #  raw_gold: gold_ingot   # 1.17+
 #  dirt: diamond          # Supports any item type
 
-# The chance to smelt an item based on the enchant level
+# The chance to smelt an item based on the enchant level.
 smelt-chance-by-level:
   1: 0.2
   2: 0.4
@@ -129,9 +123,30 @@ smelt-chance-by-level:
   4: 0.8
   5: 1
 
-############################################################
-#                    Vein Miner Enchant                    #
-############################################################
+#░▀█▀░█▀▀░█░░░█▀▀░█▀█░█▀█░▀█▀░█░█░█░█░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀
+#░░█░░█▀▀░█░░░█▀▀░█▀▀░█▀█░░█░░█▀█░░█░░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░
+#░░▀░░▀▀▀░▀▀▀░▀▀▀░▀░░░▀░▀░░▀░░▀░▀░░▀░░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░
+# Compatible Actions: dropItemAtPlayer, dropItemAtBlock, dropItem.
+
+# Whether telepathy should be enabled by default when dropping items
+# If set to false you will have to manually set the `telepathy` flag to true in each action
+telepathy: true
+
+# Telepathy enchant aliases. (Based on the enchantment plugin you use it might be different)
+telepathy-aliases:
+  - telepathy     # AdvancedEnchantments, CrazyEnchantments
+  - telekinesis   # ExcellentEnchants
+
+# The chance drops are added directly to your inventory based on the enchant level.
+telepathy-chance-by-level:
+  1: 0.3
+  2: 0.7
+  3: 1
+
+
+#░█░█░█▀▀░▀█▀░█▀█░█▄█░▀█▀░█▀█░█▀▀░█▀▄░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀
+#░▀▄▀░█▀▀░░█░░█░█░█░█░░█░░█░█░█▀▀░█▀▄░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░
+#░░▀░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░
 # By placing single-block generators next to each other,
 # they can be harvested simultaneously by a tool with the VeinMiner enchant.
 
@@ -161,9 +176,54 @@ vein-size-by-level:
   4: 12
   5: 15
 
-############################################################
-#                 Generator Health Mechanic
-############################################################
+#░█▀▀░█░█░█▀█░█▀▀░█▀▄░▀█▀░█▀▀░█▀█░█▀▀░█▀▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀
+#░█▀▀░▄▀▄░█▀▀░█▀▀░█▀▄░░█░░█▀▀░█░█░█░░░█▀▀░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░
+#░▀▀▀░▀░▀░▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░
+# Compatible actions: giveExp, dropExpAtPlayer, dropExpAtBlock, dropExp
+
+# Whether experience should be enabled by default when using exp spawn/give actions
+# If set to false you will have to manually set the `experience` flag to true in each action
+experience: true
+
+# Experience enchant aliases. (Based on the enchantment plugin you use it might be different)
+experience-aliases:
+  - experience    # AdvancedEnchantments, CrazyEnchantments
+  - lucky_miner   # ExcellentEnchants
+
+# The exp multiplier based on the enchant level
+exp-multiplier-by-level:
+  1: 1.0-1.2
+  2: 1.4
+  3: 1.6
+  4: 1.8
+  5: 2
+
+#░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄
+#░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄
+#░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀
+
+# If enabled, blocks that were replaced when the generator was placed
+# will be restored when the generator is removed.
+restore-original-blocks-on-remove: true
+
+# Whether to keep the blocks (regrown phase) when a generator is removed.
+keep-blocks-on-remove: false
+
+# The default damage to apply to the tool or 0 to disable (Can be overridden inside a generator phase)
+default-tool-damage: 1
+
+# The default delay in ticks between each click, it can be overridden in the generator phase.
+click-cooldown: 4
+
+# The default delay in ticks between each hit (left-click), it can be overridden in the generator phase.
+hit-cooldown: 4
+
+# The default delay in ticks between each harvest attempt (right-click), it can be overridden in the generator phase.
+harvest-cooldown: 4
+
+#░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░░░█░█░█▀▀░█▀█░█░░░▀█▀░█░█
+#░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░░░█▀█░█▀▀░█▀█░█░░░░█░░█▀█
+#░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░░░▀░▀░▀▀▀░▀░▀░▀▀▀░░▀░░▀░▀
 # Compatible actions: damageGenerator
 
 # The default damage dealt.
@@ -228,6 +288,29 @@ damage-by-tool-type:
       diamond_axe: 5-7
       netherite_axe: 6-8
 
-
+# Custom health bars based on the current health percentage of the generator/phase
+health-bars:
+  simple: # Placeholder ids: {generator_health_bar:simple}, {phase_health_bar:simple}
+    100:   '&8[&a||||||||||||||||||||&8]'   # 100 is max health, 0 is no health
+    96-99: '&8[&7|&a|||||||||||||||||||&8]'
+    91-95: '&8[&7||&a||||||||||||||||||&8]'
+    86-90: '&8[&7|||&a|||||||||||||||||&8]'
+    81-85: '&8[&7||||&a||||||||||||||||&8]'
+    76-80: '&8[&7|||||&a|||||||||||||||&8]'
+    71-75: '&8[&7||||||&a||||||||||||||&8]'
+    66-70: '&8[&7|||||||&a|||||||||||||&8]'
+    61-65: '&8[&7||||||||&a||||||||||||&8]'
+    56-60: '&8[&7|||||||||&a|||||||||||&8]'
+    51-55: '&8[&7||||||||||&a||||||||||&8]'
+    46-50: '&8[&7|||||||||||&a|||||||||&8]'
+    41-45: '&8[&7||||||||||||&a||||||||&8]'
+    36-40: '&8[&7|||||||||||||&a|||||||&8]'
+    31-35: '&8[&7||||||||||||||&a||||||&8]'
+    26-30: '&8[&7|||||||||||||||&a|||||&8]'
+    21-25: '&8[&7||||||||||||||||&a||||&8]'
+    16-20: '&8[&7|||||||||||||||||&a|||&8]'
+    11-15: '&8[&7||||||||||||||||||&a||&8]'
+    1-10:  '&8[&7|||||||||||||||||||&a|&8]'
+    0:     '&8[&7||||||||||||||||||||&8]'
 
 

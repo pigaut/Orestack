@@ -4,12 +4,12 @@
 # AuraSkills conditions: hasAuraLevel, hasAuraMana
 # AuraSkills actions: giveAuraExp, giveAuraMana, takeAuraMana
 
---- # ===== Stage 1 =====
+--- # ===== Phase 1 =====
 type: depleted
 growth: 5s
 block: bedrock
 
---- # ===== Stage 2 =====
+--- # ===== Phase 2 =====
 type: regrown
 block: lapis_block
 
