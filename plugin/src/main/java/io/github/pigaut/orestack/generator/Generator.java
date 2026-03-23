@@ -38,8 +38,7 @@ public class Generator {
         this.state = state;
     }
 
-    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, @NotNull Rotation rotation, int phase) throws GeneratorOverlapException {
-    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, @NotNull Rotation rotation, int stage) throws GeneratorOverlapException, GeneratorLimitException {
+    public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, @NotNull Rotation rotation, int phase) throws GeneratorOverlapException, GeneratorLimitException {
         Generator generator = new Generator(template, origin, rotation);
         plugin.getGenerators().registerGenerator(generator);
         GeneratorUtil.init(generator, phase);
@@ -48,6 +47,7 @@ public class Generator {
 
     public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin, @NotNull Rotation rotation) throws GeneratorOverlapException, GeneratorLimitException {
         return create(template, origin, rotation, template.getMaxPhase());
+    }
 
     public static @NotNull Generator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorOverlapException, GeneratorLimitException {
         return create(template, origin, Rotation.NONE);

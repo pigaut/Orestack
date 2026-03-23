@@ -49,12 +49,12 @@ public class GeneratorSetAllSubCommand extends SubCommand {
                         }
 
                         try {
-                            Generator.create(generator, location);
+                            Generator.create(generator, location, rotation);
                         } catch (GeneratorOverlapException ignored) {
                             // Ignore if generator overlaps
                         }
                         catch (GeneratorLimitException ignored) {
-                            plugin.sendMessage(player, "large-generator-limit", placeholders, template);
+                            plugin.sendMessage(player, context, "large-generator-limit");
                             return;
                         }
                     }

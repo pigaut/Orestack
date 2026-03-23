@@ -19,7 +19,6 @@ import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.boot.*;
 import io.github.pigaut.voxel.plugin.boot.phase.*;
 import io.github.pigaut.voxel.util.Server;
-import io.github.pigaut.voxel.server.Server;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;

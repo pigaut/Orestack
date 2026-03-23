@@ -5,13 +5,12 @@ import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.*;
-import io.github.pigaut.voxel.core.structure.*;
+import io.github.pigaut.voxel.data.structure.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.convert.parse.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
-import org.bukkit.block.Structure;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -212,19 +211,17 @@ public class GeneratorManager extends Manager {
         }
 
         int finalPhase = Math.min(phase, template.getMaxPhase());
-        StructureTemplate lastStructure = template.getLastStage().getStructureTemplate();
-        if (lastStructure.getBlockChanges().size() > 1) {
+        StructureTemplate lastStructure = template.getLastPhase().getStructureTemplate();
+        if (lastStructure.hasMultipleBlocks()) {
             if (largeGeneratorsPlaced >= 5) {
                 throw new GeneratorLimitException();
             }
         }
 
-        int finalStage = Math.min(stage, template.getMaxStage());
         Rotation finalRotation = rotation;
-
         plugin.getScheduler().runTask(() -> {
             try {
-                Generator.create(template, origin, finalRotation, finalStage);
+                Generator.create(template, origin, finalRotation, finalPhase);
             } catch (GeneratorOverlapException | GeneratorLimitException ignored) {
                 //Block overlaps and limits are checked before scheduling
             }
@@ -254,8 +251,8 @@ public class GeneratorManager extends Manager {
             removedBlocks.add(block.getState());
         }
 
-        StructureTemplate lastStructure = template.getLastStage().getStructureTemplate();
-        if (lastStructure.getBlockChanges().size() > 1) {
+        StructureTemplate lastStructure = template.getLastPhase().getStructureTemplate();
+        if (lastStructure.hasMultipleBlocks()) {
             if (largeGeneratorsPlaced >= 5) {
                 throw new GeneratorLimitException();
             }
@@ -273,8 +270,8 @@ public class GeneratorManager extends Manager {
     }
 
     public void unregisterGenerator(@NotNull Generator generator) {
-        StructureTemplate lastStructure = generator.getTemplate().getLastStage().getStructureTemplate();
-        if (lastStructure.getBlockChanges().size() > 1) {
+        StructureTemplate lastStructure = generator.getTemplate().getLastPhase().getStructureTemplate();
+        if (lastStructure.hasMultipleBlocks()) {
             largeGeneratorsPlaced--;
         }
 
