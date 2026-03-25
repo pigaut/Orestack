@@ -7,7 +7,7 @@
     <groupId>io.github.pigaut.orestack.api</groupId>
     <artifactId>OrestackAPI</artifactId>
     <packaging>jar</packaging>
-    <version>1.8</version>
+    <version>2.0</version>
     <name>Orestack API</name>
     <description>A Spigot plugin used to create resources with custom gathering mechanics</description>
     <url>https://www.spigotmc.org/resources/121905/</url>

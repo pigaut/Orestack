@@ -4,15 +4,16 @@ import io.github.pigaut.orestack.api.*;
 import io.github.pigaut.orestack.advertise.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
+import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.core.placeholder.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.orestack.hook.castlegates.*;
 import io.github.pigaut.orestack.hook.itemsadder.*;
 import io.github.pigaut.orestack.hook.plotsquared.*;
 import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.settings.*;
-import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.placeholder.*;
 import io.github.pigaut.voxel.plugin.*;
@@ -22,8 +23,8 @@ import io.github.pigaut.voxel.util.Server;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;
+import org.bukkit.block.data.type.*;
 import org.bukkit.entity.*;
-import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -92,9 +93,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         if (Server.isPluginLoaded("ItemsAdder")) {
             registerListener(new ItemsAdderDropListener());
         }
-
         if (Server.isPluginLoaded("PlotSquared")) {
             registerListener(new PlotBlockBreakListener(this));
+        }
+        if (Server.isPluginLoaded("CastleGates")) {
+            registerListener(new GateEventListener(this));
         }
     }
 

@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack.api.event;
 
+import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
@@ -13,8 +14,8 @@ public class GeneratorDestroyEvent extends GeneratorEvent {
 
     private final Player player;
 
-    public GeneratorDestroyEvent(String generator, int phase, Player player) {
-        super(generator, phase);
+    public GeneratorDestroyEvent(Player player, Location origin, String generator, int phase) {
+        super(origin, generator, phase);
         this.player = player;
     }
 

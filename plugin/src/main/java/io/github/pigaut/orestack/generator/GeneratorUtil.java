@@ -35,7 +35,7 @@ public class GeneratorUtil {
             return;
         }
 
-        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(generator.getName(), generator.getState().getCurrentPhase(), player, block);
+        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(player, block, generator.getOrigin(), generator.getName(), generator.getState().getCurrentPhase());
         {
             if (generatorPhase.isIdle()) {
                 generatorMineEvent.setIdle(true);
@@ -118,7 +118,7 @@ public class GeneratorUtil {
         }
 
         // Call generator growth event
-        GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(generator.getName(), generator.getState().getCurrentPhase(), generator.getOrigin());
+        GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(generator.getOrigin(), generator.getName(), generator.getState().getCurrentPhase());
         Server.callEvent(growthEvent);
         if (growthEvent.isCancelled()) {
             return;
@@ -212,7 +212,7 @@ public class GeneratorUtil {
             return;
         }
 
-        GeneratorDestroyEvent event = new GeneratorDestroyEvent(generator.getName(), generator.getState().getCurrentPhase(), player);
+        GeneratorDestroyEvent event = new GeneratorDestroyEvent(player, generator.getOrigin(), generator.getName(), generator.getState().getCurrentPhase());
         Server.callEvent(event);
         if (event.isCancelled()) {
             return;

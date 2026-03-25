@@ -1,9 +1,10 @@
 package io.github.pigaut.orestack.settings;
 
 import com.cryptomorin.xseries.*;
+import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.health.*;
-import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.core.enchant.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.util.reflection.*;
 import io.github.pigaut.yaml.*;
@@ -20,8 +21,7 @@ import java.util.*;
 
 public class OrestackSettings extends Settings {
 
-    private final boolean spigotEnchants = Reflect.onClass(Enchantment.class)
-            .matchMethod("getKeyOrNull");
+    private final Enchantment EFFICIENCY = XEnchantment.EFFICIENCY.get();
 
     // Generic settings
     private boolean keepBlocksOnRemove;
@@ -188,31 +188,9 @@ public class OrestackSettings extends Settings {
             return 1;
         }
 
-        for (Map.Entry<Enchantment, Integer> enchantToLevel : tool.getItemMeta().getEnchants().entrySet()) {
-            Enchantment enchant = enchantToLevel.getKey();
-
-            NamespacedKey enchantKey;
-            if (spigotEnchants) {
-                enchantKey = enchant.getKeyOrNull();
-            } else {
-                enchantKey = enchant.getKey();
-            }
-
-            if (enchantKey == null) {
-                continue;
-            }
-
-            if (!veinMinerAliases.contains(enchantKey.getKey())) {
-                continue;
-            }
-
-            return veinSizeByLevel.getOrDefault(enchantToLevel.getValue(), 1);
-        }
-
-        return 1;
+        int enchantLevel = EnchantUtil.getEnchantLevel(tool, veinMinerAliases);
+        return veinSizeByLevel.getOrDefault(enchantLevel, 1);
     }
-
-    private final Enchantment EFFICIENCY = XEnchantment.EFFICIENCY.get();
 
     public double getGeneratorDamage(@NotNull Player player, @NotNull Block block) {
         ItemStack tool = player.getInventory().getItemInMainHand();
