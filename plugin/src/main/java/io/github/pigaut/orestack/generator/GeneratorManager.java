@@ -1,8 +1,8 @@
 package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.*;
 import io.github.pigaut.voxel.plugin.manager.*;

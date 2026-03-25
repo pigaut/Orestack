@@ -1,4 +1,4 @@
-package io.github.pigaut.orestack.util;
+package io.github.pigaut.orestack.core;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.*;

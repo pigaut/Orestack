@@ -2,13 +2,13 @@ package io.github.pigaut.orestack.listener;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
+import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.hook.veinminer.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.settings.*;
-import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
 import io.github.pigaut.voxel.core.context.*;
@@ -78,74 +78,85 @@ public class PlayerEventListener implements Listener {
 
         Player player = event.getPlayer();
         Action action = event.getAction();
-        Block block = event.getClickedBlock();
+        Block clickedBlock = event.getClickedBlock();
 
         if (action == Action.RIGHT_CLICK_BLOCK) {
             event.setCancelled(true);
             if (player.hasPermission("orestack.build.on.generator") && event.hasItem()
-                    && !MaterialUtil.isInteractable(block.getType())) {
+                    && !MaterialUtil.isInteractable(clickedBlock.getType())) {
                 event.setCancelled(false);
             }
         }
 
         GeneratorPhase phase = generator.getPhase();
-        if (phase.getDecorativeBlocks().contains(block.getType())) {
+        if (phase.getDecorativeBlocks().contains(clickedBlock.getType())) {
             return;
         }
 
-        ContextBuilder contextBuilder = Context.builder()
+        OrestackPlayer playerState = plugin.getPlayerState(player);
+        Context context = Context.builder()
                 .withPlayer(player)
-                .withPlayerState(plugin.getPlayerState(player))
+                .withPlayerState(playerState)
                 .withAction(action)
                 .withTool(player.getInventory().getItemInMainHand())
-                .withBlock(block);
+                .withBlock(clickedBlock)
+                .with(Generator.class, generator)
+                .withEvent(event)
+                .build();
 
-        OrestackPlayer playerState = plugin.getPlayerState(player);
-        if (!playerState.hasFlag("orestack:click_cooldown")) {
-            playerState.addTemporaryFlag("orestack:click_cooldown", phase.getClickCooldown());
-
-            GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(generator.getName(), generator.getState().getCurrentPhase(), player, action);
-            Server.callEvent(generatorInteractEvent);
-
-            if (!generatorInteractEvent.isCancelled()) {
-                Function clickFunction = phase.getClickFunction();
-                if (clickFunction != null) {
-                    Context context = contextBuilder.withEvent(generatorInteractEvent).build();
-                    clickFunction.run(context);
-                }
-            }
+        if (playerState.hasFlag("orestack:click_cooldown")) {
+            return;
         }
 
-        if (action == Action.LEFT_CLICK_BLOCK && !playerState.hasFlag("orestack:hit_cooldown")) {
-            playerState.addTemporaryFlag("orestack:hit_cooldown", phase.getHitCooldown());
+        GeneratorInteractEvent generatorInteractEvent = new GeneratorInteractEvent(player, action, clickedBlock, generator.getOrigin(), generator.getName(), generator.getState().getCurrentPhase());
+        Server.callEvent(generatorInteractEvent);
 
-            GeneratorHitEvent generatorHitEvent = new GeneratorHitEvent(generator.getName(), generator.getState().getCurrentPhase(), player);
+        if (generatorInteractEvent.isCancelled()) {
+            return;
+        }
+
+        playerState.addTemporaryFlag("orestack:click_cooldown", phase.getClickCooldown());
+        Function clickFunction = phase.getClickFunction();
+        if (clickFunction != null) {
+            clickFunction.run(context.withEvent(generatorInteractEvent));
+        }
+
+        if (action == Action.LEFT_CLICK_BLOCK) {
+            if (playerState.hasFlag("orestack:hit_cooldown")) {
+                return;
+            }
+
+            GeneratorHitEvent generatorHitEvent = new GeneratorHitEvent(player, action, clickedBlock, generator.getOrigin(), generator.getName(), generator.getState().getCurrentPhase());
             Server.callEvent(generatorHitEvent);
 
-            if (!generatorHitEvent.isCancelled()) {
-                Function hitFunction = phase.getHitFunction();
-                if (hitFunction != null) {
-                    Context context = contextBuilder.withEvent(generatorHitEvent).build();
-                    hitFunction.run(context);
-                }
+            if (generatorHitEvent.isCancelled()) {
+                return;
+            }
+
+            playerState.addTemporaryFlag("orestack:hit_cooldown", phase.getHitCooldown());
+            Function hitFunction = phase.getHitFunction();
+            if (hitFunction != null) {
+                hitFunction.run(context.withEvent(generatorHitEvent));
             }
         }
+        else if (action == Action.RIGHT_CLICK_BLOCK) {
+            if (playerState.hasFlag("orestack:harvest_cooldown")) {
+                return;
+            }
 
-        if (action == Action.RIGHT_CLICK_BLOCK && !playerState.hasFlag("orestack:harvest_cooldown")) {
-            playerState.addTemporaryFlag("orestack:harvest_cooldown", phase.getHarvestCooldown());
-
-            GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(generator.getName(), generator.getState().getCurrentPhase(), player);
+            GeneratorHarvestEvent generatorHarvestEvent = new GeneratorHarvestEvent(player, action, clickedBlock, generator.getOrigin(), generator.getName(), generator.getState().getCurrentPhase());
             Server.callEvent(generatorHarvestEvent);
 
-            if (!generatorHarvestEvent.isCancelled()) {
-                Function harvestFunction = phase.getHarvestFunction();
-                if (harvestFunction != null) {
-                    Context context = contextBuilder.withEvent(generatorHarvestEvent).build();
-                    harvestFunction.run(context);
-                }
+            if (generatorHarvestEvent.isCancelled()) {
+                return;
+            }
+
+            playerState.addTemporaryFlag("orestack:harvest_cooldown", phase.getHarvestCooldown());
+            Function harvestFunction = phase.getHarvestFunction();
+            if (harvestFunction != null) {
+                harvestFunction.run(context.withEvent(generatorHarvestEvent));
             }
         }
-
     }
 
     @EventHandler
@@ -252,8 +263,9 @@ public class PlayerEventListener implements Listener {
             return;
         }
 
-        GeneratorPlaceEvent generatorPlaceEvent = new GeneratorPlaceEvent(generatorTemplate.getName(), player, generatorTemplate.getOccupiedBlocks(location, rotation));
+        GeneratorPlaceEvent generatorPlaceEvent = new GeneratorPlaceEvent(player, location, generatorTemplate.getName(), generatorTemplate.getOccupiedBlocks(location, rotation));
         Server.callEvent(generatorPlaceEvent);
+
         if (generatorPlaceEvent.isCancelled()) {
             PlayerUtil.sendActionBar(player, plugin.getTranslation("generator-conflict"));
             return;

@@ -1,9 +1,7 @@
 package io.github.pigaut.orestack.api.event;
 
 import org.bukkit.*;
-import org.bukkit.block.*;
 import org.bukkit.event.*;
-import org.jetbrains.annotations.*;
 
 /**
  * Called when a generator grows to the next phase.
@@ -12,31 +10,8 @@ public class GeneratorGrowthEvent extends GeneratorEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
-    private final Location origin;
-
-    public GeneratorGrowthEvent(String generator, int phase, @NotNull Location origin) {
-        super(generator, phase);
-        this.origin = origin;
-    }
-
-    /**
-     * Gets the origin location of the generator.
-     * <p>
-     * The origin represents the center where the generator is placed in the world.
-     *
-     * @return the non-null {@link Location} of the generator's origin
-     */
-    public @NotNull Location getOrigin() {
-        return origin;
-    }
-
-    /**
-     * Gets the block located at the generator's origin location.
-     *
-     * @return the non-null {@link Block} corresponding to this generator
-     */
-    public @NotNull Block getBlock() {
-        return origin.getBlock();
+    public GeneratorGrowthEvent(Location origin, String generator, int phase) {
+        super(origin, generator, phase);
     }
 
     @Override

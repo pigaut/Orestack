@@ -2,10 +2,10 @@ package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
+import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
-import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
 
 
@@ -42,8 +42,9 @@ public class GeneratorSetAllSubCommand extends SubCommand {
             for (Location location : CuboidRegion.getAllLocations(player.getWorld(), firstSelection, secondSelection)) {
                 for (Rotation rotation : Rotation.values()) {
                     if (structure.isPlaced(location, rotation)) {
-                        GeneratorPlaceEvent generatorPlaceEvent = new GeneratorPlaceEvent(generator.getName(), player, generator.getOccupiedBlocks(location, rotation));
+                        GeneratorPlaceEvent generatorPlaceEvent = new GeneratorPlaceEvent(player, location, generator.getName(), generator.getOccupiedBlocks(location, rotation));
                         Server.callEvent(generatorPlaceEvent);
+
                         if (generatorPlaceEvent.isCancelled()) {
                             continue;
                         }

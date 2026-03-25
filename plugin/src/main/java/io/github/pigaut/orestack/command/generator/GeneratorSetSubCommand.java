@@ -2,9 +2,9 @@ package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
+import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.util.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.bukkit.Rotation;
 
@@ -37,10 +37,11 @@ public class GeneratorSetSubCommand extends SubCommand {
 
             Location location = targetBlock.getLocation();
 
-            GeneratorPlaceEvent generatorPlaceEvent = new GeneratorPlaceEvent(generator.getName(), player, generator.getOccupiedBlocks(location, Rotation.NONE));
+            GeneratorPlaceEvent generatorPlaceEvent = new GeneratorPlaceEvent(player, location, generator.getName(), generator.getOccupiedBlocks(location, Rotation.NONE));
             Server.callEvent(generatorPlaceEvent);
+
             if (generatorPlaceEvent.isCancelled()) {
-                PlayerUtil.sendActionBar(player, plugin.getTranslation("generator-conflict"));
+                plugin.sendMessage(player, context, "generator-conflict");
                 return;
             }
 
