@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.command;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.command.generator.*;
 import io.github.pigaut.orestack.menu.*;
+import io.github.pigaut.voxel.core.buildstation.command.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.command.node.*;
 import io.github.pigaut.voxel.data.item.command.*;
@@ -29,6 +30,7 @@ public class OrestackCommand extends EnhancedCommand {
         addSubCommand(new HelpSubCommand(plugin));
         addSubCommand(new WikiSubCommand(plugin));
         addSubCommand(new SupportSubCommand(plugin));
+        addSubCommand(new OrestackMenuCommand(plugin));
         addSubCommand(new ReloadSubCommand(plugin));
         addSubCommand(new ItemSubCommand(plugin));
         addSubCommand(new ParticleSubCommand(plugin));
@@ -36,8 +38,9 @@ public class OrestackCommand extends EnhancedCommand {
         addSubCommand(new SoundSubCommand(plugin));
         addSubCommand(new GeneratorSubCommand(plugin));
         addSubCommand(new StructureSubCommand(plugin));
+        addSubCommand(new BuildStationSubCommand(plugin));
         addSubCommand(new GetWandSubCommand(plugin));
-        addSubCommand(new OrestackMenuCommand(plugin));
+
     }
 
 }

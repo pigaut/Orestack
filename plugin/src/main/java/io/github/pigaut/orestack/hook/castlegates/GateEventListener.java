@@ -15,22 +15,6 @@ public class GateEventListener implements Listener {
     }
 
     @EventHandler
-    public void test(GeneratorInteractEvent event) {
-        System.out.println("click");
-    }
-
-    @EventHandler
-    public void test(GeneratorHitEvent event) {
-        System.out.println("left click");
-    }
-
-    @EventHandler
-    public void test(GeneratorHarvestEvent event) {
-        System.out.println("right click");
-    }
-
-
-    @EventHandler
     public void onGatePlace(GatePlaceEvent event) {
         for (Block block : event.getOccupiedBlocks()) {
             if (plugin.getGenerators().isGenerator(block.getLocation())) {
