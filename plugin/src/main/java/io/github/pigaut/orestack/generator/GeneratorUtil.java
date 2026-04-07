@@ -4,7 +4,7 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.voxel.bukkit.*;
-import io.github.pigaut.voxel.bukkit.Rotation;
+import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.data.function.*;

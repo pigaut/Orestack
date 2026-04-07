@@ -5,9 +5,10 @@ import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.*;
+import io.github.pigaut.voxel.core.transform.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.convert.parse.*;
-import io.github.pigaut.voxel.bukkit.Rotation;
+import io.github.pigaut.voxel.core.transform.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
@@ -242,6 +243,8 @@ public class GeneratorManager extends Manager {
         }
 
         generators.add(generator);
+
+        generatorBlocks.put(generator.getOrigin(), generator);
         for (Block block : generator.getAllOccupiedBlocks()) {
             generatorBlocks.put(block.getLocation(), generator);
         }
@@ -254,6 +257,7 @@ public class GeneratorManager extends Manager {
     public void unregisterGenerator(@NotNull Generator generator) {
         generators.remove(generator);
 
+        generatorBlocks.remove(generator.getOrigin());
         for (Block block : generator.getAllOccupiedBlocks()) {
             generatorBlocks.remove(block.getLocation());
         }
