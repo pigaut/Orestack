@@ -29,7 +29,7 @@ on-hit:
   - do:
       - damageTool
       - damageGenerator #1-10 # You can specify an amount or leave it blank to use the tool damage in config.yml
-      - sendHologram <&7Chop!> offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
+      - sendHologram &7Chop! offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
 
 # Triggered when a generator runs out of health (You can remove health with damageGenerator)
 on-destroy:
@@ -54,7 +54,7 @@ on-hit:
   - do:
       - damageTool
       - damageGenerator
-      - sendHologram <&7Chop!> offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
+      - sendHologram &7Chop! offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
 
 on-destroy:
   do: dropItemAtBlock oak_log
@@ -78,7 +78,7 @@ on-hit:
   - do:
       - damageTool
       - damageGenerator
-      - sendHologram <&7Chop!> offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
+      - sendHologram &7Chop! offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
 
 on-destroy:
   do: dropItemAtBlock oak_log
@@ -102,7 +102,7 @@ on-hit:
   - do:
       - damageTool
       - damageGenerator
-      - sendHologram <&7Chop!> offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
+      - sendHologram &7Chop! offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
 
 on-destroy:
   do: dropItemAtBlock oak_log

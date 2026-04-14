@@ -12,29 +12,18 @@ dust:
   size: 0.1-1.0
   # Uniform Explained
   # It affects only COLOR and SIZE, and only if they use a range (1-10) not a constant (10)
-  # If true, all the particles will be the same
-  # If false, all the particles will be different
+  # If true, all the particles will be of the same color and size
+  # If false, all the particles will be of different colors and sizes
   uniform: true
 
-# ---------------------------------------------
 # ALL DIRECTIONAL PARTICLES: (Warning: some names might change between versions)
 # portal, totem_of_undying, spit, squid_ink, large_smoke, smoke, fishing, nautilus,
 # bubble, bubble_column_up, bubble_pop, campfire_cosy_smoke, campfire_signal_smoke,
 # cloud, crit, enchanted_hit, damage_indicator, dragon_breath, enchant, end_rod, poof
-# firework, flame
-# ---------------------------------------------
-# 1.16+
-# soul, soul_fire_flame, reverse_portal
-# ---------------------------------------------
-# 1.17+
-# scrape, small_flame, electric_spark
-# ---------------------------------------------
-# 1.19+
-# sculk_charge, sculk_charge_pop, sculk_soul
-# ---------------------------------------------
-# 1.20+
-# wax_off, wax_on
-# ---------------------------------------------
+# firework, flame, soul, soul_fire_flame, reverse_portal,
+# [1.17+] scrape, small_flame, electric_spark
+# [1.19+] sculk_charge, sculk_charge_pop, sculk_soul
+# [1.20+] wax_off, wax_on
 
 directional:
   type: DIRECTIONAL

@@ -244,7 +244,6 @@ public class GeneratorManager extends Manager {
 
         generators.add(generator);
 
-        generatorBlocks.put(generator.getOrigin(), generator);
         for (Block block : generator.getAllOccupiedBlocks()) {
             generatorBlocks.put(block.getLocation(), generator);
         }
@@ -256,8 +255,7 @@ public class GeneratorManager extends Manager {
 
     public void unregisterGenerator(@NotNull Generator generator) {
         generators.remove(generator);
-
-        generatorBlocks.remove(generator.getOrigin());
+        
         for (Block block : generator.getAllOccupiedBlocks()) {
             generatorBlocks.remove(block.getLocation());
         }

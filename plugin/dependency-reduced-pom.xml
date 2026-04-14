@@ -4,7 +4,7 @@
   <groupId>io.github.pigaut.orestack</groupId>
   <artifactId>OrestackPlugin</artifactId>
   <name>Orestack Plugin</name>
-  <version>3.45.0</version>
+  <version>3.46.1</version>
   <description>A Spigot plugin used to create resources with custom gathering mechanics</description>
   <url>https://www.spigotmc.org/resources/121905/</url>
   <build>
@@ -79,12 +79,6 @@
       <groupId>org.snakeyaml</groupId>
       <artifactId>snakeyaml-engine</artifactId>
       <version>2.9</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.github.cryptomorin</groupId>
-      <artifactId>XSeries</artifactId>
-      <version>13.6.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
