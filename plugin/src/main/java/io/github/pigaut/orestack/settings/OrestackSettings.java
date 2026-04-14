@@ -1,6 +1,5 @@
 package io.github.pigaut.orestack.settings;
 
-import com.cryptomorin.xseries.*;
 import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.voxel.bukkit.*;
@@ -20,8 +19,6 @@ import org.jetbrains.annotations.*;
 import java.util.*;
 
 public class OrestackSettings extends Settings {
-
-    private final Enchantment EFFICIENCY = XEnchantment.EFFICIENCY.get();
 
     // Generic settings
     private boolean keepBlocksOnRemove;
@@ -197,7 +194,7 @@ public class OrestackSettings extends Settings {
         Amount baseDamage = getToolDamage(tool.getType(), block.getType());
 
         if (isEfficiencyDamage()) {
-            int efficiencyLevel = tool.getEnchantmentLevel(EFFICIENCY);
+            int efficiencyLevel = tool.getEnchantmentLevel(EnchantUtil.EFFICIENCY);
             if (efficiencyLevel != 0) {
                 baseDamage = baseDamage.transform(value -> value + efficiencyLevel);
             }

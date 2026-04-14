@@ -16,7 +16,7 @@ on-break:
   - if: hasFlag lodestone_cooldown
     # If he is, send an error message, cancel the block break, and end code execution
     do:
-      - chatMessage <&4You must wait 4 seconds to mine another lodestone>
+      - chatMessage &4You must wait 4 seconds to mine another lodestone
       - cancelEvent
       - return
 
