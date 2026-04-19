@@ -194,7 +194,7 @@ public class OrestackSettings extends Settings {
         Amount baseDamage = getToolDamage(tool.getType(), block.getType());
 
         if (isEfficiencyDamage()) {
-            int efficiencyLevel = tool.getEnchantmentLevel(EnchantUtil.EFFICIENCY);
+            int efficiencyLevel = tool.getEnchantmentLevel(Enchants.EFFICIENCY);
             if (efficiencyLevel != 0) {
                 baseDamage = baseDamage.transform(value -> value + efficiencyLevel);
             }
