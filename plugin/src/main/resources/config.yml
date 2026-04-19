@@ -1,5 +1,5 @@
 
-config-version: 1
+config-version: 1   # Coming soon
 
 #░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░▀█▀░█▀▀
 #░█░█░█▀▀░█░█░█▀▀░█▀▄░░█░░█░░
@@ -71,13 +71,39 @@ generator-tool:
 # The default hologram view distance, can be overridden inside individual holograms
 hologram-view-distance: 15
 
+#░█▀▀░▀█▀░█░░░█░█░░░▀█▀░█▀█░█░█░█▀▀░█░█░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀
+#░▀▀█░░█░░█░░░█▀▄░░░░█░░█░█░█░█░█░░░█▀█░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░
+#░▀▀▀░▀▀▀░▀▀▀░▀░▀░░░░▀░░▀▀▀░▀▀▀░▀▀▀░▀░▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░
+# Compatible Actions: giveItem, dropItemAtPlayer, dropItemAtBlock, dropItem.
+
+# Whether silk touch should be enabled by default when dropping items
+# If set to false you will have to manually set the `silkDrop` flag in each action
+silk-touch: true
+
+# Drops affected by the silk touch enchant from the player's tool if any.
+silk-touch-items:
+  coal: coal_ore
+  diamond: diamond_ore
+  emerald: emerald_ore
+  raw_iron: iron_ore
+  raw_gold: gold_ore
+  lapis_lazuli: lapis_ore
+  quartz: nether_quartz_ore
+  redstone: redstone_ore
+#  raw_copper: copper_ore             # 1.17+
+#  amethyst_shard: amethyst_cluster   # 1.17+
+
+
 #░█▀▀░█▀█░█▀▄░▀█▀░█░█░█▀█░█▀▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀
 #░█▀▀░█░█░█▀▄░░█░░█░█░█░█░█▀▀░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░
 #░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░
 # Compatible Actions: giveItem, dropItemAtPlayer, dropItemAtBlock, dropItem.
 
+# Whether fortune should be enabled by default when dropping items
+# If set to false you will have to manually set the `fortune` flag in each action
+fortune: true
+
 # Drops affected by the Fortune enchantment from the player's tool.
-# Can be enabled with the `doFortune=true` flag in individual actions.
 apply-fortune:
   - coal
   - diamond
@@ -85,7 +111,8 @@ apply-fortune:
   - lapis_lazuli
   - redstone
   - quartz
-#  - raw_iron     # 1.17+
+  - raw_iron
+  - raw_gold
 #  - raw_copper   # 1.17+
 #  - dirt         # Supports any item type
 
@@ -96,7 +123,7 @@ apply-fortune:
 # Compatible Actions: giveItem, dropItemAtPlayer, dropItemAtBlock, dropItem.
 
 # Whether auto-smelt should be enabled by default when dropping items
-# If set to false you will have to manually set the `autoSmelt` flag to true in each action
+# If set to false you will have to manually set the `smeltedDrop` flag in each action
 auto-smelt: true
 
 # AutoSmelt enchant aliases. (Based on the enchantment plugin you use it might be different)
@@ -109,11 +136,10 @@ auto-smelt-aliases:
 
 # Drops affected by the auto-smelt enchant from the player's tool.
 smeltable-items:
-  iron_ore: iron_ingot
-  gold_ore: gold_ingot
-#  raw_iron: iron_ingot   # 1.17+
-#  raw_gold: gold_ingot   # 1.17+
-#  dirt: diamond          # Supports any item type
+  raw_iron: iron_ingot
+  raw_gold: gold_ingot
+#  raw_copper: copper_ingot   # 1.17+
+#  dirt: diamond              # Supports any item type
 
 # The chance to smelt an item based on the enchant level.
 smelt-chance-by-level:
@@ -179,7 +205,7 @@ vein-size-by-level:
 #░█▀▀░█░█░█▀█░█▀▀░█▀▄░▀█▀░█▀▀░█▀█░█▀▀░█▀▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀
 #░█▀▀░▄▀▄░█▀▀░█▀▀░█▀▄░░█░░█▀▀░█░█░█░░░█▀▀░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░
 #░▀▀▀░▀░▀░▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░
-# Compatible actions: giveExp, dropExpAtPlayer, dropExpAtBlock, dropExp
+# Compatible actions: giveExp, dropExpAtPlayer, dropExpAtBlock, dropExp.
 
 # Whether experience should be enabled by default when using exp spawn/give actions
 # If set to false you will have to manually set the `experience` flag to true in each action
@@ -312,5 +338,3 @@ health-bars:
     11-15: '&8[&7||||||||||||||||||&a||&8]'
     1-10:  '&8[&7|||||||||||||||||||&a|&8]'
     0:     '&8[&7||||||||||||||||||||&8]'
-
-
