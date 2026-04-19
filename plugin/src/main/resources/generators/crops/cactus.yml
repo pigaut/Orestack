@@ -8,8 +8,7 @@ block: air
 type: unripe
 growth: 3s
 block: cactus
-on-break:
-  do: dropItemAtBlock cactus
+on-break: dropItemAtBlock cactus
 
 --- # ===== Phase 3 =====
 type: unripe
@@ -18,8 +17,7 @@ structure:
   - cactus
   - cactus offsetY=1
 
-on-break:
-  do: dropItemAtBlock cactus amount=2
+on-break: dropItemAtBlock cactus amount=2
 
 --- # ===== Phase 4 =====
 type: regrown
@@ -28,5 +26,4 @@ structure:
   - cactus offsetY=1
   - cactus offsetY=2
 
-on-break:
-  do: dropItemAtBlock cactus amount=3
+on-break: dropItemAtBlock cactus amount=3

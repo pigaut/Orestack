@@ -19,9 +19,8 @@ age: 2
 
 idle: true
 on-right-click:
-  do:
-    - dropItemAtBlock sweet_berries amount=1-2
-    - harvestGenerator
+  - dropItemAtBlock sweet_berries amount=1-2
+  - harvestGenerator
 
 --- # ===== Phase 4 ===== #
 type: regrown
@@ -31,6 +30,5 @@ age: 3
 
 idle: true
 on-right-click:
-  do:
-    - dropItemAtBlock sweet_berries amount=1-3
-    - harvestGenerator
+  - dropItemAtBlock sweet_berries amount=1-3
+  - harvestGenerator
