@@ -26,14 +26,13 @@ hologram:
 # Triggered when a player left-clicks a block
 on-hit:
   - requireAxe   # Global function from functions/tools/axe.yml
-  - do:
-      - damageTool
-      - damageGenerator #1-10 # You can specify an amount or leave it blank to use the tool damage in config.yml
-      - sendHologram &7Chop! offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
+  - damageTool
+  - damageGenerator #1-10 # You can specify an amount or leave it blank to use the tool damage in config.yml
+  - sendHologram &7Chop! offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
 
 # Triggered when a generator runs out of health (You can remove health with damageGenerator)
 on-destroy:
-  do: dropItemAtBlock oak_log
+  - dropItemAtBlock oak_log
 
 --- # ===== Phase 3 =====
 type: ripe
@@ -51,13 +50,12 @@ hologram:
 
 on-hit:
   - requireAxe
-  - do:
-      - damageTool
-      - damageGenerator
-      - sendHologram &7Chop! offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
+  - damageTool
+  - damageGenerator
+  - sendHologram &7Chop! offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
 
 on-destroy:
-  do: dropItemAtBlock oak_log
+  - dropItemAtBlock oak_log
 
 --- # ===== Phase 4 =====
 type: ripe
@@ -75,13 +73,12 @@ hologram:
 
 on-hit:
   - requireAxe
-  - do:
-      - damageTool
-      - damageGenerator
-      - sendHologram &7Chop! offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
+  - damageTool
+  - damageGenerator
+  - sendHologram &7Chop! offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
 
 on-destroy:
-  do: dropItemAtBlock oak_log
+  - dropItemAtBlock oak_log
 
 --- # ===== Phase 5 =====
 type: regrown
@@ -99,10 +96,9 @@ hologram:
 
 on-hit:
   - requireAxe
-  - do:
-      - damageTool
-      - damageGenerator
-      - sendHologram &7Chop! offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
+  - damageTool
+  - damageGenerator
+  - sendHologram &7Chop! offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=10
 
 on-destroy:
-  do: dropItemAtBlock oak_log
+  - dropItemAtBlock oak_log

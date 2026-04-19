@@ -35,9 +35,8 @@ structure:
   - bamboo offsetY=3 bambooLeaves=large
 
 on-break:
-  do:
-    - setPhase 1
-    - dropItemAtBlock bamboo amount=4
+  - setPhase 1
+  - dropItemAtBlock bamboo amount=4
 
 --- # ===== Phase 6 =====
 type: ripe
@@ -51,9 +50,8 @@ structure:
   - bamboo offsetY=4 bambooLeaves=large
 
 on-break:
-  do:
-    - setPhase 1
-    - dropItemAtBlock bamboo amount=5
+  - setPhase 1
+  - dropItemAtBlock bamboo amount=5
 
 --- # ===== Phase 7 =====
 type: ripe
@@ -68,9 +66,8 @@ structure:
   - bamboo offsetY=5 bambooLeaves=large
 
 on-break:
-  do:
-    - setPhase 1
-    - dropItemAtBlock bamboo amount=6
+  - setPhase 1
+  - dropItemAtBlock bamboo amount=6
 
 --- # ===== Phase 8 =====
 type: ripe
@@ -87,9 +84,8 @@ structure:
   - bamboo offsetY=6 bambooLeaves=large
 
 on-break:
-  do:
-    - setPhase 1
-    - dropItemAtBlock bamboo amount=7
+  - setPhase 1
+  - dropItemAtBlock bamboo amount=7
 
 --- # ===== Phase 9 =====
 type: regrown
@@ -105,7 +101,6 @@ structure:
   - bamboo offsetY=7 bambooLeaves=large
 
 on-break:
-  do:
-    - setPhase 1
-    - dropItemAtBlock bamboo amount=8
+  - setPhase 1
+  - dropItemAtBlock bamboo amount=8
 

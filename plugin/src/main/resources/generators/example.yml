@@ -16,7 +16,7 @@ hologram:
 on-click: []
 
 on-break:
-  do: sendTitle &7&lDepleted subtitle=&7{phase_timer_seconds}s fadeIn=5 stay=15 fadeOut=10
+  - sendTitle &7&lDepleted subtitle=&7{phase_timer_seconds}s fadeIn=5 stay=15 fadeOut=10
 
 --- # ===== Phase 2 =====
 type: growing
@@ -95,7 +95,7 @@ on-break:
 #
 #  - if: hasMoney 10000
 #    do:
-#      - chatMessage Wow,, you're rich! Here's some more.
+#      - chatMessage Wow,, you''re rich! Here''s some more.
 #      - giveMoney 10000
 #      - chatMessage Just kidding give it back lol
 #      - takeMoney 10000

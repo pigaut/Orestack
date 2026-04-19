@@ -17,5 +17,4 @@ structure: small_chorus_plant_3
 --- # ===== Phase 4 =====
 type: regrown
 structure: small_chorus_plant_4
-on-break:
-  do: dropItemAtBlock chorus_fruit amount=2-3
+on-break: dropItemAtBlock chorus_fruit amount=2-3
