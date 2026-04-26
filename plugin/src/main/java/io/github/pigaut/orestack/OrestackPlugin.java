@@ -173,6 +173,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "PlaceholderAPI",
                 "Multiverse-Core",
                 "DecentHolograms",
+                "FancyHolograms",
                 "AuraSkills",
                 "mcMMO",
                 "ItemsAdder",

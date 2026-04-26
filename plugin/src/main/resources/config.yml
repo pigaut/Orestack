@@ -68,8 +68,24 @@ generator-tool:
 #░█▀█░█░█░█░░░█░█░█░█░█▀▄░█▀█░█░█
 #░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀
 
+# The hologram plugin used to create holograms (DecentHolograms, FancyHolograms)
+preferred-hologram-provider: FancyHolograms
+
 # The default hologram view distance, can be overridden inside individual holograms
 hologram-view-distance: 15
+
+# Define custom hologram styles and reuse them anywhere. [1.19.4+ only]
+hologram-styles:
+  default:
+    view-distance: 15
+#    update: 3s
+    see-through: false   # See hologram through blocks
+    billboard: vertical   # fixed, vertical, horizontal, center
+    alignment: center   # center, left, right
+    brightness: 15   # from 0 to 15
+#    background-color: { red: 0, green: 0, blue: 0 } # Better system is coming
+    scale: x=1 y=1 z=1
+    shadow: strength=1 radius=1
 
 #░█▀▀░▀█▀░█░░░█░█░░░▀█▀░█▀█░█░█░█▀▀░█░█░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀
 #░▀▀█░░█░░█░░░█▀▄░░░░█░░█░█░█░█░█░░░█▀█░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░

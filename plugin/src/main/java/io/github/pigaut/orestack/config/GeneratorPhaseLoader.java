@@ -77,10 +77,8 @@ public class GeneratorPhaseLoader implements ConfigLoader<GeneratorPhase> {
                 .require(Requirements.min(1))
                 .withDefault(plugin.getSettings().getClickCooldown());
 
-        HologramTemplate hologramTemplate = null;
-        if (Server.isPluginEnabled("DecentHolograms")) {
-            hologramTemplate = section.get("hologram", HologramTemplate.class).withDefault(null);
-        }
+        HologramTemplate hologramTemplate = section.get("hologram", HologramTemplate.class)
+                .withDefault(null);
 
         Function onBreak = section.get("on-break", Function.class).withDefault(null);
         Function onGrowth = section.get("on-growth", Function.class).withDefault(null);
