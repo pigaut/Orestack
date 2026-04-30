@@ -25,16 +25,16 @@ public class OrestackSettings extends Settings {
     private boolean restoreOriginalBlocksOnRemove;
     private ItemStack generatorTool;
 
-    // VeinMiner settings
-    private boolean veinMiner;
-    private List<String> veinMinerAliases;
-    private Map<Integer, Integer> veinSizeByLevel;
-
     // Generator
     private Amount defaultToolDamage;
     private int clickCooldown;
     private int hitCooldown;
     private int harvestCooldown;
+
+    // VeinMiner settings
+    private boolean veinMiner;
+    private List<String> veinMinerAliases;
+    private Map<Integer, Integer> veinSizeByLevel;
 
     // Generator health settings
     private Amount defaultDamage;
