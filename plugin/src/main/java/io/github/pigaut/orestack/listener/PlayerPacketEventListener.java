@@ -8,6 +8,7 @@ import com.github.retrooper.packetevents.wrapper.play.client.*;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.instanced.*;
+import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.hook.veinminer.*;
 import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.bukkit.*;
@@ -51,6 +52,11 @@ public class PlayerPacketEventListener implements PacketListener {
             }
 
             if (action == DiggingAction.START_DIGGING && !PlayerUtil.canInstaMine(player, virtualBlock.getBlockData().getMaterial())) {
+                return;
+            }
+
+            GeneratorPhase generatorPhase = generator.getPhase();
+            if (generatorPhase.getDecorativeBlocks().contains(virtualBlock.getType())) {
                 return;
             }
 

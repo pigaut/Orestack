@@ -65,6 +65,11 @@ public class PlayerEventListener implements Listener {
             return;
         }
 
+        GeneratorPhase generatorPhase = generator.getPhase();
+        if (generatorPhase.getDecorativeBlocks().contains(block.getType())) {
+            return;
+        }
+
         int expToDrop = event.getExpToDrop();
 
         OrestackSettings settings = plugin.getSettings();

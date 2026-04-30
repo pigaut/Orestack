@@ -40,11 +40,11 @@ public abstract class BasicGenerator implements Generator {
     }
 
     public boolean isFullyGrown() {
-        return getState().getCurrentPhase() >= template.getMaxPhase();
+        return state.getCurrentPhase() >= template.getMaxPhase();
     }
 
     public boolean isDepleted() {
-        return getState().getCurrentPhase() <= 0;
+        return state.getCurrentPhase() <= 0;
     }
 
     public @NotNull String getName() {
@@ -72,7 +72,7 @@ public abstract class BasicGenerator implements Generator {
     }
 
     public @NotNull GeneratorPhase getPhase() {
-        return template.getPhase(getState().getCurrentPhase());
+        return template.getPhase(state.getCurrentPhase());
     }
 
     @Override
@@ -126,19 +126,19 @@ public abstract class BasicGenerator implements Generator {
     }
 
     public int getTicksToNextPhase() {
-        return getState().getTicksToNextPhase();
+        return state.getTicksToNextPhase();
     }
 
     public int getTicksToRegrownPhase() {
-        return getState().getTicksToRegrownPhase();
+        return state.getTicksToRegrownPhase();
     }
 
     public @Nullable Double getTotalHealth() {
-        return getState().getHealth();
+        return state.getHealth();
     }
 
     public @Nullable Double getHealth() {
-        return getState().getPhaseHealth();
+        return state.getPhaseHealth();
     }
 
     @Override
@@ -153,11 +153,7 @@ public abstract class BasicGenerator implements Generator {
         }
 
         GeneratorPhase generatorPhase = getPhase();
-        if (generatorPhase.getDecorativeBlocks().contains(block.getType())) {
-            return;
-        }
-
-        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(player, block, origin, name, getState().getCurrentPhase());
+        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(player, block, origin, name, state.getCurrentPhase());
         {
             if (generatorPhase.isIdle()) {
                 generatorMineEvent.setIdle(true);
@@ -220,8 +216,6 @@ public abstract class BasicGenerator implements Generator {
     }
 
     public void damage(@NotNull Player player, @NotNull Context context, double damageAmount) {
-        GeneratorState state = getState();
-
         Double health = state.getPhaseHealth();
         if (health == null) {
             return;
