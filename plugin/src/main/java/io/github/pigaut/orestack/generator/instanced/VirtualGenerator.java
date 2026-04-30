@@ -59,6 +59,10 @@ public class VirtualGenerator {
         return structures.get(phase);
     }
 
+    public @NotNull Set<Block> getAllOccupiedSolidBlocks() {
+        return template.getOccupiedSolidBlocks(origin, rotation);
+    }
+
     public @NotNull Set<Block> getAllOccupiedBlocks() {
         return template.getOccupiedBlocks(origin, rotation);
     }
