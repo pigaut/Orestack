@@ -2,13 +2,12 @@ package io.github.pigaut.orestack.core.action;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.voxel.core.context.*;
-import io.github.pigaut.voxel.core.player.*;
 import io.github.pigaut.voxel.data.function.action.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
-import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
 
 public class DamageGeneratorAction implements Action {
@@ -29,7 +28,7 @@ public class DamageGeneratorAction implements Action {
             return;
         }
 
-        Generator generator = plugin.getGenerator(block.getLocation());
+        Generator generator = plugin.getGenerator(player, block.getLocation());
         if (generator == null) {
             return;
         }

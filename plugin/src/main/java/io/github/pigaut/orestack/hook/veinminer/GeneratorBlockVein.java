@@ -2,6 +2,8 @@ package io.github.pigaut.orestack.hook.veinminer;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.global.*;
+import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
@@ -21,8 +23,9 @@ public class GeneratorBlockVein {
             return;
         }
 
-        for (Generator veinGenerator : veinMiningPattern.allocateGenerators(generator, maxVeinSize)) {
-            GeneratorUtil.mineBlock(veinGenerator, player, veinGenerator.getBlock(), expToDrop);
+        for (Generator veinGenerator : veinMiningPattern.allocateGenerators(player, generator, maxVeinSize)) {
+            Location origin = veinGenerator.getOrigin();
+            veinGenerator.mineBlock(player, origin.getBlock(), expToDrop);
         }
     }
 

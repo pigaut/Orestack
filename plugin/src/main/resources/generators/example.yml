@@ -106,6 +106,7 @@ block: emerald_block
 
 hologram:
   offset: { y: 1 }
+  view-distance: 15
   lines:
     - '&2&lEmerald'
     - '&a[Replenished]'

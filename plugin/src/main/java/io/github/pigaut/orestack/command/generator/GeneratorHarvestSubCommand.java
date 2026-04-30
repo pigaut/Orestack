@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.template.*;
 
 import io.github.pigaut.voxel.core.command.node.*;
@@ -23,7 +23,7 @@ public class GeneratorHarvestSubCommand extends SubCommand {
                 plugin.sendMessage(player, context, "generator-not-found");
                 return;
             }
-            for (Generator geneator : plugin.getGenerators().getAllGenerators()) {
+            for (GlobalGenerator geneator : plugin.getGenerators().getAllGlobal()) {
                 if (geneator.getTemplate() == generator) {
                     for (Block block : geneator.getOccupiedBlocks()) {
                         BlockBreakEvent event = new BlockBreakEvent(block, player);

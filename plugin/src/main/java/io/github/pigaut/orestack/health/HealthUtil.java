@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.health;
 
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.global.*;
 import org.jetbrains.annotations.*;
 
 public class HealthUtil {

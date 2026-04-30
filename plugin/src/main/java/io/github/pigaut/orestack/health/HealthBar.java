@@ -1,6 +1,6 @@
 package io.github.pigaut.orestack.health;
 
-import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.placeholder.*;
 import org.jetbrains.annotations.*;
@@ -27,7 +27,7 @@ public class HealthBar implements PlaceholderSupplier {
 
     @Override
     public @Nullable Object resolve(@NotNull Context context) {
-        Generator generator = context.get(Generator.class);
+        GlobalGenerator generator = context.get(GlobalGenerator.class);
         if (generator == null) {
             return null;
         }
