@@ -192,29 +192,7 @@ public class GeneratorManager extends Manager {
         return generator != null ? generator.getInstance(player) : null;
     }
 
-    public void registerGenerator(@NotNull Generator generator) throws GeneratorOverlapException, GeneratorLimitException {
-        GeneratorTemplate template = generator.getTemplate();
-
-        List<BlockState> removedBlocks = new ArrayList<>();
-        for (Block block : template.getOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
-            if (isGenerator(block.getLocation())) {
-                throw new GeneratorOverlapException();
-            }
-            removedBlocks.add(block.getState());
-        }
-
-        globalGenerators.add(generator);
-
-        for (Block block : generator.getAllOccupiedBlocks()) {
-            globalGeneratorsByBlocks.put(block.getLocation(), generator);
-        }
-
-        if (plugin.getSettings().isRestoreBlocksOnRemove()) {
-            this.removedBlocksByGenerator.put(generator, removedBlocks);
-        }
-    }
-
-    public void registerGenerator(@NotNull VirtualGenerator generator) throws GeneratorOverlapException {
+    public void registerGenerator(@NotNull GlobalGenerator generator) throws GeneratorOverlapException, GeneratorLimitException {
         GeneratorTemplate template = generator.getTemplate();
 
         List<BlockState> removedBlocks = new ArrayList<>();
@@ -233,12 +211,46 @@ public class GeneratorManager extends Manager {
             largeGeneratorsPlaced++;
         }
 
+        globalGenerators.add(generator);
+
+        for (Block block : generator.getAllOccupiedBlocks()) {
+            globalGeneratorsByBlocks.put(block.getLocation(), generator);
+        }
+
+        if (plugin.getSettings().isRestoreBlocksOnRemove()) {
+            this.removedBlocksByGenerator.put(generator, removedBlocks);
+        }
+    }
+
+    public void registerGenerator(@NotNull VirtualGenerator generator)
+            throws GeneratorOverlapException, GeneratorLimitException, VirtualGeneratorUnsupportedException {
+        GeneratorTemplate template = generator.getTemplate();
+
+        List<BlockState> removedBlocks = new ArrayList<>();
+        for (Block block : template.getOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
+            if (isGenerator(block.getLocation())) {
+                throw new GeneratorOverlapException();
+            }
+            removedBlocks.add(block.getState());
+        }
+
+        StructureTemplate lastStructure = template.getLastPhase().getStructureTemplate();
+        if (lastStructure.hasMultipleBlocks()) {
+            if (largeGeneratorsPlaced >= 5) {
+                throw new GeneratorLimitException();
+            }
+            largeGeneratorsPlaced++;
+        }
+
+        if (!plugin.getVirtualStructures().isSupported()) {
+            throw new VirtualGeneratorUnsupportedException();
+        }
+
         virtualGenerators.add(generator);
 
         for (Block block : generator.getAllOccupiedBlocks()) {
             virtualGeneratorsByBlocks.put(block.getLocation(), generator);
             block.setType(Material.BARRIER, false);
-            System.out.println(block.getLocation());
         }
 
         if (plugin.getSettings().isRestoreBlocksOnRemove()) {
@@ -262,15 +274,12 @@ public class GeneratorManager extends Manager {
     }
 
     public void unregisterGenerator(@NotNull VirtualGenerator generator) {
-        virtualGenerators.remove(generator);
-
-    public void unregisterGenerator(@NotNull Generator generator) {
         StructureTemplate lastStructure = generator.getTemplate().getLastPhase().getStructureTemplate();
         if (lastStructure.hasMultipleBlocks()) {
             largeGeneratorsPlaced--;
         }
 
-        generators.remove(generator);
+        virtualGenerators.remove(generator);
 
         for (Block block : generator.getAllOccupiedBlocks()) {
             globalGeneratorsByBlocks.remove(block.getLocation());

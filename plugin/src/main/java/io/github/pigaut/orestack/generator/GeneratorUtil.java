@@ -61,7 +61,7 @@ public class GeneratorUtil {
         plugin.getScheduler().runTask(() -> {
             try {
                 GlobalGenerator.create(template, origin, finalRotation, finalPhase);
-            } catch (GeneratorOverlapException ignored) {
+            } catch (GeneratorCreateException ignored) {
                 //Block overlaps are checked before scheduling
             }
         });
