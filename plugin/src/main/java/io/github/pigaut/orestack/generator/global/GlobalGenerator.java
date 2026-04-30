@@ -11,7 +11,7 @@ import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.data.function.*;
 import io.github.pigaut.voxel.data.structure.*;
-import io.github.pigaut.voxel.data.structure.Structure;
+import io.github.pigaut.voxel.data.structure.global.Structure;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
