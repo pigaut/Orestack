@@ -250,7 +250,11 @@ public class GeneratorManager extends Manager {
 
         for (Block block : generator.getAllOccupiedBlocks()) {
             virtualGeneratorsByBlocks.put(block.getLocation(), generator);
-            block.setType(Material.BARRIER, false);
+            block.setType(Material.AIR, false);
+        }
+
+        for (Block solidBlock : generator.getAllOccupiedSolidBlocks()) {
+            solidBlock.setType(Material.BARRIER, false);
         }
 
         if (plugin.getSettings().isRestoreBlocksOnRemove()) {

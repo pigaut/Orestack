@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.generator.template;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
+import io.github.pigaut.voxel.data.structure.block.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -104,7 +105,15 @@ public class GeneratorTemplate implements Identifiable {
         return currentPhase;
     }
 
-    public Set<Block> getOccupiedBlocks(@NotNull Location location, @NotNull Rotation rotation) {
+    public @NotNull Set<Block> getOccupiedSolidBlocks(@NotNull Location location, @NotNull Rotation rotation) {
+        Set<Block> blocks = new HashSet<>();
+        for (GeneratorPhase phase : phases) {
+            blocks.addAll(phase.getStructureTemplate().getOccupiedSolidBlocks(location, rotation));
+        }
+        return blocks;
+    }
+
+    public @NotNull Set<Block> getOccupiedBlocks(@NotNull Location location, @NotNull Rotation rotation) {
         Set<Block> blocks = new HashSet<>();
         for (GeneratorPhase phase : phases) {
             blocks.addAll(phase.getStructureTemplate().getOccupiedBlocks(location, rotation));
