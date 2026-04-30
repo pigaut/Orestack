@@ -23,7 +23,7 @@ hologram:
     - '&aLogs left: 20'
 
 on-break:
-  do: dropItemAtBlock oak_log amount=20
+  - dropItemAtBlock oak_log amount=20
 
 --- # ===== Phase 3 =====
 type: ripe
@@ -38,7 +38,7 @@ hologram:
     - '&aLogs left: 21'
 
 on-break:
-  do: dropItemAtBlock oak_log
+  - dropItemAtBlock oak_log
 
 --- # ===== Phase 4 =====
 type: ripe
@@ -53,7 +53,7 @@ hologram:
     - '&aLogs left: 22'
 
 on-break:
-  do: dropItemAtBlock oak_log
+  - dropItemAtBlock oak_log
 
 --- # ===== Phase 5 =====
 type: ripe
@@ -68,7 +68,7 @@ hologram:
     - '&aLogs left: 23'
 
 on-break:
-  do: dropItemAtBlock oak_log
+  - dropItemAtBlock oak_log
 
 --- # ===== Phase 6 =====
 type: ripe
@@ -83,7 +83,7 @@ hologram:
     - '&aLogs left: 24'
 
 on-break:
-  do: dropItemAtBlock oak_log
+  - dropItemAtBlock oak_log
 
 --- # ===== Phase 7 =====
 type: regrown
@@ -97,4 +97,4 @@ hologram:
     - '&aLogs left: 25'
 
 on-break:
-  do: dropItemAtBlock oak_log
+  - dropItemAtBlock oak_log

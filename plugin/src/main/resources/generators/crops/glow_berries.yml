@@ -18,6 +18,5 @@ blocks:
 
 idle: true
 on-right-click:
-  do:
-    - dropItemAtBlock glow_berries
-    - harvestGenerator chance=0.33
+  - dropItemAtBlock glow_berries
+  - harvestGenerator chance=0.33

@@ -2,7 +2,9 @@ package io.github.pigaut.orestack.hook.veinminer;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.template.*;
+import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -23,7 +25,7 @@ public class VeinMiningPattern {
     private VeinMiningPattern() {}
 
     @NotNull
-    public List<Generator> allocateGenerators(@NotNull Generator generator, int maxVeinSize) {
+    public List<Generator> allocateGenerators(@NotNull Player player, @NotNull Generator generator, int maxVeinSize) {
         List<Generator> blocks = new ArrayList<>();
 
         recent.add(generator); // For first iteration
@@ -44,7 +46,7 @@ public class VeinMiningPattern {
                                 continue;
                             }
 
-                            Generator other = plugin.getGenerator(current.getOrigin().add(x, y, z));
+                            Generator other = plugin.getGenerator(player, current.getOrigin().add(x, y, z));
                             if (other == null) {
                                 continue;
                             }

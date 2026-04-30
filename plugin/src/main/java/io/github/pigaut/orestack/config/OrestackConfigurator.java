@@ -6,8 +6,6 @@ import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.orestack.health.config.*;
-import io.github.pigaut.orestack.hook.auraskill.*;
-import io.github.pigaut.orestack.hook.mcmmo.*;
 import io.github.pigaut.voxel.core.config.*;
 import io.github.pigaut.voxel.data.function.action.*;
 import io.github.pigaut.voxel.data.function.condition.config.*;
@@ -15,7 +13,7 @@ import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
 
-import static io.github.pigaut.yaml.configurator.load.ConfigLoader.Line;
+import static io.github.pigaut.yaml.configurator.load.ConfigLoader.*;
 
 public class OrestackConfigurator extends PluginConfigurator {
 
@@ -60,16 +58,20 @@ public class OrestackConfigurator extends PluginConfigurator {
                 new GeneratorRegrowAction());
 
         actions.addLoader("SET_STAGE", (Line<Action>) line ->
-                new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1));
+                new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1,
+                        line.getBoolean("growing").withDefault(true)));
 
         actions.addLoader("SET_GENERATOR_STAGE", (Line<Action>) line ->
-                new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1));
+                new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1,
+                        line.getBoolean("growing").withDefault(true)));
 
         actions.addLoader("SET_PHASE", (Line<Action>) line ->
-                new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1));
+                new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1,
+                        line.getBoolean("growing").withDefault(true)));
 
         actions.addLoader("SET_GENERATOR_PHASE", (Line<Action>) line ->
-                new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1));
+                new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1,
+                        line.getBoolean("growing").withDefault(true)));
 
         actions.addLoader("DAMAGE_GENERATOR", (Line<Action>) line -> {
             ConfigOptional<Amount> amount = line.get(1, Amount.class);
@@ -81,12 +83,6 @@ public class OrestackConfigurator extends PluginConfigurator {
 
         actions.addLoader("DAMAGE_GENERATOR_WITH_TOOL", (Line<Action>) line ->
                 new DamageGeneratorWithTool());
-
-        AuraSkillsHook.addConditions(this);
-        AuraSkillsHook.addActions(this);
-
-        McMMOHook.addConditions(this);
-        McMMOHook.addActions(this);
 
     }
 

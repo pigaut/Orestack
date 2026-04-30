@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.api.event;
 
 import com.google.common.base.*;
+import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
@@ -23,8 +24,9 @@ public class GeneratorMineEvent extends GeneratorEvent {
     private int expToDrop = 0;
     private int toolDamage = 0;
 
-    public GeneratorMineEvent(String generator, int phase, Player player, Block blockMined) {
-        super(generator, phase);
+    public GeneratorMineEvent(Player player, Block blockMined,
+                              Location origin, String generator, int phase) {
+        super(origin, generator, phase);
         this.player = player;
         this.blockMined = blockMined;
     }

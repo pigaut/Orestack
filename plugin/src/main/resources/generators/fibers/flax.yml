@@ -13,7 +13,7 @@ idle: true # Breaking the block will do nothing
 on-right-click:
   - if-not: toolTypeEquals shears
     do:
-      - sendActionbar <&cYou need shears to harvest flax.>
+      - sendActionbar &cYou need shears to harvest flax.
       - return
 
   - do:

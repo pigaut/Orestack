@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.listener;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.voxel.bukkit.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -21,7 +21,7 @@ public class CropEventListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onWaterFlow(BlockFromToEvent event) {
-        Generator generator = plugin.getGenerator(event.getToBlock().getLocation());
+        GlobalGenerator generator = plugin.getGlobalGenerator(event.getToBlock().getLocation());
         if (generator != null) {
             Location location = generator.getOrigin();
             generator.remove();
@@ -73,7 +73,7 @@ public class CropEventListener implements Listener {
         Block block = event.getClickedBlock();
         if (event.getAction() == Action.PHYSICAL && block.getType() == Material.FARMLAND) {
             Location cropLocation = block.getLocation().add(0, 1, 0);
-            Generator generator = plugin.getGenerator(cropLocation);
+            GlobalGenerator generator = plugin.getGlobalGenerator(cropLocation);
             if (generator != null) {
                 event.setCancelled(true);
             }
@@ -85,7 +85,7 @@ public class CropEventListener implements Listener {
         Block block = event.getBlock();
         if (block.getType() == Material.FARMLAND) {
             Location cropLocation = block.getLocation().add(0, 1, 0);
-            Generator generator = plugin.getGenerator(cropLocation);
+            GlobalGenerator generator = plugin.getGlobalGenerator(cropLocation);
             if (generator != null) {
                 event.setCancelled(true);
             }

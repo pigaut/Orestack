@@ -2,7 +2,7 @@
 --- # ===== Phase 1 =====
 type: depleted
 block: iron_block
-growth: 40  # Time in ticks to grow to the next phase, or time format: (1 hour(s) 10 m|min(s)|minute(s) 100 s|sec(s)|second(s))
+growth: 40  # Time in ticks to grow to the next phase, or time format: (1 h|hour(s) 10 m|min(s)|minute(s) 100 s|sec(s)|second(s))
 
 hologram:
   offset: { x: 0, y: 1, z: 0 }
@@ -16,7 +16,7 @@ hologram:
 on-click: []
 
 on-break:
-  do: sendTitle <&7&lDepleted> <subtitle=&7{generator_timer_seconds}> fadeIn=5 stay=15 fadeOut=10
+  - sendTitle &7&lDepleted subtitle=&7{phase_timer_seconds}s fadeIn=5 stay=15 fadeOut=10
 
 --- # ===== Phase 2 =====
 type: growing
@@ -52,18 +52,18 @@ on-right-click:
   if-not: isSneaking
   do:
     - cancelEvent
-    - chatMessage <This is a gold block. Maybe you should try to mine it.>
+    - chatMessage This is a gold block. Maybe you should try to mine it.
 
 on-break:
   - if-not: hasPermission orestack.generator.harvest
     do:
-      - chatMessage <&4You have no permission to mine this block>
+      - chatMessage &4You have no permission to mine this block
       - cancelEvent
       - return
 
   - if-not: toolTypeEquals IRON_PICKAXE, GOLD_PICKAXE, DIAMOND_PICKAXE, NETHERITE_PICKAXE
     do:
-      - chatMessage <&4You need at least an iron pickaxe to mine this block>
+      - chatMessage &4You need at least an iron pickaxe to mine this block
       - cancelEvent
       - return
 
@@ -71,7 +71,7 @@ on-break:
     do:
       - spawnParticleAtBlock explosion
       - dropItemAtBlock gold_ingot
-      - chatMessage <&aYou struck gold!>
+      - chatMessage &aYou struck gold!
 
 --- # ===== Phase 3 =====
 type: ripe
@@ -86,7 +86,7 @@ hologram:
 on-break:
   - do:
       - giveItem diamond
-      - chatMessage <You have mined diamond>
+      - chatMessage You have mined diamond
 
   - if: placeholderEquals example id={generator} ignoreCase=false
     do: playSoundAtBlock tin
@@ -95,9 +95,9 @@ on-break:
 #
 #  - if: hasMoney 10000
 #    do:
-#      - chatMessage <Wow, you're rich! Here's some more.>
+#      - chatMessage Wow,, you''re rich! Here''s some more.
 #      - giveMoney 10000
-#      - chatMessage <Just kidding give it back lol>
+#      - chatMessage Just kidding give it back lol
 #      - takeMoney 10000
 
 --- # ===== Phase 4 =====
@@ -106,6 +106,7 @@ block: emerald_block
 
 hologram:
   offset: { y: 1 }
+  view-distance: 15
   lines:
     - '&2&lEmerald'
     - '&a[Replenished]'
@@ -120,6 +121,6 @@ on-break:
 
     else:
       - cancelEvent
-      - chatMessage <&4You don't have permission to mine this block!>
+      - chatMessage &4You don't have permission to mine this block!
       - playSound tin x=-454 y=70 z=180
 

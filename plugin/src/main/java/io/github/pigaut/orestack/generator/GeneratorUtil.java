@@ -2,29 +2,72 @@ package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
+import io.github.pigaut.orestack.core.*;
+import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.phase.*;
+import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.bukkit.*;
-import io.github.pigaut.voxel.bukkit.Rotation;
 import io.github.pigaut.voxel.core.context.*;
-import io.github.pigaut.voxel.core.hologram.*;
+import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.data.function.*;
-import io.github.pigaut.voxel.data.structure.*;
-import io.github.pigaut.voxel.data.structure.Structure;
 import io.github.pigaut.voxel.util.Server;
+import io.github.pigaut.yaml.convert.parse.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
-import java.time.*;
 import java.util.*;
 
 public class GeneratorUtil {
 
     private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
-    public static void mineBlock(@NotNull Generator generator, @NotNull Player player, @NotNull Block block, int expToDrop) {
+    public static void createGenerator(String worldId, int x, int y, int z, String generatorName, String rotationData, int phase) throws GeneratorCreateException {
+        World world = Bukkit.getWorld(UUID.fromString(worldId));
+        if (world == null) {
+            throw new GeneratorCreateException(worldId, x, y, z, "world not found");
+        }
+
+        String worldName = world.getName();
+        GeneratorTemplate template = plugin.getGeneratorTemplate(generatorName);
+        if (template == null) {
+            throw new GeneratorCreateException(worldName, x, y, z, "generator template not found");
+        }
+
+        Location origin = new Location(world, x, y, z);
+        Rotation rotation = ParseUtil.parseEnumOrNull(Rotation.class, rotationData);
+        if (rotation == null) {
+            rotation = Rotation.NONE;
+            plugin.getColoredLogger().warning(String.format("Failed to load rotation of generator at %s, %d, %d, %d. Default rotation (NONE) has been applied.",
+                    worldName, x, y, z));
+        }
+
+        int maxPhase = template.getMaxPhase();
+        if (phase > maxPhase) {
+            plugin.getColoredLogger().warning(String.format("Failed to load phase of generator at %s, %d, %d, %d. Maximum phase (" + maxPhase + ") has been applied.",
+                    worldName, x, y, z));
+        }
+
+        for (Block block : template.getOccupiedBlocks(origin, rotation)) {
+            if (plugin.getGenerators().isGenerator(block.getLocation())) {
+                throw new GeneratorOverlapException(world.getName(), x, y, z);
+            }
+        }
+
+        int finalPhase = Math.min(phase, template.getMaxPhase());
+        Rotation finalRotation = rotation;
+        plugin.getScheduler().runTask(() -> {
+            try {
+                GlobalGenerator.create(template, origin, finalRotation, finalPhase);
+            } catch (GeneratorOverlapException ignored) {
+                //Block overlaps are checked before scheduling
+            }
+        });
+    }
+
+    public static void mineBlock(@NotNull GlobalGenerator generator, @NotNull Player player, @NotNull Block block, int expToDrop) {
         if (!generator.isValid()) {
             generator.remove();
             return;
@@ -35,7 +78,7 @@ public class GeneratorUtil {
             return;
         }
 
-        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(generator.getName(), generator.getState().getCurrentPhase(), player, block);
+        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(player, block, generator.getOrigin(), generator.getName(), generator.getState().getCurrentPhase());
         {
             if (generatorPhase.isIdle()) {
                 generatorMineEvent.setIdle(true);
@@ -64,7 +107,7 @@ public class GeneratorUtil {
                         .withPlayerState(plugin.getPlayerState(player))
                         .withTool(player.getInventory().getItemInMainHand())
                         .withBlock(block)
-                        .with(Generator.class, generator)
+                        .with(GlobalGenerator.class, generator)
                         .withEvent(generatorMineEvent)
                         .build();
 
@@ -93,137 +136,9 @@ public class GeneratorUtil {
             }
 
             if (!generatorMineEvent.isIdle()) {
-                harvest(generator);
+                generator.harvest();
             }
         }
-    }
-
-    public static void init(@NotNull Generator generator, int phaseIndex) {
-        setPhase(generator, phaseIndex, true, true);
-    }
-
-    public static void grow(@NotNull Generator generator, int growthAmount) {
-        if (generator.isFullyGrown()) {
-            return;
-        }
-
-        GeneratorPhase currentPhase = generator.getPhase();
-        if (currentPhase.getGrowthTime() == 0) {
-            return;
-        }
-
-        Integer nextPhaseIndex = generator.getNextGrowthPhase(growthAmount);
-        if (nextPhaseIndex == null) {
-            return;
-        }
-
-        // Call generator growth event
-        GeneratorGrowthEvent growthEvent = new GeneratorGrowthEvent(generator.getName(), generator.getState().getCurrentPhase(), generator.getOrigin());
-        Server.callEvent(growthEvent);
-        if (growthEvent.isCancelled()) {
-            return;
-        }
-
-        setPhase(generator, nextPhaseIndex, false, true);
-    }
-
-    public static void harvest(@NotNull Generator generator) {
-        if (generator.isDepleted()) {
-            return;
-        }
-
-        int nextPhaseIndex = generator.getNextHarvestingPhase();
-        setPhase(generator, nextPhaseIndex, false, false);
-    }
-
-    public static void setPhase(@NotNull Generator generator, int phaseIndex) {
-        setPhase(generator, phaseIndex, false, true);
-    }
-
-    private static void setPhase(@NotNull Generator generator, int phaseIndex, boolean init, boolean growing) {
-        if (phaseIndex < 0 || phaseIndex > generator.getMaxPhase()) {
-            return;
-        }
-
-        GeneratorPhase newPhase = generator.getPhase(phaseIndex);
-        GeneratorState state = generator.getState();
-        Location origin = generator.getOrigin();
-        Rotation rotation = generator.getRotation();
-        Context context = Context.builder()
-                .withBlock(origin.getBlock())
-                .with(Generator.class, generator)
-                .build();
-
-        // Replace phase
-        state.setCurrentPhase(phaseIndex);
-
-        // Replace structure
-        Structure existingStructure = state.getStructure();
-        StructureTemplate newStructure = newPhase.getStructureTemplate();
-        if (init) {
-            state.setStructure(newStructure.place(origin, rotation));
-        }
-        else {
-            state.setStructure(existingStructure.replace(newStructure));
-        }
-
-        // Replace health
-        Double newHealth = newPhase.getMaxHealth();
-        state.setHealth(newHealth);
-
-        // Replace hologram
-        state.removeHologram();
-        HologramTemplate newHologram = newPhase.getHologramTemplate();
-        if (newHologram != null) {
-            Location offsetLocation = origin.clone().add(0.5, 0.5, 0.5);
-            state.setHologram(newHologram.spawn(offsetLocation, rotation, context));
-        }
-
-        // Replace growth task
-        state.cancelGrowthTask();
-        if (newPhase.getState() != GrowthState.REGROWN) {
-            int growthTime = newPhase.getGrowthTime();
-            state.setGrowthStart(Instant.now());
-            state.setGrowthTask(plugin.getScheduler().runTaskLater(growthTime, () -> {
-                state.setGrowthTask(null);
-                grow(generator, 1);
-            }));
-        }
-
-        // Run custom functions
-        if (growing) {
-            Function growthFunction = newPhase.getGrowthFunction();
-            if (growthFunction != null) {
-                growthFunction.run(context);
-            }
-        }
-    }
-
-    public static void damage(@NotNull Generator generator, @NotNull Player player, @NotNull Context context, double damage) {
-        GeneratorState state = generator.getState();
-        Double health = state.getPhaseHealth();
-        if (health == null) {
-            return;
-        }
-
-        double newHealth = Math.max(0, health - damage);
-        if (newHealth > 0) {
-            state.setHealth(newHealth);
-            return;
-        }
-
-        GeneratorDestroyEvent event = new GeneratorDestroyEvent(generator.getName(), generator.getState().getCurrentPhase(), player);
-        Server.callEvent(event);
-        if (event.isCancelled()) {
-            return;
-        }
-
-        Function onDestroy = generator.getPhase().getDestroyFunction();
-        if (onDestroy != null) {
-            onDestroy.run(context);
-        }
-
-        harvest(generator);
     }
 
 }

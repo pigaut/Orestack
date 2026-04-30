@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.voxel.core.command.node.*;
@@ -32,7 +33,7 @@ public class GeneratorRemoveAllSubCommand extends SubCommand {
             }
 
             for (Location point : CuboidRegion.getAllLocations(player.getWorld(), firstSelection, secondSelection)) {
-                Generator foundGenerator = plugin.getGenerator(point);
+                Generator foundGenerator = plugin.getGenerator(player, point);
                 if (foundGenerator == null) {
                     continue;
                 }

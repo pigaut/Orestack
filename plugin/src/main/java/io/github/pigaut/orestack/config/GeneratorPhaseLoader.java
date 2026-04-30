@@ -5,7 +5,6 @@ import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.data.function.*;
 import io.github.pigaut.voxel.data.structure.*;
-import io.github.pigaut.voxel.util.Server;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.configurator.load.*;
@@ -77,10 +76,8 @@ public class GeneratorPhaseLoader implements ConfigLoader<GeneratorPhase> {
                 .require(Requirements.min(1))
                 .withDefault(plugin.getSettings().getClickCooldown());
 
-        HologramTemplate hologramTemplate = null;
-        if (Server.isPluginEnabled("DecentHolograms")) {
-            hologramTemplate = section.get("hologram", HologramTemplate.class).withDefault(null);
-        }
+        HologramTemplate hologramTemplate = section.get("hologram", HologramTemplate.class)
+                .withDefault(null);
 
         Function onBreak = section.get("on-break", Function.class).withDefault(null);
         Function onGrowth = section.get("on-growth", Function.class).withDefault(null);
