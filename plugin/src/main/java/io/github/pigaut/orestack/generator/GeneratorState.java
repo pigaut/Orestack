@@ -1,9 +1,8 @@
 package io.github.pigaut.orestack.generator;
 
+import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.voxel.core.hologram.*;
-import io.github.pigaut.voxel.data.structure.*;
 import io.github.pigaut.voxel.plugin.task.*;
 import io.github.pigaut.yaml.util.*;
 import org.jetbrains.annotations.*;
@@ -11,17 +10,16 @@ import org.jetbrains.annotations.*;
 import java.time.*;
 
 public class GeneratorState {
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
-    private final Generator generator;
+    protected final BasicGenerator generator;
 
     private int currentPhase = 0;
-    private Structure structure;
     private @Nullable Task growthTask = null;
     private @Nullable Instant growthStart = null;
     private @Nullable Double health;
-    private @Nullable Hologram hologram = null;
 
-    public GeneratorState(@NotNull Generator generator) {
+    public GeneratorState(@NotNull BasicGenerator generator) {
         this.generator = generator;
     }
 
@@ -31,14 +29,16 @@ public class GeneratorState {
 
     public void setCurrentPhase(int currentPhase) {
         this.currentPhase = currentPhase;
-    }
-
-    public Structure getStructure() {
-        return structure;
-    }
-
-    public void setStructure(@NotNull Structure structure) {
-        this.structure = structure;
+        cancelGrowthTask();
+        GeneratorPhase newPhase = generator.getPhase(currentPhase);
+        if (newPhase.getState() != GrowthState.REGROWN) {
+            int growthTime = newPhase.getGrowthTime();
+            growthStart = Instant.now();
+            growthTask = plugin.getScheduler().runTaskLater(growthTime, () -> {
+                growthTask = null;
+                generator.grow();
+            });
+        }
     }
 
     public @Nullable Double getHealth() {
@@ -68,31 +68,11 @@ public class GeneratorState {
     public void setHealth(@Nullable Double health) {
         Preconditions.checkArgument(health == null || health > 0, "Health must be greater than 0");
         this.health = health;
-        updateHologram();
-    }
-
-    public @Nullable Task getGrowthTask() {
-        return growthTask;
-    }
-
-    public void setGrowthTask(@Nullable Task growthTask) {
-        this.growthTask = growthTask;
+        generator.onStateChange();
     }
 
     public @Nullable Instant getGrowthStart() {
         return growthStart;
-    }
-
-    public void setGrowthStart(@Nullable Instant growthStart) {
-        this.growthStart = growthStart;
-    }
-
-    public @Nullable Hologram getHologram() {
-        return hologram;
-    }
-
-    public void setHologram(@Nullable Hologram hologram) {
-        this.hologram = hologram;
     }
 
     public void cancelGrowthTask() {
@@ -102,23 +82,6 @@ public class GeneratorState {
                 growthTask.cancel();
             }
             growthTask = null;
-        }
-    }
-
-    public void removeBlocks() {
-        structure.remove();
-    }
-
-    public void updateHologram() {
-        if (hologram != null && hologram.exists()) {
-            hologram.update();
-        }
-    }
-
-    public void removeHologram() {
-        if (hologram != null) {
-            hologram.remove();
-            hologram = null;
         }
     }
 
@@ -142,5 +105,4 @@ public class GeneratorState {
         }
         return ticksToRegrown;
     }
-
 }

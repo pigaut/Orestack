@@ -4,6 +4,8 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.global.*;
+import io.github.pigaut.orestack.generator.instanced.*;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.hook.veinminer.*;
@@ -31,17 +33,38 @@ public class PlayerEventListener implements Listener {
         this.plugin = plugin;
     }
 
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        for (VirtualGenerator virtualGenerator : plugin.getGenerators().getAllVirtual()) {
+            if (!virtualGenerator.isViewer(player)) {
+                virtualGenerator.addViewer(player);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        for (VirtualGenerator virtualGenerator : plugin.getGenerators().getAllVirtual()) {
+            virtualGenerator.removeViewer(player);
+        }
+    }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void handleGeneratorBlockBreak(BlockBreakEvent event) {
+        Player player = event.getPlayer();
         Block block = event.getBlock();
-        Generator generator = plugin.getGenerator(block.getLocation());
+        Generator generator = plugin.getGenerator(player, block.getLocation());
         if (generator == null) {
             return;
         }
 
         event.setCancelled(true);
+        if (generator instanceof InstancedGenerator) {
+            return;
+        }
 
-        Player player = event.getPlayer();
         int expToDrop = event.getExpToDrop();
 
         OrestackSettings settings = plugin.getSettings();
@@ -53,7 +76,7 @@ public class PlayerEventListener implements Listener {
             }
         }
 
-        GeneratorUtil.mineBlock(generator, player, block, expToDrop);
+        generator.mineBlock(player, block, expToDrop);
     }
 
     @EventHandler
@@ -66,7 +89,8 @@ public class PlayerEventListener implements Listener {
             return;
         }
 
-        Generator generator = plugin.getGenerator(event.getClickedBlock().getLocation());
+        Player player = event.getPlayer();
+        Generator generator = plugin.getGenerator(player, event.getClickedBlock().getLocation());
         if (generator == null) {
             return;
         }
@@ -76,7 +100,6 @@ public class PlayerEventListener implements Listener {
             return;
         }
 
-        Player player = event.getPlayer();
         Action action = event.getAction();
         Block clickedBlock = event.getClickedBlock();
 
@@ -204,13 +227,13 @@ public class PlayerEventListener implements Listener {
         }
 
         if (action == Action.LEFT_CLICK_BLOCK) {
-            Generator clickedGenerator = plugin.getGenerator(clickedBlock.getLocation());
+            Generator clickedGenerator = plugin.getGenerator(player, clickedBlock.getLocation());
             if (clickedGenerator == null || !clickedGenerator.getTemplate().equals(heldGenerator)) {
                 return;
             }
 
             event.setCancelled(true);
-            context = context.with(Generator.class, clickedGenerator);
+            context = context.with(GlobalGenerator.class, clickedGenerator);
             if (!player.hasPermission("orestack.generator.break")) {
                 plugin.sendMessage(player, context, "cannot-break-generator");
                 return;
@@ -273,7 +296,7 @@ public class PlayerEventListener implements Listener {
 
         plugin.getRegionScheduler(location).runTaskLater(1, () -> {
             try {
-                Generator.create(generatorTemplate, location, rotation);
+                GlobalGenerator.create(generatorTemplate, location, rotation);
                 PlayerUtil.sendActionBar(player, plugin.getTranslation("placed-generator"));
             }
             catch (GeneratorOverlapException e) {

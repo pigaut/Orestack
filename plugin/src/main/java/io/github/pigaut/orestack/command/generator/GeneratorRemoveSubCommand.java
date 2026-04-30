@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.voxel.core.command.node.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -20,7 +21,7 @@ public class GeneratorRemoveSubCommand extends SubCommand {
                 return;
             }
             Location location = targetBlock.getLocation();
-            Generator generator = plugin.getGenerator(location);
+            Generator generator = plugin.getGenerator(player, location);
             if (generator == null) {
                 plugin.sendMessage(player, context, "target-not-generator");
                 return;

@@ -3,7 +3,7 @@ package io.github.pigaut.orestack.command.generator;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.core.*;
-import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
@@ -50,7 +50,7 @@ public class GeneratorSetAllSubCommand extends SubCommand {
                         }
 
                         try {
-                            Generator.create(generator, location);
+                            GlobalGenerator.create(generator, location);
                         } catch (GeneratorOverlapException ignored) {
                             // Ignore if generator overlaps
                         }

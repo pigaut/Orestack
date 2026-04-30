@@ -155,6 +155,8 @@ incomplete-region: '&4You need to select a region with the generator wand'
 too-far-away: '&4Cannot find a block in range, move closer'
 target-not-generator: '&4The block you''re looking at is not a generator'
 generator-overlap: '&4Too close to another generator'
+unknown-generator-type: '&4Unknown generator type: {generator-type}'
+virtual-generators-unsupported: '&4Virtual generators are unsupported. Requirements: Paper server and PacketEvents plugin'
 generator-conflict: '&4Cannot place a generator there'
 ## Success
 received-generator: '&aYou received x1 {generator-name} generator'

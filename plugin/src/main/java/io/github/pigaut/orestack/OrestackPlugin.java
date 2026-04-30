@@ -1,11 +1,15 @@
 package io.github.pigaut.orestack;
 
+import com.github.retrooper.packetevents.*;
+import com.github.retrooper.packetevents.event.*;
 import io.github.pigaut.orestack.api.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.core.placeholder.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.global.*;
+import io.github.pigaut.orestack.generator.instanced.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.hook.castlegates.*;
 import io.github.pigaut.orestack.hook.itemsadder.*;
@@ -15,6 +19,7 @@ import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.placeholder.*;
+import io.github.pigaut.voxel.listener.packets.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.boot.*;
 import io.github.pigaut.voxel.plugin.boot.phase.*;
@@ -22,7 +27,6 @@ import io.github.pigaut.voxel.util.Server;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;
-import org.bukkit.block.data.type.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
@@ -159,6 +163,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         registerListener(new PlayerEventListener(this));
         registerListener(new BlockEventListener(this));
         registerListener(new CropEventListener(this));
+
+        if (this.getVirtualStructures().isSupported()) {
+            EventManager events = PacketEvents.getAPI().getEventManager();
+            events.registerListener(new PlayerPacketEventListener(this), PacketListenerPriority.NORMAL);
+        }
     }
 
     @Override
@@ -472,8 +481,20 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return generatorManager;
     }
 
-    public @Nullable Generator getGenerator(@NotNull Location location) {
-        return generatorManager.getGenerator(location);
+    public @Nullable GlobalGenerator getGlobalGenerator(@NotNull Location location) {
+        return generatorManager.getGlobalGenerator(location);
+    }
+
+    public @Nullable VirtualGenerator getVirtualGenerator(@NotNull Location location) {
+        return generatorManager.getVirtualGenerator(location);
+    }
+
+    public @Nullable InstancedGenerator getInstancedGenerator(@NotNull Player player, @NotNull Location location) {
+        return generatorManager.getPlayerGenerator(player, location);
+    }
+
+    public @Nullable Generator getGenerator(@Nullable Player player, @NotNull Location location) {
+        return generatorManager.getGenerator(player, location);
     }
 
     public GeneratorOptionsManager getGeneratorOptions() {
