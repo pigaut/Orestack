@@ -6,6 +6,7 @@ import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.instanced.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.data.structure.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.convert.parse.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
@@ -220,7 +221,9 @@ public class GeneratorManager extends Manager {
             block.setType(Material.AIR, false);
         }
 
-        for (Block solidBlock : generator.getAllOccupiedSolidBlocks()) {
+        StructureTemplate customBarrierLayout = plugin.getGeneratorOptions().getVirtualGeneratorBarrierLayout(template);
+        for (Block solidBlock : customBarrierLayout != null ?
+                customBarrierLayout.getOccupiedBlocks(generator.getOrigin(), generator.getRotation()) : generator.getAllOccupiedSolidBlocks()) {
             solidBlock.setType(Material.BARRIER, false);
         }
 

@@ -426,7 +426,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "structures/trees/great_oak/great_oak_tree_3.yml",
                 "structures/trees/great_oak/great_oak_tree_4.yml",
                 "structures/trees/great_oak/great_oak_tree_5.yml",
-                "structures/trees/great_oak/great_oak_tree_6.yml"
+                "structures/trees/great_oak/great_oak_tree_6.yml",
+                "structures/trees/great_oak/great_oak_tree_silhouette.yml"
         );
     }
 

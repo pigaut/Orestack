@@ -64,6 +64,49 @@ generator-tool:
     - '&fleft-click to break'
     - '&fshift + left-click (air) to rotate'
 
+
+#░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀
+#░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█
+#░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀
+
+# If enabled, blocks that were replaced when the generator was placed
+# will be restored when the generator is removed.
+restore-original-blocks-on-remove: true
+
+# Whether to keep the blocks (regrown phase) when a generator is removed.
+keep-blocks-on-remove: false
+
+# The default damage to apply to the tool or 0 to disable (Can be overridden inside a generator phase)
+default-tool-damage: 1
+
+# The default delay in ticks between each click, it can be overridden in the generator phase.
+click-cooldown: 4
+
+# The default delay in ticks between each hit (left-click), it can be overridden in the generator phase.
+hit-cooldown: 4
+
+# The default delay in ticks between each harvest attempt (right-click), it can be overridden in the generator phase.
+harvest-cooldown: 4
+
+
+#░█▀█░█▀▀░█▀▄░░░░░█▀█░█░░░█▀█░█░█░█▀▀░█▀▄░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀
+#░█▀▀░█▀▀░█▀▄░▄▄▄░█▀▀░█░░░█▀█░░█░░█▀▀░█▀▄░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█
+#░▀░░░▀▀▀░▀░▀░░░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀
+
+# Customize Barrier Layout
+#   1. Definition -> A fake block is a block that only exists on the client but not on the server.
+#   2. Visual problem -> You might see entities/items/players walk into fake blocks.
+#   3. Anticheat problem -> If a player stands on a fake block for too long, the server/anticheat will kick/ban the player for flying.
+#   4. Solution -> Place barrier blocks on the server-side, the player will not see them, but they will act as a physical layout.
+#   5. Limitation -> Players might not be able to reach certain blocks and might run into invisible barrier blocks.
+#   6. Customization -> You can set the layout of the barrier blocks to anything you want while keeping in mind problems 2. and 3.
+
+# WARNING: use at your own risk, read above and make sure you understand before using this option.
+per-player-generators-barrier-layouts:
+  great_oak_tree: great_oak_tree_silhouette   # generator_name: structure_name
+  wheat: none   # Use none, and no barrier blocks will be placed. (No barriers are placed for non-solid blocks by default)
+
+
 #░█░█░█▀█░█░░░█▀█░█▀▀░█▀▄░█▀█░█▄█
 #░█▀█░█░█░█░░░█░█░█░█░█▀▄░█▀█░█░█
 #░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀
@@ -240,28 +283,6 @@ exp-multiplier-by-level:
   4: 1.8
   5: 2
 
-#░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄
-#░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄
-#░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀
-
-# If enabled, blocks that were replaced when the generator was placed
-# will be restored when the generator is removed.
-restore-original-blocks-on-remove: true
-
-# Whether to keep the blocks (regrown phase) when a generator is removed.
-keep-blocks-on-remove: false
-
-# The default damage to apply to the tool or 0 to disable (Can be overridden inside a generator phase)
-default-tool-damage: 1
-
-# The default delay in ticks between each click, it can be overridden in the generator phase.
-click-cooldown: 4
-
-# The default delay in ticks between each hit (left-click), it can be overridden in the generator phase.
-hit-cooldown: 4
-
-# The default delay in ticks between each harvest attempt (right-click), it can be overridden in the generator phase.
-harvest-cooldown: 4
 
 #░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░░░█░█░█▀▀░█▀█░█░░░▀█▀░█░█
 #░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░░░█▀█░█▀▀░█▀█░█░░░░█░░█▀█
