@@ -195,6 +195,13 @@ public class GeneratorManager extends Manager {
 
     public void registerGenerator(@NotNull GlobalGenerator generator) throws GeneratorOverlapException, GeneratorLimitException {
         GeneratorTemplate template = generator.getTemplate();
+        StructureTemplate lastStructure = template.getLastPhase().getStructureTemplate();
+        if (lastStructure.hasMultipleBlocks()) {
+            if (largeGeneratorsPlaced >= 5) {
+                throw new GeneratorLimitException();
+            }
+            largeGeneratorsPlaced++;
+        }
 
         List<BlockState> removedBlocks = new ArrayList<>();
         for (Block block : template.getOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
@@ -202,14 +209,6 @@ public class GeneratorManager extends Manager {
                 throw new GeneratorOverlapException();
             }
             removedBlocks.add(block.getState());
-        }
-
-        StructureTemplate lastStructure = template.getLastPhase().getStructureTemplate();
-        if (lastStructure.hasMultipleBlocks()) {
-            if (largeGeneratorsPlaced >= 5) {
-                throw new GeneratorLimitException();
-            }
-            largeGeneratorsPlaced++;
         }
 
         globalGenerators.add(generator);
@@ -227,16 +226,8 @@ public class GeneratorManager extends Manager {
         if (!plugin.getVirtualStructures().isSupported()) {
             throw new VirtualGeneratorUnsupportedException();
         }
+
         GeneratorTemplate template = generator.getTemplate();
-
-        List<BlockState> removedBlocks = new ArrayList<>();
-        for (Block block : template.getOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
-            if (isGenerator(block.getLocation())) {
-                throw new GeneratorOverlapException();
-            }
-            removedBlocks.add(block.getState());
-        }
-
         StructureTemplate lastStructure = template.getLastPhase().getStructureTemplate();
         if (lastStructure.hasMultipleBlocks()) {
             if (largeGeneratorsPlaced >= 5) {
@@ -245,8 +236,12 @@ public class GeneratorManager extends Manager {
             largeGeneratorsPlaced++;
         }
 
-        if (!plugin.getVirtualStructures().isSupported()) {
-            throw new VirtualGeneratorUnsupportedException();
+        List<BlockState> removedBlocks = new ArrayList<>();
+        for (Block block : template.getOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
+            if (isGenerator(block.getLocation())) {
+                throw new GeneratorOverlapException();
+            }
+            removedBlocks.add(block.getState());
         }
 
         virtualGenerators.add(generator);
