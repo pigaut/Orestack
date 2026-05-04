@@ -27,14 +27,14 @@ public class VirtualGenerator {
         this.template = template;
         this.origin = origin;
         this.rotation = rotation;
-        for (GeneratorPhase phase : template.getPhases()) {
-            structures.add(phase.getStructureTemplate().project(origin, rotation));
-        }
     }
 
     public static @NotNull VirtualGenerator create(@NotNull GeneratorTemplate template, @NotNull Location origin, @NotNull Rotation rotation) throws GeneratorOverlapException, GeneratorLimitException, VirtualGeneratorUnsupportedException {
         VirtualGenerator generator = new VirtualGenerator(template, origin, rotation);
         plugin.getGenerators().registerGenerator(generator);
+        for (GeneratorPhase phase : template.getPhases()) {
+            generator.structures.add(phase.getStructureTemplate().project(origin, rotation));
+        }
         plugin.getScheduler().runTaskLater(5, () -> Bukkit.getOnlinePlayers().forEach(generator::addViewer));
         return generator;
     }

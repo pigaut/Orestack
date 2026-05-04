@@ -151,68 +151,7 @@ public abstract class BasicGenerator implements Generator {
             remove();
             return;
         }
-
-        GeneratorPhase generatorPhase = getPhase();
-        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(player, block, origin, name, state.getCurrentPhase());
-        {
-            if (generatorPhase.isIdle()) {
-                generatorMineEvent.setIdle(true);
-            }
-
-            if (generatorPhase.isDropItems()) {
-                ItemStack tool = player.getInventory().getItemInMainHand();
-                generatorMineEvent.setItemDrops(block.getDrops(tool));
-            }
-
-            if (generatorPhase.isDropExp()) {
-                generatorMineEvent.setExpDrops(expToDrop);
-            }
-
-            int toolDamage = generatorPhase.getToolDamage().intValue();
-            generatorMineEvent.setToolDamage(toolDamage);
-
-            Server.callEvent(generatorMineEvent);
-        }
-
-        if (!generatorMineEvent.isCancelled()) {
-            Function breakFunction = generatorPhase.getBreakFunction();
-            if (breakFunction != null) {
-                Context context = Context.builder()
-                        .withPlayer(player)
-                        .withPlayerState(plugin.getPlayerState(player))
-                        .withTool(player.getInventory().getItemInMainHand())
-                        .withBlock(block).with(BasicGenerator.class, this)
-                        .withEvent(generatorMineEvent)
-                        .build();
-
-                breakFunction.run(context);
-            }
-        }
-
-        if (!generatorMineEvent.isCancelled() && generatorPhase.getState().isHarvestable()) {
-            Location dropLocation = block.getLocation().add(0.5, 1, 0.5);
-
-            Collection<ItemStack> itemDrops = generatorMineEvent.getItemDrops();
-            if (itemDrops != null) {
-                for (ItemStack itemDrop : itemDrops) {
-                    ItemUtil.dropItem(dropLocation, itemDrop);
-                }
-            }
-
-            int expDrops = generatorMineEvent.getExpDrops();
-            if (expDrops != 0) {
-                Exp.drop(dropLocation, expDrops);
-            }
-
-            int toolDamage = generatorMineEvent.getToolDamage();
-            if (toolDamage != 0) {
-                ItemUtil.damagePlayerTool(player, toolDamage);
-            }
-
-            if (!generatorMineEvent.isIdle()) {
-                harvest();
-            }
-        }
+        GeneratorUtil.callGeneratorMineEvent(this, state.getCurrentPhase(), player, block, expToDrop);
     }
 
     public void damage(@NotNull Player player, @NotNull Context context, double damageAmount) {

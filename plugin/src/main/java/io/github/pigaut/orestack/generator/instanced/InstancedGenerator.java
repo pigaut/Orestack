@@ -65,6 +65,12 @@ public class InstancedGenerator extends BasicGenerator {
     }
 
     @Override
+    public void mineBlock(@NotNull Player player, @NotNull Block block, int expToDrop) {
+        GeneratorUtil.callGeneratorMineEvent(this, state.getCurrentPhase(), player, block, expToDrop);
+        structure.sendAll(player);
+    }
+
+    @Override
     public void setPhase(int phaseIndex, boolean growing) {
         if (phaseIndex < 0 || phaseIndex > getMaxPhase()) {
             return;

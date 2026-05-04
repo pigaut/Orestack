@@ -119,7 +119,7 @@ public class GeneratorManager extends Manager {
         }
 
         if (!global && !plugin.getVirtualStructures().isSupported()) {
-            throw new VirtualGeneratorUnsupportedException();
+            throw new VirtualGeneratorUnsupportedException(world.getName(), x, y, z);
         }
 
         int finalPhase = Math.min(phase, template.getMaxPhase());
@@ -223,8 +223,10 @@ public class GeneratorManager extends Manager {
         }
     }
 
-    public void registerGenerator(@NotNull VirtualGenerator generator)
-            throws GeneratorOverlapException, GeneratorLimitException, VirtualGeneratorUnsupportedException {
+    public void registerGenerator(@NotNull VirtualGenerator generator) throws GeneratorOverlapException, VirtualGeneratorUnsupportedException, GeneratorLimitException {
+        if (!plugin.getVirtualStructures().isSupported()) {
+            throw new VirtualGeneratorUnsupportedException();
+        }
         GeneratorTemplate template = generator.getTemplate();
 
         List<BlockState> removedBlocks = new ArrayList<>();
