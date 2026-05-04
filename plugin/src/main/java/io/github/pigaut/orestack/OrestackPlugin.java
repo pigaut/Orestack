@@ -1,7 +1,5 @@
 package io.github.pigaut.orestack;
 
-import com.github.retrooper.packetevents.*;
-import com.github.retrooper.packetevents.event.*;
 import io.github.pigaut.orestack.api.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.config.*;
@@ -11,14 +9,18 @@ import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.instanced.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.orestack.hook.*;
 import io.github.pigaut.orestack.hook.castlegates.*;
 import io.github.pigaut.orestack.hook.itemsadder.*;
 import io.github.pigaut.orestack.hook.plotsquared.*;
 import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.player.*;
 import io.github.pigaut.orestack.settings.*;
+import io.github.pigaut.voxel.bukkit.effect.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.placeholder.*;
+import io.github.pigaut.voxel.hook.*;
+import io.github.pigaut.voxel.listener.*;
 import io.github.pigaut.voxel.listener.packets.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.boot.*;
@@ -165,8 +167,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         registerListener(new CropEventListener(this));
 
         if (this.getVirtualStructures().isSupported()) {
-            EventManager events = PacketEvents.getAPI().getEventManager();
-            events.registerListener(new PlayerPacketEventListener(this), PacketListenerPriority.NORMAL);
+            registerListener(new PlayerChunkLoadListener(plugin));
+            PacketEventsHook.registerAllPacketListeners(this);
         }
     }
 
@@ -191,7 +193,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "PlotSquared",
                 "MythicMobs",
                 "ExecutableItems",
-                "EcoItems"
+                "EcoItems",
+                "packetevents"
         );
     }
 

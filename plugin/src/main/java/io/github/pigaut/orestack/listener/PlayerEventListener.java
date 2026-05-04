@@ -238,7 +238,7 @@ public class PlayerEventListener implements Listener {
             }
 
             event.setCancelled(true);
-            context = context.with(GlobalGenerator.class, clickedGenerator);
+            context = context.with(Generator.class, clickedGenerator);
             if (!player.hasPermission("orestack.generator.break")) {
                 plugin.sendMessage(player, context, "cannot-break-generator");
                 return;
