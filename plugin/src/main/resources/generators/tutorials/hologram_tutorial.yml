@@ -7,11 +7,13 @@ block: bedrock
 # Single-Line Hologram
 hologram:
   line: '&7&lSingle-Line'
-  # Holograms do not spawn inside blocks adjust the offset until you see the hologram
+  # The hologram offset from its spawn location
   offset:
     x: 0
     y: 1
     z: 0
+  # Set the hologram to a predefined style
+  style: default   # config.yml -> hologram-styles.default
 
 --- #===== Phase 2 =====#
 type: ripe
@@ -21,9 +23,12 @@ block: cobblestone
 # Single-Line Hologram with placeholders
 hologram:
   line: '&7&lSingle-Line &7[{phase_timer}]'
-  # Set the update frequency to refresh placeholders
-  update: 3
   offset: { x: 0, y: 1, z: 0 }
+  # Update the hologram every 3 ticks to refresh placeholders
+  update: 3
+  # Configure the hologram style to match specific needs
+  style:
+    alignment: center   # Align the hologram to the center
 
 --- #===== Phase 3 =====#
 type: ripe
@@ -83,19 +88,21 @@ hologram:
 type: regrown
 block: emerald_ore
 
-# Multi Hologram (multiple holograms with different offsets)
+# Multi Hologram: multiple holograms with different options
 hologram:
   # Hologram 1
   - line: "&f-- &2&lSingle-Line &f--"
-    offset.y: 1
+    offset.y: 1.5
 
   # Hologram 2
   - frames:
       - '&a<animated!>'
       - '&f<animated!>'
     update: 8
-    offset.y: 0.75
+    offset.y: 1.25
 
   # Hologram 3
   - item: diamond
-    offset.y: 0.25
+    offset.y: 1.0
+    style:
+      scale: 0.5
