@@ -5,13 +5,11 @@ import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.enchant.*;
 import io.github.pigaut.voxel.plugin.*;
-import io.github.pigaut.voxel.util.reflection.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.node.scalar.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
-import org.bukkit.enchantments.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
@@ -38,7 +36,9 @@ public class OrestackSettings extends Settings {
 
     // Generator health settings
     private Amount defaultDamage;
-    private boolean efficiencyDamage;
+    private boolean overflowDamage;
+    private boolean efficiencyDamageMultiplier;
+    private Map<Integer, Double> efficiencyDamageMultiplierByLevel;
     private boolean reducedCooldownDamage;
     private List<ToolDamage> damageByTool;
     private List<HealthBar> healthBars;
@@ -64,7 +64,7 @@ public class OrestackSettings extends Settings {
                 .withDefaultOrElse(GeneratorTool.getItemTemplate(), errors::add);
 
         // Generator settings
-        defaultToolDamage = config.get("default-tool-damage", Amount.class)
+        defaultToolDamage = config.get("default-tool-durability-damage|default-tool-damage", Amount.class)
                 .withDefaultOrElse(Amount.ONE, errors::add);
 
         clickCooldown = config.getInteger("click-cooldown")
@@ -105,8 +105,26 @@ public class OrestackSettings extends Settings {
         defaultDamage = config.get("default-damage", Amount.class)
                 .withDefaultOrElse(Amount.ONE, errors::add);
 
-        efficiencyDamage = config.getBoolean("efficiency-damage")
+        overflowDamage = config.getBoolean("overflow-damage")
                 .withDefaultOrElse(true, errors::add);
+
+        efficiencyDamageMultiplier = config.getBoolean("efficiency-damage-multiplier|efficiency-damage")
+                .withDefaultOrElse(true, errors::add);
+
+        efficiencyDamageMultiplierByLevel = new HashMap<>();
+        for (KeyedScalar scalar : config.getSectionOrCreate("efficiency-damage-multiplier-by-level").getNestedScalars()) {
+            Double damageMultiplier = scalar.toDouble()
+                    .require(Requirements.positive())
+                    .withDefaultOrElse(null, errors::add);
+
+            Integer enchantLevel = scalar.getIntegerKey()
+                    .require(Requirements.positive())
+                    .withDefaultOrElse(null, errors::add);
+
+            if (damageMultiplier != null && enchantLevel != null) {
+                efficiencyDamageMultiplierByLevel.put(enchantLevel, damageMultiplier);
+            }
+        }
 
         reducedCooldownDamage = config.getBoolean("reduced-cooldown-damage")
                 .withDefaultOrElse(true, errors::add);
@@ -133,8 +151,12 @@ public class OrestackSettings extends Settings {
         return generatorTool.clone();
     }
 
-    public boolean isEfficiencyDamage() {
-        return efficiencyDamage;
+    public boolean isDamageOverflow() {
+        return overflowDamage;
+    }
+
+    public boolean isEfficiencyDamageMultiplier() {
+        return efficiencyDamageMultiplier;
     }
 
     public boolean isDefaultToolDamage() {
@@ -191,16 +213,17 @@ public class OrestackSettings extends Settings {
 
     public double getGeneratorDamage(@NotNull Player player, @NotNull Block block) {
         ItemStack tool = player.getInventory().getItemInMainHand();
-        Amount baseDamage = getToolDamage(tool.getType(), block.getType());
+        Amount damageAmount = getToolDamage(tool.getType(), block.getType());
+        double damage = damageAmount.doubleValue();
 
-        if (isEfficiencyDamage()) {
+        if (isEfficiencyDamageMultiplier()) {
             int efficiencyLevel = tool.getEnchantmentLevel(Enchants.EFFICIENCY);
-            if (efficiencyLevel != 0) {
-                baseDamage = baseDamage.transform(value -> value + efficiencyLevel);
+            Double damageMultiplier = efficiencyDamageMultiplierByLevel.get(efficiencyLevel);
+            if (damageMultiplier != null) {
+                damage *= damageMultiplier;
             }
         }
 
-        double damage = baseDamage.doubleValue();
         if (isReducedCooldownDamage()) {
             damage *= player.getAttackCooldown();
         }

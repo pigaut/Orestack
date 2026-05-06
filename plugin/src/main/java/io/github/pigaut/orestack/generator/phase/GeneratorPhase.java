@@ -21,6 +21,7 @@ public class GeneratorPhase {
     private final int growthTime;
     private final @Nullable Double growthChance;
     private final @Nullable Double health;
+    private final boolean damageOverflow;
     private final int clickCooldown;
     private final int hitCooldown;
     private final int harvestCooldown;
@@ -34,9 +35,9 @@ public class GeneratorPhase {
 
     public GeneratorPhase(@NotNull GrowthState state, @NotNull StructureTemplate structure, List<Material> decorativeBlocks,
                           boolean dropItems, boolean dropExp, Amount toolDamage, boolean idle, int growthTime, @Nullable Double growthChance,
-                          @Nullable Double health, int clickCooldown, int hitCooldown, int harvestCooldown, @Nullable HologramTemplate hologramTemplate,
-                          @Nullable Function onBreak, @Nullable Function onGrowth, @Nullable Function onClick,
-                          @Nullable Function onHit, @Nullable Function onHarvest, @Nullable Function onDestroy) {
+                          @Nullable Double health, boolean damageOverflow, int clickCooldown, int hitCooldown, int harvestCooldown,
+                          @Nullable HologramTemplate hologramTemplate, @Nullable Function onBreak, @Nullable Function onGrowth,
+                          @Nullable Function onClick, @Nullable Function onHit, @Nullable Function onHarvest, @Nullable Function onDestroy) {
         this.state = state;
         this.structure = structure;
         this.decorativeBlocks = decorativeBlocks;
@@ -47,6 +48,7 @@ public class GeneratorPhase {
         this.growthTime = growthTime;
         this.growthChance = growthChance;
         this.health = health;
+        this.damageOverflow = damageOverflow;
         this.clickCooldown = clickCooldown;
         this.hitCooldown = hitCooldown;
         this.harvestCooldown = harvestCooldown;
@@ -89,6 +91,10 @@ public class GeneratorPhase {
 
     public @Nullable Double getMaxHealth() {
         return health;
+    }
+
+    public boolean isDamageOverflow() {
+        return damageOverflow;
     }
 
     public int getClickCooldown() {

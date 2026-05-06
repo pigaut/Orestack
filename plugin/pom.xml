@@ -7,7 +7,7 @@
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>OrestackPlugin</artifactId>
     <packaging>jar</packaging>
-    <version>3.47.4</version>
+    <version>3.47.8</version>
     <name>Orestack Plugin</name>
     <description>A Spigot plugin used to create resources with custom gathering mechanics</description>
     <url>https://www.spigotmc.org/resources/121905/</url>
@@ -185,7 +185,7 @@
         <dependency>
             <groupId>com.github.retrooper</groupId>
             <artifactId>packetevents-spigot</artifactId>
-            <version>2.12.1</version>
+            <version>2.11.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

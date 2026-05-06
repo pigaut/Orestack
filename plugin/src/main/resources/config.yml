@@ -29,6 +29,9 @@ dump-logo: true   # Premium required to disable
 # The language file that should be used (en = en.yml)
 language: en
 
+# Whether to ignore missing translation errors from language file and use default values instead
+ignore-missing-translation-errors: true
+
 # The auto save timer, if not set or set to 0 data will only be saved on shutdown or on /orestack reload
 auto-save: 0
 
@@ -77,7 +80,7 @@ restore-original-blocks-on-remove: true
 keep-blocks-on-remove: false
 
 # The default damage to apply to the tool or 0 to disable (Can be overridden inside a generator phase)
-default-tool-damage: 1
+default-tool-durability-damage: 1
 
 # The default delay in ticks between each click, it can be overridden in the generator phase.
 click-cooldown: 4
@@ -121,14 +124,14 @@ hologram-view-distance: 15
 hologram-styles:
   default:
     view-distance: 15
-#    update: 3s
-    see-through: false   # See hologram through blocks
     billboard: vertical   # fixed, vertical, horizontal, center
-    alignment: center   # center, left, right
     brightness: 15   # from 0 to 15
-#    background-color: { red: 0, green: 0, blue: 0 } # Better system is coming
     scale: x=1 y=1 z=1
     shadow: strength=1 radius=1
+    see-through: false   # [Text-only] See hologram through blocks
+    alignment: center   # [Text-only] Text Alignment: center, left, right
+#    background-color: { red: 0, green: 0, blue: 0 } # [Text-only] Better system is coming
+#    update: 3s   # [Text-only]
 
 #░█▀▀░▀█▀░█░░░█░█░░░▀█▀░█▀█░█░█░█▀▀░█░█░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀
 #░▀▀█░░█░░█░░░█▀▄░░░░█░░█░█░█░█░█░░░█▀█░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░
@@ -292,8 +295,19 @@ exp-multiplier-by-level:
 # The default damage dealt.
 default-damage: 1
 
+# Whether damage exceeding the current phase's health should carry over to the next
+overflow-damage: true
+
 # Whether efficiency on a tool increases the damage dealt.
-efficiency-damage: true   # 1 damage per efficiency level
+efficiency-damage-multiplier: true
+
+# The damage multiplier based on the efficiency enchant level.
+efficiency-damage-multiplier-by-level:
+  1: 1.25
+  2: 1.30
+  3: 1.35
+  4: 1.40
+  5: 1.45
 
 # Whether to reduce damage if the tool is on cooldown.
 reduced-cooldown-damage: true

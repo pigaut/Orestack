@@ -11,6 +11,7 @@ import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.instanced.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.hook.*;
+import io.github.pigaut.orestack.hook.PacketEventsHook;
 import io.github.pigaut.orestack.hook.castlegates.*;
 import io.github.pigaut.orestack.hook.itemsadder.*;
 import io.github.pigaut.orestack.hook.plotsquared.*;
