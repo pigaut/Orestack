@@ -29,16 +29,23 @@ public class GeneratorState {
 
     public void setCurrentPhase(int currentPhase) {
         this.currentPhase = currentPhase;
+
         cancelGrowthTask();
         GeneratorPhase newPhase = generator.getPhase(currentPhase);
-        if (newPhase.getState() != GrowthState.REGROWN) {
-            int growthTime = newPhase.getGrowthTime();
-            growthStart = Instant.now();
-            growthTask = plugin.getScheduler().runTaskLater(growthTime, () -> {
-                growthTask = null;
-                generator.grow();
-            });
+        if (newPhase.getState() == GrowthState.REGROWN) {
+            return;
         }
+
+        int growthTime = newPhase.getGrowthTime();
+        if (growthTime == 0) {
+            return;
+        }
+
+        growthStart = Instant.now();
+        growthTask = plugin.getScheduler().runTaskLater(growthTime, () -> {
+            growthTask = null;
+            generator.grow();
+        });
     }
 
     public @Nullable Double getHealth() {

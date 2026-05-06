@@ -36,6 +36,7 @@ public class OrestackSettings extends Settings {
 
     // Generator health settings
     private Amount defaultDamage;
+    private boolean overflowDamage;
     private boolean efficiencyDamageMultiplier;
     private Map<Integer, Double> efficiencyDamageMultiplierByLevel;
     private boolean reducedCooldownDamage;
@@ -104,6 +105,9 @@ public class OrestackSettings extends Settings {
         defaultDamage = config.get("default-damage", Amount.class)
                 .withDefaultOrElse(Amount.ONE, errors::add);
 
+        overflowDamage = config.getBoolean("overflow-damage")
+                .withDefaultOrElse(true, errors::add);
+
         efficiencyDamageMultiplier = config.getBoolean("efficiency-damage-multiplier|efficiency-damage")
                 .withDefaultOrElse(true, errors::add);
 
@@ -145,6 +149,10 @@ public class OrestackSettings extends Settings {
     @NotNull
     public ItemStack getGeneratorTool() {
         return generatorTool.clone();
+    }
+
+    public boolean isDamageOverflow() {
+        return overflowDamage;
     }
 
     public boolean isEfficiencyDamageMultiplier() {

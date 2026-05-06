@@ -4,7 +4,6 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.data.function.*;
@@ -13,7 +12,6 @@ import io.github.pigaut.voxel.util.Server;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -155,30 +153,40 @@ public abstract class BasicGenerator implements Generator {
     }
 
     public void damage(@NotNull Player player, @NotNull Context context, double damageAmount) {
-        Double health = state.getPhaseHealth();
-        if (health == null) {
-            return;
-        }
+        double currentDamage = damageAmount;
+        while (currentDamage > 0 && !isDepleted()) {
+            Double health = state.getPhaseHealth();
+            if (health == null) {
+                break;
+            }
 
-        double newHealth = Math.max(0, health - damageAmount);
-        if (newHealth > 0) {
-            state.setHealth(newHealth);
-            return;
-        }
+            if (currentDamage < health) {
+                state.setHealth(health - currentDamage);
+                break;
+            }
 
-        GeneratorDestroyEvent event = new GeneratorDestroyEvent(player, origin, name, state.getCurrentPhase());
-        Server.callEvent(event);
-        if (event.isCancelled()) {
-            return;
-        }
+            int phaseIndex = state.getCurrentPhase();
+            GeneratorPhase phase = template.getPhase(phaseIndex);
 
-        GeneratorPhase phase = getPhase();
-        Function onDestroy = phase.getDestroyFunction();
-        if (onDestroy != null) {
-            onDestroy.run(context);
-        }
+            GeneratorDestroyEvent event = new GeneratorDestroyEvent(player, origin, name, phaseIndex);
+            Server.callEvent(event);
+            if (event.isCancelled()) {
+                break;
+            }
 
-        harvest();
+            Function onDestroy = phase.getDestroyFunction();
+            if (onDestroy != null) {
+                onDestroy.run(context);
+            }
+
+            harvest();
+
+            if (!phase.isDamageOverflow()) {
+                break;
+            }
+
+            currentDamage -= health;
+        }
     }
 
     public void regrow() {

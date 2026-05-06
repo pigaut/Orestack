@@ -295,6 +295,9 @@ exp-multiplier-by-level:
 # The default damage dealt.
 default-damage: 1
 
+# Whether damage exceeding the current phase's health should carry over to the next
+overflow-damage: true
+
 # Whether efficiency on a tool increases the damage dealt.
 efficiency-damage-multiplier: true
 

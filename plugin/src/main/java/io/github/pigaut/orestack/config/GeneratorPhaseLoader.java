@@ -50,6 +50,9 @@ public class GeneratorPhaseLoader implements ConfigLoader<GeneratorPhase> {
                 .require(Requirements.positive())
                 .withDefault(null);
 
+        boolean damageOverflow = section.getBoolean("damage-overflow")
+                .withDefault(plugin.getSettings().isDamageOverflow());
+
         boolean idle = section.getBoolean("idle").withDefault(health != null);
 
         if (health != null && !idle) {
@@ -86,8 +89,8 @@ public class GeneratorPhaseLoader implements ConfigLoader<GeneratorPhase> {
         Function onHarvest = section.get("on-harvest|on-right-click", Function.class).withDefault(null);
         Function onDestroy = section.get("on-destroy", Function.class).withDefault(null);
 
-        return new GeneratorPhase(state, structure, decorativeBlocks, dropItems, dropExp,
-                toolDamage, idle, growthTime, chance, health, clickCooldown, hitCooldown, harvestCooldown,
+        return new GeneratorPhase(state, structure, decorativeBlocks, dropItems, dropExp, toolDamage, idle,
+                growthTime, chance, health, damageOverflow, clickCooldown, hitCooldown, harvestCooldown,
                 hologramTemplate, onBreak, onGrowth, onClick, onHit, onHarvest, onDestroy);
     }
 
