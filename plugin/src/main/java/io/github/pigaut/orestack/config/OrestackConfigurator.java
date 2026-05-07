@@ -24,7 +24,7 @@ public class OrestackConfigurator extends PluginConfigurator {
         addLoader(GeneratorPhase.class, new GeneratorPhaseLoader(plugin));
 
         addLoader(ToolDamage.class, new ToolDamageLoader());
-        addLoader(HealthBar.class, new HealthBarLoader());
+        addLoader(ProgressBar.class, new HealthBarLoader());
 
         final ConditionLoader conditions = getConditionLoader();
         final ActionLoader actions = getActionLoader();

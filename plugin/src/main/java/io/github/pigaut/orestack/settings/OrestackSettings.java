@@ -41,7 +41,10 @@ public class OrestackSettings extends Settings {
     private Map<Integer, Double> efficiencyDamageMultiplierByLevel;
     private boolean reducedCooldownDamage;
     private List<ToolDamage> damageByTool;
-    private List<HealthBar> healthBars;
+
+    // Progress bars
+    private List<ProgressBar> healthBars;
+    private List<ProgressBar> growthBars;
 
     public OrestackSettings(EnhancedPlugin plugin) {
         super(plugin);
@@ -132,7 +135,10 @@ public class OrestackSettings extends Settings {
         damageByTool = config.getList("damage-by-tool-type", ToolDamage.class)
                 .withDefaultOrElse(List.of(), errors::add);
 
-        healthBars = config.getAll("health-bars", HealthBar.class)
+        healthBars = config.getAll("health-bars", ProgressBar.class)
+                .withDefaultOrElse(List.of(), errors::add);
+
+        growthBars = config.getAll("growth-bars", ProgressBar.class)
                 .withDefaultOrElse(List.of(), errors::add);
 
         return errors;
@@ -194,8 +200,13 @@ public class OrestackSettings extends Settings {
     }
 
     @NotNull
-    public List<HealthBar> getHealthBars() {
+    public List<ProgressBar> getHealthBars() {
         return new ArrayList<>(healthBars);
+    }
+
+    @NotNull
+    public List<ProgressBar> getGrowthBars() {
+        return growthBars;
     }
 
     public boolean isVeinMiner() {

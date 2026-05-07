@@ -65,7 +65,7 @@ public class GeneratorPhase {
         return growthTime == 0;
     }
 
-    public int getGrowthTime() {
+    public int getGrowthTimeInTicks() {
         return growthTime;
     }
 

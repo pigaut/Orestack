@@ -36,7 +36,7 @@ public class GeneratorState {
             return;
         }
 
-        int growthTime = newPhase.getGrowthTime();
+        int growthTime = newPhase.getGrowthTimeInTicks();
         if (growthTime == 0) {
             return;
         }
@@ -92,13 +92,33 @@ public class GeneratorState {
         }
     }
 
+    public int getElapsedTicksInPhase() {
+        if (growthStart == null) {
+            return 0;
+        }
+        return (int) (Duration.between(growthStart, Instant.now()).toMillis() / 50);
+    }
+
+    public int getTotalElapsedTicks() {
+        int timePassed = 0;
+        for (int i = 0; i < currentPhase; i++) {
+            int phaseGrowthTime = generator.getPhase(i).getGrowthTimeInTicks();
+            if (phaseGrowthTime > 0) {
+                timePassed += phaseGrowthTime;
+            }
+        }
+
+        timePassed += getElapsedTicksInPhase();
+        return timePassed;
+    }
+
     public int getTicksToNextPhase() {
         if (growthStart == null) {
             return 0;
         }
         GeneratorPhase phase = generator.getPhase(currentPhase);
         int timePassed = (int) (Duration.between(growthStart, Instant.now()).toMillis() / 50);
-        return phase.getGrowthTime() - timePassed;
+        return phase.getGrowthTimeInTicks() - timePassed;
     }
 
     public int getTicksToRegrownPhase() {
@@ -106,8 +126,8 @@ public class GeneratorState {
         int ticksToRegrown = getTicksToNextPhase();
         for (int i = currentPhase + 1; i < template.getMaxPhase(); i++) {
             GeneratorPhase phase = template.getPhase(i);
-            if (phase.getGrowthChance() == null && phase.getGrowthTime() != 0) {
-                ticksToRegrown += phase.getGrowthTime();
+            if (phase.getGrowthChance() == null && phase.getGrowthTimeInTicks() != 0) {
+                ticksToRegrown += phase.getGrowthTimeInTicks();
             }
         }
         return ticksToRegrown;
