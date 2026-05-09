@@ -58,6 +58,9 @@ public class GeneratorUtil {
                     .build();
 
             breakFunction.run(context);
+            if (event.isCancelled()) {
+                return;
+            }
         }
 
         if (generatorPhase.getState().isHarvestable()) {
