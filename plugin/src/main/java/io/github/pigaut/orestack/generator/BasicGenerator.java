@@ -205,7 +205,7 @@ public abstract class BasicGenerator implements Generator {
         }
 
         GeneratorPhase currentPhase = getPhase();
-        if (currentPhase.getGrowthTime() == 0) {
+        if (currentPhase.getGrowthTimeInTicks() == 0) {
             return;
         }
 

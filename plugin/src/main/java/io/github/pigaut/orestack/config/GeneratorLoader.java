@@ -58,7 +58,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             throw new InvalidConfigException(sequence, "The first phase cannot have a growth function");
         }
 
-        if (firstPhase.getGrowthTime() == 0) {
+        if (firstPhase.getGrowthTimeInTicks() == 0) {
             throw new InvalidConfigException(sequence, "The depleted phase must have a growth time set");
         }
 
@@ -85,6 +85,7 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
         Material generatorItem = lastPhase.getStructureTemplate().getMostCommonMaterial();
         boolean multiBlock = false;
         Double maxHealth = null;
+        int totalGrowthTime = 0;
 
         for (GeneratorPhase phase : generatorPhases) {
             if (phase.getStructureTemplate().hasMultipleBlocks()) {
@@ -94,9 +95,10 @@ public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
             if (phaseHealth != null) {
                 maxHealth = maxHealth != null ? maxHealth + phaseHealth : phaseHealth;
             }
+            totalGrowthTime += phase.getGrowthTimeInTicks();
         }
 
-        return new GeneratorTemplate(name, group, generatorPhases, generatorItem, multiBlock, maxHealth);
+        return new GeneratorTemplate(name, group, generatorPhases, generatorItem, multiBlock, maxHealth, totalGrowthTime);
     }
 
 }

@@ -2,7 +2,6 @@ package io.github.pigaut.orestack.core.placeholder;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.orestack.settings.*;
@@ -134,8 +133,8 @@ public class OrestackPlaceholders {
         });
 
         OrestackSettings settings = plugin.getSettings();
-        for (HealthBar healthBar : settings.getHealthBars()) {
-            placeholders.register("generator_health_bar:" + healthBar.getId(), context -> {
+        for (ProgressBar progressBar : settings.getHealthBars()) {
+            placeholders.register("generator_health_bar:" + progressBar.getId(), context -> {
                 Generator generator = context.get(Generator.class);
                 if (generator == null) {
                     return null;
@@ -144,10 +143,10 @@ public class OrestackPlaceholders {
                 if (healthPercentage == null) {
                     return null;
                 }
-                return healthBar.getBarByHealthPercentage(healthPercentage);
+                return progressBar.getBarByProgress(healthPercentage);
             });
 
-            placeholders.register("phase_health_bar:" + healthBar.getId(), context -> {
+            placeholders.register("phase_health_bar:" + progressBar.getId(), context -> {
                 Generator generator = context.get(Generator.class);
                 if (generator == null) {
                     return null;
@@ -156,7 +155,37 @@ public class OrestackPlaceholders {
                 if (healthPercentage == null) {
                     return null;
                 }
-                return healthBar.getBarByHealthPercentage(healthPercentage);
+                return progressBar.getBarByProgress(healthPercentage);
+            });
+        }
+
+        for (ProgressBar progressBar : settings.getGrowthBars()) {
+            placeholders.register("generator_growth_bar:" + progressBar.getId(), context -> {
+                Generator generator = context.get(Generator.class);
+                if (generator == null) {
+                    return null;
+                }
+                int growth = generator.getState().getTotalElapsedTicks();
+                int totalGrowthTime = generator.getTemplate().getTotalGrowthTime();
+
+                double ratio = (double) growth / totalGrowthTime;
+                int percent = (int) Math.round(ratio * 100.0);
+                percent = Math.max(0, Math.min(100, percent));
+                return progressBar.getBarByProgress(percent);
+            });
+
+            placeholders.register("phase_growth_bar:" + progressBar.getId(), context -> {
+                Generator generator = context.get(Generator.class);
+                if (generator == null) {
+                    return null;
+                }
+                int growth = generator.getState().getElapsedTicksInPhase();
+                int phaseGrowthTime = generator.getPhase().getGrowthTimeInTicks();
+
+                double ratio = (double) growth / phaseGrowthTime;
+                int percent = (int) Math.round(ratio * 100.0);
+                percent = Math.max(0, Math.min(100, percent));
+                return progressBar.getBarByProgress(percent);
             });
         }
 

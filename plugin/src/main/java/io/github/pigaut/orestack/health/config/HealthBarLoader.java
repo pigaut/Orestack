@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class HealthBarLoader implements ConfigLoader<HealthBar> {
+public class HealthBarLoader implements ConfigLoader<ProgressBar> {
 
     @Override
     public @Nullable String getErrorDescription() {
@@ -18,7 +18,7 @@ public class HealthBarLoader implements ConfigLoader<HealthBar> {
     }
 
     @Override
-    public @NotNull HealthBar loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
+    public @NotNull ProgressBar loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
         String barId = section.getKey();
 
         Map<Integer, String> barByHealthPercentage = new HashMap<>();
@@ -36,6 +36,6 @@ public class HealthBarLoader implements ConfigLoader<HealthBar> {
             }
         }
 
-        return new HealthBar(barId, barByHealthPercentage);
+        return new ProgressBar(barId, barByHealthPercentage);
     }
 }
