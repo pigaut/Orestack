@@ -42,18 +42,16 @@ block: blue_wool
 
 # Multiple actions for the same trigger
 on-break:
-  do:
-    - chatMessage &aHarvesting blue wool...
-    - chatMessage &aReceived x1 blue wool
+  - chatMessage &aHarvesting blue wool...
+  - chatMessage &aReceived x1 blue wool
 
 on-click:
-  do:
-    # Commas and equal signs are special characters, double them to use them normally
-    - chatMessage This message has a comma,, and equals == sign!
-    # Single quotes '' for some special characters like :{}[],?*&!|>'"%@`
-    - 'chatMessage You clicked a: {generator_tc} Generator'
-    # Double quotes "" for convenience with apostrophes
-    - "chatMessage You can't do that"
+  # Commas and equal signs are special characters, double them to use them normally
+  - chatMessage This message has a comma,, and equals == sign!
+  # Single quotes '' for some special characters like :{}[],?*&!|>'"%@`
+  - 'chatMessage You clicked a: {generator_tc} Generator'
+  # Double quotes "" for convenience with apostrophes
+  - "chatMessage You can't do that"
 
 --- # ===== Phase 4 =====
 type: ripe
@@ -117,4 +115,4 @@ on-break:
   # You can reference global functions stored in the functions folder
   - requireHarvestPermission
   - requireIronPickaxeOrBetter
-  - do: chatMessage &aHarvesting green wool...
+  - chatMessage &aHarvesting green wool...
