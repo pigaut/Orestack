@@ -16,4 +16,4 @@ loadbefore:
 libraries:
   - com.h2database:h2:2.3.232
   - com.zaxxer:HikariCP:5.1.0
-  - org.snakeyaml:snakeyaml-engine:2.9
+  - org.snakeyaml:snakeyaml-engine:3.0.1

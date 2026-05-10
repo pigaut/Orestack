@@ -10,11 +10,11 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class HealthBarLoader implements ConfigLoader<ProgressBar> {
+public class ProgressBarLoader implements ConfigLoader<ProgressBar> {
 
     @Override
     public @Nullable String getErrorDescription() {
-        return "invalid health healthBar";
+        return "invalid progress bar";
     }
 
     @Override
@@ -23,14 +23,14 @@ public class HealthBarLoader implements ConfigLoader<ProgressBar> {
 
         Map<Integer, String> barByHealthPercentage = new HashMap<>();
         for (KeyedScalar nestedScalar : section.getNestedScalars()) {
-            Amount healthPercent = nestedScalar.getKeyAs(Amount.class)
+            Amount progressPercent = nestedScalar.getKeyAs(Amount.class)
                     .require(Requirements.amountBetween(0, 100))
                     .orThrow();
 
             String healthBar = nestedScalar.toString(StringColor.FORMATTER);
 
             for (int i = 0; i <= 100; i++) {
-                if (healthPercent.match(i)) {
+                if (progressPercent.match(i)) {
                     barByHealthPercentage.put(i, healthBar);
                 }
             }
