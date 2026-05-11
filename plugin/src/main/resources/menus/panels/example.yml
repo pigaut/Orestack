@@ -1,0 +1,15 @@
+
+title: '&7This is an example menu'
+
+rows: 3
+
+layout:
+  - [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+  - [ 0, _, _, _, _, _, _, _, 0 ]
+  - [ 0, 0, 0, 0, C, 0, 0, 0, 0 ]
+
+buttons:
+  C:
+    type: BARRIER
+    name: '&cClose'
+    on-left-click: closeMenu
