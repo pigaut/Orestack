@@ -4,6 +4,7 @@ tool:
   flags: [hide_unbreakable, hide_attributes]
   name: '&7Tool'
   lore:
+    - ''
     - '&aUses: {tool_uses}/{tool_max_uses}'
     - '&dCreated by: {player}'
   max-uses: 10
