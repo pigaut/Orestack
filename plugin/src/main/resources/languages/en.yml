@@ -50,10 +50,6 @@ reloading: '&aReloading Orestack plugin... &c(Wait)'
 reload-completed: '&aReload completed successfully.'
 reload-completed-with-errors: '&aReload completed with the following errors:'
 
-#===== Menu Command =====#
-# Description
-orestack-menu-command: 'Open the main menu'
-
 #===== Item Commands =====#
 # Placeholders: {item-name}, {item-group}
 # Description
@@ -134,6 +130,17 @@ removed-buildstation: '&aRemoved build station at target block'
 invalid-buildstation-size: '&4Invalid build station size X: {size-x}, Y: {size-y}, Z: {size-z}'
 minimum-buildstation-size: '&4Build station must be at least 3×3×3 (X, Y, Z).'
 buildstation-not-found: '&4Could not find any build station at target block'
+
+#░░░█▄█░█▀▀░█▀█░█░█░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
+#░░░█░█░█▀▀░█░█░█░█░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
+#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
+
+menu-command: 'Open the main menu'
+menu-open-command: 'Open a menu with the given name'
+# Success
+opening-menu: '&aOpening {menu-name} menu...'
+# Errors
+menu-not-found: '&4Could not find menu with name: {menu-name}'
 
 # -----------------------
 #    Generator Command

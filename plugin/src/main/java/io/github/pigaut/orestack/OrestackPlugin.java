@@ -201,7 +201,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull List<String> getDefaultDirectories() {
-        return List.of("items", "generators", "messages", "languages", "functions", "effects/particles", "effects/sounds");
+        return List.of("items", "generators", "messages", "languages", "functions", "effects/particles", "effects/sounds", "menus/panels");
     }
 
     @Override
@@ -231,6 +231,9 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "functions/tools/misc.yml",
                 "functions/tools/pickaxe.yml",
                 "functions/tools/shovel.yml",
+
+                "menus/buttons.yml",
+                "menus/panels/example.yml",
 
                 "generators/example.yml",
 
