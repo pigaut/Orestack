@@ -6,7 +6,7 @@ import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.data.function.*;
-import io.github.pigaut.voxel.util.*;
+import io.github.pigaut.voxel.data.item.*;
 import io.github.pigaut.voxel.util.Server;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -46,18 +46,32 @@ public class GeneratorUtil {
             return;
         }
 
-        Function breakFunction = generatorPhase.getBreakFunction();
-        if (breakFunction != null) {
-            Context context = Context.builder()
-                    .withPlayer(player)
-                    .withPlayerState(plugin.getPlayerState(player))
-                    .withTool(player.getInventory().getItemInMainHand())
-                    .withBlock(block)
-                    .with(Generator.class, generator)
-                    .withEvent(event)
-                    .build();
+        ItemStack tool = player.getInventory().getItemInMainHand();
+        Context context = Context.builder()
+                .withPlayer(player)
+                .withPlayerState(plugin.getPlayerState(player))
+                .withTool(tool)
+                .withBlock(block)
+                .with(Generator.class, generator)
+                .withEvent(event)
+                .build();
 
-            breakFunction.run(context);
+        // Run tool function
+        ItemTemplate itemTemplate = plugin.getItemTemplate(tool);
+        if (itemTemplate != null) {
+            Function onBlockBreak = itemTemplate.getOnBlockBreak();
+            if (onBlockBreak != null) {
+                onBlockBreak.run(context);
+                if (event.isCancelled()) {
+                    return;
+                }
+            }
+        }
+
+        // Run generator function
+        Function onBreak = generatorPhase.getOnBreak();
+        if (onBreak != null) {
+            onBreak.run(context);
             if (event.isCancelled()) {
                 return;
             }
