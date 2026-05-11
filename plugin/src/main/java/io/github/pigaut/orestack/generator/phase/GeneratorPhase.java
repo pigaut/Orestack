@@ -121,7 +121,7 @@ public class GeneratorPhase {
         return growthChance;
     }
 
-    public @Nullable Function getBreakFunction() {
+    public @Nullable Function getOnBreak() {
         return onBreak;
     }
 
