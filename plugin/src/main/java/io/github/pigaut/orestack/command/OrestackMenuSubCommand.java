@@ -3,14 +3,13 @@ package io.github.pigaut.orestack.command;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.voxel.core.command.node.*;
+import io.github.pigaut.voxel.data.menu.command.*;
 import org.jetbrains.annotations.*;
 
-public class OrestackMenuCommand extends SubCommand {
+public class OrestackMenuSubCommand extends MenuSubCommand {
 
-    public OrestackMenuCommand(@NotNull OrestackPlugin plugin) {
-        super("menu", plugin);
-        withPermission(plugin.getPermission("menu"));
-        withDescription(plugin.getTranslation("orestack-menu-command"));
+    public OrestackMenuSubCommand(@NotNull OrestackPlugin plugin) {
+        super(plugin);
         withPlayerStateExecution((player, args, placeholders) -> {
             player.openMenu(new OrestackMenu(plugin));
         });
