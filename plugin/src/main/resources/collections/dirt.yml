@@ -1,0 +1,15 @@
+
+item: dirt
+
+
+--- #===== Tier 1 =====
+
+amount: 1
+on-completion:
+  - sendChat &aYou have unlocked dirt collection
+
+--- #===== Tier 2 =====
+
+amount: 100
+on-completion:
+  - sendChat &aYou have completed tier 2 dirt collection

@@ -2,13 +2,14 @@ package io.github.pigaut.orestack.player;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.voxel.core.player.*;
+import io.github.pigaut.voxel.core.player.state.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class OrestackPlayerStateManager extends PlayerStateManager<OrestackPlugin, OrestackPlayer> {
+public class OrestackPlayerStateManager extends PlayerStateManager<OrestackPlayer> {
 
     public OrestackPlayerStateManager(@NotNull OrestackPlugin plugin) {
-        super(plugin, OrestackPlayer::new);
+        super(plugin, player -> new OrestackPlayer(plugin, player));
     }
 
 }

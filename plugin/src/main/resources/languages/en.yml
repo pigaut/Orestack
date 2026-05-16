@@ -136,11 +136,32 @@ buildstation-not-found: '&4Could not find any build station at target block'
 #░░░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
 
 menu-command: 'Open the main menu'
-menu-open-command: 'Open a menu with the given name'
+menu-open-command: 'Opens the menu with the given name'
 # Success
 opening-menu: '&aOpening {menu-name} menu...'
 # Errors
 menu-not-found: '&4Could not find menu with name: {menu-name}'
+
+#░░░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
+#░░░█▀▄░█▀▀░█░░░░█░░█▀▀░█▀▀░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
+#░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
+
+recipe-command: ''
+recipe-unlock-command: 'Unlocks the recipe with the given name'
+recipe-lock-command: 'Locks the recipe with the given name'
+recipe-unlock-all-command: 'Unlocks all available custom recipes'
+recipe-lock-all-command: 'Locks all available custom recipes'
+# Success
+unlocked-recipe: '&aUnlocking {recipe-name} recipe...'
+locked-recipe: '&aLocking {recipe-name} recipe...'
+unlocked-all-recipes: '&aUnlocking all recipes...'
+locked-all-recipes: '&aLocking all recipes...'
+# Errors
+recipe-not-found: '&4Could not find recipe with name: {recipe-name}'
+already-unlocked-recipe: '&4You already have this recipe unlocked'
+already-locked-recipe: '&4You already have this recipe locked'
+cannot-unlock-global-recipe: '&4You cannot unlock a global recipe'
+cannot-lock-global-recipe: '&4You cannot lock a global recipe'
 
 # -----------------------
 #    Generator Command

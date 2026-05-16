@@ -8,6 +8,7 @@ import io.github.pigaut.voxel.core.menu.template.button.*;
 import io.github.pigaut.voxel.core.menu.template.menu.*;
 
 import io.github.pigaut.voxel.core.player.*;
+import io.github.pigaut.voxel.core.player.state.*;
 import io.github.pigaut.voxel.data.message.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.manager.*;
