@@ -10,9 +10,9 @@ tool:
   max-uses: 10
   uses: 10
   on-block-break:
-    if: toolHasUsesLeft 5   # default is 1
+    if: toolHasUsesLeft   # default is 1
     do:
-      - consumeToolUses 1-5   # default is 1
+      - consumeToolUses  # default is 1
     else:
       - cancelEvent
       - sendChat &4Your tool is out of uses
