@@ -1,0 +1,31 @@
+
+title: '&8Coal Collection'
+
+rows: 6
+
+layout:
+  - 0 0 0 0 0 0 0 0 0
+  - 0 1 _ _ _ _ _ _ 0
+  - 0 _ _ _ _ _ _ _ 0
+  - 0 _ _ _ _ _ _ _ 0
+  - 0 _ _ _ _ _ _ _ 0
+  - 0 0 0 0 C 0 0 0 0
+
+---
+id: 1
+conditional-buttons:
+  - condition: hasUnlockedCollectionTier 1 collection=coal
+    type: green stained glass pane
+    name: '&aCoal I'
+    lore:
+      -
+      - '&7Progress: &a100%'
+      - '{dirt_collection_tier_1_progress_bar:line} &e'
+
+  - condition: collectionTierEquals 1 collection=dirt
+    type: yellow stained glass pane
+    name: 'Hello2'
+
+default-button:
+  type: red stained glass pane
+  name: '&eCoal I'

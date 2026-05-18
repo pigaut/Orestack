@@ -7,9 +7,8 @@ import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.core.menu.template.button.*;
 import io.github.pigaut.voxel.core.menu.template.menu.*;
 
-import io.github.pigaut.voxel.core.player.*;
-import io.github.pigaut.voxel.core.player.state.*;
 import io.github.pigaut.voxel.data.message.*;
+import io.github.pigaut.voxel.player.state.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.*;
@@ -47,8 +46,8 @@ public class MessagesMenu extends FramedSelectionMenu {
     }
 
     @Override
-    public @Nullable Button[] createButtons() {
-        Button[] buttons = super.createButtons();
+    public @Nullable Button[] createButtons(@NotNull Context context) {
+        Button[] buttons = super.createButtons(context);
 
         buttons[41] = new ConfigLoadButton(config);
 

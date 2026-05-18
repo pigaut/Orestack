@@ -1,10 +1,12 @@
 package io.github.pigaut.orestack.menu.particle;
 
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.core.menu.template.menu.*;
 import io.github.pigaut.yaml.*;
 import org.bukkit.*;
+import org.jetbrains.annotations.*;
 
 public class ParticleCreationMenu extends FramedMenu {
 
@@ -23,8 +25,8 @@ public class ParticleCreationMenu extends FramedMenu {
     }
 
     @Override
-    public Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
+    public Button[] createButtons(@NotNull Context context) {
+        final Button[] buttons = super.createButtons(context);
 
         buttons[10] = Button.builder()
                 .type(Material.CAMPFIRE)

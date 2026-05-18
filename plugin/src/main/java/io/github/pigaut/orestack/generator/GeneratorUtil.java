@@ -5,8 +5,10 @@ import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.context.*;
+import io.github.pigaut.voxel.data.collection.Collection;
 import io.github.pigaut.voxel.data.function.*;
 import io.github.pigaut.voxel.data.item.*;
+import io.github.pigaut.voxel.player.data.*;
 import io.github.pigaut.voxel.util.Server;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -80,11 +82,22 @@ public class GeneratorUtil {
         if (generatorPhase.getState().isHarvestable()) {
             Location dropLocation = block.getLocation().add(0.5, 1, 0.5);
 
-            Collection<ItemStack> itemDrops = event.getItemDrops();
+            var itemDrops = event.getItemDrops();
             if (itemDrops != null) {
                 for (ItemStack itemDrop : itemDrops) {
                     ItemUtil.dropItem(dropLocation, itemDrop);
                 }
+
+                if (plugin.getSettings().isGeneratorDropsIncrementCollections()) {
+                    PlayerData playerData = plugin.getPlayerData(player);
+                    for (ItemStack drop : itemDrops) {
+                        Collection collection = playerData.getItemCollection(drop);
+                        if (collection != null) {
+                            collection.increaseAmount(context, drop.getAmount());
+                        }
+                    }
+                }
+
             }
 
             int expDrops = event.getExpDrops();

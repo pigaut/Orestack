@@ -1,7 +1,6 @@
 package io.github.pigaut.orestack.core.action;
 
 import io.github.pigaut.orestack.api.event.*;
-import io.github.pigaut.voxel.core.player.*;
 import io.github.pigaut.voxel.data.function.action.event.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;

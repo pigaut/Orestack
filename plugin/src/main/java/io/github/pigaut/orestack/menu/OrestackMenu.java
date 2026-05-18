@@ -8,10 +8,12 @@ import io.github.pigaut.orestack.menu.message.*;
 import io.github.pigaut.orestack.menu.particle.*;
 import io.github.pigaut.orestack.menu.sound.*;
 import io.github.pigaut.orestack.menu.structure.*;
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.core.menu.template.button.*;
 import io.github.pigaut.voxel.core.menu.template.menu.*;
 import org.bukkit.*;
+import org.jetbrains.annotations.*;
 
 public class OrestackMenu extends FramedMenu {
 
@@ -23,8 +25,8 @@ public class OrestackMenu extends FramedMenu {
     }
 
     @Override
-    public Button[] createButtons() {
-        Button[] buttons = super.createButtons();
+    public Button[] createButtons(@NotNull Context context) {
+        Button[] buttons = super.createButtons(context);
 
         buttons[11] = Button.builder()
                 .type(Material.ITEM_FRAME)

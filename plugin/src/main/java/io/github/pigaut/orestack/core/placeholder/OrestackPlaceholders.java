@@ -6,6 +6,8 @@ import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.core.placeholder.*;
+import io.github.pigaut.voxel.data.collection.*;
+import io.github.pigaut.voxel.player.data.*;
 import io.github.pigaut.yaml.util.*;
 import org.jetbrains.annotations.*;
 
@@ -189,6 +191,217 @@ public class OrestackPlaceholders {
             });
         }
 
-    }
+        // Collection placeholders
+        for (CollectionTemplate collectionTemplate : plugin.getCollectionTemplates().getAll()) {
+            String collectionName = collectionTemplate.getName();
+            placeholders.register(collectionName + "_collection_amount_left", context -> {
+                PlayerData playerData = context.playerData();
+                if (playerData == null) {
+                    return null;
+                }
+                Collection collection = playerData.getItemCollection(collectionName);
+                if (collection == null) {
+                    return null;
+                }
+                return collection.getAmountToNextTier();
+            });
 
+            placeholders.register(collectionName + "_collection_progress", context -> {
+                PlayerData playerData = context.playerData();
+                if (playerData == null) {
+                    return null;
+                }
+                Collection collection = playerData.getItemCollection(collectionName);
+                if (collection == null) {
+                    return null;
+                }
+                return collection.getCollectedAmount();
+            });
+
+            placeholders.register(collectionName + "_collection_progress_percent", context -> {
+                PlayerData playerData = context.playerData();
+                if (playerData == null) {
+                    return null;
+                }
+                Collection collection = playerData.getItemCollection(collectionName);
+                if (collection == null) {
+                    return null;
+                }
+
+                double percentage = ((double) collection.getCollectedAmount() / collection.getNextTierAmount()) * 100;
+                double cappedPercentage = Math.min(100.0, percentage);
+                return String.format("%.1f", cappedPercentage);
+            });
+
+            for (ProgressBar progressBar : plugin.getSettings().getGrowthBars()) {
+                placeholders.register(collectionName + "_collection_progress_bar:" + progressBar.getId(), context -> {
+                    PlayerData playerData = context.playerData();
+                    if (playerData == null) {
+                        return null;
+                    }
+                    Collection collection = playerData.getItemCollection(collectionName);
+                    if (collection == null) {
+                        return null;
+                    }
+
+                    double ratio = (double) collection.getCollectedAmount() / collection.getNextTierAmount();
+                    int percent = (int) Math.round(ratio * 100.0);
+                    percent = Math.max(0, Math.min(100, percent));
+                    return progressBar.getBarByProgress(percent);
+                });
+            }
+
+            placeholders.register(collectionName + "_collection_tier_up_requirement", context -> {
+                PlayerData playerData = context.playerData();
+                if (playerData == null) {
+                    return null;
+                }
+                Collection collection = playerData.getItemCollection(collectionName);
+                if (collection == null) {
+                    return null;
+                }
+                return collection.getNextTierAmount();
+            });
+
+            placeholders.register(collectionName + "_collection_current_tier", context -> {
+                PlayerData playerData = context.playerData();
+                if (playerData == null) {
+                    return null;
+                }
+                Collection collection = playerData.getItemCollection(collectionName);
+                if (collection == null) {
+                    return null;
+                }
+                return collection.getTier() + 1;
+            });
+
+            placeholders.register(collectionName + "_collection_next_tier", context -> {
+                PlayerData playerData = context.playerData();
+                if (playerData == null) {
+                    return null;
+                }
+                Collection collection = playerData.getItemCollection(collectionName);
+                if (collection == null) {
+                    return null;
+                }
+                return collection.getNextTier() + 1;
+            });
+
+            for (int tierIndex = 0; tierIndex <= collectionTemplate.getMaxTier(); tierIndex++) {
+                final int tierUpAmount = collectionTemplate.getTier(tierIndex).getAmount();
+
+                placeholders.register(collectionName + "_collection_tier_" + (tierIndex + 1) + "_requirement", context -> {
+                    return tierUpAmount;
+                });
+
+                placeholders.register(collectionName + "_collection_tier_" + (tierIndex + 1) + "_progress_percent", context -> {
+                    PlayerData playerData = context.playerData();
+                    if (playerData == null) {
+                        return null;
+                    }
+                    Collection collection = playerData.getItemCollection(collectionName);
+                    if (collection == null) {
+                        return null;
+                    }
+
+                    double percentage = ((double) collection.getCollectedAmount() / tierUpAmount) * 100;
+                    double cappedPercentage = Math.min(100.0, percentage);
+                    return String.format("%.1f", cappedPercentage);
+                });
+
+                for (ProgressBar progressBar : plugin.getSettings().getGrowthBars()) {
+                    placeholders.register(collectionName + "_collection_tier_" + (tierIndex + 1) + "_progress_bar:" + progressBar.getId(), context -> {
+                        PlayerData playerData = context.playerData();
+                        if (playerData == null) {
+                            return null;
+                        }
+                        Collection collection = playerData.getItemCollection(collectionName);
+                        if (collection == null) {
+                            return null;
+                        }
+
+                        double ratio = (double) collection.getCollectedAmount() / tierUpAmount;
+                        int percent = (int) Math.round(ratio * 100.0);
+                        percent = Math.max(0, Math.min(100, percent));
+                        return progressBar.getBarByProgress(percent);
+                    });
+                }
+
+            }
+        }
+
+        // Collection category placeholders
+        for (String groupName : plugin.getCollectionTemplates().getAllGroups()) {
+            placeholders.register("collection_unlocked:" + groupName, context -> {
+                PlayerData playerData = context.playerData();
+                if (playerData == null)
+                    return null;
+
+                int collectionsUnlocked = 0;
+                for (Collection collection : playerData.getItemCollections()) {
+                    String group = collection.getGroup();
+                    if (group == null || !group.equals(groupName)) {
+                        if (collection.getTier() > -1) {
+                            collectionsUnlocked++;
+                        }
+                    }
+                }
+
+                return collectionsUnlocked;
+            });
+
+
+            placeholders.register("collection_unlocked_percent:" + groupName, context -> {
+                PlayerData playerData = context.playerData();
+                if (playerData == null) {
+                    return null;
+                }
+                int collectionsCount = 0;
+                int collectionsUnlocked = 0;
+                for (Collection collection : playerData.getItemCollections()) {
+                    String group = collection.getGroup();
+                    if (group == null || !group.equals(groupName)) {
+                        collectionsCount++;
+                        if (collection.getTier() > -1) {
+                            collectionsUnlocked++;
+                        }
+                    }
+                }
+
+                double percentage = ((double) collectionsUnlocked / collectionsCount) * 100;
+                return String.format("%.1f", percentage);
+            });
+
+            for (ProgressBar progressBar : plugin.getSettings().getGrowthBars()) {
+                placeholders.register("collection_unlocked:" + groupName + "_progress_bar:" + progressBar.getId(), context -> {
+                    PlayerData playerData = context.playerData();
+                    if (playerData == null) {
+                        return null;
+                    }
+                    int collectionsCount = 0;
+                    int collectionsUnlocked = 0;
+                    for (Collection collection : playerData.getItemCollections()) {
+                        String group = collection.getGroup();
+                        if (group == null || !group.equals(groupName)) {
+                            collectionsCount++;
+                            if (collection.getTier() > -1) {
+                                collectionsUnlocked++;
+                            }
+                        }
+                    }
+
+                    double ratio = (double) collectionsUnlocked / collectionsCount;
+                    int percent = (int) Math.round(ratio * 100.0);
+                    percent = Math.max(0, Math.min(100, percent));
+                    return progressBar.getBarByProgress(percent);
+                });
+            }
+
+
+
+        }
+
+
+
+    }
 }

@@ -1,0 +1,43 @@
+title: '&8Mining Collections'
+
+rows: 6
+
+layout:
+  - 0 0 0 0 0 0 0 0 0
+  - 0 1 _ _ _ _ _ _ 0
+  - 0 _ _ _ _ _ _ _ 0
+  - 0 _ _ _ _ _ _ _ 0
+  - 0 _ _ _ _ _ _ _ 0
+  - 0 0 0 0 C 0 0 0 0
+
+--- # ==== Dirt Button ===== #
+id: 1
+condition: hasUnlockedCollection dirt
+met:
+  type: dirt
+  name: '&eDirt {dirt_collection_current_tier_rm}'
+  lore:
+    - '&7View all your Dirt Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Dirt {dirt_collection_next_tier_rm}: &e{dirt_collection_progress_percent}&6%'
+    - '{dirt_collection_progress_bar:line} &e{dirt_collection_progress}/{dirt_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu dirt_collection
+
+unmet:
+  type: gray dye
+  name: '&cDirt'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+---
+
+
+

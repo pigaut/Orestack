@@ -23,6 +23,9 @@ public class OrestackSettings extends Settings {
     private boolean restoreOriginalBlocksOnRemove;
     private ItemStack generatorTool;
 
+    // Collections settings
+    private boolean generatorDropsIncrementCollections;
+
     // VeinMiner settings
     private boolean veinMiner;
     private List<String> veinMinerAliases;
@@ -65,6 +68,9 @@ public class OrestackSettings extends Settings {
         generatorTool = config.get("generator-tool", ItemStack.class)
                 .require(ItemUtil::isNotAir, "Item type cannot be air")
                 .withDefaultOrElse(GeneratorTool.getItemTemplate(), errors::add);
+
+        generatorDropsIncrementCollections = config.getBoolean("generator-drops-increment-collections")
+                .withDefaultOrElse(true, errors::add);
 
         // Generator settings
         defaultToolDamage = config.get("default-tool-durability-damage|default-tool-damage", Amount.class)
@@ -155,6 +161,10 @@ public class OrestackSettings extends Settings {
     @NotNull
     public ItemStack getGeneratorTool() {
         return generatorTool.clone();
+    }
+
+    public boolean isGeneratorDropsIncrementCollections() {
+        return generatorDropsIncrementCollections;
     }
 
     public boolean isDamageOverflow() {
