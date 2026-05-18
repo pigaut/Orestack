@@ -22,7 +22,7 @@ conditional-buttons:
       - '&7Progress: &a100%'
       - '{dirt_collection_tier_1_progress_bar:line} &e{dirt_collection_progress}/{dirt_collection_tier_1_requirement}'
 
-  - condition: currentCollectionTierEquals 1 collection=dirt
+  - condition: collectionTierEquals 1 collection=dirt
     type: yellow stained glass pane
     name: '&eDirt I'
     lore:
