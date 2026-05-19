@@ -1,15 +1,11 @@
-
-item: coal
+item: dirt
+on-unlock:
+  - sendMessage collection_unlocked name=dirt
 
 --- #===== Tier 1 =====
 amount: 50
 on-completion:
-  - unlockRecipe shaped_example
-  - giveItem diamond
-  - sendMessage collection_first_level_up 
-        name=dirt 
-        rewards=&7Shaped Example &eRecipe 
-        rewards=&b+1 diamond
+  - sendMessage collection_first_level_up_no_rewards name=dirt
 
 --- #===== Tier 2 =====
 amount: 100

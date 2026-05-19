@@ -1,0 +1,48 @@
+item: endstone
+on-unlock:
+  - sendMessage collection_unlocked name=end_stone
+
+--- #===== Tier 1 =====
+amount: 50
+on-completion:
+  - sendMessage collection_first_level_up_no_rewards name=end_stone
+
+--- #===== Tier 2 =====
+amount: 100
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=end_stone old=1 new=2
+
+--- #===== Tier 3 =====
+amount: 250
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=end_stone old=2 new=3
+
+--- #===== Tier 4 =====
+amount: 1000
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=end_stone old=3 new=4
+
+--- #===== Tier 5 =====
+amount: 5000
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=end_stone old=4 new=5
+
+--- #===== Tier 6 =====
+amount: 15000
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=end_stone old=5 new=6
+
+--- #===== Tier 7 =====
+amount: 30000
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=end_stone old=6 new=7
+
+--- #===== Tier 8 =====
+amount: 50000
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=end_stone old=7 new=8
+
+--- #===== Tier 9 =====
+amount: 100000
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=end_stone old=8 new=9

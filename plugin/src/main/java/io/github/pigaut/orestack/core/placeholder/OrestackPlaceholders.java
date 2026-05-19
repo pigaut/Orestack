@@ -5,6 +5,7 @@ import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.orestack.settings.*;
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.placeholder.*;
 import io.github.pigaut.voxel.data.collection.*;
 import io.github.pigaut.voxel.player.data.*;
@@ -191,7 +192,7 @@ public class OrestackPlaceholders {
             });
         }
 
-        // Collection placeholders
+        // Player Collection placeholders
         for (CollectionTemplate collectionTemplate : plugin.getCollectionTemplates().getAll()) {
             String collectionName = collectionTemplate.getName();
             placeholders.register(collectionName + "_collection_amount_left", context -> {
@@ -272,7 +273,7 @@ public class OrestackPlaceholders {
                 if (collection == null) {
                     return null;
                 }
-                return collection.getTier() + 1;
+                return collection.getCurrentTier() + 1;
             });
 
             placeholders.register(collectionName + "_collection_next_tier", context -> {
@@ -330,7 +331,7 @@ public class OrestackPlaceholders {
             }
         }
 
-        // Collection category placeholders
+        // Player collection category placeholders
         for (String groupName : plugin.getCollectionTemplates().getAllGroups()) {
             placeholders.register("collection_unlocked:" + groupName, context -> {
                 PlayerData playerData = context.playerData();
@@ -341,7 +342,7 @@ public class OrestackPlaceholders {
                 for (Collection collection : playerData.getItemCollections()) {
                     String group = collection.getGroup();
                     if (group == null || !group.equals(groupName)) {
-                        if (collection.getTier() > -1) {
+                        if (collection.getCurrentTier() > -1) {
                             collectionsUnlocked++;
                         }
                     }
@@ -362,7 +363,7 @@ public class OrestackPlaceholders {
                     String group = collection.getGroup();
                     if (group == null || !group.equals(groupName)) {
                         collectionsCount++;
-                        if (collection.getTier() > -1) {
+                        if (collection.getCurrentTier() > -1) {
                             collectionsUnlocked++;
                         }
                     }
@@ -384,7 +385,7 @@ public class OrestackPlaceholders {
                         String group = collection.getGroup();
                         if (group == null || !group.equals(groupName)) {
                             collectionsCount++;
-                            if (collection.getTier() > -1) {
+                            if (collection.getCurrentTier() > -1) {
                                 collectionsUnlocked++;
                             }
                         }
@@ -397,7 +398,66 @@ public class OrestackPlaceholders {
                 });
             }
 
+            // Collection placeholders (no player)
+            placeholders.register("collection_name", context -> {
+                Collection collection = context.get(Collection.class);
+                if (collection == null) {
+                    return null;
+                }
+                return collection.getName();
+            });
 
+            placeholders.register("collection_rewards", context -> {
+                Collection collection = context.get(Collection.class);
+                if (collection == null) {
+                    return null;
+                }
+                return collection.getTier().getRewards();
+            });
+
+            placeholders.register("collection_tier", context -> {
+                Collection collection = context.get(Collection.class);
+                if (collection == null) {
+                    return null;
+                }
+                return collection.getCurrentTier() + 1;
+            });
+
+            placeholders.register("collection_previous_tier", context -> {
+                Collection collection = context.get(Collection.class);
+                if (collection == null) {
+                    return null;
+                }
+                return collection.getCurrentTier();
+            });
+
+            placeholders.register("collection_progress", context -> {
+                Collection collection = context.get(Collection.class);
+                if (collection == null) {
+                    return null;
+                }
+                return collection.getCollectedAmount();
+            });
+
+
+
+            for (ProgressBar progressBar : plugin.getSettings().getGrowthBars()) {
+                placeholders.register("collection_tier_" + (tierIndex + 1) + "_progress_bar:" + progressBar.getId(), context -> {
+                    PlayerData playerData = context.playerData();
+                    if (playerData == null) {
+                        return null;
+                    }
+                    Collection collection = playerData.getItemCollection(collectionName);
+                    if (collection == null) {
+                        return null;
+                    }
+
+                    double ratio = (double) collection.getCollectedAmount() / tierUpAmount;
+                    int percent = (int) Math.round(ratio * 100.0);
+                    percent = Math.max(0, Math.min(100, percent));
+                    return progressBar.getBarByProgress(percent);
+                });
+            }
 
         }
 

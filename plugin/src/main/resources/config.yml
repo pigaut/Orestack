@@ -9,46 +9,47 @@ keep-file-up-to-date: true
 # Whether to show config errors in chat when a player uses /orestack reload
 show-reload-errors: true
 
-# Print the stacktrace of configuration errors for development purposes
+# Print the stacktrace of configuration errors for development
 debug: false
 
-# Whether to use colors in console messages
+# Toggle colors in console messages
 colored-console: true
 
 #░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░█░░░░░░
 #░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░█░░░░░░
 #░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀▀▀░░░░
 
-# Generates example files
+# Toggle generation of example configurations
 generate-examples: true
 
-# Checks for available updates on startup and on reload
+# Check for plugin updates on startup and reload
 check-for-updates: true
 
-# Enables bStats metrics collection (https://bstats.org/plugin/bukkit/Orestack/24502)
-metrics: true # Keep this on if you want to support development. (No performance impact)
+# Enable anonymous bStats metrics collection (No performance impact)
+metrics: true
 
-# Dumps the giant Orestack logo in console on startup and on reload
+# Print the large Orestack logo in the console on startup
 dump-logo: true
 
-# The language file that should be used (en = en.yml)
+# Active localization file (e.g., en = languages/en.yml)
 language: en
 
-# Whether to ignore missing translation errors from language file and use default values instead
-ignore-missing-translation-errors: true
+# Generate the language folder and populate with all default translation files
+generate-languages: false
 
-# The auto save timer, if not set or set to 0 data will only be saved on shutdown or on /orestack reload
+# Fallback to default messages silently if translation keys are missing
+ignore-missing-translation-errors: false
+
+# Auto-save intervals (0 = save only on shutdown/reload)
 auto-save: 0
 
-# The time to wait for other plugins to finish loading their worlds after server startup is complete.
-# Increase if you notice Orestack is not detecting your custom worlds.
+# Delay before mapping custom worlds (increase if custom worlds aren't detected)
 world-load-timeout: 3s
 
-# How long to keep player data after they leave the server.
-# Avoids players quitting and joining back to reset their flags.
+# Period to cache player state and data after they disconnect
 player-cache-duration: 30s
 
-# Blocks that should be ignored when using /orestack structure save <file-name>
+# Materials excluded when running /orestack structure save
 structure-blacklist:
   - AIR
   - BEDROCK
@@ -149,11 +150,15 @@ default-item-drop-target: block
 #░░░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
 #░░░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
 
-# Whether dropped items should increase collections if one matching the drop type is found
-action-drops-increment-collections: true
+# Drops sources that should increment collections
+collection-sources:
+  - action_drops
+  - generator_drops
+  - entity_drops
+  - fishing_drops
 
-# Whether default drops from generators increase collections if one matching the drop type is found
-generator-drops-increment-collections: true
+# The default collection progress bar for some placeholders
+collection-progress-bar: line
 
 #░░░█▀▀░▀█▀░█░░░█░█░░░▀█▀░█▀█░█░█░█▀▀░█░█░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
 #░░░▀▀█░░█░░█░░░█▀▄░░░░█░░█░█░█░█░█░░░█▀█░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░

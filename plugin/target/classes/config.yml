@@ -34,7 +34,7 @@ dump-logo: true
 # The language file that should be used (en = en.yml)
 language: en
 
-# Whether to ignore missing translation errors from language file and use default values instead
+# Whether to ignore missing translation errors from language file and use default values
 ignore-missing-translation-errors: true
 
 # The auto save timer, if not set or set to 0 data will only be saved on shutdown or on /orestack reload

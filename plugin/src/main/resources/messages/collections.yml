@@ -1,40 +1,30 @@
 
 # Message for collecting a collection item for the first time
-# Custom placeholders: {name}
-# Usage: sendMessage collection_unlock name=dirt
-collection_unlock:
-  - '&e&lCOLLECTION UNLOCKED &e{name_tc}'   # tc: Title Case
+collection-unlocked:
+  - '&e&lCOLLECTION UNLOCKED &e{collection_name_tc}'   # tc: Title Case
 
 # Message for levelling up the first tier of a collection
-# Custom placeholders: {name}, {rewards}
-# Usage: sendMessage collection_first_level_up collection=dirt rewards=+1 Diamond rewards=+1 Dirt
-collection_first_level_up:
-  - '&6&l--------------------------------------------'
-  - '&e&lCOLLECTION LEVEL UP &e{name_tc} I'
+collection-first-level-up:
+  - '&e&l--------------------------------------------'
+  - '&6&lCOLLECTION LEVEL UP &e{collection_name_tc} I'
   - ''
   - '  &a&lREWARDS'
-  - '   {rewards}'
-  - '&6&l--------------------------------------------'
+  - '    {collection_rewards}' # Each reward takes one line
+  - '&e&l--------------------------------------------'
 
-# Message for levelling up the first tier of a collection with no rewards
-# Custom placeholders: {name}
-# Usage: sendMessage collection_first_level_up_no_rewards name=dirt
-collection_first_level_up_no_rewards:
-  - '&e&lCOLLECTION LEVEL UP &e{name_tc} I'
+# Message for levelling up the first tier of a collection (no rewards)
+collection-first-level-up-no-rewards:
+  - '&e&lCOLLECTION LEVEL UP &e{collection_name_tc} I'
 
 # Message for levelling up a collection
-# Custom placeholders: {name}, {old}, {new}, {rewards}
-# Usage: sendMessage collection_level_up name=dirt old=1 new=2 rewards=+1 Diamond rewards=+1 Dirt
-collection_level_up:
+collection-level-up:
   - '&6&l--------------------------------------------'
-  - '&6&lCOLLECTION LEVEL UP &e{name_tc} &8{old_rm}&l→&e{new_rm}'   # rm: IV (Roman numerals)
+  - '&6&lCOLLECTION LEVEL UP &e{collection_name_tc} &8{collection_previous_tier_rm}&l→&e{collection_tier_rm}' # rm: IV (Roman numerals)
   - ''
   - '  &a&lREWARDS'
-  - '   {rewards}'
+  - '   {collection_rewards}'
   - '&6&l--------------------------------------------'
 
-# Message for levelling up a collection with no rewards
-# Custom placeholders: {name}, {old}, {new}
-# Usage: sendMessage collection_level_up_no_rewards name=dirt old=1 new=2
-collection_level_up_no_rewards:
-  - '&6&lCOLLECTION LEVEL UP &e{name_tc} &8{old_rm}&l→&e{new_rm}'
+# Message for levelling up a collection (no rewards)
+collection-level-up-no-rewards:
+  - '&6&lCOLLECTION LEVEL UP &e{collection_name_tc} &8{collection_previous_tier_rm}&l→&e{collection_tier_rm}'  # rm: IV (Roman numerals)

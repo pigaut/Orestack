@@ -1,4 +1,6 @@
 
+# Add Collection to context and make placeholders/conditions that use it specifically
+
 title: '&8Coal Collection'
 
 rows: 6

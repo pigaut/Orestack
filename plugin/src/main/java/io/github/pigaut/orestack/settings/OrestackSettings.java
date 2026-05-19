@@ -24,7 +24,7 @@ public class OrestackSettings extends Settings {
     private ItemStack generatorTool;
 
     // Collections settings
-    private boolean generatorDropsIncrementCollections;
+    private ProgressBar collectionProgressBar;
 
     // VeinMiner settings
     private boolean veinMiner;
@@ -45,10 +45,6 @@ public class OrestackSettings extends Settings {
     private boolean reducedCooldownDamage;
     private List<ToolDamage> damageByTool;
 
-    // Progress bars
-    private List<ProgressBar> healthBars;
-    private List<ProgressBar> growthBars;
-
     public OrestackSettings(EnhancedPlugin plugin) {
         super(plugin);
     }
@@ -68,9 +64,6 @@ public class OrestackSettings extends Settings {
         generatorTool = config.get("generator-tool", ItemStack.class)
                 .require(ItemUtil::isNotAir, "Item type cannot be air")
                 .withDefaultOrElse(GeneratorTool.getItemTemplate(), errors::add);
-
-        generatorDropsIncrementCollections = config.getBoolean("generator-drops-increment-collections")
-                .withDefaultOrElse(true, errors::add);
 
         // Generator settings
         defaultToolDamage = config.get("default-tool-durability-damage|default-tool-damage", Amount.class)
@@ -139,12 +132,6 @@ public class OrestackSettings extends Settings {
                 .withDefaultOrElse(true, errors::add);
 
         damageByTool = config.getList("damage-by-tool-type", ToolDamage.class)
-                .withDefaultOrElse(List.of(), errors::add);
-
-        healthBars = config.getAll("health-bars", ProgressBar.class)
-                .withDefaultOrElse(List.of(), errors::add);
-
-        growthBars = config.getAll("growth-bars", ProgressBar.class)
                 .withDefaultOrElse(List.of(), errors::add);
 
         return errors;

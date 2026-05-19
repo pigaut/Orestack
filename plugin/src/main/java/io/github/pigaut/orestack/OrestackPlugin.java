@@ -247,6 +247,14 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                         "structures/deposits/copper/copper_deposit_8.yml",
                         "structures/deposits/copper/copper_deposit_9.yml",
                         "structures/deposits/copper/copper_deposit_10.yml"
+                ),
+
+                Version.V1_19, List.of(
+                        "collections/foraging/mangrove_log.yml"
+                ),
+
+                Version.V1_20, List.of(
+                        "collections/foraging/cherry_log.yml"
                 )
         );
     }

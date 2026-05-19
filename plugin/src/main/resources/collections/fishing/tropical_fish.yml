@@ -1,0 +1,48 @@
+item: tropical_fish
+on-unlock:
+  - sendMessage collection_unlocked name=tropical_fish
+
+--- #===== Tier 1 =====
+amount: 10
+on-completion:
+  - sendMessage collection_first_level_up_no_rewards name=tropical_fish
+
+--- #===== Tier 2 =====
+amount: 20
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=tropical_fish old=1 new=2
+
+--- #===== Tier 3 =====
+amount: 50
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=tropical_fish old=2 new=3
+
+--- #===== Tier 4 =====
+amount: 100
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=tropical_fish old=3 new=4
+
+--- #===== Tier 5 =====
+amount: 200
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=tropical_fish old=4 new=5
+
+--- #===== Tier 6 =====
+amount: 400
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=tropical_fish old=5 new=6
+
+--- #===== Tier 7 =====
+amount: 800
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=tropical_fish old=6 new=7
+
+--- #===== Tier 8 =====
+amount: 1500
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=tropical_fish old=7 new=8
+
+--- #===== Tier 9 =====
+amount: 3000
+on-completion:
+  - sendMessage collection_level_up_no_rewards name=tropical_fish old=8 new=9
