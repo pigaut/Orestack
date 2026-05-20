@@ -89,10 +89,8 @@ io\github\pigaut\orestack\menu\structure\StructuresMenu.class
 io\github\pigaut\orestack\menu\particle\ParticlesMenu.class
 io\github\pigaut\orestack\hook\castlegates\GateEventListener.class
 io\github\pigaut\orestack\menu\hologram\editor\AnimatedHologramEditor.class
-io\github\pigaut\orestack\health\config\ProgressBarLoader.class
 io\github\pigaut\orestack\generator\GeneratorRepository.class
 io\github\pigaut\orestack\core\action\GeneratorSetPhaseAction.class
-io\github\pigaut\orestack\health\ProgressBar.class
 io\github\pigaut\orestack\core\action\GeneratorHarvestAction.class
 io\github\pigaut\orestack\menu\message\editor\GenericMessageEditor.class
 io\github\pigaut\orestack\generator\template\GeneratorTemplateManager.class

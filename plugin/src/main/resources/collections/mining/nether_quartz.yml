@@ -1,4 +1,4 @@
-item: nether_quartz
+item: quartz
 on-unlock:
   - sendMessage collection_unlocked name=nether_quartz
 

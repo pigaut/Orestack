@@ -213,19 +213,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull List<String> getDefaultDirectories() {
-        return List.of("items", "generators", "messages",
-                "languages", "functions", "structures",
-                "effects/particles", "effects/sounds",
-                "menus", "recipes", "collections");
-    }
-
-    @Override
-    public List<String> getDefaultResources() {
-        return List.of("config.yml", "languages/en.yml");
-    }
-
-    @Override
     public Map<Integer, List<String>> getExamplesByVersion() {
         return Map.of(
                 Version.V1_17, List.of(

@@ -5,6 +5,7 @@ import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.context.*;
+import io.github.pigaut.voxel.data.collection.*;
 import io.github.pigaut.voxel.data.collection.Collection;
 import io.github.pigaut.voxel.data.function.*;
 import io.github.pigaut.voxel.data.item.*;
@@ -88,7 +89,7 @@ public class GeneratorUtil {
                     ItemUtil.dropItem(dropLocation, itemDrop);
                 }
 
-                if (plugin.getSettings().isGeneratorDropsIncrementCollections()) {
+                if (plugin.getSettings().isCollectionSourceEnabled(CollectionSource.GENERATOR_DROPS)) {
                     PlayerData playerData = plugin.getPlayerData(player);
                     for (ItemStack drop : itemDrops) {
                         Collection collection = playerData.getItemCollection(drop);
@@ -97,7 +98,6 @@ public class GeneratorUtil {
                         }
                     }
                 }
-
             }
 
             int expDrops = event.getExpDrops();

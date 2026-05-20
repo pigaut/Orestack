@@ -4,6 +4,7 @@ import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.enchant.*;
+import io.github.pigaut.voxel.core.progressbar.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
@@ -64,6 +65,11 @@ public class OrestackSettings extends Settings {
         generatorTool = config.get("generator-tool", ItemStack.class)
                 .require(ItemUtil::isNotAir, "Item type cannot be air")
                 .withDefaultOrElse(GeneratorTool.getItemTemplate(), errors::add);
+
+        // Collections settings
+
+        collectionProgressBar = config.get("collection-progress-bar", ProgressBar.class)
+                .withDefaultOrElse(ProgressBar.EMPTY, errors::add);
 
         // Generator settings
         defaultToolDamage = config.get("default-tool-durability-damage|default-tool-damage", Amount.class)
@@ -150,16 +156,16 @@ public class OrestackSettings extends Settings {
         return generatorTool.clone();
     }
 
-    public boolean isGeneratorDropsIncrementCollections() {
-        return generatorDropsIncrementCollections;
-    }
-
     public boolean isDamageOverflow() {
         return overflowDamage;
     }
 
     public boolean isEfficiencyDamageMultiplier() {
         return efficiencyDamageMultiplier;
+    }
+
+    public @NotNull ProgressBar getCollectionProgressBar() {
+        return collectionProgressBar;
     }
 
     public boolean isDefaultToolDamage() {
@@ -194,16 +200,6 @@ public class OrestackSettings extends Settings {
             }
         }
         return defaultDamage;
-    }
-
-    @NotNull
-    public List<ProgressBar> getHealthBars() {
-        return new ArrayList<>(healthBars);
-    }
-
-    @NotNull
-    public List<ProgressBar> getGrowthBars() {
-        return growthBars;
     }
 
     public boolean isVeinMiner() {

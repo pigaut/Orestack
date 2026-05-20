@@ -1,0 +1,744 @@
+
+#░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░░░█▀█░█▀▄░█▀█░█▀▀░█▀▄░█▀▀░█▀▀░█▀▀░░░░
+#░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░░░█▀▀░█▀▄░█░█░█░█░█▀▄░█▀▀░▀▀█░▀▀█░░░░
+#░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░░░▀░░░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░░░░
+# Supports up to 18 collection tiers
+# Usage: openMenu collection_progress collection=dirt
+
+title: '&8{collection_name} Collection'
+
+rows: 6
+
+layout:
+  - 0 0 0 0 T 0 0 0 0
+  - 0 0 0 0 0 0 0 0 0
+  - 1 2 3 4 5 6 7 8 9
+  - 10 11 12 13 14 15 16 17 18
+  - 0 0 0 0 0 0 0 0 0
+  - 0 0 0 B C M 0 0 0
+
+--- #===== Collection Item Button =====#
+id: T
+type: '{collection_item}'
+name: '&e{collection_name_tc} {collection_tier_rm}'
+lore:
+  - '&7View all your {collection_name_tc} Collection'
+  - '&7progress and rewards!'
+  - ''
+  - '&7Total Collected: {collection_progress}'
+
+--- #===== Tier 1 Button =====#
+id: 1
+conditional-buttons:
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} I'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_1_progress_bar} &e{collection_progress}&6/&e{collection_tier_1_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 1
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} I'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_1_progress_bar} &e{collection_progress}&6/&e{collection_tier_1_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} I'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_1_progress_bar} &e{collection_progress}&6/&e{collection_tier_1_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 2 Button =====#
+id: 2
+conditional-buttons:
+  - condition: collectionMaxTierEquals 1-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} II'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_2_progress_bar} &e{collection_progress}&6/&e{collection_tier_2_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 2
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} II'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_2_progress_bar} &e{collection_progress}&6/&e{collection_tier_2_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} II'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_2_progress_bar} &e{collection_progress}&6/&e{collection_tier_2_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 3 Button =====#
+id: 3
+conditional-buttons:
+  - condition: collectionMaxTierEquals 2-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} III'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_3_progress_bar} &e{collection_progress}&6/&e{collection_tier_3_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 3
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} III'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_3_progress_bar} &e{collection_progress}&6/&e{collection_tier_3_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} III'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_3_progress_bar} &e{collection_progress}&6/&e{collection_tier_3_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 4 Button =====#
+id: 4
+conditional-buttons:
+  - condition: collectionMaxTierEquals 3-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} IV'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_4_progress_bar} &e{collection_progress}&6/&e{collection_tier_4_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 4
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} IV'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_4_progress_bar} &e{collection_progress}&6/&e{collection_tier_4_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} IV'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_4_progress_bar} &e{collection_progress}&6/&e{collection_tier_4_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 5 Button =====#
+id: 5
+conditional-buttons:
+  - condition: collectionMaxTierEquals 4-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} V'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_5_progress_bar} &e{collection_progress}&6/&e{collection_tier_5_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 5
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} V'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_5_progress_bar} &e{collection_progress}&6/&e{collection_tier_5_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} V'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_5_progress_bar} &e{collection_progress}&6/&e{collection_tier_5_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 6 Button =====#
+id: 6
+conditional-buttons:
+  - condition: collectionMaxTierEquals 5-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} VI'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_6_progress_bar} &e{collection_progress}&6/&e{collection_tier_6_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 6
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} VI'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_6_progress_bar} &e{collection_progress}&6/&e{collection_tier_6_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} VI'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_6_progress_bar} &e{collection_progress}&6/&e{collection_tier_6_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 7 Button =====#
+id: 7
+conditional-buttons:
+  - condition: collectionMaxTierEquals 6-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} VII'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_7_progress_bar} &e{collection_progress}&6/&e{collection_tier_7_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 7
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} VII'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_7_progress_bar} &e{collection_progress}&6/&e{collection_tier_7_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} VII'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_7_progress_bar} &e{collection_progress}&6/&e{collection_tier_7_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 8 Button =====#
+id: 8
+conditional-buttons:
+  - condition: collectionMaxTierEquals 7-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} VIII'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_8_progress_bar} &e{collection_progress}&6/&e{collection_tier_8_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 8
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} VIII'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_8_progress_bar} &e{collection_progress}&6/&e{collection_tier_8_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} VIII'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_8_progress_bar} &e{collection_progress}&6/&e{collection_tier_8_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 9 Button =====#
+id: 9
+conditional-buttons:
+  - condition: collectionMaxTierEquals 8-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} IX'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_9_progress_bar} &e{collection_progress}&6/&e{collection_tier_9_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 9
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} IX'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_9_progress_bar} &e{collection_progress}&6/&e{collection_tier_9_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} IX'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_9_progress_bar} &e{collection_progress}&6/&e{collection_tier_9_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 10 Button =====#
+id: 10
+conditional-buttons:
+  - condition: collectionMaxTierEquals 9-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} X'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_10_progress_bar} &e{collection_progress}&6/&e{collection_tier_10_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 10
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} X'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_10_progress_bar} &e{collection_progress}&6/&e{collection_tier_10_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} X'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_10_progress_bar} &e{collection_progress}&6/&e{collection_tier_10_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 11 Button =====#
+id: 11
+conditional-buttons:
+  - condition: collectionMaxTierEquals 10-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} XI'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_11_progress_bar} &e{collection_progress}&6/&e{collection_tier_11_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 11
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} XI'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_11_progress_bar} &e{collection_progress}&6/&e{collection_tier_11_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} XI'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_11_progress_bar} &e{collection_progress}&6/&e{collection_tier_11_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 12 Button =====#
+id: 12
+conditional-buttons:
+  - condition: collectionMaxTierEquals 11-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} XII'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_12_progress_bar} &e{collection_progress}&6/&e{collection_tier_12_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 12
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} XII'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_12_progress_bar} &e{collection_progress}&6/&e{collection_tier_12_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} XII'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_12_progress_bar} &e{collection_progress}&6/&e{collection_tier_12_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 13 Button =====#
+id: 13
+conditional-buttons:
+  - condition: collectionMaxTierEquals 12-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} XIII'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_13_progress_bar} &e{collection_progress}&6/&e{collection_tier_13_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 13
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} XIII'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_13_progress_bar} &e{collection_progress}&6/&e{collection_tier_13_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} XIII'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_13_progress_bar} &e{collection_progress}&6/&e{collection_tier_13_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 14 Button =====#
+id: 14
+conditional-buttons:
+  - condition: collectionMaxTierEquals 13-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} XIV'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_14_progress_bar} &e{collection_progress}&6/&e{collection_tier_14_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 14
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} XIV'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_14_progress_bar} &e{collection_progress}&6/&e{collection_tier_14_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} XIV'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_14_progress_bar} &e{collection_progress}&6/&e{collection_tier_14_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 15 Button =====#
+id: 15
+conditional-buttons:
+  - condition: collectionMaxTierEquals 14-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} XV'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_15_progress_bar} &e{collection_progress}&6/&e{collection_tier_15_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 15
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} XV'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_15_progress_bar} &e{collection_progress}&6/&e{collection_tier_15_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} XV'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_15_progress_bar} &e{collection_progress}&6/&e{collection_tier_15_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 16 Button =====#
+id: 16
+conditional-buttons:
+  - condition: collectionMaxTierEquals 15-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} XVI'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_16_progress_bar} &e{collection_progress}&6/&e{collection_tier_16_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 16
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} XVI'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_16_progress_bar} &e{collection_progress}&6/&e{collection_tier_16_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} XVI'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_16_progress_bar} &e{collection_progress}&6/&e{collection_tier_16_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 17 Button =====#
+id: 17
+conditional-buttons:
+  - condition: collectionMaxTierEquals 16-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} XVII'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_17_progress_bar} &e{collection_progress}&6/&e{collection_tier_17_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 17
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} XVII'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_17_progress_bar} &e{collection_progress}&6/&e{collection_tier_17_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} XVII'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_17_progress_bar} &e{collection_progress}&6/&e{collection_tier_17_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'
+
+--- #===== Tier 18 Button =====#
+id: 18
+conditional-buttons:
+  - condition: collectionMaxTierEquals 17-
+    type: gray_stained_glass_pane
+    name: ''
+
+  - condition: collectionIsUnlocked
+    type: green_stained_glass_pane
+    name: '&a{collection_name_tc} XVIII'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_18_progress_bar} &e{collection_progress}&6/&e{collection_tier_18_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+  - condition: collectionTierEquals 18
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} XVIII'
+    lore:
+      - ''
+      - '&7Progress: &e{collection_progress_percent}%'
+      - '{collection_tier_18_progress_bar} &e{collection_progress}&6/&e{collection_tier_18_requirement}'
+      - ''
+      - '&7Rewards:'
+      - '  {collection_rewards}'
+
+default-button:
+  type: red_stained_glass_pane
+  name: '&c{collection_name_tc} XVIII'
+  lore:
+    - ''
+    - '&7Progress: &e{collection_progress_percent}%'
+    - '{collection_tier_18_progress_bar} &e{collection_progress}&6/&e{collection_tier_18_requirement}'
+    - ''
+    - '&7Rewards:'
+    - '  {collection_rewards}'

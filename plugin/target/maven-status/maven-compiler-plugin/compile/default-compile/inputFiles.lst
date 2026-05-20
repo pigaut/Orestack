@@ -41,10 +41,8 @@ D:\files\Development\java\spigot\projects\Orestack\plugin\src\main\java\io\githu
 D:\files\Development\java\spigot\projects\Orestack\plugin\src\main\java\io\github\pigaut\orestack\generator\template\GeneratorOptionsManager.java
 D:\files\Development\java\spigot\projects\Orestack\plugin\src\main\java\io\github\pigaut\orestack\generator\template\GeneratorTemplate.java
 D:\files\Development\java\spigot\projects\Orestack\plugin\src\main\java\io\github\pigaut\orestack\generator\template\GeneratorTemplateManager.java
-D:\files\Development\java\spigot\projects\Orestack\plugin\src\main\java\io\github\pigaut\orestack\health\config\ProgressBarLoader.java
 D:\files\Development\java\spigot\projects\Orestack\plugin\src\main\java\io\github\pigaut\orestack\health\config\ToolDamageLoader.java
 D:\files\Development\java\spigot\projects\Orestack\plugin\src\main\java\io\github\pigaut\orestack\health\HealthUtil.java
-D:\files\Development\java\spigot\projects\Orestack\plugin\src\main\java\io\github\pigaut\orestack\health\ProgressBar.java
 D:\files\Development\java\spigot\projects\Orestack\plugin\src\main\java\io\github\pigaut\orestack\health\ToolDamage.java
 D:\files\Development\java\spigot\projects\Orestack\plugin\src\main\java\io\github\pigaut\orestack\hook\castlegates\GateEventListener.java
 D:\files\Development\java\spigot\projects\Orestack\plugin\src\main\java\io\github\pigaut\orestack\hook\itemsadder\ItemsAdderDropListener.java

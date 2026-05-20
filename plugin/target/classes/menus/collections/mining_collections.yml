@@ -25,7 +25,7 @@ met:
     -
     - '&eClick to view!'
   on-left-click:
-    - openMenu dirt_collection
+    - openMenu collection_progress collection=dirt
 
 unmet:
   type: gray dye

@@ -1,4 +1,4 @@
-item: endstone
+item: end_stone
 on-unlock:
   - sendMessage collection_unlocked name=end_stone
 

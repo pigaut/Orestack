@@ -7,6 +7,7 @@ import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.placeholder.*;
+import io.github.pigaut.voxel.core.progressbar.*;
 import io.github.pigaut.voxel.data.collection.*;
 import io.github.pigaut.voxel.player.data.*;
 import io.github.pigaut.yaml.util.*;
@@ -136,8 +137,8 @@ public class OrestackPlaceholders {
         });
 
         OrestackSettings settings = plugin.getSettings();
-        for (ProgressBar progressBar : settings.getHealthBars()) {
-            placeholders.register("generator_health_bar:" + progressBar.getId(), context -> {
+        for (ProgressBar countdownBar : settings.getCountdownBars()) {
+            placeholders.register("generator_health_bar:" + countdownBar.getId(), context -> {
                 Generator generator = context.get(Generator.class);
                 if (generator == null) {
                     return null;
@@ -146,10 +147,10 @@ public class OrestackPlaceholders {
                 if (healthPercentage == null) {
                     return null;
                 }
-                return progressBar.getBarByProgress(healthPercentage);
+                return countdownBar.getBarByProgress(healthPercentage);
             });
 
-            placeholders.register("phase_health_bar:" + progressBar.getId(), context -> {
+            placeholders.register("phase_health_bar:" + countdownBar.getId(), context -> {
                 Generator generator = context.get(Generator.class);
                 if (generator == null) {
                     return null;
@@ -158,11 +159,11 @@ public class OrestackPlaceholders {
                 if (healthPercentage == null) {
                     return null;
                 }
-                return progressBar.getBarByProgress(healthPercentage);
+                return countdownBar.getBarByProgress(healthPercentage);
             });
         }
 
-        for (ProgressBar progressBar : settings.getGrowthBars()) {
+        for (ProgressBar progressBar : settings.getProgressBars()) {
             placeholders.register("generator_growth_bar:" + progressBar.getId(), context -> {
                 Generator generator = context.get(Generator.class);
                 if (generator == null) {
@@ -234,7 +235,7 @@ public class OrestackPlaceholders {
                 return String.format("%.1f", cappedPercentage);
             });
 
-            for (ProgressBar progressBar : plugin.getSettings().getGrowthBars()) {
+            for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
                 placeholders.register(collectionName + "_collection_progress_bar:" + progressBar.getId(), context -> {
                     PlayerData playerData = context.playerData();
                     if (playerData == null) {
@@ -289,7 +290,7 @@ public class OrestackPlaceholders {
             });
 
             for (int tierIndex = 0; tierIndex <= collectionTemplate.getMaxTier(); tierIndex++) {
-                final int tierUpAmount = collectionTemplate.getTier(tierIndex).getAmount();
+                int tierUpAmount = collectionTemplate.getTier(tierIndex).getAmount();
 
                 placeholders.register(collectionName + "_collection_tier_" + (tierIndex + 1) + "_requirement", context -> {
                     return tierUpAmount;
@@ -310,7 +311,7 @@ public class OrestackPlaceholders {
                     return String.format("%.1f", cappedPercentage);
                 });
 
-                for (ProgressBar progressBar : plugin.getSettings().getGrowthBars()) {
+                for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
                     placeholders.register(collectionName + "_collection_tier_" + (tierIndex + 1) + "_progress_bar:" + progressBar.getId(), context -> {
                         PlayerData playerData = context.playerData();
                         if (playerData == null) {
@@ -373,8 +374,8 @@ public class OrestackPlaceholders {
                 return String.format("%.1f", percentage);
             });
 
-            for (ProgressBar progressBar : plugin.getSettings().getGrowthBars()) {
-                placeholders.register("collection_unlocked:" + groupName + "_progress_bar:" + progressBar.getId(), context -> {
+            for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
+                placeholders.register(groupName + "_collection_unlocked_progress_bar:" + progressBar.getId(), context -> {
                     PlayerData playerData = context.playerData();
                     if (playerData == null) {
                         return null;
@@ -439,23 +440,20 @@ public class OrestackPlaceholders {
                 return collection.getCollectedAmount();
             });
 
-
-
-            for (ProgressBar progressBar : plugin.getSettings().getGrowthBars()) {
-                placeholders.register("collection_tier_" + (tierIndex + 1) + "_progress_bar:" + progressBar.getId(), context -> {
-                    PlayerData playerData = context.playerData();
-                    if (playerData == null) {
-                        return null;
-                    }
-                    Collection collection = playerData.getItemCollection(collectionName);
+            ProgressBar collectionProgressBar = settings.getCollectionProgressBar();
+            for (int tierIndex = 0; tierIndex < 100; tierIndex++) {
+                placeholders.register("collection_tier_" + (tierIndex + 1) + "_progress_bar", context -> {
+                    Collection collection = context.get(Collection.class);
                     if (collection == null) {
                         return null;
                     }
 
-                    double ratio = (double) collection.getCollectedAmount() / tierUpAmount;
+                    int nextTierAmount = collection.getNextTierAmount();
+
+                    double ratio = (double) collection.getCollectedAmount() / nextTierAmount;
                     int percent = (int) Math.round(ratio * 100.0);
                     percent = Math.max(0, Math.min(100, percent));
-                    return progressBar.getBarByProgress(percent);
+                    return collectionProgressBar.getBarByProgress(percent);
                 });
             }
 
