@@ -1,48 +1,48 @@
 item: rotten_flesh
 on-unlock:
-  - sendMessage collection_unlocked name=rotten_flesh
+  - sendMessage collection_unlocked
 
 --- #===== Tier 1 =====
 amount: 50
 on-completion:
-  - sendMessage collection_first_level_up_no_rewards name=rotten_flesh
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 2 =====
 amount: 100
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=rotten_flesh old=1 new=2
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 3 =====
 amount: 250
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=rotten_flesh old=2 new=3
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 4 =====
 amount: 500
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=rotten_flesh old=3 new=4
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 5 =====
 amount: 1000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=rotten_flesh old=4 new=5
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 6 =====
 amount: 5000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=rotten_flesh old=5 new=6
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 7 =====
 amount: 10000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=rotten_flesh old=6 new=7
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 8 =====
 amount: 25000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=rotten_flesh old=7 new=8
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 9 =====
 amount: 50000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=rotten_flesh old=8 new=9
+  - sendCollectionLevelUpMessage

@@ -79,16 +79,16 @@ generator-tool:
 
 # Toggle modules that should be enabled. Once a module is removed you can safely delete the respective config folder.
 enabled-modules:
-  - ITEMS
-  - MESSAGES
-  - PARTICLES
-  - SOUNDS
-  - MENUS
-  - RECIPES
-  - FUNCTIONS
-  - STRUCTURES
-  - COLLECTIONS
-  - GENERATORS
+  - items
+  - messages
+  - particles
+  - sounds
+  - menus
+  - recipes
+  - functions
+  - structures
+  - collections
+  - generators
 
 #░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
 #░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
@@ -169,10 +169,11 @@ default-item-drop-target: block
 
 # Drops sources that should increment collections
 collection-sources:
-  - action_drops
-  - generator_drops
+  - block_drops
   - entity_drops
   - fishing_drops
+  - action_drops
+  - generator_drops
 
 # The default collection progress bar for some placeholders
 collection-progress-bar: line

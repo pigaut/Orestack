@@ -1,48 +1,48 @@
 item: spruce_log
 on-unlock:
-  - sendMessage collection_unlocked name=spruce_log
+  - sendMessage collection_unlocked
 
 --- #===== Tier 1 =====
 amount: 50
 on-completion:
-  - sendMessage collection_first_level_up_no_rewards name=spruce_log
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 2 =====
 amount: 100
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=spruce_log old=1 new=2
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 3 =====
 amount: 250
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=spruce_log old=2 new=3
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 4 =====
 amount: 500
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=spruce_log old=3 new=4
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 5 =====
 amount: 1000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=spruce_log old=4 new=5
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 6 =====
 amount: 2000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=spruce_log old=5 new=6
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 7 =====
 amount: 5000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=spruce_log old=6 new=7
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 8 =====
 amount: 10000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=spruce_log old=7 new=8
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 9 =====
 amount: 25000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=spruce_log old=8 new=9
+  - sendCollectionLevelUpMessage

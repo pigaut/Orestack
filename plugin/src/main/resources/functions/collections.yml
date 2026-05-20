@@ -1,27 +1,19 @@
 
-# Sends a collection first level up message based on
-# whether it has rewards or not.
-sendCollectionFirstLevelUpMessage:
-  if: collectionHasRewards
-  do:
-    - sendMessage collection-first-level-up
-  else:
-    - sendMessage collection-first-level-up-no-rewards
-
-# Sends a collection (from->to) level up message based on
-# whether it has rewards or not.
-sendCollectionLevelUpToMessage:
-  if: collectionHasRewards
-  do:
-    - sendMessage collection-level-up
-  else:
-    - sendMessage collection-level-up-no-rewards
-
 # Sends a collection level up message based on
-# whether it is the first tier or not.
+# whether: first tier or not / has rewards or not.
 sendCollectionLevelUpMessage:
   if: collectionTierEquals 1
-  do:
-    - sendCollectionFirstLevelUpMessage
+  then:
+    if: collectionHasRewards
+    do:
+      - sendMessage collection-first-level-up
+    or:
+      - sendMessage collection-first-level-up-no-rewards
+
+  # Send collection level up message for tier 2 and above
   else:
-    - sendCollectionLevelUpToMessage
+    if: collectionHasRewards
+    do:
+      - sendMessage collection-level-up
+    or:
+      - sendMessage collection-level-up-no-rewards

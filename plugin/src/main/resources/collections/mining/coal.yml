@@ -2,9 +2,9 @@
 item: coal
 
 on-unlock:
-  - sendMessage collection_unlocked name=coal
+  - sendMessage collection_unlocked
 
-on-lock:
+on-lock: []
 
 --- #===== Tier 1 =====
 amount: 50

@@ -1,48 +1,48 @@
 item: beetroot
 on-unlock:
-  - sendMessage collection_unlocked name=beetroot
+  - sendMessage collection_unlocked
 
 --- #===== Tier 1 =====
 amount: 50
 on-completion:
-  - sendMessage collection_first_level_up_no_rewards name=beetroot
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 2 =====
 amount: 100
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=beetroot old=1 new=2
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 3 =====
 amount: 250
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=beetroot old=2 new=3
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 4 =====
 amount: 1000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=beetroot old=3 new=4
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 5 =====
 amount: 5000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=beetroot old=4 new=5
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 6 =====
 amount: 15000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=beetroot old=5 new=6
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 7 =====
 amount: 30000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=beetroot old=6 new=7
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 8 =====
 amount: 50000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=beetroot old=7 new=8
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 9 =====
 amount: 100000
 on-completion:
-  - sendMessage collection_level_up_no_rewards name=beetroot old=8 new=9
+  - sendCollectionLevelUpMessage
