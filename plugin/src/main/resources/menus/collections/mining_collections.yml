@@ -20,7 +20,7 @@ id: a
 condition: hasUnlockedCollection dirt
 met:
   type: dirt
-  name: '&eDirt {dirt_collection_current_tier_rm}'
+  name: '&eDirt {dirt_collection_tier_rm}'
   lore:
     - '&7View all your Dirt Collection'
     - '&7progress and rewards!'
@@ -47,7 +47,7 @@ id: b
 condition: hasUnlockedCollection coal
 met:
   type: coal
-  name: '&eCoal {coal_collection_current_tier_rm}'
+  name: '&eCoal {coal_collection_tier_rm}'
   lore:
     - '&7View all your Coal Collection'
     - '&7progress and rewards!'
@@ -74,7 +74,7 @@ id: c
 condition: hasUnlockedCollection cobblestone
 met:
   type: cobblestone
-  name: '&eCobblestone {cobblestone_collection_current_tier_rm}'
+  name: '&eCobblestone {cobblestone_collection_tier_rm}'
   lore:
     - '&7View all your Cobblestone Collection'
     - '&7progress and rewards!'
@@ -101,7 +101,7 @@ id: d
 condition: hasUnlockedCollection diamond
 met:
   type: diamond
-  name: '&eDiamond {diamond_collection_current_tier_rm}'
+  name: '&eDiamond {diamond_collection_tier_rm}'
   lore:
     - '&7View all your Diamond Collection'
     - '&7progress and rewards!'
@@ -128,7 +128,7 @@ id: e
 condition: hasUnlockedCollection emerald
 met:
   type: emerald
-  name: '&eEmerald {emerald_collection_current_tier_rm}'
+  name: '&eEmerald {emerald_collection_tier_rm}'
   lore:
     - '&7View all your Emerald Collection'
     - '&7progress and rewards!'
@@ -155,7 +155,7 @@ id: f
 condition: hasUnlockedCollection endstone
 met:
   type: end_stone
-  name: '&eEndstone {endstone_collection_current_tier_rm}'
+  name: '&eEndstone {endstone_collection_tier_rm}'
   lore:
     - '&7View all your Endstone Collection'
     - '&7progress and rewards!'
@@ -182,7 +182,7 @@ id: g
 condition: hasUnlockedCollection glowstone
 met:
   type: glowstone
-  name: '&eGlowstone {glowstone_collection_current_tier_rm}'
+  name: '&eGlowstone {glowstone_collection_tier_rm}'
   lore:
     - '&7View all your Glowstone Collection'
     - '&7progress and rewards!'
@@ -209,7 +209,7 @@ id: h
 condition: hasUnlockedCollection gold
 met:
   type: gold_ingot
-  name: '&eGold {gold_collection_current_tier_rm}'
+  name: '&eGold {gold_collection_tier_rm}'
   lore:
     - '&7View all your Gold Collection'
     - '&7progress and rewards!'
@@ -236,7 +236,7 @@ id: i
 condition: hasUnlockedCollection gravel
 met:
   type: gravel
-  name: '&eGravel {gravel_collection_current_tier_rm}'
+  name: '&eGravel {gravel_collection_tier_rm}'
   lore:
     - '&7View all your Gravel Collection'
     - '&7progress and rewards!'
@@ -263,7 +263,7 @@ id: j
 condition: hasUnlockedCollection ice
 met:
   type: ice
-  name: '&eIce {ice_collection_current_tier_rm}'
+  name: '&eIce {ice_collection_tier_rm}'
   lore:
     - '&7View all your Ice Collection'
     - '&7progress and rewards!'
@@ -290,7 +290,7 @@ id: k
 condition: hasUnlockedCollection iron
 met:
   type: iron_ingot
-  name: '&eIron {iron_collection_current_tier_rm}'
+  name: '&eIron {iron_collection_tier_rm}'
   lore:
     - '&7View all your Iron Collection'
     - '&7progress and rewards!'
@@ -317,7 +317,7 @@ id: l
 condition: hasUnlockedCollection lapis
 met:
   type: lapis_lazuli
-  name: '&eLapis {lapis_collection_current_tier_rm}'
+  name: '&eLapis {lapis_collection_tier_rm}'
   lore:
     - '&7View all your Lapis Collection'
     - '&7progress and rewards!'
@@ -344,7 +344,7 @@ id: m
 condition: hasUnlockedCollection nether_quartz
 met:
   type: quartz
-  name: '&eNether Quartz {nether_quartz_collection_current_tier_rm}'
+  name: '&eNether Quartz {nether_quartz_collection_tier_rm}'
   lore:
     - '&7View all your Nether Quartz Collection'
     - '&7progress and rewards!'
@@ -371,7 +371,7 @@ id: n
 condition: hasUnlockedCollection netherrack
 met:
   type: netherrack
-  name: '&eNetherrack {netherrack_collection_current_tier_rm}'
+  name: '&eNetherrack {netherrack_collection_tier_rm}'
   lore:
     - '&7View all your Netherrack Collection'
     - '&7progress and rewards!'
@@ -398,7 +398,7 @@ id: o
 condition: hasUnlockedCollection obsidian
 met:
   type: obsidian
-  name: '&eObsidian {obsidian_collection_current_tier_rm}'
+  name: '&eObsidian {obsidian_collection_tier_rm}'
   lore:
     - '&7View all your Obsidian Collection'
     - '&7progress and rewards!'
@@ -425,7 +425,7 @@ id: p
 condition: hasUnlockedCollection red_sand
 met:
   type: red_sand
-  name: '&eRed Sand {red_sand_collection_current_tier_rm}'
+  name: '&eRed Sand {red_sand_collection_tier_rm}'
   lore:
     - '&7View all your Red Sand Collection'
     - '&7progress and rewards!'
@@ -452,7 +452,7 @@ id: q
 condition: hasUnlockedCollection redstone
 met:
   type: redstone
-  name: '&eRedstone {redstone_collection_current_tier_rm}'
+  name: '&eRedstone {redstone_collection_tier_rm}'
   lore:
     - '&7View all your Redstone Collection'
     - '&7progress and rewards!'
@@ -479,7 +479,7 @@ id: r
 condition: hasUnlockedCollection sand
 met:
   type: sand
-  name: '&eSand {sand_collection_current_tier_rm}'
+  name: '&eSand {sand_collection_tier_rm}'
   lore:
     - '&7View all your Sand Collection'
     - '&7progress and rewards!'

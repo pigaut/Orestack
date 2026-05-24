@@ -20,7 +20,7 @@ id: a
 condition: hasUnlockedCollection beetroot
 met:
   type: beetroot
-  name: '&eBeetroot {beetroot_collection_current_tier_rm}'
+  name: '&eBeetroot {beetroot_collection_tier_rm}'
   lore:
     - '&7View all your Beetroot Collection'
     - '&7progress and rewards!'
@@ -47,7 +47,7 @@ id: b
 condition: hasUnlockedCollection carrots
 met:
   type: carrot
-  name: '&eCarrots {carrots_collection_current_tier_rm}'
+  name: '&eCarrots {carrots_collection_tier_rm}'
   lore:
     - '&7View all your Carrots Collection'
     - '&7progress and rewards!'
@@ -74,7 +74,7 @@ id: c
 condition: hasUnlockedCollection cocoa_beans
 met:
   type: cocoa_beans
-  name: '&eCocoa Beans {cocoa_beans_collection_current_tier_rm}'
+  name: '&eCocoa Beans {cocoa_beans_collection_tier_rm}'
   lore:
     - '&7View all your Cocoa Beans Collection'
     - '&7progress and rewards!'
@@ -101,7 +101,7 @@ id: d
 condition: hasUnlockedCollection melon
 met:
   type: melon
-  name: '&eMelon {melon_collection_current_tier_rm}'
+  name: '&eMelon {melon_collection_tier_rm}'
   lore:
     - '&7View all your Melon Collection'
     - '&7progress and rewards!'
@@ -128,7 +128,7 @@ id: e
 condition: hasUnlockedCollection nether_wart
 met:
   type: nether_wart
-  name: '&eNether Wart {nether_wart_collection_current_tier_rm}'
+  name: '&eNether Wart {nether_wart_collection_tier_rm}'
   lore:
     - '&7View all your Nether Wart Collection'
     - '&7progress and rewards!'
@@ -155,7 +155,7 @@ id: f
 condition: hasUnlockedCollection potatoes
 met:
   type: potato
-  name: '&ePotatoes {potatoes_collection_current_tier_rm}'
+  name: '&ePotatoes {potatoes_collection_tier_rm}'
   lore:
     - '&7View all your Potatoes Collection'
     - '&7progress and rewards!'
@@ -182,7 +182,7 @@ id: g
 condition: hasUnlockedCollection pumpkin
 met:
   type: pumpkin
-  name: '&ePumpkin {pumpkin_collection_current_tier_rm}'
+  name: '&ePumpkin {pumpkin_collection_tier_rm}'
   lore:
     - '&7View all your Pumpkin Collection'
     - '&7progress and rewards!'
@@ -209,7 +209,7 @@ id: h
 condition: hasUnlockedCollection sugar_cane
 met:
   type: sugar_cane
-  name: '&eSugar Cane {sugar_cane_collection_current_tier_rm}'
+  name: '&eSugar Cane {sugar_cane_collection_tier_rm}'
   lore:
     - '&7View all your Sugar Cane Collection'
     - '&7progress and rewards!'
@@ -236,7 +236,7 @@ id: i
 condition: hasUnlockedCollection sweet_berries
 met:
   type: sweet_berries
-  name: '&eSweet Berries {sweet_berries_collection_current_tier_rm}'
+  name: '&eSweet Berries {sweet_berries_collection_tier_rm}'
   lore:
     - '&7View all your Sweet Berries Collection'
     - '&7progress and rewards!'
@@ -263,7 +263,7 @@ id: j
 condition: hasUnlockedCollection wheat
 met:
   type: wheat
-  name: '&eWheat {wheat_collection_current_tier_rm}'
+  name: '&eWheat {wheat_collection_tier_rm}'
   lore:
     - '&7View all your Wheat Collection'
     - '&7progress and rewards!'

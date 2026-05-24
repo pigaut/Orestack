@@ -322,13 +322,13 @@ public class OrestackPlaceholders {
                 return collection.getNextTierAmount();
             });
 
-            placeholders.register(collectionName + "_collection_current_tier", context -> {
+            placeholders.register(collectionName + "_collection_tier", context -> {
                 PlayerData playerData = context.playerData();
                 if (playerData == null) {
                     return null;
                 }
                 Collection collection = playerData.getItemCollection(collectionName);
-                if (collection == null) {
+                if (collection == null || !collection.isFirstTierUnlocked()) {
                     return null;
                 }
                 return collection.getCurrentTier() + 1;
@@ -468,12 +468,16 @@ public class OrestackPlaceholders {
                 if (collection == null) {
                     return null;
                 }
-                return collection.getTier().getRewards();
+                CollectionTier tier = collection.getTier();
+                if (tier == null) {
+                    return null;
+                }
+                return tier.getRewards();
             });
 
             placeholders.register("collection_tier", context -> {
                 Collection collection = context.get(Collection.class);
-                if (collection == null) {
+                if (collection == null || !collection.isFirstTierUnlocked()) {
                     return null;
                 }
                 return collection.getCurrentTier() + 1;
@@ -506,6 +510,15 @@ public class OrestackPlaceholders {
             ProgressBar collectionProgressBar = settings.getCollectionProgressBar();
             for (int i = 0; i < 100; i++) {
                 int tierIndex = i;
+
+                placeholders.register("collection_tier_" + (tierIndex + 1) + "_rewards", context -> {
+                    Collection collection = context.get(Collection.class);
+                    if (collection == null || tierIndex > collection.getMaxTier()) {
+                        return null;
+                    }
+                    return collection.getTier(tierIndex).getRewards();
+                });
+
                 placeholders.register("collection_tier_" + (tierIndex + 1) + "_requirement", context -> {
                     Collection collection = context.get(Collection.class);
                     if (collection == null || tierIndex > collection.getMaxTier()) {

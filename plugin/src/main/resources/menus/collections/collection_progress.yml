@@ -40,7 +40,7 @@ conditional-buttons:
       - '{collection_tier_1_progress_bar} &e{collection_progress}&6/&e{collection_tier_1_requirement}'
       - ''
       - 'Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_1_rewards}'
   - if: collectionTierIsCompleted 1
     type: lime_stained_glass_pane
     amount: 1
@@ -51,7 +51,7 @@ conditional-buttons:
       - '{collection_tier_1_progress_bar} &e{collection_progress}&6/&e{collection_tier_1_requirement}'
       - ''
       - 'Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_1_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -63,7 +63,7 @@ default-button:
     - '{collection_tier_1_progress_bar} &e{collection_progress}&6/&e{collection_tier_1_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_1_rewards}'
 
 --- #===== Tier 2 =====#
 id: b
@@ -82,7 +82,7 @@ conditional-buttons:
       - '{collection_tier_2_progress_bar} &e{collection_progress}&6/&e{collection_tier_2_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_2_rewards}'
 
   - if: collectionTierIsCompleted 2
     type: lime_stained_glass_pane
@@ -94,7 +94,7 @@ conditional-buttons:
       - '{collection_tier_2_progress_bar} &e{collection_progress}&6/&e{collection_tier_2_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_2_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -106,7 +106,7 @@ default-button:
     - '{collection_tier_2_progress_bar} &e{collection_progress}&6/&e{collection_tier_2_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_2_rewards}'
 
 --- #===== Tier 3 =====#
 id: c
@@ -125,7 +125,7 @@ conditional-buttons:
       - '{collection_tier_3_progress_bar} &e{collection_progress}&6/&e{collection_tier_3_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_3_rewards}'
 
   - if: collectionTierIsCompleted 3
     type: lime_stained_glass_pane
@@ -137,7 +137,7 @@ conditional-buttons:
       - '{collection_tier_3_progress_bar} &e{collection_progress}&6/&e{collection_tier_3_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_3_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -149,7 +149,7 @@ default-button:
     - '{collection_tier_3_progress_bar} &e{collection_progress}&6/&e{collection_tier_3_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_3_rewards}'
 
 --- #===== Tier 4 =====#
 id: d
@@ -168,7 +168,7 @@ conditional-buttons:
       - '{collection_tier_4_progress_bar} &e{collection_progress}&6/&e{collection_tier_4_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_4_rewards}'
 
   - if: collectionTierIsCompleted 4
     type: lime_stained_glass_pane
@@ -180,7 +180,7 @@ conditional-buttons:
       - '{collection_tier_4_progress_bar} &e{collection_progress}&6/&e{collection_tier_4_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_4_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -192,7 +192,7 @@ default-button:
     - '{collection_tier_4_progress_bar} &e{collection_progress}&6/&e{collection_tier_4_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_4_rewards}'
 
 --- #===== Tier 5 =====#
 id: e
@@ -211,7 +211,7 @@ conditional-buttons:
       - '{collection_tier_5_progress_bar} &e{collection_progress}&6/&e{collection_tier_5_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_5_rewards}'
 
   - if: collectionTierIsCompleted 5
     type: lime_stained_glass_pane
@@ -223,7 +223,7 @@ conditional-buttons:
       - '{collection_tier_5_progress_bar} &e{collection_progress}&6/&e{collection_tier_5_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_5_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -235,7 +235,7 @@ default-button:
     - '{collection_tier_5_progress_bar} &e{collection_progress}&6/&e{collection_tier_5_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_5_rewards}'
 
 --- #===== Tier 6 =====#
 id: f
@@ -254,7 +254,7 @@ conditional-buttons:
       - '{collection_tier_6_progress_bar} &e{collection_progress}&6/&e{collection_tier_6_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_6_rewards}'
 
   - if: collectionTierIsCompleted 6
     type: lime_stained_glass_pane
@@ -266,7 +266,7 @@ conditional-buttons:
       - '{collection_tier_6_progress_bar} &e{collection_progress}&6/&e{collection_tier_6_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_6_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -278,7 +278,7 @@ default-button:
     - '{collection_tier_6_progress_bar} &e{collection_progress}&6/&e{collection_tier_6_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_6_rewards}'
 
 --- #===== Tier 7 =====#
 id: g
@@ -297,7 +297,7 @@ conditional-buttons:
       - '{collection_tier_7_progress_bar} &e{collection_progress}&6/&e{collection_tier_7_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_7_rewards}'
 
   - if: collectionTierIsCompleted 7
     type: lime_stained_glass_pane
@@ -309,7 +309,7 @@ conditional-buttons:
       - '{collection_tier_7_progress_bar} &e{collection_progress}&6/&e{collection_tier_7_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_7_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -321,7 +321,7 @@ default-button:
     - '{collection_tier_7_progress_bar} &e{collection_progress}&6/&e{collection_tier_7_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_7_rewards}'
 
 --- #===== Tier 8 =====#
 id: h
@@ -340,7 +340,7 @@ conditional-buttons:
       - '{collection_tier_8_progress_bar} &e{collection_progress}&6/&e{collection_tier_8_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_8_rewards}'
 
   - if: collectionTierIsCompleted 8
     type: lime_stained_glass_pane
@@ -352,7 +352,7 @@ conditional-buttons:
       - '{collection_tier_8_progress_bar} &e{collection_progress}&6/&e{collection_tier_8_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_8_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -364,7 +364,7 @@ default-button:
     - '{collection_tier_8_progress_bar} &e{collection_progress}&6/&e{collection_tier_8_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_8_rewards}'
 
 --- #===== Tier 9 =====#
 id: i
@@ -383,7 +383,7 @@ conditional-buttons:
       - '{collection_tier_9_progress_bar} &e{collection_progress}&6/&e{collection_tier_9_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_9_rewards}'
 
   - if: collectionTierIsCompleted 9
     type: lime_stained_glass_pane
@@ -395,7 +395,7 @@ conditional-buttons:
       - '{collection_tier_9_progress_bar} &e{collection_progress}&6/&e{collection_tier_9_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_9_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -407,7 +407,7 @@ default-button:
     - '{collection_tier_9_progress_bar} &e{collection_progress}&6/&e{collection_tier_9_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_9_rewards}'
 
 --- #===== Tier 10 =====#
 id: j
@@ -426,7 +426,7 @@ conditional-buttons:
       - '{collection_tier_10_progress_bar} &e{collection_progress}&6/&e{collection_tier_10_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_10_rewards}'
 
   - if: collectionTierIsCompleted 10
     type: lime_stained_glass_pane
@@ -438,7 +438,7 @@ conditional-buttons:
       - '{collection_tier_10_progress_bar} &e{collection_progress}&6/&e{collection_tier_10_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_10_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -450,7 +450,7 @@ default-button:
     - '{collection_tier_10_progress_bar} &e{collection_progress}&6/&e{collection_tier_10_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_10_rewards}'
 
 --- #===== Tier 11 =====#
 id: k
@@ -469,7 +469,7 @@ conditional-buttons:
       - '{collection_tier_11_progress_bar} &e{collection_progress}&6/&e{collection_tier_11_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_11_rewards}'
 
   - if: collectionTierIsCompleted 11
     type: lime_stained_glass_pane
@@ -481,7 +481,7 @@ conditional-buttons:
       - '{collection_tier_11_progress_bar} &e{collection_progress}&6/&e{collection_tier_11_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_11_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -493,7 +493,7 @@ default-button:
     - '{collection_tier_11_progress_bar} &e{collection_progress}&6/&e{collection_tier_11_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_11_rewards}'
 
 --- #===== Tier 12 =====#
 id: l
@@ -512,7 +512,7 @@ conditional-buttons:
       - '{collection_tier_12_progress_bar} &e{collection_progress}&6/&e{collection_tier_12_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_12_rewards}'
 
   - if: collectionTierIsCompleted 12
     type: lime_stained_glass_pane
@@ -524,7 +524,7 @@ conditional-buttons:
       - '{collection_tier_12_progress_bar} &e{collection_progress}&6/&e{collection_tier_12_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_12_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -536,7 +536,7 @@ default-button:
     - '{collection_tier_12_progress_bar} &e{collection_progress}&6/&e{collection_tier_12_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_12_rewards}'
 
 --- #===== Tier 13 =====#
 id: m
@@ -555,7 +555,7 @@ conditional-buttons:
       - '{collection_tier_13_progress_bar} &e{collection_progress}&6/&e{collection_tier_13_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_13_rewards}'
 
   - if: collectionTierIsCompleted 13
     type: lime_stained_glass_pane
@@ -567,7 +567,7 @@ conditional-buttons:
       - '{collection_tier_13_progress_bar} &e{collection_progress}&6/&e{collection_tier_13_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_13_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -579,7 +579,7 @@ default-button:
     - '{collection_tier_13_progress_bar} &e{collection_progress}&6/&e{collection_tier_13_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_13_rewards}'
 
 --- #===== Tier 14 =====#
 id: n
@@ -598,7 +598,7 @@ conditional-buttons:
       - '{collection_tier_14_progress_bar} &e{collection_progress}&6/&e{collection_tier_14_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_14_rewards}'
 
   - if: collectionTierIsCompleted 14
     type: lime_stained_glass_pane
@@ -610,7 +610,7 @@ conditional-buttons:
       - '{collection_tier_14_progress_bar} &e{collection_progress}&6/&e{collection_tier_14_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_14_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -622,7 +622,7 @@ default-button:
     - '{collection_tier_14_progress_bar} &e{collection_progress}&6/&e{collection_tier_14_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_14_rewards}'
 
 --- #===== Tier 15 =====#
 id: o
@@ -641,7 +641,7 @@ conditional-buttons:
       - '{collection_tier_15_progress_bar} &e{collection_progress}&6/&e{collection_tier_15_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_15_rewards}'
 
   - if: collectionTierIsCompleted 15
     type: lime_stained_glass_pane
@@ -653,7 +653,7 @@ conditional-buttons:
       - '{collection_tier_15_progress_bar} &e{collection_progress}&6/&e{collection_tier_15_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_15_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -665,7 +665,7 @@ default-button:
     - '{collection_tier_15_progress_bar} &e{collection_progress}&6/&e{collection_tier_15_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_15_rewards}'
 
 --- #===== Tier 16 =====#
 id: p
@@ -684,7 +684,7 @@ conditional-buttons:
       - '{collection_tier_16_progress_bar} &e{collection_progress}&6/&e{collection_tier_16_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_16_rewards}'
 
   - if: collectionTierIsCompleted 16
     type: lime_stained_glass_pane
@@ -696,7 +696,7 @@ conditional-buttons:
       - '{collection_tier_16_progress_bar} &e{collection_progress}&6/&e{collection_tier_16_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_16_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -708,7 +708,7 @@ default-button:
     - '{collection_tier_16_progress_bar} &e{collection_progress}&6/&e{collection_tier_16_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_16_rewards}'
 
 --- #===== Tier 17 =====#
 id: q
@@ -727,7 +727,7 @@ conditional-buttons:
       - '{collection_tier_17_progress_bar} &e{collection_progress}&6/&e{collection_tier_17_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_17_rewards}'
 
   - if: collectionTierIsCompleted 17
     type: lime_stained_glass_pane
@@ -739,7 +739,7 @@ conditional-buttons:
       - '{collection_tier_17_progress_bar} &e{collection_progress}&6/&e{collection_tier_17_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_17_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -751,7 +751,7 @@ default-button:
     - '{collection_tier_17_progress_bar} &e{collection_progress}&6/&e{collection_tier_17_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_17_rewards}'
 
 --- #===== Tier 18 =====#
 id: r
@@ -770,7 +770,7 @@ conditional-buttons:
       - '{collection_tier_18_progress_bar} &e{collection_progress}&6/&e{collection_tier_18_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_18_rewards}'
 
   - if: collectionTierIsCompleted 18
     type: lime_stained_glass_pane
@@ -782,7 +782,7 @@ conditional-buttons:
       - '{collection_tier_18_progress_bar} &e{collection_progress}&6/&e{collection_tier_18_requirement}'
       - ''
       - '&7Rewards:'
-      - '  {collection_rewards}'
+      - '  {collection_tier_18_rewards}'
 
 default-button:
   type: red_stained_glass_pane
@@ -794,6 +794,6 @@ default-button:
     - '{collection_tier_18_progress_bar} &e{collection_progress}&6/&e{collection_tier_18_requirement}'
     - ''
     - '&7Rewards:'
-    - '  {collection_rewards}'
+    - '  {collection_tier_18_rewards}'
 
 

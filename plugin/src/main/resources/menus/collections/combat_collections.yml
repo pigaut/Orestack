@@ -20,7 +20,7 @@ id: a
 condition: hasUnlockedCollection blaze_rod
 met:
   type: blaze_rod
-  name: '&eBlaze Rod {blaze_rod_collection_current_tier_rm}'
+  name: '&eBlaze Rod {blaze_rod_collection_tier_rm}'
   lore:
     - '&7View all your Blaze Rod Collection'
     - '&7progress and rewards!'
@@ -47,7 +47,7 @@ id: b
 condition: hasUnlockedCollection bone
 met:
   type: bone
-  name: '&eBone {bone_collection_current_tier_rm}'
+  name: '&eBone {bone_collection_tier_rm}'
   lore:
     - '&7View all your Bone Collection'
     - '&7progress and rewards!'
@@ -74,7 +74,7 @@ id: c
 condition: hasUnlockedCollection ender_pearl
 met:
   type: ender_pearl
-  name: '&eEnder Pearl {ender_pearl_collection_current_tier_rm}'
+  name: '&eEnder Pearl {ender_pearl_collection_tier_rm}'
   lore:
     - '&7View all your Ender Pearl Collection'
     - '&7progress and rewards!'
@@ -101,7 +101,7 @@ id: d
 condition: hasUnlockedCollection ghast_tear
 met:
   type: ghast_tear
-  name: '&eGhast Tear {ghast_tear_collection_current_tier_rm}'
+  name: '&eGhast Tear {ghast_tear_collection_tier_rm}'
   lore:
     - '&7View all your Ghast Tear Collection'
     - '&7progress and rewards!'
@@ -128,7 +128,7 @@ id: e
 condition: hasUnlockedCollection gunpowder
 met:
   type: gunpowder
-  name: '&eGunpowder {gunpowder_collection_current_tier_rm}'
+  name: '&eGunpowder {gunpowder_collection_tier_rm}'
   lore:
     - '&7View all your Gunpowder Collection'
     - '&7progress and rewards!'
@@ -155,7 +155,7 @@ id: f
 condition: hasUnlockedCollection magma_cream
 met:
   type: magma_cream
-  name: '&eMagma Cream {magma_cream_collection_current_tier_rm}'
+  name: '&eMagma Cream {magma_cream_collection_tier_rm}'
   lore:
     - '&7View all your Magma Cream Collection'
     - '&7progress and rewards!'
@@ -182,7 +182,7 @@ id: g
 condition: hasUnlockedCollection rotten_flesh
 met:
   type: rotten_flesh
-  name: '&eRotten Flesh {rotten_flesh_collection_current_tier_rm}'
+  name: '&eRotten Flesh {rotten_flesh_collection_tier_rm}'
   lore:
     - '&7View all your Rotten Flesh Collection'
     - '&7progress and rewards!'
@@ -209,7 +209,7 @@ id: h
 condition: hasUnlockedCollection slime_ball
 met:
   type: slime_ball
-  name: '&eSlime Ball {slime_ball_collection_current_tier_rm}'
+  name: '&eSlime Ball {slime_ball_collection_tier_rm}'
   lore:
     - '&7View all your Slime Ball Collection'
     - '&7progress and rewards!'
@@ -236,7 +236,7 @@ id: i
 condition: hasUnlockedCollection spider_eye
 met:
   type: spider_eye
-  name: '&eSpider Eye {spider_eye_collection_current_tier_rm}'
+  name: '&eSpider Eye {spider_eye_collection_tier_rm}'
   lore:
     - '&7View all your Spider Eye Collection'
     - '&7progress and rewards!'
@@ -263,7 +263,7 @@ id: j
 condition: hasUnlockedCollection string
 met:
   type: string
-  name: '&eString {string_collection_current_tier_rm}'
+  name: '&eString {string_collection_tier_rm}'
   lore:
     - '&7View all your String Collection'
     - '&7progress and rewards!'

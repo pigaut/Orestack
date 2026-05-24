@@ -20,7 +20,7 @@ id: a
 condition: hasUnlockedCollection cod
 met:
   type: cod
-  name: '&eCod {cod_collection_current_tier_rm}'
+  name: '&eCod {cod_collection_tier_rm}'
   lore:
     - '&7View all your Cod Collection'
     - '&7progress and rewards!'
@@ -47,7 +47,7 @@ id: b
 condition: hasUnlockedCollection pufferfish
 met:
   type: pufferfish
-  name: '&ePufferfish {pufferfish_collection_current_tier_rm}'
+  name: '&ePufferfish {pufferfish_collection_tier_rm}'
   lore:
     - '&7View all your Pufferfish Collection'
     - '&7progress and rewards!'
@@ -74,7 +74,7 @@ id: c
 condition: hasUnlockedCollection salmon
 met:
   type: salmon
-  name: '&eSalmon {salmon_collection_current_tier_rm}'
+  name: '&eSalmon {salmon_collection_tier_rm}'
   lore:
     - '&7View all your Salmon Collection'
     - '&7progress and rewards!'
@@ -101,7 +101,7 @@ id: d
 condition: hasUnlockedCollection tropical_fish
 met:
   type: tropical_fish
-  name: '&eTropical Fish {tropical_fish_collection_current_tier_rm}'
+  name: '&eTropical Fish {tropical_fish_collection_tier_rm}'
   lore:
     - '&7View all your Tropical Fish Collection'
     - '&7progress and rewards!'
