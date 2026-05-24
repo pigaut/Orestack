@@ -1,0 +1,48 @@
+item: pale_oak_log
+on-unlock:
+  - sendMessage collection_unlocked
+
+--- #===== Tier 1 =====
+amount: 50
+on-completion:
+  - sendCollectionLevelUpMessage
+
+--- #===== Tier 2 =====
+amount: 100
+on-completion:
+  - sendCollectionLevelUpMessage
+
+--- #===== Tier 3 =====
+amount: 250
+on-completion:
+  - sendCollectionLevelUpMessage
+
+--- #===== Tier 4 =====
+amount: 500
+on-completion:
+  - sendCollectionLevelUpMessage
+
+--- #===== Tier 5 =====
+amount: 1000
+on-completion:
+  - sendCollectionLevelUpMessage
+
+--- #===== Tier 6 =====
+amount: 2000
+on-completion:
+  - sendCollectionLevelUpMessage
+
+--- #===== Tier 7 =====
+amount: 5000
+on-completion:
+  - sendCollectionLevelUpMessage
+
+--- #===== Tier 8 =====
+amount: 10000
+on-completion:
+  - sendCollectionLevelUpMessage
+
+--- #===== Tier 9 =====
+amount: 25000
+on-completion:
+  - sendCollectionLevelUpMessage

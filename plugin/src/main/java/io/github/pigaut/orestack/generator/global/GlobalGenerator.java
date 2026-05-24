@@ -115,7 +115,7 @@ public class GlobalGenerator extends BasicGenerator {
         }
 
         GeneratorPhase newPhase = getPhase(phaseIndex);
-        Context context = Context.builder()
+        Context context = Context.builder(plugin)
                 .withBlock(origin.getBlock())
                 .with(Generator.class, this)
                 .build();

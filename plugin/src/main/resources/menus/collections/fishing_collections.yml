@@ -1,0 +1,124 @@
+
+#░░░█▀▀░▀█▀░█▀▀░█░█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
+#░░░█▀▀░░█░░▀▀█░█▀█░░█░░█░█░█░█░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
+#░░░▀░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
+
+title: '&8Fishing Collections'
+
+rows: 6
+
+layout:
+  - 8 8 8 8 8 8 8 8 8
+  - 8 a b c d _ _ _ 8
+  - 8 _ _ _ _ _ _ _ 8
+  - 8 _ _ _ _ _ _ _ 8
+  - 8 _ _ _ _ _ _ _ 8
+  - 8 8 8 < X = 8 8 8
+
+--- # ==== Cod Button ===== #
+id: a
+condition: hasUnlockedCollection cod
+met:
+  type: cod
+  name: '&eCod {cod_collection_current_tier_rm}'
+  lore:
+    - '&7View all your Cod Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Cod {cod_collection_next_tier_rm}: &e{cod_collection_progress_percent}&6%'
+    - '{cod_collection_progress_bar:line} &e{cod_collection_progress}/{cod_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=cod
+
+unmet:
+  type: gray dye
+  name: '&cCod'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Pufferfish Button ===== #
+id: b
+condition: hasUnlockedCollection pufferfish
+met:
+  type: pufferfish
+  name: '&ePufferfish {pufferfish_collection_current_tier_rm}'
+  lore:
+    - '&7View all your Pufferfish Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Pufferfish {pufferfish_collection_next_tier_rm}: &e{pufferfish_collection_progress_percent}&6%'
+    - '{pufferfish_collection_progress_bar:line} &e{pufferfish_collection_progress}/{pufferfish_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=pufferfish
+
+unmet:
+  type: gray dye
+  name: '&cPufferfish'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Salmon Button ===== #
+id: c
+condition: hasUnlockedCollection salmon
+met:
+  type: salmon
+  name: '&eSalmon {salmon_collection_current_tier_rm}'
+  lore:
+    - '&7View all your Salmon Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Salmon {salmon_collection_next_tier_rm}: &e{salmon_collection_progress_percent}&6%'
+    - '{salmon_collection_progress_bar:line} &e{salmon_collection_progress}/{salmon_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=salmon
+
+unmet:
+  type: gray dye
+  name: '&cSalmon'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Tropical Fish Button ===== #
+id: d
+condition: hasUnlockedCollection tropical_fish
+met:
+  type: tropical_fish
+  name: '&eTropical Fish {tropical_fish_collection_current_tier_rm}'
+  lore:
+    - '&7View all your Tropical Fish Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Tropical Fish {tropical_fish_collection_next_tier_rm}: &e{tropical_fish_collection_progress_percent}&6%'
+    - '{tropical_fish_collection_progress_bar:line} &e{tropical_fish_collection_progress}/{tropical_fish_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=tropical_fish
+
+unmet:
+  type: gray dye
+  name: '&cTropical Fish'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!

@@ -84,7 +84,7 @@ public class SimpleOrestackAPI implements OrestackAPI {
     @Override
     public void damage(@NotNull Location location, @NotNull Player player, int amount) throws IllegalArgumentException {
         GlobalGenerator generator = getGenerator(location);
-        Context context = Context.builder()
+        Context context = Context.builder(plugin)
                 .withPlayer(player)
                 .withPlayerState(plugin.getPlayerState(player))
                 .withTool(player.getInventory().getItemInMainHand())

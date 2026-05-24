@@ -50,7 +50,7 @@ public class GeneratorUtil {
         }
 
         ItemStack tool = player.getInventory().getItemInMainHand();
-        Context context = Context.builder()
+        Context context = Context.builder(plugin)
                 .withPlayer(player)
                 .withPlayerState(plugin.getPlayerState(player))
                 .withTool(tool)

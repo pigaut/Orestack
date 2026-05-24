@@ -1,12 +1,9 @@
 
-#===== Command Placeholders =====#
-# {command}
-# {command_name}
-# {command_description}
-# {command_permission}
-
-#===== Generic Command Errors =====#
-# Placeholders: {online-player}, {world-name}, {x}, {y}, {z}, {file-path}
+#░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░░░█▀▀░█▀▄░█▀▄░█▀█░█▀▄░█▀▀░░░░
+#░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░░░█▀▀░█▀▄░█▀▄░█░█░█▀▄░▀▀█░░░░
+#░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░░░▀▀▀░▀░▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░░
+# Placeholders: {command}, {command_name}, {command_description}, {command_permission}
+#               {online-player}, {world-name}, {x}, {y}, {z}, {file-path}
 usage: '/{command_name} help'
 not-enough-args: "&4Not enough arguments"
 too-many-args: '&4Too many arguments'
@@ -16,11 +13,15 @@ player-not-online: '&4Could not find online player with name: {online-player}'
 loading-player-data: '&4Player data is still loading try again later'
 world-not-found: '&4Could not find a world with name: {world-name}'
 expected-coordinates: '&4Expected coordinates but received: X: {x}, Y: {y}, Z: {z}'
+expected-amount: '&4Expected amount but received: {amount}'
+amount-must-be-positive: '&4Amount must be positive: {amount}'
 file-not-found: '&4Could not find file at path: {file-path}'
 not-yaml-file: '&4File at path: {file-path} is not a yaml file'
 file-load-error: '&4An error occurred when loading file at path: {file-path}'
 
-#===== Help Command =====#
+#░░░█░█░█▀▀░█░░░█▀█░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░░░░
+#░░░█▀█░█▀▀░█░░░█▀▀░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░░░░
+#░░░▀░▀░▀▀▀░▀▀▀░▀░░░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░░░░
 # Description
 help-command: 'View a list of all available commands'
 # Style
@@ -28,17 +29,23 @@ help-header: '&2------------     &r&l{command_name_tc} Help     &2------------'
 help-line: '&a/{command}: &r{command_description}'
 help-footer: '&2---------------------------------------------'
 
-#===== Wiki Command =====#
+#░░░█░█░▀█▀░█░█░▀█▀░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░░░░
+#░░░█▄█░░█░░█▀▄░░█░░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░░░░
+#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░░░░
 wiki-command: 'Receive a link to the Orestack wiki website'
 player-wiki: '[json]{"text":"Click to open the wiki","color":"aqua","clickEvent":{"action":"open_url","value":"https://pigaut.gitbook.io/orestack/"},"hoverEvent":{"action":"show_text","contents":"https://pigaut.gitbook.io/orestack/"}}'
 console-wiki: 'Orestack Wiki: https://pigaut.gitbook.io/orestack/'
 
-#===== Support Command =====#
+#░░░█▀▀░█░█░█▀█░█▀█░█▀█░█▀▄░▀█▀░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░░░░
+#░░░▀▀█░█░█░█▀▀░█▀▀░█░█░█▀▄░░█░░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░░░░
+#░░░▀▀▀░▀▀▀░▀░░░▀░░░▀▀▀░▀░▀░░▀░░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░░░░
 support-command: 'Receive a link to the Orestack discord server'
 player-support: '[json]{"text":"Click to join the discord server","color":"aqua","clickEvent":{"action":"open_url","value":"https://discord.com/invite/wFVbBSgrX2"},"hoverEvent":{"action":"show_text","contents":"https://discord.com/invite/wFVbBSgrX2"}}'
 console-support: 'Orestack Discord: https://discord.com/invite/wFVbBSgrX2'
 
-#===== Reload Command =====#
+#░░░█▀▄░█▀▀░█░░░█▀█░█▀█░█▀▄░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░░░░
+#░░░█▀▄░█▀▀░█░░░█░█░█▀█░█░█░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░░░░
+#░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀░░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░░░░
 # Description
 reload-command: 'Reload configuration and data'
 # Errors
@@ -50,7 +57,9 @@ reloading: '&aReloading Orestack plugin... &c(Wait)'
 reload-completed: '&aReload completed successfully.'
 reload-completed-with-errors: '&aReload completed with the following errors:'
 
-#===== Item Commands =====#
+#░░░▀█▀░▀█▀░█▀▀░█▄█░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
+#░░░░█░░░█░░█▀▀░█░█░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
+#░░░▀▀▀░░▀░░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
 # Placeholders: {item-name}, {item-group}
 # Description
 item-command: ''
@@ -66,7 +75,9 @@ saved-item: '&aSaving {item-name} item to "{file-path}" file...'
 received-item: '&aYou received x1 {item-name} item'
 received-item-group: '&aYou received all {item-group} items'
 
-#===== Message Commands =====#
+#░░░█▄█░█▀▀░█▀▀░█▀▀░█▀█░█▀▀░█▀▀░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
+#░░░█░█░█▀▀░▀▀█░▀▀█░█▀█░█░█░█▀▀░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
+#░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
 # Placeholders: {message-name}, {online-player}
 # Descriptions
 message-command: ''
@@ -78,7 +89,9 @@ message-not-found: '&4Could not find a message with name: {message-name}'
 sent-message-to-player: '&aMessage sent successfully to {online-player}'
 sent-message-to-all: '&aMessage sent successfully to all online players'
 
-#===== Particle Commands =====#
+#░░░█▀█░█▀█░█▀▄░▀█▀░▀█▀░█▀▀░█░░░█▀▀░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
+#░░░█▀▀░█▀█░█▀▄░░█░░░█░░█░░░█░░░█▀▀░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
+#░░░▀░░░▀░▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
 # Placeholders: {particle-name}, {world-name}, {x}, {y}, {z}
 # Descriptions
 particle-command: ''
@@ -94,7 +107,9 @@ spawned-particle: '&aSpawned a particle effect at {world-name}, {x}, {y}, {z}'
 spawned-particle-at-player: '&aSpawned a particle at {online-player}''s location'
 showed-me-particle: '&aParticle spawned two blocks in front of you'
 
-#===== Sound Commands =====#
+#░░░█▀▀░█▀█░█░█░█▀█░█▀▄░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
+#░░░▀▀█░█░█░█░█░█░█░█░█░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
+#░░░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀░░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
 # Placeholders: {sound-name}, {world-name}, {x}, {y}, {z}
 # Descriptions
 sound-command: ''
@@ -106,9 +121,10 @@ sound-not-found: '&4Could not find a sound with name: {sound-name}'
 played-sound: '&aPlayed a sound effect at {world-name}, {x}, {y}, {z}'
 played-sound-at-player: "&aPlayed a sound at {online-player}'s location"
 
-#===== Structure Commands =====#
+#░░░█▀▀░▀█▀░█▀▄░█░█░█▀▀░▀█▀░█░█░█▀▄░█▀▀░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
+#░░░▀▀█░░█░░█▀▄░█░█░█░░░░█░░█░█░█▀▄░█▀▀░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
+#░░░▀▀▀░░▀░░▀░▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
 # Placeholders: {structure-name}, {file-path}
-# Descriptions
 structure-command: ''
 structure-save-command: 'Saves the selected structure to a yaml file'
 structure-place-command: 'Place a structure at the target block'
@@ -134,7 +150,6 @@ buildstation-not-found: '&4Could not find any build station at target block'
 #░░░█▄█░█▀▀░█▀█░█░█░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
 #░░░█░█░█▀▀░█░█░█░█░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
 #░░░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
-
 menu-command: 'Open the main menu'
 menu-open-command: 'Opens the menu with the given name'
 # Success
@@ -145,7 +160,6 @@ menu-not-found: '&4Could not find menu with name: {menu-name}'
 #░░░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
 #░░░█▀▄░█▀▀░█░░░░█░░█▀▀░█▀▀░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
 #░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
-
 recipe-command: ''
 recipe-unlock-command: 'Unlocks the recipe with the given name'
 recipe-lock-command: 'Locks the recipe with the given name'
@@ -166,14 +180,19 @@ cannot-lock-global-recipe: '&4You cannot lock a global recipe'
 #░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
 #░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
 #░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
-
+collection-command: ''
+collection-increment-command: 'Increments the collected item amount of a collection'
+collection-decrement-command: 'Decrements the collected item amount of a collection'
+# Success
+incremented-collection: '&aIncremented {collection-name_tc} collection by {amount}'
+decremented-collection: '&aDecremented {collection-name_tc} collection by {amount}'
 # Errors
 collection-not-found: '&4Could not find collection with name: {collection-name}'
 
-# -----------------------
-#    Generator Command
-# -----------------------
-## Descriptions
+
+#░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
+#░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
+#░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
 generator-command: ''
 generator-get-command: 'Get the generator with the given name'
 generator-get-group-command: 'Receive all generators of a group'
@@ -183,7 +202,7 @@ generator-remove-command: 'Remove the generator at the block you''re looking at'
 generator-set-all-command: 'Set all generators in the selected region'
 generator-remove-all-command: 'Remove all generators in the selected region'
 generator-harvest-all-command: 'Harvest all generators with the tool in main hand'
-## Errors
+# Errors
 generator-not-found: '&4Could not find generator with name: {generator-name}'
 generator-group-not-found: '&4Could not find generator group with name: {generator-group}'
 incomplete-region: '&4You need to select a region with the generator wand'
@@ -193,7 +212,7 @@ generator-overlap: '&4Too close to another generator'
 unknown-generator-type: '&4Unknown generator type: {generator-type}'
 virtual-generators-unsupported: '&4Virtual generators require a paper server on 1.19.3+ with packetevents installed.'
 generator-conflict: '&4Cannot place a generator there'
-## Success
+# Success
 received-generator: '&aYou received x1 {generator-name} generator'
 received-wand: '&aYou received x1 wand item'
 created-generator: '&aGenerator created successfully at target block'
@@ -204,27 +223,26 @@ created-all-generators: '&aAll generators inside of region have been set success
 removed-all-generators: '&aAll generators inside of region have been removed successfully'
 harvested-all-generators: '&aAll {generator} generators have been harvested with held tool'
 
-# --------------------
-#    Selection Wand
-# --------------------
-## Command
+#░░░█▀▀░█▀▀░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░░░█░█░█▀█░█▀█░█▀▄░░░░
+#░░░▀▀█░█▀▀░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░░░█▄█░█▀█░█░█░█░█░░░░
+#░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░░░▀░▀░▀░▀░▀░▀░▀▀░░░░░
+
 wand-command: 'Get a wand used to select a region'
-## Item
 selected-first-position: '&aFirst position selected'
 selected-second-position: '&aSecond position selected'
 missing-wand-permission: '&4You don''t have the permission to use the wand'
 
-# --------------------
-#    Generator Item
-# --------------------
-## Errors
+#░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░░░▀█▀░▀█▀░█▀▀░█▄█░░░░
+#░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░░░░█░░░█░░█▀▀░█░█░░░░
+#░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░░░▀▀▀░░▀░░▀▀▀░▀░▀░░░░
+# Errors
 generator-not-exists: '&4This generator no longer exists or is invalid'
 generator-occupied-block: '&4Cannot place block there because it''s occupied by a generator'
 corrupt-tool-rotation: '&4This generator item has corrupted rotation data'
 cannot-place-generator: '&4You don''t have the permission to place generators'
 cannot-break-generator: '&4You don''t have the permission to break generators'
 cannot-rotate-generator: '&4You don''t have the permission to rotate generators'
-## Success
+# Success
 placed-generator: '&aPlaced generator successfully'
 broke-generator: '&cBroke generator successfully'
 changed-generator-rotation: '&aRotated generator by 90 degrees'

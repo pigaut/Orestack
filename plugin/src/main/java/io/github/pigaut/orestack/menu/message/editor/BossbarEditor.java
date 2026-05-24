@@ -42,7 +42,7 @@ public class BossbarEditor extends GenericMessageEditor {
                 });
 
         ButtonBuilder styleButton = Button.builder()
-                .type(Material.CHAIN)
+                .type(MaterialUtil.getMaterial("CHAIN"))
                 .name("&f&lStyle")
                 .enchanted(true)
                 .addEmptyLine()

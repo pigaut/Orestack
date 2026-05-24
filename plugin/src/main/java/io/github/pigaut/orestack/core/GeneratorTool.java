@@ -45,12 +45,12 @@ public class GeneratorTool {
         updateToolData(meta, generatorTemplate, "NONE");
         generatorItem.setItemMeta(meta);
 
-        Context context = Context.builder()
+        Context context = Context.builder(plugin)
                 .with(GeneratorTemplate.class, generatorTemplate)
                 .withPlaceholder("generator_tool_rotation", "NONE")
                 .build();
 
-        return PlaceholderUtil.parseAll(plugin, context, generatorItem);
+        return PlaceholderUtil.parseAll(context, generatorItem);
     }
 
     public static boolean isValidItem(@NotNull ItemStack item) {
@@ -100,12 +100,12 @@ public class GeneratorTool {
         updateToolData(meta, generatorTemplate, newRotation);
         item.setItemMeta(meta);
 
-        Context context = Context.builder()
+        Context context = Context.builder(plugin)
                 .with(GeneratorTemplate.class, generatorTemplate)
                 .withPlaceholder("generator_tool_rotation", newRotation)
                 .build();
 
-        PlaceholderUtil.parseAll(plugin, context, item);
+        PlaceholderUtil.parseAll(context, item);
     }
 
     private static void updateToolData(@NotNull ItemMeta meta, @NotNull GeneratorTemplate generator, @NotNull String rotationData) {

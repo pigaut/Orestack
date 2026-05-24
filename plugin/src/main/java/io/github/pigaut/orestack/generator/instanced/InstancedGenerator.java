@@ -82,7 +82,7 @@ public class InstancedGenerator extends BasicGenerator {
         }
 
         GeneratorPhase newPhase = getPhase(phaseIndex);
-        Context context = Context.builder()
+        Context context = Context.builder(plugin)
                 .withPlayer(player)
                 .withPlayerState(plugin.getPlayerState(player))
                 .withBlock(origin.getBlock())

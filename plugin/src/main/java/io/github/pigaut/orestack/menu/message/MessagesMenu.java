@@ -81,7 +81,7 @@ public class MessagesMenu extends FramedSelectionMenu {
                         view.close();
 
                         Player player = playerState.asPlayer();
-                        Context context = Context.fromPlayerAndState(player, playerState);
+                        Context context = Context.fromPlayer(plugin, player, playerState);
                         message.send(player, context);
 
                         int guiReopenDelay = plugin.getSettings().guiReopenDelay;

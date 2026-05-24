@@ -5,13 +5,16 @@ import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.orestack.settings.*;
-import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.placeholder.*;
 import io.github.pigaut.voxel.core.progressbar.*;
 import io.github.pigaut.voxel.data.collection.*;
+import io.github.pigaut.voxel.data.collection.Collection;
 import io.github.pigaut.voxel.player.data.*;
+import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.util.*;
 import org.jetbrains.annotations.*;
+
+import java.util.*;
 
 public class OrestackPlaceholders {
 
@@ -193,7 +196,65 @@ public class OrestackPlaceholders {
             });
         }
 
-        // Player Collection placeholders
+        // Generic collections placeholders
+        placeholders.register("collections_unlocked", context -> {
+            PlayerData playerData = context.playerData();
+            if (playerData == null) {
+                return null;
+            }
+            int collectionsUnlocked = 0;
+            for (Collection collection : playerData.getItemCollections()) {
+                if (collection.isUnlocked()) {
+                    collectionsUnlocked++;
+                }
+            }
+            return collectionsUnlocked;
+        });
+
+        placeholders.register("collections_count", context -> {
+            PlayerData playerData = context.playerData();
+            if (playerData == null) {
+                return null;
+            }
+            return playerData.getItemCollections().size();
+        });
+
+        placeholders.register("collections_unlocked_percent", context -> {
+            PlayerData playerData = context.playerData();
+            if (playerData == null) {
+                return null;
+            }
+            Set<Collection> collections = playerData.getItemCollections();
+            int collectionsUnlocked = 0;
+            for (Collection collection : collections) {
+                if (collection.isUnlocked()) {
+                    collectionsUnlocked++;
+                }
+            }
+            double percentage = ((double) collectionsUnlocked / collections.size()) * 100;
+            return String.format("%.1f", percentage);
+        });
+
+        for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
+            placeholders.register("collections_progress_bar:" + progressBar.getId(), context -> {
+                PlayerData playerData = context.playerData();
+                if (playerData == null) {
+                    return null;
+                }
+                Set<Collection> collections = playerData.getItemCollections();
+                int collectionsUnlocked = 0;
+                for (Collection collection : collections) {
+                    if (collection.isUnlocked()) {
+                        collectionsUnlocked++;
+                    }
+                }
+
+                int percentage = Percentage.of(collectionsUnlocked, collections.size());
+                return progressBar.getBarByProgress(percentage);
+            });
+        }
+
+        // Specific collections placeholders
         for (CollectionTemplate collectionTemplate : plugin.getCollectionTemplates().getAll()) {
             String collectionName = collectionTemplate.getName();
             placeholders.register(collectionName + "_collection_amount_left", context -> {
@@ -230,9 +291,7 @@ public class OrestackPlaceholders {
                     return null;
                 }
 
-                double percentage = ((double) collection.getCollectedAmount() / collection.getNextTierAmount()) * 100;
-                double cappedPercentage = Math.min(100.0, percentage);
-                return String.format("%.1f", cappedPercentage);
+                return Percentage.of(collection.getCollectedAmount(), collection.getNextTierAmount());
             });
 
             for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
@@ -246,10 +305,8 @@ public class OrestackPlaceholders {
                         return null;
                     }
 
-                    double ratio = (double) collection.getCollectedAmount() / collection.getNextTierAmount();
-                    int percent = (int) Math.round(ratio * 100.0);
-                    percent = Math.max(0, Math.min(100, percent));
-                    return progressBar.getBarByProgress(percent);
+                    int percentage = Percentage.of(collection.getCollectedAmount(), collection.getNextTierAmount());
+                    return progressBar.getBarByProgress(percentage);
                 });
             }
 
@@ -305,10 +362,7 @@ public class OrestackPlaceholders {
                     if (collection == null) {
                         return null;
                     }
-
-                    double percentage = ((double) collection.getCollectedAmount() / tierUpAmount) * 100;
-                    double cappedPercentage = Math.min(100.0, percentage);
-                    return String.format("%.1f", cappedPercentage);
+                    return Percentage.asString(collection.getCollectedAmount(), tierUpAmount);
                 });
 
                 for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
@@ -321,81 +375,82 @@ public class OrestackPlaceholders {
                         if (collection == null) {
                             return null;
                         }
-
-                        double ratio = (double) collection.getCollectedAmount() / tierUpAmount;
-                        int percent = (int) Math.round(ratio * 100.0);
-                        percent = Math.max(0, Math.min(100, percent));
-                        return progressBar.getBarByProgress(percent);
+                        int percentage = Percentage.of(collection.getCollectedAmount(), tierUpAmount);
+                        return progressBar.getBarByProgress(percentage);
                     });
                 }
 
             }
         }
 
-        // Player collection category placeholders
+        // Collection category placeholders
         for (String groupName : plugin.getCollectionTemplates().getAllGroups()) {
-            placeholders.register("collection_unlocked:" + groupName, context -> {
+            placeholders.register(groupName + "_collections_unlocked", context -> {
                 PlayerData playerData = context.playerData();
-                if (playerData == null)
+                if (playerData == null) {
                     return null;
-
+                }
                 int collectionsUnlocked = 0;
                 for (Collection collection : playerData.getItemCollections()) {
                     String group = collection.getGroup();
-                    if (group == null || !group.equals(groupName)) {
-                        if (collection.getCurrentTier() > -1) {
-                            collectionsUnlocked++;
-                        }
+                    if (group != null && group.equals(groupName) && collection.isUnlocked()) {
+                        collectionsUnlocked++;
                     }
                 }
 
                 return collectionsUnlocked;
             });
 
-
-            placeholders.register("collection_unlocked_percent:" + groupName, context -> {
+            placeholders.register(groupName + "_collections_count", context -> {
                 PlayerData playerData = context.playerData();
                 if (playerData == null) {
                     return null;
                 }
                 int collectionsCount = 0;
-                int collectionsUnlocked = 0;
                 for (Collection collection : playerData.getItemCollections()) {
                     String group = collection.getGroup();
-                    if (group == null || !group.equals(groupName)) {
+                    if (group != null && group.equals(groupName)) {
                         collectionsCount++;
-                        if (collection.getCurrentTier() > -1) {
-                            collectionsUnlocked++;
-                        }
                     }
                 }
 
-                double percentage = ((double) collectionsUnlocked / collectionsCount) * 100;
-                return String.format("%.1f", percentage);
+                return collectionsCount;
+            });
+
+            placeholders.register(groupName + "_collections_unlocked_percent", context -> {
+                PlayerData playerData = context.playerData();
+                if (playerData == null) {
+                    return null;
+                }
+
+                Set<Collection> collections = playerData.getItemCollections();
+                int collectionsUnlocked = 0;
+                for (Collection collection : playerData.getItemCollections()) {
+                    String group = collection.getGroup();
+                    if (group != null && group.equals(groupName) && collection.isUnlocked()) {
+                        collectionsUnlocked++;
+                    }
+                }
+
+                return Percentage.asString(collectionsUnlocked, collections.size());
             });
 
             for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
-                placeholders.register(groupName + "_collection_unlocked_progress_bar:" + progressBar.getId(), context -> {
+                placeholders.register(groupName + "_collections_progress_bar:" + progressBar.getId(), context -> {
                     PlayerData playerData = context.playerData();
                     if (playerData == null) {
                         return null;
                     }
-                    int collectionsCount = 0;
+                    Set<Collection> collections = playerData.getItemCollections();
                     int collectionsUnlocked = 0;
-                    for (Collection collection : playerData.getItemCollections()) {
+                    for (Collection collection : collections) {
                         String group = collection.getGroup();
-                        if (group == null || !group.equals(groupName)) {
-                            collectionsCount++;
-                            if (collection.getCurrentTier() > -1) {
-                                collectionsUnlocked++;
-                            }
+                        if (group != null && group.equals(groupName) && collection.isUnlocked()) {
+                            collectionsUnlocked++;
                         }
                     }
-
-                    double ratio = (double) collectionsUnlocked / collectionsCount;
-                    int percent = (int) Math.round(ratio * 100.0);
-                    percent = Math.max(0, Math.min(100, percent));
-                    return progressBar.getBarByProgress(percent);
+                    int percentage = Percentage.of(collectionsUnlocked, collections.size());
+                    return progressBar.getBarByProgress(percentage);
                 });
             }
 
@@ -440,25 +495,45 @@ public class OrestackPlaceholders {
                 return collection.getCollectedAmount();
             });
 
+            placeholders.register("collection_progress_percent", context -> {
+                Collection collection = context.get(Collection.class);
+                if (collection == null) {
+                    return null;
+                }
+                return Percentage.asString(collection.getCollectedAmount(), collection.getNextTierAmount());
+            });
+
             ProgressBar collectionProgressBar = settings.getCollectionProgressBar();
-            for (int tierIndex = 0; tierIndex < 100; tierIndex++) {
+            for (int i = 0; i < 100; i++) {
+                int tierIndex = i;
+                placeholders.register("collection_tier_" + (tierIndex + 1) + "_requirement", context -> {
+                    Collection collection = context.get(Collection.class);
+                    if (collection == null || tierIndex > collection.getMaxTier()) {
+                        return null;
+                    }
+                    return collection.getTier(tierIndex).getAmount();
+                });
+
+                placeholders.register("collection_tier_" + (tierIndex + 1) + "_progress_percent", context -> {
+                    Collection collection = context.get(Collection.class);
+                    if (collection == null || tierIndex > collection.getMaxTier()) {
+                        return null;
+                    }
+                    return Percentage.asString(collection.getCollectedAmount(), collection.getTier(tierIndex).getAmount());
+                });
+
                 placeholders.register("collection_tier_" + (tierIndex + 1) + "_progress_bar", context -> {
                     Collection collection = context.get(Collection.class);
-                    if (collection == null) {
+                    if (collection == null || tierIndex > collection.getMaxTier()) {
                         return null;
                     }
 
-                    int nextTierAmount = collection.getNextTierAmount();
-
-                    double ratio = (double) collection.getCollectedAmount() / nextTierAmount;
-                    int percent = (int) Math.round(ratio * 100.0);
-                    percent = Math.max(0, Math.min(100, percent));
-                    return collectionProgressBar.getBarByProgress(percent);
+                    int percentage = Percentage.of(collection.getCollectedAmount(), collection.getTier(tierIndex).getAmount());
+                    return collectionProgressBar.getBarByProgress(percentage);
                 });
             }
 
         }
-
 
 
     }

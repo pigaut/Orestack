@@ -6,6 +6,7 @@ import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.voxel.core.buildstation.command.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.command.node.*;
+import io.github.pigaut.voxel.data.collection.command.*;
 import io.github.pigaut.voxel.data.item.command.*;
 import io.github.pigaut.voxel.data.menu.command.*;
 import io.github.pigaut.voxel.data.message.command.*;
@@ -65,6 +66,10 @@ public class OrestackCommand extends EnhancedCommand {
 
         if (settings.isModuleEnabled(Module.RECIPES)) {
             addSubCommand(new RecipeSubCommand(plugin));
+        }
+
+        if (settings.isModuleEnabled(Module.COLLECTIONS)) {
+            addSubCommand(new CollectionSubCommand(plugin));
         }
     }
 

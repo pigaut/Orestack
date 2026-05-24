@@ -89,7 +89,7 @@ public class PlayerPacketEventListener implements PacketListener {
             }
 
             Location eyeLocation = player.getEyeLocation();
-            Location blockCenter = targetLocation.toCenterLocation();
+            Location blockCenter = LocationUtil.getCenterLocation(targetLocation);
             double distanceSquared = eyeLocation.distanceSquared(blockCenter);
             if (distanceSquared > 36) {
                 return;

@@ -4,7 +4,7 @@
   <groupId>io.github.pigaut.orestack</groupId>
   <artifactId>OrestackPlugin</artifactId>
   <name>Orestack Plugin</name>
-  <version>3.48.3</version>
+  <version>3.49.0</version>
   <description>A Spigot plugin used to create resources with custom gathering mechanics</description>
   <url>https://www.spigotmc.org/resources/121905/</url>
   <build>
@@ -72,21 +72,21 @@
   </repositories>
   <dependencies>
     <dependency>
+      <groupId>org.spigotmc</groupId>
+      <artifactId>spigot-api</artifactId>
+      <version>1.21.11-R0.1-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>io.papermc.paper</groupId>
       <artifactId>paper-api</artifactId>
-      <version>1.21.8-R0.1-SNAPSHOT</version>
+      <version>1.21.11-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>io.github.pigaut.castlegates.api</groupId>
       <artifactId>CastleGatesAPI</artifactId>
       <version>1.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.spigotmc</groupId>
-      <artifactId>spigot-api</artifactId>
-      <version>1.21.8-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

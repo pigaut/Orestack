@@ -2,7 +2,7 @@
 #░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░░░█▀█░█▀▄░█▀█░█▀▀░█▀▄░█▀▀░█▀▀░█▀▀░░░░
 #░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░░░█▀▀░█▀▄░█░█░█░█░█▀▄░█▀▀░▀▀█░▀▀█░░░░
 #░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░░░▀░░░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░░░░
-# Supports up to 18 collection tiers
+# Progress and rewards for any item collection. Supports up to 18 collection tiers.
 # Usage: openMenu collection_progress collection=dirt
 
 title: '&8{collection_name} Collection'
@@ -10,83 +10,87 @@ title: '&8{collection_name} Collection'
 rows: 6
 
 layout:
-  - 0 0 0 0 T 0 0 0 0
-  - 0 0 0 0 0 0 0 0 0
-  - 1 2 3 4 5 6 7 8 9
-  - 10 11 12 13 14 15 16 17 18
-  - 0 0 0 0 0 0 0 0 0
-  - 0 0 0 B C M 0 0 0
+  - 8 8 8 8 t 8 8 8 8
+  - 8 8 8 8 8 8 8 8 8
+  - a b c d e f g h i
+  - j k l m n o p q r
+  - 8 8 8 8 8 8 8 8 8
+  - 8 8 8 < X = 8 8 8
 
---- #===== Collection Item Button =====#
-id: T
+--- #===== Collection Item =====#
+id: t
 type: '{collection_item}'
 name: '&e{collection_name_tc} {collection_tier_rm}'
 lore:
-  - '&7View all your {collection_name_tc} Collection'
-  - '&7progress and rewards!'
+  - 'View all your {collection_name_tc} Collection'
+  - 'progress and rewards!'
   - ''
-  - '&7Total Collected: {collection_progress}'
+  - 'Total Collected: &e{collection_progress}'
 
---- #===== Tier 1 Button =====#
-id: 1
+--- #===== Tier 1 =====#
+id: a
 conditional-buttons:
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} I'
-    lore:
-      - ''
-      - '&7Progress: &e{collection_progress_percent}%'
-      - '{collection_tier_1_progress_bar} &e{collection_progress}&6/&e{collection_tier_1_requirement}'
-      - ''
-      - '&7Rewards:'
-      - '  {collection_rewards}'
-
-  - condition: collectionTierEquals 1
+  - if: collectionTierEquals 0
     type: yellow_stained_glass_pane
+    amount: 1
     name: '&e{collection_name_tc} I'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - 'Progress: &e{collection_tier_1_progress_percent}%'
       - '{collection_tier_1_progress_bar} &e{collection_progress}&6/&e{collection_tier_1_requirement}'
       - ''
-      - '&7Rewards:'
+      - 'Rewards:'
+      - '  {collection_rewards}'
+  - if: collectionTierIsCompleted 1
+    type: lime_stained_glass_pane
+    amount: 1
+    name: '&a{collection_name_tc} I'
+    lore:
+      - ''
+      - 'Progress: &e{collection_tier_1_progress_percent}%'
+      - '{collection_tier_1_progress_bar} &e{collection_progress}&6/&e{collection_tier_1_requirement}'
+      - ''
+      - 'Rewards:'
       - '  {collection_rewards}'
 
 default-button:
   type: red_stained_glass_pane
+  amount: 1
   name: '&c{collection_name_tc} I'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_1_progress_percent}%'
     - '{collection_tier_1_progress_bar} &e{collection_progress}&6/&e{collection_tier_1_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 2 Button =====#
-id: 2
+--- #===== Tier 2 =====#
+id: b
 conditional-buttons:
-  - condition: collectionMaxTierEquals 1-
+  - if-not: collectionHasTier 2
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} II'
+  - if: collectionTierEquals 1
+    type: yellow_stained_glass_pane
+    amount: 2
+    name: '&e{collection_name_tc} II'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_2_progress_percent}%'
       - '{collection_tier_2_progress_bar} &e{collection_progress}&6/&e{collection_tier_2_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 2
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} II'
+  - if: collectionTierIsCompleted 2
+    type: lime_stained_glass_pane
+    amount: 2
+    name: '&a{collection_name_tc} II'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_2_progress_percent}%'
       - '{collection_tier_2_progress_bar} &e{collection_progress}&6/&e{collection_tier_2_requirement}'
       - ''
       - '&7Rewards:'
@@ -94,39 +98,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 2
   name: '&c{collection_name_tc} II'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_2_progress_percent}%'
     - '{collection_tier_2_progress_bar} &e{collection_progress}&6/&e{collection_tier_2_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 3 Button =====#
-id: 3
+--- #===== Tier 3 =====#
+id: c
 conditional-buttons:
-  - condition: collectionMaxTierEquals 2-
+  - if-not: collectionHasTier 3
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} III'
+  - if: collectionTierEquals 2
+    type: yellow_stained_glass_pane
+    amount: 3
+    name: '&e{collection_name_tc} III'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_3_progress_percent}%'
       - '{collection_tier_3_progress_bar} &e{collection_progress}&6/&e{collection_tier_3_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 3
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} III'
+  - if: collectionTierIsCompleted 3
+    type: lime_stained_glass_pane
+    amount: 3
+    name: '&a{collection_name_tc} III'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_3_progress_percent}%'
       - '{collection_tier_3_progress_bar} &e{collection_progress}&6/&e{collection_tier_3_requirement}'
       - ''
       - '&7Rewards:'
@@ -134,39 +141,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 3
   name: '&c{collection_name_tc} III'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_3_progress_percent}%'
     - '{collection_tier_3_progress_bar} &e{collection_progress}&6/&e{collection_tier_3_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 4 Button =====#
-id: 4
+--- #===== Tier 4 =====#
+id: d
 conditional-buttons:
-  - condition: collectionMaxTierEquals 3-
+  - if-not: collectionHasTier 4
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} IV'
+  - if: collectionTierEquals 3
+    type: yellow_stained_glass_pane
+    amount: 4
+    name: '&e{collection_name_tc} IV'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_4_progress_percent}%'
       - '{collection_tier_4_progress_bar} &e{collection_progress}&6/&e{collection_tier_4_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 4
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} IV'
+  - if: collectionTierIsCompleted 4
+    type: lime_stained_glass_pane
+    amount: 4
+    name: '&a{collection_name_tc} IV'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_4_progress_percent}%'
       - '{collection_tier_4_progress_bar} &e{collection_progress}&6/&e{collection_tier_4_requirement}'
       - ''
       - '&7Rewards:'
@@ -174,39 +184,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 4
   name: '&c{collection_name_tc} IV'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_4_progress_percent}%'
     - '{collection_tier_4_progress_bar} &e{collection_progress}&6/&e{collection_tier_4_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 5 Button =====#
-id: 5
+--- #===== Tier 5 =====#
+id: e
 conditional-buttons:
-  - condition: collectionMaxTierEquals 4-
+  - if-not: collectionHasTier 5
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} V'
+  - if: collectionTierEquals 4
+    type: yellow_stained_glass_pane
+    amount: 5
+    name: '&e{collection_name_tc} V'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_5_progress_percent}%'
       - '{collection_tier_5_progress_bar} &e{collection_progress}&6/&e{collection_tier_5_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 5
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} V'
+  - if: collectionTierIsCompleted 5
+    type: lime_stained_glass_pane
+    amount: 5
+    name: '&a{collection_name_tc} V'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_5_progress_percent}%'
       - '{collection_tier_5_progress_bar} &e{collection_progress}&6/&e{collection_tier_5_requirement}'
       - ''
       - '&7Rewards:'
@@ -214,39 +227,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 5
   name: '&c{collection_name_tc} V'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_5_progress_percent}%'
     - '{collection_tier_5_progress_bar} &e{collection_progress}&6/&e{collection_tier_5_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 6 Button =====#
-id: 6
+--- #===== Tier 6 =====#
+id: f
 conditional-buttons:
-  - condition: collectionMaxTierEquals 5-
+  - if-not: collectionHasTier 6
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} VI'
+  - if: collectionTierEquals 5
+    type: yellow_stained_glass_pane
+    amount: 6
+    name: '&e{collection_name_tc} VI'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_6_progress_percent}%'
       - '{collection_tier_6_progress_bar} &e{collection_progress}&6/&e{collection_tier_6_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 6
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} VI'
+  - if: collectionTierIsCompleted 6
+    type: lime_stained_glass_pane
+    amount: 6
+    name: '&a{collection_name_tc} VI'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_6_progress_percent}%'
       - '{collection_tier_6_progress_bar} &e{collection_progress}&6/&e{collection_tier_6_requirement}'
       - ''
       - '&7Rewards:'
@@ -254,39 +270,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 6
   name: '&c{collection_name_tc} VI'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_6_progress_percent}%'
     - '{collection_tier_6_progress_bar} &e{collection_progress}&6/&e{collection_tier_6_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 7 Button =====#
-id: 7
+--- #===== Tier 7 =====#
+id: g
 conditional-buttons:
-  - condition: collectionMaxTierEquals 6-
+  - if-not: collectionHasTier 7
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} VII'
+  - if: collectionTierEquals 6
+    type: yellow_stained_glass_pane
+    amount: 7
+    name: '&e{collection_name_tc} VII'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_7_progress_percent}%'
       - '{collection_tier_7_progress_bar} &e{collection_progress}&6/&e{collection_tier_7_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 7
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} VII'
+  - if: collectionTierIsCompleted 7
+    type: lime_stained_glass_pane
+    amount: 7
+    name: '&a{collection_name_tc} VII'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_7_progress_percent}%'
       - '{collection_tier_7_progress_bar} &e{collection_progress}&6/&e{collection_tier_7_requirement}'
       - ''
       - '&7Rewards:'
@@ -294,39 +313,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 7
   name: '&c{collection_name_tc} VII'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_7_progress_percent}%'
     - '{collection_tier_7_progress_bar} &e{collection_progress}&6/&e{collection_tier_7_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 8 Button =====#
-id: 8
+--- #===== Tier 8 =====#
+id: h
 conditional-buttons:
-  - condition: collectionMaxTierEquals 7-
+  - if-not: collectionHasTier 8
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} VIII'
+  - if: collectionTierEquals 7
+    type: yellow_stained_glass_pane
+    amount: 8
+    name: '&e{collection_name_tc} VIII'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_8_progress_percent}%'
       - '{collection_tier_8_progress_bar} &e{collection_progress}&6/&e{collection_tier_8_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 8
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} VIII'
+  - if: collectionTierIsCompleted 8
+    type: lime_stained_glass_pane
+    amount: 8
+    name: '&a{collection_name_tc} VIII'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_8_progress_percent}%'
       - '{collection_tier_8_progress_bar} &e{collection_progress}&6/&e{collection_tier_8_requirement}'
       - ''
       - '&7Rewards:'
@@ -334,39 +356,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 8
   name: '&c{collection_name_tc} VIII'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_8_progress_percent}%'
     - '{collection_tier_8_progress_bar} &e{collection_progress}&6/&e{collection_tier_8_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 9 Button =====#
-id: 9
+--- #===== Tier 9 =====#
+id: i
 conditional-buttons:
-  - condition: collectionMaxTierEquals 8-
+  - if-not: collectionHasTier 9
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} IX'
+  - if: collectionTierEquals 8
+    type: yellow_stained_glass_pane
+    amount: 9
+    name: '&e{collection_name_tc} IX'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_9_progress_percent}%'
       - '{collection_tier_9_progress_bar} &e{collection_progress}&6/&e{collection_tier_9_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 9
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} IX'
+  - if: collectionTierIsCompleted 9
+    type: lime_stained_glass_pane
+    amount: 9
+    name: '&a{collection_name_tc} IX'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_9_progress_percent}%'
       - '{collection_tier_9_progress_bar} &e{collection_progress}&6/&e{collection_tier_9_requirement}'
       - ''
       - '&7Rewards:'
@@ -374,39 +399,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 9
   name: '&c{collection_name_tc} IX'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_9_progress_percent}%'
     - '{collection_tier_9_progress_bar} &e{collection_progress}&6/&e{collection_tier_9_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 10 Button =====#
-id: 10
+--- #===== Tier 10 =====#
+id: j
 conditional-buttons:
-  - condition: collectionMaxTierEquals 9-
+  - if-not: collectionHasTier 10
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} X'
+  - if: collectionTierEquals 9
+    type: yellow_stained_glass_pane
+    amount: 10
+    name: '&e{collection_name_tc} X'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_10_progress_percent}%'
       - '{collection_tier_10_progress_bar} &e{collection_progress}&6/&e{collection_tier_10_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 10
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} X'
+  - if: collectionTierIsCompleted 10
+    type: lime_stained_glass_pane
+    amount: 10
+    name: '&a{collection_name_tc} X'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_10_progress_percent}%'
       - '{collection_tier_10_progress_bar} &e{collection_progress}&6/&e{collection_tier_10_requirement}'
       - ''
       - '&7Rewards:'
@@ -414,39 +442,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 10
   name: '&c{collection_name_tc} X'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_10_progress_percent}%'
     - '{collection_tier_10_progress_bar} &e{collection_progress}&6/&e{collection_tier_10_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 11 Button =====#
-id: 11
+--- #===== Tier 11 =====#
+id: k
 conditional-buttons:
-  - condition: collectionMaxTierEquals 10-
+  - if-not: collectionHasTier 11
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} XI'
+  - if: collectionTierEquals 10
+    type: yellow_stained_glass_pane
+    amount: 11
+    name: '&e{collection_name_tc} XI'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_11_progress_percent}%'
       - '{collection_tier_11_progress_bar} &e{collection_progress}&6/&e{collection_tier_11_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 11
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XI'
+  - if: collectionTierIsCompleted 11
+    type: lime_stained_glass_pane
+    amount: 11
+    name: '&a{collection_name_tc} XI'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_11_progress_percent}%'
       - '{collection_tier_11_progress_bar} &e{collection_progress}&6/&e{collection_tier_11_requirement}'
       - ''
       - '&7Rewards:'
@@ -454,39 +485,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 11
   name: '&c{collection_name_tc} XI'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_11_progress_percent}%'
     - '{collection_tier_11_progress_bar} &e{collection_progress}&6/&e{collection_tier_11_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 12 Button =====#
-id: 12
+--- #===== Tier 12 =====#
+id: l
 conditional-buttons:
-  - condition: collectionMaxTierEquals 11-
+  - if-not: collectionHasTier 12
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} XII'
+  - if: collectionTierEquals 11
+    type: yellow_stained_glass_pane
+    amount: 12
+    name: '&e{collection_name_tc} XII'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_12_progress_percent}%'
       - '{collection_tier_12_progress_bar} &e{collection_progress}&6/&e{collection_tier_12_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 12
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XII'
+  - if: collectionTierIsCompleted 12
+    type: lime_stained_glass_pane
+    amount: 12
+    name: '&a{collection_name_tc} XII'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_12_progress_percent}%'
       - '{collection_tier_12_progress_bar} &e{collection_progress}&6/&e{collection_tier_12_requirement}'
       - ''
       - '&7Rewards:'
@@ -494,39 +528,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 12
   name: '&c{collection_name_tc} XII'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_12_progress_percent}%'
     - '{collection_tier_12_progress_bar} &e{collection_progress}&6/&e{collection_tier_12_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 13 Button =====#
-id: 13
+--- #===== Tier 13 =====#
+id: m
 conditional-buttons:
-  - condition: collectionMaxTierEquals 12-
+  - if-not: collectionHasTier 13
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} XIII'
+  - if: collectionTierEquals 12
+    type: yellow_stained_glass_pane
+    amount: 13
+    name: '&e{collection_name_tc} XIII'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_13_progress_percent}%'
       - '{collection_tier_13_progress_bar} &e{collection_progress}&6/&e{collection_tier_13_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 13
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XIII'
+  - if: collectionTierIsCompleted 13
+    type: lime_stained_glass_pane
+    amount: 13
+    name: '&a{collection_name_tc} XIII'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_13_progress_percent}%'
       - '{collection_tier_13_progress_bar} &e{collection_progress}&6/&e{collection_tier_13_requirement}'
       - ''
       - '&7Rewards:'
@@ -534,39 +571,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 13
   name: '&c{collection_name_tc} XIII'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_13_progress_percent}%'
     - '{collection_tier_13_progress_bar} &e{collection_progress}&6/&e{collection_tier_13_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 14 Button =====#
-id: 14
+--- #===== Tier 14 =====#
+id: n
 conditional-buttons:
-  - condition: collectionMaxTierEquals 13-
+  - if-not: collectionHasTier 14
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} XIV'
+  - if: collectionTierEquals 13
+    type: yellow_stained_glass_pane
+    amount: 14
+    name: '&e{collection_name_tc} XIV'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_14_progress_percent}%'
       - '{collection_tier_14_progress_bar} &e{collection_progress}&6/&e{collection_tier_14_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 14
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XIV'
+  - if: collectionTierIsCompleted 14
+    type: lime_stained_glass_pane
+    amount: 14
+    name: '&a{collection_name_tc} XIV'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_14_progress_percent}%'
       - '{collection_tier_14_progress_bar} &e{collection_progress}&6/&e{collection_tier_14_requirement}'
       - ''
       - '&7Rewards:'
@@ -574,39 +614,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 14
   name: '&c{collection_name_tc} XIV'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_14_progress_percent}%'
     - '{collection_tier_14_progress_bar} &e{collection_progress}&6/&e{collection_tier_14_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 15 Button =====#
-id: 15
+--- #===== Tier 15 =====#
+id: o
 conditional-buttons:
-  - condition: collectionMaxTierEquals 14-
+  - if-not: collectionHasTier 15
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} XV'
+  - if: collectionTierEquals 14
+    type: yellow_stained_glass_pane
+    amount: 15
+    name: '&e{collection_name_tc} XV'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_15_progress_percent}%'
       - '{collection_tier_15_progress_bar} &e{collection_progress}&6/&e{collection_tier_15_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 15
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XV'
+  - if: collectionTierIsCompleted 15
+    type: lime_stained_glass_pane
+    amount: 15
+    name: '&a{collection_name_tc} XV'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_15_progress_percent}%'
       - '{collection_tier_15_progress_bar} &e{collection_progress}&6/&e{collection_tier_15_requirement}'
       - ''
       - '&7Rewards:'
@@ -614,39 +657,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 15
   name: '&c{collection_name_tc} XV'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_15_progress_percent}%'
     - '{collection_tier_15_progress_bar} &e{collection_progress}&6/&e{collection_tier_15_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 16 Button =====#
-id: 16
+--- #===== Tier 16 =====#
+id: p
 conditional-buttons:
-  - condition: collectionMaxTierEquals 15-
+  - if-not: collectionHasTier 16
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} XVI'
+  - if: collectionTierEquals 15
+    type: yellow_stained_glass_pane
+    amount: 16
+    name: '&e{collection_name_tc} XVI'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_16_progress_percent}%'
       - '{collection_tier_16_progress_bar} &e{collection_progress}&6/&e{collection_tier_16_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 16
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XVI'
+  - if: collectionTierIsCompleted 16
+    type: lime_stained_glass_pane
+    amount: 16
+    name: '&a{collection_name_tc} XVI'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_16_progress_percent}%'
       - '{collection_tier_16_progress_bar} &e{collection_progress}&6/&e{collection_tier_16_requirement}'
       - ''
       - '&7Rewards:'
@@ -654,39 +700,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 16
   name: '&c{collection_name_tc} XVI'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_16_progress_percent}%'
     - '{collection_tier_16_progress_bar} &e{collection_progress}&6/&e{collection_tier_16_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 17 Button =====#
-id: 17
+--- #===== Tier 17 =====#
+id: q
 conditional-buttons:
-  - condition: collectionMaxTierEquals 16-
+  - if-not: collectionHasTier 17
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} XVII'
+  - if: collectionTierEquals 16
+    type: yellow_stained_glass_pane
+    amount: 17
+    name: '&e{collection_name_tc} XVII'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_17_progress_percent}%'
       - '{collection_tier_17_progress_bar} &e{collection_progress}&6/&e{collection_tier_17_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 17
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XVII'
+  - if: collectionTierIsCompleted 17
+    type: lime_stained_glass_pane
+    amount: 17
+    name: '&a{collection_name_tc} XVII'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_17_progress_percent}%'
       - '{collection_tier_17_progress_bar} &e{collection_progress}&6/&e{collection_tier_17_requirement}'
       - ''
       - '&7Rewards:'
@@ -694,39 +743,42 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 17
   name: '&c{collection_name_tc} XVII'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_17_progress_percent}%'
     - '{collection_tier_17_progress_bar} &e{collection_progress}&6/&e{collection_tier_17_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
 
---- #===== Tier 18 Button =====#
-id: 18
+--- #===== Tier 18 =====#
+id: r
 conditional-buttons:
-  - condition: collectionMaxTierEquals 17-
+  - if-not: collectionHasTier 18
     type: gray_stained_glass_pane
-    name: ''
+    name: '&7'
 
-  - condition: collectionIsUnlocked
-    type: green_stained_glass_pane
-    name: '&a{collection_name_tc} XVIII'
+  - if: collectionTierEquals 17
+    type: yellow_stained_glass_pane
+    amount: 18
+    name: '&e{collection_name_tc} XVIII'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_18_progress_percent}%'
       - '{collection_tier_18_progress_bar} &e{collection_progress}&6/&e{collection_tier_18_requirement}'
       - ''
       - '&7Rewards:'
       - '  {collection_rewards}'
 
-  - condition: collectionTierEquals 18
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XVIII'
+  - if: collectionTierIsCompleted 18
+    type: lime_stained_glass_pane
+    amount: 18
+    name: '&a{collection_name_tc} XVIII'
     lore:
       - ''
-      - '&7Progress: &e{collection_progress_percent}%'
+      - '&7Progress: &e{collection_tier_18_progress_percent}%'
       - '{collection_tier_18_progress_bar} &e{collection_progress}&6/&e{collection_tier_18_requirement}'
       - ''
       - '&7Rewards:'
@@ -734,11 +786,14 @@ conditional-buttons:
 
 default-button:
   type: red_stained_glass_pane
+  amount: 18
   name: '&c{collection_name_tc} XVIII'
   lore:
     - ''
-    - '&7Progress: &e{collection_progress_percent}%'
+    - '&7Progress: &e{collection_tier_18_progress_percent}%'
     - '{collection_tier_18_progress_bar} &e{collection_progress}&6/&e{collection_tier_18_requirement}'
     - ''
     - '&7Rewards:'
     - '  {collection_rewards}'
+
+

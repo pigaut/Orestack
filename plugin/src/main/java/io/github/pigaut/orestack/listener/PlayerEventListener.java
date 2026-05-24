@@ -122,7 +122,7 @@ public class PlayerEventListener implements Listener {
         }
 
         OrestackPlayer playerState = plugin.getPlayerState(player);
-        Context context = Context.builder()
+        Context context = Context.builder(plugin)
                 .withPlayer(player)
                 .withPlayerState(playerState)
                 .withAction(action)
@@ -207,7 +207,7 @@ public class PlayerEventListener implements Listener {
         Action action = event.getAction();
         Block clickedBlock = event.getClickedBlock();
 
-        Context context = Context.builder()
+        Context context = Context.builder(plugin)
                 .withPlayer(player)
                 .withPlayerState(plugin.getPlayerState(player))
                 .withTool(heldItem)
@@ -253,7 +253,7 @@ public class PlayerEventListener implements Listener {
     public void handleGeneratorPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         Location location = event.getBlockPlaced().getLocation();
-        Context context = Context.builder()
+        Context context = Context.builder(plugin)
                 .withPlayer(player)
                 .withPlayerState(plugin.getPlayerState(player))
                 .withTool(event.getItemInHand())
