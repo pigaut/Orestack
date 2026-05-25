@@ -2,15 +2,16 @@ package io.github.pigaut.orestack;
 
 import io.github.pigaut.orestack.api.*;
 import io.github.pigaut.orestack.command.*;
-import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.core.*;
+import io.github.pigaut.orestack.core.config.*;
 import io.github.pigaut.orestack.core.placeholder.*;
+import io.github.pigaut.orestack.gate.*;
+import io.github.pigaut.orestack.gate.template.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.instanced.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.hook.PacketEventsHook;
-import io.github.pigaut.orestack.hook.castlegates.*;
 import io.github.pigaut.orestack.hook.itemsadder.*;
 import io.github.pigaut.orestack.hook.plotsquared.*;
 import io.github.pigaut.orestack.listener.*;
@@ -28,6 +29,8 @@ import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
+import org.bukkit.event.block.*;
+import org.bukkit.plugin.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -36,11 +39,14 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     private static OrestackPlugin plugin;
     private final OrestackSettings settings = new OrestackSettings(this);
-    private final GeneratorTemplateManager templateManager = new GeneratorTemplateManager(this);
+    private final GeneratorTemplateManager generatorTemplateManager = new GeneratorTemplateManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
+    private final GateTemplateManager gateTemplateManager = new GateTemplateManager(this);
+    private final GateManager gateManager = new GateManager(this);
     private final OrestackPlayerStateManager playerStateManager = new OrestackPlayerStateManager(this);
     private final OrestackPlayerDataManger playerDataManger = new OrestackPlayerDataManger(this);
     private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
+    private final GateOptionsManager gateOptionsManager = new GateOptionsManager(this);
 
     public static OrestackPlugin getInstance() {
         return plugin;
@@ -111,11 +117,16 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         if (Server.isPluginLoaded("ItemsAdder")) {
             registerListener(new ItemsAdderDropListener());
         }
+
         if (Server.isPluginLoaded("PlotSquared")) {
-            registerListener(new PlotBlockBreakListener(this));
-        }
-        if (Server.isPluginLoaded("CastleGates")) {
-            registerListener(new GateEventListener(this));
+            PlotBlockBreakListener listener = new PlotBlockBreakListener(this);
+            EventExecutor executor = (l, event) -> {
+                if (event instanceof BlockBreakEvent) {
+                    ((PlotBlockBreakListener) l).onBreak((BlockBreakEvent) event);
+                }
+            };
+            Server.registerEventAtFirstOfLowestPriority(BlockBreakEvent.getHandlerList(), listener,
+                    executor, this, false);
         }
     }
 
@@ -176,9 +187,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public void registerListeners() {
-        registerListener(new PlayerEventListener(this));
         registerListener(new BlockEventListener(this));
         registerListener(new CropEventListener(this));
+
+        registerListener(new GeneratorEventListener(this));
+        registerListener(new GateEventListener(this));
 
         if (this.getVirtualStructures().isSupported()) {
             registerListener(new PlayerChunkLoadListener(plugin));
@@ -257,15 +270,15 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     public @NotNull GeneratorTemplateManager getGeneratorTemplates() {
-        return templateManager;
+        return generatorTemplateManager;
     }
 
     public @Nullable GeneratorTemplate getGeneratorTemplate(String name) {
-        return templateManager.get(name);
+        return generatorTemplateManager.get(name);
     }
 
     public @NotNull List<GeneratorTemplate> getGeneratorTemplates(String group) {
-        return templateManager.getAll(group);
+        return generatorTemplateManager.getAll(group);
     }
 
     public @NotNull GeneratorManager getGenerators() {
@@ -290,6 +303,30 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     public GeneratorOptionsManager getGeneratorOptions() {
         return generatorOptionsManager;
+    }
+
+    public @NotNull GateTemplateManager getGateTemplates() {
+        return gateTemplateManager;
+    }
+
+    public @Nullable GateTemplate getGateTemplate(String name) {
+        return gateTemplateManager.get(name);
+    }
+
+    public @NotNull List<GateTemplate> getGateTemplates(String group) {
+        return gateTemplateManager.getAll(group);
+    }
+
+    public @NotNull GateManager getGates() {
+        return gateManager;
+    }
+
+    public @Nullable Gate getGate(@NotNull Location location) {
+        return gateManager.getGate(location);
+    }
+
+    public GateOptionsManager getGateOptions() {
+        return gateOptionsManager;
     }
 
 }

@@ -2,6 +2,8 @@ package io.github.pigaut.orestack.core;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.*;
+import io.github.pigaut.orestack.gate.*;
+import io.github.pigaut.orestack.gate.template.*;
 import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.core.context.*;
@@ -92,6 +94,43 @@ public class SimpleOrestackAPI implements OrestackAPI {
                 .build();
 
         generator.damage(player, context, amount);
+    }
+
+    @Override
+    public boolean isGate(@NotNull String name) {
+        GateTemplate gateTemplate = plugin.getGateTemplate(name);
+        return gateTemplate != null;
+    }
+
+    @Override
+    public boolean isGate(@NotNull Location location) {
+        Gate gate = plugin.getGate(location);
+        return gate != null;
+    }
+
+    private @NotNull Gate getGate(@NotNull Location location) throws IllegalArgumentException {
+        Gate gate = plugin.getGate(location);
+        if (gate == null) {
+            throw new IllegalArgumentException("Location does not belong to a gate.");
+        }
+        return gate;
+    }
+
+    @Override
+    public void openGate(@NotNull Location location) {
+        Gate gate = getGate(location);
+        gate.open();
+    }
+
+    @Override
+    public void closeGate(@NotNull Location location) {
+        Gate gate = getGate(location);
+        gate.close();
+    }
+
+    @Override
+    public void damageGate(@NotNull Location location, @NotNull Player player, int amount) throws IllegalArgumentException {
+
     }
 
 }

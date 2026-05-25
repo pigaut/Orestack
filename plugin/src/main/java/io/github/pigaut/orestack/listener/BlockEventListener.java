@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.listener;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
+import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
@@ -19,50 +20,53 @@ public class BlockEventListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onLeavesDecay(LeavesDecayEvent event) {
-        if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
+        Location blockLocation = event.getBlock().getLocation();
+        if (plugin.getGenerators().isGenerator(blockLocation) || plugin.getGates().isGate(blockLocation)) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onFade(BlockFadeEvent event) {
-        if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
+        Location blockLocation = event.getBlock().getLocation();
+        if (plugin.getGenerators().isGenerator(blockLocation) || plugin.getGates().isGate(blockLocation)) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockBurn(BlockBurnEvent event) {
-        if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
+        Location blockLocation = event.getBlock().getLocation();
+        if (plugin.getGenerators().isGenerator(blockLocation) || plugin.getGates().isGate(blockLocation)) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onExplode(EntityExplodeEvent event) {
-        final List<Block> explodedBlocks = event.blockList();
-        for (Block explodedBlock : explodedBlocks) {
-            if (plugin.getGenerators().isGenerator(explodedBlock.getLocation())) {
-                explodedBlocks.remove(explodedBlock);
-            }
-        }
+        List<Block> explodedBlocks = event.blockList();
+        explodedBlocks.removeIf(explodedBlock -> {
+            Location loc = explodedBlock.getLocation();
+            return plugin.getGenerators().isGenerator(loc) || plugin.getGates().isGate(loc);
+        });
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onExplode(BlockExplodeEvent event) {
-        final List<Block> explodedBlocks = event.blockList();
-        for (Block explodedBlock : explodedBlocks) {
-            if (plugin.getGenerators().isGenerator(explodedBlock.getLocation())) {
-                explodedBlocks.remove(explodedBlock);
-            }
-        }
+        List<Block> explodedBlocks = event.blockList();
+        explodedBlocks.removeIf(explodedBlock -> {
+            Location loc = explodedBlock.getLocation();
+            return plugin.getGenerators().isGenerator(loc) || plugin.getGates().isGate(loc);
+        });
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onPistonExtend(BlockPistonExtendEvent event) {
         for (Block movedBlock : event.getBlocks()) {
-            if (plugin.getGenerators().isGenerator(movedBlock.getLocation())) {
+            Location loc = movedBlock.getLocation();
+            if (plugin.getGenerators().isGenerator(loc) || plugin.getGates().isGate(loc)) {
                 event.setCancelled(true);
+                break;
             }
         }
     }
@@ -70,10 +74,11 @@ public class BlockEventListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onPistonRetract(BlockPistonRetractEvent event) {
         for (Block movedBlock : event.getBlocks()) {
-            if (plugin.getGenerators().isGenerator(movedBlock.getLocation())) {
+            Location loc = movedBlock.getLocation();
+            if (plugin.getGenerators().isGenerator(loc) || plugin.getGates().isGate(loc)) {
                 event.setCancelled(true);
+                break;
             }
         }
     }
-
 }

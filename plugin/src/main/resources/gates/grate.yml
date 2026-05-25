@@ -1,0 +1,19 @@
+--- # Closed Phase
+structure: grate_closed
+delay: 20
+on-right-click:
+  - openGate
+
+--- # Transition Phase 1 (opening/closing)
+structure: grate_transition_1
+delay: 20
+
+--- # Transition Phase 2 (opening/closing)
+structure: grate_transition_2
+delay: 20
+
+--- # Opened Phase
+structure: grate_opened
+delay: 20
+on-right-click:
+  - closeGate

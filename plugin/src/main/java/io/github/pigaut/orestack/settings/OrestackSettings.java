@@ -1,6 +1,6 @@
 package io.github.pigaut.orestack.settings;
 
-import io.github.pigaut.orestack.core.*;
+import io.github.pigaut.orestack.core.tools.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.enchant.*;
@@ -22,23 +22,27 @@ public class OrestackSettings extends Settings {
     // Generic settings
     private boolean keepBlocksOnRemove;
     private boolean restoreOriginalBlocksOnRemove;
+
+    // Generator settings
     private ItemStack generatorTool;
+    private Amount defaultToolDamage;
+    private int generatorClickCooldown;
+    private int generatorHitCooldown;
+    private int generatorHarvestCooldown;
+    private boolean veinMiner;
 
     // Collections settings
     private ProgressBar collectionProgressBar;
 
     // VeinMiner settings
-    private boolean veinMiner;
     private List<String> veinMinerAliases;
     private Map<Integer, Integer> veinSizeByLevel;
 
-    // Generator
-    private Amount defaultToolDamage;
-    private int clickCooldown;
-    private int hitCooldown;
-    private int harvestCooldown;
+    // Gate settings
+    private ItemStack gateTool;
+    private int gateClickCooldown;
 
-    // Generator health settings
+    // Health settings
     private Amount defaultDamage;
     private boolean overflowDamage;
     private boolean efficiencyDamageMultiplier;
@@ -56,34 +60,34 @@ public class OrestackSettings extends Settings {
 
         ConfigSection config = plugin.getConfiguration();
 
+        // Generic settings
         keepBlocksOnRemove = config.getBoolean("keep-blocks-on-remove")
                 .withDefaultOrElse(false, errors::add);
 
         restoreOriginalBlocksOnRemove = config.getBoolean("restore-original-blocks-on-remove")
                 .withDefaultOrElse(true, errors::add);
 
-        generatorTool = config.get("generator-tool", ItemStack.class)
-                .require(ItemUtil::isNotAir, "Item type cannot be air")
-                .withDefaultOrElse(GeneratorTool.getItemTemplate(), errors::add);
-
         // Collections settings
-
         collectionProgressBar = config.get("collection-progress-bar", ProgressBar.class)
                 .withDefaultOrElse(ProgressBar.EMPTY, errors::add);
 
         // Generator settings
+        generatorTool = config.get("generator-tool", ItemStack.class)
+                .require(ItemUtil::isNotAir, "Item type cannot be air")
+                .withDefaultOrElse(GeneratorTool.getItemTemplate(), errors::add);
+
         defaultToolDamage = config.get("default-tool-durability-damage|default-tool-damage", Amount.class)
                 .withDefaultOrElse(Amount.ONE, errors::add);
 
-        clickCooldown = config.getInteger("click-cooldown")
+        generatorClickCooldown = config.getInteger("generator-click-cooldown")
                 .require(Requirements.positive())
                 .withDefaultOrElse(4, errors::add);
 
-        hitCooldown = config.getInteger("hit-cooldown")
+        generatorHitCooldown = config.getInteger("generator-hit-cooldown")
                 .require(Requirements.positive())
                 .withDefaultOrElse(4, errors::add);
 
-        harvestCooldown = config.getInteger("harvest-cooldown")
+        generatorHarvestCooldown = config.getInteger("generator-harvest-cooldown")
                 .require(Requirements.positive())
                 .withDefaultOrElse(4, errors::add);
 
@@ -109,7 +113,16 @@ public class OrestackSettings extends Settings {
             }
         }
 
-        // Generator health options
+        // Gate settings
+        gateTool = config.get("gate-tool", ItemStack.class)
+                .require(ItemUtil::isNotAir, "Item type cannot be air")
+                .withDefaultOrElse(GateTool.getItemTemplate(), errors::add);
+
+        gateClickCooldown = config.getInteger("gate-click-cooldown")
+                .require(Requirements.positive())
+                .withDefaultOrElse(4, errors::add);
+
+        // Health settings
         defaultDamage = config.get("default-damage", Amount.class)
                 .withDefaultOrElse(Amount.ONE, errors::add);
 
@@ -156,6 +169,14 @@ public class OrestackSettings extends Settings {
         return generatorTool.clone();
     }
 
+    public ItemStack getGateTool() {
+        return gateTool.clone();
+    }
+
+    public int getGateClickCooldown() {
+        return gateClickCooldown;
+    }
+
     public boolean isDamageOverflow() {
         return overflowDamage;
     }
@@ -176,16 +197,16 @@ public class OrestackSettings extends Settings {
         return defaultToolDamage;
     }
 
-    public int getHitCooldown() {
-        return hitCooldown;
+    public int getGeneratorHitCooldown() {
+        return generatorHitCooldown;
     }
 
-    public int getClickCooldown() {
-        return clickCooldown;
+    public int getGeneratorClickCooldown() {
+        return generatorClickCooldown;
     }
 
-    public int getHarvestCooldown() {
-        return harvestCooldown;
+    public int getGeneratorHarvestCooldown() {
+        return generatorHarvestCooldown;
     }
 
     public boolean isReducedCooldownDamage() {
@@ -215,7 +236,7 @@ public class OrestackSettings extends Settings {
         return veinSizeByLevel.getOrDefault(enchantLevel, 1);
     }
 
-    public double getGeneratorDamage(@NotNull Player player, @NotNull Block block) {
+    public double getStructureDamage(@NotNull Player player, @NotNull Block block) {
         ItemStack tool = player.getInventory().getItemInMainHand();
         Amount damageAmount = getToolDamage(tool.getType(), block.getType());
         double damage = damageAmount.doubleValue();

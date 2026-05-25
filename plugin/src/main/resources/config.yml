@@ -54,6 +54,13 @@ structure-blacklist:
   - AIR
   - BEDROCK
 
+# If enabled, blocks that were replaced when the generator/gate was placed
+# will be restored when the generator/gate is removed.
+restore-original-blocks-on-remove: true
+
+# Whether to keep the blocks (max phase) when a generator/gate is removed.
+keep-blocks-on-remove: false
+
 # The wand used to select a region (admin tool)
 structure-wand:
   material: golden pickaxe
@@ -62,6 +69,30 @@ structure-wand:
   lore:
     - '&fleft-click to select first corner'
     - '&fright-click to select second corner'
+
+#░░░█▄█░█▀█░█▀▄░█░█░█░░░█▀▀░█▀▀░░░░
+#░░░█░█░█░█░█░█░█░█░█░░░█▀▀░▀▀█░░░░
+#░░░▀░▀░▀▀▀░▀▀░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░░░
+# Modules: items, messages, particles, sounds, menus, recipes, functions, structures, generators, collections
+
+# Toggle modules that should be disabled. Once a module is disabled you can delete the respective config folder.
+disabled-modules: []
+
+#░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
+#░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
+#░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
+
+# The default damage to apply to the tool or 0 to disable (Can be overridden inside a generator phase)
+default-tool-durability-damage: 1
+
+# The default delay in ticks between each click, it can be overridden in the generator phase.
+generator-click-cooldown: 3
+
+# The default delay in ticks between each hit (left-click), it can be overridden in the generator phase.
+generator-hit-cooldown: 3
+
+# The default delay in ticks between each harvest attempt (right-click), it can be overridden in the generator phase.
+generator-harvest-cooldown: 3
 
 # The generator item used to place and break generators (admin tool)
 generator-tool:
@@ -72,46 +103,6 @@ generator-tool:
     - '&fright-click to place'
     - '&fleft-click to break'
     - '&fshift + left-click (air) to rotate'
-
-#░░░█▄█░█▀█░█▀▄░█░█░█░░░█▀▀░█▀▀░░░░
-#░░░█░█░█░█░█░█░█░█░█░░░█▀▀░▀▀█░░░░
-#░░░▀░▀░▀▀▀░▀▀░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░░░
-
-# Toggle modules that should be enabled. Once a module is removed you can safely delete the respective config folder.
-enabled-modules:
-  - items
-  - messages
-  - particles
-  - sounds
-  - menus
-  - recipes
-  - functions
-  - structures
-  - generators
-  - collections
-
-#░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
-#░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
-#░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
-
-# If enabled, blocks that were replaced when the generator was placed
-# will be restored when the generator is removed.
-restore-original-blocks-on-remove: true
-
-# Whether to keep the blocks (regrown phase) when a generator is removed.
-keep-blocks-on-remove: false
-
-# The default damage to apply to the tool or 0 to disable (Can be overridden inside a generator phase)
-default-tool-durability-damage: 1
-
-# The default delay in ticks between each click, it can be overridden in the generator phase.
-click-cooldown: 4
-
-# The default delay in ticks between each hit (left-click), it can be overridden in the generator phase.
-hit-cooldown: 4
-
-# The default delay in ticks between each harvest attempt (right-click), it can be overridden in the generator phase.
-harvest-cooldown: 4
 
 #░░░█▀█░█▀▀░█▀▄░░░░░█▀█░█░░░█▀█░█░█░█▀▀░█▀▄░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
 #░░░█▀▀░█▀▀░█▀▄░▄▄▄░█▀▀░█░░░█▀█░░█░░█▀▀░█▀▄░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
@@ -129,6 +120,24 @@ harvest-cooldown: 4
 per-player-generators-barrier-layouts:
   great_oak_tree: great_oak_tree_silhouette # generator_name: structure_name
   wheat: none # Use none, and no barrier blocks will be placed. (No barriers are placed for non-solid blocks by default)
+
+#░░░█▀▀░█▀█░▀█▀░█▀▀░█▀▀░░░░
+#░░░█░█░█▀█░░█░░█▀▀░▀▀█░░░░
+#░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀▀░░░░
+
+# The default delay in ticks between each click, it can be overridden in each gate phase.
+gate-click-cooldown: 3
+
+# The gate item used to place and break gates (admin tool)
+gate-tool:
+  material: terracotta   # Replaced by the last phase block
+  name: '&b&l{gate_tc} Gate ({gate_tool_rotation_tc})'
+  glow: true
+  lore:
+    - '&fright-click to place'
+    - '&fleft-click to break'
+    - '&fshift + left-click (air) to rotate'
+
 
 #░░░█░█░█▀█░█░░░█▀█░█▀▀░█▀▄░█▀█░█▄█░█▀▀░░░░
 #░░░█▀█░█░█░█░░░█░█░█░█░█▀▄░█▀█░█░█░▀▀█░░░░
@@ -151,7 +160,7 @@ hologram-styles:
     brightness: 15 # from 0 to 15
     #    background-color: { red: 0, green: 0, blue: 0 } # Better system is coming
     scale: x=1 y=1 z=1
-    shadow: strength=1 radius=1
+    shadow: none #strength=1 radius=1
 #    background-color: { red: 0, green: 0, blue: 0 } # [Text-only] Better system is coming
 #    update: 3s   # [Text-only]
 
@@ -410,7 +419,7 @@ damage-by-tool-type:
 #░░░█▀▀░█░░░█▀█░█░░░█▀▀░█▀█░█░█░█░░░█░█░█▀▀░█▀▄░▀▀█░░░░
 #░░░▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀░░▀▀▀░▀░▀░▀▀▀░░░░
 
-# The default text displayed for any placeholder that is missing, empty, or null.
+# The default text displayed for any placeholder that is not available.
 placeholder-fallback: ''
 
 # Custom fallbacks for specific placeholders.

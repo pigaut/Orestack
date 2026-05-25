@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.command;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.command.gate.*;
 import io.github.pigaut.orestack.command.generator.*;
 import io.github.pigaut.orestack.menu.*;
 import io.github.pigaut.voxel.core.buildstation.command.*;
@@ -58,6 +59,10 @@ public class OrestackCommand extends EnhancedCommand {
 
         if (settings.isModuleEnabled(Module.GENERATORS)) {
             addSubCommand(new GeneratorSubCommand(plugin));
+        }
+
+        if (settings.isModuleEnabled(Module.GATES)) {
+            addSubCommand(new GateSubCommand(plugin));
         }
 
         if (settings.isModuleEnabled(Module.STRUCTURES)) {

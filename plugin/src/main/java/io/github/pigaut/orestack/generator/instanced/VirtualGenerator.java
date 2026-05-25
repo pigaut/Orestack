@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.generator.instanced;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.core.*;
+import io.github.pigaut.orestack.generator.exception.*;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.core.transform.Rotation;

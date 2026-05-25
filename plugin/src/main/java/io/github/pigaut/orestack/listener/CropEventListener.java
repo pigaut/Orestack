@@ -1,12 +1,15 @@
 package io.github.pigaut.orestack.listener;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.data.function.action.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.*;
@@ -19,76 +22,103 @@ public class CropEventListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWaterFlow(BlockFromToEvent event) {
-        GlobalGenerator generator = plugin.getGlobalGenerator(event.getToBlock().getLocation());
+        Location targetLocation = event.getToBlock().getLocation();
+
+        GlobalGenerator generator = plugin.getGlobalGenerator(targetLocation);
         if (generator != null) {
             Location location = generator.getOrigin();
             generator.remove();
             plugin.getLogger().warning("Removed generator at " + location.getWorld().getName() + ", " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ". " +
                     "Reason: water/lava destroyed the block.");
         }
+
+        Gate gate = plugin.getGate(targetLocation);
+        if (gate != null) {
+            Location location = gate.getOrigin();
+            gate.remove();
+            plugin.getLogger().warning("Removed gate at " + location.getWorld().getName() + ", " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ". " +
+                    "Reason: water/lava destroyed the block.");
+        }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onCropPhysics(BlockPhysicsEvent event) {
         Block block = event.getBlock();
         if (MaterialUtil.isCrop(block.getType())) {
-            if (plugin.getGenerators().isGenerator(block.getLocation())) {
+            Location loc = block.getLocation();
+            if (plugin.getGenerators().isGenerator(loc) || plugin.getGates().isGate(loc)) {
                 event.setCancelled(true);
             }
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onStructureGrowth(StructureGrowEvent event) {
-        if (plugin.getGenerators().isGenerator(event.getLocation())) {
+        Location loc = event.getLocation();
+        if (plugin.getGenerators().isGenerator(loc) || plugin.getGates().isGate(loc)) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onSpread(BlockSpreadEvent event) {
-        if (plugin.getGenerators().isGenerator(event.getSource().getLocation())) {
+        Location loc = event.getSource().getLocation();
+        if (plugin.getGenerators().isGenerator(loc) || plugin.getGates().isGate(loc)) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onForm(BlockFormEvent event) {
-        if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
+        Location loc = event.getBlock().getLocation();
+        if (plugin.getGenerators().isGenerator(loc) || plugin.getGates().isGate(loc)) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onGrowth(BlockGrowEvent event) {
-        if (plugin.getGenerators().isGenerator(event.getBlock().getLocation())) {
+        Location loc = event.getBlock().getLocation();
+        if (plugin.getGenerators().isGenerator(loc) || plugin.getGates().isGate(loc)) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onTrample(PlayerInteractEvent event) {
         Block block = event.getClickedBlock();
-        if (event.getAction() == Action.PHYSICAL && block.getType() == Material.FARMLAND) {
+        if (block != null && event.getAction() == Action.PHYSICAL && block.getType() == Material.FARMLAND) {
             Location cropLocation = block.getLocation().add(0, 1, 0);
-            GlobalGenerator generator = plugin.getGlobalGenerator(cropLocation);
-            if (generator != null) {
+
+            if (plugin.getGlobalGenerator(cropLocation) != null
+                    || plugin.getGenerators().isGenerator(cropLocation)
+                    || plugin.getGates().isGate(cropLocation)) {
                 event.setCancelled(true);
             }
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onTrample(EntityInteractEvent event) {
         Block block = event.getBlock();
         if (block.getType() == Material.FARMLAND) {
             Location cropLocation = block.getLocation().add(0, 1, 0);
-            GlobalGenerator generator = plugin.getGlobalGenerator(cropLocation);
-            if (generator != null) {
+
+            if (plugin.getGlobalGenerator(cropLocation) != null
+                    || plugin.getGenerators().isGenerator(cropLocation)
+                    || plugin.getGates().isGate(cropLocation)) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onMoistureChange(MoistureChangeEvent event) {
+        Location cropLocation = event.getBlock().getLocation().add(0, 1, 0);
+        if (plugin.getGenerators().isGenerator(cropLocation) || plugin.getGates().isGate(cropLocation)) {
+            event.setCancelled(true);
         }
     }
 

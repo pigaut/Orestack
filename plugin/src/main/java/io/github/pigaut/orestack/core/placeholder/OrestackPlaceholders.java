@@ -1,6 +1,8 @@
 package io.github.pigaut.orestack.core.placeholder;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.gate.*;
+import io.github.pigaut.orestack.gate.template.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.health.*;
@@ -19,6 +21,8 @@ import java.util.*;
 public class OrestackPlaceholders {
 
     public static void registerAll(@NotNull OrestackPlugin plugin, @NotNull PlaceholderRegistry placeholders) {
+
+        // Generator placeholders
         placeholders.register("generator", context -> {
             GeneratorTemplate generatorTemplate = context.get(GeneratorTemplate.class);
             if (generatorTemplate != null) {
@@ -195,8 +199,104 @@ public class OrestackPlaceholders {
                 return progressBar.getBarByProgress(percent);
             });
         }
+        // Generator placeholder end
 
-        // Generic collections placeholders
+
+        // Gate placeholders start
+        placeholders.register("gate", context -> {
+            GateTemplate gateTemplate = context.get(GateTemplate.class);
+            if (gateTemplate != null) {
+                return gateTemplate.getName();
+            }
+
+            Gate gate = context.get(Gate.class);
+            return gate != null ? gate.getName() : null;
+        });
+
+        placeholders.register("gate_phase", context -> {
+            Gate gate = context.get(Gate.class);
+            return gate != null ? gate.getState().getCurrentPhase() : null;
+        });
+
+        placeholders.register("gate_phases", context -> {
+            Gate gate = context.get(Gate.class);
+            return gate != null ? gate.getMaxPhase() + 1 : null;
+        });
+
+        placeholders.register("gate_rotation", context -> {
+            Gate gate = context.get(Gate.class);
+            return gate != null ? gate.getRotation() : null;
+        });
+
+        placeholders.register("gate_world", context -> {
+            Gate gate = context.get(Gate.class);
+            return gate != null ? gate.getOrigin().getWorld().getName() : null;
+        });
+
+        placeholders.register("gate_x", context -> {
+            Gate gate = context.get(Gate.class);
+            return gate != null ? gate.getOrigin().getBlockX() : null;
+        });
+
+        placeholders.register("gate_y", context -> {
+            Gate gate = context.get(Gate.class);
+            return gate != null ? gate.getOrigin().getBlockY() : null;
+        });
+
+        placeholders.register("gate_z", context -> {
+            Gate gate = context.get(Gate.class);
+            return gate != null ? gate.getOrigin().getBlockZ() : null;
+        });
+
+        placeholders.register("gate_health", context -> {
+            Gate gate = context.get(Gate.class);
+            return gate != null ? HealthUtil.getGateHealthInt(gate) : null;
+        });
+
+        placeholders.register("gate_max_health", context -> {
+            Gate gate = context.get(Gate.class);
+            return gate != null ? HealthUtil.getGateMaxHealthInt(gate) : null;
+        });
+
+        placeholders.register("phase_health", context -> {
+            Gate gate = context.get(Gate.class);
+            return gate != null ? HealthUtil.getPhaseHealthInt(gate) : null;
+        });
+
+        placeholders.register("phase_max_health", context -> {
+            Gate gate = context.get(Gate.class);
+            return gate != null ? HealthUtil.getPhaseMaxHealthInt(gate) : null;
+        });
+
+        for (ProgressBar healthBar : settings.getProgressBars()) {
+            placeholders.register("gate_health_bar:" + healthBar.getId(), context -> {
+                Gate gate = context.get(Gate.class);
+                if (gate == null) {
+                    return null;
+                }
+                Integer healthPercentage = HealthUtil.getHealthPercentage(gate);
+                if (healthPercentage == null) {
+                    return null;
+                }
+                return healthBar.getBarByProgress(healthPercentage);
+            });
+
+            placeholders.register("phase_health_bar:" + healthBar.getId(), context -> {
+                Gate gate = context.get(Gate.class);
+                if (gate == null) {
+                    return null;
+                }
+                Integer healthPercentage = HealthUtil.getPhaseHealthPercentage(gate);
+                if (healthPercentage == null) {
+                    return null;
+                }
+                return healthBar.getBarByProgress(healthPercentage);
+            });
+        }
+        // Gate placeholders end
+
+
+        // Generic collections placeholders start
         placeholders.register("collections_unlocked", context -> {
             PlayerData playerData = context.playerData();
             if (playerData == null) {
@@ -253,6 +353,8 @@ public class OrestackPlaceholders {
                 return progressBar.getBarByProgress(percentage);
             });
         }
+        // Generic collections placeholders end
+
 
         // Specific collections placeholders
         for (CollectionTemplate collectionTemplate : plugin.getCollectionTemplates().getAll()) {
@@ -382,8 +484,10 @@ public class OrestackPlaceholders {
 
             }
         }
+        // Specific collections placeholders end
 
-        // Collection category placeholders
+
+        // Collection category placeholders start
         for (String groupName : plugin.getCollectionTemplates().getAllGroups()) {
             placeholders.register(groupName + "_collections_unlocked", context -> {
                 PlayerData playerData = context.playerData();
@@ -453,8 +557,10 @@ public class OrestackPlaceholders {
                     return progressBar.getBarByProgress(percentage);
                 });
             }
+            // Collection category placeholders end
 
-            // Collection placeholders (no player)
+
+            // Collection placeholders (no player) start
             placeholders.register("collection_name", context -> {
                 Collection collection = context.get(Collection.class);
                 if (collection == null) {
@@ -545,6 +651,9 @@ public class OrestackPlaceholders {
                     return collectionProgressBar.getBarByProgress(percentage);
                 });
             }
+            // Collection placeholders (no player) end
+
+
 
         }
 
