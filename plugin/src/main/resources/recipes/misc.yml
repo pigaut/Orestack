@@ -31,7 +31,7 @@ shapeless_example:
 # Requires 1.20+
 #smithing_example:
 #  type: smithing
-#  template: paper # Optional on servers using 1.21+
+#  template: paper
 #  base: gold sword
 #  addition: emerald
 #  result: diamond sword

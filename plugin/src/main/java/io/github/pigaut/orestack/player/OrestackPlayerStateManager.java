@@ -1,9 +1,7 @@
 package io.github.pigaut.orestack.player;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.voxel.core.player.*;
-import io.github.pigaut.voxel.core.player.state.*;
-import org.bukkit.entity.*;
+import io.github.pigaut.voxel.player.state.*;
 import org.jetbrains.annotations.*;
 
 public class OrestackPlayerStateManager extends PlayerStateManager<OrestackPlayer> {

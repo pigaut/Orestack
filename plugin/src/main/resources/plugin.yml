@@ -9,9 +9,23 @@ folia-supported: true
 
 load: STARTUP
 
-loadbefore:
-  - WorldEdit
+softdepend:
+  - Vault
+  - PlaceholderAPI
+  - Multiverse-Core
+  - Plotsquared
+  - DecentHolograms
+  - FancyHolograms
+  - AuraSkills
+  - mcMMO
+  - ItemsAdder
+  - Nexo
+  - CraftEngine
   - PlotSquared
+  - MythicMobs
+  - ExecutableItems
+  - EcoItems
+  - packetevents
 
 libraries:
   - com.h2database:h2:2.3.232

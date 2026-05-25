@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.menu.hologram.editor;
 
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
@@ -17,8 +18,8 @@ public class ItemHologramEditor extends GenericHologramEditor {
     }
 
     @Override
-    public @Nullable Button[] createButtons() {
-        Button[] buttons = super.createButtons();
+    public @Nullable Button[] createButtons(@NotNull Context context) {
+        Button[] buttons = super.createButtons(context);
 
         ButtonBuilder blockButton = Button.builder()
                 .type(Material.GRASS_BLOCK)

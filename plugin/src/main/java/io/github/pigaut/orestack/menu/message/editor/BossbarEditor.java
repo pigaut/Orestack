@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.core.menu.template.button.*;
 import io.github.pigaut.voxel.util.*;
@@ -22,8 +23,8 @@ public class BossbarEditor extends GenericMessageEditor {
     }
 
     @Override
-    public @Nullable Button[] createButtons() {
-        Button[] buttons = super.createButtons();
+    public @Nullable Button[] createButtons(@NotNull Context context) {
+        Button[] buttons = super.createButtons(context);
 
         ButtonBuilder barTitleButton = Button.builder()
                 .type(Material.OAK_SIGN)
@@ -41,7 +42,7 @@ public class BossbarEditor extends GenericMessageEditor {
                 });
 
         ButtonBuilder styleButton = Button.builder()
-                .type(Material.CHAIN)
+                .type(MaterialUtil.getMaterial("CHAIN"))
                 .name("&f&lStyle")
                 .enchanted(true)
                 .addEmptyLine()

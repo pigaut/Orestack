@@ -3,6 +3,7 @@ package io.github.pigaut.orestack.menu.message.editor;
 import io.github.pigaut.orestack.menu.hologram.*;
 import io.github.pigaut.orestack.menu.hologram.editor.*;
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.yaml.*;
@@ -21,8 +22,8 @@ public class HologramMessageEditor extends GenericMessageEditor {
     }
 
     @Override
-    public @Nullable Button[] createButtons() {
-        Button[] buttons = super.createButtons();
+    public @Nullable Button[] createButtons(@NotNull Context context) {
+        Button[] buttons = super.createButtons(context);
         ButtonBuilder hologramButton = Button.builder()
                 .enchanted(true)
                 .type(Material.BEACON)

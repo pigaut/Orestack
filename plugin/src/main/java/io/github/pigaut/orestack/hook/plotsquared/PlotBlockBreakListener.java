@@ -4,6 +4,10 @@ import io.github.pigaut.orestack.*;
 import org.bukkit.block.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
+import org.bukkit.plugin.*;
+import org.jetbrains.annotations.*;
+
+import java.util.*;
 
 // Register this listener before PlotSquared is enabled to override its block-break handler (lowest priority).
 public class PlotBlockBreakListener implements Listener {

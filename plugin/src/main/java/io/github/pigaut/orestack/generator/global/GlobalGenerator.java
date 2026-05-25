@@ -1,9 +1,8 @@
 package io.github.pigaut.orestack.generator.global;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.api.event.*;
-import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.generator.*;
+import io.github.pigaut.orestack.generator.exception.*;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.core.context.*;
@@ -13,8 +12,6 @@ import io.github.pigaut.voxel.data.function.*;
 import io.github.pigaut.voxel.data.structure.*;
 import io.github.pigaut.voxel.data.structure.global.Structure;
 import org.bukkit.*;
-import org.bukkit.block.*;
-import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
 public class GlobalGenerator extends BasicGenerator {
@@ -115,7 +112,7 @@ public class GlobalGenerator extends BasicGenerator {
         }
 
         GeneratorPhase newPhase = getPhase(phaseIndex);
-        Context context = Context.builder()
+        Context context = Context.builder(plugin)
                 .withBlock(origin.getBlock())
                 .with(Generator.class, this)
                 .build();

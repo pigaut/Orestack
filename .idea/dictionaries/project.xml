@@ -2,6 +2,9 @@
   <dictionary name="project">
     <words>
       <w>buildstation</w>
+      <w>netherrack</w>
+      <w>plotsquared</w>
+      <w>tierup</w>
     </words>
   </dictionary>
 </component>

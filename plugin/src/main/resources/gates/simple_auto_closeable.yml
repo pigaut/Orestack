@@ -1,0 +1,19 @@
+--- # Closed Phase
+structure: simple_closed
+delay: 1s
+on-right-click:
+  - openGate
+
+--- # Transition Phase (opening/closing)
+structure: simple_transition
+delay: 1s
+
+--- # Opened Phase
+structure: simple_opened
+delay: 1s
+
+on-transition:
+  delay: 5s
+  do: closeGate
+
+
