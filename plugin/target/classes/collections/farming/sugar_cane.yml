@@ -1,4 +1,4 @@
-item: raw_gold
+item: sugar_cane
 on-unlock:
   - sendMessage collection_unlocked
 

@@ -1,4 +1,4 @@
-item: raw_gold
+item: nether_wart
 on-unlock:
   - sendMessage collection_unlocked
 

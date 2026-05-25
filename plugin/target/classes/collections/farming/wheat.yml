@@ -1,4 +1,4 @@
-item: raw_gold
+item: wheat
 on-unlock:
   - sendMessage collection_unlocked
 

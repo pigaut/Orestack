@@ -140,8 +140,8 @@ public class OrestackPlaceholders {
         });
 
         OrestackSettings settings = plugin.getSettings();
-        for (ProgressBar countdownBar : settings.getCountdownBars()) {
-            placeholders.register("generator_health_bar:" + countdownBar.getId(), context -> {
+        for (ProgressBar progressBar : settings.getProgressBars()) {
+            placeholders.register("generator_health_bar:" + progressBar.getId(), context -> {
                 Generator generator = context.get(Generator.class);
                 if (generator == null) {
                     return null;
@@ -150,10 +150,10 @@ public class OrestackPlaceholders {
                 if (healthPercentage == null) {
                     return null;
                 }
-                return countdownBar.getBarByProgress(healthPercentage);
+                return progressBar.getBarByProgress(healthPercentage);
             });
 
-            placeholders.register("phase_health_bar:" + countdownBar.getId(), context -> {
+            placeholders.register("phase_health_bar:" + progressBar.getId(), context -> {
                 Generator generator = context.get(Generator.class);
                 if (generator == null) {
                     return null;
@@ -162,7 +162,7 @@ public class OrestackPlaceholders {
                 if (healthPercentage == null) {
                     return null;
                 }
-                return countdownBar.getBarByProgress(healthPercentage);
+                return progressBar.getBarByProgress(healthPercentage);
             });
         }
 

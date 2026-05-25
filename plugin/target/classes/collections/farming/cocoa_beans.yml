@@ -1,4 +1,4 @@
-item: raw_gold
+item: cocoa_beans
 on-unlock:
   - sendMessage collection_unlocked
 

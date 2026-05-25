@@ -1,4 +1,4 @@
-item: raw_gold
+item: quartz
 on-unlock:
   - sendMessage collection_unlocked
 

@@ -1,4 +1,4 @@
-item: raw_gold
+item: emerald
 on-unlock:
   - sendMessage collection_unlocked
 

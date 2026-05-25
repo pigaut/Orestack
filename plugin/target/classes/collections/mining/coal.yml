@@ -1,14 +1,22 @@
-item: raw_gold
+
+item: coal
+
 on-unlock:
   - sendMessage collection_unlocked
 
+on-lock: []
+
 --- #===== Tier 1 =====
 amount: 50
-rewards: []
-on-completion:
-  - sendCollectionLevelUpMessage
 
-on-regression: []
+rewards:
+  - '&7Shaped Example &eRecipe'
+  - '&b+1 diamond'
+
+on-completion:
+# - unlockRecipe shaped_example
+# - giveItem diamond
+  - sendCollectionLevelUpMessage
 
 --- #===== Tier 2 =====
 amount: 100

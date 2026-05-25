@@ -1,4 +1,4 @@
-item: raw_gold
+item: lapis_lazuli
 on-unlock:
   - sendMessage collection_unlocked
 

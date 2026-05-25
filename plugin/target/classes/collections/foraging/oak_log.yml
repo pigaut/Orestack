@@ -1,4 +1,4 @@
-item: raw_gold
+item: oak_log
 on-unlock:
   - sendMessage collection_unlocked
 
@@ -27,7 +27,7 @@ on-completion:
 on-regression: []
 
 --- #===== Tier 4 =====
-amount: 1000
+amount: 500
 rewards: []
 on-completion:
   - sendCollectionLevelUpMessage
@@ -35,7 +35,7 @@ on-completion:
 on-regression: []
 
 --- #===== Tier 5 =====
-amount: 5000
+amount: 1000
 rewards: []
 on-completion:
   - sendCollectionLevelUpMessage
@@ -43,7 +43,7 @@ on-completion:
 on-regression: []
 
 --- #===== Tier 6 =====
-amount: 15000
+amount: 2000
 rewards: []
 on-completion:
   - sendCollectionLevelUpMessage
@@ -51,7 +51,7 @@ on-completion:
 on-regression: []
 
 --- #===== Tier 7 =====
-amount: 30000
+amount: 5000
 rewards: []
 on-completion:
   - sendCollectionLevelUpMessage
@@ -59,7 +59,7 @@ on-completion:
 on-regression: []
 
 --- #===== Tier 8 =====
-amount: 50000
+amount: 10000
 rewards: []
 on-completion:
   - sendCollectionLevelUpMessage
@@ -67,7 +67,7 @@ on-completion:
 on-regression: []
 
 --- #===== Tier 9 =====
-amount: 100000
+amount: 25000
 rewards: []
 on-completion:
   - sendCollectionLevelUpMessage

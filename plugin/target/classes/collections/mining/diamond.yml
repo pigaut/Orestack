@@ -1,6 +1,10 @@
-item: raw_gold
+
+item: diamond
+
 on-unlock:
   - sendMessage collection_unlocked
+
+on-lock: []
 
 --- #===== Tier 1 =====
 amount: 50

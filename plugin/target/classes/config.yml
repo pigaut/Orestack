@@ -411,7 +411,7 @@ damage-by-tool-type:
 #░░░▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀░░▀▀▀░▀░▀░▀▀▀░░░░
 
 # The default text displayed for any placeholder that is missing, empty, or null.
-placeholder-fallback: '&8none'
+placeholder-fallback: ''
 
 # Custom fallbacks for specific placeholders.
 custom-placeholder-fallbacks:

@@ -1,4 +1,4 @@
-item: raw_gold
+item: melon_slice
 on-unlock:
   - sendMessage collection_unlocked
 

@@ -1,4 +1,4 @@
-item: raw_gold
+item: netherrack
 on-unlock:
   - sendMessage collection_unlocked
 

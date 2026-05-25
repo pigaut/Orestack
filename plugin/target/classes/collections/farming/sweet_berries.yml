@@ -1,4 +1,4 @@
-item: raw_gold
+item: sweet_berries
 on-unlock:
   - sendMessage collection_unlocked
 
