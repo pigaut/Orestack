@@ -1,0 +1,33 @@
+main: io.github.pigaut.orestack.OrestackPlugin
+name: Orestack
+version: 3.50.0
+api-version: 1.16
+author: pigaut
+description: Create resources with custom gathering mechanics
+
+folia-supported: true
+
+load: STARTUP
+
+softdepend:
+  - Vault
+  - PlaceholderAPI
+  - Multiverse-Core
+  - Plotsquared
+  - DecentHolograms
+  - FancyHolograms
+  - AuraSkills
+  - mcMMO
+  - ItemsAdder
+  - Nexo
+  - CraftEngine
+  - PlotSquared
+  - MythicMobs
+  - ExecutableItems
+  - EcoItems
+  - packetevents
+
+libraries:
+  - com.h2database:h2:2.3.232
+  - com.zaxxer:HikariCP:5.1.0
+  - org.snakeyaml:snakeyaml-engine:3.0.1

@@ -1,0 +1,53 @@
+--- # Closed Phase
+structure: simple_closed
+open-delay: 1s
+close-delay: 0.5s
+
+hologram:
+  offset: { x: -0.5, y: 1, z: 1.5 }
+  view-distance: 15
+  lines:
+    - '&4&lLocked Gate'
+    - '&c[right-click] to open'
+
+decorative-blocks: [ stone_bricks, stone_brick_slab ]
+on-right-click:   # Ignores decorative blocks
+  if: toolIdEquals simple_gate_key
+  do: openGate
+  else: chatMessage &4You need a simple key to open this gate!
+
+--- # Transition Phase (opening/closing)
+structure: simple_transition
+
+open-delay: 1s
+opening-hologram:
+  offset: { x: -0.5, y: 1, z: 1.5 }
+  view-distance: 15
+  lines:
+    - '&2&lOpen Gate'
+    - '&a[right-click] to close'
+
+close-delay: 0.5s
+closing-hologram:
+  offset: { x: -0.5, y: 1, z: 1.5 }
+  view-distance: 15
+  lines:
+    - '&4&lLocked Gate'
+    - '&c[right-click] to open'
+
+--- # Opened Phase
+structure: simple_opened
+
+open-delay: 1s
+close-delay: 0.5s
+
+hologram:
+  offset: { x: -0.5, y: 1, z: 1.5 }
+  view-distance: 15
+  lines:
+    - '&2&lOpen Gate'
+    - '&a[right-click] to close'
+
+decorative-blocks: [ stone_bricks, stone_brick_slab ]
+on-right-click:   # Ignores decorative blocks
+  - closeGate

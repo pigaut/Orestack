@@ -1,0 +1,68 @@
+
+#░░░░░█░█░█▀█░█░░░█▀█░█▀▀░█░█░█▀█░█▀▄░█░░░█▀▀░░░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░█▀▀░░░░
+#░░░░░█░█░█░█░█░░░█░█░█░░░█▀▄░█▀█░█▀▄░█░░░█▀▀░░░█▀▄░█▀▀░█░░░░█░░█▀▀░█▀▀░▀▀█░░░░
+#░░░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀░▀░▀▀░░▀▀▀░▀▀▀░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░▀▀▀░░░░
+# All unlockable recipes are locked by default, and require use of unlockRecipe and lockRecipe actions,
+# but if global is set to true they will be available for all players.
+
+shaped_example:
+  type: shaped
+  global: false   # Default is false, whether all players should have access to this recipe
+  discover-automatically: false   # Default is false, whether players should always see this recipe in their book
+  # category: misc   # [1.19.3+] Possible values: misc, equipment, redstone, building
+  result: diamond sword   # Supports materials or custom items
+  ingredients:
+    G: gold ingot
+    S: stick
+  shape: # 3x3 grid
+    - "   " # Empty space for no item
+    - " G "
+    - " S "
+
+shapeless_example:
+  type: shapeless
+  result: mushroom stew
+  # category: misc   # [1.19.3+] Possible values: misc, equipment, redstone, building
+  ingredients:
+    - milk bucket
+    - cocoa beans
+    - sugar
+
+# Requires 1.20+
+#smithing_example:
+#  type: smithing
+#  template: paper
+#  base: gold sword
+#  addition: emerald
+#  result: diamond sword
+
+
+#░░░█▀▀░█░░░█▀█░█▀▄░█▀█░█░░░░░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░█▀▀░░░░
+#░░░█░█░█░░░█░█░█▀▄░█▀█░█░░░░░█▀▄░█▀▀░█░░░░█░░█▀▀░█▀▀░▀▀█░░░░
+#░░░▀▀▀░▀▀▀░▀▀▀░▀▀░░▀░▀░▀▀▀░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░▀▀▀░░░░
+# Global recipes cannot be locked/unlocked they will always be available to all players.
+# This applies to smelting and stonecutter recipe types.
+
+#stonecutter_example:
+#  type: stonecutter
+#  input: stone
+#  result: stone_bricks
+
+# Smelt recipes may apply to: furnace, blast_furnace, smoker, and campfire.
+#smelt_example:
+#  type: smelt
+#  input: iron pickaxe, iron axe   # Multiple inputs materials/items (Either all materials (generic) or all items (exact))
+#  result: iron ingot
+#  exp: 5.0
+#  # smelt-time: 3s   # If smelt-time is set all furnace types are compatible and will take the same time
+#  smelt-time-by-furnace:
+#    furnace: 3s   # Specify specific smelt-time per furnace type
+#    blast-furnace: 2s
+#    smoker: 5s
+##   campfire: 9s   # If a specific smelt-time is removed, the recipe will not work for that furnace type.
+
+#furnace_example:
+#  type: furnace # BLAST_FURNACE, SMOKER, CAMPFIRE
+#  input: dirt
+#  result: charcoal
+#  smelt-time: 10s

@@ -1,0 +1,259 @@
+
+#░░░█▀▀░█▀█░█▀▄░█▀█░█▀▀░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
+#░░░█▀▀░█░█░█▀▄░█▀█░█░█░░█░░█░█░█░█░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
+#░░░▀░░░▀▀▀░▀░▀░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
+
+title: '&8Foraging Collections'
+
+rows: 6
+
+layout:
+  - 8 8 8 8 8 8 8 8 8
+  - 8 a b c d e f _ 8
+  - 8 _ _ _ _ _ _ _ 8
+  - 8 _ _ _ _ _ _ _ 8
+  - 8 _ _ _ _ _ _ _ 8
+  - 8 8 8 < X = 8 8 8
+
+--- # ==== Oak Log ===== #
+id: a
+condition: hasUnlockedCollection oak_log
+met:
+  type: oak_log
+  name: '&eOak Log {oak_log_collection_tier_rm}'
+  lore:
+    - '&7View all your Oak Log Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Oak Log {oak_log_collection_next_tier_rm}: &e{oak_log_collection_progress_percent}&6%'
+    - '{oak_log_collection_progress_bar:line} &e{oak_log_collection_progress}/{oak_log_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=oak_log
+
+unmet:
+  type: gray dye
+  name: '&cOak Log'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Spruce Log ===== #
+id: b
+condition: hasUnlockedCollection spruce_log
+met:
+  type: spruce_log
+  name: '&eSpruce Log {spruce_log_collection_tier_rm}'
+  lore:
+    - '&7View all your Spruce Log Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Spruce Log {spruce_log_collection_next_tier_rm}: &e{spruce_log_collection_progress_percent}&6%'
+    - '{spruce_log_collection_progress_bar:line} &e{spruce_log_collection_progress}/{spruce_log_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=spruce_log
+
+unmet:
+  type: gray dye
+  name: '&cSpruce Log'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Birch Log ===== #
+id: c
+condition: hasUnlockedCollection birch_log
+met:
+  type: birch_log
+  name: '&eBirch Log {birch_log_collection_tier_rm}'
+  lore:
+    - '&7View all your Birch Log Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Birch Log {birch_log_collection_next_tier_rm}: &e{birch_log_collection_progress_percent}&6%'
+    - '{birch_log_collection_progress_bar:line} &e{birch_log_collection_progress}/{birch_log_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=birch_log
+
+unmet:
+  type: gray dye
+  name: '&cBirch Log'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Jungle Log ===== #
+id: d
+condition: hasUnlockedCollection jungle_log
+met:
+  type: jungle_log
+  name: '&eJungle Log {jungle_log_collection_tier_rm}'
+  lore:
+    - '&7View all your Jungle Log Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Jungle Log {jungle_log_collection_next_tier_rm}: &e{jungle_log_collection_progress_percent}&6%'
+    - '{jungle_log_collection_progress_bar:line} &e{jungle_log_collection_progress}/{jungle_log_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=jungle_log
+
+unmet:
+  type: gray dye
+  name: '&cJungle Log'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Acacia Log ===== #
+id: e
+condition: hasUnlockedCollection acacia_log
+met:
+  type: acacia_log
+  name: '&eAcacia Log {acacia_log_collection_tier_rm}'
+  lore:
+    - '&7View all your Acacia Log Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Acacia Log {acacia_log_collection_next_tier_rm}: &e{acacia_log_collection_progress_percent}&6%'
+    - '{acacia_log_collection_progress_bar:line} &e{acacia_log_collection_progress}/{acacia_log_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=acacia_log
+
+unmet:
+  type: gray dye
+  name: '&cAcacia Log'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Dark Oak Log ===== #
+id: f
+condition: hasUnlockedCollection dark_oak_log
+met:
+  type: dark_oak_log
+  name: '&eDark Oak Log {dark_oak_log_collection_tier_rm}'
+  lore:
+    - '&7View all your Dark Oak Log Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Dark Oak Log {dark_oak_log_collection_next_tier_rm}: &e{dark_oak_log_collection_progress_percent}&6%'
+    - '{dark_oak_log_collection_progress_bar:line} &e{dark_oak_log_collection_progress}/{dark_oak_log_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=dark_oak_log
+
+unmet:
+  type: gray dye
+  name: '&cDark Oak Log'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+#--- # ==== Mangrove Log [1.19+] ===== #
+#id: g
+#condition: hasUnlockedCollection mangrove_log
+#met:
+#  type: mangrove_log
+#  name: '&eMangrove Log {mangrove_log_collection_tier_rm}'
+#  lore:
+#    - '&7View all your Mangrove Log Collection'
+#    - '&7progress and rewards!'
+#    -
+#    - '&7Progress to Mangrove Log {mangrove_log_collection_next_tier_rm}: &e{mangrove_log_collection_progress_percent}&6%'
+#    - '{mangrove_log_collection_progress_bar:line} &e{mangrove_log_collection_progress}/{mangrove_log_collection_tier_up_requirement}'
+#    -
+#    - '&eClick to view!'
+#  on-left-click:
+#    - openMenu collection_progress collection=mangrove_log
+#
+#unmet:
+#  type: gray dye
+#  name: '&cMangrove Log'
+#  lore:
+#    - '&7Find this item to add it to your'
+#    - '&7collection and unlock collection'
+#    - '&7rewards!'
+#  on-left-click:
+#    - sendChat &4You haven't found this item yet!
+#
+#--- # ==== Cherry Log [1.20+] ===== #
+#id: h
+#condition: hasUnlockedCollection cherry_log
+#met:
+#  type: cherry_log
+#  name: '&eCherry Log {cherry_log_collection_tier_rm}'
+#  lore:
+#    - '&7View all your Cherry Log Collection'
+#    - '&7progress and rewards!'
+#    -
+#    - '&7Progress to Cherry Log {cherry_log_collection_next_tier_rm}: &e{cherry_log_collection_progress_percent}&6%'
+#    - '{cherry_log_collection_progress_bar:line} &e{cherry_log_collection_progress}/{cherry_log_collection_tier_up_requirement}'
+#    -
+#    - '&eClick to view!'
+#  on-left-click:
+#    - openMenu collection_progress collection=cherry_log
+#
+#unmet:
+#  type: gray dye
+#  name: '&cCherry Log'
+#  lore:
+#    - '&7Find this item to add it to your'
+#    - '&7collection and unlock collection'
+#    - '&7rewards!'
+#  on-left-click:
+#    - sendChat &4You haven't found this item yet!
+#
+#--- # ==== Pale Oak Log [1.21.2+] ===== #
+#id: i
+#condition: hasUnlockedCollection pale_oak_log
+#met:
+#  type: pale_oak_log
+#  name: '&ePale Oak Log {pale_oak_log_collection_tier_rm}'
+#  lore:
+#    - '&7View all your Pale Oak Log Collection'
+#    - '&7progress and rewards!'
+#    -
+#    - '&7Progress to Pale Oak Log {pale_oak_log_collection_next_tier_rm}: &e{pale_oak_log_collection_progress_percent}&6%'
+#    - '{pale_oak_log_collection_progress_bar:line} &e{pale_oak_log_collection_progress}/{pale_oak_log_collection_tier_up_requirement}'
+#    -
+#    - '&eClick to view!'
+#  on-left-click:
+#    - openMenu collection_progress collection=pale_oak_log
+#
+#unmet:
+#  type: gray dye
+#  name: '&cPale Oak Log'
+#  lore:
+#    - '&7Find this item to add it to your'
+#    - '&7collection and unlock collection'
+#    - '&7rewards!'
+#  on-left-click:
+#    - sendChat &4You haven't found this item yet!

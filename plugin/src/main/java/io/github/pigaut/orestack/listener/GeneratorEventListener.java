@@ -308,7 +308,7 @@ public class GeneratorEventListener implements Listener {
             catch (GeneratorOverlapException e) {
                 PlayerUtil.sendActionBar(player, plugin.getTranslation("generator-overlap"));
             } catch (GeneratorLimitException e) {
-                plugin.sendMessage(player, Context.EMPTY, "large-generator-limit");
+                PlayerUtil.sendChat(player, plugin.getTranslation("large-generator-limit"));
             }
         });
     }

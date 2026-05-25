@@ -1,4 +1,4 @@
-package io.github.pigaut.orestack.core;
+package io.github.pigaut.orestack.generator.exception;
 
 public class GeneratorLimitException extends GeneratorCreateException {
 

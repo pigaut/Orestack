@@ -1,0 +1,103 @@
+
+#░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░█▄█░█▀▀░█▀█░█░█░░░░
+#░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░█░█░█▀▀░█░█░█░█░░░░
+#░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░▀░▀░▀▀▀░▀░▀░▀▀▀░░░░
+# Contains all collection categories and their progress.
+
+title: '&8Collections'
+
+rows: 6
+
+layout:
+  - 8 8 8 8 a 8 8 8 8
+  - 8 8 8 8 8 8 8 8 8
+  - 8 8 b c d e f 8 8
+  - 8 8 8 8 8 8 8 8 8
+  - 8 8 8 8 8 8 8 8 8
+  - 8 8 8 < X = 8 8 8
+
+--- #===== All Collections =====#
+id: a
+type: painting
+name: '&aCollections'
+lore:
+  - '&7View all of the items available to'
+  - '&7collect and rewards to unlock!'
+  - ''
+  - '&7Collections unlocked: &e{collections_unlocked_percent}&6%'
+  - '{collections_progress_bar:line} &e{collections_unlocked}&6/&e{collections_count}'
+
+--- #===== Farming Collections =====#
+id: b
+type: gold_hoe
+name: '&aFarming Collections'
+lore:
+  - '&7View your farming collections!'
+  - ''
+  - '&7Collections unlocked: &e{farming_collections_unlocked_percent}&6%'
+  - '{farming_collections_progress_bar:line} &e{farming_collections_unlocked}&6/&e{farming_collections_count}'
+  - ''
+  - '&eClick to view!'
+
+on-click:
+  - openMenu farming_collections
+
+--- #===== Mining Collections =====#
+id: c
+type: stone_pickaxe
+name: '&aMining Collections'
+lore:
+  - '&7View your mining collections!'
+  - ''
+  - '&7Collections unlocked: &e{mining_collections_unlocked_percent}&6%'
+  - '{mining_collections_progress_bar:line} &e{mining_collections_unlocked}&6/&e{mining_collections_count}'
+  - ''
+  - '&eClick to view!'
+
+on-click:
+  - openMenu mining_collections
+
+--- #===== Combat Collections =====#
+id: d
+type: stone_sword
+name: '&aCombat Collections'
+lore:
+  - '&7View your combat collections!'
+  - ''
+  - '&7Collections unlocked: &e{combat_collections_unlocked_percent}&6%'
+  - '{combat_collections_progress_bar:line} &e{combat_collections_unlocked}&6/&e{combat_collections_count}'
+  - ''
+  - '&eClick to view!'
+
+on-click:
+  - openMenu combat_collections
+
+--- #===== Foraging Collections =====#
+id: e
+type: jungle_sapling
+name: '&aForaging Collections'
+lore:
+  - '&7View your foraging collections!'
+  - ''
+  - '&7Collections unlocked: &e{foraging_collections_unlocked_percent}&6%'
+  - '{foraging_collections_progress_bar:line} &e{foraging_collections_unlocked}&6/&e{foraging_collections_count}'
+  - ''
+  - '&eClick to view!'
+
+on-click:
+  - openMenu foraging_collections
+
+--- #===== Fishing Collections =====#
+id: f
+type: fishing_rod
+name: '&aFishing Collections'
+lore:
+  - '&7View your fishing collections!'
+  - ''
+  - '&7Collections unlocked: &e{fishing_collections_unlocked_percent}&6%'
+  - '{fishing_collections_progress_bar:line} &e{fishing_collections_unlocked}&6/&e{fishing_collections_count}'
+  - ''
+  - '&eClick to view!'
+
+on-click:
+  - openMenu fishing_collections
