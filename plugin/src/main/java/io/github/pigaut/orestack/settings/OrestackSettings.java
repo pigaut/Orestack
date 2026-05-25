@@ -6,6 +6,7 @@ import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.enchant.*;
 import io.github.pigaut.voxel.core.progressbar.*;
 import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.plugin.manager.module.Module;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.node.scalar.*;
@@ -57,6 +58,11 @@ public class OrestackSettings extends Settings {
     @Override
     public @NotNull List<ConfigException> loadConfigurationData() {
         List<ConfigException> errors = super.loadConfigurationData();
+
+        addDisabledModule(Module.GATES);
+        addDisabledModule(Module.COLLECTIONS);
+        addDisabledModule(Module.RECIPES);
+        addDisabledModule(Module.MENUS);
 
         ConfigSection config = plugin.getConfiguration();
 

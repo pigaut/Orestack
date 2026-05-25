@@ -332,4 +332,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return gateOptionsManager;
     }
 
+    public @NotNull AdvertisementManager getAdvertisements() {
+        return advertisementManager;
+    }
+
 }
