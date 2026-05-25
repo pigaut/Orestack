@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.util.*;
@@ -25,8 +26,8 @@ public class ChatMessageEditor extends GenericMessageEditor {
     // Also when removing a line the button text is not updating
 
     @Override
-    public @Nullable Button[] createButtons() {
-        Button[] buttons = super.createButtons();
+    public @Nullable Button[] createButtons(@NotNull Context context) {
+        Button[] buttons = super.createButtons(context);
 
         ButtonBuilder messageButton = Button.builder()
                 .type(Material.OAK_SIGN)

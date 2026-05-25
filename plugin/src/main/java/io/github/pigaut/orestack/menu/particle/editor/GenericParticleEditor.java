@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack.menu.particle.editor;
 
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.core.menu.template.menu.editor.*;
@@ -16,8 +17,8 @@ public class GenericParticleEditor extends FramedEditor {
     }
 
     @Override
-    public @Nullable Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
+    public @Nullable Button[] createButtons(@NotNull Context context) {
+        final Button[] buttons = super.createButtons(context);
 
         final Integer delay = section.getInteger("delay").orElse(null);
         final ButtonBuilder delayButton = Button.builder()

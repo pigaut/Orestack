@@ -23,10 +23,10 @@ public class ItemsMenu extends FramedSelectionMenu {
     @Override
     public List<Button> createEntries() {
         return plugin.getItems(group).stream()
-                .map(item -> {
-                    final String itemName = item.getName();
+                .map(itemTemplate -> {
+                    final String itemName = itemTemplate.getName();
                     return Button.builder()
-                            .type(item.getItemStack().getType())
+                            .type(itemTemplate.createItemStack().getType())
                             .name("&a&o" + CaseFormatter.toTitleCase(itemName))
                             .addEmptyLine()
                             .addLine("&eLeft-Click: &fGet item")

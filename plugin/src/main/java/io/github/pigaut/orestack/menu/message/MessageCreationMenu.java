@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.menu.message;
 
 import io.github.pigaut.orestack.menu.message.editor.*;
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.core.menu.template.button.*;
@@ -31,8 +32,8 @@ public class MessageCreationMenu extends FramedMenu {
     }
 
     @Override
-    public @Nullable Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
+    public @Nullable Button[] createButtons(@NotNull Context context) {
+        final Button[] buttons = super.createButtons(context);
 
         buttons[10] = Button.builder()
                 .type(Material.BOOK)

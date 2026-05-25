@@ -1,0 +1,506 @@
+
+#░░░█▄█░▀█▀░█▀█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
+#░░░█░█░░█░░█░█░░█░░█░█░█░█░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
+#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
+
+title: '&8Mining Collections'
+
+rows: 6
+
+layout:
+  - 8 8 8 8 8 8 8 8 8
+  - 8 a b c d e f g 8
+  - 8 h i j k l m n 8
+  - 8 o p q r _ _ _ 8
+  - 8 _ _ _ _ _ _ _ 8
+  - 8 8 8 < X = 8 8 8
+
+--- # ==== Dirt Button ===== #
+id: a
+condition: hasUnlockedCollection dirt
+met:
+  type: dirt
+  name: '&eDirt {dirt_collection_tier_rm}'
+  lore:
+    - '&7View all your Dirt Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Dirt {dirt_collection_next_tier_rm}: &e{dirt_collection_progress_percent}&6%'
+    - '{dirt_collection_progress_bar:line} &e{dirt_collection_progress}/{dirt_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=dirt
+
+unmet:
+  type: gray dye
+  name: '&cDirt'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Coal Button ===== #
+id: b
+condition: hasUnlockedCollection coal
+met:
+  type: coal
+  name: '&eCoal {coal_collection_tier_rm}'
+  lore:
+    - '&7View all your Coal Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Coal {coal_collection_next_tier_rm}: &e{coal_collection_progress_percent}&6%'
+    - '{coal_collection_progress_bar:line} &e{coal_collection_progress}/{coal_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=coal
+
+unmet:
+  type: gray dye
+  name: '&cCoal'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Cobblestone Button ===== #
+id: c
+condition: hasUnlockedCollection cobblestone
+met:
+  type: cobblestone
+  name: '&eCobblestone {cobblestone_collection_tier_rm}'
+  lore:
+    - '&7View all your Cobblestone Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Cobblestone {cobblestone_collection_next_tier_rm}: &e{cobblestone_collection_progress_percent}&6%'
+    - '{cobblestone_collection_progress_bar:line} &e{cobblestone_collection_progress}/{cobblestone_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=cobblestone
+
+unmet:
+  type: gray dye
+  name: '&cCobblestone'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Diamond Button ===== #
+id: d
+condition: hasUnlockedCollection diamond
+met:
+  type: diamond
+  name: '&eDiamond {diamond_collection_tier_rm}'
+  lore:
+    - '&7View all your Diamond Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Diamond {diamond_collection_next_tier_rm}: &e{diamond_collection_progress_percent}&6%'
+    - '{diamond_collection_progress_bar:line} &e{diamond_collection_progress}/{diamond_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=diamond
+
+unmet:
+  type: gray dye
+  name: '&cDiamond'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Emerald Button ===== #
+id: e
+condition: hasUnlockedCollection emerald
+met:
+  type: emerald
+  name: '&eEmerald {emerald_collection_tier_rm}'
+  lore:
+    - '&7View all your Emerald Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Emerald {emerald_collection_next_tier_rm}: &e{emerald_collection_progress_percent}&6%'
+    - '{emerald_collection_progress_bar:line} &e{emerald_collection_progress}/{emerald_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=emerald
+
+unmet:
+  type: gray dye
+  name: '&cEmerald'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Endstone Button ===== #
+id: f
+condition: hasUnlockedCollection endstone
+met:
+  type: end_stone
+  name: '&eEndstone {endstone_collection_tier_rm}'
+  lore:
+    - '&7View all your Endstone Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Endstone {endstone_collection_next_tier_rm}: &e{endstone_collection_progress_percent}&6%'
+    - '{endstone_collection_progress_bar:line} &e{endstone_collection_progress}/{endstone_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=endstone
+
+unmet:
+  type: gray dye
+  name: '&cEndstone'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Glowstone Button ===== #
+id: g
+condition: hasUnlockedCollection glowstone
+met:
+  type: glowstone
+  name: '&eGlowstone {glowstone_collection_tier_rm}'
+  lore:
+    - '&7View all your Glowstone Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Glowstone {glowstone_collection_next_tier_rm}: &e{glowstone_collection_progress_percent}&6%'
+    - '{glowstone_collection_progress_bar:line} &e{glowstone_collection_progress}/{glowstone_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=glowstone
+
+unmet:
+  type: gray dye
+  name: '&cGlowstone'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Gold Button ===== #
+id: h
+condition: hasUnlockedCollection gold
+met:
+  type: gold_ingot
+  name: '&eGold {gold_collection_tier_rm}'
+  lore:
+    - '&7View all your Gold Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Gold {gold_collection_next_tier_rm}: &e{gold_collection_progress_percent}&6%'
+    - '{gold_collection_progress_bar:line} &e{gold_collection_progress}/{gold_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=gold
+
+unmet:
+  type: gray dye
+  name: '&cGold'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Gravel Button ===== #
+id: i
+condition: hasUnlockedCollection gravel
+met:
+  type: gravel
+  name: '&eGravel {gravel_collection_tier_rm}'
+  lore:
+    - '&7View all your Gravel Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Gravel {gravel_collection_next_tier_rm}: &e{gravel_collection_progress_percent}&6%'
+    - '{gravel_collection_progress_bar:line} &e{gravel_collection_progress}/{gravel_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=gravel
+
+unmet:
+  type: gray dye
+  name: '&cGravel'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Ice Button ===== #
+id: j
+condition: hasUnlockedCollection ice
+met:
+  type: ice
+  name: '&eIce {ice_collection_tier_rm}'
+  lore:
+    - '&7View all your Ice Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Ice {ice_collection_next_tier_rm}: &e{ice_collection_progress_percent}&6%'
+    - '{ice_collection_progress_bar:line} &e{ice_collection_progress}/{ice_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=ice
+
+unmet:
+  type: gray dye
+  name: '&cIce'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Iron Button ===== #
+id: k
+condition: hasUnlockedCollection iron
+met:
+  type: iron_ingot
+  name: '&eIron {iron_collection_tier_rm}'
+  lore:
+    - '&7View all your Iron Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Iron {iron_collection_next_tier_rm}: &e{iron_collection_progress_percent}&6%'
+    - '{iron_collection_progress_bar:line} &e{iron_collection_progress}/{iron_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=iron
+
+unmet:
+  type: gray dye
+  name: '&cIron'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Lapis Button ===== #
+id: l
+condition: hasUnlockedCollection lapis
+met:
+  type: lapis_lazuli
+  name: '&eLapis {lapis_collection_tier_rm}'
+  lore:
+    - '&7View all your Lapis Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Lapis {lapis_collection_next_tier_rm}: &e{lapis_collection_progress_percent}&6%'
+    - '{lapis_collection_progress_bar:line} &e{lapis_collection_progress}/{lapis_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=lapis
+
+unmet:
+  type: gray dye
+  name: '&cLapis'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Nether Quartz Button ===== #
+id: m
+condition: hasUnlockedCollection nether_quartz
+met:
+  type: quartz
+  name: '&eNether Quartz {nether_quartz_collection_tier_rm}'
+  lore:
+    - '&7View all your Nether Quartz Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Nether Quartz {nether_quartz_collection_next_tier_rm}: &e{nether_quartz_collection_progress_percent}&6%'
+    - '{nether_quartz_collection_progress_bar:line} &e{nether_quartz_collection_progress}/{nether_quartz_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=nether_quartz
+
+unmet:
+  type: gray dye
+  name: '&cNether Quartz'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Netherrack Button ===== #
+id: n
+condition: hasUnlockedCollection netherrack
+met:
+  type: netherrack
+  name: '&eNetherrack {netherrack_collection_tier_rm}'
+  lore:
+    - '&7View all your Netherrack Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Netherrack {netherrack_collection_next_tier_rm}: &e{netherrack_collection_progress_percent}&6%'
+    - '{netherrack_collection_progress_bar:line} &e{netherrack_collection_progress}/{netherrack_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=netherrack
+
+unmet:
+  type: gray dye
+  name: '&cNetherrack'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Obsidian Button ===== #
+id: o
+condition: hasUnlockedCollection obsidian
+met:
+  type: obsidian
+  name: '&eObsidian {obsidian_collection_tier_rm}'
+  lore:
+    - '&7View all your Obsidian Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Obsidian {obsidian_collection_next_tier_rm}: &e{obsidian_collection_progress_percent}&6%'
+    - '{obsidian_collection_progress_bar:line} &e{obsidian_collection_progress}/{obsidian_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=obsidian
+
+unmet:
+  type: gray dye
+  name: '&cObsidian'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Red Sand Button ===== #
+id: p
+condition: hasUnlockedCollection red_sand
+met:
+  type: red_sand
+  name: '&eRed Sand {red_sand_collection_tier_rm}'
+  lore:
+    - '&7View all your Red Sand Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Red Sand {red_sand_collection_next_tier_rm}: &e{red_sand_collection_progress_percent}&6%'
+    - '{red_sand_collection_progress_bar:line} &e{red_sand_collection_progress}/{red_sand_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=red_sand
+
+unmet:
+  type: gray dye
+  name: '&cRed Sand'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Redstone Button ===== #
+id: q
+condition: hasUnlockedCollection redstone
+met:
+  type: redstone
+  name: '&eRedstone {redstone_collection_tier_rm}'
+  lore:
+    - '&7View all your Redstone Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Redstone {redstone_collection_next_tier_rm}: &e{redstone_collection_progress_percent}&6%'
+    - '{redstone_collection_progress_bar:line} &e{redstone_collection_progress}/{redstone_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=redstone
+
+unmet:
+  type: gray dye
+  name: '&cRedstone'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Sand Button ===== #
+id: r
+condition: hasUnlockedCollection sand
+met:
+  type: sand
+  name: '&eSand {sand_collection_tier_rm}'
+  lore:
+    - '&7View all your Sand Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to Sand {sand_collection_next_tier_rm}: &e{sand_collection_progress_percent}&6%'
+    - '{sand_collection_progress_bar:line} &e{sand_collection_progress}/{sand_collection_tier_up_requirement}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=sand
+
+unmet:
+  type: gray dye
+  name: '&cSand'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+
+
+

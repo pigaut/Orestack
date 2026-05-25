@@ -1,11 +1,10 @@
 package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.core.*;
+import io.github.pigaut.orestack.generator.exception.*;
 import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.instanced.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.data.structure.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.convert.parse.*;
@@ -114,7 +113,7 @@ public class GeneratorManager extends Manager {
         }
 
         if (!global && !plugin.getVirtualStructures().isSupported()) {
-            throw new VirtualGeneratorUnsupportedException();
+            throw new VirtualGeneratorUnsupportedException(world.getName(), x, y, z);
         }
 
         int finalPhase = Math.min(phase, template.getMaxPhase());
@@ -203,7 +202,10 @@ public class GeneratorManager extends Manager {
         }
     }
 
-    public void registerGenerator(@NotNull VirtualGenerator generator) throws GeneratorOverlapException {
+    public void registerGenerator(@NotNull VirtualGenerator generator) throws GeneratorOverlapException, VirtualGeneratorUnsupportedException {
+        if (!plugin.getVirtualStructures().isSupported()) {
+            throw new VirtualGeneratorUnsupportedException();
+        }
         GeneratorTemplate template = generator.getTemplate();
 
         List<BlockState> removedBlocks = new ArrayList<>();

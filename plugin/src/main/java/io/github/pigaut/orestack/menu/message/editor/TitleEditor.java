@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
@@ -15,8 +16,8 @@ public class TitleEditor extends GenericMessageEditor {
     }
 
     @Override
-    public @Nullable Button[] createButtons() {
-        final Button[] buttons = super.createButtons();
+    public @Nullable Button[] createButtons(@NotNull Context context) {
+        final Button[] buttons = super.createButtons(context);
         final ButtonBuilder titleButton = Button.builder()
                 .type(Material.OAK_SIGN)
                 .name("&f&lTitle")

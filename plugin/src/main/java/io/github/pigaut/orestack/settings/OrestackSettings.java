@@ -1,17 +1,16 @@
 package io.github.pigaut.orestack.settings;
 
-import io.github.pigaut.orestack.core.*;
+import io.github.pigaut.orestack.core.tools.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.enchant.*;
+import io.github.pigaut.voxel.core.progressbar.*;
 import io.github.pigaut.voxel.plugin.*;
-import io.github.pigaut.voxel.util.reflection.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.node.scalar.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
-import org.bukkit.enchantments.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
@@ -23,25 +22,33 @@ public class OrestackSettings extends Settings {
     // Generic settings
     private boolean keepBlocksOnRemove;
     private boolean restoreOriginalBlocksOnRemove;
+
+    // Generator settings
     private ItemStack generatorTool;
+    private Amount defaultToolDamage;
+    private int generatorClickCooldown;
+    private int generatorHitCooldown;
+    private int generatorHarvestCooldown;
+    private boolean veinMiner;
+
+    // Collections settings
+    private ProgressBar collectionProgressBar;
 
     // VeinMiner settings
-    private boolean veinMiner;
     private List<String> veinMinerAliases;
     private Map<Integer, Integer> veinSizeByLevel;
 
-    // Generator
-    private Amount defaultToolDamage;
-    private int clickCooldown;
-    private int hitCooldown;
-    private int harvestCooldown;
+    // Gate settings
+    private ItemStack gateTool;
+    private int gateClickCooldown;
 
-    // Generator health settings
+    // Health settings
     private Amount defaultDamage;
-    private boolean efficiencyDamage;
+    private boolean overflowDamage;
+    private boolean efficiencyDamageMultiplier;
+    private Map<Integer, Double> efficiencyDamageMultiplierByLevel;
     private boolean reducedCooldownDamage;
     private List<ToolDamage> damageByTool;
-    private List<HealthBar> healthBars;
 
     public OrestackSettings(EnhancedPlugin plugin) {
         super(plugin);
@@ -53,29 +60,34 @@ public class OrestackSettings extends Settings {
 
         ConfigSection config = plugin.getConfiguration();
 
+        // Generic settings
         keepBlocksOnRemove = config.getBoolean("keep-blocks-on-remove")
                 .withDefaultOrElse(false, errors::add);
 
         restoreOriginalBlocksOnRemove = config.getBoolean("restore-original-blocks-on-remove")
                 .withDefaultOrElse(true, errors::add);
 
+        // Collections settings
+        collectionProgressBar = config.get("collection-progress-bar", ProgressBar.class)
+                .withDefaultOrElse(ProgressBar.EMPTY, errors::add);
+
+        // Generator settings
         generatorTool = config.get("generator-tool", ItemStack.class)
                 .require(ItemUtil::isNotAir, "Item type cannot be air")
                 .withDefaultOrElse(GeneratorTool.getItemTemplate(), errors::add);
 
-        // Generator settings
-        defaultToolDamage = config.get("default-tool-damage", Amount.class)
+        defaultToolDamage = config.get("default-tool-durability-damage|default-tool-damage", Amount.class)
                 .withDefaultOrElse(Amount.ONE, errors::add);
 
-        clickCooldown = config.getInteger("click-cooldown")
+        generatorClickCooldown = config.getInteger("generator-click-cooldown")
                 .require(Requirements.positive())
                 .withDefaultOrElse(4, errors::add);
 
-        hitCooldown = config.getInteger("hit-cooldown")
+        generatorHitCooldown = config.getInteger("generator-hit-cooldown")
                 .require(Requirements.positive())
                 .withDefaultOrElse(4, errors::add);
 
-        harvestCooldown = config.getInteger("harvest-cooldown")
+        generatorHarvestCooldown = config.getInteger("generator-harvest-cooldown")
                 .require(Requirements.positive())
                 .withDefaultOrElse(4, errors::add);
 
@@ -101,20 +113,44 @@ public class OrestackSettings extends Settings {
             }
         }
 
-        // Generator health options
+        // Gate settings
+        gateTool = config.get("gate-tool", ItemStack.class)
+                .require(ItemUtil::isNotAir, "Item type cannot be air")
+                .withDefaultOrElse(GateTool.getItemTemplate(), errors::add);
+
+        gateClickCooldown = config.getInteger("gate-click-cooldown")
+                .require(Requirements.positive())
+                .withDefaultOrElse(4, errors::add);
+
+        // Health settings
         defaultDamage = config.get("default-damage", Amount.class)
                 .withDefaultOrElse(Amount.ONE, errors::add);
 
-        efficiencyDamage = config.getBoolean("efficiency-damage")
+        overflowDamage = config.getBoolean("overflow-damage")
                 .withDefaultOrElse(true, errors::add);
+
+        efficiencyDamageMultiplier = config.getBoolean("efficiency-damage-multiplier|efficiency-damage")
+                .withDefaultOrElse(true, errors::add);
+
+        efficiencyDamageMultiplierByLevel = new HashMap<>();
+        for (KeyedScalar scalar : config.getSectionOrCreate("efficiency-damage-multiplier-by-level").getNestedScalars()) {
+            Double damageMultiplier = scalar.toDouble()
+                    .require(Requirements.positive())
+                    .withDefaultOrElse(null, errors::add);
+
+            Integer enchantLevel = scalar.getIntegerKey()
+                    .require(Requirements.positive())
+                    .withDefaultOrElse(null, errors::add);
+
+            if (damageMultiplier != null && enchantLevel != null) {
+                efficiencyDamageMultiplierByLevel.put(enchantLevel, damageMultiplier);
+            }
+        }
 
         reducedCooldownDamage = config.getBoolean("reduced-cooldown-damage")
                 .withDefaultOrElse(true, errors::add);
 
         damageByTool = config.getList("damage-by-tool-type", ToolDamage.class)
-                .withDefaultOrElse(List.of(), errors::add);
-
-        healthBars = config.getAll("health-bars", HealthBar.class)
                 .withDefaultOrElse(List.of(), errors::add);
 
         return errors;
@@ -133,8 +169,24 @@ public class OrestackSettings extends Settings {
         return generatorTool.clone();
     }
 
-    public boolean isEfficiencyDamage() {
-        return efficiencyDamage;
+    public ItemStack getGateTool() {
+        return gateTool.clone();
+    }
+
+    public int getGateClickCooldown() {
+        return gateClickCooldown;
+    }
+
+    public boolean isDamageOverflow() {
+        return overflowDamage;
+    }
+
+    public boolean isEfficiencyDamageMultiplier() {
+        return efficiencyDamageMultiplier;
+    }
+
+    public @NotNull ProgressBar getCollectionProgressBar() {
+        return collectionProgressBar;
     }
 
     public boolean isDefaultToolDamage() {
@@ -145,16 +197,16 @@ public class OrestackSettings extends Settings {
         return defaultToolDamage;
     }
 
-    public int getHitCooldown() {
-        return hitCooldown;
+    public int getGeneratorHitCooldown() {
+        return generatorHitCooldown;
     }
 
-    public int getClickCooldown() {
-        return clickCooldown;
+    public int getGeneratorClickCooldown() {
+        return generatorClickCooldown;
     }
 
-    public int getHarvestCooldown() {
-        return harvestCooldown;
+    public int getGeneratorHarvestCooldown() {
+        return generatorHarvestCooldown;
     }
 
     public boolean isReducedCooldownDamage() {
@@ -171,11 +223,6 @@ public class OrestackSettings extends Settings {
         return defaultDamage;
     }
 
-    @NotNull
-    public List<HealthBar> getHealthBars() {
-        return new ArrayList<>(healthBars);
-    }
-
     public boolean isVeinMiner() {
         return veinMiner;
     }
@@ -189,18 +236,19 @@ public class OrestackSettings extends Settings {
         return veinSizeByLevel.getOrDefault(enchantLevel, 1);
     }
 
-    public double getGeneratorDamage(@NotNull Player player, @NotNull Block block) {
+    public double getStructureDamage(@NotNull Player player, @NotNull Block block) {
         ItemStack tool = player.getInventory().getItemInMainHand();
-        Amount baseDamage = getToolDamage(tool.getType(), block.getType());
+        Amount damageAmount = getToolDamage(tool.getType(), block.getType());
+        double damage = damageAmount.doubleValue();
 
-        if (isEfficiencyDamage()) {
+        if (isEfficiencyDamageMultiplier()) {
             int efficiencyLevel = tool.getEnchantmentLevel(Enchants.EFFICIENCY);
-            if (efficiencyLevel != 0) {
-                baseDamage = baseDamage.transform(value -> value + efficiencyLevel);
+            Double damageMultiplier = efficiencyDamageMultiplierByLevel.get(efficiencyLevel);
+            if (damageMultiplier != null) {
+                damage *= damageMultiplier;
             }
         }
 
-        double damage = baseDamage.doubleValue();
         if (isReducedCooldownDamage()) {
             damage *= player.getAttackCooldown();
         }

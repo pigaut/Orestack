@@ -1,3 +1,35 @@
+tool:
+  type: iron_pickaxe
+  unbreakable: true
+  flags: [hide_unbreakable, hide_attributes]
+  name: '&7Tool'
+  lore:
+    - ''
+    - '&aUses: {tool_uses}/{tool_max_uses}'
+    - '&dCreated by: {player}'
+  max-uses: 10
+  uses: 10
+  on-block-break:
+    if: toolHasUsesLeft   # default is 1
+    do:
+      - consumeToolUses  # default is 1
+    else:
+      - cancelEvent
+      - sendChat &4Your tool is out of uses
+  on-left-click: sendChat You left clicked
+  on-right-click: sendChat You right clicked
+  on-left-click-block: sendChat You left clicked a block
+  on-left-click-air: sendChat You left clicked air
+  on-right-click-block: sendChat You right clicked a block
+  on-right-click-air: sendChat You right clicked air
+  on-swap: sendChat You swapped item with offhand
+  on-drop:
+    if-not: hasFlag confirm_drop
+    do:
+      - cancelEvent
+      - giveTemporaryFlag confirm_drop duration=10
+      - sendChat &4Press Q again to drop item
+
 lore_katana:
   type: iron_sword
   lore: [Silken Edge, Threadslicer, Cuts with Precision]

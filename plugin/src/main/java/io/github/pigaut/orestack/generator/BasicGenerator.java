@@ -4,7 +4,6 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.data.function.*;
@@ -13,7 +12,6 @@ import io.github.pigaut.voxel.util.Server;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -151,95 +149,44 @@ public abstract class BasicGenerator implements Generator {
             remove();
             return;
         }
-
-        GeneratorPhase generatorPhase = getPhase();
-        GeneratorMineEvent generatorMineEvent = new GeneratorMineEvent(player, block, origin, name, state.getCurrentPhase());
-        {
-            if (generatorPhase.isIdle()) {
-                generatorMineEvent.setIdle(true);
-            }
-
-            if (generatorPhase.isDropItems()) {
-                ItemStack tool = player.getInventory().getItemInMainHand();
-                generatorMineEvent.setItemDrops(block.getDrops(tool));
-            }
-
-            if (generatorPhase.isDropExp()) {
-                generatorMineEvent.setExpDrops(expToDrop);
-            }
-
-            int toolDamage = generatorPhase.getToolDamage().intValue();
-            generatorMineEvent.setToolDamage(toolDamage);
-
-            Server.callEvent(generatorMineEvent);
-        }
-
-        if (!generatorMineEvent.isCancelled()) {
-            Function breakFunction = generatorPhase.getBreakFunction();
-            if (breakFunction != null) {
-                Context context = Context.builder()
-                        .withPlayer(player)
-                        .withPlayerState(plugin.getPlayerState(player))
-                        .withTool(player.getInventory().getItemInMainHand())
-                        .withBlock(block).with(BasicGenerator.class, this)
-                        .withEvent(generatorMineEvent)
-                        .build();
-
-                breakFunction.run(context);
-            }
-        }
-
-        if (!generatorMineEvent.isCancelled() && generatorPhase.getState().isHarvestable()) {
-            Location dropLocation = block.getLocation().add(0.5, 1, 0.5);
-
-            Collection<ItemStack> itemDrops = generatorMineEvent.getItemDrops();
-            if (itemDrops != null) {
-                for (ItemStack itemDrop : itemDrops) {
-                    ItemUtil.dropItem(dropLocation, itemDrop);
-                }
-            }
-
-            int expDrops = generatorMineEvent.getExpDrops();
-            if (expDrops != 0) {
-                Exp.drop(dropLocation, expDrops);
-            }
-
-            int toolDamage = generatorMineEvent.getToolDamage();
-            if (toolDamage != 0) {
-                ItemUtil.damagePlayerTool(player, toolDamage);
-            }
-
-            if (!generatorMineEvent.isIdle()) {
-                harvest();
-            }
-        }
+        GeneratorUtil.callGeneratorMineEvent(this, state.getCurrentPhase(), player, block, expToDrop);
     }
 
     public void damage(@NotNull Player player, @NotNull Context context, double damageAmount) {
-        Double health = state.getPhaseHealth();
-        if (health == null) {
-            return;
-        }
+        double currentDamage = damageAmount;
+        while (currentDamage > 0 && !isDepleted()) {
+            Double health = state.getPhaseHealth();
+            if (health == null) {
+                break;
+            }
 
-        double newHealth = Math.max(0, health - damageAmount);
-        if (newHealth > 0) {
-            state.setHealth(newHealth);
-            return;
-        }
+            if (currentDamage < health) {
+                state.setHealth(health - currentDamage);
+                break;
+            }
 
-        GeneratorDestroyEvent event = new GeneratorDestroyEvent(player, origin, name, state.getCurrentPhase());
-        Server.callEvent(event);
-        if (event.isCancelled()) {
-            return;
-        }
+            int phaseIndex = state.getCurrentPhase();
+            GeneratorPhase phase = template.getPhase(phaseIndex);
 
-        GeneratorPhase phase = getPhase();
-        Function onDestroy = phase.getDestroyFunction();
-        if (onDestroy != null) {
-            onDestroy.run(context);
-        }
+            GeneratorDestroyEvent event = new GeneratorDestroyEvent(player, origin, name, phaseIndex);
+            Server.callEvent(event);
+            if (event.isCancelled()) {
+                break;
+            }
 
-        harvest();
+            Function onDestroy = phase.getDestroyFunction();
+            if (onDestroy != null) {
+                onDestroy.run(context);
+            }
+
+            harvest();
+
+            if (!phase.isDamageOverflow()) {
+                break;
+            }
+
+            currentDamage -= health;
+        }
     }
 
     public void regrow() {
@@ -258,7 +205,7 @@ public abstract class BasicGenerator implements Generator {
         }
 
         GeneratorPhase currentPhase = getPhase();
-        if (currentPhase.getGrowthTime() == 0) {
+        if (currentPhase.getGrowthTimeInTicks() == 0) {
             return;
         }
 

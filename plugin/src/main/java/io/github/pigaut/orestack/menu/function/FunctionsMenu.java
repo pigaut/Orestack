@@ -30,7 +30,7 @@ public class FunctionsMenu extends FramedSelectionMenu {
                         .addEmptyLine()
                         .addLine("&eLeft-Click: &fRun function")
                         .onLeftClick((menuView, playerState) -> {
-                            Context context = Context.fromPlayerAndState(playerState.asPlayer(), playerState);
+                            Context context = Context.fromPlayer(plugin, playerState);
                             function.run(context);
                         })
                         .buildButton())

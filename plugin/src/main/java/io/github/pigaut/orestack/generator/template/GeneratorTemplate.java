@@ -18,17 +18,19 @@ public class GeneratorTemplate implements Identifiable {
     private final List<GeneratorPhase> phases;
     private final boolean multiBlock;
     private final @Nullable Double maxHealth;
+    private final int totalGrowthTime;
     private Material itemType;
 
     public GeneratorTemplate(@NotNull String name, @Nullable String group,
                              @NotNull List<GeneratorPhase> phases, Material itemType,
-                             boolean multiBlock, @Nullable Double maxHealth) {
+                             boolean multiBlock, @Nullable Double maxHealth, int totalGrowthTime) {
         this.name = name;
         this.group = group;
         this.phases = phases;
         setItemType(itemType);
         this.multiBlock = multiBlock;
         this.maxHealth = maxHealth;
+        this.totalGrowthTime = totalGrowthTime;
     }
 
     @Override
@@ -51,6 +53,10 @@ public class GeneratorTemplate implements Identifiable {
 
     public @Nullable Double getMaxHealth() {
         return maxHealth;
+    }
+
+    public int getTotalGrowthTime() {
+        return totalGrowthTime;
     }
 
     public @NotNull Material getItemType() {

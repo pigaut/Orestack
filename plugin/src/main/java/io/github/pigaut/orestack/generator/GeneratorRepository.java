@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
-import io.github.pigaut.orestack.core.*;
+import io.github.pigaut.orestack.generator.exception.*;
 import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.instanced.*;
 import io.github.pigaut.sql.*;
