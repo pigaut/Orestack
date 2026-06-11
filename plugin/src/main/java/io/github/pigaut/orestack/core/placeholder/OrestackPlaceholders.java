@@ -1,19 +1,21 @@
 package io.github.pigaut.orestack.core.placeholder;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.collection.Collection;
+import io.github.pigaut.orestack.collection.template.*;
+import io.github.pigaut.orestack.collection.tier.*;
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.orestack.gate.template.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.health.*;
+import io.github.pigaut.orestack.player.data.*;
 import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.core.placeholder.*;
 import io.github.pigaut.voxel.core.progressbar.*;
-import io.github.pigaut.voxel.data.collection.*;
-import io.github.pigaut.voxel.data.collection.Collection;
 import io.github.pigaut.voxel.player.data.*;
 import io.github.pigaut.voxel.util.*;
-import io.github.pigaut.yaml.util.*;
+import io.github.pigaut.yaml.delay.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -75,52 +77,52 @@ public class OrestackPlaceholders {
 
         placeholders.register("phase_timer", context -> {
             Generator generator = context.get(Generator.class);
-            return generator != null ? Ticks.formatCompact(generator.getTicksToNextPhase()) : null;
+            return generator != null ? TicksUtil.formatCompact(generator.getTicksToNextPhase()) : null;
         });
 
         placeholders.register("phase_timer_full", context -> {
             Generator generator = context.get(Generator.class);
-            return generator != null ? Ticks.formatFull(generator.getTicksToNextPhase()) : null;
+            return generator != null ? TicksUtil.formatFull(generator.getTicksToNextPhase()) : null;
         });
 
         placeholders.register("phase_timer_hours", context -> {
             Generator generator = context.get(Generator.class);
-            return generator != null ? Ticks.toHours(generator.getTicksToNextPhase()) : null;
+            return generator != null ? TicksUtil.toHours(generator.getTicksToNextPhase()) : null;
         });
 
         placeholders.register("phase_timer_minutes", context -> {
             Generator generator = context.get(Generator.class);
-            return generator != null ? Ticks.toMinutes(generator.getTicksToNextPhase()) : null;
+            return generator != null ? TicksUtil.toMinutes(generator.getTicksToNextPhase()) : null;
         });
 
         placeholders.register("phase_timer_seconds", context -> {
             Generator generator = context.get(Generator.class);
-            return generator != null ? Ticks.toSeconds(generator.getTicksToNextPhase()) : null;
+            return generator != null ? TicksUtil.toSeconds(generator.getTicksToNextPhase()) : null;
         });
 
         placeholders.register("generator_timer", context -> {
             Generator generator = context.get(Generator.class);
-            return generator != null ? Ticks.formatCompact(generator.getTicksToRegrownPhase()) : null;
+            return generator != null ? TicksUtil.formatCompact(generator.getTicksToRegrownPhase()) : null;
         });
 
         placeholders.register("generator_timer_full", context -> {
             Generator generator = context.get(Generator.class);
-            return generator != null ? Ticks.formatFull(generator.getTicksToRegrownPhase()) : null;
+            return generator != null ? TicksUtil.formatFull(generator.getTicksToRegrownPhase()) : null;
         });
 
         placeholders.register("generator_timer_hours", context -> {
             Generator generator = context.get(Generator.class);
-            return generator != null ? Ticks.toHours(generator.getTicksToRegrownPhase()) : null;
+            return generator != null ? (int) TicksUtil.toHours(generator.getTicksToRegrownPhase()) : null;
         });
 
         placeholders.register("generator_timer_minutes", context -> {
             Generator generator = context.get(Generator.class);
-            return generator != null ? Ticks.toMinutes(generator.getTicksToRegrownPhase()) : null;
+            return generator != null ? (int) TicksUtil.toMinutes(generator.getTicksToRegrownPhase()) : null;
         });
 
         placeholders.register("generator_timer_seconds", context -> {
             Generator generator = context.get(Generator.class);
-            return generator != null ? Ticks.toSeconds(generator.getTicksToRegrownPhase()) : null;
+            return generator != null ? (int) TicksUtil.toSeconds(generator.getTicksToRegrownPhase()) : null;
         });
 
         placeholders.register("generator_health", context -> {
@@ -299,11 +301,12 @@ public class OrestackPlaceholders {
         // Generic collections placeholders start
         placeholders.register("collections_unlocked", context -> {
             PlayerData playerData = context.playerData();
-            if (playerData == null) {
+            if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                 return null;
             }
+
             int collectionsUnlocked = 0;
-            for (Collection collection : playerData.getItemCollections()) {
+            for (Collection collection : rpgPlayerData.getItemCollections()) {
                 if (collection.isUnlocked()) {
                     collectionsUnlocked++;
                 }
@@ -313,18 +316,18 @@ public class OrestackPlaceholders {
 
         placeholders.register("collections_count", context -> {
             PlayerData playerData = context.playerData();
-            if (playerData == null) {
+            if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                 return null;
             }
-            return playerData.getItemCollections().size();
+            return rpgPlayerData.getItemCollections().size();
         });
 
         placeholders.register("collections_unlocked_percent", context -> {
             PlayerData playerData = context.playerData();
-            if (playerData == null) {
+            if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                 return null;
             }
-            Set<Collection> collections = playerData.getItemCollections();
+            Set<Collection> collections = rpgPlayerData.getItemCollections();
             int collectionsUnlocked = 0;
             for (Collection collection : collections) {
                 if (collection.isUnlocked()) {
@@ -338,10 +341,10 @@ public class OrestackPlaceholders {
         for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
             placeholders.register("collections_progress_bar:" + progressBar.getId(), context -> {
                 PlayerData playerData = context.playerData();
-                if (playerData == null) {
+                if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Set<Collection> collections = playerData.getItemCollections();
+                Set<Collection> collections = rpgPlayerData.getItemCollections();
                 int collectionsUnlocked = 0;
                 for (Collection collection : collections) {
                     if (collection.isUnlocked()) {
@@ -361,10 +364,10 @@ public class OrestackPlaceholders {
             String collectionName = collectionTemplate.getName();
             placeholders.register(collectionName + "_collection_amount_left", context -> {
                 PlayerData playerData = context.playerData();
-                if (playerData == null) {
+                if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Collection collection = playerData.getItemCollection(collectionName);
+                Collection collection = rpgPlayerData.getItemCollection(collectionName);
                 if (collection == null) {
                     return null;
                 }
@@ -373,10 +376,10 @@ public class OrestackPlaceholders {
 
             placeholders.register(collectionName + "_collection_progress", context -> {
                 PlayerData playerData = context.playerData();
-                if (playerData == null) {
+                if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Collection collection = playerData.getItemCollection(collectionName);
+                Collection collection = rpgPlayerData.getItemCollection(collectionName);
                 if (collection == null) {
                     return null;
                 }
@@ -385,10 +388,10 @@ public class OrestackPlaceholders {
 
             placeholders.register(collectionName + "_collection_progress_percent", context -> {
                 PlayerData playerData = context.playerData();
-                if (playerData == null) {
+                if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Collection collection = playerData.getItemCollection(collectionName);
+                Collection collection = rpgPlayerData.getItemCollection(collectionName);
                 if (collection == null) {
                     return null;
                 }
@@ -399,10 +402,10 @@ public class OrestackPlaceholders {
             for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
                 placeholders.register(collectionName + "_collection_progress_bar:" + progressBar.getId(), context -> {
                     PlayerData playerData = context.playerData();
-                    if (playerData == null) {
+                    if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                         return null;
                     }
-                    Collection collection = playerData.getItemCollection(collectionName);
+                    Collection collection = rpgPlayerData.getItemCollection(collectionName);
                     if (collection == null) {
                         return null;
                     }
@@ -414,10 +417,10 @@ public class OrestackPlaceholders {
 
             placeholders.register(collectionName + "_collection_tier_up_requirement", context -> {
                 PlayerData playerData = context.playerData();
-                if (playerData == null) {
+                if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Collection collection = playerData.getItemCollection(collectionName);
+                Collection collection = rpgPlayerData.getItemCollection(collectionName);
                 if (collection == null) {
                     return null;
                 }
@@ -426,10 +429,10 @@ public class OrestackPlaceholders {
 
             placeholders.register(collectionName + "_collection_tier", context -> {
                 PlayerData playerData = context.playerData();
-                if (playerData == null) {
+                if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Collection collection = playerData.getItemCollection(collectionName);
+                Collection collection = rpgPlayerData.getItemCollection(collectionName);
                 if (collection == null || !collection.isFirstTierUnlocked()) {
                     return null;
                 }
@@ -438,10 +441,10 @@ public class OrestackPlaceholders {
 
             placeholders.register(collectionName + "_collection_next_tier", context -> {
                 PlayerData playerData = context.playerData();
-                if (playerData == null) {
+                if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Collection collection = playerData.getItemCollection(collectionName);
+                Collection collection = rpgPlayerData.getItemCollection(collectionName);
                 if (collection == null) {
                     return null;
                 }
@@ -457,10 +460,10 @@ public class OrestackPlaceholders {
 
                 placeholders.register(collectionName + "_collection_tier_" + (tierIndex + 1) + "_progress_percent", context -> {
                     PlayerData playerData = context.playerData();
-                    if (playerData == null) {
+                    if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                         return null;
                     }
-                    Collection collection = playerData.getItemCollection(collectionName);
+                    Collection collection = rpgPlayerData.getItemCollection(collectionName);
                     if (collection == null) {
                         return null;
                     }
@@ -470,10 +473,10 @@ public class OrestackPlaceholders {
                 for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
                     placeholders.register(collectionName + "_collection_tier_" + (tierIndex + 1) + "_progress_bar:" + progressBar.getId(), context -> {
                         PlayerData playerData = context.playerData();
-                        if (playerData == null) {
+                        if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                             return null;
                         }
-                        Collection collection = playerData.getItemCollection(collectionName);
+                        Collection collection = rpgPlayerData.getItemCollection(collectionName);
                         if (collection == null) {
                             return null;
                         }
@@ -491,11 +494,11 @@ public class OrestackPlaceholders {
         for (String groupName : plugin.getCollectionTemplates().getAllGroups()) {
             placeholders.register(groupName + "_collections_unlocked", context -> {
                 PlayerData playerData = context.playerData();
-                if (playerData == null) {
+                if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
                 int collectionsUnlocked = 0;
-                for (Collection collection : playerData.getItemCollections()) {
+                for (Collection collection : rpgPlayerData.getItemCollections()) {
                     String group = collection.getGroup();
                     if (group != null && group.equals(groupName) && collection.isUnlocked()) {
                         collectionsUnlocked++;
@@ -507,11 +510,11 @@ public class OrestackPlaceholders {
 
             placeholders.register(groupName + "_collections_count", context -> {
                 PlayerData playerData = context.playerData();
-                if (playerData == null) {
+                if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
                 int collectionsCount = 0;
-                for (Collection collection : playerData.getItemCollections()) {
+                for (Collection collection : rpgPlayerData.getItemCollections()) {
                     String group = collection.getGroup();
                     if (group != null && group.equals(groupName)) {
                         collectionsCount++;
@@ -523,13 +526,12 @@ public class OrestackPlaceholders {
 
             placeholders.register(groupName + "_collections_unlocked_percent", context -> {
                 PlayerData playerData = context.playerData();
-                if (playerData == null) {
+                if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-
-                Set<Collection> collections = playerData.getItemCollections();
+                Set<Collection> collections = rpgPlayerData.getItemCollections();
                 int collectionsUnlocked = 0;
-                for (Collection collection : playerData.getItemCollections()) {
+                for (Collection collection : rpgPlayerData.getItemCollections()) {
                     String group = collection.getGroup();
                     if (group != null && group.equals(groupName) && collection.isUnlocked()) {
                         collectionsUnlocked++;
@@ -542,10 +544,10 @@ public class OrestackPlaceholders {
             for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
                 placeholders.register(groupName + "_collections_progress_bar:" + progressBar.getId(), context -> {
                     PlayerData playerData = context.playerData();
-                    if (playerData == null) {
+                    if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                         return null;
                     }
-                    Set<Collection> collections = playerData.getItemCollections();
+                    Set<Collection> collections = rpgPlayerData.getItemCollections();
                     int collectionsUnlocked = 0;
                     for (Collection collection : collections) {
                         String group = collection.getGroup();
@@ -652,7 +654,6 @@ public class OrestackPlaceholders {
                 });
             }
             // Collection placeholders (no player) end
-
 
 
         }

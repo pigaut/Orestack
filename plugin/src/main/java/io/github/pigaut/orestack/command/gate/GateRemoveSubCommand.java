@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
 public class GateRemoveSubCommand extends SubCommand {
 
     public GateRemoveSubCommand(@NotNull OrestackPlugin plugin) {
-        super("remove", plugin);
+        super(plugin, "remove");
         withPermission(plugin.getPermission("gate.remove"));
         withDescription(plugin.getTranslation("gate-remove-command"));
         withPlayerExecution((player, context, args) -> {

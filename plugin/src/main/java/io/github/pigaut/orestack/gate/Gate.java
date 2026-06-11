@@ -32,18 +32,18 @@ public class Gate {
     }
 
     public static @NotNull Gate create(@NotNull GateTemplate template, @NotNull Location origin, @NotNull Rotation rotation,
-                                       int phase, @NotNull GateTransition transition) throws GateOverlapException {
+                                       int phase, @NotNull GateTransition transition) throws GateCreateException {
         Gate gate = new Gate(template, origin, rotation);
         plugin.getGates().registerGate(gate);
         GateUtil.init(gate, phase, transition);
         return gate;
     }
 
-    public static @NotNull Gate create(@NotNull GateTemplate template, @NotNull Location origin, @NotNull Rotation rotation) throws GateOverlapException {
+    public static @NotNull Gate create(@NotNull GateTemplate template, @NotNull Location origin, @NotNull Rotation rotation) throws GateCreateException {
         return create(template, origin, rotation, 0, GateTransition.NONE);
     }
 
-    public static @NotNull Gate create(@NotNull GateTemplate template, @NotNull Location origin) throws GateOverlapException {
+    public static @NotNull Gate create(@NotNull GateTemplate template, @NotNull Location origin) throws GateCreateException {
         return create(template, origin, Rotation.NONE);
     }
 
@@ -64,10 +64,14 @@ public class Gate {
         return structure.isPlaced();
     }
 
-    public void remove() {
+    public void cleanup() {
         state.cancelTransitionTask();
         state.removeBlocks();
         state.removeHologram();
+    }
+
+    public void remove() {
+        cleanup();
 
         if (plugin.getSettings().isKeepBlocksOnRemove()) {
             template.getLastPhase().getStructureTemplate().place(origin, rotation);
@@ -191,10 +195,10 @@ public class Gate {
         remove();
         try {
             Gate.create(replacementGate, origin, rotation);
-        } catch (GateOverlapException e) {
+        } catch (GateCreateException e) {
             try {
                 Gate.create(template, origin, rotation);
-            } catch (GateOverlapException ignored) {
+            } catch (GateCreateException ignored) {
 
             }
         }

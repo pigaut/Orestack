@@ -2,8 +2,15 @@
   <dictionary name="project">
     <words>
       <w>buildstation</w>
+      <w>collidable</w>
+      <w>colorable</w>
+      <w>ghast</w>
       <w>netherrack</w>
       <w>plotsquared</w>
+      <w>porkchop</w>
+      <w>prismarine</w>
+      <w>scute</w>
+      <w>shulker</w>
       <w>tierup</w>
     </words>
   </dictionary>

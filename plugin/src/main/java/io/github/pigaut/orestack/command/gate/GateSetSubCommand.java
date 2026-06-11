@@ -2,9 +2,11 @@ package io.github.pigaut.orestack.command.gate;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.gate.*;
+import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.orestack.gate.exception.*;
 import io.github.pigaut.orestack.gate.template.*;
+import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.command.node.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.util.Server;
@@ -15,10 +17,10 @@ import org.jetbrains.annotations.*;
 public class GateSetSubCommand extends SubCommand {
 
     public GateSetSubCommand(@NotNull OrestackPlugin plugin) {
-        super("set", plugin);
+        super(plugin, "set");
         withPermission(plugin.getPermission("gate.set"));
         withDescription(plugin.getTranslation("gate-set-command"));
-        withParameter(GateParameters.GATE_NAME);
+        withParameter(OrestackParameters.GATE_NAME);
         withPlayerExecution((player, context, args) -> {
             GateTemplate gate = plugin.getGateTemplate(args[0]);
             if (gate == null) {
@@ -46,8 +48,8 @@ public class GateSetSubCommand extends SubCommand {
                 Gate.create(gate, location);
                 plugin.sendMessage(player, context, "created-gate");
             }
-            catch (GateOverlapException e) {
-                plugin.sendMessage(player, context, "gate-overlap");
+            catch (GateCreateException e) {
+                PlayerUtil.sendChat(player, context, e.getMessage());
             }
         });
     }

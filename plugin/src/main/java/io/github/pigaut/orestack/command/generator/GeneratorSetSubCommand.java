@@ -2,10 +2,12 @@ package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
+import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.generator.exception.*;
 import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.instanced.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 
@@ -21,10 +23,10 @@ import java.util.*;
 public class GeneratorSetSubCommand extends SubCommand {
 
     public GeneratorSetSubCommand(@NotNull OrestackPlugin plugin) {
-        super("set", plugin);
+        super(plugin, "set");
         withPermission(plugin.getPermission("generator.set"));
         withDescription(plugin.getTranslation("generator-set-command"));
-        withParameter(GeneratorParameters.GENERATOR_NAME);
+        withParameter(OrestackParameters.GENERATOR_NAME);
         withParameter(CommandParameter.create("generator-type", "global", (sender, args) -> List.of("global", "per-player")));
         withPlayerExecution((player, context, args) -> {
             GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
@@ -63,11 +65,8 @@ public class GeneratorSetSubCommand extends SubCommand {
                 }
                 plugin.sendMessage(player, context, "created-generator");
             }
-            catch (GeneratorOverlapException e) {
-                plugin.sendMessage(player, context, "generator-overlap");
-            }
-            catch (VirtualGeneratorUnsupportedException e) {
-                plugin.sendMessage(player, context, "virtual-generators-unsupported");
+            catch (GeneratorCreateException e) {
+                PlayerUtil.sendChat(player, e.getMessage());
             }
         });
     }

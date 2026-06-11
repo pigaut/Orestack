@@ -1,0 +1,17 @@
+
+type: slime
+size: 2
+
+name: '&2Slime'
+health: 15
+speed: 0.18
+deal-damage: false # The mob will attack but deal no damage
+slime-split: false
+
+exp: 20-40
+
+on-attack:
+  - damageEntitiesInRange 3 range=4 limit=3
+
+on-death:
+  - dropItemAtLastDamager slime_ball amount=2-4

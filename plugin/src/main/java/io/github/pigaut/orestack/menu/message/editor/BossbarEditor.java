@@ -7,6 +7,7 @@ import io.github.pigaut.voxel.core.menu.template.button.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.convert.format.*;
+import io.github.pigaut.yaml.delay.*;
 import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
@@ -70,7 +71,7 @@ public class BossbarEditor extends GenericMessageEditor {
                 .addEmptyLine()
                 .addLeftClickLine("To set healthBar duration")
                 .onLeftClick((view, player) -> {
-                    player.collectChatInput(Ticks.class)
+                    player.collectChatInput(Delay.class)
                             .description("Enter duration amount in chat")
                             .onInput(input -> section.set("duration", input))
                             .start();

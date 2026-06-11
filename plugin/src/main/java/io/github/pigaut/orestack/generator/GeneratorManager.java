@@ -5,10 +5,10 @@ import io.github.pigaut.orestack.generator.exception.*;
 import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.instanced.*;
 import io.github.pigaut.orestack.generator.template.*;
+import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.data.structure.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.convert.parse.*;
-import io.github.pigaut.voxel.core.transform.Rotation;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -35,10 +35,33 @@ public class GeneratorManager extends Manager {
     }
 
     @Override
+    public boolean isAutoSave() {
+        return true;
+    }
+
+    @Override
+    public void clear() {
+        globalGenerators.clear();
+        virtualGenerators.clear();
+        globalGeneratorsByBlocks.clear();
+        virtualGeneratorsByBlocks.clear();
+        removedBlocksByGenerator.clear();
+    }
+
+    @Override
+    public void loadData() {
+        GeneratorRepository.loadGenerators();
+    }
+
+    @Override
+    public void enable() {
+
+    }
+
+    @Override
     public void disable() {
         for (GlobalGenerator generator : globalGenerators) {
             generator.cleanup();
-
             List<BlockState> removedBlocks = removedBlocksByGenerator.remove(generator);
             if (plugin.getSettings().isRestoreBlocksOnRemove() && removedBlocks != null) {
                 for (BlockState removedBlock : removedBlocks) {
@@ -49,7 +72,6 @@ public class GeneratorManager extends Manager {
 
         for (VirtualGenerator generator : virtualGenerators) {
             generator.cleanupAll();
-
             List<BlockState> removedBlocks = removedBlocksByGenerator.remove(generator);
             if (plugin.getSettings().isRestoreBlocksOnRemove() && removedBlocks != null) {
                 for (BlockState removedBlock : removedBlocks) {
@@ -61,23 +83,8 @@ public class GeneratorManager extends Manager {
     }
 
     @Override
-    public void loadData() {
-        globalGenerators.clear();
-        virtualGenerators.clear();
-        globalGeneratorsByBlocks.clear();
-        virtualGeneratorsByBlocks.clear();
-        removedBlocksByGenerator.clear();
-        GeneratorRepository.loadGenerators();
-    }
-
-    @Override
     public void saveData() {
         GeneratorRepository.saveGenerators();
-    }
-
-    @Override
-    public boolean isAutoSave() {
-        return true;
     }
 
     public void registerGenerator(String worldId, int x, int y, int z, String generatorName, String rotationData, int phase, boolean global) throws GeneratorCreateException {
@@ -107,8 +114,12 @@ public class GeneratorManager extends Manager {
         }
 
         for (Block block : template.getOccupiedBlocks(origin, rotation)) {
-            if (plugin.getGenerators().isGenerator(block.getLocation())) {
-                throw new GeneratorOverlapException(world.getName(), x, y, z);
+            if (isGenerator(block.getLocation())) {
+                throw new GeneratorOverlapException(worldName, x, y, z);
+            }
+
+            if (plugin.getGates().isGate(block.getLocation())) {
+                throw new GeneratorConflictException(worldName, x, y, z);
             }
         }
 
@@ -125,7 +136,7 @@ public class GeneratorManager extends Manager {
                 } else {
                     VirtualGenerator.create(template, origin, finalRotation);
                 }
-            } catch (GeneratorOverlapException | VirtualGeneratorUnsupportedException ignored) {
+            } catch (GeneratorCreateException ignored) {
                 //Block overlaps are checked before scheduling
             }
         });
@@ -180,14 +191,21 @@ public class GeneratorManager extends Manager {
         return generator != null ? generator.getInstance(player) : null;
     }
 
-    public void registerGenerator(@NotNull GlobalGenerator generator) throws GeneratorOverlapException {
+    public void registerGenerator(@NotNull GlobalGenerator generator) throws GeneratorCreateException {
         GeneratorTemplate template = generator.getTemplate();
 
         List<BlockState> removedBlocks = new ArrayList<>();
         for (Block block : template.getOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
-            if (isGenerator(block.getLocation())) {
-                throw new GeneratorOverlapException();
+            Location blockLocation = block.getLocation();
+
+            if (isGenerator(blockLocation)) {
+                throw new GeneratorOverlapException(blockLocation);
             }
+
+            if (plugin.getGates().isGate(blockLocation)) {
+                throw new GeneratorConflictException(blockLocation);
+            }
+
             removedBlocks.add(block.getState());
         }
 
@@ -202,17 +220,25 @@ public class GeneratorManager extends Manager {
         }
     }
 
-    public void registerGenerator(@NotNull VirtualGenerator generator) throws GeneratorOverlapException, VirtualGeneratorUnsupportedException {
+    public void registerGenerator(@NotNull VirtualGenerator generator) throws GeneratorCreateException {
         if (!plugin.getVirtualStructures().isSupported()) {
-            throw new VirtualGeneratorUnsupportedException();
+            throw new VirtualGeneratorUnsupportedException(generator.getOrigin());
         }
+
         GeneratorTemplate template = generator.getTemplate();
 
         List<BlockState> removedBlocks = new ArrayList<>();
         for (Block block : template.getOccupiedBlocks(generator.getOrigin(), generator.getRotation())) {
-            if (isGenerator(block.getLocation())) {
-                throw new GeneratorOverlapException();
+            Location blockLocation = block.getLocation();
+
+            if (isGenerator(blockLocation)) {
+                throw new GeneratorOverlapException(blockLocation);
             }
+
+            if (plugin.getGates().isGate(blockLocation)) {
+                throw new GeneratorConflictException(blockLocation);
+            }
+
             removedBlocks.add(block.getState());
         }
 
@@ -236,7 +262,7 @@ public class GeneratorManager extends Manager {
 
     public void unregisterGenerator(@NotNull GlobalGenerator generator) {
         globalGenerators.remove(generator);
-        
+
         for (Block block : generator.getAllOccupiedBlocks()) {
             globalGeneratorsByBlocks.remove(block.getLocation());
         }

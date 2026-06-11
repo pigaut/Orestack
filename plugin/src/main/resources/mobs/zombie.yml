@@ -1,0 +1,34 @@
+
+type: zombie
+
+name: '&eZombie Vanguard'
+speed: 0.12
+max-health: 40
+health: 20
+damage: 6
+knockback-resistance: 0.7
+sunburn: false
+
+boss-bar:
+  title: '&eZombie Vanguard'
+  range: 15
+  color: green
+  style: solid
+  create-fog: false
+  darken-sky: false
+  play-music: false
+
+equipment:
+  head: iron_helmet
+  chest: iron_chestplate
+  hand: iron_sword
+
+slain-message: '&c{player_tc} was slain by the &e{mob_name_tc}'
+
+exp: 60-80
+
+on-spawn:
+  - healMob 5 delay=3s repeat=4
+
+on-death:
+  - dropItemAtTopDamager iron_ingot amount=3-7

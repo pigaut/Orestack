@@ -10,7 +10,7 @@ import io.github.pigaut.orestack.generator.instanced.*;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.hook.veinminer.*;
-import io.github.pigaut.orestack.player.*;
+import io.github.pigaut.orestack.player.state.*;
 import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
@@ -122,7 +122,7 @@ public class GeneratorEventListener implements Listener {
             return;
         }
 
-        OrestackPlayer playerState = plugin.getPlayerState(player);
+        RpgPlayerState playerState = plugin.getPlayerState(player);
         Context context = Context.builder(plugin)
                 .withPlayer(player)
                 .withPlayerState(playerState)
@@ -300,13 +300,14 @@ public class GeneratorEventListener implements Listener {
             return;
         }
 
+        Context finalContext = context;
         plugin.getRegionScheduler(location).runTaskLater(1, () -> {
             try {
                 GlobalGenerator.create(generatorTemplate, location, rotation);
                 PlayerUtil.sendActionBar(player, plugin.getTranslation("placed-generator"));
             }
-            catch (GeneratorOverlapException e) {
-                PlayerUtil.sendActionBar(player, plugin.getTranslation("generator-overlap"));
+            catch (GeneratorCreateException e) {
+                PlayerUtil.sendActionBar(player, finalContext, e.getMessage());
             }
         });
     }

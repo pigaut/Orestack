@@ -1,0 +1,24 @@
+
+type: zombie
+
+# Requires LibsDisguises
+disguise:
+  type: pig
+  set-variant: warm   # warm, temperate, cold
+
+name: '&cWild Boar'
+health: 25
+speed: 0.25
+damage: 5
+knockback-resistance: 0.3
+silent: true
+sunburn: false
+
+exp: 40-60
+
+drops:
+  - porkchop amount=1-2
+  - leather amount=1 chance=0.4
+
+on-death:
+  - dropItemAtMob porkchop amount=1-2

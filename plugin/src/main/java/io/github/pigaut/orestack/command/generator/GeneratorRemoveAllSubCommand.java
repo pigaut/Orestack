@@ -1,10 +1,10 @@
 package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.player.*;
+import io.github.pigaut.orestack.player.state.*;
 import io.github.pigaut.voxel.core.command.node.*;
 import io.github.pigaut.voxel.data.structure.*;
 import org.bukkit.*;
@@ -13,12 +13,12 @@ import org.jetbrains.annotations.*;
 public class GeneratorRemoveAllSubCommand extends SubCommand {
 
     public GeneratorRemoveAllSubCommand(@NotNull OrestackPlugin plugin) {
-        super("remove-all", plugin);
+        super(plugin, "remove-all");
         withPermission(plugin.getPermission("generator.remove-all"));
         withDescription(plugin.getTranslation("generator-remove-all-command"));
-        withParameter(GeneratorParameters.GENERATOR_NAME);
+        withParameter(OrestackParameters.GENERATOR_NAME);
         withPlayerExecution((player, context, args) -> {
-            OrestackPlayer playerState = plugin.getPlayerState(player);
+            RpgPlayerState playerState = plugin.getPlayerState(player);
             GeneratorTemplate generatorTemplate = plugin.getGeneratorTemplate(args[0]);
             if (generatorTemplate == null) {
                 plugin.sendMessage(player, context, "generator-not-found");

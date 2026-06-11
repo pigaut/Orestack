@@ -1,0 +1,38 @@
+
+#░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░░░░
+#░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░░░░
+#░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░░░░
+
+--- #===== Root Command =====#
+command: collections # /collections
+aliases: [ collection ]
+on-execute:
+  - openMenu collections
+
+--- #===== Farming Sub Command =====#
+sub-command: farming # /collections farming
+on-execute:
+  - openMenu farming_collections
+
+--- #===== Mining Sub Command =====#
+sub-command: mining # /collections mining
+on-execute:
+  - openMenu mining_collections
+
+--- #===== Combat Sub Command =====#
+sub-command: combat # /collections combat
+on-execute:
+  - openMenu combat_collections
+
+--- #===== Foraging Sub Command =====#
+sub-command: foraging # /collections foraging
+on-execute:
+  - openMenu foraging_collections
+
+--- #===== Fishing Sub Command =====#
+sub-command: fishing # /collections fishing
+on-execute:
+  - openMenu fishing_collections
+
+
+

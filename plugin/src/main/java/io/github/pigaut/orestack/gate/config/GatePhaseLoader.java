@@ -7,7 +7,7 @@ import io.github.pigaut.voxel.data.function.*;
 import io.github.pigaut.voxel.data.structure.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
-import io.github.pigaut.yaml.util.*;
+import io.github.pigaut.yaml.delay.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -34,20 +34,20 @@ public class GatePhaseLoader implements ConfigLoader<GatePhase> {
 
         List<Material> decorativeBlocks = section.getAllRequired("decorative-blocks", Material.class);
 
-        int defaultDelay = section.get("delay|transition-delay", Ticks.class)
-                .map(Ticks::getCount)
+        int defaultDelay = section.get("delay|transition-delay", Delay.class)
+                .map(Delay::toTicks)
                 .withDefault(0);
 
         boolean closingOnly = section.getBoolean("closing-only").withDefault(false);
-        int openingDelay = section.get("opening-delay|open-delay", Ticks.class)
-                .map(Ticks::getCount)
+        int openingDelay = section.get("opening-delay|open-delay", Delay.class)
+                .map(Delay::toTicks)
                 .require(Requirements.min(0))
                 .require(delay -> delay == 0 || !closingOnly, "Cannot set opening delay when closing-only is true")
                 .withDefault(closingOnly ? 0 : defaultDelay);
 
         boolean openingOnly = section.getBoolean("opening-only").withDefault(false);
-        int closingDelay = section.get("closing-delay|close-delay", Ticks.class)
-                .map(Ticks::getCount)
+        int closingDelay = section.get("closing-delay|close-delay", Delay.class)
+                .map(Delay::toTicks)
                 .require(Requirements.min(0))
                 .require(delay -> delay == 0 || !openingOnly, "Cannot set closing delay when opening-only is true")
                 .withDefault(openingOnly ? 0 : defaultDelay);

@@ -7,7 +7,7 @@ import org.jetbrains.annotations.*;
 public class GateSubCommand extends SubCommand {
 
     public GateSubCommand(@NotNull OrestackPlugin plugin) {
-        super("gate", plugin);
+        super(plugin, "gate");
         withPermission(plugin.getPermission("gate"));
         withDescription(plugin.getTranslation("gate-command"));
         addSubCommand(new GateGetSubCommand(plugin));

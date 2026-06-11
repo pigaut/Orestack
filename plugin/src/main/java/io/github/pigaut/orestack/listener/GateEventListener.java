@@ -6,7 +6,7 @@ import io.github.pigaut.orestack.core.tools.*;
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.orestack.gate.exception.*;
 import io.github.pigaut.orestack.gate.template.*;
-import io.github.pigaut.orestack.player.*;
+import io.github.pigaut.orestack.player.state.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
@@ -78,7 +78,7 @@ public class GateEventListener implements Listener {
             return;
         }
 
-        OrestackPlayer playerState = plugin.getPlayerState(player);
+        RpgPlayerState playerState = plugin.getPlayerState(player);
         if (playerState.hasFlag("gate:click_cooldown")) {
             return;
         }
@@ -230,13 +230,14 @@ public class GateEventListener implements Listener {
             return;
         }
 
+        Context finalContext = context;
         plugin.getRegionScheduler(location).runTaskLater(1, () -> {
             try {
                 Gate.create(gateTemplate, location, rotation);
                 PlayerUtil.sendActionBar(player, plugin.getTranslation("placed-gate"));
             }
-            catch (GateOverlapException e) {
-                PlayerUtil.sendActionBar(player, plugin.getTranslation("gate-overlap"));
+            catch (GateCreateException e) {
+                PlayerUtil.sendActionBar(player, finalContext, e.getMessage());
             }
         });
     }
