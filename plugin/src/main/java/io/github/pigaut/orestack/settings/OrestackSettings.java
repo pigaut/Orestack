@@ -1,10 +1,12 @@
 package io.github.pigaut.orestack.settings;
 
+import io.github.pigaut.orestack.collection.*;
 import io.github.pigaut.orestack.core.tools.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.enchant.*;
 import io.github.pigaut.voxel.core.progressbar.*;
+import io.github.pigaut.voxel.event.drop.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
@@ -32,6 +34,7 @@ public class OrestackSettings extends Settings {
     private boolean veinMiner;
 
     // Collections settings
+    private List<ItemSpawnReason> collectionSources;
     private ProgressBar collectionProgressBar;
 
     // VeinMiner settings
@@ -68,6 +71,9 @@ public class OrestackSettings extends Settings {
                 .withDefaultOrElse(true, errors::add);
 
         // Collections settings
+        collectionSources = config.getAll("collection-item-sources", ItemSpawnReason.class)
+                .withDefaultOrElse(List.of(), errors::add);
+
         collectionProgressBar = config.get("collection-progress-bar", ProgressBar.class)
                 .withDefaultOrElse(ProgressBar.EMPTY, errors::add);
 
@@ -183,6 +189,14 @@ public class OrestackSettings extends Settings {
 
     public boolean isEfficiencyDamageMultiplier() {
         return efficiencyDamageMultiplier;
+    }
+
+    public @NotNull List<ItemSpawnReason> getCollectionSources() {
+        return new ArrayList<>(collectionSources);
+    }
+
+    public boolean isCollectionSourceEnabled(@NotNull ItemSpawnReason source) {
+        return collectionSources.contains(source);
     }
 
     public @NotNull ProgressBar getCollectionProgressBar() {

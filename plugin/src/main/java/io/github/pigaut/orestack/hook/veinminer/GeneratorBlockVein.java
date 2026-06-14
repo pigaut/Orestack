@@ -2,7 +2,6 @@ package io.github.pigaut.orestack.hook.veinminer;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.orestack.generator.global.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;

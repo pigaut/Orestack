@@ -2,10 +2,11 @@ package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
+import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.generator.exception.*;
 import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.player.*;
+import io.github.pigaut.orestack.player.state.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 
 
@@ -18,12 +19,12 @@ import org.jetbrains.annotations.*;
 public class GeneratorSetAllSubCommand extends SubCommand {
 
     public GeneratorSetAllSubCommand(@NotNull OrestackPlugin plugin) {
-        super("set-all", plugin);
+        super(plugin, "set-all");
         withPermission(plugin.getPermission("generator.set-all"));
         withDescription(plugin.getTranslation("generator-set-all-command"));
-        withParameter(GeneratorParameters.GENERATOR_NAME);
+        withParameter(OrestackParameters.GENERATOR_NAME);
         withPlayerExecution((player, context, args) -> {
-            OrestackPlayer playerState = plugin.getPlayerState(player);
+            RpgPlayerState playerState = plugin.getPlayerState(player);
 
             GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {
@@ -51,7 +52,7 @@ public class GeneratorSetAllSubCommand extends SubCommand {
 
                         try {
                             GlobalGenerator.create(generator, location);
-                        } catch (GeneratorOverlapException ignored) {
+                        } catch (GeneratorCreateException ignored) {
                             // Ignore if generator overlaps
                         }
                     }

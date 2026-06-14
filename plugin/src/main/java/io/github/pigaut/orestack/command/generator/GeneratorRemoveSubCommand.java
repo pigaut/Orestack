@@ -2,7 +2,6 @@ package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.voxel.core.command.node.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -11,7 +10,7 @@ import org.jetbrains.annotations.*;
 public class GeneratorRemoveSubCommand extends SubCommand {
 
     public GeneratorRemoveSubCommand(@NotNull OrestackPlugin plugin) {
-        super("remove", plugin);
+        super(plugin, "remove");
         withPermission(plugin.getPermission("generator.remove"));
         withDescription(plugin.getTranslation("generator-remove-command"));
         withPlayerExecution((player, context, args) -> {

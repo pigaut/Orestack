@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
 public class GateGetAllSubCommand extends SubCommand {
 
     public GateGetAllSubCommand(@NotNull OrestackPlugin plugin) {
-        super("get-all", plugin);
+        super(plugin, "get-all");
         withPermission(plugin.getPermission("gate.get-all"));
         withDescription(plugin.getTranslation("gate-get-all-command"));
         withPlayerExecution((player, context, args) -> {

@@ -2,10 +2,7 @@ package io.github.pigaut.orestack.gate;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.gate.exception.*;
-import io.github.pigaut.orestack.gate.state.*;
 import io.github.pigaut.orestack.gate.template.*;
-import io.github.pigaut.sql.*;
-import io.github.pigaut.voxel.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.convert.parse.*;
@@ -29,12 +26,30 @@ public class GateManager extends Manager {
     }
 
     @Override
+    public boolean isAutoSave() {
+        return true;
+    }
+
+    @Override
+    public void clear() {
+        gates.clear();
+        gateBlocks.clear();
+    }
+
+    @Override
+    public void loadData() {
+        GateRepository.loadGates();
+    }
+
+    @Override
+    public void enable() {
+
+    }
+
+    @Override
     public void disable() {
         for (Gate gate : gates) {
-            GateState state = gate.getState();
-            state.cancelTransitionTask();
-            state.removeBlocks();
-            state.removeHologram();
+            gate.cleanup();
             List<BlockState> removedBlocks = this.removedBlocks.remove(gate);
             if (plugin.getSettings().isRestoreBlocksOnRemove() && removedBlocks != null) {
                 for (BlockState removedBlock : removedBlocks) {
@@ -42,156 +57,24 @@ public class GateManager extends Manager {
                 }
             }
         }
-    }
-
-    @Override
-    public void loadData() {
-        gates.clear();
-        gateBlocks.clear();
-
-        Database database = plugin.getDatabase();
-        if (database == null) {
-            logger.severe("Could not load data because database was not found.");
-            return;
-        }
-
-        database.createTableIfNotExists("gates",
-                "world VARCHAR(255)",
-                "x INT NOT NULL",
-                "y INT NOT NULL",
-                "z INT NOT NULL",
-                "gate VARCHAR(255) NOT NULL",
-                "rotation VARCHAR(5) NOT NULL",
-                "stage INT NOT NULL",
-                "transition VARCHAR(7) NOT NULL",
-                "PRIMARY KEY (world, x, y, z)"
-        );
-
-        database.createTableIfNotExists("invalid_gates",
-                "world VARCHAR(255)",
-                "x INT NOT NULL",
-                "y INT NOT NULL",
-                "z INT NOT NULL",
-                "gate VARCHAR(255) NOT NULL",
-                "rotation VARCHAR(5) NOT NULL",
-                "stage INT NOT NULL",
-                "transition VARCHAR(7) NOT NULL",
-                "PRIMARY KEY (world, x, y, z)"
-        );
-
-        database.selectAll("gates").fetchAllRows(rowQuery -> {
-            String worldId = rowQuery.getString(1);
-            int x = rowQuery.getInt(2);
-            int y = rowQuery.getInt(3);
-            int z = rowQuery.getInt(4);
-            String gateName = rowQuery.getString(5);
-            String rotationData = rowQuery.getString(6);
-            int phase = rowQuery.getInt(7);
-            String transitionData = rowQuery.getString(8);
-
-            try {
-                registerGate(worldId, x, y, z, gateName, rotationData, phase, transitionData);
-            }
-            catch (GateCreateException e) {
-                logger.warning(e.getMessage());
-                database.merge("invalid_gates", "world, x, y, z",
-                        "world", "x", "y", "z", "gate", "rotation", "stage", "transition")
-                        .withParameter(worldId)
-                        .withParameter(x)
-                        .withParameter(y)
-                        .withParameter(z)
-                        .withParameter(gateName)
-                        .withParameter(rotationData)
-                        .withParameter(phase)
-                        .withParameter(transitionData)
-                        .executeUpdate();
-            }
-        });
-
-        database.selectAll("invalid_gates").fetchAllRows(rowQuery -> {
-            String worldId = rowQuery.getString(1);
-            int x = rowQuery.getInt(2);
-            int y = rowQuery.getInt(3);
-            int z = rowQuery.getInt(4);
-            String gateName = rowQuery.getString(5);
-            String rotationData = rowQuery.getString(6);
-            int phase = rowQuery.getInt(7);
-            String transitionData = rowQuery.getString(8);
-
-            try {
-                registerGate(worldId, x, y, z, gateName, rotationData, phase, transitionData);
-                logger.info(String.format("Restored gate at %s, %d, %d, %d. Reason: gate is no longer invalid.",
-                    SpigotLibs.getWorldName(UUID.fromString(worldId)), x, y, z));
-                database.createStatement("DELETE FROM invalid_gates WHERE world = ? AND x = ? AND y = ? AND z = ?")
-                        .withParameter(worldId)
-                        .withParameter(x)
-                        .withParameter(y)
-                        .withParameter(z)
-                        .executeUpdate();
-            }
-            catch (GateCreateException ignored) {
-                //Invalid gate is already inserted in the database
-            }
-        });
 
     }
 
     @Override
     public void saveData() {
-        Database database = plugin.getDatabase();
-        if (database == null) {
-            logger.severe("Could not save data because database was not found.");
-            return;
-        }
-
-        database.createTableIfNotExists("gates",
-                "world VARCHAR(255)",
-                "x INT NOT NULL",
-                "y INT NOT NULL",
-                "z INT NOT NULL",
-                "gate VARCHAR(255) NOT NULL",
-                "rotation VARCHAR(5) NOT NULL",
-                "stage INT NOT NULL",
-                "transition VARCHAR(7) NOT NULL",
-                "PRIMARY KEY (world, x, y, z)"
-        );
-
-        database.clearTable("gates");
-
-        DatabaseStatement insertStatement = database.merge("gates", "world, x, y, z",
-                "world", "x", "y", "z", "gate", "rotation", "stage", "transition");
-
-        for (Gate gate : gates) {
-            Location location = gate.getOrigin();
-            insertStatement.withParameter(location.getWorld().getUID().toString());
-            insertStatement.withParameter(location.getBlockX());
-            insertStatement.withParameter(location.getBlockY());
-            insertStatement.withParameter(location.getBlockZ());
-            insertStatement.withParameter(gate.getTemplate().getName());
-            insertStatement.withParameter(gate.getRotation().toString());
-            insertStatement.withParameter(gate.getState().getCurrentPhase());
-            insertStatement.withParameter(gate.getState().getTransition().toString());
-            insertStatement.addBatch();
-        }
-
-        insertStatement.executeBatch();
+        GateRepository.saveGates();
     }
 
-    @Override
-    public boolean isAutoSave() {
-        return true;
-    }
-
-    private void registerGate(String worldId, int x, int y, int z, String gateName, String rotationData, int phase, String transitionData) throws GateCreateException {
+    public void registerGate(String worldId, int x, int y, int z, String gateName, String rotationData, int phase, String transitionData) throws GateCreateException {
         World world = Bukkit.getWorld(UUID.fromString(worldId));
         if (world == null) {
-            throw new GateCreateException(worldId, x, y, z, "world not found");
+            throw new GateCreateException(worldId, x, y, z, "world not found (deleted/renamed/failed to load)");
         }
 
         String worldName = world.getName();
         GateTemplate template = plugin.getGateTemplate(gateName);
         if (template == null) {
-            throw new GateCreateException(worldName, x, y, z, "gate template not found");
+            throw new GateNotExistsException(worldName, x, y, z);
         }
 
         Location origin = new Location(world, x, y, z);
@@ -224,8 +107,12 @@ public class GateManager extends Manager {
         }
 
         for (Block block : template.getOccupiedBlocks(origin, rotation)) {
-            if (plugin.getGates().isGate(block.getLocation())) {
-                throw new GateOverlapException(world.getName(), x, y, z);
+            if (isGate(block.getLocation())) {
+                throw new GateOverlapException(worldName, x, y, z);
+            }
+
+            if (plugin.getGenerators().isGenerator(block.getLocation())) {
+                throw new GateConflictException(worldName, x, y, z);
             }
         }
 
@@ -235,13 +122,13 @@ public class GateManager extends Manager {
         plugin.getScheduler().runTask(() -> {
             try {
                 Gate.create(template, origin, finalRotation, finalPhase, finalTransition);
-            } catch (GateOverlapException ignored) {
+            } catch (GateCreateException ignored) {
                 //Block overlaps are checked before scheduling
             }
         });
     }
 
-    public Collection<Gate> getAllGates() {
+    public Collection<Gate> getAll() {
         return new ArrayList<>(gates);
     }
 
@@ -257,14 +144,21 @@ public class GateManager extends Manager {
         return gates.contains(gate);
     }
 
-    public void registerGate(@NotNull Gate gate) throws GateOverlapException {
+    public void registerGate(@NotNull Gate gate) throws GateCreateException {
         GateTemplate template = gate.getTemplate();
 
         List<BlockState> removedBlocks = new ArrayList<>();
         for (Block block : template.getOccupiedBlocks(gate.getOrigin(), gate.getRotation())) {
-            if (plugin.getGates().isGate(block.getLocation())) {
-                throw new GateOverlapException();
+            Location blockLocation = block.getLocation();
+
+            if (isGate(block.getLocation())) {
+                throw new GateOverlapException(blockLocation);
             }
+
+            if (plugin.getGenerators().isGenerator(blockLocation)) {
+                throw new GateConflictException(blockLocation);
+            }
+
             removedBlocks.add(block.getState());
         }
 

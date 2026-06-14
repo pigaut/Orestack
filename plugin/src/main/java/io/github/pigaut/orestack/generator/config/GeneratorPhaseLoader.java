@@ -8,7 +8,7 @@ import io.github.pigaut.voxel.data.structure.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.configurator.load.*;
-import io.github.pigaut.yaml.util.*;
+import io.github.pigaut.yaml.delay.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -60,9 +60,9 @@ public class GeneratorPhaseLoader implements ConfigLoader<GeneratorPhase> {
         }
 
         Boolean harvestOnly = section.getBoolean("harvest-only").withDefault(null);
-        int growthTime = section.get("growth|growth-time", Ticks.class)
+        int growthTime = section.get("growth|growth-time", Delay.class)
                 .check(harvestOnly == null || !harvestOnly, "Cannot set growth time while harvest-only is true")
-                .map(Ticks::getCount)
+                .map(Delay::toTicks)
                 .withDefault(0);
 
         Double chance = section.getDouble("chance|growth-chance").withDefault(null);
