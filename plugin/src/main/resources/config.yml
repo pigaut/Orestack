@@ -143,12 +143,13 @@ gate-tool:
 #░░░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
 #░░░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
 
-# Drops sources that should increment collections
-collection-sources:
+# Item spawn sources that should increment collections
+collection-item-sources:
+  - action
   - block_drops
   - entity_drops
   - fishing_drops
-  - action_drops
+  - mob_drops
   - generator_drops
 
 # The default collection progress bar for some placeholders
@@ -158,7 +159,7 @@ collection-progress-bar: line
 #░░░█░█░█░█░█▀▄░▀▀█░░░░
 #░░░▀░▀░▀▀▀░▀▀░░▀▀▀░░░░
 
-# Show death messages when a player dies for any reason
+# Show death messages when a player dies for any reason except being killed by a mob
 show-death-messages: true
 
 # Show death messages when a player is slain by a custom mob

@@ -4,6 +4,7 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.collection.*;
 import io.github.pigaut.orestack.player.data.*;
 import io.github.pigaut.voxel.core.context.*;
+import io.github.pigaut.voxel.event.drop.*;
 import io.github.pigaut.voxel.event.drop.ItemSpawnEvent;
 import io.github.pigaut.voxel.player.data.*;
 import org.bukkit.entity.*;
@@ -23,7 +24,7 @@ public class ItemCollectListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onItemSpawn(ItemSpawnEvent event) {
-        if (!plugin.getSettings().isCollectionSourceEnabled(CollectionSource.ACTION_DROPS)) {
+        if (!plugin.getSettings().isCollectionSourceEnabled(event.getSpawnReason())) {
             return;
         }
 
@@ -50,7 +51,7 @@ public class ItemCollectListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockDrop(BlockDropItemEvent event) {
-        if (!plugin.getSettings().isCollectionSourceEnabled(CollectionSource.BLOCK_DROPS)) {
+        if (!plugin.getSettings().isCollectionSourceEnabled(ItemSpawnReason.BLOCK_DROPS)) {
             return;
         }
 
@@ -84,7 +85,7 @@ public class ItemCollectListener implements Listener {
             return;
         }
 
-        if (!plugin.getSettings().isCollectionSourceEnabled(CollectionSource.ENTITY_DROPS)) {
+        if (!plugin.getSettings().isCollectionSourceEnabled(ItemSpawnReason.ENTITY_DROPS)) {
             return;
         }
 
@@ -115,7 +116,7 @@ public class ItemCollectListener implements Listener {
             return;
         }
 
-        if (!plugin.getSettings().isCollectionSourceEnabled(CollectionSource.FISHING_DROPS)) {
+        if (!plugin.getSettings().isCollectionSourceEnabled(ItemSpawnReason.FISHING_DROPS)) {
             return;
         }
 
