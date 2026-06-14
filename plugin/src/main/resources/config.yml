@@ -73,14 +73,17 @@ structure-wand:
 #░░░█▄█░█▀█░█▀▄░█░█░█░░░█▀▀░█▀▀░░░░
 #░░░█░█░█░█░█░█░█░█░█░░░█▀▀░▀▀█░░░░
 #░░░▀░▀░▀▀▀░▀▀░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░░░
-# Modules: items, messages, particles, sounds, menus, recipes, functions, structures, generators, collections, gates
+# Modules: items, messages, particles, sounds, menus, recipes, functions, structures,
+#          generators, gates, collections, mobs, commands
 
 # Toggle modules that should be disabled. Once a module is disabled you can delete the respective config folder.
 disabled-modules:
+  - commands    # Premium feature
   - menus       # Premium feature
   - recipes     # Premium feature
   - collections # Premium feature
   - gates       # Premium feature
+  - mobs        # Premium feature
 
 #░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
 #░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
@@ -142,6 +145,35 @@ gate-tool:
     - '&fleft-click to break'
     - '&fshift + left-click (air) to rotate'
 
+#░░░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
+#░░░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
+#░░░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
+
+# Item spawn sources that should increment collections
+collection-item-sources:
+  - action
+  - block_drops
+  - entity_drops
+  - fishing_drops
+  - mob_drops
+  - generator_drops
+
+# The default collection progress bar for some placeholders
+collection-progress-bar: line
+
+#░░░█▄█░█▀█░█▀▄░█▀▀░░░░
+#░░░█░█░█░█░█▀▄░▀▀█░░░░
+#░░░▀░▀░▀▀▀░▀▀░░▀▀▀░░░░
+
+# Show death messages when a player dies for any reason except being killed by a mob
+show-death-messages: true
+
+# Show death messages when a player is slain by a custom mob
+show-slain-messages: true
+
+# The default message shown when a player is slain by a custom mob
+player-slain-message: '&c{player_tc} was killed by a {mob_name_tc}'
+
 
 #░░░█░█░█▀█░█░░░█▀█░█▀▀░█▀▄░█▀█░█▄█░█▀▀░░░░
 #░░░█▀█░█░█░█░░░█░█░█░█░█▀▄░█▀█░█░█░▀▀█░░░░
@@ -175,21 +207,6 @@ hologram-styles:
 
 # The default target location for the dropItem action. Possible values: block, player, coords.
 default-item-drop-target: block
-
-#░░░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
-#░░░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
-#░░░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
-
-# Drops sources that should increment collections
-collection-sources:
-  - block_drops
-  - entity_drops
-  - fishing_drops
-  - action_drops
-  - generator_drops
-
-# The default collection progress bar for some placeholders
-collection-progress-bar: line
 
 #░░░█▀▀░▀█▀░█░░░█░█░░░▀█▀░█▀█░█░█░█▀▀░█░█░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
 #░░░▀▀█░░█░░█░░░█▀▄░░░░█░░█░█░█░█░█░░░█▀█░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
@@ -234,6 +251,46 @@ apply-fortune:
   - raw_gold
 #  - raw_copper   # 1.17+
 #  - dirt         # Supports any item type
+
+#░░░█░░░█▀█░█▀█░▀█▀░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
+#░░░█░░░█░█░█░█░░█░░░█░░█░█░█░█░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
+#░░░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
+# Compatible Actions: dropItem, giveItem, dropItemAtPlayer, dropItemAtBlock, dropItemAtCoords,
+#             dropItemAtMob, dropItemAtLastDamager, dropItemAtTopDamager, dropItemAtDamagers.
+
+# Whether looting should be enabled by default when dropping items
+# If set to false you will have to manually set the `looting` flag in each action
+looting: true
+
+# Drops affected by the Looting enchantment from the player's tool.
+apply-looting:
+  - bone
+  - rotten_flesh
+  - string
+  - gunpowder
+  - spider_eye
+  - slime_ball
+  - magma_cream
+  - blaze_rod
+  - ghast_tear
+  - ender_pearl
+  - prismarine_shard
+  - prismarine_crystals
+  - ink_sac
+  - glowstone_dust
+  - gold_nugget
+  - iron_nugget
+  - leather
+  - rabbit_hide
+  - rabbit_foot
+  - feather
+  - chicken
+  - beef
+  - porkchop
+  - mutton
+  - rabbit
+  - cod
+  - salmon
 
 #░░░█▀█░█░█░▀█▀░█▀█░░░░░█▀▀░█▄█░█▀▀░█░░░▀█▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
 #░░░█▀█░█░█░░█░░█░█░▄▄▄░▀▀█░█░█░█▀▀░█░░░░█░░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░

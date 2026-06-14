@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
 public class GeneratorGetAllSubCommand extends SubCommand {
 
     public GeneratorGetAllSubCommand(@NotNull OrestackPlugin plugin) {
-        super("get-all", plugin);
+        super(plugin, "get-all");
         withPermission(plugin.getPermission("generator.get-all"));
         withDescription(plugin.getTranslation("generator-get-all-command"));
         withPlayerExecution((player, context, args) -> {

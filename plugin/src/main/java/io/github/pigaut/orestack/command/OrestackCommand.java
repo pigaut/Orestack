@@ -1,16 +1,15 @@
 package io.github.pigaut.orestack.command;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.collection.command.*;
 import io.github.pigaut.orestack.command.gate.*;
 import io.github.pigaut.orestack.command.generator.*;
 import io.github.pigaut.orestack.menu.*;
-import io.github.pigaut.voxel.core.buildstation.command.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.command.node.*;
-import io.github.pigaut.voxel.data.collection.command.*;
 import io.github.pigaut.voxel.data.item.command.*;
-import io.github.pigaut.voxel.data.menu.command.*;
 import io.github.pigaut.voxel.data.message.command.*;
+import io.github.pigaut.voxel.data.mob.command.*;
 import io.github.pigaut.voxel.data.particle.command.*;
 import io.github.pigaut.voxel.data.recipe.command.*;
 import io.github.pigaut.voxel.data.sound.command.*;
@@ -63,6 +62,10 @@ public class OrestackCommand extends EnhancedCommand {
 
         if (settings.isModuleEnabled(Module.GATES)) {
             addSubCommand(new GateSubCommand(plugin));
+        }
+
+        if (settings.isModuleEnabled(Module.MOBS)) {
+            addSubCommand(new MobSubCommand(plugin));
         }
 
         if (settings.isModuleEnabled(Module.STRUCTURES)) {

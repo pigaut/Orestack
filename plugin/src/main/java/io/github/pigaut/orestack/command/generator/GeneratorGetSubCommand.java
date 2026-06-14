@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.command.generator;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.core.tools.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.bukkit.*;
@@ -12,10 +13,10 @@ import org.jetbrains.annotations.*;
 public class GeneratorGetSubCommand extends SubCommand {
 
     public GeneratorGetSubCommand(@NotNull OrestackPlugin plugin) {
-        super("get", plugin);
+        super(plugin, "get");
         withPermission(plugin.getPermission("generator.get"));
         withDescription(plugin.getTranslation("generator-get-command"));
-        withParameter(GeneratorParameters.GENERATOR_NAME);
+        withParameter(OrestackParameters.GENERATOR_NAME);
         withPlayerExecution((player, context, args) -> {
             GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {

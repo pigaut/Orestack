@@ -1,36 +1,45 @@
 package io.github.pigaut.orestack;
 
 import io.github.pigaut.orestack.api.*;
-import io.github.pigaut.orestack.advertise.*;
+import io.github.pigaut.orestack.collection.*;
+import io.github.pigaut.orestack.collection.Collection;
+import io.github.pigaut.orestack.collection.template.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.core.config.*;
-import io.github.pigaut.orestack.core.placeholder.*;
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.orestack.gate.template.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.orestack.generator.instanced.*;
 import io.github.pigaut.orestack.generator.template.*;
-import io.github.pigaut.orestack.hook.PacketEventsHook;
+import io.github.pigaut.orestack.hook.*;
 import io.github.pigaut.orestack.hook.itemsadder.*;
 import io.github.pigaut.orestack.hook.plotsquared.*;
 import io.github.pigaut.orestack.listener.*;
-import io.github.pigaut.orestack.player.*;
+import io.github.pigaut.orestack.player.data.*;
+import io.github.pigaut.orestack.player.state.*;
 import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.placeholder.*;
+import io.github.pigaut.voxel.core.tool.*;
+import io.github.pigaut.voxel.data.menu.*;
+import io.github.pigaut.voxel.data.mob.*;
+import io.github.pigaut.voxel.data.mob.spawnegg.*;
+import io.github.pigaut.voxel.data.mob.spawnpad.tool.*;
 import io.github.pigaut.voxel.listener.*;
 import io.github.pigaut.voxel.player.data.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.boot.*;
 import io.github.pigaut.voxel.plugin.boot.phase.*;
+import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.util.Server;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.*;
+import org.bukkit.inventory.*;
 import org.bukkit.plugin.*;
 import org.jetbrains.annotations.*;
 
@@ -39,16 +48,21 @@ import java.util.*;
 public class OrestackPlugin extends EnhancedJavaPlugin {
 
     private static OrestackPlugin plugin;
+
     private final OrestackSettings settings = new OrestackSettings(this);
-    private final GeneratorTemplateManager generatorTemplateManager = new GeneratorTemplateManager(this);
-    private final GeneratorManager generatorManager = new GeneratorManager(this);
-    private final GateTemplateManager gateTemplateManager = new GateTemplateManager(this);
-    private final GateManager gateManager = new GateManager(this);
+
     private final OrestackPlayerStateManager playerStateManager = new OrestackPlayerStateManager(this);
     private final OrestackPlayerDataManger playerDataManger = new OrestackPlayerDataManger(this);
+
+    private final GeneratorTemplateManager generatorTemplateManager = new GeneratorTemplateManager(this);
     private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
+    private final GeneratorManager generatorManager = new GeneratorManager(this);
+
+    private final GateTemplateManager gateTemplateManager = new GateTemplateManager(this);
     private final GateOptionsManager gateOptionsManager = new GateOptionsManager(this);
-    private final AdvertisementManager advertisementManager = new AdvertisementManager(this);
+    private final GateManager gateManager = new GateManager(this);
+
+    private final CollectionTemplateManager collectionTemplateManager = new CollectionTemplateManager(this);
 
     public static OrestackPlugin getInstance() {
         return plugin;
@@ -60,8 +74,41 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
+    public void onBoot() {
+        DynamicMaterialButton.registerDynamicMaterial("{collection_item}", context -> {
+            Collection collection = context.get(Collection.class);
+            return collection != null ? collection.getItem().getType() : null;
+        });
+    }
+
+    @Override
     public void onStartup() {
         Orestack.setApiInstance(new SimpleOrestackAPI(this));
+
+        // Register Placeholders
+        DefaultPlaceholders.registerAll(this);
+        GeneratorPlaceholders.registerAll(this);
+        GatePlaceholders.registerAll(this);
+        CollectionPlaceholders.registerAll(this);
+        MobPlaceholders.registerAll(this);
+
+        // Register Tools
+        ToolRegistry tools = getTools();
+        tools.register(new MobSpawnPadTool(this));
+        tools.register(new MobSpawnEggTool(this));
+    }
+
+    @Override
+    public void onReload() {
+        // Update placeholders
+        PlaceholderRegistry placeholders = getPlaceholders();
+        placeholders.clear();
+        DefaultPlaceholders.registerAll(this);
+        GeneratorPlaceholders.registerAll(this);
+        GatePlaceholders.registerAll(this);
+        CollectionPlaceholders.registerAll(this);
+        MobPlaceholders.registerAll(this);
+
     }
 
     @Override
@@ -75,22 +122,17 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull Configurator createConfigurator() {
-        return new OrestackConfigurator(this);
-    }
-
-    @Override
     public @NotNull OrestackPlayerStateManager getPlayersState() {
         return playerStateManager;
     }
 
     @Override
-    public @NotNull OrestackPlayer getPlayerState(@NotNull Player player) {
+    public @NotNull RpgPlayerState getPlayerState(@NotNull Player player) {
         return playerStateManager.getPlayerState(player);
     }
 
     @Override
-    public @Nullable OrestackPlayer getPlayerState(@NotNull UUID playerId) {
+    public @Nullable RpgPlayerState getPlayerState(@NotNull UUID playerId) {
         return playerStateManager.getPlayerState(playerId);
     }
 
@@ -100,18 +142,44 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @Nullable PlayerData getPlayerData(@NotNull UUID playerId) {
-        return playerDataManger.getPlayerData(playerId);
-    }
-
-    @Override
-    public @NotNull PlayerData getPlayerData(@NotNull Player player) {
+    public @NotNull RpgPlayerData getPlayerData(@NotNull Player player) {
         return playerDataManger.getPlayerData(player);
     }
 
     @Override
+    public @Nullable RpgPlayerData getPlayerData(@NotNull UUID playerId) {
+        return playerDataManger.getPlayerData(playerId);
+    }
+
+    @Override
+    public @NotNull Configurator createConfigurator() {
+        return new OrestackConfigurator(this);
+    }
+
+    @Override
     public boolean isPremium() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public void registerCommands(@NotNull CommandRegistry commands) {
+        commands.registerCommand(new OrestackCommand(this));
+    }
+
+    @Override
+    public void registerListeners() {
+        registerListener(new BlockEventListener(this));
+        registerListener(new CropEventListener(this));
+
+        registerListener(new GeneratorEventListener(this));
+        registerListener(new GateEventListener(this));
+
+        if (this.getVirtualStructures().isSupported()) {
+            registerListener(new PlayerChunkLoadListener(plugin));
+            PacketEventsHook.registerAllPacketListeners(this);
+        }
+
+        registerListener(new ItemCollectListener(plugin));
     }
 
     @Override
@@ -153,7 +221,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @Nullable Integer getResourceId() {
-        return 91628;
+        return 121905;
     }
 
     @Override
@@ -178,31 +246,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public void registerCommands(@NotNull CommandRegistry commands) {
-        commands.registerCommand(new OrestackCommand(this));
-    }
-
-    @Override
-    public void registerPlaceholders(@NotNull PlaceholderRegistry placeholders) {
-        OrestackPlaceholders.registerAll(this, placeholders);
-    }
-
-    @Override
-    public void registerListeners() {
-        registerListener(new BlockEventListener(this));
-        registerListener(new CropEventListener(this));
-        registerListener(new AdvertisementListener(this));
-
-        registerListener(new GeneratorEventListener(this));
-        registerListener(new GateEventListener(this));
-
-        if (this.getVirtualStructures().isSupported()) {
-            registerListener(new PlayerChunkLoadListener(plugin));
-            PacketEventsHook.registerAllPacketListeners(this);
-        }
-    }
-
-    @Override
     public @NotNull List<Integer> getCompatibleVersions() {
         return Version.getVersionsNewerThan(Version.V1_16_5);
     }
@@ -224,7 +267,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 "MythicMobs",
                 "ExecutableItems",
                 "EcoItems",
-                "packetevents"
+                "packetevents",
+                "LibsDisguises"
         );
     }
 
@@ -332,8 +376,19 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         return gateOptionsManager;
     }
 
-    public @NotNull AdvertisementManager getAdvertisements() {
-        return advertisementManager;
+    @NotNull
+    public CollectionTemplateManager getCollectionTemplates() {
+        return collectionTemplateManager;
+    }
+
+    @Nullable
+    public CollectionTemplate getCollectionTemplate(@NotNull String name) {
+        return collectionTemplateManager.get(name);
+    }
+
+    @Nullable
+    public CollectionTemplate getCollectionTemplate(@NotNull ItemStack item) {
+        return collectionTemplateManager.get(item);
     }
 
 }

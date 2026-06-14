@@ -1,0 +1,24 @@
+
+type: slime
+size: 2
+
+name: '&2Slime'
+health: 15
+speed: 0.18
+deal-damage: false # The mob will attack but deal no damage or knockback
+slime-split: false
+
+slain-message: '&cA {mob_name_tc}&c stomped {player_tc} to death.'
+
+exp: 20-40
+
+# [Paper Only]
+on-jump: []
+
+# [Paper Only]
+on-land:
+  - damageEntitiesInRange 1-2 range=2.5 limit=3
+  - spawnParticleAtMob green_dust_cloud
+
+on-death:
+  - dropItemAtLastDamager slime_ball amount=2-4

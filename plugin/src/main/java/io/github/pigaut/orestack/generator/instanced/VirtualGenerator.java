@@ -29,7 +29,8 @@ public class VirtualGenerator {
         this.rotation = rotation;
     }
 
-    public static @NotNull VirtualGenerator create(@NotNull GeneratorTemplate template, @NotNull Location origin, @NotNull Rotation rotation) throws GeneratorOverlapException, GeneratorLimitException, VirtualGeneratorUnsupportedException {
+    public static @NotNull VirtualGenerator create(@NotNull GeneratorTemplate template, @NotNull Location origin,
+                                                   @NotNull Rotation rotation) throws GeneratorCreateException {
         VirtualGenerator generator = new VirtualGenerator(template, origin, rotation);
         plugin.getGenerators().registerGenerator(generator);
         for (GeneratorPhase phase : template.getPhases()) {
@@ -39,7 +40,7 @@ public class VirtualGenerator {
         return generator;
     }
 
-    public static @NotNull VirtualGenerator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorOverlapException, GeneratorLimitException, VirtualGeneratorUnsupportedException {
+    public static @NotNull VirtualGenerator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorCreateException {
         return create(template, origin, Rotation.NONE);
     }
 

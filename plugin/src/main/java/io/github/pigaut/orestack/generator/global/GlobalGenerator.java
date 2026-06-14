@@ -25,18 +25,20 @@ public class GlobalGenerator extends BasicGenerator {
         super(template, origin, rotation);
     }
 
-    public static @NotNull GlobalGenerator create(@NotNull GeneratorTemplate template, @NotNull Location origin, @NotNull Rotation rotation, int phase) throws GeneratorOverlapException, GeneratorLimitException {
+    public static @NotNull GlobalGenerator create(@NotNull GeneratorTemplate template, @NotNull Location origin,
+                                                  @NotNull Rotation rotation, int phase) throws GeneratorCreateException {
         GlobalGenerator generator = new GlobalGenerator(template, origin, rotation);
         plugin.getGenerators().registerGenerator(generator);
         generator.setPhase(phase, true);
         return generator;
     }
 
-    public static @NotNull GlobalGenerator create(@NotNull GeneratorTemplate template, @NotNull Location origin, @NotNull Rotation rotation) throws GeneratorOverlapException, GeneratorLimitException {
+    public static @NotNull GlobalGenerator create(@NotNull GeneratorTemplate template,
+                                                  @NotNull Location origin, @NotNull Rotation rotation) throws GeneratorCreateException {
         return create(template, origin, rotation, template.getMaxPhase());
     }
 
-    public static @NotNull GlobalGenerator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorOverlapException, GeneratorLimitException {
+    public static @NotNull GlobalGenerator create(@NotNull GeneratorTemplate template, @NotNull Location origin) throws GeneratorCreateException {
         return create(template, origin, Rotation.NONE);
     }
 

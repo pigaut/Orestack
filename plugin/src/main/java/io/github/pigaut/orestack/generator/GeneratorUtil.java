@@ -2,13 +2,15 @@ package io.github.pigaut.orestack.generator;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
+import io.github.pigaut.orestack.collection.*;
+import io.github.pigaut.orestack.collection.Collection;
 import io.github.pigaut.orestack.generator.phase.*;
+import io.github.pigaut.orestack.player.data.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.context.*;
-import io.github.pigaut.voxel.data.collection.*;
-import io.github.pigaut.voxel.data.collection.Collection;
 import io.github.pigaut.voxel.data.function.*;
 import io.github.pigaut.voxel.data.item.*;
+import io.github.pigaut.voxel.event.drop.*;
 import io.github.pigaut.voxel.player.data.*;
 import io.github.pigaut.voxel.util.Server;
 import org.bukkit.*;
@@ -16,8 +18,6 @@ import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
-
-import java.util.*;
 
 public class GeneratorUtil {
 
@@ -89,8 +89,8 @@ public class GeneratorUtil {
                     ItemUtil.dropItem(dropLocation, itemDrop);
                 }
 
-                if (plugin.getSettings().isCollectionSourceEnabled(CollectionSource.GENERATOR_DROPS)) {
-                    PlayerData playerData = plugin.getPlayerData(player);
+                if (plugin.getSettings().isCollectionSourceEnabled(ItemSpawnReason.GENERATOR_DROPS)) {
+                    RpgPlayerData playerData = plugin.getPlayerData(player);
                     for (ItemStack drop : itemDrops) {
                         Collection collection = playerData.getItemCollection(drop);
                         if (collection != null) {
@@ -102,7 +102,7 @@ public class GeneratorUtil {
 
             int expDrops = event.getExpDrops();
             if (expDrops != 0) {
-                Exp.drop(dropLocation, expDrops);
+                ExpUtil.dropExp(dropLocation, expDrops);
             }
 
             int toolDamage = event.getToolDamage();

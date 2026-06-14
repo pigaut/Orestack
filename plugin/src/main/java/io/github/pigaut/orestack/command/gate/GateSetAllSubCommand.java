@@ -2,10 +2,11 @@ package io.github.pigaut.orestack.command.gate;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.gate.*;
+import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.orestack.gate.exception.*;
 import io.github.pigaut.orestack.gate.template.*;
-import io.github.pigaut.orestack.player.*;
+import io.github.pigaut.orestack.player.state.*;
 import io.github.pigaut.voxel.core.command.node.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.data.structure.*;
@@ -16,12 +17,12 @@ import org.jetbrains.annotations.*;
 public class GateSetAllSubCommand extends SubCommand {
 
     public GateSetAllSubCommand(@NotNull OrestackPlugin plugin) {
-        super("set-all", plugin);
+        super(plugin, "set-all");
         withPermission(plugin.getPermission("gate.set-all"));
         withDescription(plugin.getTranslation("gate-set-all-command"));
-        withParameter(GateParameters.GATE_NAME);
+        withParameter(OrestackParameters.GATE_NAME);
         withPlayerExecution((player, context, args) -> {
-            OrestackPlayer playerState = plugin.getPlayerState(player);
+            RpgPlayerState playerState = plugin.getPlayerState(player);
             GateTemplate template = plugin.getGateTemplate(args[0]);
             if (template == null) {
                 plugin.sendMessage(player, context, "gate-not-found");
@@ -47,7 +48,7 @@ public class GateSetAllSubCommand extends SubCommand {
                         try {
                             Gate.create(template, location);
                         }
-                        catch (GateOverlapException ignored) {
+                        catch (GateCreateException ignored) {
                             // Ignore if gate overlaps
                         }
                     }

@@ -7,7 +7,7 @@ import org.jetbrains.annotations.*;
 public class GeneratorSubCommand extends SubCommand {
 
     public GeneratorSubCommand(@NotNull OrestackPlugin plugin) {
-        super("generator", plugin);
+        super(plugin, "generator");
         withPermission(plugin.getPermission("generator"));
         withDescription(plugin.getTranslation("generator-command"));
         addSubCommand(new GeneratorGetSubCommand(plugin));

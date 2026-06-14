@@ -8,7 +8,6 @@ import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.data.function.*;
 import io.github.pigaut.voxel.data.structure.*;
-import io.github.pigaut.voxel.data.structure.global.*;
 import io.github.pigaut.voxel.data.structure.global.Structure;
 import io.github.pigaut.voxel.util.Server;
 import org.bukkit.*;
