@@ -8,21 +8,23 @@ simple_particle:
   range: { x: 1, y: 1, z: 1 }    # The random range in which it will spawn
   player-only: false   # Whether visible to all or just target player, default is false
 
-explosion: { particle: EXPLOSION_LARGE, amount: 3 }
+explosion: explosion_large count=3
 
 rain_cloud:
-  - { particle: cloud, amount: 15, offset.y: 1.5, range: { x: 0.3, z: 0.3 }, repeat: 8, interval: 2 }
-  - { particle: falling_water, amount: 15, offset.y: 1.5, range: { x: 0.2, z: 0.2 }, repeat: 12, interval: 2 }
+  # White cloud
+  - cloud count=15 offsetY=1.5 rangeX=0.3 rangeZ=0.3 repeat=8 interval=2
+  # Falling rain
+  - falling_water count=15 offsetY=1.5 rangeX=0.2 rangeZ=0.2 repeat=12 interval=2
 
 magic_circle:
-  - { particle: enchantment_table, amount: 3, offset: {x: 1.0, y: 0.0, z: 0.0} }
-  - { particle: enchantment_table, amount: 3, offset: {x: 0.707, y: 0.0, z: 0.707}, delay: 3 }
-  - { particle: enchantment_table, amount: 3, offset: {x: 0.0, y: 0.0, z: 1.0}, delay: 6 }
-  - { particle: enchantment_table, amount: 3, offset: {x: -0.707, y: 0.0, z: 0.707}, delay: 9 }
-  - { particle: enchantment_table, amount: 3, offset: {x: -1.0, y: 0.0, z: 0.0}, delay: 12 }
-  - { particle: enchantment_table, amount: 3, offset: {x: -0.707, y: 0.0, z: -0.707}, delay: 15 }
-  - { particle: enchantment_table, amount: 3, offset: {x: 0.0, y: 0.0, z: -1.0}, delay: 18 }
-  - { particle: enchantment_table, amount: 3, offset: {x: 0.707, y: 0.0, z: -0.707}, delay: 21 }
+  - enchantment_table count=3 offsetX=1
+  - enchantment_table count=3 offsetX=0.707 offsetZ=0.707 delay=3
+  - enchantment_table count=3 offsetZ=1 delay=6
+  - enchantment_table count=3 offsetX=-0.707 offsetZ=0.707 delay=9
+  - enchantment_table count=3 offsetX=-1 delay=12
+  - enchantment_table count=3 offsetX=-0.707 offsetZ=-0.707 delay=15
+  - enchantment_table count=3 offsetZ=-1 delay=18
+  - enchantment_table count=3 offsetX=0.707 offsetZ=-0.707 delay=21
 
 # 1.17+
 #ice_crystals:

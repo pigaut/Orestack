@@ -1,0 +1,7 @@
+
+miner's_helmet:
+  type: leather_helmet
+  mining-fortune: 20
+  lore:
+    - ''
+    - '&7Mining Fortune: &a+20'

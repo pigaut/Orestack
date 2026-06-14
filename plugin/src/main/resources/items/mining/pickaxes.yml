@@ -1,0 +1,8 @@
+
+rookie_pickaxe:
+  type: wooden_pickaxe
+  mining-fortune: 100
+  lore:
+    - ''
+    - '&7Mining Fortune: &a+{tool_mining_fortune}'
+

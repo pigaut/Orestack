@@ -1,12 +1,12 @@
 package io.github.pigaut.orestack;
 
 import io.github.pigaut.orestack.api.*;
+import io.github.pigaut.orestack.collection.*;
 import io.github.pigaut.orestack.collection.Collection;
 import io.github.pigaut.orestack.collection.template.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.core.*;
 import io.github.pigaut.orestack.core.config.*;
-import io.github.pigaut.orestack.core.placeholder.*;
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.orestack.gate.template.*;
 import io.github.pigaut.orestack.generator.*;
@@ -24,6 +24,8 @@ import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.placeholder.*;
 import io.github.pigaut.voxel.core.tool.*;
 import io.github.pigaut.voxel.data.menu.*;
+import io.github.pigaut.voxel.data.mob.*;
+import io.github.pigaut.voxel.data.mob.spawnegg.*;
 import io.github.pigaut.voxel.data.mob.spawnpad.tool.*;
 import io.github.pigaut.voxel.listener.*;
 import io.github.pigaut.voxel.player.data.*;
@@ -82,6 +84,31 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public void onStartup() {
         Orestack.setApiInstance(new SimpleOrestackAPI(this));
+
+        // Register Placeholders
+        DefaultPlaceholders.registerAll(this);
+        GeneratorPlaceholders.registerAll(this);
+        GatePlaceholders.registerAll(this);
+        CollectionPlaceholders.registerAll(this);
+        MobPlaceholders.registerAll(this);
+
+        // Register Tools
+        ToolRegistry tools = getTools();
+        tools.register(new MobSpawnPadTool(this));
+        tools.register(new MobSpawnEggTool(this));
+    }
+
+    @Override
+    public void onReload() {
+        // Update placeholders
+        PlaceholderRegistry placeholders = getPlaceholders();
+        placeholders.clear();
+        DefaultPlaceholders.registerAll(this);
+        GeneratorPlaceholders.registerAll(this);
+        GatePlaceholders.registerAll(this);
+        CollectionPlaceholders.registerAll(this);
+        MobPlaceholders.registerAll(this);
+
     }
 
     @Override
@@ -135,22 +162,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public void registerPlaceholders(@NotNull PlaceholderRegistry placeholders) {
-        OrestackPlaceholders.registerAll(this, placeholders);
-    }
-
-    @Override
     public void registerCommands(@NotNull CommandRegistry commands) {
         commands.registerCommand(new OrestackCommand(this));
-    }
-
-    @Override
-    public void registerTools(@NotNull ToolRegistry tools) {
-        try {
-            tools.register(new MobSpawnPadTool(this));
-        } catch (DuplicateElementException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override

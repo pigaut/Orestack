@@ -10,6 +10,7 @@ import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.data.function.*;
 import io.github.pigaut.voxel.data.item.*;
+import io.github.pigaut.voxel.event.drop.*;
 import io.github.pigaut.voxel.player.data.*;
 import io.github.pigaut.voxel.util.Server;
 import org.bukkit.*;
@@ -88,7 +89,7 @@ public class GeneratorUtil {
                     ItemUtil.dropItem(dropLocation, itemDrop);
                 }
 
-                if (plugin.getSettings().isCollectionSourceEnabled(CollectionSource.GENERATOR_DROPS)) {
+                if (plugin.getSettings().isCollectionSourceEnabled(ItemSpawnReason.GENERATOR_DROPS)) {
                     RpgPlayerData playerData = plugin.getPlayerData(player);
                     for (ItemStack drop : itemDrops) {
                         Collection collection = playerData.getItemCollection(drop);

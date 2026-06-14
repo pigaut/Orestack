@@ -23,12 +23,10 @@ equipment:
   chest: iron_chestplate
   hand: iron_sword
 
-slain-message: '&c{player_tc} was slain by the &e{mob_name_tc}'
-
 exp: 60-80
 
 on-spawn:
-  - healMob 5 delay=3s repeat=4
+  - healMob 5 delay=2s repeat=4 interval=2s
 
 on-death:
   - dropItemAtTopDamager iron_ingot amount=3-7
