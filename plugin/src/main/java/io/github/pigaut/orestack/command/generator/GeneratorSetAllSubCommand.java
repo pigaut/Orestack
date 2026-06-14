@@ -55,10 +55,6 @@ public class GeneratorSetAllSubCommand extends SubCommand {
                         } catch (GeneratorCreateException ignored) {
                             // Ignore if generator overlaps
                         }
-                        catch (GeneratorLimitException ignored) {
-                            plugin.sendMessage(player, context, "large-generator-limit");
-                            return;
-                        }
                     }
                 }
             }

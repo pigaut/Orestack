@@ -250,6 +250,35 @@ created-all-gates: '&aAll gates inside of region have been set successfully'
 removed-all-gates: '&aAll gates inside of region have been removed successfully'
 harvested-all-gates: '&aAll {gate-name} gates have been harvested with held tool'
 
+
+#░░░█▄█░█▀█░█▀▄░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
+#░░░█░█░█░█░█▀▄░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
+#░░░▀░▀░▀▀▀░▀▀░░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
+mob-command: ''
+mob-spawn-command: 'Spawns a mob at the target block'
+mob-spawn-pad-command: ''
+mob-spawn-pad-get-command: 'Receive a mob spawn pad tool'
+mob-spawn-pad-get-all-command: 'Receive all available mob spawn pad tools'
+mob-spawn-pad-make-visible-command: 'Toggles visibility for mob spawn pads in range'
+mob-spawn-egg-command: ''
+mob-spawn-egg-get-command: 'Receive a mob spawn egg tool'
+mob-spawn-egg-get-all-command: 'Receive all available mob spawn egg tools'
+# Errors
+mob-not-found: '&4Could not find mob with name: {mob-name}'
+# Success
+spawned-mob: '&aSpawned {mob-name} mob at target block'
+removed-mob: '&cRemoved {mob-name} mob'
+egg-spawned-mob: '&aSpawned a {mob_name}'
+egg-removed-mob: '&cRemoved a {mob_name}'
+received-mob-spawn-pad: '&aReceived {mob-name_tc} spawn pad'
+received-all-mob-spawn-pads: '&aReceived all mob spawn pads'
+made-visible-mob-spawn-pads: '&aAll mob spawn pads are now visible'
+made-invisible-mob-spawn-pads: '&cAll mob spawn pads are now invisible'
+
+received-mob-spawn-egg: '&aReceived {mob-name_tc} spawn egg'
+received-all-mob-spawn-eggs: '&aReceived all mob spawn eggs'
+
+
 #░░░█▀▀░█▀▀░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░░░█░█░█▀█░█▀█░█▀▄░░░░
 #░░░▀▀█░█▀▀░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░░░█▄█░█▀█░█░█░█░█░░░░
 #░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░░░▀░▀░▀░▀░▀░▀░▀▀░░░░░
@@ -260,6 +289,7 @@ selected-first-position: '&aFirst position selected'
 selected-second-position: '&aSecond position selected'
 incomplete-region: '&4You need to select a region with the wand'
 missing-wand-permission: '&4You don''t have the permission to use the wand'
+
 
 #░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░░░▀█▀░▀█▀░█▀▀░█▄█░░░░
 #░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░░░░█░░░█░░█▀▀░█░█░░░░
@@ -289,6 +319,18 @@ placed-gate: '&aPlaced gate successfully'
 broke-gate: '&cBroke gate successfully'
 changed-gate-rotation: '&aRotated gate by 90 degrees'
 
+#░░░█▄█░█▀█░█▀▄░░░█▀▀░█▀█░█▀█░█░█░█▀█░░░█▀█░█▀█░█▀▄░░░▀█▀░▀█▀░█▀▀░█▄█░░░░
+#░░░█░█░█░█░█▀▄░░░▀▀█░█▀▀░█▀█░█▄█░█░█░░░█▀▀░█▀█░█░█░░░░█░░░█░░█▀▀░█░█░░░░
+#░░░▀░▀░▀▀▀░▀▀░░░░▀▀▀░▀░░░▀░▀░▀░▀░▀░▀░░░▀░░░▀░▀░▀▀░░░░▀▀▀░░▀░░▀▀▀░▀░▀░░░░
+mob-not-exists: '&4This mob no longer exists or is invalid'
+mob-spawn-pad-occupied-block: '&4This block already has a mob spawn pad'
+placed-mob-spawn-pad: '&aPlaced mob spawn pad successfully'
+removed-mob-spawn-pad: '&cRemoved mob spawn pad successfully'
 
-# General
+# General tools
+corrupt-tool-data: '&4This tool has corrupted data and cannot be used'
 corrupt-tool-rotation: '&4This item has corrupt rotation data'
+
+# Tools
+tool-not-found: '&4Could not find tool'
+missing-tool-permission: '&4You don''t have the permission to use this tool'

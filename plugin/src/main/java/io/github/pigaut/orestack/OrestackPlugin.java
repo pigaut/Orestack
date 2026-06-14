@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack;
 
+import io.github.pigaut.orestack.advertise.*;
 import io.github.pigaut.orestack.api.*;
 import io.github.pigaut.orestack.collection.*;
 import io.github.pigaut.orestack.collection.Collection;
@@ -63,6 +64,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     private final GateManager gateManager = new GateManager(this);
 
     private final CollectionTemplateManager collectionTemplateManager = new CollectionTemplateManager(this);
+
+    private final AdvertisementManager advertisementManager = new AdvertisementManager(this);
 
     public static OrestackPlugin getInstance() {
         return plugin;
@@ -175,11 +178,12 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         registerListener(new GateEventListener(this));
 
         if (this.getVirtualStructures().isSupported()) {
-            registerListener(new PlayerChunkLoadListener(plugin));
+            registerListener(new PlayerChunkLoadListener(this));
             PacketEventsHook.registerAllPacketListeners(this);
         }
 
-        registerListener(new ItemCollectListener(plugin));
+        registerListener(new ItemCollectListener(this));
+        registerListener(new AdvertisementListener(this));
     }
 
     @Override
@@ -389,6 +393,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Nullable
     public CollectionTemplate getCollectionTemplate(@NotNull ItemStack item) {
         return collectionTemplateManager.get(item);
+    }
+
+    public @NotNull AdvertisementManager getAdvertisements() {
+        return advertisementManager;
     }
 
 }

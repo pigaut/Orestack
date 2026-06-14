@@ -62,10 +62,12 @@ public class OrestackSettings extends Settings {
     public @NotNull List<ConfigException> loadConfigurationData() {
         List<ConfigException> errors = super.loadConfigurationData();
 
+        addDisabledModule(Module.COMMANDS);
+        addDisabledModule(Module.MENUS);
         addDisabledModule(Module.GATES);
         addDisabledModule(Module.COLLECTIONS);
         addDisabledModule(Module.RECIPES);
-        addDisabledModule(Module.MENUS);
+        addDisabledModule(Module.MOBS);
 
         ConfigSection config = plugin.getConfiguration();
 
