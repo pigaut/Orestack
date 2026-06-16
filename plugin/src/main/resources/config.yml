@@ -78,12 +78,12 @@ structure-wand:
 
 # Toggle modules that should be disabled. Once a module is disabled you can delete the respective config folder.
 disabled-modules:
-  - commands    # Premium feature
-  - menus       # Premium feature
-  - recipes     # Premium feature
-  - collections # Premium feature
-  - gates       # Premium feature
-  - mobs        # Premium feature
+  - commands    # Premium Feature
+  - menus       # Premium Feature
+  - recipes     # Premium Feature
+  - collections # Premium Feature
+  - gates       # Premium Feature
+  - mobs        # Premium Feature
 
 #░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
 #░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
