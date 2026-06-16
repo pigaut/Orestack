@@ -111,6 +111,8 @@ generator-tool:
     - '&fleft-click to break'
     - '&fshift + left-click (air) to rotate'
 
+
+
 #░░░█▀█░█▀▀░█▀▄░░░░░█▀█░█░░░█▀█░█░█░█▀▀░█▀▄░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
 #░░░█▀▀░█▀▀░█▀▄░▄▄▄░█▀▀░█░░░█▀█░░█░░█▀▀░█▀▄░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
 #░░░▀░░░▀▀▀░▀░▀░░░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
@@ -398,10 +400,42 @@ exp-multiplier-by-level:
   4: 1.8
   5: 2
 
-#░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░░░█░█░█▀▀░█▀█░█░░░▀█▀░█░█░░░░
-#░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░░░█▀█░█▀▀░█▀█░█░░░░█░░█▀█░░░░
-#░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░░░▀░▀░▀▀▀░▀░▀░▀▀▀░░▀░░▀░▀░░░░
-# Compatible actions: damageGenerator
+#░░░█▄█░▀█▀░█▀█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▀▄░▀█▀░█░█░█▀█░█▀▀░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
+#░░░█░█░░█░░█░█░░█░░█░█░█░█░░░█▀▀░█░█░█▀▄░░█░░█░█░█░█░█▀▀░░░▀▀█░░█░░█▀█░░█░░░░░
+#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
+# Mining Fortune is a player stat that increases mining drops.
+# Every 100 points has a 100% to increase the drop by +1.
+
+# Whether mining fortune should be enabled by default when dropping items
+# If set to false you will have to manually set the `miningFortune` flag in each action
+mining-fortune: true
+
+# Drops affected by the Mining Fortune Stat of the player.
+apply-mining-fortune:
+  - coal
+  - diamond
+  - emerald
+  - lapis_lazuli
+  - redstone
+  - quartz
+  - raw_iron
+  - raw_gold
+# - raw_copper   # 1.17+
+
+# Whether the fortune enchant should be treated as a stat increment instead of its vanilla functionality
+fortune-enchant-as-stat: false
+
+# Set the Mining Fortune amount gained by the items fortune enchant level.
+# [Warning] Works only if 'fortune-enchant-as-stat' is enabled
+mining-fortune-by-fortune-enchant-level:
+  1: 30
+  2: 60
+  3: 90
+
+#░░░█▀▀░▀█▀░█▀▄░█░█░█▀▀░▀█▀░█░█░█▀▄░█▀▀░░░█░█░█▀▀░█▀█░█░░░▀█▀░█░█░░░░
+#░░░▀▀█░░█░░█▀▄░█░█░█░░░░█░░█░█░█▀▄░█▀▀░░░█▀█░█▀▀░█▀█░█░░░░█░░█▀█░░░░
+#░░░▀▀▀░░▀░░▀░▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀░▀░▀▀▀░▀░▀░▀▀▀░░▀░░▀░▀░░░░
+# Compatible actions: damageGenerator, damageGate
 
 # The default damage dealt.
 default-damage: 1
