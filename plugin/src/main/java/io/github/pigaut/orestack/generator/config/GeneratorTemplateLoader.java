@@ -11,11 +11,11 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class GeneratorLoader implements ConfigLoader<GeneratorTemplate> {
+public class GeneratorTemplateLoader implements ConfigLoader<GeneratorTemplate> {
 
     private final OrestackPlugin plugin;
 
-    public GeneratorLoader(OrestackPlugin plugin) {
+    public GeneratorTemplateLoader(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

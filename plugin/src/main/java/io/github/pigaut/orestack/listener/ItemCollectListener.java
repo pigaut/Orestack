@@ -5,7 +5,6 @@ import io.github.pigaut.orestack.collection.*;
 import io.github.pigaut.orestack.player.data.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.event.drop.*;
-import io.github.pigaut.voxel.event.drop.ItemSpawnEvent;
 import io.github.pigaut.voxel.player.data.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
@@ -23,7 +22,7 @@ public class ItemCollectListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onItemSpawn(ItemSpawnEvent event) {
+    public void onItemSpawn(DropSpawnEvent event) {
         if (!plugin.getSettings().isCollectionSourceEnabled(event.getSpawnReason())) {
             return;
         }

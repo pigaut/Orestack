@@ -77,11 +77,11 @@ public class GeneratorPhase {
         return new ArrayList<>(decorativeBlocks);
     }
 
-    public boolean isDropItems() {
+    public boolean isDefaultItemDrops() {
         return dropItems;
     }
 
-    public boolean isDropExp() {
+    public boolean isDefaultExpDrops() {
         return dropExp;
     }
 

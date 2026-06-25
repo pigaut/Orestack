@@ -3,21 +3,22 @@ package io.github.pigaut.orestack.generator;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.api.event.*;
 import io.github.pigaut.orestack.collection.*;
-import io.github.pigaut.orestack.collection.Collection;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.player.data.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.context.*;
+import io.github.pigaut.voxel.core.drop.*;
 import io.github.pigaut.voxel.data.function.*;
 import io.github.pigaut.voxel.data.item.*;
 import io.github.pigaut.voxel.event.drop.*;
-import io.github.pigaut.voxel.player.data.*;
 import io.github.pigaut.voxel.util.Server;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
+
+import java.util.Collection;
 
 public class GeneratorUtil {
 
@@ -31,12 +32,11 @@ public class GeneratorUtil {
                 event.setIdle(true);
             }
 
-            if (generatorPhase.isDropItems()) {
-                ItemStack tool = player.getInventory().getItemInMainHand();
-                event.setItemDrops(block.getDrops(tool));
+            if (generatorPhase.isDefaultItemDrops()) {
+                event.setItemDrops(block.getDrops());
             }
 
-            if (generatorPhase.isDropExp()) {
+            if (generatorPhase.isDefaultExpDrops()) {
                 event.setExpDrops(expToDrop);
             }
 
@@ -83,20 +83,11 @@ public class GeneratorUtil {
         if (generatorPhase.getState().isHarvestable()) {
             Location dropLocation = block.getLocation().add(0.5, 1, 0.5);
 
-            var itemDrops = event.getItemDrops();
+            Collection<ItemStack> itemDrops = event.getItemDrops();
             if (itemDrops != null) {
                 for (ItemStack itemDrop : itemDrops) {
-                    ItemUtil.dropItem(dropLocation, itemDrop);
-                }
-
-                if (plugin.getSettings().isCollectionSourceEnabled(ItemSpawnReason.GENERATOR_DROPS)) {
-                    RpgPlayerData playerData = plugin.getPlayerData(player);
-                    for (ItemStack drop : itemDrops) {
-                        Collection collection = playerData.getItemCollection(drop);
-                        if (collection != null) {
-                            collection.increaseAmount(context, drop.getAmount());
-                        }
-                    }
+                    BlockItemDrop blockItemDrop = ItemDrop.fromBlock(plugin, block, itemDrop);
+                    blockItemDrop.spawn(context, ItemSpawnReason.GENERATOR_DROPS);
                 }
             }
 

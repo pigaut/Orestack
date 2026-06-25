@@ -39,9 +39,9 @@ public class GeneratorPhaseLoader implements ConfigLoader<GeneratorPhase> {
 
         Boolean defaultDrops = section.getBoolean("default-drops|drops").withDefault(null);
         boolean dropItems = defaultDrops != null ? defaultDrops :
-                section.getBoolean("drop-items").withDefault(false);
+                section.getBoolean("drop-items|default-item-drops").withDefault(false);
         boolean dropExp = defaultDrops != null ? defaultDrops :
-                section.getBoolean("drop-exp|drop-xp").withDefault(false);
+                section.getBoolean("drop-exp|drop-xp|default-exp-drops").withDefault(false);
 
         Amount toolDamage = section.get("tool-damage", Amount.class)
                 .withDefault(plugin.getSettings().getDefaultToolDamage());

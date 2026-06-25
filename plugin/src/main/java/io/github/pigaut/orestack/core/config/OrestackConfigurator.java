@@ -21,7 +21,6 @@ import io.github.pigaut.voxel.data.function.action.*;
 import io.github.pigaut.voxel.data.function.action.menu.*;
 import io.github.pigaut.voxel.data.function.condition.*;
 import io.github.pigaut.voxel.data.function.condition.config.*;
-import io.github.pigaut.voxel.data.function.condition.player.data.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
@@ -35,7 +34,7 @@ public class OrestackConfigurator extends PluginConfigurator {
 
         addLoader(ToolDamage.class, new ToolDamageLoader());
 
-        addLoader(GeneratorTemplate.class, new GeneratorLoader(plugin));
+        addLoader(GeneratorTemplate.class, new GeneratorTemplateLoader(plugin));
         addLoader(GeneratorPhase.class, new GeneratorPhaseLoader(plugin));
 
         addLoader(GateTemplate.class, new GateLoader(plugin));

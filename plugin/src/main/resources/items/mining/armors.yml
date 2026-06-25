@@ -1,7 +1,13 @@
 
 miner's_helmet:
   type: leather_helmet
-  mining-fortune: 20
+  mining-speed: 60 # 1.21+
+  mining-fortune: 40
+  health: 20
   lore:
     - ''
-    - '&7Mining Fortune: &a+20'
+    - '&7Health: &a+{item_health}'
+    - '&7Mining Speed: &a+{item_mining_speed}'
+    - '&7Mining Fortune: &a+{item_mining_fortune}'
+    - ''
+    - '{item_enchants}'

@@ -79,6 +79,37 @@ structure-wand:
 # Toggle modules that should be disabled. Once a module is disabled you can delete the respective config folder.
 disabled-modules: []
 
+#░░░█▀▀░▀█▀░█▀█░▀█▀░█▀▀░░░░
+#░░░▀▀█░░█░░█▀█░░█░░▀▀█░░░░
+#░░░▀▀▀░░▀░░▀░▀░░▀░░▀▀▀░░░░
+
+# Whether custom stats should be enabled
+custom-stats: true
+
+# Whether to use the actionbar to show the status bar
+show-status-bar: true
+
+# The status bar to show to the player
+status-bar: '&c{player_health}/{player_max_health}❤   &a{player_defense}❈ Defense   &b{player_mana}/{player_max_mana}✎ Mana'
+
+# The base player stats
+base-stats:
+  damage: 1
+  defense: 1
+  max-health: 100
+  health-regen: 3
+  max-mana: 100
+  mana-regen: 2
+
+# How long the player remains in combat after fighting another entity.
+in-combat-duration: 10-15s
+
+# Whether health should regenerate while in combat
+regen-health-during-combat: false
+
+# Whether mana should regenerate while in combat
+regen-mana-during-combat: true
+
 #░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
 #░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
 #░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
@@ -170,6 +201,48 @@ show-slain-messages: true
 # The default message shown when a player is slain by a custom mob
 player-slain-message: '&c{player_tc} was killed by a {mob_name_tc}'
 
+#░░░▀█▀░▀█▀░█▀▀░█▄█░█▀▀░░░░
+#░░░░█░░░█░░█▀▀░█░█░▀▀█░░░░
+#░░░▀▀▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
+
+# The maximum amount of lines the enchants + descriptions should take up
+max-enchant-lines: 10
+
+# Settings for the {item_enchants} placeholder
+enchant-descriptions:
+  # The header/divider/footer before/between/after enchant descriptions
+  header: []
+  divider:
+    - ''
+  footer:
+    - ''
+
+  # The default enchant description
+  default:
+    - '&9{enchant_name_tc} {enchant_level_rm}'   # tc: Title Case, rm: IV
+
+  sharpness:
+    - '&9Sharpness {enchant_level_rm}'
+    - '&7Increases melee damage dealt by &a{item_enchant_damage_%}%'
+  efficiency:
+    - '&9Efficiency {enchant_level_rm}'
+    - '&7Grants &a+{item_enchant_mining_speed} &6⛏ Mining Speed'
+  fortune:
+    - '&9Fortune {enchant_level_rm}'
+    - '&7Grants &a+{item_enchant_mining_fortune} &6☘ Mining Fortune'
+  unbreaking:
+    - '&9Unbreaking {enchant_level_rm}'
+    - '&7Reduces durability loss'
+
+# Reusable lore templates across all your items
+lore-templates:
+  tool_lore:
+    - ''
+    - '&7Damage: &c+{item_damage}'
+    - '&7Mining Speed: &a+{item_mining_speed}'
+    - '&7Mining Fortune: &a+{item_mining_fortune}'
+    - ''
+    - '{item_enchants}'
 
 #░░░█░█░█▀█░█░░░█▀█░█▀▀░█▀▄░█▀█░█▄█░█▀▀░░░░
 #░░░█▀█░█░█░█░░░█░█░█░█░█▀▄░█▀█░█░█░▀▀█░░░░
@@ -185,16 +258,16 @@ hologram-view-distance: 15
 hologram-styles:
   default:
     view-distance: 15
-    #    update: 3s
+#   update: 3s
     see-through: false # See hologram through blocks
     billboard: vertical # fixed, vertical, horizontal, center
     alignment: center # center, left, right
     brightness: 15 # from 0 to 15
-    #    background-color: { red: 0, green: 0, blue: 0 } # Better system is coming
+#   background-color: { red: 0, green: 0, blue: 0 } # Better system is coming
     scale: x=1 y=1 z=1
     shadow: none #strength=1 radius=1
-#    background-color: { red: 0, green: 0, blue: 0 } # [Text-only] Better system is coming
-#    update: 3s   # [Text-only]
+#   background-color: { red: 0, green: 0, blue: 0 } # [Text-only] Better system is coming
+#   update: 3s   # [Text-only]
 
 #░░░█▀▄░█▀▄░█▀█░█▀█░█▀▀░░░░
 #░░░█░█░█▀▄░█░█░█▀▀░▀▀█░░░░
@@ -207,10 +280,8 @@ default-item-drop-target: block
 #░░░█▀▀░▀█▀░█░░░█░█░░░▀█▀░█▀█░█░█░█▀▀░█░█░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
 #░░░▀▀█░░█░░█░░░█▀▄░░░░█░░█░█░█░█░█░░░█▀█░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
 #░░░▀▀▀░▀▀▀░▀▀▀░▀░▀░░░░▀░░▀▀▀░▀▀▀░▀▀▀░▀░▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
-# Compatible Actions: giveItem, dropItemAtPlayer, dropItemAtBlock, dropItem.
 
-# Whether silk touch should be enabled by default when dropping items
-# If set to false you will have to manually set the `silkDrop` flag in each action
+# Whether silk touch should be allowed to affect drops
 silk-touch: true
 
 # Drops affected by the silk touch enchant from the player's tool if any.
@@ -223,16 +294,14 @@ silk-touch-items:
   lapis_lazuli: lapis_ore
   quartz: nether_quartz_ore
   redstone: redstone_ore
-#  raw_copper: copper_ore             # 1.17+
-#  amethyst_shard: amethyst_cluster   # 1.17+
+# raw_copper: copper_ore             # 1.17+
+# amethyst_shard: amethyst_cluster   # 1.17+
 
 #░░░█▀▀░█▀█░█▀▄░▀█▀░█░█░█▀█░█▀▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
 #░░░█▀▀░█░█░█▀▄░░█░░█░█░█░█░█▀▀░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
 #░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
-# Compatible Actions: giveItem, dropItemAtPlayer, dropItemAtBlock, dropItem.
 
-# Whether fortune should be enabled by default when dropping items
-# If set to false you will have to manually set the `fortune` flag in each action
+# Whether fortune should be allowed to affect item drops
 fortune: true
 
 # Drops affected by the Fortune enchantment from the player's tool.
@@ -245,17 +314,14 @@ apply-fortune:
   - quartz
   - raw_iron
   - raw_gold
-#  - raw_copper   # 1.17+
-#  - dirt         # Supports any item type
+# - raw_copper   # 1.17+
+# - dirt         # Supports any item type
 
 #░░░█░░░█▀█░█▀█░▀█▀░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
 #░░░█░░░█░█░█░█░░█░░░█░░█░█░█░█░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
 #░░░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
-# Compatible Actions: dropItem, giveItem, dropItemAtPlayer, dropItemAtBlock, dropItemAtCoords,
-#             dropItemAtMob, dropItemAtLastDamager, dropItemAtTopDamager, dropItemAtDamagers.
 
-# Whether looting should be enabled by default when dropping items
-# If set to false you will have to manually set the `looting` flag in each action
+# Whether looting enchant should be allowed to affect item drops
 looting: true
 
 # Drops affected by the Looting enchantment from the player's tool.
@@ -291,10 +357,8 @@ apply-looting:
 #░░░█▀█░█░█░▀█▀░█▀█░░░░░█▀▀░█▄█░█▀▀░█░░░▀█▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
 #░░░█▀█░█░█░░█░░█░█░▄▄▄░▀▀█░█░█░█▀▀░█░░░░█░░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
 #░░░▀░▀░▀▀▀░░▀░░▀▀▀░░░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░░▀░░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
-# Compatible Actions: giveItem, dropItemAtPlayer, dropItemAtBlock, dropItem.
 
-# Whether auto-smelt should be enabled by default when dropping items
-# If set to false you will have to manually set the `smeltedDrop` flag in each action
+# Whether auto-smelt should be allowed to affect item drops
 auto-smelt: true
 
 # AutoSmelt enchant aliases. (Based on the enchantment plugin you use it might be different)
@@ -323,10 +387,8 @@ smelt-chance-by-level:
 #░░░▀█▀░█▀▀░█░░░█▀▀░█▀█░█▀█░▀█▀░█░█░█░█░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
 #░░░░█░░█▀▀░█░░░█▀▀░█▀▀░█▀█░░█░░█▀█░░█░░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
 #░░░░▀░░▀▀▀░▀▀▀░▀▀▀░▀░░░▀░▀░░▀░░▀░▀░░▀░░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
-# Compatible Actions: dropItemAtPlayer, dropItemAtBlock, dropItem.
 
-# Whether telepathy should be enabled by default when dropping items
-# If set to false you will have to manually set the `telepathy` flag to true in each action
+# Whether telepathy should be allowed to affect item drop
 telepathy: true
 
 # Telepathy enchant aliases. (Based on the enchantment plugin you use it might be different)
@@ -362,7 +424,7 @@ vein-generators:
   - gold
   - diamond
   - emerald
-#  - copper   # 1.17+
+# - copper   # 1.17+
 
 # How many blocks are broken based on the enchant level.
 vein-size-by-level:
@@ -394,6 +456,41 @@ exp-multiplier-by-level:
   4: 1.8
   5: 2
 
+
+#░░░█▀▄░█▀█░█▄█░█▀█░█▀▀░█▀▀░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
+#░░░█░█░█▀█░█░█░█▀█░█░█░█▀▀░░░▀▀█░░█░░█▀█░░█░░░░░
+#░░░▀▀░░▀░▀░▀░▀░▀░▀░▀▀▀░▀▀▀░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
+# Damage is a player stat that increases attack damage.
+
+# Whether the sharpness enchant should be treated as a stat multiplier instead of its vanilla functionality
+sharpness-enchant-as-stat: true
+
+# The damage multiplier by sharpness enchant level
+# [Warning] Works only if 'sharpness-enchant-as-stat' is enabled
+damage-multiplier-by-sharpness-enchant-level:
+  1: 5%
+  2: 10%
+  3: 15%
+  4: 20%
+  5: 30%
+
+#░░░█▄█░▀█▀░█▀█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▀▀░█▀▀░█▀▄░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
+#░░░█░█░░█░░█░█░░█░░█░█░█░█░░░▀▀█░█▀▀░█▀▀░█▀▀░█░█░░░▀▀█░░█░░█▀█░░█░░░░░
+#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░░░▀▀▀░▀▀▀░▀▀░░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
+# Mining Speed is a player stat that increases how fast you break blocks.
+
+# Whether the efficiency enchant should be treated as a stat increment instead of its vanilla functionality
+efficiency-enchant-as-stat: true
+
+# Set the Mining Speed amount gained by the items efficiency enchant level.
+# [Warning] Works only if 'efficiency-enchant-as-stat' is enabled
+mining-speed-by-efficiency-enchant-level:
+  1: 20
+  2: 40
+  3: 60
+  4: 80
+  5: 100
+
 #░░░█▄█░▀█▀░█▀█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▀▄░▀█▀░█░█░█▀█░█▀▀░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
 #░░░█░█░░█░░█░█░░█░░█░█░█░█░░░█▀▀░█░█░█▀▄░░█░░█░█░█░█░█▀▀░░░▀▀█░░█░░█▀█░░█░░░░░
 #░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
@@ -417,7 +514,7 @@ apply-mining-fortune:
 # - raw_copper   # 1.17+
 
 # Whether the fortune enchant should be treated as a stat increment instead of its vanilla functionality
-fortune-enchant-as-stat: false
+fortune-enchant-as-stat: true
 
 # Set the Mining Fortune amount gained by the items fortune enchant level.
 # [Warning] Works only if 'fortune-enchant-as-stat' is enabled
@@ -425,6 +522,7 @@ mining-fortune-by-fortune-enchant-level:
   1: 30
   2: 60
   3: 90
+  4: 120
 
 #░░░█▀▀░▀█▀░█▀▄░█░█░█▀▀░▀█▀░█░█░█▀▄░█▀▀░░░█░█░█▀▀░█▀█░█░░░▀█▀░█░█░░░░
 #░░░▀▀█░░█░░█▀▄░█░█░█░░░░█░░█░█░█▀▄░█▀▀░░░█▀█░█▀▀░█▀█░█░░░░█░░█▀█░░░░

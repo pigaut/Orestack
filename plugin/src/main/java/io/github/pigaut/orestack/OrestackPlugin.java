@@ -23,11 +23,13 @@ import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.placeholder.*;
 import io.github.pigaut.voxel.core.tool.*;
+import io.github.pigaut.voxel.data.item.*;
 import io.github.pigaut.voxel.data.menu.*;
 import io.github.pigaut.voxel.data.mob.*;
 import io.github.pigaut.voxel.data.mob.spawnegg.*;
 import io.github.pigaut.voxel.data.mob.spawnpad.tool.*;
 import io.github.pigaut.voxel.listener.*;
+import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.player.data.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.boot.*;
@@ -87,6 +89,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
         // Register Placeholders
         DefaultPlaceholders.registerAll(this);
+        PlayerPlaceholders.registerAll(this);
+        ItemPlaceholders.registerAll(this);
         GeneratorPlaceholders.registerAll(this);
         GatePlaceholders.registerAll(this);
         CollectionPlaceholders.registerAll(this);
@@ -104,6 +108,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         PlaceholderRegistry placeholders = getPlaceholders();
         placeholders.clear();
         DefaultPlaceholders.registerAll(this);
+        PlayerPlaceholders.registerAll(this);
+        ItemPlaceholders.registerAll(this);
         GeneratorPlaceholders.registerAll(this);
         GatePlaceholders.registerAll(this);
         CollectionPlaceholders.registerAll(this);
@@ -246,8 +252,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull List<Integer> getCompatibleVersions() {
-        return Version.getVersionsNewerThan(Version.V1_16_5);
+    public @NotNull List<Integer> getIncompatibleVersions() {
+        return Version.getVersionsOlderThan(Version.V1_16_5);
     }
 
     @Override

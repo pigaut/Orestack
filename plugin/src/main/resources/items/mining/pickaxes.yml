@@ -1,8 +1,19 @@
 
 rookie_pickaxe:
-  type: wooden_pickaxe
+  type: stone_pickaxe
+  name: '&7Rookie Pickaxe'
+  mining-speed: 200 # 1.21+
   mining-fortune: 100
+  damage: 5
+  enchants:
+    efficiency: 5
+    fortune: 3
   lore:
     - ''
-    - '&7Mining Fortune: &a+{tool_mining_fortune}'
+    - '&7Damage: &c+{item_damage}'
+    - '&7Mining Speed: &a+{item_mining_speed}'
+    - '&7Mining Fortune: &a+{item_mining_fortune}'
+    - ''
+    - '{item_enchants}'
+
 
