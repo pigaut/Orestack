@@ -5,7 +5,6 @@ import io.github.pigaut.orestack.collection.template.*;
 import io.github.pigaut.orestack.player.data.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.voxel.player.data.*;
-import io.github.pigaut.voxel.plugin.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -39,7 +38,7 @@ public class PlayerCollectionRepository implements PlayerDataRepository<SimpleRp
         UUID playerId = playerData.getUniqueId();
         String uuidString = playerId.toString();
 
-        Set<Collection> itemCollections = new HashSet<>();
+        Set<ItemCollection> itemCollections = new HashSet<>();
         database.createStatement("SELECT collection, amount FROM player_collections WHERE uuid = ?")
                 .withParameter(uuidString)
                 .fetchAllRows(row -> {
@@ -59,20 +58,20 @@ public class PlayerCollectionRepository implements PlayerDataRepository<SimpleRp
                         collectedAmount = 0;
                     }
 
-                    itemCollections.add(new Collection(collectionTemplate, collectedAmount));
+                    itemCollections.add(new ItemCollection(collectionTemplate, collectedAmount));
                 });
 
         // Add missing collections
         for (CollectionTemplate collectionTemplate : plugin.getCollectionTemplates().getAll()) {
             boolean foundCollection = false;
-            for (Collection collection : itemCollections) {
+            for (ItemCollection collection : itemCollections) {
                 if (collection.getName().equals(collectionTemplate.getName())) {
                     foundCollection = true;
                     break;
                 }
             }
             if (!foundCollection) {
-                itemCollections.add(new Collection(collectionTemplate, 0));
+                itemCollections.add(new ItemCollection(collectionTemplate, 0));
             }
         }
 
@@ -95,7 +94,7 @@ public class PlayerCollectionRepository implements PlayerDataRepository<SimpleRp
                 .executeUpdate();
 
         DatabaseStatement insertStatement = database.insert("player_collections", "uuid", "collection", "amount");
-        for (Collection collection : playerData.getItemCollections()) {
+        for (ItemCollection collection : playerData.getItemCollections()) {
             insertStatement.withParameter(uuidString);
             insertStatement.withParameter(collection.getName());
             insertStatement.withParameter(collection.getCollectedAmount());

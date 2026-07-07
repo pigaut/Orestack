@@ -1,11 +1,13 @@
 package io.github.pigaut.orestack.menu.generator;
 
 import io.github.pigaut.orestack.*;
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.core.menu.template.button.*;
 import io.github.pigaut.voxel.core.menu.template.menu.*;
 import io.github.pigaut.yaml.convert.format.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -21,7 +23,7 @@ public class GeneratorsMenu extends FramedSelectionMenu {
     }
 
     @Override
-    public List<Button> createEntries() {
+    public List<Button> createEntries(@NotNull Context context) {
         return plugin.getGeneratorTemplates(group).stream()
                 .map(generator -> {
                     String generatorName = generator.getName();

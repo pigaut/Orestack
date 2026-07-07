@@ -8,13 +8,13 @@ import io.github.pigaut.yaml.util.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
-public class Collection {
+public class ItemCollection {
 
     private final CollectionTemplate template;
     private int currentTier = -1;
     private int collectedAmount;
 
-    public Collection(@NotNull CollectionTemplate template, int collectedAmount) {
+    public ItemCollection(@NotNull CollectionTemplate template, int collectedAmount) {
         this.template = template;
         this.collectedAmount = collectedAmount;
         for (int i = template.getMaxTier(); i >= 0; i--) {
@@ -89,7 +89,7 @@ public class Collection {
         boolean unlockedCollection = collectedAmount == 0;
         this.collectedAmount += amount;
 
-        context = context.with(Collection.class, this);
+        context = context.with(ItemCollection.class, this);
 
         if (unlockedCollection) {
             Function onUnlock = template.getOnUnlock();
@@ -115,7 +115,7 @@ public class Collection {
         Preconditions.checkArgument(amount > 0, "Amount must be positive");
         this.collectedAmount = Math.max(0, this.collectedAmount - amount);
 
-        context = context.with(Collection.class, this);
+        context = context.with(ItemCollection.class, this);
 
         while (currentTier >= 0 && collectedAmount < template.getTier(currentTier).getAmount()) {
             CollectionTier lostTier = template.getTier(currentTier);

@@ -15,9 +15,8 @@ public class GateSubCommand extends SubCommand {
         addSubCommand(new GateGetAllSubCommand(plugin));
         addSubCommand(new GateSetSubCommand(plugin));
         addSubCommand(new GateRemoveSubCommand(plugin));
-        addSubCommand(new GateSetAllSubCommand(plugin));
-        addSubCommand(new GateRemoveAllSubCommand(plugin));
-        addSubCommand(new GateHarvestSubCommand(plugin));
+        addSubCommand(new GateOpenSubCommand(plugin));
+        addSubCommand(new GateCloseSubCommand(plugin));
     }
 
 }

@@ -55,7 +55,7 @@ public class MessagesMenu extends FramedSelectionMenu {
     }
 
     @Override
-    public List<Button> createEntries() {
+    public List<Button> createEntries(@NotNull Context context) {
         final List<Button> entries = new ArrayList<>();
 
         for (Message message : plugin.getMessages().getAll(group)) {
@@ -81,7 +81,6 @@ public class MessagesMenu extends FramedSelectionMenu {
                         view.close();
 
                         Player player = playerState.asPlayer();
-                        Context context = Context.fromPlayer(plugin, player, playerState);
                         message.send(player, context);
 
                         int guiReopenDelay = plugin.getSettings().guiReopenDelay;

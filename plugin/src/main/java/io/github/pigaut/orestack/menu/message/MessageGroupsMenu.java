@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack.menu.message;
 
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.core.menu.template.button.*;
@@ -23,7 +24,7 @@ public class MessageGroupsMenu extends FramedSelectionMenu {
     }
 
     @Override
-    public List<Button> createEntries() {
+    public List<Button> createEntries(@NotNull Context context) {
         return plugin.getMessages().getAllGroups().stream()
                 .map(group -> Button.builder()
                         .type(Material.CHEST)

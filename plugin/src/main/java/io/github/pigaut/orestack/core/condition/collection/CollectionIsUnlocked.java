@@ -9,7 +9,7 @@ public class CollectionIsUnlocked implements Condition {
 
     @Override
     public @Nullable Boolean evaluate(@NotNull Context context) {
-        Collection collection = context.get(Collection.class);
+        ItemCollection collection = context.get(ItemCollection.class);
         if (collection == null) {
             return false;
         }

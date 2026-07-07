@@ -4,15 +4,12 @@ import io.github.pigaut.orestack.player.data.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.*;
 import io.github.pigaut.voxel.data.function.action.*;
-import io.github.pigaut.voxel.data.function.action.player.state.*;
 import io.github.pigaut.voxel.player.data.*;
 import io.github.pigaut.voxel.player.state.*;
 import io.github.pigaut.voxel.plugin.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
-import io.github.pigaut.orestack.collection.Collection;
-
-import java.util.*;
+import io.github.pigaut.orestack.collection.ItemCollection;
 
 public class OpenCollectionMenu implements Action {
 
@@ -48,13 +45,13 @@ public class OpenCollectionMenu implements Action {
             return;
         }
 
-        Collection collection = rpgPlayerData.getItemCollection(collectionName);
+        ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
         if (collection == null) {
             plugin.sendMessage(player, context, "collection-not-found");
             return;
         }
 
-        playerState.openMenu(menu, context.with(Collection.class, collection));
+        playerState.openMenu(menu, context.with(ItemCollection.class, collection));
     }
 
 }

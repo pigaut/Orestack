@@ -132,10 +132,11 @@ public class GeneratorRepository {
                 "generator VARCHAR(255) NOT NULL",
                 "rotation VARCHAR(5) NOT NULL",
                 "stage INT NOT NULL",
+                "global BOOLEAN NOT NULL DEFAULT TRUE",
                 "PRIMARY KEY (world, x, y, z)"
         );
 
-        database.addColumnIfNotExists("resources", "global BOOLEAN NOT NULL DEFAULT TRUE");
+//        database.addColumnIfNotExists("resources", "global BOOLEAN NOT NULL DEFAULT TRUE");
     }
 
     private static void createInvalidResourcesTable(@NotNull Database database) {
@@ -147,10 +148,11 @@ public class GeneratorRepository {
                 "generator VARCHAR(255) NOT NULL",
                 "rotation VARCHAR(5) NOT NULL",
                 "stage INT NOT NULL",
+                "global BOOLEAN NOT NULL DEFAULT TRUE",
                 "PRIMARY KEY (world, x, y, z)"
         );
 
-        database.addColumnIfNotExists("invalid_resources", "global BOOLEAN NOT NULL DEFAULT TRUE");
+//        database.addColumnIfNotExists("invalid_resources", "global BOOLEAN NOT NULL DEFAULT TRUE");
     }
 
 }

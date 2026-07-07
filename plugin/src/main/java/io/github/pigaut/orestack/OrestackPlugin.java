@@ -2,7 +2,7 @@ package io.github.pigaut.orestack;
 
 import io.github.pigaut.orestack.api.*;
 import io.github.pigaut.orestack.collection.*;
-import io.github.pigaut.orestack.collection.Collection;
+import io.github.pigaut.orestack.collection.ItemCollection;
 import io.github.pigaut.orestack.collection.template.*;
 import io.github.pigaut.orestack.command.*;
 import io.github.pigaut.orestack.core.*;
@@ -20,21 +20,23 @@ import io.github.pigaut.orestack.listener.*;
 import io.github.pigaut.orestack.player.data.*;
 import io.github.pigaut.orestack.player.state.*;
 import io.github.pigaut.orestack.settings.*;
+import io.github.pigaut.orestack.skill.*;
+import io.github.pigaut.orestack.skill.template.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.placeholder.*;
 import io.github.pigaut.voxel.core.tool.*;
 import io.github.pigaut.voxel.data.item.*;
 import io.github.pigaut.voxel.data.menu.*;
+import io.github.pigaut.voxel.data.menu.button.*;
+import io.github.pigaut.voxel.data.menu.button.dynamic.*;
 import io.github.pigaut.voxel.data.mob.*;
 import io.github.pigaut.voxel.data.mob.spawnegg.*;
 import io.github.pigaut.voxel.data.mob.spawnpad.tool.*;
 import io.github.pigaut.voxel.listener.*;
 import io.github.pigaut.voxel.player.*;
-import io.github.pigaut.voxel.player.data.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.boot.*;
 import io.github.pigaut.voxel.plugin.boot.phase.*;
-import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.util.Server;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
@@ -65,6 +67,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     private final GateManager gateManager = new GateManager(this);
 
     private final CollectionTemplateManager collectionTemplateManager = new CollectionTemplateManager(this);
+    private final SkillTemplateManager skillTemplateManager = new SkillTemplateManager(this);
 
     public static OrestackPlugin getInstance() {
         return plugin;
@@ -77,10 +80,21 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     @Override
     public void onBoot() {
-        DynamicMaterialButton.registerDynamicMaterial("{collection_item}", context -> {
-            Collection collection = context.get(Collection.class);
-            return collection != null ? collection.getItem().getType() : null;
+        DynamicIconRegistry dynamicIcons = getDynamicIcons();
+        dynamicIcons.add("collection_item", (item, context) -> {
+            ItemCollection collection = context.get(ItemCollection.class);
+            if (collection != null) {
+                item.setType(collection.getItem().getType());
+            }
         });
+
+        dynamicIcons.add("skill_icon", (item, context) -> {
+            Skill skill = context.get(Skill.class);
+            if (skill != null) {
+                item.setType(skill.getIcon().getType());
+            }
+        });
+
     }
 
     @Override
@@ -98,8 +112,8 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
         // Register Tools
         ToolRegistry tools = getTools();
-        tools.register(new MobSpawnPadTool(this));
-        tools.register(new MobSpawnEggTool(this));
+        tools.add("mob_spawn_pad", new MobSpawnPadTool(this));
+        tools.add("mob_spawn_egg", new MobSpawnEggTool(this));
     }
 
     @Override
@@ -395,6 +409,16 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Nullable
     public CollectionTemplate getCollectionTemplate(@NotNull ItemStack item) {
         return collectionTemplateManager.get(item);
+    }
+
+    @NotNull
+    public SkillTemplateManager getSkillTemplates() {
+        return skillTemplateManager;
+    }
+
+    @Nullable
+    public SkillTemplate getSkillTemplate(@NotNull String name) {
+        return skillTemplateManager.get(name);
     }
 
 }
