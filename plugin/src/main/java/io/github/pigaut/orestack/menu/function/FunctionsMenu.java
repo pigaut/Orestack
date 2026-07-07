@@ -7,6 +7,7 @@ import io.github.pigaut.voxel.core.menu.template.button.*;
 import io.github.pigaut.voxel.core.menu.template.menu.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.convert.format.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -22,7 +23,7 @@ public class FunctionsMenu extends FramedSelectionMenu {
     }
 
     @Override
-    public List<Button> createEntries() {
+    public List<Button> createEntries(@NotNull Context context) {
         return plugin.getFunctions().getAll(group).stream()
                 .map(function -> Button.builder()
                         .type(function.getIcon().getType())
@@ -30,7 +31,6 @@ public class FunctionsMenu extends FramedSelectionMenu {
                         .addEmptyLine()
                         .addLine("&eLeft-Click: &fRun function")
                         .onLeftClick((menuView, playerState) -> {
-                            Context context = Context.fromPlayer(plugin, playerState);
                             function.run(context);
                         })
                         .buildButton())

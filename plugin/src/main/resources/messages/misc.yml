@@ -2,6 +2,13 @@
 chat_example:
   message: 'This is a chat message'
 
+clickable_message:
+  message: "Welcome to the server! <wiki_link> to get started!"
+  wiki_link:
+    text: "&bClick here {player}"
+    on-click: openUrl https://google.com
+    on-hover: showText Opens the wiki page
+
 multi_chat_example:
   message:
     - 'This is a chat message'

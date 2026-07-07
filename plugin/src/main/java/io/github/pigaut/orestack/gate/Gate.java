@@ -80,11 +80,11 @@ public class Gate {
         plugin.getGates().unregisterGate(this);
     }
 
-    public boolean isFullyClosed() {
+    public boolean isClosed() {
         return state.getCurrentPhase() <= 0;
     }
 
-    public boolean isFullyOpen() {
+    public boolean isOpen() {
         return state.getCurrentPhase() >= template.getMaxPhase();
     }
 

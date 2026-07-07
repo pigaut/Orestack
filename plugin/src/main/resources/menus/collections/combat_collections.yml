@@ -33,7 +33,7 @@ met:
     - openMenu collection_progress collection=blaze_rod
 
 unmet:
-  type: gray dye
+  type: gray_dye
   name: '&cBlaze Rod'
   lore:
     - '&7Find this item to add it to your'
@@ -60,7 +60,7 @@ met:
     - openMenu collection_progress collection=bone
 
 unmet:
-  type: gray dye
+  type: gray_dye
   name: '&cBone'
   lore:
     - '&7Find this item to add it to your'
@@ -87,7 +87,7 @@ met:
     - openMenu collection_progress collection=ender_pearl
 
 unmet:
-  type: gray dye
+  type: gray_dye
   name: '&cEnder Pearl'
   lore:
     - '&7Find this item to add it to your'
@@ -114,7 +114,7 @@ met:
     - openMenu collection_progress collection=ghast_tear
 
 unmet:
-  type: gray dye
+  type: gray_dye
   name: '&cGhast Tear'
   lore:
     - '&7Find this item to add it to your'
@@ -141,7 +141,7 @@ met:
     - openMenu collection_progress collection=gunpowder
 
 unmet:
-  type: gray dye
+  type: gray_dye
   name: '&cGunpowder'
   lore:
     - '&7Find this item to add it to your'
@@ -168,7 +168,7 @@ met:
     - openMenu collection_progress collection=magma_cream
 
 unmet:
-  type: gray dye
+  type: gray_dye
   name: '&cMagma Cream'
   lore:
     - '&7Find this item to add it to your'
@@ -195,7 +195,7 @@ met:
     - openMenu collection_progress collection=rotten_flesh
 
 unmet:
-  type: gray dye
+  type: gray_dye
   name: '&cRotten Flesh'
   lore:
     - '&7Find this item to add it to your'
@@ -222,7 +222,7 @@ met:
     - openMenu collection_progress collection=slime_ball
 
 unmet:
-  type: gray dye
+  type: gray_dye
   name: '&cSlime Ball'
   lore:
     - '&7Find this item to add it to your'
@@ -249,7 +249,7 @@ met:
     - openMenu collection_progress collection=spider_eye
 
 unmet:
-  type: gray dye
+  type: gray_dye
   name: '&cSpider Eye'
   lore:
     - '&7Find this item to add it to your'
@@ -276,7 +276,7 @@ met:
     - openMenu collection_progress collection=string
 
 unmet:
-  type: gray dye
+  type: gray_dye
   name: '&cString'
   lore:
     - '&7Find this item to add it to your'

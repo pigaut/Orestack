@@ -32,13 +32,13 @@ public class BossbarEditor extends GenericMessageEditor {
                 .name("&f&lTitle")
                 .enchanted(true)
                 .addEmptyLine()
-                .addLine(section.getString("bossbar|boss-healthBar", StringColor.FORMATTER).orElse("not set"))
+                .addLine(section.getString("bossbar|boss-bar", StringColor.FORMATTER).orElse("not set"))
                 .addEmptyLine()
                 .addLeftClickLine("To set healthBar title")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput()
                             .description("Enter bossbar title in chat")
-                            .onInput(input -> section.set("bossbar|boss-healthBar", input))
+                            .onInput(input -> section.set("bossbar|boss-bar", input))
                             .start();
                 });
 

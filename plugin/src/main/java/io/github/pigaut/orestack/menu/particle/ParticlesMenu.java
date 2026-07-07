@@ -1,5 +1,6 @@
 package io.github.pigaut.orestack.menu.particle;
 
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.core.menu.template.button.*;
@@ -7,6 +8,7 @@ import io.github.pigaut.voxel.core.menu.template.menu.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -22,7 +24,7 @@ public class ParticlesMenu extends FramedSelectionMenu {
     }
 
     @Override
-    public List<Button> createEntries() {
+    public List<Button> createEntries(@NotNull Context context) {
         return plugin.getParticles().getAll(group).stream()
                 .map(particle -> Button.builder()
                         .type(particle.getIcon().getType())

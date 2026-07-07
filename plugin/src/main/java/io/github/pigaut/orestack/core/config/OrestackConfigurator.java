@@ -8,6 +8,7 @@ import io.github.pigaut.orestack.core.action.collection.OpenCollectionMenu;
 import io.github.pigaut.orestack.core.action.gate.*;
 import io.github.pigaut.orestack.core.action.generator.*;
 import io.github.pigaut.orestack.core.condition.collection.*;
+import io.github.pigaut.orestack.core.condition.generator.*;
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.orestack.gate.config.*;
 import io.github.pigaut.orestack.gate.template.*;
@@ -16,6 +17,9 @@ import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.orestack.health.config.*;
+import io.github.pigaut.orestack.skill.*;
+import io.github.pigaut.orestack.skill.config.*;
+import io.github.pigaut.orestack.skill.template.*;
 import io.github.pigaut.voxel.config.*;
 import io.github.pigaut.voxel.data.function.action.*;
 import io.github.pigaut.voxel.data.function.action.menu.*;
@@ -42,6 +46,9 @@ public class OrestackConfigurator extends PluginConfigurator {
 
         addLoader(CollectionTemplate.class, new CollectionTemplateLoader(plugin));
         addLoader(CollectionTier.class, new CollectionTierLoader());
+
+        addLoader(SkillTemplate.class, new SkillTemplateLoader(plugin));
+        addLoader(SkillStats.class, new SkillStatsLoader());
 
         ConditionLoader conditions = getConditionLoader();
         ActionLoader actions = getActionLoader();
@@ -100,6 +107,9 @@ public class OrestackConfigurator extends PluginConfigurator {
 
         actions.addLoader("DAMAGE_GENERATOR_WITH_TOOL", (Line<Action>) line ->
                 new DamageGeneratorWithTool());
+
+        conditions.addLoader("GENERATOR_NAME_EQUALS", (Line<Condition>) line ->
+                new GeneratorNameEquals(line.getRequiredString(1)));
 
         // Gate actions start
         actions.addLoader("OPEN_GATE", (Line<Action>) line ->

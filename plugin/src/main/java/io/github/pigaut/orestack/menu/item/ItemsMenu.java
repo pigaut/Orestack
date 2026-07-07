@@ -1,11 +1,13 @@
 package io.github.pigaut.orestack.menu.item;
 
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.core.menu.template.button.*;
 import io.github.pigaut.voxel.core.menu.template.menu.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.convert.format.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -21,7 +23,7 @@ public class ItemsMenu extends FramedSelectionMenu {
     }
 
     @Override
-    public List<Button> createEntries() {
+    public List<Button> createEntries(@NotNull Context context) {
         return plugin.getItems(group).stream()
                 .map(itemTemplate -> {
                     final String itemName = itemTemplate.getName();

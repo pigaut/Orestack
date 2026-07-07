@@ -10,7 +10,7 @@ public class OrestackPlayerDataManger extends PlayerDataManager<SimpleRpgPlayerD
 
     public OrestackPlayerDataManger(@NotNull OrestackPlugin plugin) {
         super(plugin, player -> new SimpleRpgPlayerData(player.getUniqueId()));
-        addDataRepository(new UnlockedRecipesRepository(plugin));
+        addDataRepository(new UnlockedRecipesRepository<>(plugin));
         addDataRepository(new PlayerCollectionRepository(plugin));
     }
 

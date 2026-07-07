@@ -26,7 +26,7 @@ public class IncrementItemCollection implements Action {
             return;
         }
 
-        Collection collection = rpgPlayerData.getItemCollection(collectionName);
+        ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
         if (collection == null) {
             return;
         }

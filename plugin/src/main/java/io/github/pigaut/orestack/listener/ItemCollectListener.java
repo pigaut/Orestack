@@ -5,7 +5,6 @@ import io.github.pigaut.orestack.collection.*;
 import io.github.pigaut.orestack.player.data.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.event.drop.*;
-import io.github.pigaut.voxel.player.data.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
@@ -40,11 +39,11 @@ public class ItemCollectListener implements Listener {
                 .build();
 
         for (ItemStack drop : event.getDrops()) {
-            Collection collection = playerData.getItemCollection(drop);
+            ItemCollection collection = playerData.getItemCollection(drop);
             if (collection == null) {
                 return;
             }
-            collection.increaseAmount(context.with(Collection.class, collection), drop.getAmount());
+            collection.increaseAmount(context.with(ItemCollection.class, collection), drop.getAmount());
         }
     }
 
@@ -69,11 +68,11 @@ public class ItemCollectListener implements Listener {
 
         for (Item item : event.getItems()) {
             ItemStack drop = item.getItemStack();
-            Collection collection = playerData.getItemCollection(drop);
+            ItemCollection collection = playerData.getItemCollection(drop);
             if (collection == null) {
                 return;
             }
-            collection.increaseAmount(context.with(Collection.class, collection), drop.getAmount());
+            collection.increaseAmount(context.with(ItemCollection.class, collection), drop.getAmount());
         }
     }
 
@@ -100,12 +99,12 @@ public class ItemCollectListener implements Listener {
                 continue;
             }
 
-            Collection collection = playerData.getItemCollection(drop);
+            ItemCollection collection = playerData.getItemCollection(drop);
             if (collection == null) {
                 continue;
             }
 
-            collection.increaseAmount(context.with(Collection.class, collection), drop.getAmount());
+            collection.increaseAmount(context.with(ItemCollection.class, collection), drop.getAmount());
         }
     }
 
@@ -127,7 +126,7 @@ public class ItemCollectListener implements Listener {
 
         Player player = event.getPlayer();
         RpgPlayerData playerData = plugin.getPlayerData(player);
-        Collection collection = playerData.getItemCollection(item);
+        ItemCollection collection = playerData.getItemCollection(item);
         if (collection == null) {
             return;
         }

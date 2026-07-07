@@ -99,7 +99,7 @@ public class GateUtil {
     }
 
     public static void open(@NotNull Gate gate) {
-        if (gate.isFullyOpen()) {
+        if (gate.isOpen()) {
             return;
         }
 
@@ -171,7 +171,7 @@ public class GateUtil {
     }
 
     public static void close(@NotNull Gate gate) {
-        if (gate.isFullyClosed()) {
+        if (gate.isClosed()) {
             return;
         }
 

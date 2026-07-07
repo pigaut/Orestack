@@ -26,7 +26,7 @@ public class CollectionPlaceholders {
             }
 
             int collectionsUnlocked = 0;
-            for (Collection collection : rpgPlayerData.getItemCollections()) {
+            for (ItemCollection collection : rpgPlayerData.getItemCollections()) {
                 if (collection.isUnlocked()) {
                     collectionsUnlocked++;
                 }
@@ -47,9 +47,9 @@ public class CollectionPlaceholders {
             if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                 return null;
             }
-            Set<Collection> collections = rpgPlayerData.getItemCollections();
+            Set<ItemCollection> collections = rpgPlayerData.getItemCollections();
             int collectionsUnlocked = 0;
-            for (Collection collection : collections) {
+            for (ItemCollection collection : collections) {
                 if (collection.isUnlocked()) {
                     collectionsUnlocked++;
                 }
@@ -64,9 +64,9 @@ public class CollectionPlaceholders {
                 if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Set<Collection> collections = rpgPlayerData.getItemCollections();
+                Set<ItemCollection> collections = rpgPlayerData.getItemCollections();
                 int collectionsUnlocked = 0;
-                for (Collection collection : collections) {
+                for (ItemCollection collection : collections) {
                     if (collection.isUnlocked()) {
                         collectionsUnlocked++;
                     }
@@ -84,7 +84,7 @@ public class CollectionPlaceholders {
                 if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Collection collection = rpgPlayerData.getItemCollection(collectionName);
+                ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                 if (collection == null) {
                     return null;
                 }
@@ -96,7 +96,7 @@ public class CollectionPlaceholders {
                 if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Collection collection = rpgPlayerData.getItemCollection(collectionName);
+                ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                 if (collection == null) {
                     return null;
                 }
@@ -108,7 +108,7 @@ public class CollectionPlaceholders {
                 if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Collection collection = rpgPlayerData.getItemCollection(collectionName);
+                ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                 if (collection == null) {
                     return null;
                 }
@@ -122,7 +122,7 @@ public class CollectionPlaceholders {
                     if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                         return null;
                     }
-                    Collection collection = rpgPlayerData.getItemCollection(collectionName);
+                    ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                     if (collection == null) {
                         return null;
                     }
@@ -137,7 +137,7 @@ public class CollectionPlaceholders {
                 if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Collection collection = rpgPlayerData.getItemCollection(collectionName);
+                ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                 if (collection == null) {
                     return null;
                 }
@@ -149,7 +149,7 @@ public class CollectionPlaceholders {
                 if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Collection collection = rpgPlayerData.getItemCollection(collectionName);
+                ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                 if (collection == null || !collection.isFirstTierUnlocked()) {
                     return null;
                 }
@@ -161,7 +161,7 @@ public class CollectionPlaceholders {
                 if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Collection collection = rpgPlayerData.getItemCollection(collectionName);
+                ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                 if (collection == null) {
                     return null;
                 }
@@ -180,7 +180,7 @@ public class CollectionPlaceholders {
                     if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                         return null;
                     }
-                    Collection collection = rpgPlayerData.getItemCollection(collectionName);
+                    ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                     if (collection == null) {
                         return null;
                     }
@@ -193,7 +193,7 @@ public class CollectionPlaceholders {
                         if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                             return null;
                         }
-                        Collection collection = rpgPlayerData.getItemCollection(collectionName);
+                        ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                         if (collection == null) {
                             return null;
                         }
@@ -212,7 +212,7 @@ public class CollectionPlaceholders {
                     return null;
                 }
                 int collectionsUnlocked = 0;
-                for (Collection collection : rpgPlayerData.getItemCollections()) {
+                for (ItemCollection collection : rpgPlayerData.getItemCollections()) {
                     String group = collection.getGroup();
                     if (group != null && group.equals(groupName) && collection.isUnlocked()) {
                         collectionsUnlocked++;
@@ -228,7 +228,7 @@ public class CollectionPlaceholders {
                     return null;
                 }
                 int collectionsCount = 0;
-                for (Collection collection : rpgPlayerData.getItemCollections()) {
+                for (ItemCollection collection : rpgPlayerData.getItemCollections()) {
                     String group = collection.getGroup();
                     if (group != null && group.equals(groupName)) {
                         collectionsCount++;
@@ -243,9 +243,9 @@ public class CollectionPlaceholders {
                 if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                     return null;
                 }
-                Set<Collection> collections = rpgPlayerData.getItemCollections();
+                Set<ItemCollection> collections = rpgPlayerData.getItemCollections();
                 int collectionsUnlocked = 0;
-                for (Collection collection : rpgPlayerData.getItemCollections()) {
+                for (ItemCollection collection : rpgPlayerData.getItemCollections()) {
                     String group = collection.getGroup();
                     if (group != null && group.equals(groupName) && collection.isUnlocked()) {
                         collectionsUnlocked++;
@@ -261,9 +261,9 @@ public class CollectionPlaceholders {
                     if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
                         return null;
                     }
-                    Set<Collection> collections = rpgPlayerData.getItemCollections();
+                    Set<ItemCollection> collections = rpgPlayerData.getItemCollections();
                     int collectionsUnlocked = 0;
-                    for (Collection collection : collections) {
+                    for (ItemCollection collection : collections) {
                         String group = collection.getGroup();
                         if (group != null && group.equals(groupName) && collection.isUnlocked()) {
                             collectionsUnlocked++;
@@ -277,7 +277,7 @@ public class CollectionPlaceholders {
 
         // Collection placeholders (no player)
         placeholders.register("collection_name", context -> {
-            Collection collection = context.get(Collection.class);
+            ItemCollection collection = context.get(ItemCollection.class);
             if (collection == null) {
                 return null;
             }
@@ -285,7 +285,7 @@ public class CollectionPlaceholders {
         });
 
         placeholders.register("collection_rewards", context -> {
-            Collection collection = context.get(Collection.class);
+            ItemCollection collection = context.get(ItemCollection.class);
             if (collection == null) {
                 return null;
             }
@@ -297,7 +297,7 @@ public class CollectionPlaceholders {
         });
 
         placeholders.register("collection_tier", context -> {
-            Collection collection = context.get(Collection.class);
+            ItemCollection collection = context.get(ItemCollection.class);
             if (collection == null || !collection.isFirstTierUnlocked()) {
                 return null;
             }
@@ -305,7 +305,7 @@ public class CollectionPlaceholders {
         });
 
         placeholders.register("collection_previous_tier", context -> {
-            Collection collection = context.get(Collection.class);
+            ItemCollection collection = context.get(ItemCollection.class);
             if (collection == null) {
                 return null;
             }
@@ -313,7 +313,7 @@ public class CollectionPlaceholders {
         });
 
         placeholders.register("collection_progress", context -> {
-            Collection collection = context.get(Collection.class);
+            ItemCollection collection = context.get(ItemCollection.class);
             if (collection == null) {
                 return null;
             }
@@ -321,7 +321,7 @@ public class CollectionPlaceholders {
         });
 
         placeholders.register("collection_progress_percent", context -> {
-            Collection collection = context.get(Collection.class);
+            ItemCollection collection = context.get(ItemCollection.class);
             if (collection == null) {
                 return null;
             }
@@ -333,7 +333,7 @@ public class CollectionPlaceholders {
             int tierIndex = i;
 
             placeholders.register("collection_tier_" + (tierIndex + 1) + "_rewards", context -> {
-                Collection collection = context.get(Collection.class);
+                ItemCollection collection = context.get(ItemCollection.class);
                 if (collection == null || tierIndex > collection.getMaxTier()) {
                     return null;
                 }
@@ -341,7 +341,7 @@ public class CollectionPlaceholders {
             });
 
             placeholders.register("collection_tier_" + (tierIndex + 1) + "_requirement", context -> {
-                Collection collection = context.get(Collection.class);
+                ItemCollection collection = context.get(ItemCollection.class);
                 if (collection == null || tierIndex > collection.getMaxTier()) {
                     return null;
                 }
@@ -349,7 +349,7 @@ public class CollectionPlaceholders {
             });
 
             placeholders.register("collection_tier_" + (tierIndex + 1) + "_progress_percent", context -> {
-                Collection collection = context.get(Collection.class);
+                ItemCollection collection = context.get(ItemCollection.class);
                 if (collection == null || tierIndex > collection.getMaxTier()) {
                     return null;
                 }
@@ -357,7 +357,7 @@ public class CollectionPlaceholders {
             });
 
             placeholders.register("collection_tier_" + (tierIndex + 1) + "_progress_bar", context -> {
-                Collection collection = context.get(Collection.class);
+                ItemCollection collection = context.get(ItemCollection.class);
                 if (collection == null || tierIndex > collection.getMaxTier()) {
                     return null;
                 }

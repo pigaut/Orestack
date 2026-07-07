@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.menu.message.editor;
 
 import io.github.pigaut.orestack.menu.message.*;
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.*;
 import io.github.pigaut.voxel.core.menu.button.*;
 import io.github.pigaut.voxel.core.menu.template.button.*;
@@ -10,6 +11,7 @@ import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -28,7 +30,7 @@ public class MultiMessageEditor extends FramedSelectionEditor {
     }
 
     @Override
-    public List<Button> createEntries() {
+    public List<Button> createEntries(@NotNull Context context) {
         final List<Button> buttons = new ArrayList<>();
 
         for (int i = 0; i < messageSequence.size(); i++) {

@@ -230,13 +230,13 @@ gate-get-group-command: 'Receive all gates of a group'
 gate-get-all-command: 'Receive all gates'
 gate-set-command: 'Set the gate to the block you''re looking at'
 gate-remove-command: 'Remove the gate at the block you''re looking at'
-gate-set-all-command: 'Set all gates in the selected region'
-gate-remove-all-command: 'Remove all gates in the selected region'
-gate-harvest-all-command: 'Harvest all gates with the tool in main hand'
+gate-open-command: 'Open the gate at the specified coordinates'
+gate-close-command: 'Close the gate at the specified coordinates'
 # Errors
 gate-not-found: '&4Could not find gate with name: {gate-name}'
 gate-group-not-found: '&4Could not find gate group with name: {gate-group}'
 target-not-gate: '&4The block you''re looking at is not a gate'
+block-not-gate: '&4Could not find a gate at {world-name}, {x}, {y}, {z}'
 gate-overlap: '&4Too close to another gate'
 gate-conflict: '&4Cannot place a gate there'
 # Success
@@ -245,10 +245,8 @@ created-gate: '&aGate created successfully at target block'
 removed gate: '&aGate removed successfully at target block'
 received-gate-group: '&aYou received {gate-group} gates'
 received-all-gates: '&aYou received x1 of each gate item'
-created-all-gates: '&aAll gates inside of region have been set successfully'
-removed-all-gates: '&aAll gates inside of region have been removed successfully'
-harvested-all-gates: '&aAll {gate-name} gates have been harvested with held tool'
-
+opened-gate: '&aOpened gate at {world-name} {x} {y} {z}'
+closed-gate: '&aClosed gate at {world-name} {x} {y} {z}'
 
 #░░░█▄█░█▀█░█▀▄░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
 #░░░█░█░█░█░█▀▄░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
