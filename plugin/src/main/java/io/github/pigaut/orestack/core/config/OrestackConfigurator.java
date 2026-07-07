@@ -16,7 +16,7 @@ import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.orestack.health.config.*;
-import io.github.pigaut.voxel.core.config.*;
+import io.github.pigaut.voxel.config.*;
 import io.github.pigaut.voxel.data.function.action.*;
 import io.github.pigaut.voxel.data.function.action.menu.*;
 import io.github.pigaut.voxel.data.function.condition.*;

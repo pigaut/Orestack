@@ -74,7 +74,7 @@ structure-wand:
 #░░░█░█░█░█░█░█░█░█░█░░░█▀▀░▀▀█░░░░
 #░░░▀░▀░▀▀▀░▀▀░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░░░
 # Modules: items, messages, particles, sounds, menus, recipes, functions, structures,
-#          generators, gates, collections, mobs, commands
+#          generators, gates, collections, mobs, skills, commands
 
 # Toggle modules that should be disabled. Once a module is disabled you can delete the respective config folder.
 disabled-modules: []
