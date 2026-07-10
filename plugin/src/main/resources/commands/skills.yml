@@ -1,0 +1,10 @@
+
+--- #===== Root Command =====#
+command: skills # /skills
+on-execute:
+  - openMenu skills
+
+--- #===== Farming Sub Command =====#
+sub-command: farming # /skills farming
+on-execute:
+  - openMenu skill_path skill=farming

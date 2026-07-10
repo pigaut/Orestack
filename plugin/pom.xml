@@ -7,7 +7,7 @@
     <groupId>io.github.pigaut.orestack</groupId>
     <artifactId>OrestackPlugin</artifactId>
     <packaging>jar</packaging>
-    <version>3.52.6</version>
+    <version>3.53.0</version>
     <name>Orestack Plugin</name>
     <description>A Spigot plugin used to create resources with custom gathering mechanics</description>
     <url>https://www.spigotmc.org/resources/121905/</url>
@@ -46,7 +46,9 @@
                                     <shadedPattern>io.github.pigaut.orestack.voxel</shadedPattern>
                                 </relocation>
                             </relocations>
-                            <outputFile>/home/virgilio/servers/minecraft/${mc.version}/plugins/Orestack-${project.version}.jar</outputFile>
+                            <outputFile>
+                                D:\files\Development\java\spigot\servers\${mc.version}\plugins\Orestack-${project.version}.jar
+                            </outputFile>
                         </configuration>
                     </execution>
                 </executions>

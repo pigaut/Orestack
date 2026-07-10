@@ -1,0 +1,5 @@
+---
+structure: simple_destroyed
+on-transition:
+  - replaceGate simple_damageable delay=5s
+---

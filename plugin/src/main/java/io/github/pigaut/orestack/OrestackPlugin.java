@@ -22,6 +22,7 @@ import io.github.pigaut.orestack.player.state.*;
 import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.orestack.skill.*;
 import io.github.pigaut.orestack.skill.template.*;
+import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.placeholder.*;
 import io.github.pigaut.voxel.core.tool.*;
@@ -81,20 +82,26 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     @Override
     public void onBoot() {
         DynamicIconRegistry dynamicIcons = getDynamicIcons();
-        dynamicIcons.add("collection_item", (item, context) -> {
+        dynamicIcons.register("player_head", (item, context) -> {
+            Player player = context.player();
+            if (player != null) {
+                SkullUtil.setSkullTexture(item, player);
+            }
+        });
+
+        dynamicIcons.register("collection_item", (item, context) -> {
             ItemCollection collection = context.get(ItemCollection.class);
             if (collection != null) {
                 item.setType(collection.getItem().getType());
             }
         });
 
-        dynamicIcons.add("skill_icon", (item, context) -> {
+        dynamicIcons.register("skill_icon", (item, context) -> {
             Skill skill = context.get(Skill.class);
             if (skill != null) {
                 item.setType(skill.getIcon().getType());
             }
         });
-
     }
 
     @Override
@@ -104,16 +111,17 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         // Register Placeholders
         DefaultPlaceholders.registerAll(this);
         PlayerPlaceholders.registerAll(this);
+        SkillPlaceholders.registerAll(this);
+        CollectionPlaceholders.registerAll(this);
         ItemPlaceholders.registerAll(this);
         GeneratorPlaceholders.registerAll(this);
         GatePlaceholders.registerAll(this);
-        CollectionPlaceholders.registerAll(this);
         MobPlaceholders.registerAll(this);
 
         // Register Tools
         ToolRegistry tools = getTools();
-        tools.add("mob_spawn_pad", new MobSpawnPadTool(this));
-        tools.add("mob_spawn_egg", new MobSpawnEggTool(this));
+        tools.register("mob_spawn_pad", new MobSpawnPadTool(this));
+        tools.register("mob_spawn_egg", new MobSpawnEggTool(this));
     }
 
     @Override
@@ -123,12 +131,12 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         placeholders.clear();
         DefaultPlaceholders.registerAll(this);
         PlayerPlaceholders.registerAll(this);
+        SkillPlaceholders.registerAll(this);
+        CollectionPlaceholders.registerAll(this);
         ItemPlaceholders.registerAll(this);
         GeneratorPlaceholders.registerAll(this);
         GatePlaceholders.registerAll(this);
-        CollectionPlaceholders.registerAll(this);
         MobPlaceholders.registerAll(this);
-
     }
 
     @Override

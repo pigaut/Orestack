@@ -18,8 +18,8 @@ public class BossbarEditor extends GenericMessageEditor {
 
     public BossbarEditor(ConfigSection section) {
         super("Edit Boss Bar", section);
-        if (!section.isSet("bossbar|boss-healthBar")) {
-            section.set("bossbar|boss-healthBar", "not set");
+        if (!section.isSet("bossbar|boss-bar")) {
+            section.set("bossbar|boss-bar", "not set");
         }
     }
 
@@ -49,7 +49,7 @@ public class BossbarEditor extends GenericMessageEditor {
                 .addEmptyLine()
                 .addLine(section.getString("style", CaseStyle.TITLE).orElse("not set"))
                 .addEmptyLine()
-                .addLeftClickLine("To select the healthBar style")
+                .addLeftClickLine("To select the bar style")
                 .onLeftClick((view, player) -> {
                     player.collectMenuSelection()
                             .description("Select Bar Style")
@@ -69,7 +69,7 @@ public class BossbarEditor extends GenericMessageEditor {
                 .addEmptyLine()
                 .addLine(section.getInteger("duration").orElse(100) + " ticks")
                 .addEmptyLine()
-                .addLeftClickLine("To set healthBar duration")
+                .addLeftClickLine("To set bar duration")
                 .onLeftClick((view, player) -> {
                     player.collectChatInput(Delay.class)
                             .description("Enter duration amount in chat")
@@ -84,7 +84,7 @@ public class BossbarEditor extends GenericMessageEditor {
                 .addEmptyLine()
                 .addLine(section.getString("color", CaseStyle.TITLE).orElse("not set"))
                 .addEmptyLine()
-                .addLine("&eLeft-Click: &fTo select the healthBar color")
+                .addLine("&eLeft-Click: &fTo select the bar color")
                 .onLeftClick((view, player) -> {
                     player.collectMenuSelection()
                             .description("Select Bar Color")

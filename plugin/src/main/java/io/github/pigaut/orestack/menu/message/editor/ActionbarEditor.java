@@ -12,8 +12,8 @@ public class ActionbarEditor extends GenericMessageEditor {
 
     public ActionbarEditor(ConfigSection section) {
         super("Edit Action Bar", section);
-        if (!section.isSet("actionbar|action-healthBar")) {
-            section.set("actionbar|action-healthBar", "not set");
+        if (!section.isSet("actionbar|action-bar")) {
+            section.set("actionbar|action-bar", "not set");
         }
     }
 

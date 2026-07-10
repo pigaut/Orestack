@@ -1,0 +1,14 @@
+tin:
+  sound: ENTITY_EXPERIENCE_ORB_PICKUP
+#  volume: 1.0
+#  pitch: 1.0
+#  offset: { x: 0, y: 0, z: 0 }
+#  delay: 5
+#  repeat: 2
+#  interval: 5
+
+tin_tin:
+  - sound: ENTITY_EXPERIENCE_ORB_PICKUP
+
+  - sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    delay: 5

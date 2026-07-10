@@ -20,7 +20,7 @@ public class ParticleCreationMenu extends FramedMenu {
     }
 
     @Override
-    public boolean backOnClose() {
+    public boolean backtrack() {
         return true;
     }
 

@@ -33,10 +33,6 @@ public class OrestackSettings extends Settings {
     private int generatorHarvestCooldown;
     private boolean veinMiner;
 
-    // Collections settings
-    private List<ItemSpawnReason> collectionSources;
-    private ProgressBar collectionProgressBar;
-
     // VeinMiner settings
     private List<String> veinMinerAliases;
     private Map<Integer, Integer> veinSizeByLevel;
@@ -44,6 +40,13 @@ public class OrestackSettings extends Settings {
     // Gate settings
     private ItemStack gateTool;
     private int gateClickCooldown;
+
+    // Collections settings
+    private List<ItemSpawnReason> collectionSources;
+    private ProgressBar collectionProgressBar;
+
+    // Skill Settings
+    private ProgressBar skillProgressBar;
 
     // Health settings
     private Amount defaultDamage;
@@ -69,13 +72,6 @@ public class OrestackSettings extends Settings {
 
         restoreOriginalBlocksOnRemove = config.getBoolean("restore-original-blocks-on-remove")
                 .withDefaultOrElse(true, errors::add);
-
-        // Collections settings
-        collectionSources = config.getAll("collection-item-sources", ItemSpawnReason.class)
-                .withDefaultOrElse(List.of(), errors::add);
-
-        collectionProgressBar = config.get("collection-progress-bar", ProgressBar.class)
-                .withDefaultOrElse(ProgressBar.EMPTY, errors::add);
 
         // Generator settings
         generatorTool = config.get("generator-tool", ItemStack.class)
@@ -127,6 +123,17 @@ public class OrestackSettings extends Settings {
         gateClickCooldown = config.getInteger("gate-click-cooldown")
                 .require(Requirements.positive())
                 .withDefaultOrElse(4, errors::add);
+
+        // Collections settings
+        collectionSources = config.getAll("collection-item-sources", ItemSpawnReason.class)
+                .withDefaultOrElse(List.of(), errors::add);
+
+        collectionProgressBar = config.get("collection-progress-bar", ProgressBar.class)
+                .withDefaultOrElse(ProgressBar.EMPTY, errors::add);
+
+        // Skills settings
+        skillProgressBar = config.get("skill-progress-bar", ProgressBar.class)
+                .withDefaultOrElse(ProgressBar.EMPTY, errors::add);
 
         // Health settings
         defaultDamage = config.get("default-damage", Amount.class)
@@ -268,6 +275,10 @@ public class OrestackSettings extends Settings {
         }
 
         return damage;
+    }
+
+    public @NotNull ProgressBar getSkillProgressBar() {
+        return skillProgressBar;
     }
 
 }

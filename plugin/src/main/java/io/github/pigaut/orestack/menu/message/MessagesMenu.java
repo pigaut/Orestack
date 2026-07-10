@@ -23,11 +23,13 @@ import java.util.*;
 
 public class MessagesMenu extends FramedSelectionMenu {
 
+    private final EnhancedPlugin plugin;
     private final String group;
     private final RootSection config;
 
     public MessagesMenu(EnhancedPlugin plugin, String group) {
-        super(plugin, CaseFormatter.toTitleCase(group) + " Messages", MenuSize.BIG);
+        super(CaseFormatter.toTitleCase(group) + " Messages", MenuSize.BIG);
+        this.plugin = plugin;
         this.group = group;
         File file = Group.getFile(plugin, "messages", group);
         this.config = YamlConfig.loadSectionOrEmpty(file, plugin.getConfigurator());

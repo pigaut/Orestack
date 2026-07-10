@@ -96,7 +96,7 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
                     .withDefault(SkillStats.EMPTY);
 
             List<String> rewards = levelSection.getStringList("rewards", StringColor.FORMATTER)
-                    .orEmpty();
+                    .withDefault(null);
 
             Function onCompletion = levelSection.get("on-completion", Function.class)
                     .withDefault(null);
@@ -122,6 +122,9 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
         ItemStack icon = settingsSection.get("icon", ItemStack.class)
                 .withDefault(new ItemStack(Material.BEDROCK));
 
+        List<String> description = settingsSection.getStringList("description", StringColor.FORMATTER)
+                .withDefault(null);
+
         Function onUnlock = settingsSection.get("on-unlock", Function.class)
                 .withDefault(null);
 
@@ -135,7 +138,8 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
                 .withDefault(null);
 
         return new SkillTemplate(name, group,
-                icon, skillLevels,
+                icon, description,
+                skillLevels,
                 onUnlock, onLock,
                 blockBreakExp, generatorHarvestExp);
     }

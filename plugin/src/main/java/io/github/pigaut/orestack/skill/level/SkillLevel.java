@@ -4,7 +4,6 @@ import io.github.pigaut.orestack.skill.*;
 import io.github.pigaut.voxel.data.function.Function;
 import org.jetbrains.annotations.*;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class SkillLevel {
@@ -15,10 +14,12 @@ public class SkillLevel {
     private final Function onProgression;
     private final Function onRegression;
 
-    public SkillLevel(int expRequirement, SkillStats stats, List<String> rewards, Function onProgression, Function onRegression) {
+    public SkillLevel(int expRequirement, @NotNull SkillStats stats,
+                      @Nullable List<String> rewards,
+                      @Nullable Function onProgression, @Nullable Function onRegression) {
         this.expRequirement = expRequirement;
         this.stats = stats;
-        this.rewards = List.copyOf(rewards);
+        this.rewards = rewards != null ? List.copyOf(rewards) : null;
         this.onProgression = onProgression;
         this.onRegression = onRegression;
     }

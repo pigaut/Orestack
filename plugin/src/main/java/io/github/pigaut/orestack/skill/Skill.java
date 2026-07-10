@@ -9,7 +9,7 @@ import io.github.pigaut.yaml.util.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
-import java.lang.reflect.*;
+import java.util.*;
 
 public class Skill {
 
@@ -35,8 +35,20 @@ public class Skill {
         return template;
     }
 
-    public boolean isUnlocked() {
-        return totalExp > 0;
+    public int getMaxLevel() {
+        return template.getMaxLevel();
+    }
+
+    public boolean isMaxLevel() {
+        return currentLevel >= getMaxLevel();
+    }
+
+    public @NotNull ItemStack getIcon() {
+        return template.getIcon();
+    }
+
+    public @Nullable List<String> getDescription() {
+        return template.getDescription();
     }
 
     public boolean isFirstLevelUnlocked() {
@@ -59,16 +71,21 @@ public class Skill {
         return currentLevel >= template.getMaxLevel() ? currentLevel : currentLevel + 1;
     }
 
-    public int getTotalExp() {
-        return totalExp;
-    }
-
     public int getNextLevelExp() {
         return template.getExpRequiredForLevel(getNextLevel());
     }
 
+    public @Nullable List<String> getNextLevelRewards() {
+        SkillLevel skillLevel = getLevel();
+        return skillLevel != null ? skillLevel.getRewards() : null;
+    }
+
+    public int getTotalExp() {
+        return totalExp;
+    }
+
     public int getExpToNextLevel() {
-        return getNextLevelExp() - totalExp;
+        return Math.max(0, getNextLevelExp() - totalExp);
     }
 
     public void increaseExp(@NotNull Context context, int amount) {
@@ -79,17 +96,8 @@ public class Skill {
             return;
         }
 
-        boolean unlockedSkill = totalExp == 0;
         this.totalExp += amount;
-
         context = context.with(Skill.class, this);
-
-        if (unlockedSkill) {
-            Function onUnlock = template.getOnUnlock();
-            if (onUnlock != null) {
-                onUnlock.run(context);
-            }
-        }
 
         SkillLevel nextLevel;
         while (currentLevel + 1 <= template.getMaxLevel()
@@ -98,7 +106,7 @@ public class Skill {
             currentLevel++;
 
             SkillStats skillStats = nextLevel.getStats();
-            skillStats.apply(playerState, this);
+            skillStats.applyAll(playerState, this);
 
             Function onProgression = nextLevel.getOnProgression();
             if (onProgression != null) {
@@ -125,28 +133,13 @@ public class Skill {
 
             SkillLevel newLevel = template.getLevel(currentLevel);
             SkillStats skillStats = newLevel.getStats();
-            skillStats.apply(playerState, this);
+            skillStats.applyAll(playerState, this);
 
             Function onRegression = lostLevel.getOnRegression();
             if (onRegression != null) {
                 onRegression.run(context);
             }
         }
-
-        if (totalExp == 0) {
-            Function onLock = template.getOnLock();
-            if (onLock != null) {
-                onLock.run(context);
-            }
-        }
-    }
-
-    public int getMaxLevel() {
-        return template.getMaxLevel();
-    }
-
-    public @NotNull ItemStack getIcon() {
-        return template.getIcon();
     }
 
 }

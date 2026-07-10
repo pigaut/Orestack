@@ -13,7 +13,10 @@ public class SkillTemplate implements Identifiable {
 
     private final String name;
     private final @Nullable String group;
+
     private final ItemStack icon;
+    private final List<String> description;
+
     private final List<SkillLevel> skillLevels;
     private final @Nullable Function onUnlock;
     private final @Nullable Function onLock;
@@ -22,12 +25,14 @@ public class SkillTemplate implements Identifiable {
     private final @Nullable AmountFunction generatorHarvestExp;
 
     public SkillTemplate(@NotNull String name, @Nullable String group,
-                         @NotNull ItemStack icon, @NotNull List<SkillLevel> skillLevels,
+                         @NotNull ItemStack icon, List<String> description,
+                         @NotNull List<SkillLevel> skillLevels,
                          @Nullable Function onUnlock, @Nullable Function onLock,
                          @Nullable AmountFunction blockBreakExp, @Nullable AmountFunction generatorHarvestExp) {
         this.name = name;
         this.group = group;
         this.icon = icon;
+        this.description = List.copyOf(description);
         this.skillLevels = List.copyOf(skillLevels);
         this.onUnlock = onUnlock;
         this.onLock = onLock;
@@ -46,6 +51,10 @@ public class SkillTemplate implements Identifiable {
     @Override
     public @NotNull ItemStack getIcon() {
         return icon;
+    }
+
+    public @Nullable List<String> getDescription() {
+        return description;
     }
 
     public @NotNull List<SkillLevel> getSkillLevels() {
@@ -70,7 +79,7 @@ public class SkillTemplate implements Identifiable {
 
     public int getExpRequiredForLevel(int level) {
         SkillLevel skillLevel = getLevel(level);
-        return skillLevel != null ? skillLevel.getExpRequirement() : -1;
+        return skillLevel.getExpRequirement();
     }
 
     public int getLevelForExp(int totalExp) {

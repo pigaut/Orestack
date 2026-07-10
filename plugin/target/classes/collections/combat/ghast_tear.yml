@@ -1,0 +1,75 @@
+item: ghast_tear
+on-unlock:
+  - sendMessage collection_unlocked
+
+--- #===== Tier 1 =====
+amount: 50
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 2 =====
+amount: 100
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 3 =====
+amount: 250
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 4 =====
+amount: 500
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 5 =====
+amount: 1000
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 6 =====
+amount: 5000
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 7 =====
+amount: 10000
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 8 =====
+amount: 25000
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 9 =====
+amount: 50000
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []

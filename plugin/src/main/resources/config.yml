@@ -83,23 +83,47 @@ disabled-modules: []
 #░░░▀▀█░░█░░█▀█░░█░░▀▀█░░░░
 #░░░▀▀▀░░▀░░▀░▀░░▀░░▀▀▀░░░░
 
-# Whether custom stats should be enabled
-custom-stats: true
+# Whether stats should be enabled
+stats: true
 
-# Whether to use the actionbar to show the status bar
+# Whether to use the actionbar to show the status bar (health, defense, mana)
 show-status-bar: true
 
 # The status bar to show to the player
-status-bar: '&c{player_health}/{player_max_health}❤   &a{player_defense}❈ Defense   &b{player_mana}/{player_max_mana}✎ Mana'
+status-bar: '&c{player_health}/{player_max_health}<health>   &a{player_defense}<defense>   &b{player_mana}/{player_max_mana}<mana>'
 
 # The base player stats
 base-stats:
   damage: 1
   defense: 1
   max-health: 100
-  health-regen: 3
   max-mana: 100
+  health-regen: 3
   mana-regen: 2
+  crit-damage: 50%
+  crit-chance: 30%
+  mining_fortune: 0
+  farming_fortune: 0
+  foraging_fortune: 0
+  movement_speed: 0
+  attack_speed: 0
+  mining_speed: 0
+
+# The custom player stats
+custom-stats:
+  strength:
+    base: 0
+    stats:
+      damage: +1 every 1 level
+      crit-damage: +1% every 1 level
+      crit-chance: +0.1% every 1 level
+
+  intelligence:
+    base: 0
+    stats:
+      max-mana: +1 every 1 level
+      mana-regen: +1 every 50 levels
+
 
 # How long the player remains in combat after fighting another entity.
 in-combat-duration: 10-15s
@@ -109,6 +133,112 @@ regen-health-during-combat: false
 
 # Whether mana should regenerate while in combat
 regen-mana-during-combat: true
+
+#░░░█▀▄░█▀█░█▄█░█▀█░█▀▀░█▀▀░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
+#░░░█░█░█▀█░█░█░█▀█░█░█░█▀▀░░░▀▀█░░█░░█▀█░░█░░░░░
+#░░░▀▀░░▀░▀░▀░▀░▀░▀░▀▀▀░▀▀▀░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
+# Damage is a player stat that increases attack damage.
+
+# Whether the sharpness enchant should be treated as a stat multiplier instead of its vanilla functionality
+sharpness-enchant-as-stat: true
+
+# The damage multiplier by sharpness enchant level
+# [Warning] Works only if 'sharpness-enchant-as-stat' is enabled
+damage-multiplier-by-sharpness-enchant-level:
+  1: 5%
+  2: 10%
+  3: 15%
+  4: 20%
+  5: 30%
+
+#░░░█▄█░▀█▀░█▀█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▀▀░█▀▀░█▀▄░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
+#░░░█░█░░█░░█░█░░█░░█░█░█░█░░░▀▀█░█▀▀░█▀▀░█▀▀░█░█░░░▀▀█░░█░░█▀█░░█░░░░░
+#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░░░▀▀▀░▀▀▀░▀▀░░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
+# Mining Speed is a player stat that increases how fast you break blocks.
+
+# Whether the efficiency enchant should be treated as a stat increment instead of its vanilla functionality
+efficiency-enchant-as-stat: true
+
+# Set the Mining Speed amount gained by the items efficiency enchant level.
+# [Warning] Works only if 'efficiency-enchant-as-stat' is enabled
+mining-speed-by-efficiency-enchant-level:
+  1: 20
+  2: 40
+  3: 60
+  4: 80
+  5: 100
+
+
+#░░░█▄█░▀█▀░█▀█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▀▄░▀█▀░█░█░█▀█░█▀▀░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
+#░░░█░█░░█░░█░█░░█░░█░█░█░█░░░█▀▀░█░█░█▀▄░░█░░█░█░█░█░█▀▀░░░▀▀█░░█░░█▀█░░█░░░░░
+#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
+# Mining Fortune is a player stat that increases mining drops.
+# Every 100 points has a 100% to increase the drop by +1.
+
+# Whether mining fortune should be enabled by default when dropping items
+# If set to false you will have to manually set the `miningFortune` flag in each action
+mining-fortune: true
+
+# Drops affected by the Mining Fortune Stat of the player.
+apply-mining-fortune:
+  - coal
+  - diamond
+  - emerald
+  - lapis_lazuli
+  - redstone
+  - quartz
+  - raw_iron
+  - raw_gold
+# - raw_copper   # 1.17+
+
+# Whether the fortune enchant should be treated as a stat increment instead of its vanilla functionality
+fortune-enchant-as-stat: true
+
+# Set the Mining Fortune amount gained by the items fortune enchant level.
+# [Warning] Works only if 'fortune-enchant-as-stat' is enabled
+mining-fortune-by-fortune-enchant-level:
+  1: 30
+  2: 60
+  3: 90
+  4: 120
+
+
+#░░░█▀▀░█░█░▀█▀░█░░░█░░░█▀▀░░░░
+#░░░▀▀█░█▀▄░░█░░█░░░█░░░▀▀█░░░░
+#░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░░░
+
+# The default skill progress bar for some placeholders
+skill-progress-bar: line
+
+# Config shortcuts, these placeholders can be used in all configurations and
+# will be replaced by the specified value. This way you can avoid typing weird characters and waste time.
+skill-config-shortcuts:
+  <health>: '&c❤ Health'
+  <defense>: '&a❈ Defense'
+  <mana>: '&b✎ Mana'
+  <strength>: '&c❁ Strength'
+  <intelligence>: '&b✎ Intelligence'
+  <mining_fortune>: '&6☘ Mining Fortune'
+  <mining_speed>: '&6⛏ Mining Speed'
+  <farming_fortune>: '&6☘ Farming Fortune'
+  <foraging_fortune>: '&6☘ Foraging Fortune'
+
+
+#░░░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
+#░░░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
+#░░░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
+
+# Item spawn sources that should increment collections
+collection-item-sources:
+  - action
+  - block_drops
+  - entity_drops
+  - fishing_drops
+  - mob_drops
+  - generator_drops
+
+# The default collection progress bar for some placeholders
+collection-progress-bar: line
 
 #░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
 #░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
@@ -136,13 +266,11 @@ generator-tool:
     - '&fleft-click to break'
     - '&fshift + left-click (air) to rotate'
 
-
-
 #░░░█▀█░█▀▀░█▀▄░░░░░█▀█░█░░░█▀█░█░█░█▀▀░█▀▄░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
 #░░░█▀▀░█▀▀░█▀▄░▄▄▄░█▀▀░█░░░█▀█░░█░░█▀▀░█▀▄░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
 #░░░▀░░░▀▀▀░▀░▀░░░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
 
-# Customize Barrier Layout
+# Custom Barrier Layout Guide
 #   1. Definition -> A fake block is a block that only exists on the client but not on the server.
 #   2. Visual problem -> You might see entities/items/players walk into fake blocks.
 #   3. Anticheat problem -> If a player stands on a fake block for too long, the server/anticheat will kick/ban the player for flying.
@@ -172,22 +300,6 @@ gate-tool:
     - '&fleft-click to break'
     - '&fshift + left-click (air) to rotate'
 
-#░░░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
-#░░░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
-#░░░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
-
-# Item spawn sources that should increment collections
-collection-item-sources:
-  - action
-  - block_drops
-  - entity_drops
-  - fishing_drops
-  - mob_drops
-  - generator_drops
-
-# The default collection progress bar for some placeholders
-collection-progress-bar: line
-
 #░░░█▄█░█▀█░█▀▄░█▀▀░░░░
 #░░░█░█░█░█░█▀▄░▀▀█░░░░
 #░░░▀░▀░▀▀▀░▀▀░░▀▀▀░░░░
@@ -210,10 +322,12 @@ max-enchant-lines: 10
 
 # Settings for the {item_enchants} placeholder
 enchant-descriptions:
-  # The header/divider/footer before/between/after enchant descriptions
+  # The header before the enchants
   header: []
+  # The divider between enchants
   divider:
     - ''
+  # The footer after the enchants
   footer:
     - ''
 
@@ -226,10 +340,10 @@ enchant-descriptions:
     - '&7Increases melee damage dealt by &a{item_enchant_damage_%}%'
   efficiency:
     - '&9Efficiency {enchant_level_rm}'
-    - '&7Grants &a+{item_enchant_mining_speed} &6⛏ Mining Speed'
+    - '&7Grants &a+{item_enchant_mining_speed} <mining_speed>'
   fortune:
     - '&9Fortune {enchant_level_rm}'
-    - '&7Grants &a+{item_enchant_mining_fortune} &6☘ Mining Fortune'
+    - '&7Grants &a+{item_enchant_mining_fortune} <mining_fortune>'
   unbreaking:
     - '&9Unbreaking {enchant_level_rm}'
     - '&7Reduces durability loss'
@@ -457,73 +571,6 @@ exp-multiplier-by-level:
   5: 2
 
 
-#░░░█▀▄░█▀█░█▄█░█▀█░█▀▀░█▀▀░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
-#░░░█░█░█▀█░█░█░█▀█░█░█░█▀▀░░░▀▀█░░█░░█▀█░░█░░░░░
-#░░░▀▀░░▀░▀░▀░▀░▀░▀░▀▀▀░▀▀▀░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
-# Damage is a player stat that increases attack damage.
-
-# Whether the sharpness enchant should be treated as a stat multiplier instead of its vanilla functionality
-sharpness-enchant-as-stat: true
-
-# The damage multiplier by sharpness enchant level
-# [Warning] Works only if 'sharpness-enchant-as-stat' is enabled
-damage-multiplier-by-sharpness-enchant-level:
-  1: 5%
-  2: 10%
-  3: 15%
-  4: 20%
-  5: 30%
-
-#░░░█▄█░▀█▀░█▀█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▀▀░█▀▀░█▀▄░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
-#░░░█░█░░█░░█░█░░█░░█░█░█░█░░░▀▀█░█▀▀░█▀▀░█▀▀░█░█░░░▀▀█░░█░░█▀█░░█░░░░░
-#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░░░▀▀▀░▀▀▀░▀▀░░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
-# Mining Speed is a player stat that increases how fast you break blocks.
-
-# Whether the efficiency enchant should be treated as a stat increment instead of its vanilla functionality
-efficiency-enchant-as-stat: true
-
-# Set the Mining Speed amount gained by the items efficiency enchant level.
-# [Warning] Works only if 'efficiency-enchant-as-stat' is enabled
-mining-speed-by-efficiency-enchant-level:
-  1: 20
-  2: 40
-  3: 60
-  4: 80
-  5: 100
-
-#░░░█▄█░▀█▀░█▀█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▀▄░▀█▀░█░█░█▀█░█▀▀░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
-#░░░█░█░░█░░█░█░░█░░█░█░█░█░░░█▀▀░█░█░█▀▄░░█░░█░█░█░█░█▀▀░░░▀▀█░░█░░█▀█░░█░░░░░
-#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
-# Mining Fortune is a player stat that increases mining drops.
-# Every 100 points has a 100% to increase the drop by +1.
-
-# Whether mining fortune should be enabled by default when dropping items
-# If set to false you will have to manually set the `miningFortune` flag in each action
-mining-fortune: true
-
-# Drops affected by the Mining Fortune Stat of the player.
-apply-mining-fortune:
-  - coal
-  - diamond
-  - emerald
-  - lapis_lazuli
-  - redstone
-  - quartz
-  - raw_iron
-  - raw_gold
-# - raw_copper   # 1.17+
-
-# Whether the fortune enchant should be treated as a stat increment instead of its vanilla functionality
-fortune-enchant-as-stat: true
-
-# Set the Mining Fortune amount gained by the items fortune enchant level.
-# [Warning] Works only if 'fortune-enchant-as-stat' is enabled
-mining-fortune-by-fortune-enchant-level:
-  1: 30
-  2: 60
-  3: 90
-  4: 120
-
 #░░░█▀▀░▀█▀░█▀▄░█░█░█▀▀░▀█▀░█░█░█▀▄░█▀▀░░░█░█░█▀▀░█▀█░█░░░▀█▀░█░█░░░░
 #░░░▀▀█░░█░░█▀▄░█░█░█░░░░█░░█░█░█▀▄░█▀▀░░░█▀█░█▀▀░█▀█░█░░░░█░░█▀█░░░░
 #░░░▀▀▀░░▀░░▀░▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀░▀░▀▀▀░▀░▀░▀▀▀░░▀░░▀░▀░░░░
@@ -612,6 +659,10 @@ placeholder-fallback: ''
 # Custom fallbacks for specific placeholders.
 custom-placeholder-fallbacks:
   collection_rewards: '&8No rewards available'
+  collection_tier_*_rewards: '&8No rewards available'   # i.e. {collection_tier_1_rewards}
+  skill_rewards: '&8No rewards available'
+  skill_level_*_rewards: '&8No rewards available'   # i.e. {skill_level_3_rewards}
+  '*_skill_rewards': '&8No rewards available'   # i.e. {mining_skill_rewards}
 
 
 #░░░█▀█░█▀▄░█▀█░█▀▀░█▀▄░█▀▀░█▀▀░█▀▀░░░█▀▄░█▀█░█▀▄░█▀▀░░░░

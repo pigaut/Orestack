@@ -14,8 +14,11 @@ import java.util.*;
 
 public class MessageGroupsMenu extends FramedSelectionMenu {
 
+    private final EnhancedPlugin plugin;
+
     public MessageGroupsMenu(@NotNull EnhancedPlugin plugin) {
-        super(plugin, "Message Groups", MenuSize.BIG);
+        super("Message Groups", MenuSize.BIG);
+        this.plugin = plugin;
     }
 
     @Override

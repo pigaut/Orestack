@@ -1,0 +1,75 @@
+item: tropical_fish
+on-unlock:
+  - sendMessage collection_unlocked
+
+--- #===== Tier 1 =====
+amount: 10
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 2 =====
+amount: 20
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 3 =====
+amount: 50
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 4 =====
+amount: 100
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 5 =====
+amount: 200
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 6 =====
+amount: 400
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 7 =====
+amount: 800
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 8 =====
+amount: 1500
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []
+
+--- #===== Tier 9 =====
+amount: 3000
+rewards: []
+on-completion:
+  - sendCollectionLevelUpMessage
+
+on-regression: []

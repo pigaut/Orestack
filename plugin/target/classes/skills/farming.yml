@@ -1,0 +1,75 @@
+
+icon: gold_hoe
+
+description:
+  - 'Harvest crops, milk cows,'
+  - 'collect eggs, and shear sheep'
+  - 'to earn Farming EXP!'
+
+max-level: 100
+
+exp-formula: "(floor(level - 1 + 300 * (2 ^ ((level - 1) / 7)))) / 4"
+
+block-break-exp: []
+
+generator-harvest-exp: []
+
+--- # ===== Levels 1-25 ===== #
+levels: 1-25
+
+# Define the stat increment amount per level
+stats:
+  health: 2
+  farming-fortune: 4
+
+rewards:
+  - '&7+&a2 <health>'
+  - '&7+&a4 <farming_fortune>'
+
+on-completion: []
+on-regression: []
+
+--- # ===== Levels 26-50 ===== #
+levels: 26-50
+
+# Define the stat increment amount per level
+stats:
+  health: 2
+  farming-fortune: 4
+
+rewards:
+  - '&7+&a2 <health>'
+  - '&7+&a4 <farming_fortune>'
+
+on-completion: []
+on-regression: []
+
+--- # ===== Levels 51-75 ===== #
+levels: 51-75
+
+# Define the stat increment amount per level
+stats:
+  health: 2
+  farming-fortune: 4
+
+rewards:
+  - '&7+&a2 <health>'
+  - '&7+&a4 <farming_fortune>'
+
+on-completion: []
+on-regression: []
+
+--- # ===== Levels 76-100 ===== #
+levels: 76-100
+
+# Define the stat increment amount per level
+stats:
+  health: 2
+  farming-fortune: 4
+
+rewards:
+  - '&7+&a2 <health>'
+  - '&7+&a4 <farming_fortune>'
+
+on-completion: []
+on-regression: []

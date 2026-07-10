@@ -16,6 +16,14 @@ public interface RpgPlayerData extends PlayerData {
     @Nullable
     Skill getSkill(@NotNull String name);
 
+    int getSkillCount();
+
+    int getSkillCount(@NotNull String group);
+
+    int getSkillsMaxed();
+
+    int getSkillsMaxed(@NotNull String group);
+
     @NotNull
     Set<ItemCollection> getItemCollections();
 
@@ -24,5 +32,9 @@ public interface RpgPlayerData extends PlayerData {
 
     @Nullable
     ItemCollection getItemCollection(@NotNull ItemStack item);
+
+    int getCollectionCount();
+
+    int getCollectionsUnlocked();
 
 }

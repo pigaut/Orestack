@@ -19,6 +19,8 @@ public class CollectionPlaceholders {
         PlaceholderRegistry placeholders = plugin.getPlaceholders();
 
         OrestackSettings settings = plugin.getSettings();
+        ProgressBar collectionProgressBar = settings.getCollectionProgressBar();
+
         placeholders.register("collections_unlocked", context -> {
             PlayerData playerData = context.playerData();
             if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
@@ -58,24 +60,22 @@ public class CollectionPlaceholders {
             return String.format("%.1f", percentage);
         });
 
-        for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
-            placeholders.register("collections_progress_bar:" + progressBar.getId(), context -> {
-                PlayerData playerData = context.playerData();
-                if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
-                    return null;
+        placeholders.register("collections_progress_bar", context -> {
+            PlayerData playerData = context.playerData();
+            if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
+                return null;
+            }
+            Set<ItemCollection> collections = rpgPlayerData.getItemCollections();
+            int collectionsUnlocked = 0;
+            for (ItemCollection collection : collections) {
+                if (collection.isUnlocked()) {
+                    collectionsUnlocked++;
                 }
-                Set<ItemCollection> collections = rpgPlayerData.getItemCollections();
-                int collectionsUnlocked = 0;
-                for (ItemCollection collection : collections) {
-                    if (collection.isUnlocked()) {
-                        collectionsUnlocked++;
-                    }
-                }
+            }
 
-                int percentage = Percentage.of(collectionsUnlocked, collections.size());
-                return progressBar.getBarByProgress(percentage);
-            });
-        }
+            int percentage = Percentage.asInteger(collectionsUnlocked, collections.size());
+            return collectionProgressBar.getBarByProgress(percentage);
+        });
 
         for (CollectionTemplate collectionTemplate : plugin.getCollectionTemplates().getAll()) {
             String collectionName = collectionTemplate.getName();
@@ -113,7 +113,7 @@ public class CollectionPlaceholders {
                     return null;
                 }
 
-                return Percentage.of(collection.getCollectedAmount(), collection.getNextTierAmount());
+                return Percentage.asInteger(collection.getCollectedAmount(), collection.getNextTierAmount());
             });
 
             for (ProgressBar progressBar : plugin.getSettings().getProgressBars()) {
@@ -127,7 +127,7 @@ public class CollectionPlaceholders {
                         return null;
                     }
 
-                    int percentage = Percentage.of(collection.getCollectedAmount(), collection.getNextTierAmount());
+                    int percentage = Percentage.asInteger(collection.getCollectedAmount(), collection.getNextTierAmount());
                     return progressBar.getBarByProgress(percentage);
                 });
             }
@@ -197,7 +197,7 @@ public class CollectionPlaceholders {
                         if (collection == null) {
                             return null;
                         }
-                        int percentage = Percentage.of(collection.getCollectedAmount(), tierUpAmount);
+                        int percentage = Percentage.asInteger(collection.getCollectedAmount(), tierUpAmount);
                         return progressBar.getBarByProgress(percentage);
                     });
                 }
@@ -269,7 +269,7 @@ public class CollectionPlaceholders {
                             collectionsUnlocked++;
                         }
                     }
-                    int percentage = Percentage.of(collectionsUnlocked, collections.size());
+                    int percentage = Percentage.asInteger(collectionsUnlocked, collections.size());
                     return progressBar.getBarByProgress(percentage);
                 });
             }
@@ -328,7 +328,6 @@ public class CollectionPlaceholders {
             return Percentage.asString(collection.getCollectedAmount(), collection.getNextTierAmount());
         });
 
-        ProgressBar collectionProgressBar = settings.getCollectionProgressBar();
         for (int i = 0; i < 100; i++) {
             int tierIndex = i;
 
@@ -362,7 +361,7 @@ public class CollectionPlaceholders {
                     return null;
                 }
 
-                int percentage = Percentage.of(collection.getCollectedAmount(), collection.getTier(tierIndex).getAmount());
+                int percentage = Percentage.asInteger(collection.getCollectedAmount(), collection.getTier(tierIndex).getAmount());
                 return collectionProgressBar.getBarByProgress(percentage);
             });
         }

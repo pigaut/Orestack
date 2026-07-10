@@ -7,8 +7,10 @@ import io.github.pigaut.orestack.core.action.collection.*;
 import io.github.pigaut.orestack.core.action.collection.OpenCollectionMenu;
 import io.github.pigaut.orestack.core.action.gate.*;
 import io.github.pigaut.orestack.core.action.generator.*;
+import io.github.pigaut.orestack.core.action.skill.*;
 import io.github.pigaut.orestack.core.condition.collection.*;
 import io.github.pigaut.orestack.core.condition.generator.*;
+import io.github.pigaut.orestack.core.condition.skill.*;
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.orestack.gate.config.*;
 import io.github.pigaut.orestack.gate.template.*;
@@ -133,16 +135,43 @@ public class OrestackConfigurator extends PluginConfigurator {
                 new DamageGateWithTool(plugin));
         // Gate actions end
 
+        // Skill conditions
+        conditions.addLoader("HAS_SKILL_LEVEL", (Line<Condition>) line ->
+                new PlayerSkillLevelEquals(line.getRequired(1, Amount.class),
+                        line.getRequired("skill", SkillTemplate.class)));
+
+        conditions.addLoader("SKILL_NAME_EQUALS", (Line<Condition>) line ->
+                new SkillNameEquals(line.getRequiredString(1)));
+
+        conditions.addLoader("SKILL_HAS_REWARDS", (Line<Condition>) line ->
+                new SkillHasRewards());
+
+        conditions.addLoader("SKILL_LEVEL_EQUALS", (Line<Condition>) line ->
+                new SkillLevelEquals(line.getRequired(1, Amount.class)));
+
+        conditions.addLoader("SKILL_LEVEL_IS_LOCKED", (Line<Condition>) line ->
+                new SkillLevelEquals(Amount.lessThan(line.getRequiredInteger(1) - 1)));
+
+        conditions.addLoader("SKILL_LEVEL_IS_IN_PROGRESS", (Line<Condition>) line ->
+                new SkillLevelEquals(Amount.fixed(line.getRequiredInteger(1) - 1)));
+
+        conditions.addLoader("SKILL_LEVEL_IS_COMPLETED", (Line<Condition>) line ->
+                new SkillLevelEquals(Amount.greaterThanOrEqual(line.getRequiredInteger(1))));
+
+        conditions.addLoader("SKILL_MAX_LEVEL_EQUALS", (Line<Condition>) line ->
+                new SkillMaxLevelEquals(line.getRequired(1, Amount.class)));
+
+        conditions.addLoader("SKILL_HAS_LEVEL", (Line<Condition>) line ->
+                new SkillMaxLevelEquals(Amount.greaterThanOrEqual(line.getRequiredInteger(1))));
+
 
         // Collection conditions start
         conditions.addLoader("HAS_UNLOCKED_COLLECTION", (Line<Condition>) line ->
                 new PlayerHasUnlockedCollection(line.getRequired(1, CollectionTemplate.class)));
 
         conditions.addLoader("HAS_COLLECTION_TIER", (Line<Condition>) line ->
-                new PlayerCollectionTierEquals(
-                        line.getRequired(1, Amount.class),
-                        line.getRequired("collection", CollectionTemplate.class)
-                ));
+                new PlayerCollectionTierEquals(line.getRequired(1, Amount.class),
+                        line.getRequired("collection", CollectionTemplate.class)));
 
         conditions.addLoader("COLLECTION_NAME_EQUALS", (Line<Condition>) line ->
                 new CollectionNameEquals(line.getRequiredString(1)));
@@ -188,6 +217,11 @@ public class OrestackConfigurator extends PluginConfigurator {
             if (line.hasFlag("collection")) {
                 String collectionName = line.getRequiredString("collection");
                 return new OpenCollectionMenu(plugin, menuName, collectionName);
+            }
+
+            if (line.hasFlag("skill")) {
+                String skillName = line.getRequiredString("skill");
+                return new OpenSkillMenu(plugin, menuName, skillName);
             }
 
             return new OpenMenu(plugin, menuName);

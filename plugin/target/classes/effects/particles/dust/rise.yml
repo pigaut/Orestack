@@ -1,0 +1,126 @@
+red_dust_rise:
+  - type: dust
+    color: { red: 50-255, green: 0, blue: 0 }
+    count: 20
+    offset.y: 0
+    range: { x: 0.5, y: 0.5, z: 0.5 }
+    
+  - type: dust
+    color: { red: 50-255, green: 0, blue: 0 }
+    count: 20
+    offset.y: 0.75
+    range: { x: 0.5, y: 0.5, z: 0.5 }
+    delay: 6
+    
+  - type: dust
+    color: { red: 50-255, green: 0, blue: 0 }
+    count: 20
+    offset.y: 1.5
+    range: { x: 0.5, y: 0.5, z: 0.5 }
+    delay: 18
+
+green_dust_rise:
+  - { type: dust, color: { red: 0, green: 50-255, blue: 0 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 0, green: 50-255, blue: 0 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 0, green: 50-255, blue: 0 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+blue_dust_rise:
+  - { type: dust, color: { red: 0, green: 0, blue: 50-255 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 0, green: 0, blue: 50-255 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 0, green: 0, blue: 50-255 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+yellow_dust_rise:
+  - { type: dust, color: { red: 50-255, green: 50-255, blue: 0 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 50-255, green: 50-255, blue: 0 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 50-255, green: 50-255, blue: 0 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+cyan_dust_rise:
+  - { type: dust, color: { red: 0, green: 50-255, blue: 50-255 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 0, green: 50-255, blue: 50-255 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 0, green: 50-255, blue: 50-255 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+magenta_dust_rise:
+  - { type: dust, color: { red: 50-255, green: 0, blue: 50-255 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 50-255, green: 0, blue: 50-255 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 50-255, green: 0, blue: 50-255 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+white_dust_rise:
+  - { type: dust, color: { red: 250-255, green: 250-255, blue: 250-255 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 250-255, green: 250-255, blue: 250-255 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 250-255, green: 250-255, blue: 250-255 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+orange_dust_rise:
+  - { type: dust, color: { red: 50-255, green: 100-200, blue: 0 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 50-255, green: 100-200, blue: 0 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 50-255, green: 100-200, blue: 0 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+pink_dust_rise:
+  - { type: dust, color: { red: 200-255, green: 150-200, blue: 180-220 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 200-255, green: 150-200, blue: 180-220 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 200-255, green: 150-200, blue: 180-220 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+purple_dust_rise:
+  - { type: dust, color: { red: 100-160, green: 0, blue: 100-160 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 100-160, green: 0, blue: 100-160 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 100-160, green: 0, blue: 100-160 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+lime_dust_rise:
+  - { type: dust, color: { red: 0, green: 200-255, blue: 0 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 0, green: 200-255, blue: 0 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 0, green: 200-255, blue: 0 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+brown_dust_rise:
+  - { type: dust, color: { red: 101-150, green: 67-100, blue: 33-70 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 101-150, green: 67-100, blue: 33-70 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 101-150, green: 67-100, blue: 33-70 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+navy_dust_rise:
+  - { type: dust, color: { red: 0, green: 0, blue: 50-128 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 0, green: 0, blue: 50-128 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 0, green: 0, blue: 50-128 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+gold_dust_rise:
+  - { type: dust, color: { red: 200-255, green: 180-220, blue: 0 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 200-255, green: 180-220, blue: 0 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 200-255, green: 180-220, blue: 0 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+teal_dust_rise:
+  - { type: dust, color: { red: 0, green: 128-200, blue: 128-200 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 0, green: 128-200, blue: 128-200 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 0, green: 128-200, blue: 128-200 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+starlight_dust_rise:
+  - { type: dust, color: { red: 200-255, green: 200-255, blue: 240-255 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 200-255, green: 200-255, blue: 240-255 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 200-255, green: 200-255, blue: 240-255 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+void_dust_rise:
+  - { type: dust, color: { red: 20-80, green: 0-30, blue: 40-100 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 20-80, green: 0-30, blue: 40-100 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 20-80, green: 0-30, blue: 40-100 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+nature_dust_rise:
+  - { type: dust, color: { red: 50-120, green: 80-150, blue: 30-60 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 50-120, green: 80-150, blue: 30-60 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 50-120, green: 80-150, blue: 30-60 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+crystal_dust_rise:
+  - { type: dust, color: { red: 150-220, green: 180-220, blue: 220-255 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 150-220, green: 180-220, blue: 220-255 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 150-220, green: 180-220, blue: 220-255 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+ember_dust_rise:
+  - { type: dust, color: { red: 180-255, green: 30-80, blue: 0-20 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 180-255, green: 30-80, blue: 0-20 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 180-255, green: 30-80, blue: 0-20 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+rainbow_dust_rise:
+  - { type: dust, color: { red: 50-255, green: 50-255, blue: 50-255 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 50-255, green: 50-255, blue: 50-255 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 50-255, green: 50-255, blue: 50-255 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
+dark_dust_rise:
+  - { type: dust, color: { red: 0-80, green: 0-80, blue: 0-80 }, count: 20, offset.y: 0, range: { x: 0.5, y: 0.5, z: 0.5 } }
+  - { type: dust, color: { red: 0-80, green: 0-80, blue: 0-80 }, count: 20, offset.y: 0.75, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 6 }
+  - { type: dust, color: { red: 0-80, green: 0-80, blue: 0-80 }, count: 20, offset.y: 1.5, range: { x: 0.5, y: 0.5, z: 0.5 }, delay: 18 }
+
