@@ -19,8 +19,8 @@ levels: 1-25
 
 # Define the stat increment amount per level
 stats:
-  health: 2
-  farming-fortune: 4
+  health: +2
+  farming-fortune: +4
 
 rewards:
   - '&7+&a2 <health>'
@@ -34,8 +34,8 @@ levels: 26-50
 
 # Define the stat increment amount per level
 stats:
-  health: 2
-  farming-fortune: 4
+  health: +2
+  farming-fortune: +4
 
 rewards:
   - '&7+&a2 <health>'
@@ -49,8 +49,8 @@ levels: 51-75
 
 # Define the stat increment amount per level
 stats:
-  health: 2
-  farming-fortune: 4
+  health: +2
+  farming-fortune: +4
 
 rewards:
   - '&7+&a2 <health>'
@@ -64,8 +64,8 @@ levels: 76-100
 
 # Define the stat increment amount per level
 stats:
-  health: 2
-  farming-fortune: 4
+  health: +2
+  farming-fortune: +4
 
 rewards:
   - '&7+&a2 <health>'

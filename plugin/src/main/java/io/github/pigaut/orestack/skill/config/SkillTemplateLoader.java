@@ -7,10 +7,13 @@ import io.github.pigaut.orestack.skill.template.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.data.function.*;
 import io.github.pigaut.voxel.data.function.evaluate.*;
+import io.github.pigaut.voxel.player.stat.*;
+import io.github.pigaut.voxel.player.stat.modifier.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.configurator.load.*;
+import io.github.pigaut.yaml.node.*;
 import io.github.pigaut.yaml.node.sequence.*;
 import net.objecthunter.exp4j.*;
 import org.bukkit.*;
@@ -92,6 +95,8 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
 
             lastLevel = levelsRangeMax;
 
+
+
             SkillStats levelStatsIncrement = levelSection.get("stats", SkillStats.class)
                     .withDefault(SkillStats.EMPTY);
 
@@ -105,14 +110,34 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
                     .withDefault(null);
 
 
-            SkillStats accumulatedStats = lastLevelStats;
             for (int level = levelsRangeMin; level <= levelsRangeMax; level++) {
+                SkillStats.Builder statsBuilder = lastLevelStats.toBuilder();
+                for (KeyedField field : levelSection.getSectionOrCreate("stats").getNestedFields()) {
+                    StatType stat = field.getKeyAs(StatType.class).orThrow();
+                    LeveledStatModifier statModifier = field.getRequired(LeveledStatModifier.class);
+                    StatOperation operation = statModifier.getOperation();
+
+                    StatModifier lastModifier = lastLevelStats.get(stat);
+                    if (lastModifier != null) {
+                        if (operation != lastModifier.getOperation()) {
+                            throw new InvalidConfigException(field, "Stat modifier operation does not match ones from previous levels");
+                        }
+
+                        double totalAmount = lastModifier.getValue() + statModifier.getValueAtLevel()
+                        StatModifier totalModifier = new StatModifier(lastModifier.getValue() +  operation);
+
+                        statsBuilder.set(stat, statModifier.ge)
+                    }
+                }
+
+
+
                 int exp = (int) expFormula.setVariable("level", level).evaluate();
-                accumulatedStats = accumulatedStats.add(levelStatsIncrement);
-                skillLevels.set(level - 1, new SkillLevel(exp, accumulatedStats, rewards, onCompletion, onRegression));
+                statsBuilder = statsBuilder.add(levelStatsIncrement);
+                skillLevels.set(level - 1, new SkillLevel(exp, statsBuilder, rewards, onCompletion, onRegression));
             }
 
-            lastLevelStats = accumulatedStats;
+            lastLevelStats = statsBuilder.build();
         }
 
         if (lastLevel != maxLevel) {

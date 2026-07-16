@@ -1,6 +1,7 @@
 package io.github.pigaut.orestack.skill;
 
 import io.github.pigaut.voxel.player.stat.*;
+import io.github.pigaut.voxel.player.stat.modifier.*;
 import io.github.pigaut.voxel.player.state.*;
 import org.jetbrains.annotations.*;
 
@@ -47,6 +48,25 @@ public class SkillStats {
 
     public static @NotNull Builder create() {
         return new Builder();
+    }
+
+    public @Nullable StatModifier get(@NotNull StatType stat) {
+        return switch (stat) {
+            case DAMAGE -> damage;
+            case DEFENSE -> defense;
+            case MAX_HEALTH -> maxHealth;
+            case MAX_MANA -> maxMana;
+            case HEALTH_REGEN -> healthRegen;
+            case MANA_REGEN -> manaRegen;
+            case CRIT_DAMAGE -> critDamage;
+            case CRIT_CHANCE -> critChance;
+            case MINING_FORTUNE -> miningFortune;
+            case FARMING_FORTUNE -> farmingFortune;
+            case FORAGING_FORTUNE -> foragingFortune;
+            case MOVEMENT_SPEED -> movementSpeed;
+            case ATTACK_SPEED -> attackSpeed;
+            case MINING_SPEED -> miningSpeed;
+        };
     }
 
     public void applyAll(@NotNull PlayerState playerState, @NotNull Skill skill) {
@@ -208,6 +228,26 @@ public class SkillStats {
         private @Nullable StatModifier miningSpeed;
 
         private Builder() {
+        }
+
+        public @NotNull Builder set(@NotNull StatType stat, @Nullable StatModifier modifier) {
+            switch (stat) {
+                case DAMAGE -> damage = modifier;
+                case DEFENSE -> defense = modifier;
+                case MAX_HEALTH -> maxHealth = modifier;
+                case MAX_MANA -> maxMana = modifier;
+                case HEALTH_REGEN -> healthRegen = modifier;
+                case MANA_REGEN -> manaRegen = modifier;
+                case CRIT_DAMAGE -> critDamage = modifier;
+                case CRIT_CHANCE -> critChance = modifier;
+                case MINING_FORTUNE -> miningFortune = modifier;
+                case FARMING_FORTUNE -> farmingFortune = modifier;
+                case FORAGING_FORTUNE -> foragingFortune = modifier;
+                case MOVEMENT_SPEED -> movementSpeed = modifier;
+                case ATTACK_SPEED -> attackSpeed = modifier;
+                case MINING_SPEED -> miningSpeed = modifier;
+            }
+            return this;
         }
 
         public Builder setDamage(@Nullable StatModifier damage) {

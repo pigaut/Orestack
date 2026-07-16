@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.skill.config;
 
 import io.github.pigaut.orestack.skill.*;
 import io.github.pigaut.voxel.player.stat.*;
+import io.github.pigaut.voxel.player.stat.modifier.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
 import org.jetbrains.annotations.*;
