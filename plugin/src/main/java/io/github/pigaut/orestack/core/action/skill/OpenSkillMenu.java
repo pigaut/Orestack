@@ -5,7 +5,7 @@ import io.github.pigaut.orestack.player.data.*;
 import io.github.pigaut.orestack.skill.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.menu.*;
-import io.github.pigaut.voxel.data.function.action.*;
+import io.github.pigaut.voxel.module.function.action.*;
 import io.github.pigaut.voxel.player.data.*;
 import io.github.pigaut.voxel.player.state.*;
 import io.github.pigaut.voxel.plugin.*;

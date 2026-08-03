@@ -1,75 +1,53 @@
+
 item: wheat
+
 on-unlock:
-  - sendMessage collection_unlocked
+  - sendMessage collection_unlock
+
+on-tier-up:
+  - sendCollectionTierUpMessage
 
 --- #===== Tier 1 =====
 amount: 50
 rewards: []
-on-completion:
-  - sendCollectionLevelUpMessage
-
-on-regression: []
+on-completion: []
 
 --- #===== Tier 2 =====
 amount: 100
 rewards: []
-on-completion:
-  - sendCollectionLevelUpMessage
-
-on-regression: []
+on-completion: []
 
 --- #===== Tier 3 =====
 amount: 250
 rewards: []
-on-completion:
-  - sendCollectionLevelUpMessage
-
-on-regression: []
+on-completion: []
 
 --- #===== Tier 4 =====
 amount: 1000
 rewards: []
-on-completion:
-  - sendCollectionLevelUpMessage
-
-on-regression: []
+on-completion: []
 
 --- #===== Tier 5 =====
 amount: 5000
 rewards: []
-on-completion:
-  - sendCollectionLevelUpMessage
-
-on-regression: []
+on-completion: []
 
 --- #===== Tier 6 =====
 amount: 15000
 rewards: []
-on-completion:
-  - sendCollectionLevelUpMessage
-
-on-regression: []
+on-completion: []
 
 --- #===== Tier 7 =====
 amount: 30000
 rewards: []
-on-completion:
-  - sendCollectionLevelUpMessage
-
-on-regression: []
+on-completion: []
 
 --- #===== Tier 8 =====
 amount: 50000
 rewards: []
-on-completion:
-  - sendCollectionLevelUpMessage
-
-on-regression: []
+on-completion: []
 
 --- #===== Tier 9 =====
 amount: 100000
 rewards: []
-on-completion:
-  - sendCollectionLevelUpMessage
-
-on-regression: []
+on-completion: []

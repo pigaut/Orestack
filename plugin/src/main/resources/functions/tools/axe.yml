@@ -1,3 +1,4 @@
+
 requireAxe:
   if-not: toolTypeEquals WOODEN_AXE, STONE_AXE, GOLDEN_AXE, IRON_AXE, GOLDEN_AXE, DIAMOND_AXE, NETHERITE_AXE
   do:

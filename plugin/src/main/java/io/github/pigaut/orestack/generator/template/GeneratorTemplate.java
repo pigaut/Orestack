@@ -3,7 +3,7 @@ package io.github.pigaut.orestack.generator.template;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
-import io.github.pigaut.voxel.data.structure.block.*;
+import io.github.pigaut.voxel.module.structure.block.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import org.bukkit.*;
 import org.bukkit.block.*;

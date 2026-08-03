@@ -1,75 +1,116 @@
 
+#░░░█▀▀░█▀█░█▀▄░█▄█░▀█▀░█▀█░█▀▀░░░█▀▀░█░█░▀█▀░█░░░█░░░░
+#░░░█▀▀░█▀█░█▀▄░█░█░░█░░█░█░█░█░░░▀▀█░█▀▄░░█░░█░░░█░░░░
+#░░░▀░░░▀░▀░▀░▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░░
+
+# The skill icon item
 icon: gold_hoe
 
+# The skill description
 description:
   - 'Harvest crops, milk cows,'
   - 'collect eggs, and shear sheep'
   - 'to earn Farming EXP!'
 
-max-level: 100
+# Triggered anytime a player levels up this skill
+on-level-up:
+  - sendSkillLevelUpMessage   # Found in functions/utils/MessageUtil.yml
 
-exp-formula: "(floor(level - 1 + 300 * (2 ^ ((level - 1) / 7)))) / 4"
+# The exp gained when a player collects an egg laid by a chicken
+egg-collect-exp:
+  yield: 10 exp
 
-block-break-exp: []
+# The exp gained when a player milks a cow
+milk-cow-exp:
+  if: hasPermission double.milking.exp
+  yield: 40 exp
+  else: 20 exp
 
-generator-harvest-exp: []
+# The exp gained when a player shears a sheep
+sheep-shear-exp:
+  - if: hasPermission triple.shearing.exp
+    yield: 90 exp
+
+  - if: hasPermission double.shearing.exp
+    yield: 60 exp
+
+  - yield: 30 exp
+
+
+# The exp gained when a player breaks a block
+block-break-exp:
+  switch: blockTypeEquals
+  cases:
+    wheat: common exp
+    carrots: common exp
+    potatoes: common exp
+    beetroot: uncommon exp
+    melon: rare exp
+    pumpkin: rare exp
+    sugar_cane: uncommon exp
+    cactus: uncommon exp
+    bamboo: rare exp
+    cocoa: rare exp
+    nether_wart: epic exp
+    vine: common exp
+    twisting_vines: epic exp
+    weeping_vines: epic exp
+    # moss_block: uncommon exp   # 1.17+
+    # mangrove_propagule: rare exp   # 1.17+
+    # pitcher_crop: legendary exp   # 1.20+
+    # torchflower_crop: legendary exp   # 1.20+
+  default: 0 exp
 
 --- # ===== Levels 1-25 ===== #
 levels: 1-25
 
 # Define the stat increment amount per level
 stats:
-  health: +2
-  farming-fortune: +4
+  max-health: +2 every 1 level
+  farming-fortune: +4 every 1 level
 
 rewards:
-  - '&7+&a2 <health>'
-  - '&7+&a4 <farming_fortune>'
+  - '&8+&a2 $health'
+  - '&8+&64 $farming_fortune'
 
 on-completion: []
-on-regression: []
 
 --- # ===== Levels 26-50 ===== #
 levels: 26-50
 
-# Define the stat increment amount per level
 stats:
-  health: +2
-  farming-fortune: +4
+  max-health: +2 every 1 level
+  farming-fortune: +4 every 1 level
 
 rewards:
-  - '&7+&a2 <health>'
-  - '&7+&a4 <farming_fortune>'
+  - '&8+&a2 $health'
+  - '&8+&64 $farming_fortune'
 
 on-completion: []
-on-regression: []
 
 --- # ===== Levels 51-75 ===== #
 levels: 51-75
 
-# Define the stat increment amount per level
 stats:
-  health: +2
-  farming-fortune: +4
+  max-health: +2 every 1 level
+  farming-fortune: +4 every 1 level
 
 rewards:
-  - '&7+&a2 <health>'
-  - '&7+&a4 <farming_fortune>'
+  - '&8+&a2 $health'
+  - '&8+&64 $farming_fortune'
 
 on-completion: []
-on-regression: []
 
 --- # ===== Levels 76-100 ===== #
 levels: 76-100
 
-# Define the stat increment amount per level
 stats:
-  health: +2
-  farming-fortune: +4
+  max-health: +2 every 1 level
+  farming-fortune: +4 every 1 level
 
 rewards:
-  - '&7+&a2 <health>'
-  - '&7+&a4 <farming_fortune>'
+  - '&8+&a2 $health'
+  - '&8+&64 $farming_fortune'
 
 on-completion: []
 on-regression: []

@@ -6,7 +6,7 @@ import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
-import io.github.pigaut.voxel.data.function.*;
+import io.github.pigaut.voxel.module.function.*;
 import io.github.pigaut.voxel.util.*;
 import io.github.pigaut.voxel.util.Server;
 import org.bukkit.*;

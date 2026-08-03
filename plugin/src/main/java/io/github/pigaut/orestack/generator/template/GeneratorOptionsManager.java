@@ -2,7 +2,7 @@ package io.github.pigaut.orestack.generator.template;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
-import io.github.pigaut.voxel.data.structure.*;
+import io.github.pigaut.voxel.module.structure.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.plugin.manager.config.*;
 import io.github.pigaut.yaml.*;

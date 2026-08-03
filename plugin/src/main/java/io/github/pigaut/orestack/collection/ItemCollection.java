@@ -3,10 +3,12 @@ package io.github.pigaut.orestack.collection;
 import io.github.pigaut.orestack.collection.template.*;
 import io.github.pigaut.orestack.collection.tier.*;
 import io.github.pigaut.voxel.core.context.*;
-import io.github.pigaut.voxel.data.function.*;
+import io.github.pigaut.voxel.module.function.*;
 import io.github.pigaut.yaml.util.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
+
+import java.util.*;
 
 public class ItemCollection {
 
@@ -19,7 +21,7 @@ public class ItemCollection {
         this.collectedAmount = collectedAmount;
         for (int i = template.getMaxTier(); i >= 0; i--) {
             CollectionTier collectionTier = template.getTier(i);
-            if (collectedAmount >= collectionTier.getAmount()) {
+            if (collectedAmount >= collectionTier.getAmountRequired()) {
                 currentTier = i;
                 break;
             }
@@ -62,6 +64,10 @@ public class ItemCollection {
         return currentTier >= template.getMaxTier() ? currentTier : currentTier + 1;
     }
 
+    public int getPreviousTier() {
+        return currentTier <= 0 ? currentTier : currentTier - 1;
+    }
+
     public boolean matchItem(@NotNull ItemStack item) {
         return template.matchItem(item);
     }
@@ -70,13 +76,13 @@ public class ItemCollection {
         return template.getItem();
     }
 
-    public int getCollectedAmount() {
+    public int getTotalAmount() {
         return collectedAmount;
     }
 
     public int getNextTierAmount() {
         CollectionTier nextTier = template.getTier(currentTier >= template.getMaxTier() ? currentTier : currentTier + 1);
-        return nextTier.getAmount();
+        return nextTier.getAmountRequired();
     }
 
     public int getAmountToNextTier() {
@@ -100,9 +106,14 @@ public class ItemCollection {
 
         CollectionTier nextTier;
         while (currentTier + 1 <= template.getMaxTier()
-                && collectedAmount >= (nextTier = template.getTier(currentTier + 1)).getAmount()) {
+                && collectedAmount >= (nextTier = template.getTier(currentTier + 1)).getAmountRequired()) {
 
             currentTier++;
+
+            Function onTierUp = template.getOnTierUp();
+            if (onTierUp != null) {
+                onTierUp.run(context);
+            }
 
             Function onCompletion = nextTier.getOnCompletion();
             if (onCompletion != null) {
@@ -117,10 +128,15 @@ public class ItemCollection {
 
         context = context.with(ItemCollection.class, this);
 
-        while (currentTier >= 0 && collectedAmount < template.getTier(currentTier).getAmount()) {
+        while (currentTier >= 0 && collectedAmount < template.getTier(currentTier).getAmountRequired()) {
             CollectionTier lostTier = template.getTier(currentTier);
 
             currentTier--;
+
+            Function onTierDown = template.getOnTierDown();
+            if (onTierDown != null) {
+                onTierDown.run(context);
+            }
 
             Function onRegression = lostTier.getOnRegression();
             if (onRegression != null) {
@@ -138,6 +154,14 @@ public class ItemCollection {
 
     public int getMaxTier() {
         return template.getMaxTier();
+    }
+
+    public @Nullable List<String> getNextTierRewards() {
+        if (currentTier > getMaxTier()) {
+            return null;
+        }
+        CollectionTier nextTier = getTier(currentTier + 1);
+        return nextTier.getRewards();
     }
 
 }

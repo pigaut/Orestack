@@ -6,7 +6,7 @@ import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.orestack.player.state.*;
 import io.github.pigaut.voxel.core.command.node.*;
-import io.github.pigaut.voxel.data.structure.*;
+import io.github.pigaut.voxel.module.structure.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 

@@ -1,0 +1,59 @@
+
+apple_block:
+  type: head
+  head-texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTdlYTI3OGQ2MjI1YzQ0N2M1OTQzZDY1Mjc5OGQwYmJiZDE0MTg0MzRjZThjNTRjNTRmZGFjNzk5OTRkZGQ2YyJ9fX0=
+
+melon_block:
+  type: head
+  head-texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGU0MTgxMTM1ODdhM2NhZGQ2YmM4NGE3MWUxZDU3ZDI1MWZmZjgwOTVmYTQ2YjY5ODE3NDk4NjVlMjAwM2UwYyJ9fX0=
+
+watermelon_block:
+  type: head
+  head-texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWZlNGVmODNiYWYxMDVlOGRlZTZjZjAzZGZlNzQwN2YxOTExYjNiOTk1MmM4OTFhZTM0MTM5NTYwZjI5MzFkNiJ9fX0=
+
+sweet_berry_block:
+  type: head
+  head-texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTZhODk0YmIwNDViY2I5MzZhZTQ0NTMyYzNiYzk1MmU3MDBkODFjNTMwZjY4MGUzYmI1MjkzMjRlYmU2NTczNCJ9fX0=
+
+black_berry_block:
+  type: head
+  head-texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTNjNTM3OGQ0ZTBmMTQyMmJmMjZjYjU1YTBhZmRkOGViODljYjgyZDA2MjA1MDMzZmE1MmFiYmIwZDEwZDBlNiJ9fX0=
+
+glow_berry_block:
+  type: head
+  head-texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDFiMTFhNjBjNjQzZjE0NDdmYTQ1ZDIyZDM4ZmQ0ZGE3NDYxN2E0NWI0MzUxZTU4NDcyYWJhY2YwZWI3Y2FiYiJ9fX0=
+
+kiwi:
+  type: head
+  head-texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGNjMThlYzQ2NDlmMDdkNWEzOGE1ODNkOTI3MWZkODNhNmYzNzMxODc1OGU0NmVhODdmYzJiMmQxYWZjMmQ5In19fQ==
+
+dragon_fruit_block:
+  type: head
+  head-texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2NjNzYxYmNiMDU3OTc2M2Q5YjhhYjZiN2I5NmZhNzdlYjZkOTYwNWE4MDRkODM4ZmVjMzllN2IyNWY5NTU5MSJ9fX0=
+
+tropical_fruit_block:
+  type: head
+  head-texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1YjY5ZGY0YjBlMzU1YmYzYjk4ZmE5MGU2OWZlOTZlNzY5ODFmZWEwYjhjZWQzNGIwZDljZTllZGQ2MWNmNCJ9fX0=
+
+glow_fruit_block:
+  type: head
+  head-texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzcwYjA4NjIxMDI0MzE2NjZmMmE0ZTAyZTNiMjdjZGQ5ZjcyODc2Y2RiMDExYzMyZjMwZTc3OTI5YzM3MDNlYiJ9fX0=
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

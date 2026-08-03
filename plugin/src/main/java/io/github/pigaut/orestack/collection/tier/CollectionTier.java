@@ -1,6 +1,6 @@
 package io.github.pigaut.orestack.collection.tier;
 
-import io.github.pigaut.voxel.data.function.*;
+import io.github.pigaut.voxel.module.function.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -12,8 +12,8 @@ public class CollectionTier {
     private final Function onCompletion;
     private final Function onRegression;
 
-    public CollectionTier(int amount, List<String> rewards,
-                          Function onCompletion, Function onRegression) {
+    public CollectionTier(int amount, @NotNull List<String> rewards,
+                          @NotNull Function onCompletion, @NotNull Function onRegression) {
         this.amount = amount;
         this.rewards = rewards;
         this.onCompletion = onCompletion;
@@ -21,7 +21,7 @@ public class CollectionTier {
 
     }
 
-    public int getAmount() {
+    public int getAmountRequired() {
         return amount;
     }
 

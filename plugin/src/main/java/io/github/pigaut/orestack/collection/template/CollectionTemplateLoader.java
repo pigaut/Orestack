@@ -2,8 +2,7 @@ package io.github.pigaut.orestack.collection.template;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.collection.tier.*;
-import io.github.pigaut.voxel.data.function.*;
-import io.github.pigaut.voxel.plugin.*;
+import io.github.pigaut.voxel.module.function.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
@@ -56,10 +55,10 @@ public class CollectionTemplateLoader implements ConfigLoader<CollectionTemplate
         int previousAmount = 0;
         for (int i = 1; i < sequence.size(); i++) {
             CollectionTier collectionTier = sequence.getRequiredSection(i).getRequired(CollectionTier.class);
-            if (collectionTier.getAmount() <= previousAmount) {
+            if (collectionTier.getAmountRequired() <= previousAmount) {
                 throw new InvalidConfigException(sequence, i, "Collection tier amount must be greater than the previous");
             }
-            previousAmount = collectionTier.getAmount();
+            previousAmount = collectionTier.getAmountRequired();
             collectionTiers.add(collectionTier);
         }
 
@@ -69,7 +68,13 @@ public class CollectionTemplateLoader implements ConfigLoader<CollectionTemplate
         Function onLock = settingsSection.get("on-lock", Function.class)
                 .withDefault(null);
 
-        return new CollectionTemplate(name, group, item, collectionTiers, onUnlock, onLock);
+        Function onTierUp = settingsSection.get("on-tier-up", Function.class)
+                .withDefault(null);
+
+        Function onTierDown = settingsSection.get("on-tier-down", Function.class)
+                .withDefault(null);
+
+        return new CollectionTemplate(name, group, item, collectionTiers, onUnlock, onLock, onTierUp, onTierDown);
     }
 
 }

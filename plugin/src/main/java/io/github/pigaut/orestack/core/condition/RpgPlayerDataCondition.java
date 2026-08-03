@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.core.condition;
 
 import io.github.pigaut.orestack.player.data.*;
-import io.github.pigaut.voxel.data.function.condition.player.data.*;
+import io.github.pigaut.voxel.module.function.condition.player.data.*;
 import io.github.pigaut.voxel.player.data.*;
 import org.jetbrains.annotations.*;
 

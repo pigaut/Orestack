@@ -2,7 +2,7 @@ package io.github.pigaut.orestack.core.condition.skill;
 
 import io.github.pigaut.orestack.skill.*;
 import io.github.pigaut.voxel.core.context.*;
-import io.github.pigaut.voxel.data.function.condition.*;
+import io.github.pigaut.voxel.module.function.condition.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
 

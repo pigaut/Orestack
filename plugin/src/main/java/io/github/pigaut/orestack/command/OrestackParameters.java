@@ -22,4 +22,7 @@ public class OrestackParameters {
     public static final CommandParameter COLLECTION_NAME = CommandParameter.create("collection-name",
             (sender, args) -> plugin.getCollectionTemplates().getAllNames());
 
+    public static final CommandParameter SKILL_NAME = CommandParameter.create("skill-name",
+            (sender, args) -> plugin.getSkillTemplates().getAllNames());
+
 }

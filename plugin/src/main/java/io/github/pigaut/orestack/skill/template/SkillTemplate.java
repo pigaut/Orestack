@@ -1,8 +1,8 @@
 package io.github.pigaut.orestack.skill.template;
 
+import io.github.pigaut.orestack.skill.exp.*;
 import io.github.pigaut.orestack.skill.level.*;
-import io.github.pigaut.voxel.data.function.*;
-import io.github.pigaut.voxel.data.function.evaluate.*;
+import io.github.pigaut.voxel.module.function.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
@@ -18,17 +18,28 @@ public class SkillTemplate implements Identifiable {
     private final List<String> description;
 
     private final List<SkillLevel> skillLevels;
+
     private final @Nullable Function onUnlock;
     private final @Nullable Function onLock;
+    private final @Nullable Function onLevelUp;
+    private final @Nullable Function onLevelDown;
+    private final @Nullable Function onExpEarn;
 
-    private final @Nullable AmountFunction blockBreakExp;
-    private final @Nullable AmountFunction generatorHarvestExp;
+    private final @Nullable ExpYieldFunction blockBreakExp;
+    private final @Nullable ExpYieldFunction eggCollectExp;
+    private final @Nullable ExpYieldFunction milkCowExp;
+    private final @Nullable ExpYieldFunction shearSheepExp;
+    private final @Nullable ExpYieldFunction enchantItemExp;
+    private final @Nullable ExpYieldFunction brewPotionExp;
 
     public SkillTemplate(@NotNull String name, @Nullable String group,
                          @NotNull ItemStack icon, List<String> description,
                          @NotNull List<SkillLevel> skillLevels,
                          @Nullable Function onUnlock, @Nullable Function onLock,
-                         @Nullable AmountFunction blockBreakExp, @Nullable AmountFunction generatorHarvestExp) {
+                         @Nullable Function onLevelUp, @Nullable Function onLevelDown, @Nullable Function onExpEarn,
+                         @Nullable ExpYieldFunction blockBreakExp, @Nullable ExpYieldFunction eggCollectExp,
+                         @Nullable ExpYieldFunction milkCowExp, @Nullable ExpYieldFunction shearSheepExp,
+                         @Nullable ExpYieldFunction enchantItemExp, @Nullable ExpYieldFunction brewPotionExp) {
         this.name = name;
         this.group = group;
         this.icon = icon;
@@ -36,8 +47,15 @@ public class SkillTemplate implements Identifiable {
         this.skillLevels = List.copyOf(skillLevels);
         this.onUnlock = onUnlock;
         this.onLock = onLock;
+        this.onLevelUp = onLevelUp;
+        this.onLevelDown = onLevelDown;
+        this.onExpEarn = onExpEarn;
         this.blockBreakExp = blockBreakExp;
-        this.generatorHarvestExp = generatorHarvestExp;
+        this.eggCollectExp = eggCollectExp;
+        this.milkCowExp = milkCowExp;
+        this.shearSheepExp = shearSheepExp;
+        this.enchantItemExp = enchantItemExp;
+        this.brewPotionExp = brewPotionExp;
     }
 
     public @NotNull String getName() {
@@ -54,7 +72,7 @@ public class SkillTemplate implements Identifiable {
     }
 
     public @Nullable List<String> getDescription() {
-        return description;
+        return description != null ? new ArrayList<>(description) : null;
     }
 
     public @NotNull List<SkillLevel> getSkillLevels() {
@@ -62,11 +80,11 @@ public class SkillTemplate implements Identifiable {
     }
 
     public int getMaxLevel() {
-        return skillLevels.size();
+        return skillLevels.size() - 1;
     }
 
     public @NotNull SkillLevel getLevel(int level) {
-        return skillLevels.get(level - 1);
+        return skillLevels.get(level);
     }
 
     public @Nullable Function getOnUnlock() {
@@ -77,15 +95,51 @@ public class SkillTemplate implements Identifiable {
         return onLock;
     }
 
-    public int getExpRequiredForLevel(int level) {
-        SkillLevel skillLevel = getLevel(level);
-        return skillLevel.getExpRequirement();
+    public @Nullable Function getOnLevelUp() {
+        return onLevelUp;
     }
 
-    public int getLevelForExp(int totalExp) {
+    public @Nullable Function getOnLevelDown() {
+        return onLevelDown;
+    }
+
+    public @Nullable Function getOnExpEarn() {
+        return onExpEarn;
+    }
+
+    public @Nullable ExpYieldFunction getBlockBreakExp() {
+        return blockBreakExp;
+    }
+
+    public @Nullable ExpYieldFunction getEggCollectExp() {
+        return eggCollectExp;
+    }
+
+    public @Nullable ExpYieldFunction getMilkCowExp() {
+        return milkCowExp;
+    }
+
+    public @Nullable ExpYieldFunction getShearSheepExp() {
+        return shearSheepExp;
+    }
+
+    public @Nullable ExpYieldFunction getEnchantItemExp() {
+        return enchantItemExp;
+    }
+
+    public @Nullable ExpYieldFunction getBrewPotionExp() {
+        return brewPotionExp;
+    }
+
+    public long getExpRequiredForLevel(int level) {
+        SkillLevel skillLevel = getLevel(level);
+        return skillLevel.getExpRequired();
+    }
+
+    public int getLevelForExp(long totalExp) {
         int level = 0;
         for (SkillLevel skillLevel : skillLevels) {
-            if (totalExp >= skillLevel.getExpRequirement()) {
+            if (totalExp >= skillLevel.getExpRequired()) {
                 level++;
             } else {
                 break;
@@ -94,22 +148,22 @@ public class SkillTemplate implements Identifiable {
         return level;
     }
 
-    public int getExpIntoCurrentLevel(int totalExp) {
+    public long getExpIntoCurrentLevel(int totalExp) {
         int currentLevel = getLevelForExp(totalExp);
         if (currentLevel == 0) {
             return totalExp;
         }
-        int previousLevelExp = skillLevels.get(currentLevel - 1).getExpRequirement();
+        long previousLevelExp = skillLevels.get(currentLevel - 1).getExpRequired();
         return totalExp - previousLevelExp;
     }
 
-    public int getExpRequiredForNextLevel(int totalExp) {
+    public long getExpRequiredForNextLevel(int totalExp) {
         int currentLevel = getLevelForExp(totalExp);
         if (currentLevel >= skillLevels.size()) {
             return -1;
         }
-        int nextLevelExp = skillLevels.get(currentLevel).getExpRequirement();
-        int previousLevelExp = currentLevel == 0 ? 0 : skillLevels.get(currentLevel - 1).getExpRequirement();
+        long nextLevelExp = skillLevels.get(currentLevel).getExpRequired();
+        long previousLevelExp = currentLevel == 0 ? 0 : skillLevels.get(currentLevel - 1).getExpRequired();
         return nextLevelExp - previousLevelExp;
     }
 

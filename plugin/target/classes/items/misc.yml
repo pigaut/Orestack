@@ -62,10 +62,6 @@ compressed_coal:
     smite: 1
   attributes:
     - knockback_resistance 0.2 operation=multiply slot=chest name=stability
-  persistent-data:
-    - key: orestack:item
-      type: string
-      value: compressed_coal
 
 iron_chunk:
   type: iron_ore
@@ -83,10 +79,6 @@ iron_chunk:
     efficiency: 1
   attributes:
     - armor_toughness 1.0 slot=offhand
-  persistent-data:
-    - key: orestack:item
-      type: string
-      value: raw_iron_chunk
 
 diamond_shard:
   type: diamond
@@ -104,7 +96,3 @@ diamond_shard:
     fortune: 1
   attributes:
     - luck 50 operation=percent slot=mainhand
-  persistent-data:
-    - key: orestack:item
-      type: string
-      value: diamond_shard

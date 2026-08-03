@@ -1,0 +1,82 @@
+
+#░░░█▀▀░▀█▀░█▀▀░█░█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
+#░░░█▀▀░░█░░▀▀█░█▀█░░█░░█░█░█░█░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
+#░░░▀░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
+
+title: '&8Fishing Collections'
+
+rows: 6
+
+layout:
+  - "8 8 8 8 8 8 8 8 8"
+  - "8 a b c d _ _ _ 8"
+  - "8 _ _ _ _ _ _ _ 8"
+  - "8 _ _ _ _ _ _ _ 8"
+  - "8 _ _ _ _ _ _ _ 8"
+  - "8 8 8 - X = 8 8 8"
+
+--- # ==== Collection Item Button Template ===== #
+id: collection_template
+
+template: true
+args:
+  - ID # The collection file name (i.e. cod)
+  - NAME # The collection display name (i.e. Cod)
+  - ITEM # The collection material name (i.e. COD)
+
+condition: hasUnlockedCollection ID
+met:
+  type: ITEM
+  name: '&eNAME {ID_collection_tier_rm}'
+  lore:
+    - '&7View all your NAME Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to NAME {ID_collection_next_tier_rm}: &e{ID_collection_progress}&6%'
+    - '{ID_collection_progress_bar} &e{ID_collection_progress}/{ID_collection_amount_required}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=ID
+
+unmet:
+  type: gray_dye
+  name: '&cNAME'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Cod Button ===== #
+id: a
+template: collection_template
+args:
+  ID: cod
+  NAME: Cod
+  ITEM: COD
+
+--- # ==== Pufferfish Button ===== #
+id: b
+template: collection_template
+args:
+  ID: pufferfish
+  NAME: Pufferfish
+  ITEM: PUFFERFISH
+
+--- # ==== Salmon Button ===== #
+id: c
+template: collection_template
+args:
+  ID: salmon
+  NAME: Salmon
+  ITEM: SALMON
+
+--- # ==== Tropical Fish Button ===== #
+id: d
+template: collection_template
+args:
+  ID: tropical_fish
+  NAME: Tropical Fish
+  ITEM: TROPICAL_FISH

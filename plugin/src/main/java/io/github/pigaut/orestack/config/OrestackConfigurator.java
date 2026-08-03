@@ -1,4 +1,4 @@
-package io.github.pigaut.orestack.core.config;
+package io.github.pigaut.orestack.config;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.collection.template.*;
@@ -21,12 +21,14 @@ import io.github.pigaut.orestack.health.*;
 import io.github.pigaut.orestack.health.config.*;
 import io.github.pigaut.orestack.skill.*;
 import io.github.pigaut.orestack.skill.config.*;
+import io.github.pigaut.orestack.skill.exp.*;
 import io.github.pigaut.orestack.skill.template.*;
 import io.github.pigaut.voxel.config.*;
-import io.github.pigaut.voxel.data.function.action.*;
-import io.github.pigaut.voxel.data.function.action.menu.*;
-import io.github.pigaut.voxel.data.function.condition.*;
-import io.github.pigaut.voxel.data.function.condition.config.*;
+import io.github.pigaut.voxel.module.function.action.*;
+import io.github.pigaut.voxel.module.function.action.menu.*;
+import io.github.pigaut.voxel.module.function.condition.*;
+import io.github.pigaut.voxel.module.function.condition.config.*;
+import io.github.pigaut.voxel.module.function.config.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
@@ -51,6 +53,10 @@ public class OrestackConfigurator extends PluginConfigurator {
 
         addLoader(SkillTemplate.class, new SkillTemplateLoader(plugin));
         addLoader(SkillStats.class, new SkillStatsLoader());
+
+        addLoader(ExpAmount.class, new ExpAmountLoader(plugin));
+        addLoader(ExpYieldFunction.class, new YieldFunctionLoader<>(plugin,
+                ExpYieldFunction.class, ExpAmount.class, ExpYieldFunction::new));
 
         ConditionLoader conditions = getConditionLoader();
         ActionLoader actions = getActionLoader();
@@ -184,6 +190,9 @@ public class OrestackConfigurator extends PluginConfigurator {
 
         conditions.addLoader("COLLECTION_TIER_EQUALS", (Line<Condition>) line ->
                 new CollectionTierEquals(line.getRequired(1, Amount.class)));
+
+        conditions.addLoader("COLLECTION_TIER_IS_IN_PROGRESS", (Line<Condition>) line ->
+                new CollectionTierEquals(Amount.fixed(line.getRequiredInteger(1) - 1)));
 
         conditions.addLoader("COLLECTION_TIER_IS_COMPLETED", (Line<Condition>) line ->
                 new CollectionTierEquals(Amount.greaterThanOrEqual(line.getRequiredInteger(1))));

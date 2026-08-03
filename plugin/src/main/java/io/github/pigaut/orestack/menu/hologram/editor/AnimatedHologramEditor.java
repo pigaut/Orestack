@@ -43,7 +43,7 @@ public class AnimatedHologramEditor extends GenericHologramEditor {
                 .enchanted(true)
                 .name("&f&lFrames")
                 .addEmptyLine()
-                .addLines(frameSequence.toStringList(StringColor.FORMATTER).stream().map(StringUtil::prefixDash).toList())
+                .addLines(frameSequence.toStringList(ColorUtil.FORMATTER).stream().map(StringUtil::prefixDash).toList())
                 .addEmptyLine()
                 .addLeftClickLine("To add element to list")
                 .addLeftClickLine("To remove element from list")

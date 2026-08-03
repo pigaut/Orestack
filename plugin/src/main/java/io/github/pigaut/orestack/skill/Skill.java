@@ -1,9 +1,10 @@
 package io.github.pigaut.orestack.skill;
 
+import io.github.pigaut.orestack.skill.exp.*;
 import io.github.pigaut.orestack.skill.level.*;
 import io.github.pigaut.orestack.skill.template.*;
 import io.github.pigaut.voxel.core.context.*;
-import io.github.pigaut.voxel.data.function.*;
+import io.github.pigaut.voxel.module.function.*;
 import io.github.pigaut.voxel.player.state.*;
 import io.github.pigaut.yaml.util.*;
 import org.bukkit.inventory.*;
@@ -71,25 +72,59 @@ public class Skill {
         return currentLevel >= template.getMaxLevel() ? currentLevel : currentLevel + 1;
     }
 
-    public int getNextLevelExp() {
+    public int getPreviousLevel() {
+        return currentLevel <= 0 ? currentLevel : currentLevel - 1;
+    }
+
+    public long getNextLevelExp() {
         return template.getExpRequiredForLevel(getNextLevel());
     }
 
     public @Nullable List<String> getNextLevelRewards() {
-        SkillLevel skillLevel = getLevel();
-        return skillLevel != null ? skillLevel.getRewards() : null;
+        if (currentLevel > getMaxLevel()) {
+            return null;
+        }
+        SkillLevel nextLevel = getLevel(currentLevel + 1);
+        return nextLevel.getRewards();
     }
 
     public int getTotalExp() {
         return totalExp;
     }
 
-    public int getExpToNextLevel() {
+    public long getExpToNextLevel() {
         return Math.max(0, getNextLevelExp() - totalExp);
     }
 
+    public @Nullable ExpYieldFunction getBlockBreakExp() {
+        return template.getBlockBreakExp();
+    }
+
+    public @Nullable ExpYieldFunction getEggCollectExp() {
+        return template.getEggCollectExp();
+    }
+
+    public @Nullable ExpYieldFunction getMilkCowExp() {
+        return template.getMilkCowExp();
+    }
+
+    public @Nullable ExpYieldFunction getShearSheepExp() {
+        return template.getShearSheepExp();
+    }
+
+    public @Nullable ExpYieldFunction getEnchantItemExp() {
+        return template.getEnchantItemExp();
+    }
+
+    public @Nullable ExpYieldFunction getBrewPotionExp() {
+        return template.getBrewPotionExp();
+    }
+
     public void increaseExp(@NotNull Context context, int amount) {
-        Preconditions.checkArgument(amount > 0, "Amount must be positive");
+        Preconditions.checkArgument(amount >= 0, "Amount must be positive");
+        if (amount == 0) {
+            return;
+        }
 
         PlayerState playerState = context.playerState();
         if (playerState == null) {
@@ -99,16 +134,26 @@ public class Skill {
         this.totalExp += amount;
         context = context.with(Skill.class, this);
 
+        Function onExpEarn = template.getOnExpEarn();
+        if (onExpEarn != null) {
+            onExpEarn.run(context);
+        }
+
         SkillLevel nextLevel;
         while (currentLevel + 1 <= template.getMaxLevel()
-                && totalExp >= (nextLevel = template.getLevel(currentLevel + 1)).getExpRequirement()) {
+                && totalExp >= (nextLevel = template.getLevel(currentLevel + 1)).getExpRequired()) {
 
             currentLevel++;
 
             SkillStats skillStats = nextLevel.getStats();
             skillStats.applyAll(playerState, this);
 
-            Function onProgression = nextLevel.getOnProgression();
+            Function onLevelUp = template.getOnLevelUp();
+            if (onLevelUp != null) {
+                onLevelUp.run(context);
+            }
+
+            Function onProgression = nextLevel.getOnCompletion();
             if (onProgression != null) {
                 onProgression.run(context);
             }
@@ -116,7 +161,10 @@ public class Skill {
     }
 
     public void decreaseExp(@NotNull Context context, int amount) {
-        Preconditions.checkArgument(amount > 0, "Amount must be positive");
+        Preconditions.checkArgument(amount >= 0, "Amount must be positive");
+        if (amount == 0) {
+            return;
+        }
 
         PlayerState playerState = context.playerState();
         if (playerState == null) {
@@ -126,7 +174,7 @@ public class Skill {
         totalExp = Math.max(0, totalExp - amount);
         context = context.with(Skill.class, this);
 
-        while (currentLevel >= 1 && totalExp < template.getLevel(currentLevel).getExpRequirement()) {
+        while (currentLevel >= 1 && totalExp < template.getLevel(currentLevel).getExpRequired()) {
             SkillLevel lostLevel = template.getLevel(currentLevel);
 
             currentLevel--;
@@ -134,6 +182,11 @@ public class Skill {
             SkillLevel newLevel = template.getLevel(currentLevel);
             SkillStats skillStats = newLevel.getStats();
             skillStats.applyAll(playerState, this);
+
+            Function onLevelDown = template.getOnLevelDown();
+            if (onLevelDown != null) {
+                onLevelDown.run(context);
+            }
 
             Function onRegression = lostLevel.getOnRegression();
             if (onRegression != null) {

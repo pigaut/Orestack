@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.collection.template;
 
 import io.github.pigaut.orestack.collection.tier.*;
-import io.github.pigaut.voxel.data.function.*;
+import io.github.pigaut.voxel.module.function.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
@@ -16,16 +16,20 @@ public class CollectionTemplate implements Identifiable {
     private final List<CollectionTier> collectionTiers;
     private final Function onUnlock;
     private final Function onLock;
+    private final Function onTierUp;
+    private final Function onTierDown;
 
     public CollectionTemplate(@NotNull String name, @Nullable String group,
                               @NotNull ItemStack item, @NotNull List<CollectionTier> tiers,
-                              @Nullable Function onUnlock, @Nullable Function onLock) {
+                              @Nullable Function onUnlock, @Nullable Function onLock, Function onTierUp, Function onTierDown) {
         this.name = name;
         this.group = group;
         this.item = item;
         this.collectionTiers = tiers;
         this.onUnlock = onUnlock;
         this.onLock = onLock;
+        this.onTierUp = onTierUp;
+        this.onTierDown = onTierDown;
     }
 
     public @NotNull ItemStack getItem() {
@@ -47,7 +51,7 @@ public class CollectionTemplate implements Identifiable {
     public @Nullable CollectionTier getTierByAmount(int collectedAmount) {
         for (int i = collectionTiers.size() - 1; i >= 0; i--) {
             CollectionTier collectionTier = collectionTiers.get(i);
-            if (collectedAmount >= collectionTier.getAmount()) {
+            if (collectedAmount >= collectionTier.getAmountRequired()) {
                 return collectionTier;
             }
         }
@@ -64,6 +68,14 @@ public class CollectionTemplate implements Identifiable {
 
     public @Nullable Function getOnLock() {
         return onLock;
+    }
+
+    public @Nullable Function getOnTierUp() {
+        return onTierUp;
+    }
+
+    public @Nullable Function getOnTierDown() {
+        return onTierDown;
     }
 
     @Override

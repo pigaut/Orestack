@@ -10,8 +10,4 @@ public class SkillTemplateManager extends ConfigBackedManager<SkillTemplate> {
         super(plugin, Module.SKILLS, SkillTemplate.class);
     }
 
-    @Override
-    public void enable() {
-
-    }
 }

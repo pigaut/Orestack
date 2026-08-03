@@ -1,8 +1,8 @@
 package io.github.pigaut.orestack.skill.config;
 
 import io.github.pigaut.orestack.skill.*;
-import io.github.pigaut.voxel.player.stat.*;
-import io.github.pigaut.voxel.player.stat.modifier.*;
+import io.github.pigaut.voxel.module.stat.*;
+import io.github.pigaut.voxel.module.stat.modifier.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
 import org.jetbrains.annotations.*;
@@ -16,6 +16,7 @@ public class SkillStatsLoader implements ConfigLoader<SkillStats> {
 
     @Override
     public @NotNull SkillStats loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
+
         StatModifier damage = section.get("damage", StatModifier.class).withDefault(null);
         StatModifier defense = section.get("defense", StatModifier.class).withDefault(null);
         StatModifier maxHealth = section.get("max-health", StatModifier.class).withDefault(null);

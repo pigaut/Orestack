@@ -2,7 +2,7 @@ package io.github.pigaut.orestack.gate.state;
 
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.voxel.core.hologram.*;
-import io.github.pigaut.voxel.data.structure.global.*;
+import io.github.pigaut.voxel.module.structure.global.*;
 import io.github.pigaut.voxel.plugin.task.*;
 import io.github.pigaut.yaml.util.*;
 import org.jetbrains.annotations.*;

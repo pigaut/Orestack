@@ -2,7 +2,7 @@ package io.github.pigaut.orestack.command;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.menu.*;
-import io.github.pigaut.voxel.data.menu.command.*;
+import io.github.pigaut.voxel.module.menu.command.*;
 import org.jetbrains.annotations.*;
 
 public class OrestackMenuSubCommand extends MenuSubCommand {

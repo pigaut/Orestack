@@ -1,0 +1,198 @@
+
+#░░░█▄█░▀█▀░█▀█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
+#░░░█░█░░█░░█░█░░█░░█░█░█░█░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
+#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
+
+title: '&8Mining Collections'
+
+rows: 6
+
+layout:
+  - "8 8 8 8 8 8 8 8 8"
+  - "8 a b c d e f g 8"
+  - "8 h i j k l m n 8"
+  - "8 o p q r _ _ _ 8"
+  - "8 _ _ _ _ _ _ _ 8"
+  - "8 8 8 - X = 8 8 8"
+
+--- # ==== Collection Item Button Template ===== #
+id: collection_template
+
+template: true
+args:
+  - ID # The collection file name (i.e. dirt)
+  - NAME # The collection display name (i.e. Dirt)
+  - ITEM # The collection material name (i.e. DIRT)
+
+condition: hasUnlockedCollection ID
+met:
+  type: ITEM
+  name: '&eNAME {ID_collection_tier_rm}'
+  lore:
+    - '&7View all your NAME Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to NAME {ID_collection_next_tier_rm}: &e{ID_collection_progress}&6%'
+    - '{ID_collection_progress_bar} &e{ID_collection_progress}/{ID_collection_amount_required}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=ID
+
+unmet:
+  type: gray_dye
+  name: '&cNAME'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Dirt Button ===== #
+id: a
+template: collection_template
+args:
+  ID: dirt
+  NAME: Dirt
+  ITEM: DIRT
+
+--- # ==== Coal Button ===== #
+id: b
+template: collection_template
+args:
+  ID: coal
+  NAME: Coal
+  ITEM: COAL
+
+--- # ==== Cobblestone Button ===== #
+id: c
+template: collection_template
+args:
+  ID: cobblestone
+  NAME: Cobblestone
+  ITEM: COBBLESTONE
+
+--- # ==== Diamond Button ===== #
+id: d
+template: collection_template
+args:
+  ID: diamond
+  NAME: Diamond
+  ITEM: DIAMOND
+
+--- # ==== Emerald Button ===== #
+id: e
+template: collection_template
+args:
+  ID: emerald
+  NAME: Emerald
+  ITEM: EMERALD
+
+--- # ==== Endstone Button ===== #
+id: f
+template: collection_template
+args:
+  ID: endstone
+  NAME: Endstone
+  ITEM: END_STONE
+
+--- # ==== Glowstone Button ===== #
+id: g
+template: collection_template
+args:
+  ID: glowstone
+  NAME: Glowstone
+  ITEM: GLOWSTONE
+
+--- # ==== Gold Button ===== #
+id: h
+template: collection_template
+args:
+  ID: gold
+  NAME: Gold
+  ITEM: GOLD_INGOT
+
+--- # ==== Gravel Button ===== #
+id: i
+template: collection_template
+args:
+  ID: gravel
+  NAME: Gravel
+  ITEM: GRAVEL
+
+--- # ==== Ice Button ===== #
+id: j
+template: collection_template
+args:
+  ID: ice
+  NAME: Ice
+  ITEM: ICE
+
+--- # ==== Iron Button ===== #
+id: k
+template: collection_template
+args:
+  ID: iron
+  NAME: Iron
+  ITEM: IRON_INGOT
+
+--- # ==== Lapis Button ===== #
+id: l
+template: collection_template
+args:
+  ID: lapis
+  NAME: Lapis
+  ITEM: LAPIS_LAZULI
+
+--- # ==== Nether Quartz Button ===== #
+id: m
+template: collection_template
+args:
+  ID: nether_quartz
+  NAME: Nether Quartz
+  ITEM: QUARTZ
+
+--- # ==== Netherrack Button ===== #
+id: n
+template: collection_template
+args:
+  ID: netherrack
+  NAME: Netherrack
+  ITEM: NETHERRACK
+
+--- # ==== Obsidian Button ===== #
+id: o
+template: collection_template
+args:
+  ID: obsidian
+  NAME: Obsidian
+  ITEM: OBSIDIAN
+
+--- # ==== Red Sand Button ===== #
+id: p
+template: collection_template
+args:
+  ID: red_sand
+  NAME: Red Sand
+  ITEM: RED_SAND
+
+--- # ==== Redstone Button ===== #
+id: q
+template: collection_template
+args:
+  ID: redstone
+  NAME: Redstone
+  ITEM: REDSTONE
+
+--- # ==== Sand Button ===== #
+id: r
+template: collection_template
+args:
+  ID: sand
+  NAME: Sand
+  ITEM: SAND
+
+
+
+

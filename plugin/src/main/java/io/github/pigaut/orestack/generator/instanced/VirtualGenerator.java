@@ -5,7 +5,7 @@ import io.github.pigaut.orestack.generator.exception.*;
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
-import io.github.pigaut.voxel.data.structure.virtual.*;
+import io.github.pigaut.voxel.module.structure.virtual.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;

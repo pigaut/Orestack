@@ -1,0 +1,122 @@
+
+#░░░█▀▀░█▀█░█▀▄░█▀█░█▀▀░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
+#░░░█▀▀░█░█░█▀▄░█▀█░█░█░░█░░█░█░█░█░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
+#░░░▀░░░▀▀▀░▀░▀░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
+
+title: '&8Foraging Collections'
+
+rows: 6
+
+layout:
+  - "8 8 8 8 8 8 8 8 8"
+  - "8 a b c d e f _ 8"
+  - "8 _ _ _ _ _ _ _ 8"
+  - "8 _ _ _ _ _ _ _ 8"
+  - "8 _ _ _ _ _ _ _ 8"
+  - "8 8 8 - X = 8 8 8"
+
+--- # ==== Collection Item Button Template ===== #
+id: collection_template
+
+template: true
+args:
+  - ID # The collection file name (i.e. oak_log)
+  - NAME # The collection display name (i.e. Oak Log)
+  - ITEM # The collection material name (i.e. OAK_LOG)
+
+condition: hasUnlockedCollection ID
+met:
+  type: ITEM
+  name: '&eNAME {ID_collection_tier_rm}'
+  lore:
+    - '&7View all your NAME Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to NAME {ID_collection_next_tier_rm}: &e{ID_collection_progress}&6%'
+    - '{ID_collection_progress_bar} &e{ID_collection_progress}/{ID_collection_amount_required}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=ID
+
+unmet:
+  type: gray_dye
+  name: '&cNAME'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Oak Log ===== #
+id: a
+template: collection_template
+args:
+  ID: oak_log
+  NAME: Oak Log
+  ITEM: OAK_LOG
+
+--- # ==== Spruce Log ===== #
+id: b
+template: collection_template
+args:
+  ID: spruce_log
+  NAME: Spruce Log
+  ITEM: SPRUCE_LOG
+
+--- # ==== Birch Log ===== #
+id: c
+template: collection_template
+args:
+  ID: birch_log
+  NAME: Birch Log
+  ITEM: BIRCH_LOG
+
+--- # ==== Jungle Log ===== #
+id: d
+template: collection_template
+args:
+  ID: jungle_log
+  NAME: Jungle Log
+  ITEM: JUNGLE_LOG
+
+--- # ==== Acacia Log ===== #
+id: e
+template: collection_template
+args:
+  ID: acacia_log
+  NAME: Acacia Log
+  ITEM: ACACIA_LOG
+
+--- # ==== Dark Oak Log ===== #
+id: f
+template: collection_template
+args:
+  ID: dark_oak_log
+  NAME: Dark Oak Log
+  ITEM: DARK_OAK_LOG
+
+#--- # ==== Mangrove Log [1.19+] ===== #
+#id: g
+#template: collection_template
+#args:
+#  ID: mangrove_log
+#  NAME: Mangrove Log
+#  ITEM: MANGROVE_LOG
+
+#--- # ==== Cherry Log [1.20+] ===== #
+#id: h
+#template: collection_template
+#args:
+#  ID: cherry_log
+#  NAME: Cherry Log
+#  ITEM: CHERRY_LOG
+
+#--- # ==== Pale Oak Log [1.21.2+] ===== #
+#id: i
+#template: collection_template
+#args:
+#  ID: pale_oak_log
+#  NAME: Pale Oak Log
+#  ITEM: PALE_OAK_LOG

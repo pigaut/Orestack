@@ -11,7 +11,7 @@ import io.github.pigaut.voxel.core.transform.Rotation;
 
 
 import io.github.pigaut.voxel.core.command.node.*;
-import io.github.pigaut.voxel.data.structure.*;
+import io.github.pigaut.voxel.module.structure.*;
 import io.github.pigaut.voxel.util.Server;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;

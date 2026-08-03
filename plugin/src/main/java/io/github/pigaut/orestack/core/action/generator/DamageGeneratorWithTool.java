@@ -4,7 +4,7 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.core.context.*;
-import io.github.pigaut.voxel.data.function.action.*;
+import io.github.pigaut.voxel.module.function.action.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;

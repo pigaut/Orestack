@@ -5,8 +5,8 @@ import io.github.pigaut.orestack.collection.*;
 import io.github.pigaut.orestack.collection.ItemCollection;
 import io.github.pigaut.orestack.collection.template.*;
 import io.github.pigaut.orestack.command.*;
+import io.github.pigaut.orestack.config.*;
 import io.github.pigaut.orestack.core.*;
-import io.github.pigaut.orestack.core.config.*;
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.orestack.gate.template.*;
 import io.github.pigaut.orestack.generator.*;
@@ -26,13 +26,13 @@ import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.placeholder.*;
 import io.github.pigaut.voxel.core.tool.*;
-import io.github.pigaut.voxel.data.item.*;
-import io.github.pigaut.voxel.data.menu.*;
-import io.github.pigaut.voxel.data.menu.button.*;
-import io.github.pigaut.voxel.data.menu.button.dynamic.*;
-import io.github.pigaut.voxel.data.mob.*;
-import io.github.pigaut.voxel.data.mob.spawnegg.*;
-import io.github.pigaut.voxel.data.mob.spawnpad.tool.*;
+import io.github.pigaut.voxel.module.function.foreach.*;
+import io.github.pigaut.voxel.module.function.foreach.type.*;
+import io.github.pigaut.voxel.module.item.*;
+import io.github.pigaut.voxel.module.menu.button.dynamic.*;
+import io.github.pigaut.voxel.module.mob.*;
+import io.github.pigaut.voxel.module.mob.spawnegg.*;
+import io.github.pigaut.voxel.module.mob.spawnpad.tool.*;
 import io.github.pigaut.voxel.listener.*;
 import io.github.pigaut.voxel.player.*;
 import io.github.pigaut.voxel.plugin.*;
@@ -56,9 +56,6 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     private final OrestackSettings settings = new OrestackSettings(this);
 
-    private final OrestackPlayerStateManager playerStateManager = new OrestackPlayerStateManager(this);
-    private final OrestackPlayerDataManger playerDataManger = new OrestackPlayerDataManger(this);
-
     private final GeneratorTemplateManager generatorTemplateManager = new GeneratorTemplateManager(this);
     private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
     private final GeneratorManager generatorManager = new GeneratorManager(this);
@@ -69,6 +66,9 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
 
     private final CollectionTemplateManager collectionTemplateManager = new CollectionTemplateManager(this);
     private final SkillTemplateManager skillTemplateManager = new SkillTemplateManager(this);
+
+    private final RpgPlayerStateManager playerStateManager = new RpgPlayerStateManager(this);
+    private final RpgPlayerDataManger playerDataManger = new RpgPlayerDataManger(this);
 
     public static OrestackPlugin getInstance() {
         return plugin;
@@ -102,6 +102,11 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
                 item.setType(skill.getIcon().getType());
             }
         });
+
+        ForEachSourceRegistry forEachSources = getForEachSources();
+        forEachSources.register("online_player", new ForEachOnlinePlayer());
+        forEachSources.register("enchant_added", new ForEachEnchantAdded());
+        forEachSources.register("mob_attacker", new ForEachMobAttacker());
     }
 
     @Override
@@ -150,7 +155,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull OrestackPlayerStateManager getPlayersState() {
+    public @NotNull RpgPlayerStateManager getPlayersState() {
         return playerStateManager;
     }
 
@@ -165,7 +170,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull OrestackPlayerDataManger getPlayersData() {
+    public @NotNull RpgPlayerDataManger getPlayersData() {
         return playerDataManger;
     }
 
@@ -208,6 +213,7 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         }
 
         registerListener(new ItemCollectListener(plugin));
+        registerListener(new SkillEventListener(plugin));
     }
 
     @Override

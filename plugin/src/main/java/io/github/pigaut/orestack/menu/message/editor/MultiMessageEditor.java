@@ -50,30 +50,30 @@ public class MultiMessageEditor extends FramedSelectionEditor {
 
             if (messageSection.contains("chat|message|messages")) {
                 messageButton.type(Material.BOOK)
-                        .name(messageSection.getString("chat|message|messages", StringColor.FORMATTER).orElse("not set"))
+                        .name(messageSection.getString("chat|message|messages", ColorUtil.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new ChatMessageEditor(messageSection)));
             }
             else if (messageSection.contains("actionbar|action-healthBar")) {
                 messageButton.type(Material.NAME_TAG)
-                        .name(messageSection.getString("message", StringColor.FORMATTER).orElse("not set"))
+                        .name(messageSection.getString("message", ColorUtil.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new ActionbarEditor(messageSection)));
             }
             else if (messageSection.contains("title")) {
                 messageButton.type(Material.MAP)
-                        .name(messageSection.getString("title", StringColor.FORMATTER).orElse("not set"))
+                        .name(messageSection.getString("title", ColorUtil.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new TitleEditor(messageSection)));
             }
             else if (messageSection.contains("bossbar|boss-healthBar")) {
                 messageButton.type(Material.DRAGON_HEAD)
-                        .name(messageSection.getString("title", StringColor.FORMATTER).orElse("not set"))
+                        .name(messageSection.getString("title", ColorUtil.FORMATTER).orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new BossbarEditor(messageSection)));
             }
             else if (messageSection.contains("hologram")) {
                 messageButton.type(Material.BEACON)
                         .name(messageSection.getSequence("hologram.frames")
-                                .map(frameSequence -> frameSequence.toStringList(StringColor.FORMATTER).orElse(List.of()).stream()
+                                .map(frameSequence -> frameSequence.toStringList(ColorUtil.FORMATTER).orElse(List.of()).stream()
                                         .max(Comparator.comparingInt(String::length)))
-                                .orElse(messageSection.getString("hologram.text", StringColor.FORMATTER).asOptional())
+                                .orElse(messageSection.getString("hologram.text", ColorUtil.FORMATTER).asOptional())
                                 .orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new HologramMessageEditor(messageSection)));
             }

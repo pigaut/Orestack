@@ -5,15 +5,16 @@ import io.github.pigaut.orestack.collection.command.*;
 import io.github.pigaut.orestack.command.gate.*;
 import io.github.pigaut.orestack.command.generator.*;
 import io.github.pigaut.orestack.menu.*;
+import io.github.pigaut.orestack.skill.command.*;
 import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.command.node.*;
-import io.github.pigaut.voxel.data.item.command.*;
-import io.github.pigaut.voxel.data.message.command.*;
-import io.github.pigaut.voxel.data.mob.command.*;
-import io.github.pigaut.voxel.data.particle.command.*;
-import io.github.pigaut.voxel.data.recipe.command.*;
-import io.github.pigaut.voxel.data.sound.command.*;
-import io.github.pigaut.voxel.data.structure.command.*;
+import io.github.pigaut.voxel.module.item.command.*;
+import io.github.pigaut.voxel.module.message.command.*;
+import io.github.pigaut.voxel.module.mob.command.*;
+import io.github.pigaut.voxel.module.particle.command.*;
+import io.github.pigaut.voxel.module.recipe.command.*;
+import io.github.pigaut.voxel.module.sound.command.*;
+import io.github.pigaut.voxel.module.structure.command.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.command.*;
 import io.github.pigaut.voxel.plugin.manager.module.Module;
@@ -79,6 +80,11 @@ public class OrestackCommand extends EnhancedCommand {
         if (settings.isModuleEnabled(Module.COLLECTIONS)) {
             addSubCommand(new CollectionSubCommand(plugin));
         }
+
+        if (settings.isModuleEnabled(Module.SKILLS)) {
+            addSubCommand(new SkillSubCommand(plugin));
+        }
+
     }
 
 }

@@ -47,7 +47,7 @@
                                 </relocation>
                             </relocations>
                             <outputFile>
-                                /home/virgilio/servers/minecraft/${mc.version}/plugins/Orestack-${project.version}.jar
+                                D:\files\Development\java\spigot\servers\${mc.version}\plugins\Orestack-${project.version}.jar
                             </outputFile>
                         </configuration>
                     </execution>
@@ -137,13 +137,13 @@
         <dependency>
             <groupId>io.github.pigaut.yaml</groupId>
             <artifactId>YamlConfig</artifactId>
-            <version>3.7.6</version>
+            <version>3.7.7</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.github.pigaut.sql</groupId>
             <artifactId>SQLib</artifactId>
-            <version>1.4.2</version>
+            <version>1.4.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

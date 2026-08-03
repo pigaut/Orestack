@@ -1,30 +1,30 @@
 package io.github.pigaut.orestack.skill.level;
 
 import io.github.pigaut.orestack.skill.*;
-import io.github.pigaut.voxel.data.function.Function;
+import io.github.pigaut.voxel.module.function.Function;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
 
 public class SkillLevel {
 
-    private final int expRequirement;
+    private final long expRequirement;
     private final SkillStats stats;
     private final List<String> rewards;
-    private final Function onProgression;
+    private final Function onCompletion;
     private final Function onRegression;
 
-    public SkillLevel(int expRequirement, @NotNull SkillStats stats,
+    public SkillLevel(long expRequirement, @NotNull SkillStats stats,
                       @Nullable List<String> rewards,
                       @Nullable Function onProgression, @Nullable Function onRegression) {
         this.expRequirement = expRequirement;
         this.stats = stats;
         this.rewards = rewards != null ? List.copyOf(rewards) : null;
-        this.onProgression = onProgression;
+        this.onCompletion = onProgression;
         this.onRegression = onRegression;
     }
 
-    public int getExpRequirement() {
+    public long getExpRequired() {
         return expRequirement;
     }
 
@@ -33,11 +33,11 @@ public class SkillLevel {
     }
 
     public @Nullable List<String> getRewards() {
-        return rewards;
+        return rewards != null ? new ArrayList<>(rewards) : null;
     }
 
-    public @Nullable Function getOnProgression() {
-        return onProgression;
+    public @Nullable Function getOnCompletion() {
+        return onCompletion;
     }
 
     public @Nullable Function getOnRegression() {

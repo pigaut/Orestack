@@ -1,0 +1,130 @@
+
+#░░░█▀▀░█▀█░█▄█░█▀▄░█▀█░▀█▀░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
+#░░░█░░░█░█░█░█░█▀▄░█▀█░░█░░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
+#░░░▀▀▀░▀▀▀░▀░▀░▀▀░░▀░▀░░▀░░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
+
+title: '&8Combat Collections'
+
+rows: 6
+
+layout:
+  - "8 8 8 8 8 8 8 8 8"
+  - "8 a b c d e f g 8"
+  - "8 h i j _ _ _ _ 8"
+  - "8 _ _ _ _ _ _ _ 8"
+  - "8 _ _ _ _ _ _ _ 8"
+  - "8 8 8 - X = 8 8 8"
+
+--- # ==== Collection Item Button Template ===== #
+id: collection_template
+
+template: true
+args:
+  - ID # The collection file name (i.e. blaze_rod)
+  - NAME # The collection display name (i.e. Blaze Rod)
+  - ITEM # The collection material name (i.e. BLAZE_ROD)
+
+condition: hasUnlockedCollection ID
+met:
+  type: ITEM
+  name: '&eNAME {ID_collection_tier_rm}'
+  lore:
+    - '&7View all your NAME Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to NAME {ID_collection_next_tier_rm}: &e{ID_collection_progress}&6%'
+    - '{ID_collection_progress_bar} &e{ID_collection_progress}/{ID_collection_amount_required}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=ID
+
+unmet:
+  type: gray_dye
+  name: '&cNAME'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Blaze Rod Button ===== #
+id: a
+template: collection_template
+args:
+  ID: blaze_rod
+  NAME: Blaze Rod
+  ITEM: BLAZE_ROD
+
+--- # ==== Bone Button ===== #
+id: b
+template: collection_template
+args:
+  ID: bone
+  NAME: Bone
+  ITEM: BONE
+
+--- # ==== Ender Pearl Button ===== #
+id: c
+template: collection_template
+args:
+  ID: ender_pearl
+  NAME: Ender Pearl
+  ITEM: ENDER_PEARL
+
+--- # ==== Ghast Tear Button ===== #
+id: d
+template: collection_template
+args:
+  ID: ghast_tear
+  NAME: Ghast Tear
+  ITEM: GHAST_TEAR
+
+--- # ==== Gunpowder Button ===== #
+id: e
+template: collection_template
+args:
+  ID: gunpowder
+  NAME: Gunpowder
+  ITEM: GUNPOWDER
+
+--- # ==== Magma Cream Button ===== #
+id: f
+template: collection_template
+args:
+  ID: magma_cream
+  NAME: Magma Cream
+  ITEM: MAGMA_CREAM
+
+--- # ==== Rotten Flesh Button ===== #
+id: g
+template: collection_template
+args:
+  ID: rotten_flesh
+  NAME: Rotten Flesh
+  ITEM: ROTTEN_FLESH
+
+--- # ==== Slime Ball Button ===== #
+id: h
+template: collection_template
+args:
+  ID: slime_ball
+  NAME: Slime Ball
+  ITEM: SLIME_BALL
+
+--- # ==== Spider Eye Button ===== #
+id: i
+template: collection_template
+args:
+  ID: spider_eye
+  NAME: Spider Eye
+  ITEM: SPIDER_EYE
+
+--- # ==== String Button ===== #
+id: j
+template: collection_template
+args:
+  ID: string
+  NAME: String
+  ITEM: STRING

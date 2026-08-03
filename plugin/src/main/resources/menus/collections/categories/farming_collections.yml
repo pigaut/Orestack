@@ -1,0 +1,131 @@
+
+#░░░█▀▀░█▀█░█▀▄░█▄█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
+#░░░█▀▀░█▀█░█▀▄░█░█░░█░░█░█░█░█░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░░
+#░░░▀░░░▀░▀░▀░▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
+
+title: '&8Farming Collections'
+
+rows: 6
+
+layout:
+  - "8 8 8 8 8 8 8 8 8"
+  - "8 a b c d e f g 8"
+  - "8 h i j _ _ _ _ 8"
+  - "8 _ _ _ _ _ _ _ 8"
+  - "8 _ _ _ _ _ _ _ 8"
+  - "8 8 8 - X = 8 8 8"
+
+--- # ==== Collection Item Button Template ===== #
+id: collection_template
+
+template: true
+args:
+  - ID # The collection file name (i.e. beetroot)
+  - NAME # The collection display name (i.e. Beetroot)
+  - ITEM # The collection material name (i.e. BEETROOT)
+
+condition: hasUnlockedCollection ID
+
+met:
+  type: ITEM
+  name: '&eNAME {ID_collection_tier_rm}'
+  lore:
+    - '&7View all your NAME Collection'
+    - '&7progress and rewards!'
+    -
+    - '&7Progress to NAME {ID_collection_next_tier_rm}: &e{ID_collection_progress}&6%'
+    - '{ID_collection_progress_bar} &e{ID_collection_progress}/{ID_collection_amount_required}'
+    -
+    - '&eClick to view!'
+  on-left-click:
+    - openMenu collection_progress collection=ID
+
+unmet:
+  type: gray_dye
+  name: '&cNAME'
+  lore:
+    - '&7Find this item to add it to your'
+    - '&7collection and unlock collection'
+    - '&7rewards!'
+  on-left-click:
+    - sendChat &4You haven't found this item yet!
+
+--- # ==== Beetroot Button ===== #
+id: a
+template: collection_template
+args:
+  ID: beetroot
+  NAME: Beetroot
+  ITEM: BEETROOT
+
+--- # ==== Carrots Button ===== #
+id: b
+template: collection_template
+args:
+  ID: carrots
+  NAME: Carrots
+  ITEM: CARROT
+
+--- # ==== Cocoa Beans Button ===== #
+id: c
+template: collection_template
+args:
+  ID: cocoa_beans
+  NAME: Cocoa Beans
+  ITEM: COCOA_BEANS
+
+--- # ==== Melon Button ===== #
+id: d
+template: collection_template
+args:
+  ID: melon
+  NAME: Melon
+  ITEM: MELON
+
+--- # ==== Nether Wart Button ===== #
+id: e
+template: collection_template
+args:
+  ID: nether_wart
+  NAME: Nether Wart
+  ITEM: NETHER_WART
+
+--- # ==== Potatoes Button ===== #
+id: f
+template: collection_template
+args:
+  ID: potatoes
+  NAME: Potatoes
+  ITEM: POTATO
+
+--- # ==== Pumpkin Button ===== #
+id: g
+template: collection_template
+args:
+  ID: pumpkin
+  NAME: Pumpkin
+  ITEM: PUMPKIN
+
+--- # ==== Sugar Cane Button ===== #
+id: h
+template: collection_template
+args:
+  ID: sugar_cane
+  NAME: Sugar Cane
+  ITEM: SUGAR_CANE
+
+--- # ==== Sweet Berries Button ===== #
+id: i
+template: collection_template
+args:
+  ID: sweet_berries
+  NAME: Sweet Berries
+  ITEM: SWEET_BERRIES
+
+--- # ==== Wheat Button ===== #
+id: j
+template: collection_template
+args:
+  ID: wheat
+  NAME: Wheat
+  ITEM: WHEAT

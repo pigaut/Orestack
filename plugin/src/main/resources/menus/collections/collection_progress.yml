@@ -25,490 +25,145 @@ lore:
   - 'View all your {collection_name_tc} Collection'
   - 'progress and rewards!'
   - ''
-  - 'Total Collected: &e{collection_progress}'
+  - 'Total Collected: &e{collection_amount}'
+
+--- #===== Tier Button Template =====#
+id: tier_template
+
+template: true
+args:
+  - $ # The collection tier: [1, 2, 3, ..., 18]
+
+amount: $ # Will be replaced with collection tier number
+type: red_stained_glass_pane
+name: '&c{collection_name_tc} {collection_tier_$_rm}'
+lore:
+  - ''
+  - '&7Progress: &e{collection_tier_$_progress}%'
+  - '{collection_tier_$_progress_bar} &e{collection_progress}&6/&e{collection_tier_$_amount_required}'
+  - ''
+  - '&7Rewards:'
+  - '  {collection_tier_$_rewards}'
+
+# Modify the button based on conditions (overrides default button)
+modify:
+  - if-not: collectionHasTier $
+    clear: true # Whether to clear all previous button options
+    type: gray_stained_glass_pane
+    name: '&r'
+
+  - if: collectionTierIsInProgress $
+    type: yellow_stained_glass_pane
+    name: '&e{collection_name_tc} {collection_tier_$_rm}'
+
+  - if: collectionTierIsCompleted $
+    type: lime_stained_glass_pane
+    name: '&a{collection_name_tc} {collection_tier_$_rm}'
 
 --- #===== Tier 1 =====#
 id: a
-amount: 1
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} I'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_1_progress_percent}%'
-  - '{collection_tier_1_progress_bar} &e{collection_progress}&6/&e{collection_tier_1_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_1_rewards}'
-
-modify:
-  - if-not: collectionHasTier 1
-    type: gray_stained_glass_pane
-    name: '&r'
-    replace: true # Whether to clear all previous button options
-
-  - if: collectionTierEquals 0
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} I'
-
-  - if: collectionTierIsCompleted 1
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} I'
+template: tier_template
+args:
+  $: 1
 
 --- #===== Tier 2 =====#
 id: b
-amount: 2
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} II'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_2_progress_percent}%'
-  - '{collection_tier_2_progress_bar} &e{collection_progress}&6/&e{collection_tier_2_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_2_rewards}'
-
-modify:
-  - if-not: collectionHasTier 2
-    type: gray_stained_glass_pane
-    name: '&r'
-    lore: []
-
-  - if: collectionTierEquals 1
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} II'
-
-  - if: collectionTierIsCompleted 2
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} II'
+template: tier_template
+args:
+  $: 2
 
 --- #===== Tier 3 =====#
 id: c
-amount: 3
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} III'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_3_progress_percent}%'
-  - '{collection_tier_3_progress_bar} &e{collection_progress}&6/&e{collection_tier_3_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_3_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 3
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 2
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} III'
-
-  - if: collectionTierIsCompleted 3
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} III'
+template: tier_template
+args:
+  $: 3
 
 --- #===== Tier 4 =====#
 id: d
-amount: 4
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} IV'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_4_progress_percent}%'
-  - '{collection_tier_4_progress_bar} &e{collection_progress}&6/&e{collection_tier_4_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_4_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 4
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 3
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} IV'
-
-  - if: collectionTierIsCompleted 4
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} IV'
+template: tier_template
+args:
+  $: 4
 
 --- #===== Tier 5 =====#
 id: e
-amount: 5
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} V'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_5_progress_percent}%'
-  - '{collection_tier_5_progress_bar} &e{collection_progress}&6/&e{collection_tier_5_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_5_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 5
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 4
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} V'
-
-  - if: collectionTierIsCompleted 5
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} V'
+template: tier_template
+args:
+  $: 5
 
 --- #===== Tier 6 =====#
 id: f
-amount: 6
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} VI'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_6_progress_percent}%'
-  - '{collection_tier_6_progress_bar} &e{collection_progress}&6/&e{collection_tier_6_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_6_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 6
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 5
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} VI'
-
-  - if: collectionTierIsCompleted 6
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} VI'
+template: tier_template
+args:
+  $: 6
 
 --- #===== Tier 7 =====#
 id: g
-amount: 7
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} VII'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_7_progress_percent}%'
-  - '{collection_tier_7_progress_bar} &e{collection_progress}&6/&e{collection_tier_7_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_7_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 7
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 6
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} VII'
-
-  - if: collectionTierIsCompleted 7
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} VII'
+template: tier_template
+args:
+  $: 7
 
 --- #===== Tier 8 =====#
 id: h
-amount: 8
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} VIII'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_8_progress_percent}%'
-  - '{collection_tier_8_progress_bar} &e{collection_progress}&6/&e{collection_tier_8_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_8_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 8
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 7
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} VIII'
-
-  - if: collectionTierIsCompleted 8
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} VIII'
+template: tier_template
+args:
+  $: 8
 
 --- #===== Tier 9 =====#
 id: i
-amount: 9
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} IX'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_9_progress_percent}%'
-  - '{collection_tier_9_progress_bar} &e{collection_progress}&6/&e{collection_tier_9_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_9_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 9
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 8
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} IX'
-
-  - if: collectionTierIsCompleted 9
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} IX'
+template: tier_template
+args:
+  $: 9
 
 --- #===== Tier 10 =====#
 id: j
-amount: 10
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} X'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_10_progress_percent}%'
-  - '{collection_tier_10_progress_bar} &e{collection_progress}&6/&e{collection_tier_10_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_10_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 10
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 9
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} X'
-
-  - if: collectionTierIsCompleted 10
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} X'
+template: tier_template
+args:
+  $: 10
 
 --- #===== Tier 11 =====#
 id: k
-amount: 11
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} XI'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_11_progress_percent}%'
-  - '{collection_tier_11_progress_bar} &e{collection_progress}&6/&e{collection_tier_11_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_11_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 11
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 10
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XI'
-
-  - if: collectionTierIsCompleted 11
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} XI'
+template: tier_template
+args:
+  $: 11
 
 --- #===== Tier 12 =====#
 id: l
-amount: 12
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} XII'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_12_progress_percent}%'
-  - '{collection_tier_12_progress_bar} &e{collection_progress}&6/&e{collection_tier_12_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_12_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 12
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 11
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XII'
-
-  - if: collectionTierIsCompleted 12
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} XII'
+template: tier_template
+args:
+  $: 12
 
 --- #===== Tier 13 =====#
 id: m
-amount: 13
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} XIII'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_13_progress_percent}%'
-  - '{collection_tier_13_progress_bar} &e{collection_progress}&6/&e{collection_tier_13_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_13_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 13
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 12
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XIII'
-
-  - if: collectionTierIsCompleted 13
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} XIII'
+template: tier_template
+args:
+  $: 13
 
 --- #===== Tier 14 =====#
 id: n
-amount: 14
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} XIV'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_14_progress_percent}%'
-  - '{collection_tier_14_progress_bar} &e{collection_progress}&6/&e{collection_tier_14_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_14_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 14
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 13
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XIV'
-
-  - if: collectionTierIsCompleted 14
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} XIV'
+template: tier_template
+args:
+  $: 14
 
 --- #===== Tier 15 =====#
 id: o
-amount: 15
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} XV'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_15_progress_percent}%'
-  - '{collection_tier_15_progress_bar} &e{collection_progress}&6/&e{collection_tier_15_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_15_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 15
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 14
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XV'
-
-  - if: collectionTierIsCompleted 15
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} XV'
+template: tier_template
+args:
+  $: 15
 
 --- #===== Tier 16 =====#
 id: p
-amount: 16
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} XVI'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_16_progress_percent}%'
-  - '{collection_tier_16_progress_bar} &e{collection_progress}&6/&e{collection_tier_16_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_16_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 16
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 15
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XVI'
-
-  - if: collectionTierIsCompleted 16
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} XVI'
+template: tier_template
+args:
+  $: 16
 
 --- #===== Tier 17 =====#
 id: q
-amount: 17
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} XVII'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_17_progress_percent}%'
-  - '{collection_tier_17_progress_bar} &e{collection_progress}&6/&e{collection_tier_17_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_17_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 17
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 16
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XVII'
-
-  - if: collectionTierIsCompleted 17
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} XVII'
+template: tier_template
+args:
+  $: 17
 
 --- #===== Tier 18 =====#
 id: r
-amount: 18
-type: red_stained_glass_pane
-name: '&c{collection_name_tc} XVIII'
-lore:
-  - ''
-  - '&7Progress: &e{collection_tier_18_progress_percent}%'
-  - '{collection_tier_18_progress_bar} &e{collection_progress}&6/&e{collection_tier_18_requirement}'
-  - ''
-  - '&7Rewards:'
-  - '  {collection_tier_18_rewards}'
-
-conditions:
-  - if-not: collectionHasTier 18
-    type: gray_stained_glass_pane
-    name: '&7'
-    lore: []
-
-  - if: collectionTierEquals 17
-    type: yellow_stained_glass_pane
-    name: '&e{collection_name_tc} XVIII'
-
-  - if: collectionTierIsCompleted 18
-    type: lime_stained_glass_pane
-    name: '&a{collection_name_tc} XVIII'
+template: tier_template
+args:
+  $: 18

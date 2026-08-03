@@ -194,6 +194,11 @@ collection-not-found: '&4Could not find collection with name: {collection-name}'
 #░░░▀▀█░█▀▄░░█░░█░░░█░░░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
 #░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
 skill-command: ''
+skill-increment-command: 'Increments the exp of a skill'
+skill-decrement-command: 'Decrements the exp of a skill'
+# Success
+incremented-skill: '&aIncremented {skill-name_tc} skill by {amount} exp'
+decremented-skill: '&aDecremented {skill-name_tc} skill by {amount} exp'
 # Errors
 skill-not-found: '&4Could not find skill with name: {skill-name}'
 
@@ -281,6 +286,12 @@ made-invisible-mob-spawn-pads: '&cAll mob spawn pads are now invisible'
 received-mob-spawn-egg: '&aReceived {mob-name_tc} spawn egg'
 received-all-mob-spawn-eggs: '&aReceived all mob spawn eggs'
 
+#░░░█▀▀░█░█░█▀█░█▀▀░▀█▀░▀█▀░█▀█░█▀█░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
+#░░░█▀▀░█░█░█░█░█░░░░█░░░█░░█░█░█░█░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
+#░░░▀░░░▀▀▀░▀░▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
+
+# Errors
+function-not-found: '&cCould not find function with name: {function-name}'
 
 #░░░█▀▀░█▀▀░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░░░█░█░█▀█░█▀█░█▀▄░░░░
 #░░░▀▀█░█▀▀░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░░░█▄█░█▀█░█░█░█░█░░░░

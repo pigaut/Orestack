@@ -3,7 +3,7 @@ package io.github.pigaut.orestack.core.condition.generator;
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.generator.*;
 import io.github.pigaut.voxel.core.context.*;
-import io.github.pigaut.voxel.data.function.condition.Condition;
+import io.github.pigaut.voxel.module.function.condition.Condition;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
 

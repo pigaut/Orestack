@@ -1,66 +1,64 @@
 
+#░░░█▀▀░█▀█░█▄█░█▀▄░█▀█░▀█▀░░░█▀▀░█░█░▀█▀░█░░░█░░░░
+#░░░█░░░█░█░█░█░█▀▄░█▀█░░█░░░░▀▀█░█▀▄░░█░░█░░░█░░░░
+#░░░▀▀▀░▀▀▀░▀░▀░▀▀░░▀░▀░░▀░░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░░
+
+# The item for {skill_icon} placeholder
 icon: stone_sword
 
+# The skill description for {skill_description} placeholder
 description:
   - 'Fight mobs and special bosses to'
   - 'to earn Combat EXP!'
 
-max-level: 100
-
-exp-formula: "(floor(level - 1 + 300 * (2 ^ ((level - 1) / 7)))) / 4"
+# Triggered anytime a player levels up this skill
+on-level-up:
+  - sendSkillLevelUpMessage   # Found in functions/utils/MessageUtil.yml
 
 block-break-exp: []
-
-generator-harvest-exp: []
 
 --- # ===== Levels 1-25 ===== #
 levels: 1-25
 
 # Define the stat increment amount per level
 stats:
-  damage: 4%
+  damage: +4% every 1 level
 
 rewards:
-  - '&7+&a4% <damage>'
+  - '&8+&a4% $damage'
 
 on-completion: []
-on-regression: []
 
 --- # ===== Levels 26-50 ===== #
 levels: 26-50
 
-# Define the stat increment amount per level
 stats:
-  damage: 4%
+  damage: +4% every 1 level
 
 rewards:
-  - '&7+&a4% <damage>'
+  - '&8+&a4% $damage'
 
 on-completion: []
-on-regression: []
 
 --- # ===== Levels 51-75 ===== #
 levels: 51-75
 
-# Define the stat increment amount per level
 stats:
-  damage: 4%
+  damage: +4% every 1 level
 
 rewards:
-  - '&7+&a4% <damage>'
+  - '&8+&a4% $damage'
 
 on-completion: []
-on-regression: []
 
 --- # ===== Levels 76-100 ===== #
 levels: 76-100
 
-# Define the stat increment amount per level
 stats:
-  damage: 4%
+  damage: +4% every 1 level
 
 rewards:
-  - '&7+&a4% <damage>'
+  - '&8+&a4% $damage'
 
 on-completion: []
 on-regression: []

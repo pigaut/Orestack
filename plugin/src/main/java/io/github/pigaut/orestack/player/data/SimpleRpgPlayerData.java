@@ -11,15 +11,18 @@ import java.util.*;
 public class SimpleRpgPlayerData extends SimplePlayerData implements RpgPlayerData {
 
     private Map<String, Skill> skillsByName = new HashMap<>();
-    private Set<ItemCollection> itemCollections = new HashSet<>();
+    private Map<String, ItemCollection> itemCollectionsByName = new HashMap<>();
 
     public SimpleRpgPlayerData(@NotNull UUID playerId) {
         super(playerId);
     }
 
     @Override
-    public @NotNull Set<Skill> getSkills() {
-        return new HashSet<>(skillsByName.values());
+    public @NotNull Collection<Skill> getSkills() {
+        if (!isLoaded()) {
+            return List.of();
+        }
+        return new ArrayList<>(skillsByName.values());
     }
 
     @Override
@@ -67,12 +70,15 @@ public class SimpleRpgPlayerData extends SimplePlayerData implements RpgPlayerDa
         return skillsMaxed;
     }
 
-    public @NotNull Set<ItemCollection> getItemCollections() {
-        return new HashSet<>(itemCollections);
+    public @NotNull Collection<ItemCollection> getItemCollections() {
+        if (!isLoaded()) {
+            return List.of();
+        }
+        return new ArrayList<>(itemCollectionsByName.values());
     }
 
     public @Nullable ItemCollection getItemCollection(@NotNull String name) {
-        for (ItemCollection collection : itemCollections) {
+        for (ItemCollection collection : itemCollectionsByName.values()) {
             if (collection.getName().equalsIgnoreCase(name)) {
                 return collection;
             }
@@ -81,7 +87,7 @@ public class SimpleRpgPlayerData extends SimplePlayerData implements RpgPlayerDa
     }
 
     public @Nullable ItemCollection getItemCollection(@NotNull ItemStack item) {
-        for (ItemCollection collection : itemCollections) {
+        for (ItemCollection collection : itemCollectionsByName.values()) {
             if (collection.matchItem(item)) {
                 return collection;
             }
@@ -91,13 +97,25 @@ public class SimpleRpgPlayerData extends SimplePlayerData implements RpgPlayerDa
 
     @Override
     public int getCollectionCount() {
-        return itemCollections.size();
+        return itemCollectionsByName.size();
+    }
+
+    @Override
+    public int getCollectionCount(@NotNull String groupName) {
+        int collectionCount = 0;
+        for (ItemCollection collection : itemCollectionsByName.values()) {
+            String group = collection.getGroup();
+            if (group != null && group.equals(groupName)) {
+                collectionCount++;
+            }
+        }
+        return collectionCount;
     }
 
     @Override
     public int getCollectionsUnlocked() {
         int collectionsUnlocked = 0;
-        for (ItemCollection collection : itemCollections) {
+        for (ItemCollection collection : itemCollectionsByName.values()) {
             if (collection.isUnlocked()) {
                 collectionsUnlocked++;
             }
@@ -105,15 +123,32 @@ public class SimpleRpgPlayerData extends SimplePlayerData implements RpgPlayerDa
         return collectionsUnlocked;
     }
 
+    @Override
+    public int getCollectionsUnlocked(@NotNull String groupName) {
+        int collectionsUnlocked = 0;
+        for (ItemCollection collection : itemCollectionsByName.values()) {
+            String group = collection.getGroup();
+            if (group != null && group.equals(groupName) && collection.isUnlocked()) {
+                collectionsUnlocked++;
+            }
+        }
+        return collectionsUnlocked;
+    }
+
     public void setItemCollections(@NotNull Set<ItemCollection> itemCollections) {
-        this.itemCollections = itemCollections;
+        Map<String, ItemCollection> newItemCollectionsByName = new HashMap<>();
+        for (ItemCollection itemCollection : itemCollections) {
+            newItemCollectionsByName.put(itemCollection.getName(), itemCollection);
+        }
+        itemCollectionsByName = newItemCollectionsByName;
     }
 
     public void setSkills(@NotNull Set<Skill> skills) {
-        skillsByName = new HashMap<>();
+        Map<String, Skill> newSkillsByName = new HashMap<>();
         for (Skill skill : skills) {
-            skillsByName.put(skill.getName(), skill);
+            newSkillsByName.put(skill.getName(), skill);
         }
+        skillsByName = newSkillsByName;
     }
 
 }

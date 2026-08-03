@@ -26,7 +26,7 @@ public class ItemHologramEditor extends GenericHologramEditor {
                 .enchanted(true)
                 .name("&f&lItem Type")
                 .addEmptyLine()
-                .addLine(section.getString("item", StringColor.FORMATTER).orElse("not set"))
+                .addLine(section.getString("item", ColorUtil.FORMATTER).orElse("not set"))
                 .addEmptyLine()
                 .addLeftClickLine("To set the hologram item")
                 .onLeftClick((view, player) -> {

@@ -1,32 +1,37 @@
 
+#░░░█▄█░▀█▀░█▀█░▀█▀░█▀█░█▀▀░░░█▀▀░█░█░▀█▀░█░░░█░░░░
+#░░░█░█░░█░░█░█░░█░░█░█░█░█░░░▀▀█░█▀▄░░█░░█░░░█░░░░
+#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░░
+
+# The item for {skill_icon} placeholder
 icon: iron_pickaxe
 
+# The skill description for {skill_description} placeholder
 description:
   - 'Mine ores and blocks to'
   - 'earn Mining EXP!'
 
-max-level: 100
+# Triggered anytime a player levels up this skill
+on-level-up:
+  - sendSkillLevelUpMessage   # Found in "functions/utils/MessageUtil.yml"
 
-exp-formula: "(floor(level - 1 + 300 * (2 ^ ((level - 1) / 7)))) / 4"
-
+# The exp gained when a player breaks a block
 block-break-exp:
   switch: blockTypeEquals
   cases:
-    dirt: 1
-    cobblestone: 2
-    coal_ore: 4
+    dirt: basic exp   # Exp earning activities can be found in config.yml and help you stay consistent.
+    stone: basic exp
+    cobblestone: basic exp
+    coal_ore: common exp
+    iron_ore: uncommon exp
+    gold_ore: rare exp
     diamond_ore:
-      if-not: hasPermission double.diamond.exp
-      return: 5
-      else: 10
-  default: 0
-
-generator-harvest-exp:
-  switch: generatorNameEquals
-  cases:
-    coal: 2
-    gold: 4
-  default: 0
+      if: hasPermission extra.diamond.exp
+      return: 100 exp
+      else: epic exp
+    emerald_ore: legendary exp
+    diamond_block: 100-200 exp
+  default: 0 exp
 
 
 --- # ===== Levels 1-25 ===== #
@@ -34,57 +39,54 @@ levels: 1-25
 
 # Define the stat increment amount per level
 stats:
-  defense: 1
-  mining-fortune: 4
+  defense: +1 every 1 level
+  mining-fortune: +4 every 1 level
 
 rewards:
-  - '&7+&a1 <defense>'
-  - '&7+&a4 <mining_fortune>'
+  - '&8+&a1 $strength'
+  - '&8+&64 $foraging_fortune'
 
 on-completion: []
-on-regression: []
 
 --- # ===== Levels 26-50 ===== #
 levels: 26-50
 
 # Define the stat increment amount per level
 stats:
-  defense: 1
-  mining-fortune: 4
+  defense: +1 every 1 level
+  mining-fortune: +4 every 1 level
 
 rewards:
-  - '&7+&a1 <defense>'
-  - '&7+&a4 <mining_fortune>'
+  - '&8+&a1 $strength'
+  - '&8+&64 $foraging_fortune'
 
 on-completion: []
-on-regression: []
 
 --- # ===== Levels 51-75 ===== #
 levels: 51-75
 
 # Define the stat increment amount per level
 stats:
-  defense: 1
-  mining-fortune: 4
+  defense: +1 every 1 level
+  mining-fortune: +4 every 1 level
 
 rewards:
-  - '&7+&a1 <defense>'
-  - '&7+&a4 <mining_fortune>'
+  - '&8+&a1 $strength'
+  - '&8+&64 $foraging_fortune'
 
 on-completion: []
-on-regression: []
 
 --- # ===== Levels 76-100 ===== #
 levels: 76-100
 
 # Define the stat increment amount per level
 stats:
-  defense: 1
-  mining-fortune: 4
+  defense: +1 every 1 level
+  mining-fortune: +4 every 1 level
 
 rewards:
-  - '&7+&a1 <defense>'
-  - '&7+&a4 <mining_fortune>'
+  - '&8+&a1 $strength'
+  - '&8+&64 $foraging_fortune'
 
 on-completion: []
 on-regression: []

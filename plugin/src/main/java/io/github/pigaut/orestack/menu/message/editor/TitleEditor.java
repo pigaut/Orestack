@@ -23,7 +23,7 @@ public class TitleEditor extends GenericMessageEditor {
                 .name("&f&lTitle")
                 .enchanted(true)
                 .addEmptyLine()
-                .addLine(section.getString("title", StringColor.FORMATTER).orElse("not set"))
+                .addLine(section.getString("title", ColorUtil.FORMATTER).orElse("not set"))
                 .addEmptyLine()
                 .addLeftClickLine("To set the title")
                 .onLeftClick((view, player) -> {
@@ -41,7 +41,7 @@ public class TitleEditor extends GenericMessageEditor {
                 .name("&f&lSubtitle")
                 .enchanted(true)
                 .addEmptyLine()
-                .addLine(section.getString("subtitle", StringColor.FORMATTER).orElse("not set"))
+                .addLine(section.getString("subtitle", ColorUtil.FORMATTER).orElse("not set"))
                 .addEmptyLine()
                 .addLeftClickLine("To set the subtitle")
                 .onLeftClick((view, player) -> {

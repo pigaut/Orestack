@@ -32,7 +32,7 @@ public class ActionbarEditor extends GenericMessageEditor {
                             .start();
                 })
                 .addEmptyLine()
-                .addLine(section.getString("message", StringColor.FORMATTER).orElse("not set"))
+                .addLine(section.getString("message", ColorUtil.FORMATTER).orElse("not set"))
                 .addEmptyLine()
                 .addLine("&eLeft-Click: &fTo set the message");
 

@@ -1,16 +1,18 @@
 package io.github.pigaut.orestack.settings;
 
-import io.github.pigaut.orestack.collection.*;
 import io.github.pigaut.orestack.core.tools.*;
 import io.github.pigaut.orestack.health.*;
+import io.github.pigaut.orestack.skill.exp.*;
 import io.github.pigaut.voxel.bukkit.*;
 import io.github.pigaut.voxel.core.enchant.*;
 import io.github.pigaut.voxel.core.progressbar.*;
+import io.github.pigaut.voxel.module.function.*;
 import io.github.pigaut.voxel.event.drop.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.node.scalar.*;
+import net.objecthunter.exp4j.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -46,6 +48,10 @@ public class OrestackSettings extends Settings {
     private ProgressBar collectionProgressBar;
 
     // Skill Settings
+    private int defaultMaxLevel;
+    private Expression defaultExpFormula;
+    private Function defaultOnExpEarn;
+    private Map<String, ExpAmount> expEarningActivities;
     private ProgressBar skillProgressBar;
 
     // Health settings
@@ -132,6 +138,36 @@ public class OrestackSettings extends Settings {
                 .withDefaultOrElse(ProgressBar.EMPTY, errors::add);
 
         // Skills settings
+
+        defaultMaxLevel = config.getInteger("default-skill-settings.max-level")
+                .require(Requirements.positive())
+                .withDefaultOrElse(100, errors::add);
+
+        try {
+            String rawFormula = config.getString("default-skill-settings.exp-formula")
+                    .withDefaultOrElse(null, errors::add);
+            defaultExpFormula = new ExpressionBuilder(Objects.requireNonNullElse(rawFormula, "(level/0.1)^2"))
+                    .variable("level")
+                    .build();
+        } catch (Exception e) {
+            errors.add(new InvalidConfigException(config, "default-skill-settings.exp-formula", "Could not parse exp formula"));
+            defaultExpFormula = new ExpressionBuilder("(level/0.1)^2")
+                    .variable("level")
+                    .build();
+        }
+
+        defaultOnExpEarn = config.get("default-skill-settings.on-exp-earn", Function.class)
+                .withDefaultOrElse(null, errors::add);
+
+        expEarningActivities = new HashMap<>();
+        for (KeyedScalar scalar : config.getNestedScalars("exp-earning-activities")) {
+            ConfigLine line = scalar.toLine();
+            String name = scalar.getKey();
+            ExpAmount expAmount = line.get(ExpAmount.class)
+                    .withDefaultOrElse(null, errors::add);
+            expEarningActivities.put(name, expAmount);
+        }
+
         skillProgressBar = config.get("skill-progress-bar", ProgressBar.class)
                 .withDefaultOrElse(ProgressBar.EMPTY, errors::add);
 
@@ -275,6 +311,22 @@ public class OrestackSettings extends Settings {
         }
 
         return damage;
+    }
+
+    public int getDefaultMaxSkillLevel() {
+        return defaultMaxLevel;
+    }
+
+    public @NotNull Expression getDefaultExpFormula() {
+        return defaultExpFormula;
+    }
+
+    public @Nullable Function getDefaultOnExpEarn() {
+        return defaultOnExpEarn;
+    }
+
+    public @Nullable ExpAmount getExpEarningActivity(@NotNull String name) {
+        return expEarningActivities.get(name);
     }
 
     public @NotNull ProgressBar getSkillProgressBar() {

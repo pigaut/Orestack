@@ -2,7 +2,7 @@ package io.github.pigaut.orestack.core.action.gate;
 
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.voxel.core.context.*;
-import io.github.pigaut.voxel.data.function.action.*;
+import io.github.pigaut.voxel.module.function.action.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;

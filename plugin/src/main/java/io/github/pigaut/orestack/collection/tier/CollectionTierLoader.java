@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.collection.tier;
 
 import io.github.pigaut.voxel.bukkit.*;
-import io.github.pigaut.voxel.data.function.*;
+import io.github.pigaut.voxel.module.function.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
 import org.jetbrains.annotations.*;
@@ -20,7 +20,7 @@ public class CollectionTierLoader implements ConfigLoader<CollectionTier> {
         int amount = section.getInteger("amount")
                 .requireOrThrow(Requirements.positive());
 
-        List<String> rewards = section.getStringList("rewards", StringColor.FORMATTER)
+        List<String> rewards = section.getStringList("rewards", ColorUtil.FORMATTER)
                 .orEmpty();
 
         Function onCompletion = section.get("on-completion", Function.class)

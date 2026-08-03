@@ -4,7 +4,7 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.orestack.gate.template.*;
 import io.github.pigaut.voxel.core.context.*;
-import io.github.pigaut.voxel.data.function.action.*;
+import io.github.pigaut.voxel.module.function.action.*;
 import org.jetbrains.annotations.*;
 
 public class ReplaceGateAction implements Action {

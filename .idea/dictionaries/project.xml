@@ -6,16 +6,22 @@
       <w>collidable</w>
       <w>colorable</w>
       <w>coords</w>
+      <w>enderman</w>
       <w>ghast</w>
+      <w>insta</w>
+      <w>jlcy</w>
       <w>netherite</w>
       <w>netherrack</w>
       <w>plotsquared</w>
       <w>porkchop</w>
       <w>prismarine</w>
+      <w>qubm</w>
       <w>randomstroll</w>
       <w>scute</w>
       <w>shulker</w>
       <w>tierup</w>
+      <w>torchflower</w>
+      <w>yjgy</w>
     </words>
   </dictionary>
 </component>

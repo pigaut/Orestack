@@ -2,13 +2,13 @@ package io.github.pigaut.orestack.skill.config;
 
 import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.skill.*;
+import io.github.pigaut.orestack.skill.exp.*;
 import io.github.pigaut.orestack.skill.level.*;
 import io.github.pigaut.orestack.skill.template.*;
 import io.github.pigaut.voxel.bukkit.*;
-import io.github.pigaut.voxel.data.function.*;
-import io.github.pigaut.voxel.data.function.evaluate.*;
-import io.github.pigaut.voxel.player.stat.*;
-import io.github.pigaut.voxel.player.stat.modifier.*;
+import io.github.pigaut.voxel.module.function.*;
+import io.github.pigaut.voxel.module.stat.*;
+import io.github.pigaut.voxel.module.stat.modifier.*;
 import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
@@ -57,14 +57,17 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
         ConfigSection settingsSection = sequence.getRequiredSection(0);
 
         int maxLevel = settingsSection.getInteger("max-level")
-                .requireOrThrow(Requirements.positive());
+                .require(Requirements.positive())
+                .withDefault(plugin.getSettings().getDefaultMaxSkillLevel());
 
-        Expression expFormula;
+        Expression expFormula = plugin.getSettings().getDefaultExpFormula();
         try {
-            String rawFormula = settingsSection.getRequiredString("exp-formula");
-            expFormula = new ExpressionBuilder(rawFormula)
-                    .variable("level")
-                    .build();
+            String rawFormula = settingsSection.getString("exp-formula").withDefault(null);
+            if (rawFormula != null) {
+                expFormula = new ExpressionBuilder(rawFormula)
+                        .variable("level")
+                        .build();
+            }
         } catch (Exception e) {
             throw new InvalidConfigException(settingsSection, "exp-formula", "Could not parse exp formula");
         }
@@ -75,6 +78,7 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
         }
 
         int lastLevel = 0;
+        long lastLevelExp = 0;
         SkillStats lastLevelStats = SkillStats.EMPTY;
         for (int i = 1; i < sequence.size(); i++) {
             ConfigSection levelSection = sequence.getRequiredSection(i);
@@ -95,12 +99,7 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
 
             lastLevel = levelsRangeMax;
 
-
-
-            SkillStats levelStatsIncrement = levelSection.get("stats", SkillStats.class)
-                    .withDefault(SkillStats.EMPTY);
-
-            List<String> rewards = levelSection.getStringList("rewards", StringColor.FORMATTER)
+            List<String> rewards = levelSection.getStringList("rewards", ColorUtil.FORMATTER)
                     .withDefault(null);
 
             Function onCompletion = levelSection.get("on-completion", Function.class)
@@ -109,35 +108,41 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
             Function onRegression = levelSection.get("on-regression", Function.class)
                     .withDefault(null);
 
-
             for (int level = levelsRangeMin; level <= levelsRangeMax; level++) {
                 SkillStats.Builder statsBuilder = lastLevelStats.toBuilder();
                 for (KeyedField field : levelSection.getSectionOrCreate("stats").getNestedFields()) {
-                    StatType stat = field.getKeyAs(StatType.class).orThrow();
+                    Stat stat = field.getKeyAs(Stat.class).orThrow();
                     LeveledStatModifier statModifier = field.getRequired(LeveledStatModifier.class);
                     StatOperation operation = statModifier.getOperation();
 
-                    StatModifier lastModifier = lastLevelStats.get(stat);
-                    if (lastModifier != null) {
-                        if (operation != lastModifier.getOperation()) {
+                    StatModifier lastLevelModifier = lastLevelStats.get(stat);
+
+                    double currentAmount = statModifier.getAmountAtLevel(level);
+                    if (lastLevelModifier != null) {
+                        if (operation != lastLevelModifier.getOperation()) {
                             throw new InvalidConfigException(field, "Stat modifier operation does not match ones from previous levels");
                         }
-
-                        double totalAmount = lastModifier.getValue() + statModifier.getValueAtLevel()
-                        StatModifier totalModifier = new StatModifier(lastModifier.getValue() +  operation);
-
-                        statsBuilder.set(stat, statModifier.ge)
+                        currentAmount += lastLevelModifier.getAmount();
                     }
+
+                    StatModifier currentModifier = new StatModifier(currentAmount, operation);
+                    statsBuilder.set(stat, currentModifier);
                 }
 
+                long expRequirement = Math.round(expFormula.setVariable("level", level).evaluate());
+                if (expRequirement <= lastLevelExp) {
+                    throw new InvalidConfigException(settingsSection,
+                            "exp-formula", "Exp requirement for each level must be greater than the previous level's requirement");
+                }
 
+                SkillStats currentLevelStats = statsBuilder.build();
+                skillLevels.set(level - 1, new SkillLevel(expRequirement, currentLevelStats, rewards, onCompletion, onRegression));
 
-                int exp = (int) expFormula.setVariable("level", level).evaluate();
-                statsBuilder = statsBuilder.add(levelStatsIncrement);
-                skillLevels.set(level - 1, new SkillLevel(exp, statsBuilder, rewards, onCompletion, onRegression));
+                if (level == levelsRangeMax) {
+                    lastLevelStats = currentLevelStats;
+                    lastLevelExp = expRequirement;
+                }
             }
-
-            lastLevelStats = statsBuilder.build();
         }
 
         if (lastLevel != maxLevel) {
@@ -147,7 +152,7 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
         ItemStack icon = settingsSection.get("icon", ItemStack.class)
                 .withDefault(new ItemStack(Material.BEDROCK));
 
-        List<String> description = settingsSection.getStringList("description", StringColor.FORMATTER)
+        List<String> description = settingsSection.getStringList("description", ColorUtil.FORMATTER)
                 .withDefault(null);
 
         Function onUnlock = settingsSection.get("on-unlock", Function.class)
@@ -156,17 +161,42 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
         Function onLock = settingsSection.get("on-lock", Function.class)
                 .withDefault(null);
 
-        AmountFunction blockBreakExp = settingsSection.get("block-break-exp", AmountFunction.class)
+        Function onLevelUp = settingsSection.get("on-level-up", Function.class)
                 .withDefault(null);
 
-        AmountFunction generatorHarvestExp = settingsSection.get("generator-harvest-exp", AmountFunction.class)
+        Function onLevelDown = settingsSection.get("on-level-down", Function.class)
+                .withDefault(null);
+
+        Function onExpEarn = settingsSection.get("on-exp-earn", Function.class)
+                .withDefault(plugin.getSettings().getDefaultOnExpEarn());
+
+        ExpYieldFunction blockBreakExp = settingsSection.get("block-break-exp", ExpYieldFunction.class)
+                .withDefault(null);
+
+        ExpYieldFunction eggCollectExp = settingsSection.get("egg-collect-exp", ExpYieldFunction.class)
+                .withDefault(null);
+
+        ExpYieldFunction milkCowExp = settingsSection.get("milk-cow-exp", ExpYieldFunction.class)
+                .withDefault(null);
+
+        ExpYieldFunction shearSheepExp = settingsSection.get("shear-sheep-exp", ExpYieldFunction.class)
+                .withDefault(null);
+
+        ExpYieldFunction enchantItemExp = settingsSection.get("enchant-item-exp", ExpYieldFunction.class)
+                .withDefault(null);
+
+        ExpYieldFunction brewPotionExp = settingsSection.get("brew-potion-exp", ExpYieldFunction.class)
                 .withDefault(null);
 
         return new SkillTemplate(name, group,
                 icon, description,
                 skillLevels,
                 onUnlock, onLock,
-                blockBreakExp, generatorHarvestExp);
+                onLevelUp, onLevelDown,
+                onExpEarn,
+                blockBreakExp, eggCollectExp,
+                milkCowExp, shearSheepExp,
+                enchantItemExp, brewPotionExp);
     }
 
 }

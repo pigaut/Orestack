@@ -11,7 +11,7 @@ import java.util.*;
 public interface RpgPlayerData extends PlayerData {
 
     @NotNull
-    Set<Skill> getSkills();
+    Collection<Skill> getSkills();
 
     @Nullable
     Skill getSkill(@NotNull String name);
@@ -25,7 +25,7 @@ public interface RpgPlayerData extends PlayerData {
     int getSkillsMaxed(@NotNull String group);
 
     @NotNull
-    Set<ItemCollection> getItemCollections();
+    Collection<ItemCollection> getItemCollections();
 
     @Nullable
     ItemCollection getItemCollection(@NotNull String name);
@@ -35,6 +35,10 @@ public interface RpgPlayerData extends PlayerData {
 
     int getCollectionCount();
 
+    int getCollectionCount(@NotNull String group);
+
     int getCollectionsUnlocked();
+
+    int getCollectionsUnlocked(@NotNull String group);
 
 }

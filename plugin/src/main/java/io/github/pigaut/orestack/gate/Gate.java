@@ -6,7 +6,7 @@ import io.github.pigaut.orestack.gate.state.*;
 import io.github.pigaut.orestack.gate.template.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
-import io.github.pigaut.voxel.data.structure.global.Structure;
+import io.github.pigaut.voxel.module.structure.global.Structure;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;

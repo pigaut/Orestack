@@ -70,6 +70,101 @@ structure-wand:
     - '&fleft-click to select first corner'
     - '&fright-click to select second corner'
 
+
+#░░░█▀▀░█▀█░█▄█░█▀▀░█▀█░█░░░█▀█░█░█░░
+#░░░█░█░█▀█░█░█░█▀▀░█▀▀░█░░░█▀█░░█░░░
+#░░░▀▀▀░▀░▀░▀░▀░▀▀▀░▀░░░▀▀▀░▀░▀░░▀░░░
+
+# Show death messages when a player dies for any reason except being killed by a custom mob
+show-death-messages: true
+
+# Show death messages when a player is slain by a custom mob
+show-slain-messages: true
+
+# Whether the custom cow milking system should be enabled
+custom-cow-milking: true
+
+# How many times a cow can be milked before it runs out
+cow-max-milk: 3
+
+# How much milk and how frequently a cow should produce milk
+milk-production: 1 milk every 20-40s
+
+# Whether the custom egg laying system should be enabled
+custom-egg-laying: true
+
+# How many eggs and how frequently a chicken should lay eggs
+egg-laying: 1 egg every 20-40s
+
+
+#░░░█▀▀░█░█░█▀█░█▀▄░▀█▀░█▀▀░█░█░▀█▀░█▀▀░░░░
+#░░░▀▀█░█▀█░█░█░█▀▄░░█░░█░░░█░█░░█░░▀▀█░░░░
+#░░░▀▀▀░▀░▀░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀▀░░▀░░▀▀▀░░░░
+# Shortcuts let you define reusable YAML values once and reference them
+# anywhere in this plugin's config files, instead of copy and pasting
+# text/symbols repeatedly.
+
+# Whether shortcuts should be enabled
+shortcuts: true
+
+# Generic shortcuts, that do not belong to any module.
+generic-config-shortcuts:
+  # Stars
+  $star: ★
+  $star-outline: ☆
+  $sparkle: ✦
+  $sparkle-outline: ✧
+
+  # Arrows
+  $arrow-right: ➜
+  $arrow-left: ⬅
+  $arrow-up: ⬆
+  $arrow-down: ⬇
+  $arrow-double: »
+
+  # Status / feedback
+  $check: ✔
+  $cross: ✘
+  $warning: ⚠
+  $info: ℹ
+
+  # Combat / stats
+  $heart: '❤'
+  $protect: '❈'
+  $pencil: '✎'
+  $clover: '☘'
+  $power: '❁'
+  $pickaxe: '⛏'
+  $sword: ⚔
+  $shield: 🛡
+  $skull: ☠
+  $bolt: ⚡
+  $droplet: 💧
+
+  # Currency / economy
+  $coin: ⛁
+  $gem: ♦
+
+  # Bullets & separators
+  $bullet: •
+  $dot: ·
+  $divider: ─
+  $divider-bold: ━
+  $pipe: │
+
+  # Brackets / decorative
+  $corner-left: ❮
+  $corner-right: ❯
+  $diamond: ◆
+  $square: ■
+  $circle: ●
+
+  # Misc useful symbols
+  $infinity: ∞
+  $degree: °
+  $copyright: ©
+
+
 #░░░█▄█░█▀█░█▀▄░█░█░█░░░█▀▀░█▀▀░░░░
 #░░░█░█░█░█░█░█░█░█░█░░░█▀▀░▀▀█░░░░
 #░░░▀░▀░▀▀▀░▀▀░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░░░
@@ -79,18 +174,25 @@ structure-wand:
 # Toggle modules that should be disabled. Once a module is disabled you can delete the respective config folder.
 disabled-modules: []
 
+
 #░░░█▀▀░▀█▀░█▀█░▀█▀░█▀▀░░░░
 #░░░▀▀█░░█░░█▀█░░█░░▀▀█░░░░
 #░░░▀▀▀░░▀░░▀░▀░░▀░░▀▀▀░░░░
-
-# Whether stats should be enabled
-stats: true
 
 # Whether to use the actionbar to show the status bar (health, defense, mana)
 show-status-bar: true
 
 # The status bar to show to the player
-status-bar: '&c{player_health}/{player_max_health}<health>   &a{player_defense}<defense>   &b{player_mana}/{player_max_mana}<mana>'
+status-bar: '&c{player_health}/{player_max_health}$health    &a{player_defense}$defense    &b{player_mana}/{player_max_mana}$mana  '
+
+# Whether action bar messages should be inserted into the status bar. Otherwise, the message will replace the status bar.
+insert-messages-in-status-bar: true
+
+# Settings for status bar messages
+status-bar-messages:
+  length: 18
+  duration: 3s
+  align: center   # left, center, right
 
 # The base player stats
 base-stats:
@@ -98,8 +200,8 @@ base-stats:
   defense: 1
   max-health: 100
   max-mana: 100
-  health-regen: 3
-  mana-regen: 2
+  health-regen: 3 every 2s # Regen interval can only be changed here and will be the same for all players.
+  mana-regen: 2 every 1s # Regen interval can only be changed here and will be the same for all players.
   crit-damage: 50%
   crit-chance: 30%
   mining_fortune: 0
@@ -112,8 +214,8 @@ base-stats:
 # The custom player stats
 custom-stats:
   strength:
-    base: 0
-    stats:
+    base: 0 # The base level
+    stats: # Custom stats work by incrementing other base stats
       damage: +1 every 1 level
       crit-damage: +1% every 1 level
       crit-chance: +0.1% every 1 level
@@ -134,16 +236,15 @@ regen-health-during-combat: false
 # Whether mana should regenerate while in combat
 regen-mana-during-combat: true
 
-#░░░█▀▄░█▀█░█▄█░█▀█░█▀▀░█▀▀░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
-#░░░█░█░█▀█░█░█░█▀█░█░█░█▀▀░░░▀▀█░░█░░█▀█░░█░░░░░
-#░░░▀▀░░▀░▀░▀░▀░▀░▀░▀▀▀░▀▀▀░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
-# Damage is a player stat that increases attack damage.
+#░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░█▀▀░▀█▀░█▀█░▀█▀░█▀▀░░░░
+#░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░▀▀█░░█░░█▀█░░█░░▀▀█░░░░
+#░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░▀▀▀░░▀░░▀░▀░░▀░░▀▀▀░░░░
+# Customize whether some enchants should increment stats instead of their vanilla functionality.
 
-# Whether the sharpness enchant should be treated as a stat multiplier instead of its vanilla functionality
+# Whether the sharpness enchant should be treated as a stat multiplier.
 sharpness-enchant-as-stat: true
 
-# The damage multiplier by sharpness enchant level
-# [Warning] Works only if 'sharpness-enchant-as-stat' is enabled
+# The damage multiplier by sharpness enchant level.
 damage-multiplier-by-sharpness-enchant-level:
   1: 5%
   2: 10%
@@ -151,16 +252,10 @@ damage-multiplier-by-sharpness-enchant-level:
   4: 20%
   5: 30%
 
-#░░░█▄█░▀█▀░█▀█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▀▀░█▀▀░█▀▄░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
-#░░░█░█░░█░░█░█░░█░░█░█░█░█░░░▀▀█░█▀▀░█▀▀░█▀▀░█░█░░░▀▀█░░█░░█▀█░░█░░░░░
-#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░░░▀▀▀░▀▀▀░▀▀░░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
-# Mining Speed is a player stat that increases how fast you break blocks.
-
-# Whether the efficiency enchant should be treated as a stat increment instead of its vanilla functionality
+# Whether the efficiency enchant should be treated as a stat increment.
 efficiency-enchant-as-stat: true
 
 # Set the Mining Speed amount gained by the items efficiency enchant level.
-# [Warning] Works only if 'efficiency-enchant-as-stat' is enabled
 mining-speed-by-efficiency-enchant-level:
   1: 20
   2: 40
@@ -168,34 +263,10 @@ mining-speed-by-efficiency-enchant-level:
   4: 80
   5: 100
 
-
-#░░░█▄█░▀█▀░█▀█░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▀▄░▀█▀░█░█░█▀█░█▀▀░░░█▀▀░▀█▀░█▀█░▀█▀░░░░
-#░░░█░█░░█░░█░█░░█░░█░█░█░█░░░█▀▀░█░█░█▀▄░░█░░█░█░█░█░█▀▀░░░▀▀█░░█░░█▀█░░█░░░░░
-#░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀▀░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░░▀░░▀░▀░░▀░░░░░
-# Mining Fortune is a player stat that increases mining drops.
-# Every 100 points has a 100% to increase the drop by +1.
-
-# Whether mining fortune should be enabled by default when dropping items
-# If set to false you will have to manually set the `miningFortune` flag in each action
-mining-fortune: true
-
-# Drops affected by the Mining Fortune Stat of the player.
-apply-mining-fortune:
-  - coal
-  - diamond
-  - emerald
-  - lapis_lazuli
-  - redstone
-  - quartz
-  - raw_iron
-  - raw_gold
-# - raw_copper   # 1.17+
-
-# Whether the fortune enchant should be treated as a stat increment instead of its vanilla functionality
+# Whether the fortune enchant should be treated as a stat increment.
 fortune-enchant-as-stat: true
 
 # Set the Mining Fortune amount gained by the items fortune enchant level.
-# [Warning] Works only if 'fortune-enchant-as-stat' is enabled
 mining-fortune-by-fortune-enchant-level:
   1: 30
   2: 60
@@ -207,21 +278,60 @@ mining-fortune-by-fortune-enchant-level:
 #░░░▀▀█░█▀▄░░█░░█░░░█░░░▀▀█░░░░
 #░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░░░
 
+# The default skill settings. Can be overridden inside any /skills/ YML file
+default-skill-settings:
+  # The max skill level
+  max-level: 100
+
+  # The skill exp curve formula
+  exp-formula: "(level/0.1)^2"   # Table: https://docs.google.com/spreadsheets/d/1uKtb0TNpGUDe4uaNQHuicAinahdi_w2OhySmgF2Ibk0/edit?usp=sharing
+
+  # The function triggered when a player earns exp for any skill
+  on-exp-earn:
+    - sendActionBar &a+{exp} {skill_tc} exp
+
 # The default skill progress bar for some placeholders
 skill-progress-bar: line
 
 # Config shortcuts, these placeholders can be used in all configurations and
 # will be replaced by the specified value. This way you can avoid typing weird characters and waste time.
 skill-config-shortcuts:
-  <health>: '&c❤ Health'
-  <defense>: '&a❈ Defense'
-  <mana>: '&b✎ Mana'
-  <strength>: '&c❁ Strength'
-  <intelligence>: '&b✎ Intelligence'
-  <mining_fortune>: '&6☘ Mining Fortune'
-  <mining_speed>: '&6⛏ Mining Speed'
-  <farming_fortune>: '&6☘ Farming Fortune'
-  <foraging_fortune>: '&6☘ Foraging Fortune'
+  $health: '&c❤ Health'
+  $defense: '&a❈ Defense'
+  $damage: '&c❁ Damage'
+  $mana: '&b✎ Mana'
+  $mining_fortune: '&6☘ Mining Fortune'
+  $mining_speed: '&6⛏ Mining Speed'
+  $farming_fortune: '&6☘ Farming Fortune'
+  $foraging_fortune: '&6☘ Foraging Fortune'
+  $strength: '&c❁ Strength'
+  $intelligence: '&b✎ Intelligence'
+
+# EXP Earning Activities Guidelines
+# Target: Level 1 -> 100 (1,000,000 exp) in ~90 hours average
+# Examples
+# |                 Description                     |  Activity  |
+# |           stone readily available               |   basic    |
+# |  wheat farm that regrows 1-3 every few seconds  |   common   |
+# |     diamond ores placed scarcely in a cave      |    epic    |
+
+# Exp earnings per activity duration (Different factors affect duration: walk distance, regrowth/respawn rate, etc...)
+# |    Name    |       Duration      | exp/sec | reach lvl 100 | bonus |
+# |    basic   |        instant      |  2.00   |  138.8+ hours |  +0%  |
+# |   common   |      <1 second      |  2.00   |  138.8 hours  |  +0%  |
+# |  uncommon  |     1-2 seconds     |  2.50   |  111.1 hours  | +25%  |
+# |    rare    |     2-4 seconds     |  3.00   |  92.59 hours  | +50%  |
+# |    epic    |     4-8 seconds     |  3.50   |  79.37 hours  | +75%  |
+# |  legendary |    16-32 seconds    |  4.00   |  69.44 hours  | +100% |
+
+# Exp activities are entirely optional, just define exp amount instead of exp activity name.
+exp-earning-activities:
+  basic: 1 exp chance=25%
+  common: 1-2 exp
+  uncommon: 2-5 exp
+  rare: 6-12 exp
+  epic: 14-28 exp
+  legendary: 64-128 exp
 
 
 #░░░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░░
@@ -239,6 +349,7 @@ collection-item-sources:
 
 # The default collection progress bar for some placeholders
 collection-progress-bar: line
+
 
 #░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
 #░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
@@ -266,259 +377,10 @@ generator-tool:
     - '&fleft-click to break'
     - '&fshift + left-click (air) to rotate'
 
-#░░░█▀█░█▀▀░█▀▄░░░░░█▀█░█░░░█▀█░█░█░█▀▀░█▀▄░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
-#░░░█▀▀░█▀▀░█▀▄░▄▄▄░█▀▀░█░░░█▀█░░█░░█▀▀░█▀▄░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
-#░░░▀░░░▀▀▀░▀░▀░░░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
 
-# Custom Barrier Layout Guide
-#   1. Definition -> A fake block is a block that only exists on the client but not on the server.
-#   2. Visual problem -> You might see entities/items/players walk into fake blocks.
-#   3. Anticheat problem -> If a player stands on a fake block for too long, the server/anticheat will kick/ban the player for flying.
-#   4. Solution -> Place barrier blocks on the server-side, the player will not see them, but they will act as a physical layout.
-#   5. Limitation -> Players might not be able to reach certain blocks and might run into invisible barrier blocks.
-#   6. Customization -> You can set the layout of the barrier blocks to anything you want while keeping in mind problems 2. and 3.
-
-# WARNING: use at your own risk, read above and make sure you understand before using this option.
-per-player-generators-barrier-layouts:
-  great_oak_tree: great_oak_tree_silhouette # generator_name: structure_name
-  wheat: none # Use none, and no barrier blocks will be placed. (No barriers are placed for non-solid blocks by default)
-
-#░░░█▀▀░█▀█░▀█▀░█▀▀░█▀▀░░░░
-#░░░█░█░█▀█░░█░░█▀▀░▀▀█░░░░
-#░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀▀░░░░
-
-# The default delay in ticks between each click, it can be overridden in each gate phase.
-gate-click-cooldown: 3
-
-# The gate item used to place and break gates (admin tool)
-gate-tool:
-  material: terracotta   # Replaced by the last phase block
-  name: '&b&l{gate_tc} Gate ({gate_tool_rotation_tc})'
-  glow: true
-  lore:
-    - '&fright-click to place'
-    - '&fleft-click to break'
-    - '&fshift + left-click (air) to rotate'
-
-#░░░█▄█░█▀█░█▀▄░█▀▀░░░░
-#░░░█░█░█░█░█▀▄░▀▀█░░░░
-#░░░▀░▀░▀▀▀░▀▀░░▀▀▀░░░░
-
-# Show death messages when a player dies for any reason except being killed by a mob
-show-death-messages: true
-
-# Show death messages when a player is slain by a custom mob
-show-slain-messages: true
-
-# The default message shown when a player is slain by a custom mob
-player-slain-message: '&c{player_tc} was killed by a {mob_name_tc}'
-
-#░░░▀█▀░▀█▀░█▀▀░█▄█░█▀▀░░░░
-#░░░░█░░░█░░█▀▀░█░█░▀▀█░░░░
-#░░░▀▀▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
-
-# The maximum amount of lines the enchants + descriptions should take up
-max-enchant-lines: 10
-
-# Settings for the {item_enchants} placeholder
-enchant-descriptions:
-  # The header before the enchants
-  header: []
-  # The divider between enchants
-  divider:
-    - ''
-  # The footer after the enchants
-  footer:
-    - ''
-
-  # The default enchant description
-  default:
-    - '&9{enchant_name_tc} {enchant_level_rm}'   # tc: Title Case, rm: IV
-
-  sharpness:
-    - '&9Sharpness {enchant_level_rm}'
-    - '&7Increases melee damage dealt by &a{item_enchant_damage_%}%'
-  efficiency:
-    - '&9Efficiency {enchant_level_rm}'
-    - '&7Grants &a+{item_enchant_mining_speed} <mining_speed>'
-  fortune:
-    - '&9Fortune {enchant_level_rm}'
-    - '&7Grants &a+{item_enchant_mining_fortune} <mining_fortune>'
-  unbreaking:
-    - '&9Unbreaking {enchant_level_rm}'
-    - '&7Reduces durability loss'
-
-# Reusable lore templates across all your items
-lore-templates:
-  tool_lore:
-    - ''
-    - '&7Damage: &c+{item_damage}'
-    - '&7Mining Speed: &a+{item_mining_speed}'
-    - '&7Mining Fortune: &a+{item_mining_fortune}'
-    - ''
-    - '{item_enchants}'
-
-#░░░█░█░█▀█░█░░░█▀█░█▀▀░█▀▄░█▀█░█▄█░█▀▀░░░░
-#░░░█▀█░█░█░█░░░█░█░█░█░█▀▄░█▀█░█░█░▀▀█░░░░
-#░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀▀▀░░░░
-
-# The hologram plugin used to create holograms (DecentHolograms, FancyHolograms)
-preferred-hologram-provider: FancyHolograms
-
-# The default hologram view distance, can be overridden inside individual holograms
-hologram-view-distance: 15
-
-# Define custom hologram styles and reuse them anywhere. [1.19.4+ only]
-hologram-styles:
-  default:
-    view-distance: 15
-#   update: 3s
-    see-through: false # See hologram through blocks
-    billboard: vertical # fixed, vertical, horizontal, center
-    alignment: center # center, left, right
-    brightness: 15 # from 0 to 15
-#   background-color: { red: 0, green: 0, blue: 0 } # Better system is coming
-    scale: x=1 y=1 z=1
-    shadow: none #strength=1 radius=1
-#   background-color: { red: 0, green: 0, blue: 0 } # [Text-only] Better system is coming
-#   update: 3s   # [Text-only]
-
-#░░░█▀▄░█▀▄░█▀█░█▀█░█▀▀░░░░
-#░░░█░█░█▀▄░█░█░█▀▀░▀▀█░░░░
-#░░░▀▀░░▀░▀░▀▀▀░▀░░░▀▀▀░░░░
-# Configuration for dropItem, dropItemAtBlock, dropItemAtPlayer, dropItemAtCoords actions
-
-# The default target location for the dropItem action. Possible values: block, player, coords.
-default-item-drop-target: block
-
-#░░░█▀▀░▀█▀░█░░░█░█░░░▀█▀░█▀█░█░█░█▀▀░█░█░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
-#░░░▀▀█░░█░░█░░░█▀▄░░░░█░░█░█░█░█░█░░░█▀█░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
-#░░░▀▀▀░▀▀▀░▀▀▀░▀░▀░░░░▀░░▀▀▀░▀▀▀░▀▀▀░▀░▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
-
-# Whether silk touch should be allowed to affect drops
-silk-touch: true
-
-# Drops affected by the silk touch enchant from the player's tool if any.
-silk-touch-items:
-  coal: coal_ore
-  diamond: diamond_ore
-  emerald: emerald_ore
-  raw_iron: iron_ore
-  raw_gold: gold_ore
-  lapis_lazuli: lapis_ore
-  quartz: nether_quartz_ore
-  redstone: redstone_ore
-# raw_copper: copper_ore             # 1.17+
-# amethyst_shard: amethyst_cluster   # 1.17+
-
-#░░░█▀▀░█▀█░█▀▄░▀█▀░█░█░█▀█░█▀▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
-#░░░█▀▀░█░█░█▀▄░░█░░█░█░█░█░█▀▀░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
-#░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
-
-# Whether fortune should be allowed to affect item drops
-fortune: true
-
-# Drops affected by the Fortune enchantment from the player's tool.
-apply-fortune:
-  - coal
-  - diamond
-  - emerald
-  - lapis_lazuli
-  - redstone
-  - quartz
-  - raw_iron
-  - raw_gold
-# - raw_copper   # 1.17+
-# - dirt         # Supports any item type
-
-#░░░█░░░█▀█░█▀█░▀█▀░▀█▀░█▀█░█▀▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
-#░░░█░░░█░█░█░█░░█░░░█░░█░█░█░█░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
-#░░░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
-
-# Whether looting enchant should be allowed to affect item drops
-looting: true
-
-# Drops affected by the Looting enchantment from the player's tool.
-apply-looting:
-  - bone
-  - rotten_flesh
-  - string
-  - gunpowder
-  - spider_eye
-  - slime_ball
-  - magma_cream
-  - blaze_rod
-  - ghast_tear
-  - ender_pearl
-  - prismarine_shard
-  - prismarine_crystals
-  - ink_sac
-  - glowstone_dust
-  - gold_nugget
-  - iron_nugget
-  - leather
-  - rabbit_hide
-  - rabbit_foot
-  - feather
-  - chicken
-  - beef
-  - porkchop
-  - mutton
-  - rabbit
-  - cod
-  - salmon
-
-#░░░█▀█░█░█░▀█▀░█▀█░░░░░█▀▀░█▄█░█▀▀░█░░░▀█▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
-#░░░█▀█░█░█░░█░░█░█░▄▄▄░▀▀█░█░█░█▀▀░█░░░░█░░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
-#░░░▀░▀░▀▀▀░░▀░░▀▀▀░░░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░░▀░░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
-
-# Whether auto-smelt should be allowed to affect item drops
-auto-smelt: true
-
-# AutoSmelt enchant aliases. (Based on the enchantment plugin you use it might be different)
-auto-smelt-aliases:
-  - autosmelt # EcoEnchants, CrazyEnchantments
-  - infernal_touch # EcoEnchants
-  - auto-smelt
-  - smelter # ExcellentEnchants
-  - smelting # AdvancedEnchantments
-
-# Drops affected by the auto-smelt enchant from the player's tool.
-smeltable-items:
-  raw_iron: iron_ingot
-  raw_gold: gold_ingot
-#  raw_copper: copper_ingot   # 1.17+
-#  dirt: diamond              # Supports any item type
-
-# The chance to smelt an item based on the enchant level.
-smelt-chance-by-level:
-  1: 0.2
-  2: 0.4
-  3: 0.6
-  4: 0.8
-  5: 1
-
-#░░░▀█▀░█▀▀░█░░░█▀▀░█▀█░█▀█░▀█▀░█░█░█░█░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
-#░░░░█░░█▀▀░█░░░█▀▀░█▀▀░█▀█░░█░░█▀█░░█░░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
-#░░░░▀░░▀▀▀░▀▀▀░▀▀▀░▀░░░▀░▀░░▀░░▀░▀░░▀░░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
-
-# Whether telepathy should be allowed to affect item drop
-telepathy: true
-
-# Telepathy enchant aliases. (Based on the enchantment plugin you use it might be different)
-telepathy-aliases:
-  - telepathy # AdvancedEnchantments, CrazyEnchantments
-  - telekinesis # ExcellentEnchants
-
-# The chance drops are added directly to your inventory based on the enchant level.
-telepathy-chance-by-level:
-  1: 0.3
-  2: 0.7
-  3: 1
-
-#░░░█░█░█▀▀░▀█▀░█▀█░█▄█░▀█▀░█▀█░█▀▀░█▀▄░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
-#░░░▀▄▀░█▀▀░░█░░█░█░█░█░░█░░█░█░█▀▀░█▀▄░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
-#░░░░▀░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
+#░░░█░█░█▀▀░▀█▀░█▀█░░░░░█▄█░▀█▀░█▀█░█▀▀░█▀▄░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
+#░░░▀▄▀░█▀▀░░█░░█░█░▄▄▄░█░█░░█░░█░█░█▀▀░█▀▄░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
+#░░░░▀░░▀▀▀░▀▀▀░▀░▀░░░░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
 # By placing single-block generators next to each other,
 # they can be harvested simultaneously by a tool with the VeinMiner enchant.
 
@@ -548,9 +410,298 @@ vein-size-by-level:
   4: 12
   5: 15
 
-#░░░█▀▀░█░█░█▀█░█▀▀░█▀▄░▀█▀░█▀▀░█▀█░█▀▀░█▀▀░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░░
-#░░░█▀▀░▄▀▄░█▀▀░█▀▀░█▀▄░░█░░█▀▀░█░█░█░░░█▀▀░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░░
-#░░░▀▀▀░▀░▀░▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░▀░▀░░▀░░░░░
+#░░░█▀█░█▀▀░█▀▄░░░░░█▀█░█░░░█▀█░█░█░█▀▀░█▀▄░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
+#░░░█▀▀░█▀▀░█▀▄░▄▄▄░█▀▀░█░░░█▀█░░█░░█▀▀░█▀▄░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
+#░░░▀░░░▀▀▀░▀░▀░░░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
+
+# Custom Barrier Layout Guide
+#   1. Definition -> A fake block is a block that only exists on the client but not on the server.
+#   2. Visual problem -> You might see entities/items/players walk into fake blocks.
+#   3. Anticheat problem -> If a player stands on a fake block for too long, the server/anticheat will kick/ban the player for flying.
+#   4. Solution -> Place barrier blocks on the server-side, the player will not see them, but they will act as a physical layout.
+#   5. Limitation -> Players might not be able to reach certain blocks and might run into invisible barrier blocks.
+#   6. Customization -> You can set the layout of the barrier blocks to anything you want while keeping in mind problems 2. and 3.
+
+# WARNING: use at your own risk, read above and make sure you understand before using this option.
+per-player-generators-barrier-layouts:
+  great_oak_tree: great_oak_tree_silhouette # generator_name: structure_name
+  wheat: none # Use none, and no barrier blocks will be placed. (No barriers are placed for non-solid blocks by default)
+
+
+#░░░█▀▀░█▀█░▀█▀░█▀▀░█▀▀░░░░
+#░░░█░█░█▀█░░█░░█▀▀░▀▀█░░░░
+#░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀▀░░░░
+
+# The default delay in ticks between each click, it can be overridden in each gate phase.
+gate-click-cooldown: 3
+
+# The gate item used to place and break gates (admin tool)
+gate-tool:
+  material: terracotta   # Replaced by the last phase block
+  name: '&b&l{gate_tc} Gate ({gate_tool_rotation_tc})'
+  glow: true
+  lore:
+    - '&fright-click to place'
+    - '&fleft-click to break'
+    - '&fshift + left-click (air) to rotate'
+
+
+#░░░█▄█░█▀█░█▀▄░█▀▀░░░░
+#░░░█░█░█░█░█▀▄░▀▀█░░░░
+#░░░▀░▀░▀▀▀░▀▀░░▀▀▀░░░░
+
+# The default message shown when a player is slain by a custom mob
+player-slain-message: '&c{player_tc} was killed by a {mob_name_tc}'
+
+
+#░░░▀█▀░▀█▀░█▀▀░█▄█░█▀▀░░░░
+#░░░░█░░░█░░█▀▀░█░█░▀▀█░░░░
+#░░░▀▀▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
+
+# Default lore generation (Useful to avoid writing lore manually)
+default-item-lore:
+  header: [] # The header before some lore parts
+  footer: [''] # The footer after some lore parts
+  color: '&7' # The default lore color/format
+  parts:
+    - '{item_description}' # Headers and footers will be added automatically if configured.
+    - '{item_stats}' # Stats, Enchants and abilities use their custom headers, footers, and dividers.
+    - '{item_enchants}'
+    - '{item_abilities}' # Try adding indentation or characters before/after the placeholder!
+    - '{item_rarity}' # The last element will not have a footer
+    #- ''
+
+# Settings for the {item_abilities} placeholder
+ability-description:
+  header: [] # The header before the abilities
+  divider: [''] # The divider between abilities
+  footer: [''] # The footer after the abilities
+  format:
+    - '&6Ability: {name} &e&l{trigger}'
+    - '&7{description}'
+    - '&8Mana Cost: &b{mana_cost}$pencil'
+
+# Settings for the {item_stats} placeholder
+stat-descriptions:
+  header: [] # The header before the stats
+  divider: [] # The divider between stats
+  footer: [''] # The footer after the stats
+  max-lines: 10
+  default: ['&7{stat_name_tc}: &a+{stat_level}']
+
+  # Base stats (stat order is kept as is)
+  damage: ['&7Damage: &c+{item_damage}']
+  defense: ['&7Defense: &a+{item_defense}']
+  max_health: ['&7Health: &a+{item_max_health}']
+  max_mana: ['&7Mana: &b+{item_max_mana}']
+  health_regen: ['&7Health Regen: &a+{item_health_regen}/2 sec']
+  mana_regen: ['&7Mana Regen: &b+{item_mana_regen}/1 sec']
+  crit_damage: ['&7Crit Damage: &a+{item_crit_damage}%']
+  crit_chance: ['&7Crit Chance: &a+{item_crit_chance}%']
+  mining_fortune: ['&7Mining Fortune: &a+{item_mining_fortune}']
+  farming_fortune: ['&7Farming Fortune: &a+{item_farming_fortune}']
+  foraging_fortune: ['&7Foraging Fortune: &a+{item_foraging_fortune}']
+  movement_speed: ['&7Speed: &a+{item_movement_speed}']
+  attack_speed: ['&7Attack Speed: &a+{item_attack_speed}']
+  mining_speed: ['&7Mining Speed: &a+{item_mining_speed}']
+  intelligence: ['&7Intelligence: &a+{item_intelligence}'] # Custom stat
+  strength: ['&7Strength: &c+{item_strength}'] # Custom stat
+
+
+# Settings for the {item_enchants} placeholder
+enchant-descriptions:
+  header: [] # The header before the enchants
+  divider: [''] # The divider between enchants
+  footer: [''] # The footer after the enchants
+  max-lines: 10 # The lore lines enchants should take up (If surpassed: 1° divider is removed, 2° description is removed, 3° multiple enchants per line)
+
+  # The default enchant description
+  default:
+    - '&9{enchant_name_tc} {enchant_level_rm}'   # tc: Title Case, rm: Roman Numerals (IV)
+  sharpness:
+    - '&9Sharpness {enchant_level_rm}'
+    - '&7Increases melee damage dealt by &a{item_enchant_damage_%}%'
+  efficiency:
+    - '&9Efficiency {enchant_level_rm}'
+    - '&7Grants &a+{item_enchant_mining_speed} $mining_speed'
+  fortune:
+    - '&9Fortune {enchant_level_rm}'
+    - '&7Grants &a+{item_enchant_mining_fortune} $mining_fortune'
+  unbreaking:
+    - '&9Unbreaking {enchant_level_rm}'
+    - '&7Reduces durability loss'
+
+
+# The default item rarity.
+default-item-rarity: common # Set to 'none' to disable
+
+# Item rarities and values for {item_rarity} placeholder
+item-rarities:
+  common: '&fCOMMON'
+  uncommon: '&aUNCOMMON'
+  rare: '&9RARE'
+  epic: '&dEPIC'
+  legendary: '&6LEGENDARY'
+
+
+#░░░█░█░█▀█░█░░░█▀█░█▀▀░█▀▄░█▀█░█▄█░█▀▀░░░░
+#░░░█▀█░█░█░█░░░█░█░█░█░█▀▄░█▀█░█░█░▀▀█░░░░
+#░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀▀▀░░░░
+
+# The hologram plugin used to create holograms (DecentHolograms, FancyHolograms)
+preferred-hologram-provider: FancyHolograms
+
+# The default hologram view distance, can be overridden inside individual holograms
+hologram-view-distance: 15
+
+# Define custom hologram styles and reuse them anywhere. [1.19.4+ only]
+hologram-styles:
+  default:
+    view-distance: 15
+#   update: 3s
+    see-through: false # See hologram through blocks
+    billboard: vertical # fixed, vertical, horizontal, center
+    alignment: center # center, left, right
+    brightness: 15 # from 0 to 15
+#   background-color: { red: 0, green: 0, blue: 0 } # Better system is coming
+    scale: x=1 y=1 z=1
+    shadow: none #strength=1 radius=1
+#   background-color: { red: 0, green: 0, blue: 0 } # [Text-only] Better system is coming
+#   update: 3s   # [Text-only]
+
+
+#░░░▀█▀░▀█▀░█▀▀░█▄█░░░█▀▄░█▀▄░█▀█░█▀█░█▀▀░░░░
+#░░░░█░░░█░░█▀▀░█░█░░░█░█░█▀▄░█░█░█▀▀░▀▀█░░░░
+#░░░▀▀▀░░▀░░▀▀▀░▀░▀░░░▀▀░░▀░▀░▀▀▀░▀░░░▀▀▀░░░░
+# Configuration for dropItem, dropItemAtBlock, dropItemAtPlayer, dropItemAtMob, dropItemAtAttackers, dropItemAtCoords actions
+
+# The default drop location for the dropItem action. Possible values: block or player
+default-item-drop-target: block
+
+# Whether silk touch should be allowed to affect drops
+silk-touch: true
+
+# Drops affected by the silk touch enchant.
+silk-touch-items:
+  coal: coal_ore
+  diamond: diamond_ore
+  emerald: emerald_ore
+  raw_iron: iron_ore
+  raw_gold: gold_ore
+  lapis_lazuli: lapis_ore
+  quartz: nether_quartz_ore
+  redstone: redstone_ore
+# raw_copper: copper_ore             # 1.17+
+# amethyst_shard: amethyst_cluster   # 1.17+
+
+# Whether fortune should be allowed to affect item drops
+fortune: true
+
+# Drops affected by the Fortune enchant.
+apply-fortune:
+  - coal
+  - diamond
+  - emerald
+  - lapis_lazuli
+  - redstone
+  - quartz
+  - raw_iron
+  - raw_gold
+# - raw_copper   # 1.17+
+# - dirt         # Supports any item type
+
+# Whether looting enchant should be allowed to affect item drops
+looting: true
+
+# Drops affected by the Looting enchant.
+apply-looting:
+  - bone
+  - rotten_flesh
+  - string
+  - gunpowder
+  - spider_eye
+  - slime_ball
+  - magma_cream
+  - blaze_rod
+  - ghast_tear
+  - ender_pearl
+  - prismarine_shard
+  - prismarine_crystals
+  - ink_sac
+  - glowstone_dust
+  - gold_nugget
+  - iron_nugget
+  - leather
+  - rabbit_hide
+  - rabbit_foot
+  - feather
+  - chicken
+  - beef
+  - porkchop
+  - mutton
+  - rabbit
+  - cod
+  - salmon
+
+# Whether auto-smelt should be allowed to affect item drops
+auto-smelt: true
+
+# AutoSmelt enchant aliases. (Based on the enchantment plugin you use it might be different)
+auto-smelt-aliases:
+  - autosmelt # EcoEnchants, CrazyEnchantments
+  - infernal_touch # EcoEnchants
+  - auto-smelt
+  - smelter # ExcellentEnchants
+  - smelting # AdvancedEnchantments
+
+# Drops affected by the auto-smelt enchant from the player's tool.
+smeltable-items:
+  raw_iron: iron_ingot
+  raw_gold: gold_ingot
+#  raw_copper: copper_ingot   # 1.17+
+#  dirt: diamond              # Supports any item type
+
+# The chance to smelt an item based on the enchant level.
+smelt-chance-by-level:
+  1: 20%
+  2: 40%
+  3: 60%
+  4: 80%
+  5: 100%
+
+# Whether telepathy should be allowed to affect item drop
+telepathy: true
+
+# Telepathy enchant aliases. (Based on the enchantment plugin you use it might be different)
+telepathy-aliases:
+  - telepathy # AdvancedEnchantments, CrazyEnchantments
+  - telekinesis # ExcellentEnchants
+
+# The chance drops are added directly to your inventory based on the enchant level.
+telepathy-chance-by-level:
+  1: 30%
+  2: 70%
+  3: 100%
+
+# Whether mining fortune stat should be allowed to affect item drops
+# +0-100% chance of +1 drop every 0-100 stat levels (i.e. 400 mining fortune = 100% for +4 drops)
+mining-fortune: true
+
+# Drops affected by the Mining Fortune Stat of the player.
+apply-mining-fortune:
+  - coal
+  - diamond
+  - emerald
+  - lapis_lazuli
+  - redstone
+  - quartz
+  - raw_iron
+  - raw_gold
+# - raw_copper   # 1.17+
+
+#░░░█▀▀░█░█░█▀█░░░█▀▄░█▀▄░█▀█░█▀█░█▀▀░░░░
+#░░░█▀▀░▄▀▄░█▀▀░░░█░█░█▀▄░█░█░█▀▀░▀▀█░░░░
+#░░░▀▀▀░▀░▀░▀░░░░░▀▀░░▀░▀░▀▀▀░▀░░░▀▀▀░░░░
 # Compatible actions: giveExp, dropExpAtPlayer, dropExpAtBlock, dropExp.
 
 # Whether experience should be enabled by default when using exp spawn/give actions

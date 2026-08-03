@@ -97,7 +97,7 @@ public class PlayerCollectionRepository implements PlayerDataRepository<SimpleRp
         for (ItemCollection collection : playerData.getItemCollections()) {
             insertStatement.withParameter(uuidString);
             insertStatement.withParameter(collection.getName());
-            insertStatement.withParameter(collection.getCollectedAmount());
+            insertStatement.withParameter(collection.getTotalAmount());
             insertStatement.addBatch();
         }
         insertStatement.executeBatch();

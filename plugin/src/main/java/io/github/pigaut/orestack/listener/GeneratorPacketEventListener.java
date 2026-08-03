@@ -11,7 +11,7 @@ import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.orestack.hook.veinminer.*;
 import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.bukkit.*;
-import io.github.pigaut.voxel.data.structure.virtual.*;
+import io.github.pigaut.voxel.module.structure.virtual.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.util.Vector;

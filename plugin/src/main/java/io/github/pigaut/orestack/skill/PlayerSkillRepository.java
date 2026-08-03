@@ -21,7 +21,7 @@ public class PlayerSkillRepository implements PlayerDataRepository<SimpleRpgPlay
         database.createTableIfNotExists("player_skills",
                 "uuid VARCHAR(36) NOT NULL",
                 "skill VARCHAR(255) NOT NULL",
-                "exp INT NOT NULL",
+                "exp LONG NOT NULL",
                 "PRIMARY KEY (uuid, skill)"
         );
     }

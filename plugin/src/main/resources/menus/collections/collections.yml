@@ -24,8 +24,8 @@ lore:
   - '&7View all of the items available to'
   - '&7collect and rewards to unlock!'
   - ''
-  - '&7Collections unlocked: &e{collections_unlocked_percent}&6%'
-  - '{collections_progress_bar:line} &e{collections_unlocked}&6/&e{collections_count}'
+  - '&7Collections unlocked: &e{collections_unlocked_progress_d1}&6%'
+  - '{collections_unlocked_progress_bar} &e{collections_unlocked}&6/&e{collections_count}'
 
 --- #===== Farming Collections =====#
 id: b
@@ -34,8 +34,8 @@ name: '&aFarming Collections'
 lore:
   - '&7View your farming collections!'
   - ''
-  - '&7Collections unlocked: &e{farming_collections_unlocked_percent}&6%'
-  - '{farming_collections_progress_bar:line} &e{farming_collections_unlocked}&6/&e{farming_collections_count}'
+  - '&7Collections unlocked: &e{farming_collections_unlocked_progress_d1}&6%'
+  - '{farming_collections_unlocked_progress_bar} &e{farming_collections_unlocked}&6/&e{farming_collections_count}'
   - ''
   - '&eClick to view!'
 
@@ -49,8 +49,8 @@ name: '&aMining Collections'
 lore:
   - '&7View your mining collections!'
   - ''
-  - '&7Collections unlocked: &e{mining_collections_unlocked_percent}&6%'
-  - '{mining_collections_progress_bar:line} &e{mining_collections_unlocked}&6/&e{mining_collections_count}'
+  - '&7Collections unlocked: &e{mining_collections_unlocked_progress}&6%'
+  - '{mining_collections_unlocked_progress_bar} &e{mining_collections_unlocked}&6/&e{mining_collections_count}'
   - ''
   - '&eClick to view!'
 
@@ -64,8 +64,8 @@ name: '&aCombat Collections'
 lore:
   - '&7View your combat collections!'
   - ''
-  - '&7Collections unlocked: &e{combat_collections_unlocked_percent}&6%'
-  - '{combat_collections_progress_bar:line} &e{combat_collections_unlocked}&6/&e{combat_collections_count}'
+  - '&7Collections unlocked: &e{combat_collections_unlocked_progress}&6%'
+  - '{combat_collections_unlocked_progress_bar} &e{combat_collections_unlocked}&6/&e{combat_collections_count}'
   - ''
   - '&eClick to view!'
 
@@ -79,8 +79,8 @@ name: '&aForaging Collections'
 lore:
   - '&7View your foraging collections!'
   - ''
-  - '&7Collections unlocked: &e{foraging_collections_unlocked_percent}&6%'
-  - '{foraging_collections_progress_bar:line} &e{foraging_collections_unlocked}&6/&e{foraging_collections_count}'
+  - '&7Collections unlocked: &e{foraging_collections_unlocked_progress}&6%'
+  - '{foraging_collections_unlocked_progress_bar} &e{foraging_collections_unlocked}&6/&e{foraging_collections_count}'
   - ''
   - '&eClick to view!'
 
@@ -94,8 +94,8 @@ name: '&aFishing Collections'
 lore:
   - '&7View your fishing collections!'
   - ''
-  - '&7Collections unlocked: &e{fishing_collections_unlocked_percent}&6%'
-  - '{fishing_collections_progress_bar:line} &e{fishing_collections_unlocked}&6/&e{fishing_collections_count}'
+  - '&7Collections unlocked: &e{fishing_collections_unlocked_progress}&6%'
+  - '{fishing_collections_unlocked_progress_bar} &e{fishing_collections_unlocked}&6/&e{fishing_collections_count}'
   - ''
   - '&eClick to view!'
 

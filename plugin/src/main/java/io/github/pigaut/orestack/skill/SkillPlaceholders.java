@@ -35,12 +35,12 @@ public class SkillPlaceholders {
             return rpgPlayerData.getSkillsMaxed();
         });
 
-        placeholders.register("skills_maxed_percent", context -> {
+        placeholders.register("skills_maxed_progress", context -> {
             PlayerData playerData = context.playerData();
             if (playerData instanceof RpgPlayerData rpgPlayerData) {
                 int skillsMaxed = rpgPlayerData.getSkillsMaxed();
                 int skillCount = rpgPlayerData.getSkillCount();
-                return Percentage.asString(skillsMaxed, skillCount, 1);
+                return Percentage.asDouble(skillsMaxed, skillCount);
             }
             return null;
         });
@@ -75,7 +75,7 @@ public class SkillPlaceholders {
                 if (playerData instanceof RpgPlayerData rpgPlayerData) {
                     Skill skill = rpgPlayerData.getSkill(skillName);
                     if (skill != null && skill.isFirstLevelUnlocked()) {
-                        return skill.getCurrentLevel();
+                        return skill.getCurrentLevel() + 1;
                     }
                 }
                 return null;
@@ -85,7 +85,7 @@ public class SkillPlaceholders {
                 PlayerData playerData = context.playerData();
                 if (playerData instanceof RpgPlayerData rpgPlayerData) {
                     Skill skill = rpgPlayerData.getSkill(skillName);
-                    return skill != null ? skill.getNextLevel() : null;
+                    return skill != null ? skill.getNextLevel() + 1 : null;
                 }
                 return null;
             });
@@ -99,7 +99,7 @@ public class SkillPlaceholders {
                 return null;
             });
 
-            placeholders.register(skillName + "_skill_exp_requirement", context -> {
+            placeholders.register(skillName + "_skill_exp_required", context -> {
                 PlayerData playerData = context.playerData();
                 if (playerData instanceof RpgPlayerData rpgPlayerData) {
                     Skill skill = rpgPlayerData.getSkill(skillName);
@@ -149,15 +149,17 @@ public class SkillPlaceholders {
                 return null;
             });
 
-            for (int i = 1; i <= skillTemplate.getMaxLevel(); i++) {
-                int level = i;
-                int levelUpExp = skillTemplate.getLevel(level).getExpRequirement();
+            for (int i = 0; i <= skillTemplate.getMaxLevel(); i++) {
+                int index = i;
+                int level = index + 1;
+
+                long levelUpExp = skillTemplate.getLevel(index).getExpRequired();
 
                 placeholders.register(skillName + "_skill_level_" + level, context -> {
                     return level;
                 });
 
-                placeholders.register(skillName + "_skill_level_" + level + "_exp_requirement", context -> {
+                placeholders.register(skillName + "_skill_level_" + level + "_exp_required", context -> {
                     return levelUpExp;
                 });
 
@@ -178,7 +180,7 @@ public class SkillPlaceholders {
                     if (playerData instanceof RpgPlayerData rpgPlayerData) {
                         Skill skill = rpgPlayerData.getSkill(skillName);
                         if (skill != null) {
-                            return Percentage.asString(skill.getTotalExp(), levelUpExp);
+                            return Percentage.asDouble(skill.getTotalExp(), levelUpExp);
                         }
                     }
                     return null;
@@ -201,7 +203,7 @@ public class SkillPlaceholders {
                     if (playerData instanceof RpgPlayerData rpgPlayerData) {
                         Skill skill = rpgPlayerData.getSkill(skillName);
                         if (skill != null) {
-                            SkillLevel skillLevel = skill.getLevel(level);
+                            SkillLevel skillLevel = skill.getLevel(index);
                             return skillLevel.getRewards();
                         }
                     }
@@ -211,20 +213,18 @@ public class SkillPlaceholders {
         }
 
         for (String groupName : plugin.getSkillTemplates().getAllGroups()) {
-            placeholders.register(groupName + "_skills_maxed", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
-                    int skillsMaxed = rpgPlayerData.getSkillsMaxed(groupName);
-                    int skillCount = rpgPlayerData.getSkillCount(groupName);
-                    return Percentage.asInteger(skillsMaxed, skillCount);
-                }
-                return null;
-            });
-
             placeholders.register(groupName + "_skills_count", context -> {
                 PlayerData playerData = context.playerData();
                 if (playerData instanceof RpgPlayerData rpgPlayerData) {
                     return rpgPlayerData.getSkillCount(groupName);
+                }
+                return null;
+            });
+
+            placeholders.register(groupName + "_skills_maxed", context -> {
+                PlayerData playerData = context.playerData();
+                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                    return rpgPlayerData.getSkillsMaxed(groupName);
                 }
                 return null;
             });
@@ -234,7 +234,7 @@ public class SkillPlaceholders {
                 if (playerData instanceof RpgPlayerData rpgPlayerData) {
                     int skillsMaxed = rpgPlayerData.getSkillsMaxed(groupName);
                     int skillCount = rpgPlayerData.getSkillCount(groupName);
-                    return Percentage.asString(skillsMaxed, skillCount);
+                    return Percentage.asDouble(skillsMaxed, skillCount);
                 }
                 return null;
             });
@@ -265,25 +265,19 @@ public class SkillPlaceholders {
         placeholders.register("skill_level", context -> {
             Skill skill = context.get(Skill.class);
             if (skill != null && skill.isFirstLevelUnlocked()) {
-                return skill.getCurrentLevel();
+                return skill.getCurrentLevel() + 1;
             }
             return null;
         });
 
         placeholders.register("skill_previous_level", context -> {
             Skill skill = context.get(Skill.class);
-            if (skill != null) {
-                int currentLevel = skill.getCurrentLevel();
-                if (currentLevel > 1) {
-                    return currentLevel - 1;
-                }
-            }
-            return null;
+            return skill != null ? skill.getPreviousLevel() + 1 : null;
         });
 
         placeholders.register("skill_next_level", context -> {
             Skill skill = context.get(Skill.class);
-            return skill != null ? skill.getNextLevel() : null;
+            return skill != null ? skill.getNextLevel() + 1 : null;
         });
 
         placeholders.register("skill_exp", context -> {
@@ -291,31 +285,31 @@ public class SkillPlaceholders {
             return skill != null ? skill.getTotalExp() : null;
         });
 
+        placeholders.register("skill_exp_required", context -> {
+            Skill skill = context.get(Skill.class);
+            return skill != null ? skill.getNextLevelExp() : null;
+        });
+
         placeholders.register("skill_exp_left", context -> {
             Skill skill = context.get(Skill.class);
             return skill != null ? skill.getExpToNextLevel() : null;
         });
 
-        placeholders.register("skill_exp_requirement", context -> {
-            Skill skill = context.get(Skill.class);
-            return skill != null ? skill.getNextLevelExp() : null;
-        });
-
         placeholders.register("skill_progress", context -> {
             Skill skill = context.get(Skill.class);
             if (skill != null) {
-                return Percentage.asString(skill.getTotalExp(), skill.getNextLevelExp());
+                return Percentage.asDouble(skill.getTotalExp(), skill.getNextLevelExp());
             }
             return null;
         });
 
         placeholders.register("skill_progress_bar", context -> {
             Skill skill = context.get(Skill.class);
-            if (skill == null) {
-                return null;
+            if (skill != null) {
+                int percentage = Percentage.asInteger(skill.getTotalExp(), skill.getNextLevelExp());
+                return skillProgressBar.getBarByProgress(percentage);
             }
-            int percentage = Percentage.asInteger(skill.getTotalExp(), skill.getNextLevelExp());
-            return skillProgressBar.getBarByProgress(percentage);
+            return null;
         });
 
         placeholders.register("skill_rewards", context -> {
@@ -323,25 +317,26 @@ public class SkillPlaceholders {
             return skill != null ? skill.getNextLevelRewards() : null;
         });
 
-        for (int i = 1; i <= 1000; i++) {
-            int level = i;
+        for (int i = 0; i < 1000; i++) {
+            int index = i;
+            int level = index + 1;
 
             placeholders.register("skill_level_" + level, context -> {
                 return level;
             });
 
-            placeholders.register("skill_level_" + level + "_exp_requirement", context -> {
+            placeholders.register("skill_level_" + level + "_exp_required", context -> {
                 Skill skill = context.get(Skill.class);
-                if (skill != null && level <= skill.getMaxLevel()) {
-                    return skill.getLevel(level).getExpRequirement();
+                if (skill != null && index <= skill.getMaxLevel()) {
+                    return skill.getLevel(index).getExpRequired();
                 }
                 return null;
             });
 
             placeholders.register("skill_level_" + level + "_exp_left", context -> {
                 Skill skill = context.get(Skill.class);
-                if (skill != null && level <= skill.getMaxLevel()) {
-                    int expRequirement = skill.getLevel(level).getExpRequirement();
+                if (skill != null && index <= skill.getMaxLevel()) {
+                    long expRequirement = skill.getLevel(index).getExpRequired();
                     return Math.max(0, expRequirement - skill.getTotalExp());
                 }
                 return null;
@@ -349,16 +344,16 @@ public class SkillPlaceholders {
 
             placeholders.register("skill_level_" + level + "_progress", context -> {
                 Skill skill = context.get(Skill.class);
-                if (skill != null && level <= skill.getMaxLevel()) {
-                    return Percentage.asString(skill.getTotalExp(), skill.getLevel(level).getExpRequirement());
+                if (skill != null && index <= skill.getMaxLevel()) {
+                    return Percentage.asDouble(skill.getTotalExp(), skill.getLevel(index).getExpRequired());
                 }
                 return null;
             });
 
             placeholders.register("skill_level_" + level + "_progress_bar", context -> {
                 Skill skill = context.get(Skill.class);
-                if (skill != null && level <= skill.getMaxLevel()) {
-                    int percentage = Percentage.asInteger(skill.getTotalExp(), skill.getLevel(level).getExpRequirement());
+                if (skill != null && index <= skill.getMaxLevel()) {
+                    int percentage = Percentage.asInteger(skill.getTotalExp(), skill.getLevel(index).getExpRequired());
                     return skillProgressBar.getBarByProgress(percentage);
                 }
                 return null;
@@ -366,8 +361,8 @@ public class SkillPlaceholders {
 
             placeholders.register("skill_level_" + level + "_rewards", context -> {
                 Skill skill = context.get(Skill.class);
-                if (skill != null && level <= skill.getMaxLevel()) {
-                    return skill.getLevel(level).getRewards();
+                if (skill != null && index <= skill.getMaxLevel()) {
+                    return skill.getLevel(index).getRewards();
                 }
                 return null;
             });

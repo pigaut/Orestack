@@ -1,8 +1,8 @@
 package io.github.pigaut.orestack.generator.phase;
 
 import io.github.pigaut.voxel.core.hologram.*;
-import io.github.pigaut.voxel.data.function.*;
-import io.github.pigaut.voxel.data.structure.*;
+import io.github.pigaut.voxel.module.function.*;
+import io.github.pigaut.voxel.module.structure.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;

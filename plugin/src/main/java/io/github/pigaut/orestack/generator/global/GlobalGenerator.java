@@ -8,9 +8,9 @@ import io.github.pigaut.orestack.generator.template.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.hologram.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
-import io.github.pigaut.voxel.data.function.*;
-import io.github.pigaut.voxel.data.structure.*;
-import io.github.pigaut.voxel.data.structure.global.Structure;
+import io.github.pigaut.voxel.module.function.*;
+import io.github.pigaut.voxel.module.structure.*;
+import io.github.pigaut.voxel.module.structure.global.Structure;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 

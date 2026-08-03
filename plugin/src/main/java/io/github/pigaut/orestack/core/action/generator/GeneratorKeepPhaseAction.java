@@ -1,7 +1,7 @@
 package io.github.pigaut.orestack.core.action.generator;
 
 import io.github.pigaut.orestack.api.event.*;
-import io.github.pigaut.voxel.data.function.action.event.*;
+import io.github.pigaut.voxel.module.function.action.event.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
 
