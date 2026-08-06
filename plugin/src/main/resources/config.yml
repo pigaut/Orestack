@@ -1,4 +1,5 @@
 
+
 #░░░█▀█░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░█░█░░░█▀▀░█▀█░█▀█░█▀▀░▀█▀░█▀▀░░░░
 #░░░█░█░█▀▄░█▀▀░▀▀█░░█░░█▀█░█░░░█▀▄░░░█░░░█░█░█░█░█▀▀░░█░░█░█░░░░
 #░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░░▀░░▀░▀░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀░░░▀▀▀░▀▀▀░░░░
@@ -14,6 +15,7 @@ debug: false
 
 # Toggle colors in console messages
 colored-console: true
+
 
 #░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░█░░░░░░
 #░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░█░░░░░░
@@ -36,9 +38,6 @@ language: en
 
 # Generate the language folder and populate with all default translation files
 generate-languages: false
-
-# Fallback to default messages silently if translation keys are missing
-ignore-missing-translation-errors: false
 
 # Auto-save intervals (0 = save only on shutdown/reload)
 auto-save: 0
@@ -69,32 +68,6 @@ structure-wand:
   lore:
     - '&fleft-click to select first corner'
     - '&fright-click to select second corner'
-
-
-#░░░█▀▀░█▀█░█▄█░█▀▀░█▀█░█░░░█▀█░█░█░░
-#░░░█░█░█▀█░█░█░█▀▀░█▀▀░█░░░█▀█░░█░░░
-#░░░▀▀▀░▀░▀░▀░▀░▀▀▀░▀░░░▀▀▀░▀░▀░░▀░░░
-
-# Show death messages when a player dies for any reason except being killed by a custom mob
-show-death-messages: true
-
-# Show death messages when a player is slain by a custom mob
-show-slain-messages: true
-
-# Whether the custom cow milking system should be enabled
-custom-cow-milking: true
-
-# How many times a cow can be milked before it runs out
-cow-max-milk: 3
-
-# How much milk and how frequently a cow should produce milk
-milk-production: 1 milk every 20-40s
-
-# Whether the custom egg laying system should be enabled
-custom-egg-laying: true
-
-# How many eggs and how frequently a chicken should lay eggs
-egg-laying: 1 egg every 20-40s
 
 
 #░░░█▀▀░█░█░█▀█░█▀▄░▀█▀░█▀▀░█░█░▀█▀░█▀▀░░░░
@@ -169,10 +142,75 @@ generic-config-shortcuts:
 #░░░█░█░█░█░█░█░█░█░█░░░█▀▀░▀▀█░░░░
 #░░░▀░▀░▀▀▀░▀▀░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░░░
 # Modules: items, messages, particles, sounds, menus, recipes, functions, structures,
-#          generators, gates, collections, mobs, skills, commands
+#     generators, gates, collections, mobs, stats, skills, commands.
 
 # Toggle modules that should be disabled. Once a module is disabled you can delete the respective config folder.
 disabled-modules: []
+
+
+#░░░█▀▀░█▀█░█▄█░█▀▀░█▀█░█░░░█▀█░█░█░░
+#░░░█░█░█▀█░█░█░█▀▀░█▀▀░█░░░█▀█░░█░░░
+#░░░▀▀▀░▀░▀░▀░▀░▀▀▀░▀░░░▀▀▀░▀░▀░░▀░░░
+# Hunger Default Configuration Summary: Player food bars are always full and never run out, food level
+# does not regen health because the health is already regenerated through health-regen stat.
+
+# Show death messages when a player dies for any reason except being killed by a custom mob
+show-death-messages: true
+
+# Show death messages when a player is slain by a custom mob
+show-slain-messages: true
+
+# How long the player remains in combat after fighting another entity.
+in-combat-duration: 10-15s
+
+# How often health regeneration is attempted.
+# Set to 'none' to disable health regeneration entirely.
+health-regen-interval: 2s
+
+# How often mana regeneration is attempted.
+# Set to 'none' to disable mana regeneration entirely.
+mana-regen-interval: 1s
+
+# Whether health should regenerate while in combat
+regen-health-during-combat: false
+
+# Whether mana should regenerate while in combat
+regen-mana-during-combat: true
+
+# Whether the player's hunger bar should deplete over time from normal actions
+# (sprinting, jumping, attacking, mining, healing, etc.)
+hunger-depletion: false
+
+# Whether players naturally regenerate health from eating or having sufficient hunger/saturation
+# Does not affect Peaceful-mode regen, potions, golden apples, or other healing sources.
+hunger-health-regen: false
+
+# Multiplier applied to the exhaustion gained from every action.
+# 100% = vanilla speed, 50% = half as fast (hunger drains slower), 200% = twice as fast.
+exhaustion-multiplier: 70%
+
+# The highest value the hunger bar can reach.
+# When depletion is disabled, this is also the fixed value the bar is locked at.
+hunger-cap: 20
+
+# The highest saturation value achievable.
+# When depletion is disabled, this is also the fixed value saturation is locked at.
+saturation-cap: 20
+
+# Whether the custom cow milking system should be enabled
+custom-cow-milking: true
+
+# How many times a cow can be milked before it runs out
+cow-max-milk: 3
+
+# How much milk and how frequently a cow should produce milk
+milk-production: 1 milk every 20-40s
+
+# Whether the custom egg laying system should be enabled
+custom-egg-laying: true
+
+# How many eggs and how frequently a chicken should lay eggs
+egg-laying: 1 egg every 20-40s
 
 
 #░░░█▀▀░▀█▀░█▀█░▀█▀░█▀▀░░░░
@@ -200,8 +238,8 @@ base-stats:
   defense: 1
   max-health: 100
   max-mana: 100
-  health-regen: 3 every 2s # Regen interval can only be changed here and will be the same for all players.
-  mana-regen: 2 every 1s # Regen interval can only be changed here and will be the same for all players.
+  health-regen: 3
+  mana-regen: 2
   crit-damage: 50%
   crit-chance: 30%
   mining_fortune: 0
@@ -216,7 +254,7 @@ custom-stats:
   strength:
     base: 0 # The base level
     stats: # Custom stats work by incrementing other base stats
-      damage: +1 every 1 level
+      damage: +1 every 5 levels
       crit-damage: +1% every 1 level
       crit-chance: +0.1% every 1 level
 
@@ -226,15 +264,6 @@ custom-stats:
       max-mana: +1 every 1 level
       mana-regen: +1 every 50 levels
 
-
-# How long the player remains in combat after fighting another entity.
-in-combat-duration: 10-15s
-
-# Whether health should regenerate while in combat
-regen-health-during-combat: false
-
-# Whether mana should regenerate while in combat
-regen-mana-during-combat: true
 
 #░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░█▀▀░▀█▀░█▀█░▀█▀░█▀▀░░░░
 #░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░▀▀█░░█░░█▀█░░█░░▀▀█░░░░
@@ -410,6 +439,7 @@ vein-size-by-level:
   4: 12
   5: 15
 
+
 #░░░█▀█░█▀▀░█▀▄░░░░░█▀█░█░░░█▀█░█░█░█▀▀░█▀▄░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
 #░░░█▀▀░█▀▀░█▀▄░▄▄▄░█▀▀░█░░░█▀█░░█░░█▀▀░█▀▄░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
 #░░░▀░░░▀▀▀░▀░▀░░░░░▀░░░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
@@ -464,24 +494,24 @@ default-item-lore:
   footer: [''] # The footer after some lore parts
   color: '&7' # The default lore color/format
   parts:
+    - '{breaking_power}'
     - '{item_description}' # Headers and footers will be added automatically if configured.
     - '{item_stats}' # Stats, Enchants and abilities use their custom headers, footers, and dividers.
     - '{item_enchants}'
     - '{item_abilities}' # Try adding indentation or characters before/after the placeholder!
     - '{item_rarity}' # The last element will not have a footer
-    #- ''
 
 # Settings for the {item_abilities} placeholder
-ability-description:
+ability-descriptions:
   header: [] # The header before the abilities
   divider: [''] # The divider between abilities
   footer: [''] # The footer after the abilities
   format:
-    - '&6Ability: {name} &e&l{trigger}'
+    - '&6Ability: {name} &e&l{trigger_spu}' # spu = SPACED UPPERCASE
     - '&7{description}'
     - '&8Mana Cost: &b{mana_cost}$pencil'
 
-# Settings for the {item_stats} placeholder
+# Settings for the {item_stats} placeholders
 stat-descriptions:
   header: [] # The header before the stats
   divider: [] # The divider between stats
@@ -489,23 +519,23 @@ stat-descriptions:
   max-lines: 10
   default: ['&7{stat_name_tc}: &a+{stat_level}']
 
-  # Base stats (stat order is kept as is)
-  damage: ['&7Damage: &c+{item_damage}']
-  defense: ['&7Defense: &a+{item_defense}']
-  max_health: ['&7Health: &a+{item_max_health}']
-  max_mana: ['&7Mana: &b+{item_max_mana}']
-  health_regen: ['&7Health Regen: &a+{item_health_regen}/2 sec']
-  mana_regen: ['&7Mana Regen: &b+{item_mana_regen}/1 sec']
-  crit_damage: ['&7Crit Damage: &a+{item_crit_damage}%']
-  crit_chance: ['&7Crit Chance: &a+{item_crit_chance}%']
-  mining_fortune: ['&7Mining Fortune: &a+{item_mining_fortune}']
-  farming_fortune: ['&7Farming Fortune: &a+{item_farming_fortune}']
-  foraging_fortune: ['&7Foraging Fortune: &a+{item_foraging_fortune}']
-  movement_speed: ['&7Speed: &a+{item_movement_speed}']
-  attack_speed: ['&7Attack Speed: &a+{item_attack_speed}']
-  mining_speed: ['&7Mining Speed: &a+{item_mining_speed}']
-  intelligence: ['&7Intelligence: &a+{item_intelligence}'] # Custom stat
-  strength: ['&7Strength: &c+{item_strength}'] # Custom stat
+  # Stat descriptions in order:
+  damage: ['&7Damage: &c+{item_stat:damage}']
+  defense: ['&7Defense: &a+{item_stat:defense}']
+  max_health: ['&7Health: &a+{item_stat:max_health}']
+  max_mana: ['&7Mana: &b+{item_stat:max_mana}']
+  health_regen: ['&7Health Regen: &a+{item_stat:health_regen}/2 sec']
+  mana_regen: ['&7Mana Regen: &b+{item_stat:mana_regen}/1 sec']
+  crit_damage: ['&7Crit Damage: &a+{item_stat:crit_damage}%']
+  crit_chance: ['&7Crit Chance: &a+{item_stat:crit_chance}%']
+  mining_fortune: ['&7Mining Fortune: &a+{item_stat:mining_fortune}']
+  farming_fortune: ['&7Farming Fortune: &a+{item_stat:farming_fortune}']
+  foraging_fortune: ['&7Foraging Fortune: &a+{item_stat:foraging_fortune}']
+  movement_speed: ['&7Speed: &a+{item_stat:movement_speed}']
+  attack_speed: ['&7Attack Speed: &a+{item_stat:attack_speed}']
+  mining_speed: ['&7Mining Speed: &a+{item_stat:mining_speed}']
+  intelligence: ['&7Intelligence: &a+{item_stat:intelligence}'] # Custom stat
+  strength: ['&7Strength: &c+{item_stat:strength}'] # Custom stat
 
 
 # Settings for the {item_enchants} placeholder
@@ -542,6 +572,44 @@ item-rarities:
   rare: '&9RARE'
   epic: '&dEPIC'
   legendary: '&6LEGENDARY'
+
+breaking-power:
+  enabled: true
+  on-insufficient-power:
+    - sendChat &cYou need &8{block_mining_power} Mining Power &cto mine this block
+  mining:
+    display: '&8Mining Power {amount_rm}'
+    blocks:
+      iron_ore: 2
+      gold_ore: 3
+      diamond_ore: 3
+      emerald_ore: 4
+
+  chopping:
+    display: '&8Chopping Power {amount_rm}'
+    on-insufficient-power:
+      - sendChat &cYou need &8{tool_chopping_power} Chopping Power &cto chop this tree
+    blocks:
+      oak: 1 # oak includes: oak_log, oak_wood, stripped_oak_log, stripped_oak_wood.
+      birch: 2
+      spruce: 2
+
+  digging:
+    display: '&8Digging Power {amount_rm}'
+    on-insufficient-power:
+      - sendChat &cYou need &8{tool_digging_power} Digging Power &cto dig this block
+    blocks:
+      sand: 2
+      red_sand: 3
+
+# Triggered when a player attempts to break a block but doesn't have enough breaking power
+# Placeholders: {tool_breaking_power}, {block_breaking_power}
+on-block-break-fail:
+  switch: blockBreakingPowerTypeEquals
+  cases:
+    mining: sendChat &cYou need {block_breaking_power} Mining Power to mine this block
+    chopping: sendChat &cYou need {block_breaking_power} Chopping Power to chop this tree
+    digging: sendChat &cYou need {block_breaking_power} Digging Power to dig this block
 
 
 #░░░█░█░█▀█░█░░░█▀█░█▀▀░█▀▄░█▀█░█▄█░█▀▀░░░░
@@ -738,11 +806,11 @@ efficiency-damage-multiplier: true
 
 # The damage multiplier based on the efficiency enchant level.
 efficiency-damage-multiplier-by-level:
-  1: 1.25
-  2: 1.3
-  3: 1.35
-  4: 1.4
-  5: 1.45
+  1: 125%
+  2: 130%
+  3: 135%
+  4: 140%
+  5: 145%
 
 # Whether to reduce damage if the tool is on cooldown.
 reduced-cooldown-damage: true
@@ -766,30 +834,21 @@ damage-by-tool-type:
       gold_axe: 4-6
       diamond_axe: 5-7
       netherite_axe: 6-8
+
   - # ===== Wood =====
     blocks:
-      - oak_log
-      - oak_wood
-      - spruce_log
-      - spruce_wood
-      - birch_log
-      - birch_wood
-      - jungle_log
-      - jungle_wood
-      - acacia_log
-      - acacia_wood
-      - dark_oak_log
-      - dark_oak_wood
-      - crimson_stem
-      - crimson_hyphae
-      - warped_stem
-      - warped_hyphae
-    #- mangrove_log    # 1.19+
-    #- mangrove_wood   # 1.19+
-    #- cherry_log    # 1.20+
-    #- cherry_wood   # 1.20+
-    #- pale_oak_log    # 1.21+
-    #- pale_oak_wood   # 1.21+
+      - oak # oak tag: oak_log, oak_wood, stripped_oak_log, stripped_oak_wood.
+      - spruce
+      - birch
+      - jungle
+      - acacia
+      - dark_oak
+      - crimson
+      - warped
+      - mangrove
+      - cherry
+      - pale_oak
+
     tools:
       air: 1 # use air to set the damage for an empty hand
       wooden_axe: 1-3

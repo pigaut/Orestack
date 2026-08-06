@@ -1,9 +1,0 @@
-
-title: '&7This is an example menu'
-
-rows: 3
-
-layout:
-  - 7 7 7 7 7 7 7 7 7
-  - 7 _ _ _ _ _ _ _ 7
-  - 7 7 7 7 X 7 7 7 7

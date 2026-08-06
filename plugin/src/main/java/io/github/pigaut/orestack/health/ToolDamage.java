@@ -8,30 +8,30 @@ import java.util.*;
 
 public class ToolDamage {
 
-    private final List<Material> blockTypes;
+    private final Set<Material> blocks;
     private final Map<Material, Amount> damageByTool;
 
-    public ToolDamage(List<Material> blockTypes, Map<Material, Amount> damageByTool) {
-        this.blockTypes = blockTypes;
-        this.damageByTool = damageByTool;
+    public ToolDamage(@NotNull Set<Material> blocks, @NotNull Map<Material, Amount> damageByTool) {
+        this.blocks = Set.copyOf(blocks);
+        this.damageByTool = Map.copyOf(damageByTool);
     }
 
     public boolean test(@NotNull Material toolType, @NotNull Material blockType) {
-        return damageByTool.containsKey(toolType) && blockTypes.contains(blockType);
+        return damageByTool.containsKey(toolType) && blocks.contains(blockType);
     }
 
-    public Amount getDamage(@NotNull Material toolType) {
+    public @NotNull Set<Material> getBlocks() {
+        return new HashSet<>(blocks);
+    }
+
+    public @Nullable Amount getDamage(@NotNull Material toolType) {
         return damageByTool.get(toolType);
-    }
-
-    public List<Material> getBlockTypes() {
-        return new ArrayList<>(blockTypes);
     }
 
     @Override
     public String toString() {
         return "ToolDamage{" +
-                "blockTypes=" + blockTypes +
+                "blocks=" + blocks +
                 ", damageByTool=" + damageByTool +
                 '}';
     }

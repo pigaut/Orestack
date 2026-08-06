@@ -27,6 +27,7 @@ import io.github.pigaut.voxel.core.command.*;
 import io.github.pigaut.voxel.core.placeholder.*;
 import io.github.pigaut.voxel.core.tool.*;
 import io.github.pigaut.voxel.module.function.foreach.*;
+import io.github.pigaut.voxel.module.function.foreach.config.*;
 import io.github.pigaut.voxel.module.function.foreach.type.*;
 import io.github.pigaut.voxel.module.item.*;
 import io.github.pigaut.voxel.module.menu.button.dynamic.*;
@@ -41,6 +42,7 @@ import io.github.pigaut.voxel.plugin.boot.phase.*;
 import io.github.pigaut.voxel.util.Server;
 import io.github.pigaut.voxel.version.*;
 import io.github.pigaut.yaml.configurator.*;
+import io.github.pigaut.yaml.configurator.load.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.*;
@@ -107,6 +109,10 @@ public class OrestackPlugin extends EnhancedJavaPlugin {
         forEachSources.register("online_player", new ForEachOnlinePlayer());
         forEachSources.register("enchant_added", new ForEachEnchantAdded());
         forEachSources.register("mob_attacker", new ForEachMobAttacker());
+        forEachSources.register("entity_in_front", new ForEachEntityInFrontLoader());
+        forEachSources.register("entity_in_radius", new ForEachEntityInRadiusLoader());
+        forEachSources.register("entity_in_range", new ForEachEntityInRangeLoader());
+        forEachSources.register("entity_in_ring", new ForEachEntityInRingLoader());
     }
 
     @Override

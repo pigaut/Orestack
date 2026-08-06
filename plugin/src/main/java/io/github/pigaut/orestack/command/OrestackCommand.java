@@ -14,6 +14,7 @@ import io.github.pigaut.voxel.module.mob.command.*;
 import io.github.pigaut.voxel.module.particle.command.*;
 import io.github.pigaut.voxel.module.recipe.command.*;
 import io.github.pigaut.voxel.module.sound.command.*;
+import io.github.pigaut.voxel.module.stat.command.*;
 import io.github.pigaut.voxel.module.structure.command.*;
 import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.voxel.plugin.command.*;
@@ -79,6 +80,10 @@ public class OrestackCommand extends EnhancedCommand {
 
         if (settings.isModuleEnabled(Module.COLLECTIONS)) {
             addSubCommand(new CollectionSubCommand(plugin));
+        }
+
+        if (settings.isModuleEnabled(Module.STATS)) {
+            addSubCommand(new StatSubCommand(plugin));
         }
 
         if (settings.isModuleEnabled(Module.SKILLS)) {

@@ -8,6 +8,7 @@ import io.github.pigaut.orestack.gate.exception.*;
 import io.github.pigaut.orestack.gate.template.*;
 import io.github.pigaut.orestack.player.state.*;
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.bukkit.material.*;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.module.function.*;

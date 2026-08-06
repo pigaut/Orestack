@@ -12,6 +12,7 @@ import io.github.pigaut.voxel.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.node.scalar.*;
+import io.github.pigaut.yaml.node.section.*;
 import net.objecthunter.exp4j.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -67,54 +68,53 @@ public class OrestackSettings extends Settings {
     }
 
     @Override
-    public @NotNull List<ConfigException> loadConfigurationData() {
-        List<ConfigException> errors = super.loadConfigurationData();
-
-        ConfigSection config = plugin.getConfiguration();
+    public @NotNull ErrorCollector loadConfigurationData() {
+        super.loadConfigurationData();
+        RootSection config = plugin.getConfiguration();
 
         // Generic settings
         keepBlocksOnRemove = config.getBoolean("keep-blocks-on-remove")
-                .withDefaultOrElse(false, errors::add);
+                .withDefault(false);
 
         restoreOriginalBlocksOnRemove = config.getBoolean("restore-original-blocks-on-remove")
-                .withDefaultOrElse(true, errors::add);
+                .withDefault(true);
 
         // Generator settings
         generatorTool = config.get("generator-tool", ItemStack.class)
                 .require(ItemUtil::isNotAir, "Item type cannot be air")
-                .withDefaultOrElse(GeneratorTool.getItemTemplate(), errors::add);
+                .withDefault(GeneratorTool.getItemTemplate());
 
         defaultToolDamage = config.get("default-tool-durability-damage|default-tool-damage", Amount.class)
-                .withDefaultOrElse(Amount.ONE, errors::add);
+                .withDefault(Amount.ONE);
 
         generatorClickCooldown = config.getInteger("generator-click-cooldown")
                 .require(Requirements.positive())
-                .withDefaultOrElse(4, errors::add);
+                .withDefault(4);
 
         generatorHitCooldown = config.getInteger("generator-hit-cooldown")
                 .require(Requirements.positive())
-                .withDefaultOrElse(4, errors::add);
+                .withDefault(4);
 
         generatorHarvestCooldown = config.getInteger("generator-harvest-cooldown")
                 .require(Requirements.positive())
-                .withDefaultOrElse(4, errors::add);
+                .withDefault(4);
 
         // Vein miner settings
         veinMiner = config.getBoolean("vein-miner")
-                .withDefaultOrElse(false, errors::add);
+                .withDefault(false);
 
         veinMinerAliases = config.getStringList("vein-miner-aliases")
-                .withDefaultOrElse(List.of("veinminer", "vein-miner", "vein_miner"), errors::add);
+                .withDefault(List.of("veinminer", "vein-miner", "vein_miner"));
 
         veinSizeByLevel = new HashMap<>();
         for (KeyedScalar scalar : config.getSectionOrCreate("vein-size-by-level").getNestedScalars()) {
             Integer veinSize = scalar.toInteger()
                     .require(Requirements.positive())
-                    .withDefaultOrElse(null, errors::add);
+                    .withDefault(null);
 
             Integer enchantLevel = scalar.getIntegerKey()
                     .require(Requirements.positive())
-                    .withDefaultOrElse(null, errors::add);
+                    .withDefault(null);
 
             if (veinSize != null && enchantLevel != null) {
                 veinSizeByLevel.put(enchantLevel, veinSize);
@@ -124,72 +124,72 @@ public class OrestackSettings extends Settings {
         // Gate settings
         gateTool = config.get("gate-tool", ItemStack.class)
                 .require(ItemUtil::isNotAir, "Item type cannot be air")
-                .withDefaultOrElse(GateTool.getItemTemplate(), errors::add);
+                .withDefault(GateTool.getItemTemplate());
 
         gateClickCooldown = config.getInteger("gate-click-cooldown")
                 .require(Requirements.positive())
-                .withDefaultOrElse(4, errors::add);
+                .withDefault(4);
 
         // Collections settings
         collectionSources = config.getAll("collection-item-sources", ItemSpawnReason.class)
-                .withDefaultOrElse(List.of(), errors::add);
+                .withDefault(List.of());
 
         collectionProgressBar = config.get("collection-progress-bar", ProgressBar.class)
-                .withDefaultOrElse(ProgressBar.EMPTY, errors::add);
+                .withDefault(ProgressBar.EMPTY);
 
         // Skills settings
 
         defaultMaxLevel = config.getInteger("default-skill-settings.max-level")
                 .require(Requirements.positive())
-                .withDefaultOrElse(100, errors::add);
+                .withDefault(100);
 
         try {
             String rawFormula = config.getString("default-skill-settings.exp-formula")
-                    .withDefaultOrElse(null, errors::add);
+                    .withDefault(null);
             defaultExpFormula = new ExpressionBuilder(Objects.requireNonNullElse(rawFormula, "(level/0.1)^2"))
                     .variable("level")
                     .build();
         } catch (Exception e) {
-            errors.add(new InvalidConfigException(config, "default-skill-settings.exp-formula", "Could not parse exp formula"));
+            config.collectError(new InvalidConfigException(config, "default-skill-settings.exp-formula", "Could not parse exp formula"));
             defaultExpFormula = new ExpressionBuilder("(level/0.1)^2")
                     .variable("level")
                     .build();
         }
 
         defaultOnExpEarn = config.get("default-skill-settings.on-exp-earn", Function.class)
-                .withDefaultOrElse(null, errors::add);
+                .withDefault(null);
 
         expEarningActivities = new HashMap<>();
         for (KeyedScalar scalar : config.getNestedScalars("exp-earning-activities")) {
             ConfigLine line = scalar.toLine();
             String name = scalar.getKey();
             ExpAmount expAmount = line.get(ExpAmount.class)
-                    .withDefaultOrElse(null, errors::add);
+                    .withDefault(null);
             expEarningActivities.put(name, expAmount);
         }
 
         skillProgressBar = config.get("skill-progress-bar", ProgressBar.class)
-                .withDefaultOrElse(ProgressBar.EMPTY, errors::add);
+                .withDefault(ProgressBar.EMPTY);
 
         // Health settings
         defaultDamage = config.get("default-damage", Amount.class)
-                .withDefaultOrElse(Amount.ONE, errors::add);
+                .withDefault(Amount.ONE);
 
         overflowDamage = config.getBoolean("overflow-damage")
-                .withDefaultOrElse(true, errors::add);
+                .withDefault(true);
 
         efficiencyDamageMultiplier = config.getBoolean("efficiency-damage-multiplier|efficiency-damage")
-                .withDefaultOrElse(true, errors::add);
+                .withDefault(true);
 
         efficiencyDamageMultiplierByLevel = new HashMap<>();
         for (KeyedScalar scalar : config.getSectionOrCreate("efficiency-damage-multiplier-by-level").getNestedScalars()) {
             Double damageMultiplier = scalar.toDouble()
                     .require(Requirements.positive())
-                    .withDefaultOrElse(null, errors::add);
+                    .withDefault(null);
 
             Integer enchantLevel = scalar.getIntegerKey()
                     .require(Requirements.positive())
-                    .withDefaultOrElse(null, errors::add);
+                    .withDefault(null);
 
             if (damageMultiplier != null && enchantLevel != null) {
                 efficiencyDamageMultiplierByLevel.put(enchantLevel, damageMultiplier);
@@ -197,12 +197,12 @@ public class OrestackSettings extends Settings {
         }
 
         reducedCooldownDamage = config.getBoolean("reduced-cooldown-damage")
-                .withDefaultOrElse(true, errors::add);
+                .withDefault(true);
 
         damageByTool = config.getList("damage-by-tool-type", ToolDamage.class)
-                .withDefaultOrElse(List.of(), errors::add);
+                .withDefault(List.of());
 
-        return errors;
+        return config;
     }
 
     public boolean isKeepBlocksOnRemove() {

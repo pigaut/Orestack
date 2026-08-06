@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.generator.template;
 
 import io.github.pigaut.orestack.generator.phase.*;
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.bukkit.material.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.module.structure.block.*;
 import io.github.pigaut.voxel.plugin.manager.*;

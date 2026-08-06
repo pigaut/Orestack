@@ -4,6 +4,7 @@ import io.github.pigaut.orestack.*;
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.orestack.generator.global.*;
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.bukkit.material.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.event.*;

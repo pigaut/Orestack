@@ -7,6 +7,7 @@ import io.github.pigaut.voxel.plugin.manager.*;
 import io.github.pigaut.voxel.plugin.manager.config.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.node.scalar.*;
+import io.github.pigaut.yaml.node.section.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -24,25 +25,23 @@ public class GeneratorOptionsManager extends Manager implements ConfigBacked {
     }
 
     @Override
-    public @NotNull List<ConfigException> loadConfigurationData() {
-        List<ConfigException> errors = new ArrayList<>();
-
-        ConfigSection config = plugin.getConfiguration();
+    public @NotNull ErrorCollector loadConfigurationData() {
+        RootSection config = plugin.getConfiguration();
 
         veinGenerators = config.getList("vein-generators", GeneratorTemplate.class)
-                .withDefaultOrElse(List.of(), errors::add);
+                .withDefault(List.of());
 
         virtualGeneratorsBarrierLayouts = new HashMap<>();
         for (KeyedScalar scalar : config.getSectionOrCreate("per-player-generators-barrier-layouts").getNestedScalars()) {
             GeneratorTemplate generatorTemplate = scalar.getKeyAs(GeneratorTemplate.class)
-                    .withDefaultOrElse(null, errors::add);
+                    .withDefault(null);
 
             StructureTemplate barrierLayout;
             if (scalar.equalsIgnoreCase("none")) {
                 barrierLayout = StructureTemplate.createEmpty(plugin);
             } else {
                 barrierLayout = scalar.get(StructureTemplate.class)
-                        .withDefaultOrElse(null, errors::add);
+                        .withDefault(null);
             }
 
             if (generatorTemplate != null && barrierLayout != null) {
@@ -50,7 +49,7 @@ public class GeneratorOptionsManager extends Manager implements ConfigBacked {
             }
         }
 
-        return errors;
+        return config;
     }
 
     public boolean isVeinGenerator(@NotNull Generator generator) {

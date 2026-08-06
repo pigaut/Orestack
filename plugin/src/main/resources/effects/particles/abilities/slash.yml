@@ -1,0 +1,4 @@
+
+flame_slash:
+  - flame count=10 offsetX=1 offsetZ=1
+  - flame count=10 offsetX=1 offsetZ=2

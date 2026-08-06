@@ -9,12 +9,13 @@ not-enough-args: "&4Not enough arguments"
 too-many-args: '&4Too many arguments'
 no-permission: '&4You don''t have the permission to run this command'
 player-only: '&4This command cannot be executed from console'
+console-requires-target: '&4Console must specify a target player'
 player-not-online: '&4Could not find online player with name: {online-player}'
 loading-player-data: '&4Player data is still loading try again later'
 world-not-found: '&4Could not find a world with name: {world-name}'
 expected-coordinates: '&4Expected coordinates but received: X: {x}, Y: {y}, Z: {z}'
 expected-amount: '&4Expected amount but received: {amount}'
-amount-must-be-positive: '&4Amount must be positive: {amount}'
+expected-positive-amount: '&4Expected a positive amount but received: {amount}'
 file-not-found: '&4Could not find file at path: {file-path}'
 not-yaml-file: '&4File at path: {file-path} is not a yaml file'
 file-load-error: '&4An error occurred when loading file at path: {file-path}'
@@ -189,6 +190,22 @@ incremented-collection: '&aIncremented {collection-name_tc} collection by {amoun
 decremented-collection: '&aDecremented {collection-name_tc} collection by {amount}'
 # Errors
 collection-not-found: '&4Could not find collection with name: {collection-name}'
+
+#░░░█▀▀░▀█▀░█▀█░▀█▀░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
+#░░░▀▀█░░█░░█▀█░░█░░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░
+#░░░▀▀▀░░▀░░▀░▀░░▀░░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░▀▀▀░░░░
+# Placeholders: {online-player}, {amount}
+# Descriptions
+stat-command: ''
+stat-give-mana-command: 'Give mana to yourself or a target player'
+stat-remove-mana-command: 'Remove mana from yourself or a target player'
+stat-give-health-command: 'Give health to yourself or a target player'
+stat-remove-health-command: 'Remove health from yourself or a target player'
+# Success
+gave-mana: '&aGave {amount} mana to {online-player}'
+removed-mana: '&aRemoved {amount} mana from {online-player}'
+gave-health: '&aGave {amount} health to {online-player}'
+removed-health: '&aRemoved {amount} health from {online-player}'
 
 #░░░█▀▀░█░█░▀█▀░█░░░█░░░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
 #░░░▀▀█░█▀▄░░█░░█░░░█░░░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░

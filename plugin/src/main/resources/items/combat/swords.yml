@@ -24,6 +24,5 @@ enderman_sword:
     - name=Instant Transmission description=&7Teleports you &a12 blocks &7in front of you. trigger=right_click manaCost=25
 
   rarity: legendary
-  on-right-click-air:
-    - sendChat Hello right click
+  on-right-click:
     - instantTransmission # Found in: functions/abilities.yml

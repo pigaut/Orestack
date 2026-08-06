@@ -2,6 +2,7 @@ package io.github.pigaut.orestack.gate.template;
 
 import io.github.pigaut.orestack.gate.*;
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.bukkit.material.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.plugin.manager.*;
 import org.bukkit.*;

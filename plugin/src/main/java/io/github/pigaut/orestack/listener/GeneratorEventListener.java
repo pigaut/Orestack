@@ -13,6 +13,7 @@ import io.github.pigaut.orestack.hook.veinminer.*;
 import io.github.pigaut.orestack.player.state.*;
 import io.github.pigaut.orestack.settings.*;
 import io.github.pigaut.voxel.bukkit.*;
+import io.github.pigaut.voxel.bukkit.material.*;
 import io.github.pigaut.voxel.core.transform.Rotation;
 import io.github.pigaut.voxel.core.context.*;
 import io.github.pigaut.voxel.module.function.*;

@@ -1,9 +1,9 @@
 
 not_enough_mana:
   actionbar: '&4&lNOT ENOUGH MANA'
-  align: right   # Alignment inside status bar, if enabled
+  align: right   # Align inside status bar, if enabled
 
 ability_on_cooldown:
-  actionbar: '&4ABILITY ON COOLDOWN'
-  align: right   # Alignment inside status bar, if enabled
+  actionbar: '&4&lABILITY ON COOLDOWN'
+  align: right   # Align inside status bar, if enabled
 
