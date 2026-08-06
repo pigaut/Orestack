@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>io.github.pigaut.orestack</groupId>
-  <artifactId>OrestackPlugin</artifactId>
-  <name>Orestack Plugin</name>
-  <version>3.53.0</version>
-  <description>A Spigot plugin used to create resources with custom gathering mechanics</description>
+  <groupId>io.github.pigaut.rpg</groupId>
+  <artifactId>RpgMakerPlugin</artifactId>
+  <name>RpgMaker Plugin</name>
+  <version>4.0.0</version>
+  <description>A minecraft plugin used to create rpg worlds and mechanics</description>
   <url>https://www.spigotmc.org/resources/121905/</url>
   <build>
     <resources>
@@ -17,10 +17,9 @@
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.6.0</version>
+        <version>3.6.1</version>
         <executions>
           <execution>
-            <id>shade</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
@@ -29,11 +28,11 @@
               <minimizeJar>true</minimizeJar>
               <relocations>
                 <relocation>
-                  <pattern>io.github.pigaut.voxel</pattern>
-                  <shadedPattern>io.github.pigaut.orestack.voxel</shadedPattern>
+                  <pattern>org.bstats</pattern>
+                  <shadedPattern>io.github.pigaut.orestack.bstats</shadedPattern>
                 </relocation>
               </relocations>
-              <outputFile>D:\files\Development\java\spigot\servers\${mc.version}\plugins\Orestack-${project.version}.jar</outputFile>
+              <outputFile>D:\files\Development\java\spigot\servers\${mc.version}\plugins\RpgMaker-${project.version}.jar</outputFile>
             </configuration>
           </execution>
         </executions>
@@ -50,16 +49,42 @@
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
     <repository>
-      <id>sk89q-repo</id>
-      <url>https://maven.enginehub.org/repo/</url>
-    </repository>
-    <repository>
       <id>papermc</id>
       <url>https://repo.papermc.io/repository/maven-public/</url>
     </repository>
     <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+    <repository>
+      <id>placeholderapi</id>
+      <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+    </repository>
+    <repository>
       <id>matteodev</id>
       <url>https://maven.devs.beer/</url>
+    </repository>
+    <repository>
+      <id>nexo</id>
+      <url>https://repo.nexomc.com/releases</url>
+    </repository>
+    <repository>
+      <id>momirealms</id>
+      <url>https://repo.momirealms.net/releases/</url>
+    </repository>
+    <repository>
+      <id>fancyinnovations-releases</id>
+      <name>FancyInnovations Repository</name>
+      <url>https://repo.fancyinnovations.com/releases</url>
+    </repository>
+    <repository>
+      <id>nexus</id>
+      <name>Lumine Releases</name>
+      <url>https://mvn.lumine.io/repository/maven-public/</url>
+    </repository>
+    <repository>
+      <id>auxilor</id>
+      <url>https://repo.auxilor.io/repository/maven-public/</url>
     </repository>
     <repository>
       <id>codemc-releases</id>
@@ -69,12 +94,32 @@
       <id>codemc-snapshots</id>
       <url>https://repo.codemc.io/repository/maven-snapshots/</url>
     </repository>
+    <repository>
+      <id>phoenix</id>
+      <url>https://nexus.phoenixdevt.fr/repository/maven-public/</url>
+    </repository>
+    <repository>
+      <id>ssomar</id>
+      <url>https://repo.rosewooddev.io/repository/public/</url>
+    </repository>
+    <repository>
+      <id>libsdisguises-public</id>
+      <url>https://mvn.lib.co.nz/public/</url>
+    </repository>
+    <repository>
+      <id>lumine-public</id>
+      <url>https://mvn.lumine.io/repository/maven-public/</url>
+    </repository>
+    <repository>
+      <id>sk89q-repo</id>
+      <url>https://maven.enginehub.org/repo/</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>org.spigotmc</groupId>
-      <artifactId>spigot-api</artifactId>
-      <version>1.21.11-R0.1-SNAPSHOT</version>
+      <groupId>net.kyori</groupId>
+      <artifactId>adventure-api</artifactId>
+      <version>4.26.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -108,16 +153,140 @@
       </exclusions>
     </dependency>
     <dependency>
+      <groupId>com.github.MilkBowl</groupId>
+      <artifactId>VaultAPI</artifactId>
+      <version>1.7</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>me.clip</groupId>
+      <artifactId>placeholderapi</artifactId>
+      <version>2.11.6</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>dev.lone</groupId>
       <artifactId>api-itemsadder</artifactId>
       <version>4.0.10</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>com.nexomc</groupId>
+      <artifactId>nexo</artifactId>
+      <version>1.13.0</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>triumph-gui</artifactId>
+          <groupId>dev.triumphteam</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>net.momirealms</groupId>
+      <artifactId>craft-engine-core</artifactId>
+      <version>0.0.65</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.momirealms</groupId>
+      <artifactId>craft-engine-bukkit</artifactId>
+      <version>0.0.65</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.decentsoftware-eu</groupId>
+      <artifactId>decentholograms</artifactId>
+      <version>2.9.6</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>de.oliver</groupId>
+      <artifactId>FancyHolograms</artifactId>
+      <version>2.9.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.lumine</groupId>
+      <artifactId>Mythic-Dist</artifactId>
+      <version>5.6.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.willfp</groupId>
+      <artifactId>EcoItems</artifactId>
+      <version>5.66.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.willfp</groupId>
+      <artifactId>libreforge</artifactId>
+      <version>4.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.willfp</groupId>
+      <artifactId>eco</artifactId>
+      <version>6.53.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>com.github.retrooper</groupId>
       <artifactId>packetevents-spigot</artifactId>
-      <version>2.11.2</version>
+      <version>2.12.1</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>dev.aurelium</groupId>
+      <artifactId>auraskills-api-bukkit</artifactId>
+      <version>2.2.4</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.Indyuce</groupId>
+      <artifactId>MMOCore-API</artifactId>
+      <version>1.13.1-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.lumine</groupId>
+      <artifactId>MythicLib-dist</artifactId>
+      <version>1.7.1-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ssomar</groupId>
+      <artifactId>score</artifactId>
+      <version>5.24.12.29</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>me.libraryaddict.disguises</groupId>
+      <artifactId>libsdisguises</artifactId>
+      <version>11.0.18</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ticxo.modelengine</groupId>
+      <artifactId>api</artifactId>
+      <version>R3.2.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.gmail.nossr50.mcMMO</groupId>
+      <artifactId>mcMMO</artifactId>
+      <version>2.2.043</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>bukkit</artifactId>
+          <groupId>com.sk89q.worldedit.worldedit-libs</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>worldguard-legacy</artifactId>
+          <groupId>com.sk89q.worldguard</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <dependencyManagement>

@@ -1,0 +1,45 @@
+package io.github.pigaut.rpg.menu.item;
+
+import io.github.pigaut.rpg.*;
+import io.github.pigaut.rpg.core.context.*;
+import io.github.pigaut.rpg.core.menu.*;
+import io.github.pigaut.rpg.core.menu.button.*;
+import io.github.pigaut.rpg.core.menu.template.menu.*;
+import io.github.pigaut.rpg.*;
+import io.github.pigaut.rpg.core.context.*;
+import io.github.pigaut.rpg.core.menu.*;
+import io.github.pigaut.rpg.core.menu.button.*;
+import io.github.pigaut.rpg.core.menu.template.menu.*;
+import io.github.pigaut.yaml.convert.format.*;
+import org.bukkit.*;
+import org.jetbrains.annotations.*;
+
+import java.util.*;
+
+public class ItemGroupsMenu extends FramedSelectionMenu {
+
+    private final RpgMakerPlugin plugin;
+
+    public ItemGroupsMenu(RpgMakerPlugin plugin) {
+        super("Item Groups", MenuSize.BIG);
+        this.plugin = plugin;
+    }
+
+    @Override
+    public List<Button> createEntries(@NotNull Context context) {
+        return plugin.getItems().getAllGroups().stream()
+                .map(group -> Button.builder()
+                        .type(Material.CHEST)
+                        .name("&a&l" + CaseFormatter.toTitleCase(group))
+                        .addEmptyLine()
+                        .addLine("&eLeft-Click: &fView all items")
+                        .addLine("&6Right-Click: &fGet all items")
+                        .onLeftClick((view, player) ->
+                                player.openMenu(new ItemsMenu(plugin, group)))
+                        .onRightClick((view, player) ->
+                                player.performCommand("orestack item get-group " + group))
+                        .buildButton())
+                .toList();
+    }
+
+}

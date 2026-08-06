@@ -1,9 +1,9 @@
-main: io.github.pigaut.orestack.OrestackPlugin
-name: Orestack
+main: io.github.pigaut.rpg.RpgMakerPlugin
+name: RpgMaker
 version: ${project.version}
 api-version: 1.16
 author: pigaut
-description: Create resources with custom gathering mechanics
+description: Create RPG worlds and mechanics
 
 folia-supported: true
 

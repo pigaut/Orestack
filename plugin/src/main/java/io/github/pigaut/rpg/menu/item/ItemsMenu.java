@@ -1,0 +1,53 @@
+package io.github.pigaut.rpg.menu.item;
+
+import io.github.pigaut.rpg.core.context.*;
+import io.github.pigaut.rpg.core.menu.*;
+import io.github.pigaut.rpg.core.menu.button.*;
+import io.github.pigaut.rpg.core.menu.template.button.*;
+import io.github.pigaut.rpg.core.menu.template.menu.*;
+import io.github.pigaut.rpg.plugin.*;
+import io.github.pigaut.rpg.core.context.*;
+import io.github.pigaut.rpg.core.menu.*;
+import io.github.pigaut.rpg.core.menu.button.*;
+import io.github.pigaut.rpg.core.menu.template.button.*;
+import io.github.pigaut.rpg.core.menu.template.menu.*;
+import io.github.pigaut.rpg.plugin.*;
+import io.github.pigaut.yaml.convert.format.*;
+import org.jetbrains.annotations.*;
+
+import java.util.*;
+
+public class ItemsMenu extends FramedSelectionMenu {
+
+    private final EnhancedPlugin plugin;
+    private final String group;
+
+    public ItemsMenu(EnhancedPlugin plugin, String group) {
+        super(CaseFormatter.toTitleCase(group) + " Items", MenuSize.BIG);
+        this.plugin = plugin;
+        this.group = group;
+    }
+
+    @Override
+    public List<Button> createEntries(@NotNull Context context) {
+        return plugin.getItems(group).stream()
+                .map(itemTemplate -> {
+                    final String itemName = itemTemplate.getName();
+                    return Button.builder()
+                            .type(itemTemplate.createItemStack().getType())
+                            .name("&a&o" + CaseFormatter.toTitleCase(itemName))
+                            .addEmptyLine()
+                            .addLine("&eLeft-Click: &fGet item")
+                            .onLeftClick((menuView, player) ->
+                                    menuView.getViewer().performCommand("orestack item get " + itemName))
+                            .buildButton();
+                })
+                .toList();
+    }
+
+    @Override
+    public Button getToolbarButton4() {
+        return Buttons.MAIN_MENU;
+    }
+
+}

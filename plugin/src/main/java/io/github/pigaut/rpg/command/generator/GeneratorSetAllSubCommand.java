@@ -1,0 +1,75 @@
+package io.github.pigaut.rpg.command.generator;
+
+import io.github.pigaut.rpg.*;
+import io.github.pigaut.rpg.api.event.generator.*;
+import io.github.pigaut.rpg.command.*;
+import io.github.pigaut.rpg.module.generator.exception.*;
+import io.github.pigaut.rpg.module.generator.global.*;
+import io.github.pigaut.rpg.module.generator.template.*;
+import io.github.pigaut.rpg.player.state.*;
+import io.github.pigaut.rpg.*;
+import io.github.pigaut.rpg.api.event.generator.*;
+import io.github.pigaut.rpg.command.*;
+import io.github.pigaut.rpg.core.command.node.*;
+import io.github.pigaut.rpg.core.transform.Rotation;
+
+
+import io.github.pigaut.rpg.core.command.node.*;
+import io.github.pigaut.rpg.module.structure.*;
+import io.github.pigaut.rpg.module.generator.exception.*;
+import io.github.pigaut.rpg.module.generator.global.*;
+import io.github.pigaut.rpg.module.generator.template.*;
+import io.github.pigaut.rpg.module.structure.*;
+import io.github.pigaut.rpg.player.state.*;
+import io.github.pigaut.rpg.server.Server;
+import org.bukkit.*;
+import org.jetbrains.annotations.*;
+
+public class GeneratorSetAllSubCommand extends SubCommand {
+
+    public GeneratorSetAllSubCommand(@NotNull RpgMakerPlugin plugin) {
+        super(plugin, "set-all");
+        withPermission(plugin.getPermission("generator.set-all"));
+        withDescription(plugin.getTranslation("generator-set-all-command"));
+        withParameter(OrestackParameters.GENERATOR_NAME);
+        withPlayerExecution((player, context, args) -> {
+            RpgPlayerState playerState = plugin.getPlayerState(player);
+
+            GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
+            if (generator == null) {
+                plugin.sendMessage(player, context, "generator-not-found");
+                return;
+            }
+
+            Location firstSelection = playerState.getFirstSelection();
+            Location secondSelection = playerState.getSecondSelection();
+            if (firstSelection == null || secondSelection == null) {
+                plugin.sendMessage(player, context, "incomplete-region");
+                return;
+            }
+
+            StructureTemplate structure = generator.getLastPhase().getStructureTemplate();
+            for (Location location : CuboidRegion.getAllLocations(player.getWorld(), firstSelection, secondSelection)) {
+                for (Rotation rotation : Rotation.values()) {
+                    if (structure.isPlaced(location, rotation)) {
+                        GeneratorPlaceEvent generatorPlaceEvent = new GeneratorPlaceEvent(player, location, generator.getName(), generator.getOccupiedBlocks(location, rotation));
+                        Server.callEvent(generatorPlaceEvent);
+
+                        if (generatorPlaceEvent.isCancelled()) {
+                            continue;
+                        }
+
+                        try {
+                            GlobalGenerator.create(generator, location);
+                        } catch (GeneratorCreateException ignored) {
+                            // Ignore if generator overlaps
+                        }
+                    }
+                }
+            }
+
+            plugin.sendMessage(player, context, "created-all-generators");
+        });
+    }
+
+}

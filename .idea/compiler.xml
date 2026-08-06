@@ -7,8 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="OrestackPlugin" />
-        <module name="OrestackAPI" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="OrestackAPI" target="16" />
+    </bytecodeTargetLevel>
   </component>
 </project>
