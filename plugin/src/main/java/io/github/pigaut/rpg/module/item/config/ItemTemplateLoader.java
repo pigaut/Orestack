@@ -1,0 +1,162 @@
+package io.github.pigaut.rpg.module.item.config;
+
+import io.github.pigaut.rpg.bukkit.*;
+import io.github.pigaut.rpg.core.context.*;
+import io.github.pigaut.rpg.core.placeholder.*;
+import io.github.pigaut.rpg.core.placeholder.custom.*;
+import io.github.pigaut.rpg.module.function.*;
+import io.github.pigaut.rpg.module.item.*;
+import io.github.pigaut.rpg.module.item.power.*;
+import io.github.pigaut.rpg.module.stat.*;
+import io.github.pigaut.rpg.plugin.*;
+import io.github.pigaut.rpg.plugin.manager.*;
+import io.github.pigaut.rpg.server.*;
+import io.github.pigaut.rpg.server.version.*;
+import io.github.pigaut.rpg.bukkit.*;
+import io.github.pigaut.rpg.core.context.*;
+import io.github.pigaut.rpg.core.placeholder.*;
+import io.github.pigaut.rpg.core.placeholder.custom.*;
+import io.github.pigaut.rpg.module.function.*;
+import io.github.pigaut.rpg.module.item.*;
+import io.github.pigaut.rpg.module.stat.*;
+import io.github.pigaut.rpg.plugin.*;
+import io.github.pigaut.rpg.plugin.manager.*;
+import io.github.pigaut.rpg.server.*;
+import io.github.pigaut.rpg.server.version.*;
+import io.github.pigaut.yaml.*;
+import io.github.pigaut.yaml.amount.*;
+import io.github.pigaut.yaml.configurator.load.*;
+import io.github.pigaut.yaml.node.scalar.*;
+import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.*;
+import org.jetbrains.annotations.*;
+
+import java.util.*;
+
+public class ItemTemplateLoader implements ConfigLoader<ItemTemplate> {
+
+    private final EnhancedPlugin plugin;
+
+    public ItemTemplateLoader(EnhancedPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    @Override
+    public @Nullable String getErrorDescription() {
+        return "invalid item";
+    }
+
+    @Override
+    public @NotNull ItemTemplate loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
+        String name = section.getKey();
+        String group = Group.byItemFile(section.getRoot().getFile());
+        ItemStack item = section.getRequired(ItemStack.class);
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) {
+            throw new InvalidConfigException(section, "type", "Current item type doesn't support item meta");
+        }
+
+        Settings settings = plugin.getSettings();
+        if (!meta.hasLore()) {
+            meta.setLore(settings.getDefaultItemLore());
+        }
+
+        List<String> description = section.getStringList("description", ColorUtil.FORMATTER)
+                .withDefault(null);
+
+        List<String> abilitiesDescription = section.getStringList("abilities-description", ColorUtil.FORMATTER)
+                .withDefault(null);
+
+        if (abilitiesDescription == null) {
+            abilitiesDescription = new ArrayList<>();
+            List<String> divider = settings.getAbilityDescriptionDivider();
+
+            for (ConfigScalar scalar : section.getScalarList("abilities").orEmpty()) {
+                CustomPlaceholders placeholders = scalar.getRequired(CustomPlaceholders.class);
+                Context abilityContext = placeholders.asContext(plugin);
+
+                if (!abilitiesDescription.isEmpty() && !divider.isEmpty()) {
+                    abilitiesDescription.addAll(divider);
+                }
+
+                List<String> abilityDescription = settings.getAbilityDescriptionFormat();
+                abilitiesDescription.addAll(PlaceholderUtil.parseAll(abilityContext, abilityDescription));
+            }
+
+            if (!abilitiesDescription.isEmpty()) {
+                abilitiesDescription.addAll(0, settings.getAbilityDescriptionHeader());
+                abilitiesDescription.addAll(settings.getAbilityDescriptionFooter());
+            }
+        }
+
+        String rarity = section.getString("rarity")
+                .require(settings::isItemRarity, "Could not find item rarity")
+                .withDefault(null);
+
+        ToolBreakingPower toolBreakingPower = null;
+        for (BreakingPower breakingPower : settings.getBreakingPowers()) {
+            if (section.isSet(breakingPower.getName())) {
+                int amount = section.getInteger(breakingPower.getName())
+                        .require(Requirements.positive())
+                        .withDefault(1);
+
+                toolBreakingPower = new ToolBreakingPower(breakingPower, amount);
+                break;
+            }
+        }
+
+        boolean unplaceable = section.getBoolean("unplaceable")
+                .withDefault(false);
+
+        Integer maxUses = section.getInteger("max-uses")
+                .require(Requirements.positive())
+                .withDefault(null);
+
+        Amount uses = section.get("uses", Amount.class)
+                .require(Requirements.positiveAmount())
+                .withDefault(null);
+
+        if (maxUses != null && uses != null && uses.maxValue() > maxUses) {
+            throw new InvalidConfigException(section, "uses", "uses must be less than or equal to max-uses");
+        }
+        if (uses == null) {
+            uses = maxUses != null ? Amount.fixed(maxUses) : null;
+        }
+        if (uses != null && maxUses == null) {
+            maxUses = (int) uses.maxValue();
+        }
+
+        Map<Stat, Amount> stats = new HashMap<>();
+        for (KeyedScalar scalar : section.getNestedScalars("stats")) {
+            Stat stat = scalar.getKey(Stat.class);
+            Amount amount = scalar.getRequired(Amount.class);
+            stats.put(stat, amount);
+        }
+
+        if (Server.getVersion() < Version.V1_21) {
+            stats.put(BaseStats.MINING_SPEED, null);
+        }
+
+        Function onBlockBreak = section.get("on-block-break", Function.class).withDefault(null);
+        Function onLeftClick = section.get("on-left-click", Function.class).withDefault(null);
+        Function onRightClick = section.get("on-right-click", Function.class).withDefault(null);
+        Function onLeftClickBlock = section.get("on-left-click-block", Function.class).withDefault(null);
+        Function onLeftClickAir = section.get("on-left-click-air", Function.class).withDefault(null);
+        Function onRightClickBlock = section.get("on-right-click-block", Function.class).withDefault(null);
+        Function onRightClickAir = section.get("on-right-click-air", Function.class).withDefault(null);
+        Function onSwapHand = section.get("on-swap|on-swap-hand", Function.class).withDefault(null);
+        Function onDrop = section.get("on-drop", Function.class).withDefault(null);
+
+        return new ItemTemplate(plugin, name, group,
+                item, meta,
+                description, abilitiesDescription,
+                toolBreakingPower, rarity,
+                unplaceable, maxUses, uses,
+                stats,
+                onBlockBreak, onLeftClick, onRightClick,
+                onLeftClickBlock, onLeftClickAir,
+                onRightClickBlock, onRightClickAir,
+                onSwapHand, onDrop);
+    }
+
+}

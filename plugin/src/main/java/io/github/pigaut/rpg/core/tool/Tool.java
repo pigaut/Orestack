@@ -1,0 +1,128 @@
+package io.github.pigaut.rpg.core.tool;
+
+import io.github.pigaut.rpg.bukkit.*;
+import io.github.pigaut.rpg.plugin.*;
+import io.github.pigaut.rpg.bukkit.*;
+import io.github.pigaut.rpg.plugin.*;
+import io.github.pigaut.yaml.util.*;
+import org.bukkit.*;
+import org.bukkit.entity.*;
+import org.bukkit.event.player.*;
+import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.*;
+import org.jetbrains.annotations.*;
+
+import java.util.function.*;
+
+public class Tool {
+
+    private final NamespacedKey namespacedKey;
+
+    private ItemStack itemTemplate = new ItemStack(Material.DIRT);
+    private Consumer<ItemMeta> metaTemplate = meta -> {};
+
+    private Consumer<PlayerInteractEvent> onLeftClickBlock;
+    private Consumer<PlayerInteractEvent> onRightClickBlock;
+    private Consumer<PlayerInteractEvent> onLeftClickAir;
+    private Consumer<PlayerInteractEvent> onRightClickAir;
+
+    private BiConsumer<Player, Entity> onLeftClickEntity;
+    private BiConsumer<Player, Entity> onRightClickEntity;
+
+    private Consumer<Player> onSwapHand;
+    private Consumer<Player> onDropItem;
+
+    public Tool(EnhancedPlugin plugin, String name) {
+        this.namespacedKey = plugin.getNamespacedKey(name);
+    }
+
+    public @NotNull String getId() {
+        return namespacedKey.toString();
+    }
+
+    public @NotNull String getName() {
+        return namespacedKey.getKey();
+    }
+
+    public @NotNull NamespacedKey getNamespacedKey() {
+        return namespacedKey;
+    }
+
+    public @NotNull ItemStack getItemTemplate() {
+        return itemTemplate.clone();
+    }
+
+    public void setItemTemplate(@NotNull ItemStack itemTemplate) {
+        Preconditions.checkArgument(ItemUtil.isNotAir(itemTemplate), "Item type cannot be air");
+        this.itemTemplate = itemTemplate;
+    }
+
+    public ItemMeta getItemMetaTemplate(@NotNull ItemStack item) {
+        ItemMeta itemMeta = Bukkit.getItemFactory().getItemMeta(item.getType());
+        PersistentData.setString(itemMeta, namespacedKey, namespacedKey.getKey());
+        metaTemplate.accept(itemMeta);
+        return itemMeta;
+    }
+
+    public void setItemMetaTemplate(@NotNull Consumer<ItemMeta> metaTemplate) {
+        this.metaTemplate = metaTemplate;
+    }
+
+    public Tool onLeftClickBlock(Consumer<PlayerInteractEvent> action) {
+        this.onLeftClickBlock = action;
+        return this;
+    }
+
+    public Tool onRightClickBlock(Consumer<PlayerInteractEvent> action) {
+        this.onRightClickBlock = action;
+        return this;
+    }
+
+    public Tool onLeftClickAir(Consumer<PlayerInteractEvent> action) {
+        this.onLeftClickAir = action;
+        return this;
+    }
+
+    public Tool onRightClickAir(Consumer<PlayerInteractEvent> action) {
+        this.onRightClickAir = action;
+        return this;
+    }
+
+    public Tool onLeftClickEntity(BiConsumer<Player, Entity> action) {
+        this.onLeftClickEntity = action;
+        return this;
+    }
+
+    public Tool onRightClickEntity(BiConsumer<Player, Entity> action) {
+        this.onRightClickEntity = action;
+        return this;
+    }
+
+    public Tool onSwapHand(Consumer<Player> action) {
+        this.onSwapHand = action;
+        return this;
+    }
+
+    public Tool onDropItem(Consumer<Player> action) {
+        this.onDropItem = action;
+        return this;
+    }
+
+    public @Nullable Consumer<PlayerInteractEvent> getOnLeftClickBlock() { return onLeftClickBlock; }
+
+    public @Nullable Consumer<PlayerInteractEvent> getOnRightClickBlock() { return onRightClickBlock; }
+
+    public @Nullable Consumer<PlayerInteractEvent> getOnLeftClickAir() { return onLeftClickAir; }
+
+    public @Nullable Consumer<PlayerInteractEvent> getOnRightClickAir() { return onRightClickAir; }
+
+    public @Nullable BiConsumer<Player, Entity> getOnLeftClickEntity() { return onLeftClickEntity; }
+
+    public @Nullable BiConsumer<Player, Entity> getOnRightClickEntity() { return onRightClickEntity; }
+
+
+    public @Nullable Consumer<Player> getOnSwapHand() { return onSwapHand; }
+
+    public @Nullable Consumer<Player> getOnDropItem() { return onDropItem; }
+
+}

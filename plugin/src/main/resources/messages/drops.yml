@@ -12,11 +12,11 @@ mined_stone_hologram:
   hologram:
     text: '&f&l+1 Stone'
     offset: { y: 0.5 }
-  duration: 1.5s
+  duration: 30
   radius: { x: 1, z: 1 }
 
 mined_stone_bossbar:
   type: bossbar
   title: "&f&l+1 Stone"
   color: white
-  duration: 1.5s
+  duration: 30

@@ -1,0 +1,45 @@
+package io.github.pigaut.rpg.module.item.settings;
+
+import io.github.pigaut.rpg.module.item.power.*;
+import io.github.pigaut.rpg.module.stat.*;
+import org.bukkit.*;
+import org.bukkit.enchantments.*;
+import org.jetbrains.annotations.*;
+
+import java.util.*;
+
+public interface ItemSettings {
+
+    boolean isItemRarity(@NotNull String rarity);
+    @Nullable String getDefaultItemRarity();
+    @Nullable String getItemRarityDisplay(@NotNull String name);
+
+    int getStatsDescriptionMaxLines();
+    @NotNull List<String> getStatsDescriptionHeader();
+    @NotNull List<String> getStatsDescriptionDivider();
+    @NotNull List<String> getStatsDescriptionFooter();
+    @NotNull List<String> getStatDescription(@NotNull Stat statType);
+
+    int getEnchantsDescriptionMaxLines();
+    @NotNull List<String> getEnchantsDescriptionHeader();
+    @NotNull List<String> getEnchantsDescriptionDivider();
+    @NotNull List<String> getEnchantsDescriptionFooter();
+    @NotNull List<String> getEnchantDescription(@NotNull Enchantment enchant);
+
+    @NotNull List<String> getAbilityDescriptionHeader();
+    @NotNull List<String> getAbilityDescriptionDivider();
+    @NotNull List<String> getAbilityDescriptionFooter();
+    @NotNull List<String> getAbilityDescriptionFormat();
+
+    @NotNull List<String> getLorePartsHeader();
+    @NotNull List<String> getLorePartsFooter();
+    @NotNull String getLoreFormat();
+    @NotNull List<String> getDefaultItemLore();
+
+    boolean isBreakingPower();
+    int getBlockBreakingPowerAmount(@NotNull Material block);
+    @Nullable BreakingPower getBlockBreakingPower(@NotNull Material block);
+
+    @NotNull Set<String> getBreakingPowerNames();
+    @NotNull Set<BreakingPower> getBreakingPowers();
+}

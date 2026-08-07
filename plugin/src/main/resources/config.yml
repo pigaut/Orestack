@@ -550,7 +550,7 @@ enchant-descriptions:
     - '&9{enchant_name_tc} {enchant_level_rm}'   # tc: Title Case, rm: Roman Numerals (IV)
   sharpness:
     - '&9Sharpness {enchant_level_rm}'
-    - '&7Increases melee damage dealt by &a{item_enchant_damage_%}%'
+    - '&7Increases melee damage dealt by &a{item_enchant_damage}%'
   efficiency:
     - '&9Efficiency {enchant_level_rm}'
     - '&7Grants &a+{item_enchant_mining_speed} $mining_speed'
