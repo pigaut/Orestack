@@ -29,7 +29,7 @@ public class SimpleGameplaySettings implements GameplaySettings {
     private Amount eggLayAmount;
     private Delay eggLayDelay;
 
-    public void loadConfigurationData(@NotNull RootSection config) {
+    public void loadConfigurationData(@NotNull ConfigSection config) {
         showDeathMessages = config.getBoolean("show-death-messages")
                 .withDefault(true);
 

@@ -1,7 +1,5 @@
-package io.github.pigaut.rpg.module.message.impl;
+package io.github.pigaut.rpg.module.message.type;
 
-import io.github.pigaut.rpg.module.message.*;
-import io.github.pigaut.rpg.plugin.manager.*;
 import io.github.pigaut.rpg.module.message.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import org.jetbrains.annotations.*;

@@ -9,17 +9,9 @@ import io.github.pigaut.rpg.core.progressbar.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.event.drop.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.enchant.*;
-import io.github.pigaut.rpg.core.progressbar.*;
-import io.github.pigaut.rpg.core.tools.*;
-import io.github.pigaut.rpg.module.skill.exp.*;
-import io.github.pigaut.rpg.module.structure.health.*;
-import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.node.scalar.*;
-import io.github.pigaut.yaml.node.section.*;
 import net.objecthunter.exp4j.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -29,7 +21,7 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class OrestackSettings extends Settings {
+public class RpgSettings extends Settings {
 
     // Generic settings
     private boolean keepBlocksOnRemove;
@@ -70,14 +62,14 @@ public class OrestackSettings extends Settings {
     private boolean reducedCooldownDamage;
     private List<ToolDamage> damageByTool;
 
-    public OrestackSettings(EnhancedPlugin plugin) {
+    public RpgSettings(EnhancedPlugin plugin) {
         super(plugin);
     }
 
     @Override
     public @NotNull ErrorCollector loadConfigurationData() {
         super.loadConfigurationData();
-        RootSection config = plugin.getConfiguration();
+        ConfigSection config = plugin.getConfiguration();
 
         // Generic settings
         keepBlocksOnRemove = config.getBoolean("keep-blocks-on-remove")

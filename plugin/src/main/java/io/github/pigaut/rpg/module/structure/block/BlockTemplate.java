@@ -6,6 +6,8 @@ import org.jetbrains.annotations.*;
 
 public interface BlockTemplate {
 
+    BlockTemplate INVALID = new BasicBlockTemplate(Material.STONE);
+
     BlockTemplate AIR = new BasicBlockTemplate(Material.AIR);
 
     boolean isPlaced(@NotNull Location location, @NotNull Rotation rotation);

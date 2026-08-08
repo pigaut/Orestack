@@ -57,7 +57,7 @@ public class FunctionLoader implements ConfigLoader<Function> {
             return new LazyFunction(plugin, functionName);
         }
 
-        throw new InvalidConfigException(scalar, "Could not find function/action with name: " + functionName.split(" ")[0]);
+        throw new InvalidConfigException(scalar, "Could not find function/action with name: " + CaseFormatter.toCamelCase(functionName.split(" ")[0]));
     }
 
     @Override

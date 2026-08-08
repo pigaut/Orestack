@@ -10,14 +10,6 @@ import io.github.pigaut.rpg.event.item.*;
 import io.github.pigaut.rpg.module.item.power.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.drop.*;
-import io.github.pigaut.rpg.event.drop.*;
-import io.github.pigaut.rpg.event.item.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.item.*;
-import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.plugin.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -27,7 +19,6 @@ import org.bukkit.event.enchantment.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.*;
-import org.jetbrains.annotations.*;
 
 public class ItemEventListener implements Listener {
 
@@ -50,11 +41,33 @@ public class ItemEventListener implements Listener {
 
         Context context = Context.fromPlayerAndBlock(plugin, player, block, event);
 
-        BreakingPower blockBreakingPower = plugin.getSettings().getBlockBreakingPower(block.getType());
+        BlockBreakingPower blockBreakingPower = plugin.getSettings().getBlockBreakingPower(block);
         if (blockBreakingPower != null) {
-            int powerRequired = blockBreakingPower.getAmount(block.getType());
-            if (powerRequired > itemTemplate.getBreakingPowerAmount()) {
+            int blockPower = blockBreakingPower.getAmount();
+            context.addPlaceholder("block_" + blockBreakingPower.getName(), blockPower);
+
+            ToolBreakingPower toolBreakingPower = itemTemplate.getBreakingPower();
+
+            int toolPower = plugin.getSettings().getDefaultBreakingPower();
+            context.addPlaceholder("tool_" + blockBreakingPower.getName(), toolPower);
+            if (toolBreakingPower != null) {
+                toolPower = toolBreakingPower.getAmount();
+                context.addPlaceholder("tool_" + blockBreakingPower.getName(), toolPower);
+
+                if (!toolBreakingPower.getType().equals(blockBreakingPower.getType())) {
+                    event.setCancelled(true);
+                    Function onWrongTool = blockBreakingPower.getOnWrongTool();
+                    if (onWrongTool != null) {
+                        onWrongTool.run(context);
+                    }
+                    return;
+                }
+            }
+
+            if (blockPower > toolPower) {
                 event.setCancelled(true);
+                context.addPlaceholder("block_" + blockBreakingPower.getName(), blockPower);
+                context.addPlaceholder("tool_" + blockBreakingPower.getName(), toolPower);
                 Function onInsufficientPower = blockBreakingPower.getOnInsufficientPower();
                 if (onInsufficientPower != null) {
                     onInsufficientPower.run(context);
@@ -91,15 +104,38 @@ public class ItemEventListener implements Listener {
 
         Context context = Context.fromPlayerAndBlock(plugin, player, block);
 
-        BreakingPower blockBreakingPower = plugin.getSettings().getBlockBreakingPower(block.getType());
+        BlockBreakingPower blockBreakingPower = plugin.getSettings().getBlockBreakingPower(block);
         if (blockBreakingPower != null) {
-            int powerRequired = blockBreakingPower.getAmount(block.getType());
-            if (powerRequired > itemTemplate.getBreakingPowerAmount()) {
+            int blockPower = blockBreakingPower.getAmount();
+            context.addPlaceholder("block_" + blockBreakingPower.getName(), blockPower);
+
+            ToolBreakingPower toolBreakingPower = itemTemplate.getBreakingPower();
+
+            int toolPower = plugin.getSettings().getDefaultBreakingPower();
+            context.addPlaceholder("tool_" + blockBreakingPower.getName(), toolPower);
+            if (toolBreakingPower != null) {
+                toolPower = toolBreakingPower.getAmount();
+                context.addPlaceholder("tool_" + blockBreakingPower.getName(), toolPower);
+
+                if (!toolBreakingPower.getType().equals(blockBreakingPower.getType())) {
+                    event.setCancelled(true);
+                    Function onWrongTool = blockBreakingPower.getOnWrongTool();
+                    if (onWrongTool != null) {
+                        onWrongTool.run(context);
+                    }
+                    return;
+                }
+            }
+
+            if (blockPower > toolPower) {
                 event.setCancelled(true);
+                context.addPlaceholder("block_" + blockBreakingPower.getName(), blockPower);
+                context.addPlaceholder("tool_" + blockBreakingPower.getName(), toolPower);
                 Function onInsufficientPower = blockBreakingPower.getOnInsufficientPower();
                 if (onInsufficientPower != null) {
                     onInsufficientPower.run(context);
                 }
+                return;
             }
         }
     }

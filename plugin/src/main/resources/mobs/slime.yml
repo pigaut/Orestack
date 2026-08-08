@@ -17,8 +17,12 @@ on-jump: []
 
 # [Paper Only]
 on-land:
-  - damageEntitiesInRange 1-2 range=2.5 limit=3
-  - spawnParticleAtMob green_dust_cloud
+  # Spawn green dust particle
+  - do: spawnParticleAtMob green_dust_cloud
+
+  # Damage every entity in range
+  - for-each: entity_in_range range=2.5 limit=3
+    do: damageEntity 1-2
 
 on-death:
   - dropItemAtLastDamager slime_ball amount=2-4

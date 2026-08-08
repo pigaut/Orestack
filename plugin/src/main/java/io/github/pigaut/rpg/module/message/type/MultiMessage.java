@@ -1,11 +1,8 @@
-package io.github.pigaut.rpg.module.message.impl;
+package io.github.pigaut.rpg.module.message.type;
 
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.message.*;
 import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.module.message.*;
 import io.github.pigaut.yaml.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -18,13 +15,11 @@ public class MultiMessage implements Message {
 
     private final String name;
     private final String group;
-    private final ConfigSequence sequence;
     private final List<Message> messages;
 
-    public MultiMessage(String name, String group, ConfigSequence sequence, @NotNull List<@NotNull Message> messages) {
+    public MultiMessage(String name, String group, @NotNull List<@NotNull Message> messages) {
         this.name = name;
         this.group = group;
-        this.sequence = sequence;
         this.messages = messages;
     }
 

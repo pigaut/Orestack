@@ -13,14 +13,6 @@ import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.bukkit.material.*;
 import io.github.pigaut.rpg.module.structure.virtual.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.bukkit.material.*;
-import io.github.pigaut.rpg.hook.veinminer.*;
-import io.github.pigaut.rpg.module.generator.instanced.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.structure.virtual.*;
-import io.github.pigaut.rpg.settings.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.util.Vector;
@@ -110,7 +102,7 @@ public class GeneratorPacketEventListener implements PacketListener {
                 return;
             }
 
-            OrestackSettings settings = plugin.getSettings();
+            RpgSettings settings = plugin.getSettings();
             if (settings.isVeinMiner()) {
                 int maxVeinSize = settings.getToolMaxVeinSize(player.getInventory().getItemInMainHand());
                 if (maxVeinSize > 1) {

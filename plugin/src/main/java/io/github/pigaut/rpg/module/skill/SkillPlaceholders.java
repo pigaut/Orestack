@@ -5,18 +5,8 @@ import io.github.pigaut.rpg.module.skill.level.*;
 import io.github.pigaut.rpg.module.skill.template.*;
 import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.rpg.settings.*;
-import io.github.pigaut.rpg.module.skill.level.*;
-import io.github.pigaut.rpg.module.skill.template.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.progressbar.*;
-import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.core.progressbar.*;
-import io.github.pigaut.rpg.module.skill.level.*;
-import io.github.pigaut.rpg.module.skill.template.*;
-import io.github.pigaut.rpg.player.data.*;
-import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.util.*;
 import org.jetbrains.annotations.*;
 
@@ -25,7 +15,7 @@ public class SkillPlaceholders {
     public static void registerAll(@NotNull RpgMakerPlugin plugin) {
         PlaceholderRegistry placeholders = plugin.getPlaceholders();
 
-        OrestackSettings settings = plugin.getSettings();
+        RpgSettings settings = plugin.getSettings();
         ProgressBar skillProgressBar = settings.getSkillProgressBar();
 
         placeholders.register("skills_count", context -> {

@@ -4,19 +4,12 @@ import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.hologram.*;
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.message.*;
-import io.github.pigaut.rpg.module.message.impl.*;
+import io.github.pigaut.rpg.module.message.type.*;
 import io.github.pigaut.rpg.hook.decentholograms.*;
 import io.github.pigaut.rpg.hook.fancyholograms.template.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.hologram.*;
-import io.github.pigaut.rpg.hook.decentholograms.*;
-import io.github.pigaut.rpg.hook.fancyholograms.template.*;
-import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.module.message.*;
-import io.github.pigaut.rpg.module.message.impl.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
+import io.github.pigaut.yaml.delay.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
@@ -25,7 +18,7 @@ public class SendHologramToPlayer implements Action {
 
     private final Message hologram;
 
-    private SendHologramToPlayer(EnhancedPlugin plugin, HologramTemplate hologram, int duration,
+    private SendHologramToPlayer(EnhancedPlugin plugin, HologramTemplate hologram, Delay duration,
                                  Double offsetX, Double offsetY, Double offsetZ,
                                  Double radiusX, Double radiusY, Double radiusZ) {
         hologram = new OffsetHologramTemplate(hologram, offsetX, offsetY, offsetZ);
@@ -40,7 +33,7 @@ public class SendHologramToPlayer implements Action {
         }
     }
 
-    public static @NotNull Action create(EnhancedPlugin plugin, String text, int duration,
+    public static @NotNull Action create(EnhancedPlugin plugin, String text, Delay duration,
                                          Double offsetX, Double offsetY, Double offsetZ,
                                          Double radiusX, Double radiusY, Double radiusZ) {
         HologramTemplate hologramTemplate;

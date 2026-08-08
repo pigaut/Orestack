@@ -1,8 +1,5 @@
-package io.github.pigaut.rpg.module.message.impl;
+package io.github.pigaut.rpg.module.message.option;
 
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.module.message.*;
-import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.message.*;
 import io.github.pigaut.rpg.plugin.*;

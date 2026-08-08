@@ -14,6 +14,7 @@ import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
 import io.github.pigaut.yaml.convert.format.*;
+import net.momirealms.craftengine.core.block.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.*;
@@ -37,16 +38,17 @@ public class BlockTemplateLoader implements ConfigLoader.Line<BlockTemplate> {
     public @NotNull BlockTemplate loadFromLine(ConfigLine line) throws InvalidConfigException {
         if (line.hasFlag("itemsAdderBlock|iaBlock")) {
             if (!Server.isPluginEnabled("ItemsAdder")) {
-                throw new InvalidConfigException(line, "itemsAdderBlock", "ItemsAdder is not loaded/enabled");
+                line.collectWarning(line, "ItemsAdder plugin is not installed");
+                return BlockTemplate.INVALID;
             }
-            CustomBlock customBlock =
-                    line.getRequired("itemsAdderBlock|iaBlock", CustomBlock.class);
+            CustomBlock customBlock = line.getRequired("itemsAdderBlock|iaBlock", CustomBlock.class);
             return new ItemsAdderBlockTemplate(customBlock);
         }
 
         if (line.hasFlag("nexoBlock|nxBlock")) {
             if (!Server.isPluginEnabled("Nexo")) {
-                throw new InvalidConfigException(line, "nexoBlock", "Nexo is not loaded/enabled");
+                line.collectWarning(line, "Nexo plugin is not installed");
+                return BlockTemplate.INVALID;
             }
             String blockId = line.getRequiredString("nexoBlock|nxBlock");
             if (!NexoBlocks.isCustomBlock(blockId)) {
@@ -57,10 +59,10 @@ public class BlockTemplateLoader implements ConfigLoader.Line<BlockTemplate> {
 
         if (line.hasFlag("craftEngineBlock|ceBlock")) {
             if (!Server.isPluginEnabled("CraftEngine")) {
-                throw new InvalidConfigException(line, "craftEngineBlock", "CraftEngine is not loaded/enabled");
+                line.collectWarning(line, "CraftEngine plugin is not installed");
+                return BlockTemplate.INVALID;
             }
-            net.momirealms.craftengine.core.block.CustomBlock customBlock =
-                    line.getRequired("craftEngineBlock|ceBlock", net.momirealms.craftengine.core.block.CustomBlock.class);
+            BlockDefinition customBlock = line.getRequired("craftEngineBlock|ceBlock", BlockDefinition.class);
             return new CraftEngineBlockTemplate(customBlock);
         }
 
@@ -237,8 +239,8 @@ public class BlockTemplateLoader implements ConfigLoader.Line<BlockTemplate> {
             if (!Server.isPluginEnabled("CraftEngine")) {
                 throw new InvalidConfigException(section, "craft-engine-block", "CraftEngine is not loaded/enabled");
             }
-            net.momirealms.craftengine.core.block.CustomBlock customBlock =
-                    section.getRequired("craft-engine-block|craftengine-block|ce-block", net.momirealms.craftengine.core.block.CustomBlock.class);
+            BlockDefinition customBlock =
+                    section.getRequired("craft-engine-block|craftengine-block|ce-block", BlockDefinition.class);
             return new CraftEngineBlockTemplate(customBlock);
         }
 

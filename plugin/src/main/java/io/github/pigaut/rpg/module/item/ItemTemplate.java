@@ -219,7 +219,7 @@ public class ItemTemplate implements Identifiable {
     }
 
     public int getBreakingPowerAmount() {
-        return breakingPower != null ? breakingPower.getAmount() : 1;
+        return breakingPower != null ? breakingPower.getAmount() : plugin.getSettings().getDefaultBreakingPower();
     }
 
     public @Nullable String getRarity() {

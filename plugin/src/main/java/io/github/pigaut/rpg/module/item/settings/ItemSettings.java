@@ -3,6 +3,7 @@ package io.github.pigaut.rpg.module.item.settings;
 import io.github.pigaut.rpg.module.item.power.*;
 import io.github.pigaut.rpg.module.stat.*;
 import org.bukkit.*;
+import org.bukkit.block.*;
 import org.bukkit.enchantments.*;
 import org.jetbrains.annotations.*;
 
@@ -37,9 +38,8 @@ public interface ItemSettings {
     @NotNull List<String> getDefaultItemLore();
 
     boolean isBreakingPower();
-    int getBlockBreakingPowerAmount(@NotNull Material block);
-    @Nullable BreakingPower getBlockBreakingPower(@NotNull Material block);
-
-    @NotNull Set<String> getBreakingPowerNames();
+    int getDefaultBreakingPower();
     @NotNull Set<BreakingPower> getBreakingPowers();
+    @Nullable BlockBreakingPower getBlockBreakingPower(@NotNull Block block);
+
 }

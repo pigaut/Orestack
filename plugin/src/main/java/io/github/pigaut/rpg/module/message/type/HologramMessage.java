@@ -1,15 +1,11 @@
-package io.github.pigaut.rpg.module.message.impl;
+package io.github.pigaut.rpg.module.message.type;
 
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.hologram.*;
 import io.github.pigaut.rpg.module.message.*;
 import io.github.pigaut.rpg.core.menu.button.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.hologram.*;
-import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.module.message.*;
-import io.github.pigaut.rpg.plugin.*;
+import io.github.pigaut.yaml.delay.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
@@ -22,16 +18,16 @@ public class HologramMessage extends GenericMessage {
 
     private final EnhancedPlugin plugin;
     private final HologramTemplate hologramTemplate;
-    private final int duration;
+    private final Delay duration;
     private final Double radiusX, radiusY, radiusZ;
 
-    public HologramMessage(@NotNull EnhancedPlugin plugin, @NotNull HologramTemplate hologram, int duration,
+    public HologramMessage(@NotNull EnhancedPlugin plugin, @NotNull HologramTemplate hologram, Delay duration,
                            @Nullable Double radiusX, @Nullable Double radiusY, @Nullable Double radiusZ) {
         this(plugin, UUID.randomUUID().toString(), null, hologram, duration, radiusX, radiusY, radiusZ);
     }
 
     public HologramMessage(@NotNull EnhancedPlugin plugin, String name, @Nullable String group,
-                           @NotNull HologramTemplate hologramTemplate, int duration, @Nullable Double radiusX,
+                           @NotNull HologramTemplate hologramTemplate, Delay duration, @Nullable Double radiusX,
                            @Nullable Double radiusY, @Nullable Double radiusZ) {
         super(name, group);
         this.plugin = plugin;
@@ -77,7 +73,7 @@ public class HologramMessage extends GenericMessage {
         Hologram hologram = hologramTemplate.spawn(location, context);
 
         if (hologram != null) {
-            plugin.getScheduler().runTaskLater(duration, hologram::remove);
+            plugin.getScheduler().runTaskLater(duration.toTicks(), hologram::remove);
         }
     }
 

@@ -30,15 +30,17 @@ public class Context {
     private static final ItemStack EMPTY_HAND = new ItemStack(Material.AIR);
 
     private final @NotNull EnhancedPlugin plugin;
+
     private final @Nullable Player player;
+    private final @Nullable Mob mob;
+
+    private final @Nullable LivingEntity enemy;
+
     private final @Nullable PlayerState playerState;
     private final @Nullable ItemStack tool;
 
     private final @Nullable Action action;
     private final @Nullable Block block;
-
-    private final @Nullable Mob mob;
-    private final @Nullable LivingEntity enemy;
 
     private final @Nullable ItemStack item;
     private final @Nullable EnchantLevel enchantAdded;
@@ -78,6 +80,10 @@ public class Context {
 
     public @Nullable String resolvePlaceholder(@NotNull String placeholder) {
         return plugin.resolvePlaceholder(placeholder, this);
+    }
+
+    public boolean isPlayerProtagonist() {
+        return playerProtagonist;
     }
 
     @Nullable
@@ -193,11 +199,17 @@ public class Context {
     }
 
     public @NotNull Context withForEachElement(@Nullable Object forEachElement) {
-        if (forEachElement instanceof Player loopedPlayer) {
-            return withPlayer(loopedPlayer);
+        if (forEachElement instanceof Player loopPlayer) {
+            return withPlayer(loopPlayer);
+        }
+        else if (forEachElement instanceof Mob loopMob) {
+            return withMob(loopMob);
         }
         else if (forEachElement instanceof EnchantLevel addedEnchant) {
             return withEnchantAdded(addedEnchant);
+        }
+        else if (forEachElement instanceof LivingEntity loopEntity) {
+            return withEnemy(loopEntity);
         }
         return this;
     }

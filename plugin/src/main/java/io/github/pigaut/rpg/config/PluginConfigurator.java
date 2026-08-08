@@ -27,6 +27,8 @@ import io.github.pigaut.rpg.module.menu.button.icon.*;
 import io.github.pigaut.rpg.module.menu.config.*;
 import io.github.pigaut.rpg.module.message.*;
 import io.github.pigaut.rpg.module.message.config.*;
+import io.github.pigaut.rpg.module.message.type.*;
+import io.github.pigaut.rpg.module.message.type.chat.*;
 import io.github.pigaut.rpg.module.mob.bossbar.*;
 import io.github.pigaut.rpg.module.mob.bossbar.config.*;
 import io.github.pigaut.rpg.module.mob.config.*;
@@ -42,6 +44,8 @@ import io.github.pigaut.rpg.module.sound.*;
 import io.github.pigaut.rpg.module.sound.config.*;
 import io.github.pigaut.rpg.module.structure.*;
 import io.github.pigaut.rpg.module.structure.block.*;
+import io.github.pigaut.rpg.module.structure.block.matcher.*;
+import io.github.pigaut.rpg.module.structure.block.matcher.config.*;
 import io.github.pigaut.rpg.module.structure.config.*;
 import io.github.pigaut.rpg.hook.auraskill.*;
 import io.github.pigaut.rpg.hook.craftengine.*;
@@ -51,66 +55,13 @@ import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.module.stat.config.*;
 import io.github.pigaut.rpg.module.stat.custom.*;
 import io.github.pigaut.rpg.module.stat.modifier.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.server.*;
-import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.config.itemstack.*;
-import io.github.pigaut.rpg.config.misc.*;
-import io.github.pigaut.rpg.core.drop.*;
-import io.github.pigaut.rpg.core.hologram.*;
-import io.github.pigaut.rpg.core.hologram.config.*;
-import io.github.pigaut.rpg.core.hologram.style.*;
-import io.github.pigaut.rpg.core.menu.*;
-import io.github.pigaut.rpg.core.placeholder.custom.*;
-import io.github.pigaut.rpg.core.progressbar.*;
-import io.github.pigaut.rpg.core.tag.*;
-import io.github.pigaut.rpg.core.tag.config.*;
-import io.github.pigaut.rpg.hook.auraskill.*;
-import io.github.pigaut.rpg.hook.craftengine.*;
-import io.github.pigaut.rpg.hook.itemsadder.*;
-import io.github.pigaut.rpg.hook.mcmmo.*;
-import io.github.pigaut.rpg.module.command.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.module.function.condition.config.*;
-import io.github.pigaut.rpg.module.function.config.*;
-import io.github.pigaut.rpg.module.function.foreach.*;
-import io.github.pigaut.rpg.module.function.yield.*;
-import io.github.pigaut.rpg.module.item.*;
-import io.github.pigaut.rpg.module.item.config.*;
-import io.github.pigaut.rpg.module.menu.button.*;
-import io.github.pigaut.rpg.module.menu.button.icon.*;
-import io.github.pigaut.rpg.module.menu.config.*;
-import io.github.pigaut.rpg.module.message.*;
-import io.github.pigaut.rpg.module.message.config.*;
-import io.github.pigaut.rpg.module.mob.bossbar.*;
-import io.github.pigaut.rpg.module.mob.bossbar.config.*;
-import io.github.pigaut.rpg.module.mob.config.*;
-import io.github.pigaut.rpg.module.mob.disguise.*;
-import io.github.pigaut.rpg.module.mob.model.*;
-import io.github.pigaut.rpg.module.mob.options.*;
-import io.github.pigaut.rpg.module.mob.template.*;
-import io.github.pigaut.rpg.module.particle.*;
-import io.github.pigaut.rpg.module.particle.config.*;
-import io.github.pigaut.rpg.module.recipe.*;
-import io.github.pigaut.rpg.module.recipe.config.*;
-import io.github.pigaut.rpg.module.sound.*;
-import io.github.pigaut.rpg.module.sound.config.*;
-import io.github.pigaut.rpg.module.stat.*;
-import io.github.pigaut.rpg.module.stat.config.*;
-import io.github.pigaut.rpg.module.stat.custom.*;
-import io.github.pigaut.rpg.module.stat.modifier.*;
-import io.github.pigaut.rpg.module.structure.*;
-import io.github.pigaut.rpg.module.structure.block.*;
-import io.github.pigaut.rpg.module.structure.config.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.*;
 import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.delay.*;
 import net.md_5.bungee.api.chat.*;
+import net.momirealms.craftengine.core.block.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
@@ -137,10 +88,17 @@ public class PluginConfigurator extends SpigotConfigurator {
         addLoader(ItemStack.class, new PluginItemStackLoader(plugin));
         addLoader(ItemTemplate.class, new ItemTemplateLoader(plugin));
 
+        addLoader(BlockMatcher.class, new BlockMatcherLoader());
         addLoader(BlockTemplate.class, new BlockTemplateLoader());
         addLoader(StructureTemplate.class, new StructureTemplateLoader(plugin));
 
         addLoader(Message.class, new MessageLoader(plugin));
+        addLoader(ChatMessage.class, new ChatMessageLoader());
+        addLoader(ActionBarMessage.class, new ActionBarMessageLoader(plugin));
+        addLoader(TitleMessage.class, new TitleMessageLoader());
+        addLoader(BossBarMessage.class, new BossBarMessageLoader(plugin));
+        addLoader(HologramMessage.class, new HologramMessageLoader(plugin));
+
         addLoader(ParticleEffect.class, new ParticleEffectLoader(plugin));
         addLoader(SoundEffect.class, new SoundEffectLoader(plugin));
         addLoader(HologramTemplate.class, new HologramTemplateLoader(plugin));
@@ -217,7 +175,7 @@ public class PluginConfigurator extends SpigotConfigurator {
         }
 
         if (Server.isPluginEnabled("CraftEngine")) {
-            addLoader(net.momirealms.craftengine.core.block.CustomBlock.class, new CraftEngineBlockLoader());
+            addLoader(BlockDefinition.class, new CraftEngineBlockLoader());
         }
 
     }

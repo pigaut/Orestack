@@ -3,6 +3,7 @@ package io.github.pigaut.rpg.module.item;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.enchant.*;
 import io.github.pigaut.rpg.core.placeholder.*;
+import io.github.pigaut.rpg.module.item.power.*;
 import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.core.context.*;
@@ -284,12 +285,35 @@ public class ItemPlaceholders {
             return item != null ? plugin.getItems().getAbilitiesDescription(item) : null;
         });
 
-        // Fix ability description thing to actually return formatted abilities
+        placeholders.register(prefix + "_breaking_power", context -> {
+            ItemStack item = resolver.apply(context);
+            ItemTemplate itemTemplate = plugin.getItemTemplate(item);
+            if (itemTemplate == null) {
+                return List.of();
+            }
+            ToolBreakingPower toolBreakingPower = itemTemplate.getBreakingPower();
+            return toolBreakingPower != null ? toolBreakingPower.getDisplay() : List.of();
+        });
+
+        for (BreakingPower breakingPower : settings.getBreakingPowers()) {
+            placeholders.register(prefix + "_" + breakingPower.getName(), context -> {
+                ItemStack item = resolver.apply(context);
+                ItemTemplate itemTemplate = plugin.getItemTemplate(item);
+                if (itemTemplate == null) {
+                    return null;
+                }
+                ToolBreakingPower toolBreakingPower = itemTemplate.getBreakingPower();
+                if (toolBreakingPower == null || !breakingPower.equals(toolBreakingPower.getType())) {
+                    return null;
+                }
+                return toolBreakingPower.getAmount();
+            });
+        }
 
         placeholders.register(prefix + "_rarity", context -> {
             ItemStack item = resolver.apply(context);
             String rarity = plugin.getItems().getRarity(item);
-            return rarity != null ? settings.getItemRarityDisplay(rarity) : null;
+            return rarity != null ? settings.getItemRarityDisplay(rarity) : List.of();
         });
 
     }

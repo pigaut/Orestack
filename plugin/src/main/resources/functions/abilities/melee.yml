@@ -1,0 +1,10 @@
+
+# Attempts to slash all enemies in front.
+# The protagonist is either a mob or a player, both can use this ability.
+flameSlash:
+  - do:
+      - spawnParticleAtProtagonist flame_slash # Found in: particles/abilities/slash.yml
+      - playSoundAtProtagonist entity_player_hurt_on_fire
+
+  - for-each: entity_in_front length=3 width=6
+    do: damageEntity 5-10

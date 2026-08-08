@@ -32,7 +32,7 @@ public class ToolDamageLoader implements ConfigLoader<ToolDamage> {
         }
 
         Map<Material, Amount> damageByTool = new HashMap<>();
-        for (KeyedField field : section.getSectionOrCreate("tools").getNestedFields()) {
+        for (KeyedField field : section.getSectionOrCreate("damage-by-tool").getNestedFields()) {
             Material tool = field.getKey(Material.class);
             Amount amount = field.getRequired(Amount.class);
             damageByTool.put(tool, amount);

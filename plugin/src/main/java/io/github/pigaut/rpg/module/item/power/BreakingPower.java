@@ -1,7 +1,9 @@
 package io.github.pigaut.rpg.module.item.power;
 
 import io.github.pigaut.rpg.module.function.*;
+import io.github.pigaut.rpg.module.structure.block.matcher.*;
 import org.bukkit.*;
+import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -10,15 +12,18 @@ public class BreakingPower {
 
     private final String name;
     private final String display;
-    private final Map<Material, Integer> breakingPowersByBlock;
+    private final BlockMatcherMap<Integer> breakingPowersByBlock;
+    private final Function onWrongTool;
     private final Function onInsufficientPower;
 
     public BreakingPower(@NotNull String name, @NotNull String display,
-                         @NotNull Map<Material, Integer> breakingPowersByBlock,
+                         @NotNull BlockMatcherMap<Integer> breakingPowersByBlock,
+                         @Nullable Function onWrongTool,
                          @Nullable Function onInsufficientPower) {
         this.name = name;
         this.display = display;
         this.breakingPowersByBlock = breakingPowersByBlock;
+        this.onWrongTool = onWrongTool;
         this.onInsufficientPower = onInsufficientPower;
     }
 
@@ -30,16 +35,16 @@ public class BreakingPower {
         return display;
     }
 
-    public boolean containsBlock(@NotNull Material block) {
-        return breakingPowersByBlock.containsKey(block);
+    public @Nullable BlockBreakingPower fromBlock(@NotNull Block block) {
+        Integer amount = breakingPowersByBlock.get(block);
+        if (amount == null) {
+            return null;
+        }
+        return new BlockBreakingPower(this, amount);
     }
 
-    public int getAmount(@NotNull Material block) {
-        return breakingPowersByBlock.getOrDefault(block, 1);
-    }
-
-    public @NotNull Map<Material, Integer> getAmountByBlock() {
-        return new HashMap<>(breakingPowersByBlock);
+    public @Nullable Function getOnWrongTool() {
+        return onWrongTool;
     }
 
     public @Nullable Function getOnInsufficientPower() {

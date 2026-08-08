@@ -1,11 +1,9 @@
-package io.github.pigaut.rpg.module.message.impl;
+package io.github.pigaut.rpg.module.message.type.chat;
 
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.module.message.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.module.message.*;
+import io.github.pigaut.rpg.module.message.type.*;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.*;
 import org.bukkit.entity.*;
@@ -14,7 +12,7 @@ import org.jetbrains.annotations.*;
 import java.util.*;
 
 @SuppressWarnings("deprecation") // Paper deprecated TextComponent API
-public class InteractiveChatMessage extends GenericMessage {
+public class InteractiveChatMessage extends ChatMessage {
 
     private final List<TextComponent> templates;
 
@@ -25,11 +23,6 @@ public class InteractiveChatMessage extends GenericMessage {
 
     public InteractiveChatMessage(@NotNull String name, @Nullable String group, @NotNull TextComponent template) {
         this(name, group, List.of(template));
-    }
-
-    @Override
-    public @NotNull MessageType getType() {
-        return MessageType.CHAT;
     }
 
     public void send(@NotNull Player player, @NotNull Context context) {

@@ -25,7 +25,7 @@ public class MobDamageEnemy implements Action {
             return;
         }
 
-        enemy.damage(amount.doubleValue(), mob.getEntity());
+        mob.attack(enemy, amount.doubleValue());
     }
 
 }

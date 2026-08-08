@@ -25,4 +25,7 @@ enderman_sword:
 
   rarity: legendary
   on-right-click:
-    - instantTransmission # Found in: functions/abilities.yml
+    - instantTransmission # Found in: functions/abilities/mobility.yml
+
+  on-left-click:
+    - flameSlash

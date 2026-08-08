@@ -32,7 +32,8 @@ public class GeneratorOptionsManager extends Manager implements ConfigBacked {
 
     @Override
     public @NotNull ErrorCollector loadConfigurationData() {
-        RootSection config = plugin.getConfiguration();
+        ConfigSection config = plugin.getConfiguration();
+        config.clearErrorsAndWarnings();
 
         veinGenerators = config.getList("vein-generators", GeneratorTemplate.class)
                 .withDefault(List.of());

@@ -68,7 +68,7 @@ public class SimpleStatSettings implements StatSettings {
         this.plugin = plugin;
     }
 
-    public void loadConfigurationData(@NotNull RootSection config) {
+    public void loadConfigurationData(@NotNull ConfigSection config) {
         showStatusBar = config.getBoolean("show-status-bar")
                 .withDefault(true);
 

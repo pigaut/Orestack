@@ -2,17 +2,10 @@ package io.github.pigaut.rpg.module.gate;
 
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.gate.template.*;
-import io.github.pigaut.rpg.module.gate.template.*;
 import io.github.pigaut.rpg.module.structure.health.*;
 import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.progressbar.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.core.progressbar.*;
-import io.github.pigaut.rpg.module.gate.template.*;
-import io.github.pigaut.rpg.module.structure.health.*;
-import io.github.pigaut.rpg.settings.*;
 import org.jetbrains.annotations.*;
 
 public class GatePlaceholders {
@@ -20,7 +13,7 @@ public class GatePlaceholders {
     public static void registerAll(@NotNull RpgMakerPlugin plugin) {
         PlaceholderRegistry placeholders = plugin.getPlaceholders();
 
-        OrestackSettings settings = plugin.getSettings();
+        RpgSettings settings = plugin.getSettings();
         placeholders.register("gate", context -> {
             GateTemplate gateTemplate = context.get(GateTemplate.class);
             if (gateTemplate != null) {

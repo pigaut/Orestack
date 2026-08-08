@@ -174,7 +174,6 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
                         .require(Requirements.positive(), "Value must be greater than or equal to 1")
                         .orThrow() - 1
                 ));
-        // Function actions end
 
 
         // Event actions start
@@ -186,7 +185,6 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
 
         addLoader("SET_CANCELLED", (Line<Action>) line ->
                 new CancelEventAction(line.getRequiredBoolean(1)));
-        // Event actions end
 
 
         // Block Actions start
@@ -203,17 +201,17 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
                         line.getBoolean("experience").withDefault(plugin.getSettings().isExperience())
                 ));
 
-        addLoader("PARTICLE_AT_BLOCK", (Line<Action>) line ->
-                new SpawnParticleAtBlock(line.getRequired(1, ParticleEffect.class)));
-
         addLoader("SPAWN_PARTICLE_AT_BLOCK", (Line<Action>) line ->
                 new SpawnParticleAtBlock(line.getRequired(1, ParticleEffect.class)));
 
-        addLoader("SOUND_AT_BLOCK", (Line<Action>) line ->
-                new PlaySoundAtBlock(line.getRequired(1, SoundEffect.class)));
-
         addLoader("PLAY_SOUND_AT_BLOCK", (Line<Action>) line ->
                 new PlaySoundAtBlock(line.getRequired(1, SoundEffect.class)));
+
+        addAliases("DROP_ITEM_AT_BLOCK", "BLOCK_ITEM_DROP");
+        addAliases("DROP_EXP_AT_BLOCK", "BLOCK_EXP_DROP");
+        addAliases("SPAWN_PARTICLE_AT_BLOCK", "BLOCK_PARTICLE");
+        addAliases("PLAY_SOUND_AT_BLOCK", "BLOCK_SOUND");
+
         // Block Actions end
 
         // Player actions start
@@ -233,26 +231,26 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
         addLoader("PLAY_SOUND_AT_PLAYER", (Line<Action>) line ->
                 new PlaySoundOnPlayer(line.getRequired(1, SoundEffect.class)));
 
-        addLoader("GIVE_EXP", (Line<Action>) line ->
+        addLoader("ADD_PLAYER_EXP", (Line<Action>) line ->
                 new GiveExpToPlayer(plugin,
                         line.getRequired(1, Amount.class),
                         line.getBoolean("experience").withDefault(plugin.getSettings().isExperience())
                 ));
 
-        addLoader("GIVE_FLAG", (Line<Action>) line ->
+        addLoader("ADD_PLAYER_FLAG", (Line<Action>) line ->
                 new AddPlayerFlag(line.getRequiredString(1)));
 
-        addLoader("GIVE_TEMPORARY_FLAG", (Line<Action>) line ->
+        addLoader("ADD_TEMPORARY_PLAYER_FLAG", (Line<Action>) line ->
                 new AddTemporaryPlayerFlag(
                         line.getRequiredString(1),
                         line.get("duration", Delay.class).map(Delay::toTicks).orThrow()
                 ));
 
-        addLoader("GIVE_ITEM", (Line<Action>) line ->
+        addLoader("ADD_PLAYER_ITEM", (Line<Action>) line ->
                 new GiveItemToPlayer(line.getRequired(ItemDrop.class)));
 
         EconomyHook economy = Server.getEconomyHook();
-        addLoader("GIVE_MONEY", (Line<Action>) line -> {
+        addLoader("ADD_PLAYER_MONEY", (Line<Action>) line -> {
             if (economy == null) {
                 ConfigRoot root = line.getRoot();
                 root.collectWarning(new InvalidConfigException(line, "Vault or an economy plugin is not installed"));
@@ -261,7 +259,7 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
             return new GiveMoneyToPlayer(economy, line.getRequired(1, Amount.class));
         });
 
-        addLoader("TAKE_MONEY", (Line<Action>) line -> {
+        addLoader("REMOVE_PLAYER_MONEY", (Line<Action>) line -> {
             if (economy == null) {
                 ConfigRoot root = line.getRoot();
                 root.collectWarning(new InvalidConfigException(line, "Vault or an economy plugin is not installed"));
@@ -270,46 +268,41 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
             return new TakeMoneyFromPlayer(economy, line.getRequired(1, Amount.class));
         });
 
-        addLoader("TAKE_EXP", (Line<Action>) line ->
+        addLoader("REMOVE_PLAYER_EXP", (Line<Action>) line ->
                 new TakeExpFromPlayer(line.getRequired(1, Amount.class)));
 
-        addLoader("TAKE_FLAG", (Line<Action>) line ->
+        addLoader("REMOVE_PLAYER_FLAG", (Line<Action>) line ->
                 new RemovePlayerFlag(line.getRequiredString(1)));
 
-        addLoader("TAKE_ITEM", (Line<Action>) line -> {
+        addLoader("REMOVE_PLAYER_ITEM", (Line<Action>) line -> {
             ItemStack item = line.getRequired(1, ItemStack.class);
             Amount amount = line.get("amount", Amount.class)
                     .withDefault(Amount.fixed(item.getAmount()));
             return new TakeItemFromPlayer(item, amount);
         });
 
-        addLoader("SET_EXP", (Line<Action>) line ->
+        addLoader("SET_PLAYER_EXP", (Line<Action>) line ->
                 new SetPlayerExp(line.getRequired(1, Amount.class)));
 
-        addLoader("HEAL", (Line<Action>) line ->
+        addLoader("HEAL_PLAYER", (Line<Action>) line ->
                 new HealPlayer(line.get(1, Amount.class).orElse(Amount.fixed(20))));
 
-        addLoader("DAMAGE", (Line<Action>) line ->
+        addLoader("DAMAGE_PLAYER", (Line<Action>) line ->
                 new DamagePlayer(line.get(1, Amount.class).orElse(Amount.fixed(2))));
 
-        addLoader("COMMAND", (Line<Action>) line ->
+        addLoader("EXECUTE_PLAYER_COMMAND", (Line<Action>) line ->
                 new ExecutePlayerCommand(line.getRequiredString(1)));
 
-        addLoader("CHAT_MESSAGE", (Line<Action>) line ->
+        addLoader("SEND_PLAYER_CHAT", (Line<Action>) line ->
                 new SendChatToPlayer(line.getRequiredString(1, ColorUtil.FORMATTER)));
 
-        addLoader("SEND_CHAT", (Line<Action>) line ->
-                new SendChatToPlayer(line.getRequiredString(1, ColorUtil.FORMATTER)));
-
-        addLoader("SEND_ACTIONBAR", (Line<Action>) line ->
+        addLoader("SEND_PLAYER_ACTIONBAR", (Line<Action>) line ->
                 new SendActionbarToPlayer(plugin,
                         line.getRequiredString(1, ColorUtil.FORMATTER),
                         line.get("align", BarAlignment.class).withDefault(plugin.getSettings().getInsertedMessageAlign())
                 ));
 
-        addAliases("SEND_ACTIONBAR", "SEND_ACTION_BAR");
-
-        addLoader("SEND_TITLE", (Line<Action>) line ->
+        addLoader("SEND_PLAYER_TITLE", (Line<Action>) line ->
                 new SendTitleToPlayer(plugin,
                         line.getRequiredString(1, ColorUtil.FORMATTER),
                         line.getString("subtitle", ColorUtil.FORMATTER).withDefault(""),
@@ -318,10 +311,10 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
                         line.getInteger("fadeOut|fade-out").withDefault(20)
                 ));
 
-        addLoader("SEND_HOLOGRAM", (Line<Action>) line ->
+        addLoader("SEND_PLAYER_HOLOGRAM", (Line<Action>) line ->
                 SendHologramToPlayer.create(plugin,
                         line.getRequiredString(1, ColorUtil.FORMATTER),
-                        line.getInteger("duration").withDefault(60),
+                        line.get("duration", Delay.class).withDefault(Delay.fromTicks(40)),
                         line.getDouble("offsetX").withDefault(0d),
                         line.getDouble("offsetY").withDefault(0d),
                         line.getDouble("offsetZ").withDefault(0d),
@@ -330,10 +323,7 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
                         line.getDouble("radiusZ|rangeZ").withDefault(null)
                 ));
 
-        addLoader("MESSAGE", (Line<Action>) line ->
-                new SendMessage(line.getRequired(1, Message.class), line.getAllFlags()));
-
-        addLoader("SEND_MESSAGE", (Line<Action>) line ->
+        addLoader("SEND_PLAYER_MESSAGE", (Line<Action>) line ->
                 new SendMessage(line.getRequired(1, Message.class), line.getAllFlags()));
 
         addLoader("LIGHTNING_AT_PLAYER", (Line<Action>) line ->
@@ -342,19 +332,19 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
         addLoader("STRIKE_PLAYER", (Line<Action>) line ->
                 new StrikePlayerWithLightning(line.getBoolean("doDamage|damage").orElse(true)));
 
-        addLoader("SET_FLIGHT", (Line<Action>) line ->
+        addLoader("SET_PLAYER_FLIGHT", (Line<Action>) line ->
                 new SetPlayerFlight(line.getBoolean(1).orElse(true)));
 
-        addLoader("TELEPORT", (Line<Action>) line ->
+        addLoader("TELEPORT_PLAYER", (Line<Action>) line ->
                 new TeleportPlayer(line.getRequired(1, Location.class)));
 
         addLoader("SET_CURSOR_ITEM", (Line<Action>) line ->
                 new SetPlayerCursorItem(line.getRequired(1, ItemStack.class)));
 
-        addLoader("OPEN_ENDER_CHEST", (Line<Action>) line ->
+        addLoader("OPEN_PLAYER_ENDERCHEST", (Line<Action>) line ->
                 new OpenEnderChest());
 
-        addLoader("CLOSE_INVENTORY", (Line<Action>) line ->
+        addLoader("CLOSE_PLAYER_INVENTORY", (Line<Action>) line ->
                 new CloseInventory());
 
         addLoader("PLAYER_CACHE", (Line<Action>) line ->
@@ -362,8 +352,41 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
                         line.getRequiredString(1),
                         line.getRequiredString(2)
                 ));
-        // Player actions end
 
+        addAliases("DROP_ITEM_AT_PLAYER", "PLAYER_ITEM_DROP");
+        addAliases("DROP_EXP_AT_PLAYER", "PLAYER_EXP_DROP");
+        addAliases("SPAWN_PARTICLE_AT_PLAYER", "PLAYER_PARTICLE");
+        addAliases("PLAY_SOUND_AT_PLAYER", "PLAYER_SOUND");
+
+        addAliases("ADD_PLAYER_MONEY", "ADD_MONEY", "GIVE_PLAYER_MONEY", "GIVE_MONEY");
+        addAliases("REMOVE_PLAYER_MONEY", "REMOVE_MONEY", "TAKE_PLAYER_MONEY", "TAKE_MONEY");
+
+        addAliases("ADD_PLAYER_FLAG", "ADD_FLAG", "GIVE_PLAYER_FLAG",  "GIVE_FLAG");
+        addAliases("ADD_TEMPORARY_PLAYER_FLAG", "ADD_TEMPORARY_FLAG", "GIVE_TEMPORARY_PLAYER_FLAG", "GIVE_TEMPORARY_FLAG");
+        addAliases("REMOVE_PLAYER_FLAG", "REMOVE_FLAG", "TAKE_PLAYER_FLAG", "TAKE_FLAG");
+
+        addAliases("ADD_PLAYER_ITEM", "ADD_ITEM", "GIVE_PLAYER_ITEM", "GIVE_ITEM");
+        addAliases("REMOVE_PLAYER_ITEM", "REMOVE_ITEM", "TAKE_PLAYER_ITEM", "TAKE_ITEM");
+
+        addAliases("SET_PLAYER_EXP", "SET_EXP");
+        addAliases("ADD_PLAYER_EXP", "ADD_EXP", "GIVE_PLAYER_EXP", "GIVE_EXP");
+        addAliases("REMOVE_PLAYER_EXP", "REMOVE_EXP", "TAKE_PLAYER_EXP", "TAKE_EXP");
+
+        addAliases("HEAL_PLAYER", "HEAL");
+        addAliases("DAMAGE_PLAYER", "DAMAGE");
+
+        addAliases("EXECUTE_PLAYER_COMMAND", "EXECUTE_COMMAND", "COMMAND");
+
+        addAliases("SEND_PLAYER_MESSAGE", "SEND_MESSAGE", "MESSAGE");
+        addAliases("SEND_PLAYER_CHAT", "SEND_CHAT", "CHAT", "CHAT_MESSAGE");
+        addAliases("SEND_PLAYER_ACTIONBAR", "SEND_PLAYER_ACTION_BAR", "SEND_ACTIONBAR", "SEND_ACTION_BAR", "ACTIONBAR", "ACTION_BAR", "ACTIONBAR_MESSAGE", "ACTION_BAR_MESSAGE");
+        addAliases("SEND_PLAYER_TITLE", "SEND_TITLE", "TITLE", "TITLE_MESSAGE");
+        addAliases("SEND_PLAYER_HOLOGRAM", "SEND_HOLOGRAM", "HOLOGRAM", "HOLOGRAM_MESSAGE");
+
+        addAliases("SET_PLAYER_FLIGHT", "SET_FLIGHT", "FLIGHT", "FLY");
+        addAliases("TELEPORT_PLAYER", "TELEPORT");
+        addAliases("OPEN_PLAYER_ENDERCHEST", "OPEN_PLAYER_ENDER_CHEST", "OPEN_ENDERCHEST", "OPEN_ENDER_CHEST");
+        addAliases("CLOSE_PLAYER_INVENTORY", "CLOSE_INVENTORY");
 
         // Item actions start
         addLoader("DAMAGE_TOOL", (Line<Action>) line ->
@@ -464,7 +487,7 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
         addLoader("HEAL_MOB", (Line<Action>) line ->
                 new HealMob(line.get(1, Amount.class).withDefault(null)));
 
-        addLoader("DAMAGE_TARGET", (Line<Action>) line ->
+        addLoader("DAMAGE_MOB_TARGET", (Line<Action>) line ->
                 new MobDamageEnemy(line.get(1, Amount.class).withDefault(Amount.ONE)));
 
         addLoader("DAMAGE_ATTACKERS", (Line<Action>) line ->
@@ -488,43 +511,19 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
         addLoader("PLAY_SOUND_AT_MOB", (Line<Action>) line ->
                 new PlaySoundAtMob(line.getRequired(1, SoundEffect.class)));
 
+        // Protagonist
         addLoader("SPAWN_PARTICLE_AT_PROTAGONIST", (Line<Action>) line ->
                 new SpawnParticleAtProtagonist(line.getRequired(1, ParticleEffect.class)));
 
         addLoader("PLAY_SOUND_AT_PROTAGONIST", (Line<Action>) line ->
                 new PlaySoundAtProtagonist(line.getRequired(1, SoundEffect.class)));
 
-        addLoader("DAMAGE_ENTITIES_IN_RANGE", (Line<Action>) line -> {
-            Amount damage = line.get(1, Amount.class).withDefault(Amount.ONE);
-            double range = line.get("range", Double.class).withDefault(3.0);
-            int limit = line.get("limit", Integer.class).withDefault(Integer.MAX_VALUE);
-            return new DamageEntitiesInRange(plugin, damage, range, limit);
-        });
+        addLoader("DAMAGE_ENEMY", (Line<Action>) line ->
+                new DamageEnemy(plugin, line.get(1, Amount.class).withDefault(Amount.ONE)));
 
-        addLoader("DAMAGE_ENTITIES_IN_RADIUS", (Line<Action>) line -> {
-            Amount damage = line.get(1, Amount.class).withDefault(Amount.ONE);
-            double radius = line.get("radius", Double.class).withDefault(3.0);
-            int limit = line.get("limit", Integer.class).withDefault(Integer.MAX_VALUE);
-            return new DamageEntitiesInRadius(plugin, damage, radius, limit);
-        });
+        addAliases("DAMAGE_ENEMY", "DAMAGE_ENTITY", "DAMAGE_TARGET", "DAMAGE_VICTIM");
 
-        addLoader("DAMAGE_ENTITIES_IN_RING", (Line<Action>) line -> {
-            Amount damage = line.get(1, Amount.class).withDefault(Amount.ONE);
-            double diameter = line.get("diameter", Double.class).withDefault(6.0); // radius 3 * 2
-            double thickness = line.get("thickness", Double.class).withDefault(1.0);
-            int limit = line.get("limit", Integer.class).withDefault(Integer.MAX_VALUE);
-            return new DamageEntitiesInRing(plugin, damage, diameter, thickness, limit);
-        });
-
-        addLoader("DAMAGE_ENTITIES_IN_FRONT", (Line<Action>) line -> {
-            Amount damage = line.get(1, Amount.class).withDefault(Amount.ONE);
-            double length = line.get("length", Double.class).withDefault(3.0);
-            double width = line.get("width", Double.class).withDefault(2.0);
-            int limit = line.get("limit", Integer.class).withDefault(Integer.MAX_VALUE);
-            return new DamageEntitiesInFront(plugin, damage, length, width, limit);
-        });
-        // Mob actions end
-
+        // Cooldowns and abilities
         addLoader("START_COOLDOWN", (Line<Action>) line ->
                 new AddCooldown(
                         line.getRequiredString(1),
@@ -546,10 +545,6 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
         addLoader("TELEPORT_FORWARD", (Line<Action>) line ->
                 new TeleportForward(line.get(1, Amount.class).withDefault(Amount.ONE)));
 
-        //Player flag action aliases
-        addAliases("GIVE_FLAG", "GIVE_PLAYER_FLAG", "ADD_FLAG", "ADD_PLAYER_FLAG");
-        addAliases("TAKE_FLAG", "TAKE_PLAYER_FLAG", "REMOVE_FLAG", "REMOVE_PLAYER_FLAG");
-
         // Drop action aliases
         addAliases("DROP_ITEM", "DROP");
         addAliases("DROP_ITEM_AT_BLOCK", "DROP_AT_BLOCK");
@@ -561,15 +556,11 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
         addAliases("LOCK_RECIPE", "LOCK_RECIPES");
 
         // Mob action aliases
-        addAliases("DAMAGE_TARGET", "DAMAGE_VICTIM", "DAMAGE_ENEMY");
+        addAliases("DAMAGE_MOB_TARGET", "DAMAGE_MOB_ENEMY", "DAMAGE_MOB_VICTIM");
         addAliases("DROP_ITEM_AT_MOB", "DROP_AT_MOB");
         addAliases("DROP_ITEM_AT_LAST_DAMAGER", "DROP_AT_LAST_DAMAGER");
         addAliases("DROP_ITEM_AT_TOP_DAMAGER", "DROP_AT_TOP_DAMAGER");
         addAliases("DROP_ITEM_AT_ATTACKERS", "DROP_AT_DAMAGERS");
-        addAliases("DAMAGE_ENTITIES_IN_RANGE", "DAMAGE_IN_RANGE");
-        addAliases("DAMAGE_ENTITIES_IN_RADIUS", "DAMAGE_IN_RADIUS");
-        addAliases("DAMAGE_ENTITIES_IN_RING", "DAMAGE_IN_RING");
-        addAliases("DAMAGE_ENTITIES_IN_FRONT", "DAMAGE_IN_FRONT");
 
         // Menu action aliases
         addAliases("SCROLL_MENU", "SCROLL");

@@ -111,7 +111,6 @@ public class ConfigErrorUtil {
                 appendExceptionDetails(builder, warning, report.configType, true);
             }
 
-            builder.append("\n");
             formattedMessages.add(builder.toString());
         }
 
@@ -142,6 +141,8 @@ public class ConfigErrorUtil {
         } else {
             builder.append(label).append(exception.getMessage());
         }
+
+        builder.append("\n");
     }
 
 

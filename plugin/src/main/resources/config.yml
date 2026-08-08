@@ -494,7 +494,7 @@ default-item-lore:
   footer: [''] # The footer after some lore parts
   color: '&7' # The default lore color/format
   parts:
-    - '{breaking_power}'
+    - '{item_breaking_power}'
     - '{item_description}' # Headers and footers will be added automatically if configured.
     - '{item_stats}' # Stats, Enchants and abilities use their custom headers, footers, and dividers.
     - '{item_enchants}'
@@ -573,43 +573,58 @@ item-rarities:
   epic: '&dEPIC'
   legendary: '&6LEGENDARY'
 
+# Item breaking powers and block power requirements, and values for {item_breaking_power} placeholder
+# Breaking power is a number starting at 1 (Anything can mine it) and each level beyond requires a more powerful tool.
 breaking-power:
   enabled: true
-  on-insufficient-power:
-    - sendChat &cYou need &8{block_mining_power} Mining Power &cto mine this block
-  mining:
+
+  default-power: 1 # Set to 0 and players will not be able to mine anything without a proper tool
+
+  mining-power:
     display: '&8Mining Power {amount_rm}'
-    blocks:
-      iron_ore: 2
-      gold_ore: 3
-      diamond_ore: 3
-      emerald_ore: 4
 
-  chopping:
+    # Triggered when the player tool does not have mining power
+    on-wrong-tool:
+      - sendChat &cYou need a pickaxe to mine ores
+
+    # Triggered when the player tool doesn't have enough breaking power
+    on-insufficient-power: # Placeholders: {tool_breaking_power}, {block_breaking_power}
+      - sendChat &cYou need a pickaxe with &8{block_mining_power} Mining Power &cto mine this ore
+
+    block-requirements:
+      iron_ore: 2 power
+      gold_ore: 3 power
+      diamond_ore: 3 power
+      emerald_ore: 4 power
+      ItemsAdder:ruby_ore: 5 power # ItemsAdder, Nexo, CraftEngine
+
+  chopping-power:
     display: '&8Chopping Power {amount_rm}'
-    on-insufficient-power:
-      - sendChat &cYou need &8{tool_chopping_power} Chopping Power &cto chop this tree
-    blocks:
-      oak: 1 # oak includes: oak_log, oak_wood, stripped_oak_log, stripped_oak_wood.
-      birch: 2
-      spruce: 2
 
-  digging:
+    on-wrong-tool:
+      - sendChat &cYou need an axe to chop wood
+
+    on-insufficient-power:
+      - sendChat &cYou need an axe with &8{tool_chopping_power} Chopping Power &cto chop this tree
+
+    block-requirements:
+      # Breaking power of 1 means any tool or empty hand can mine it.
+      oak: 1 power # oak includes: oak_log, oak_wood, stripped_oak_log, stripped_oak_wood.
+      birch: 2 power
+      spruce: 2 power
+
+  digging-power:
     display: '&8Digging Power {amount_rm}'
-    on-insufficient-power:
-      - sendChat &cYou need &8{tool_digging_power} Digging Power &cto dig this block
-    blocks:
-      sand: 2
-      red_sand: 3
 
-# Triggered when a player attempts to break a block but doesn't have enough breaking power
-# Placeholders: {tool_breaking_power}, {block_breaking_power}
-on-block-break-fail:
-  switch: blockBreakingPowerTypeEquals
-  cases:
-    mining: sendChat &cYou need {block_breaking_power} Mining Power to mine this block
-    chopping: sendChat &cYou need {block_breaking_power} Chopping Power to chop this tree
-    digging: sendChat &cYou need {block_breaking_power} Digging Power to dig this block
+    on-wrong-tool:
+      - sendChat &cYou need a shovel to dig blocks
+
+    on-insufficient-power:
+      - sendChat &cYou need a shovel with &8{tool_digging_power} Digging Power &cto dig this block
+
+    block-requirements:
+      sand: 2 power
+      red_sand: 3 power
 
 
 #░░░█░█░█▀█░█░░░█▀█░█▀▀░█▀▄░█▀█░█▄█░█▀▀░░░░
@@ -849,7 +864,7 @@ damage-by-tool-type:
       - cherry
       - pale_oak
 
-    tools:
+    damage-by-tool:
       air: 1 # use air to set the damage for an empty hand
       wooden_axe: 1-3
       stone_axe: 2-4

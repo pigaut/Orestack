@@ -1,17 +1,19 @@
 package io.github.pigaut.rpg.module.item.settings;
 
 import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.tag.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.item.power.*;
 import io.github.pigaut.rpg.module.stat.*;
+import io.github.pigaut.rpg.module.structure.block.matcher.*;
 import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.convert.format.*;
+import io.github.pigaut.yaml.node.line.*;
 import io.github.pigaut.yaml.node.scalar.*;
 import io.github.pigaut.yaml.node.section.*;
 import io.github.pigaut.yaml.node.sequence.*;
 import org.bukkit.*;
+import org.bukkit.block.*;
 import org.bukkit.enchantments.*;
 import org.jetbrains.annotations.*;
 
@@ -47,9 +49,10 @@ public class SimpleItemSettings implements ItemSettings {
     private Map<String, String> itemRarityByName;
 
     private boolean breakingPower;
+    private int defaultBreakingPower;
     private Map<String, BreakingPower> breakingPowerByName;
 
-    public void loadConfigurationData(@NotNull RootSection config) {
+    public void loadConfigurationData(@NotNull ConfigSection config) {
         // Default lore
         lorePartsHeader = config.getStringList("default-item-lore.header", ColorUtil.FORMATTER)
                 .withDefault(List.of());
@@ -181,16 +184,21 @@ public class SimpleItemSettings implements ItemSettings {
         breakingPower = config.getBoolean("breaking-power.enabled")
                 .withDefault(true);
 
+        defaultBreakingPower = config.getInteger("breaking-power.default-power")
+                .require(Requirements.min(0))
+                .withDefault(1);
+
         breakingPowerByName = new HashMap<>();
         if (breakingPower) {
             for (KeyedSection section : config.getNestedSections("breaking-power")) {
                 String name = section.getKey(CaseStyle.SNAKE);
-                if (name.equals("enabled")) {
+                if (StringUtil.isAnyEqual(name, "enabled", "default_power")) {
                     continue;
                 }
 
-                if (!name.endsWith("-power")) {
+                if (!name.endsWith("_power")) {
                     config.collectError(new InvalidConfigException(section, name, "Breaking power name must end with '-power' to avoid conflicts"));
+                    continue;
                 }
 
                 String display = section.getString("display", ColorUtil.FORMATTER)
@@ -200,64 +208,46 @@ public class SimpleItemSettings implements ItemSettings {
                     continue;
                 }
 
-                Map<Material, Integer> breakingPowersByBlock = new HashMap<>();
-                outer:
-                for (KeyedScalar scalar : section.getNestedScalars("blocks")) {
-                    MaterialTag tag = scalar.getKeyAs(MaterialTag.class)
+                BlockMatcherMap<Integer> breakingPowerByBlock = new BlockMatcherMap<>();
+                for (KeyedScalar scalar : section.getNestedScalars("block-requirements")) {
+                    BlockMatcher blockMatcher = scalar.getKeyAs(BlockMatcher.class)
                             .withDefault(null);
 
-                    Integer amount = scalar.toInteger()
+                    ConfigLine line = scalar.toLine(LineStyle.SPACED, "<amount> power")
+                            .withDefault(null);
+                    if (line == null) {
+                        continue;
+                    }
+
+                    Integer amount = line.getInteger(0)
                             .require(Requirements.positive())
                             .withDefault(null);
 
-                    if (tag != null && amount != null) {
-                        for (Material material : tag.getMaterials()) {
-                            if (!material.isBlock()) {
-                                config.collectError(new InvalidConfigException(scalar, "Expected a block but found: " + material));
-                                break outer;
-                            }
-                            breakingPowersByBlock.put(material, amount);
-                        }
+                    if (blockMatcher != null && amount != null) {
+                        breakingPowerByBlock.put(blockMatcher, amount);
                     }
                 }
 
-                Function onInsufficientPower = section.get("on-insufficient-power", Function.class)
-                                .withDefault(null);
+                Function onWrongTool = section.get("on-wrong-tool", Function.class)
+                        .withDefault(null);
 
-                breakingPowerByName.put(name, new BreakingPower(name, display, breakingPowersByBlock, onInsufficientPower));
+                Function onInsufficientPower = section.get("on-insufficient-power", Function.class)
+                        .withDefault(null);
+
+                breakingPowerByName.put(name, new BreakingPower(name, display, breakingPowerByBlock, onWrongTool, onInsufficientPower));
             }
         }
 
     }
 
     @Override
-    public @NotNull List<String> getAbilityDescriptionHeader() {
-        return new ArrayList<>(abilityHeader);
-    }
-
-    @Override
-    public @NotNull List<String> getAbilityDescriptionDivider() {
-        return new ArrayList<>(abilityDivider);
-    }
-
-    @Override
-    public @NotNull List<String> getAbilityDescriptionFooter() {
-        return new ArrayList<>(abilityFooter);
-    }
-
-    @Override
-    public @NotNull List<String> getAbilityDescriptionFormat() {
-        return new ArrayList<>(abilityFormat);
+    public boolean isItemRarity(@NotNull String rarity) {
+        return itemRarityByName.containsKey(rarity);
     }
 
     @Override
     public @Nullable String getDefaultItemRarity() {
         return defaultItemRarity;
-    }
-
-    @Override
-    public boolean isItemRarity(@NotNull String rarity) {
-        return itemRarityByName.containsKey(rarity);
     }
 
     @Override
@@ -321,6 +311,26 @@ public class SimpleItemSettings implements ItemSettings {
     }
 
     @Override
+    public @NotNull List<String> getAbilityDescriptionHeader() {
+        return new ArrayList<>(abilityHeader);
+    }
+
+    @Override
+    public @NotNull List<String> getAbilityDescriptionDivider() {
+        return new ArrayList<>(abilityDivider);
+    }
+
+    @Override
+    public @NotNull List<String> getAbilityDescriptionFooter() {
+        return new ArrayList<>(abilityFooter);
+    }
+
+    @Override
+    public @NotNull List<String> getAbilityDescriptionFormat() {
+        return new ArrayList<>(abilityFormat);
+    }
+
+    @Override
     public @NotNull List<String> getLorePartsHeader() {
         return new ArrayList<>(lorePartsHeader);
     }
@@ -346,34 +356,24 @@ public class SimpleItemSettings implements ItemSettings {
     }
 
     @Override
-    public int getBlockBreakingPowerAmount(@NotNull Material block) {
-        for (BreakingPower breakingPower : breakingPowerByName.values()) {
-            Integer amount = breakingPower.getAmount(block);
-            if (amount != null) {
-                return amount;
-            }
-        }
-        return 1;
-    }
-
-    @Override
-    public @Nullable BreakingPower getBlockBreakingPower(@NotNull Material block) {
-        for (BreakingPower breakingPower : breakingPowerByName.values()) {
-            if (breakingPower.containsBlock(block)) {
-                return breakingPower;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public @NotNull Set<String> getBreakingPowerNames() {
-        return new HashSet<>(breakingPowerByName.keySet());
+    public int getDefaultBreakingPower() {
+        return defaultBreakingPower;
     }
 
     @Override
     public @NotNull Set<BreakingPower> getBreakingPowers() {
         return new HashSet<>(breakingPowerByName.values());
+    }
+
+    @Override
+    public @Nullable BlockBreakingPower getBlockBreakingPower(@NotNull Block block) {
+        for (BreakingPower breakingPower : breakingPowerByName.values()) {
+            BlockBreakingPower blockBreakingPower = breakingPower.fromBlock(block);
+            if (blockBreakingPower != null) {
+                return blockBreakingPower;
+            }
+        }
+        return null;
     }
 
 }

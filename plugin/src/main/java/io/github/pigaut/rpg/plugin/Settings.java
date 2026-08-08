@@ -26,6 +26,7 @@ import io.github.pigaut.yaml.delay.*;
 import io.github.pigaut.yaml.node.*;
 import io.github.pigaut.yaml.node.section.*;
 import org.bukkit.*;
+import org.bukkit.block.*;
 import org.bukkit.enchantments.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
@@ -94,7 +95,7 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
 
     @Override
     public @NotNull ErrorCollector loadConfigurationData() {
-        RootSection config = plugin.getConfiguration();
+        ConfigSection config = plugin.getConfiguration();
 
         shortcuts = config.getBoolean("shortcuts")
                 .withDefault(true);
@@ -774,7 +775,12 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     }
 
     @Override
-    public @Nullable BreakingPower getBlockBreakingPower(@NotNull Material block) {
+    public int getDefaultBreakingPower() {
+        return itemSettings.getDefaultBreakingPower();
+    }
+
+    @Override
+    public @Nullable BlockBreakingPower getBlockBreakingPower(@NotNull Block block) {
         return itemSettings.getBlockBreakingPower(block);
     }
 

@@ -14,27 +14,11 @@ import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.bukkit.material.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.api.event.generator.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.bukkit.material.*;
 import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.tools.*;
 import io.github.pigaut.rpg.core.transform.Rotation;
-import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.hook.veinminer.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.generator.*;
-import io.github.pigaut.rpg.module.generator.exception.*;
-import io.github.pigaut.rpg.module.generator.global.*;
-import io.github.pigaut.rpg.module.generator.instanced.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.server.Server;
 
-import io.github.pigaut.rpg.settings.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -90,7 +74,7 @@ public class GeneratorEventListener implements Listener {
 
         int expToDrop = event.getExpToDrop();
 
-        OrestackSettings settings = plugin.getSettings();
+        RpgSettings settings = plugin.getSettings();
         if (settings.isVeinMiner()) {
             int maxVeinSize = settings.getToolMaxVeinSize(player.getInventory().getItemInMainHand());
             if (maxVeinSize > 1) {

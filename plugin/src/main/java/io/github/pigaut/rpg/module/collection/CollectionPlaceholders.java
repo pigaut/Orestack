@@ -3,20 +3,10 @@ package io.github.pigaut.rpg.module.collection;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.collection.template.*;
 import io.github.pigaut.rpg.module.collection.tier.*;
-import io.github.pigaut.rpg.module.collection.template.*;
-import io.github.pigaut.rpg.module.collection.tier.*;
 import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.progressbar.*;
-import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.core.progressbar.*;
-import io.github.pigaut.rpg.module.collection.template.*;
-import io.github.pigaut.rpg.module.collection.tier.*;
-import io.github.pigaut.rpg.player.data.*;
-import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.util.*;
 import org.jetbrains.annotations.*;
 
@@ -25,7 +15,7 @@ public class CollectionPlaceholders {
     public static void registerAll(@NotNull RpgMakerPlugin plugin) {
         PlaceholderRegistry placeholders = plugin.getPlaceholders();
 
-        OrestackSettings settings = plugin.getSettings();
+        RpgSettings settings = plugin.getSettings();
         ProgressBar collectionProgressBar = settings.getCollectionProgressBar();
 
         placeholders.register("collections_count", context -> {

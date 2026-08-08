@@ -26,6 +26,7 @@ import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.configurator.load.*;
+import io.github.pigaut.yaml.convert.format.*;
 import io.github.pigaut.yaml.node.scalar.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
@@ -95,12 +96,14 @@ public class ItemTemplateLoader implements ConfigLoader<ItemTemplate> {
 
         ToolBreakingPower toolBreakingPower = null;
         for (BreakingPower breakingPower : settings.getBreakingPowers()) {
-            if (section.isSet(breakingPower.getName())) {
+            if (section.isSet(CaseFormatter.toKebabCase(breakingPower.getName()))) {
                 int amount = section.getInteger(breakingPower.getName())
                         .require(Requirements.positive())
                         .withDefault(1);
 
-                toolBreakingPower = new ToolBreakingPower(breakingPower, amount);
+                Context context = Context.fromPlugin(plugin).addPlaceholder("amount", amount);
+                String display = PlaceholderUtil.parseAll(context, breakingPower.getDisplay());
+                toolBreakingPower = new ToolBreakingPower(breakingPower, display, amount);
                 break;
             }
         }
@@ -129,12 +132,13 @@ public class ItemTemplateLoader implements ConfigLoader<ItemTemplate> {
         Map<Stat, Amount> stats = new HashMap<>();
         for (KeyedScalar scalar : section.getNestedScalars("stats")) {
             Stat stat = scalar.getKey(Stat.class);
+            if (stat == BaseStats.MINING_SPEED && Server.getVersion() < Version.V1_21) {
+                section.collectWarning(new InvalidConfigException(scalar, "Mining speed stat is only available in 1.21+"));
+                continue;
+            }
+
             Amount amount = scalar.getRequired(Amount.class);
             stats.put(stat, amount);
-        }
-
-        if (Server.getVersion() < Version.V1_21) {
-            stats.put(BaseStats.MINING_SPEED, null);
         }
 
         Function onBlockBreak = section.get("on-block-break", Function.class).withDefault(null);

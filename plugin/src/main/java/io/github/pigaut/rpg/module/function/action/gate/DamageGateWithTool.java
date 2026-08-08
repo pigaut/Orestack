@@ -5,11 +5,6 @@ import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.module.gate.*;
-import io.github.pigaut.rpg.settings.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
@@ -35,7 +30,7 @@ public class DamageGateWithTool implements Action {
             return;
         }
 
-        OrestackSettings settings = plugin.getSettings();
+        RpgSettings settings = plugin.getSettings();
         gate.damage(player, context, settings.getStructureDamage(player, block));
     }
 

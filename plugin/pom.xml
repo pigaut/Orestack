@@ -170,12 +170,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.github.pigaut.orestack.api</groupId>
-            <artifactId>OrestackAPI</artifactId>
-            <version>2.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>net.objecthunter</groupId>
             <artifactId>exp4j</artifactId>
             <version>0.4.8</version>
@@ -190,7 +184,7 @@
         <dependency>
             <groupId>io.github.pigaut.yaml</groupId>
             <artifactId>YamlConfig</artifactId>
-            <version>3.7.7</version>
+            <version>3.7.8</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -256,13 +250,13 @@
         <dependency>
             <groupId>net.momirealms</groupId>
             <artifactId>craft-engine-core</artifactId>
-            <version>0.0.65</version>
+            <version>26.7</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.momirealms</groupId>
             <artifactId>craft-engine-bukkit</artifactId>
-            <version>0.0.65</version>
+            <version>26.7</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

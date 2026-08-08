@@ -1,10 +1,5 @@
-package io.github.pigaut.rpg.module.message.impl;
+package io.github.pigaut.rpg.module.message.type.chat;
 
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.module.message.*;
-import io.github.pigaut.rpg.core.menu.button.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.menu.button.*;
@@ -17,15 +12,15 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class ChatMessage extends GenericMessage {
+public class SimpleChatMessage extends ChatMessage {
 
     private final List<String> messages;
 
-    public ChatMessage(String name, @Nullable String group, String message) {
+    public SimpleChatMessage(String name, @Nullable String group, String message) {
         this(name, group, List.of(message));
     }
 
-    public ChatMessage(String name, @Nullable String group, List<String> messages) {
+    public SimpleChatMessage(String name, @Nullable String group, List<String> messages) {
         super(name, group);
         this.messages = messages;
     }

@@ -5,7 +5,6 @@ import io.github.pigaut.rpg.listener.block.*;
 import io.github.pigaut.rpg.listener.collection.*;
 import io.github.pigaut.rpg.listener.gate.*;
 import io.github.pigaut.rpg.listener.generator.*;
-import io.github.pigaut.rpg.api.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.command.*;
 import io.github.pigaut.rpg.config.*;
@@ -16,19 +15,9 @@ import io.github.pigaut.rpg.core.tool.*;
 import io.github.pigaut.rpg.hook.*;
 import io.github.pigaut.rpg.hook.itemsadder.*;
 import io.github.pigaut.rpg.hook.plotsquared.*;
-import io.github.pigaut.rpg.listener.block.*;
-import io.github.pigaut.rpg.listener.collection.*;
-import io.github.pigaut.rpg.listener.gate.*;
-import io.github.pigaut.rpg.listener.generator.*;
 import io.github.pigaut.rpg.listener.player.PlayerChunkLoadListener;
 import io.github.pigaut.rpg.listener.skill.*;
 import io.github.pigaut.rpg.module.collection.*;
-import io.github.pigaut.rpg.command.*;
-import io.github.pigaut.rpg.config.*;
-import io.github.pigaut.rpg.core.*;
-import io.github.pigaut.rpg.hook.*;
-import io.github.pigaut.rpg.hook.itemsadder.*;
-import io.github.pigaut.rpg.hook.plotsquared.*;
 import io.github.pigaut.rpg.module.collection.template.*;
 import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.module.gate.template.*;
@@ -42,10 +31,6 @@ import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.rpg.settings.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.command.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.core.tool.*;
 import io.github.pigaut.rpg.module.function.foreach.*;
 import io.github.pigaut.rpg.module.function.foreach.config.*;
 import io.github.pigaut.rpg.module.function.foreach.type.*;
@@ -55,37 +40,10 @@ import io.github.pigaut.rpg.module.mob.*;
 import io.github.pigaut.rpg.module.mob.spawnegg.*;
 import io.github.pigaut.rpg.module.mob.spawnpad.tool.*;
 import io.github.pigaut.rpg.player.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.boot.*;
-import io.github.pigaut.rpg.plugin.boot.phase.*;
-import io.github.pigaut.rpg.listener.skill.*;
-import io.github.pigaut.rpg.module.collection.*;
-import io.github.pigaut.rpg.module.collection.template.*;
-import io.github.pigaut.rpg.module.function.foreach.*;
-import io.github.pigaut.rpg.module.function.foreach.config.*;
-import io.github.pigaut.rpg.module.function.foreach.type.*;
-import io.github.pigaut.rpg.module.gate.*;
-import io.github.pigaut.rpg.module.gate.template.*;
-import io.github.pigaut.rpg.module.generator.*;
-import io.github.pigaut.rpg.module.generator.global.*;
-import io.github.pigaut.rpg.module.generator.instanced.*;
-import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.module.item.*;
-import io.github.pigaut.rpg.module.menu.button.dynamic.*;
-import io.github.pigaut.rpg.module.mob.*;
-import io.github.pigaut.rpg.module.mob.spawnegg.*;
-import io.github.pigaut.rpg.module.mob.spawnpad.tool.*;
-import io.github.pigaut.rpg.module.skill.*;
-import io.github.pigaut.rpg.module.skill.template.*;
-import io.github.pigaut.rpg.player.*;
-import io.github.pigaut.rpg.player.data.*;
-import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.boot.*;
 import io.github.pigaut.rpg.plugin.boot.phase.*;
 import io.github.pigaut.rpg.server.Server;
-import io.github.pigaut.rpg.server.version.*;
-import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -100,7 +58,7 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
 
     private static RpgMakerPlugin plugin;
 
-    private final OrestackSettings settings = new OrestackSettings(this);
+    private final RpgSettings settings = new RpgSettings(this);
 
     private final GeneratorTemplateManager generatorTemplateManager = new GeneratorTemplateManager(this);
     private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
@@ -200,7 +158,7 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull OrestackSettings getSettings() {
+    public @NotNull RpgSettings getSettings() {
         return settings;
     }
 

@@ -1,0 +1,18 @@
+
+# Attempts to teleport player 12 blocks forward.
+instantTransmission:
+  - if: hasCooldown instant_transmission
+    do:
+      - sendMessage ability_on_cooldown # Found in: messages/abilities.yml
+      - return
+
+  - if-not: hasMana 30
+    do:
+      - sendMessage not_enough_mana # Found in: messages/abilities.yml
+      - return
+
+  - do:
+      - consumeMana 30
+      - teleportForward 12
+      - startCooldown instant_transmission duration=1s
+      - playSoundAtPlayer entity_enderman_teleport

@@ -1,13 +1,9 @@
-package io.github.pigaut.rpg.module.message.impl;
+package io.github.pigaut.rpg.module.message.type;
 
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.module.message.*;
 import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.module.message.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
