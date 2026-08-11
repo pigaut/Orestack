@@ -24,7 +24,7 @@ public class SimplePlaceholderSettings implements PlaceholderSettings {
 
     public void loadConfigurationData(@NotNull ConfigSection config) {
         placeholderFallback = config.getScalar("placeholder-fallback")
-                .map(ConfigScalar::getValue)
+                .mapIfValid(ConfigScalar::getValue)
                 .withDefault("");
 
         if (placeholderFallback instanceof String string) {

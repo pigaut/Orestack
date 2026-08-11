@@ -90,16 +90,16 @@ public class HologramTemplateLoader implements ConfigLoader<HologramTemplate> {
         section.getInteger("view-distance|view|distance")
                 .ifValid(hologramStyle::setViewDistance);
         section.get("update|update-interval", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .ifValid(hologramStyle::setUpdateInterval);
 
         if (section.isSet("line|text")) {
-            String line = section.getRequiredString("line|text", ColorUtil.FORMATTER);
+            String line = section.getRequiredString("line|text");
             return new FancySingleLineHologramTemplate(plugin, hologramStyle, line);
         }
 
         else if (section.isSet("lines")) {
-            List<String> lines = section.getStringList("lines", ColorUtil.FORMATTER)
+            List<String> lines = section.getStringList("lines")
                     .require(Requirements.minSize(2), "Multi-line hologram must have at least 2 lines")
                     .orThrow();
 
@@ -107,7 +107,7 @@ public class HologramTemplateLoader implements ConfigLoader<HologramTemplate> {
         }
 
         else if (section.isSet("frames")) {
-            List<String> frames = section.getStringList("frames", ColorUtil.FORMATTER)
+            List<String> frames = section.getStringList("frames")
                     .require(Requirements.minSize(2), "Animated hologram must have at least 2 frames")
                     .orThrow();
 
@@ -135,32 +135,32 @@ public class HologramTemplateLoader implements ConfigLoader<HologramTemplate> {
                 .withDefault(plugin.getSettings().getHologramViewDistance());
 
         if (section.isSet("line|text")) {
-            String line = section.getRequiredString("line|text", ColorUtil.FORMATTER);
+            String line = section.getRequiredString("line|text");
             int update = section.get("update", Delay.class)
-                    .map(Delay::toTicks)
+                    .mapIfValid(Delay::toTicks)
                     .withDefault(0);
             return new DecentSingleLineHologramTemplate(plugin, line, update, viewDistance);
         }
 
         else if (section.isSet("lines")) {
-            List<String> lines = section.getStringList("lines", ColorUtil.FORMATTER)
+            List<String> lines = section.getStringList("lines")
                     .require(Requirements.minSize(2), "Multi-line hologram must have at least 2 lines")
                     .orThrow();
 
             int update = section.get("update", Delay.class)
-                    .map(Delay::toTicks)
+                    .mapIfValid(Delay::toTicks)
                     .withDefault(0);
 
             return new DecentMultiLineHologramTemplate(plugin, lines, update, viewDistance);
         }
 
         else if (section.isSet("frames")) {
-            List<String> frames = section.getStringList("frames", ColorUtil.FORMATTER)
+            List<String> frames = section.getStringList("frames")
                     .require(Requirements.minSize(2), "Animated hologram must have at least 2 frames")
                     .orThrow();
 
             int update = section.get("update", Delay.class)
-                    .map(Delay::toTicks)
+                    .mapIfValid(Delay::toTicks)
                     .require(Requirements.positive())
                     .withDefault(3);
 

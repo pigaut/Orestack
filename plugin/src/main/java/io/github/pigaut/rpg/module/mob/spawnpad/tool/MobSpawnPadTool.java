@@ -4,6 +4,7 @@ import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.tool.*;
+import io.github.pigaut.rpg.module.generator.tool.*;
 import io.github.pigaut.rpg.module.mob.spawnpad.*;
 import io.github.pigaut.rpg.module.mob.template.*;
 import io.github.pigaut.rpg.core.item.*;
@@ -63,7 +64,7 @@ public class MobSpawnPadTool extends Tool {
                 .addLine("&cLeft-Click: &fTo remove spawn pad")
                 .addLine("&eRight-Click: &fTo place the spawn pad")
                 .addEmptyLine()
-                .addLine("&6Press F: &fTo change settings")
+                .addLine("&dPress F: &fTo change settings")
                 .addEmptyLine()
                 .addLine("&c&l&o[!] &c&oMake mob spawn pads visible by")
                 .addLine("&c&ousing: &f/{plugin_lc} mob spawn-pad make-visible")
@@ -124,10 +125,10 @@ public class MobSpawnPadTool extends Tool {
             plugin.sendMessage(player, Context.fromPlayer(plugin, player), "placed-mob-spawn-pad");
         });
 
-        onSwapHand(player -> {
+        onSwapHand((player, item) -> {
             PlayerState playerState = plugin.getPlayerState(player);
             PlayerInventory inventory = player.getInventory();
-            playerState.openMenu(new MobSpawnPadToolEditor(this, inventory.getItemInMainHand(), inventory.getHeldItemSlot()));
+            playerState.openMenu(new MobSpawnPadToolEditor(this, item, inventory.getHeldItemSlot()));
         });
 
     }

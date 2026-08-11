@@ -2,7 +2,6 @@ package io.github.pigaut.rpg.listener.generator;
 
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.api.event.generator.*;
-import io.github.pigaut.rpg.core.tools.*;
 import io.github.pigaut.rpg.hook.veinminer.*;
 import io.github.pigaut.rpg.module.generator.*;
 import io.github.pigaut.rpg.module.generator.exception.*;
@@ -10,6 +9,7 @@ import io.github.pigaut.rpg.module.generator.global.*;
 import io.github.pigaut.rpg.module.generator.instanced.*;
 import io.github.pigaut.rpg.module.generator.phase.*;
 import io.github.pigaut.rpg.module.generator.template.*;
+import io.github.pigaut.rpg.module.generator.tool.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.bukkit.*;
@@ -92,7 +92,7 @@ public class GeneratorEventListener implements Listener {
             return;
         }
 
-        if (event.hasItem() && GeneratorTool.isValidItem(event.getItem())) {
+        if (event.hasItem() && plugin.isTool(event.getItem())) {
             return;
         }
 
@@ -112,7 +112,7 @@ public class GeneratorEventListener implements Listener {
 
         if (action == Action.RIGHT_CLICK_BLOCK) {
             event.setCancelled(true);
-            if (player.hasPermission("orestack.build.on.generator") && event.hasItem()
+            if (player.hasPermission("rpg-maker.generator.build-on") && event.hasItem()
                     && !MaterialUtil.isInteractable(clickedBlock.getType())) {
                 event.setCancelled(false);
             }
@@ -187,130 +187,6 @@ public class GeneratorEventListener implements Listener {
                 harvestFunction.run(context.withEvent(generatorHarvestEvent));
             }
         }
-    }
-
-    @EventHandler
-    public void handleGeneratorItemInteract(PlayerInteractEvent event) {
-        if (event.getHand() != EquipmentSlot.HAND) {
-            return;
-        }
-
-        ItemStack heldItem = event.getItem();
-        if (heldItem == null) {
-            return;
-        }
-
-        GeneratorTemplate heldGenerator = GeneratorTool.getGeneratorTemplate(heldItem);
-        if (heldGenerator == null) {
-            return;
-        }
-
-        Player player = event.getPlayer();
-        Action action = event.getAction();
-        Block clickedBlock = event.getClickedBlock();
-
-        Context context = Context.builder(plugin)
-                .withPlayer(player)
-                .withPlayerState(plugin.getPlayerState(player))
-                .withTool(heldItem)
-                .withBlock(clickedBlock)
-                .build();
-
-        if (action == Action.LEFT_CLICK_AIR && player.isSneaking()) {
-            event.setCancelled(true);
-
-            if (!player.hasPermission("orestack.generator.rotate")) {
-                plugin.sendMessage(player, context, "cannot-rotate-generator");
-                return;
-            }
-
-            GeneratorTool.switchToolRotation(heldItem);
-            PlayerUtil.sendActionBar(player, plugin.getTranslation("changed-generator-rotation"));
-            return;
-        }
-
-        if (clickedBlock == null) {
-            return;
-        }
-
-        if (action == Action.LEFT_CLICK_BLOCK) {
-            Generator clickedGenerator = plugin.getGenerator(player, clickedBlock.getLocation());
-            if (clickedGenerator == null || !clickedGenerator.getTemplate().equals(heldGenerator)) {
-                return;
-            }
-
-            event.setCancelled(true);
-            context = context.with(Generator.class, clickedGenerator);
-            if (!player.hasPermission("orestack.generator.break")) {
-                plugin.sendMessage(player, context, "cannot-break-generator");
-                return;
-            }
-
-            clickedGenerator.remove();
-            PlayerUtil.sendActionBar(player, plugin.getTranslation("broke-generator"));
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void handleGeneratorPlace(BlockPlaceEvent event) {
-        Player player = event.getPlayer();
-        Location location = event.getBlockPlaced().getLocation();
-        Context context = Context.builder(plugin)
-                .withPlayer(player)
-                .withPlayerState(plugin.getPlayerState(player))
-                .withTool(event.getItemInHand())
-                .withBlock(event.getBlockPlaced())
-                .build();
-
-        if (plugin.getGenerators().isGenerator(location)) {
-            plugin.sendMessage(player, context, "generator-occupied-block");
-            event.setCancelled(true);
-            return;
-        }
-
-        ItemStack heldItem = event.getItemInHand();
-        if (!GeneratorTool.isValidItem(heldItem)) {
-            return;
-        }
-
-        event.setCancelled(true);
-
-        GeneratorTemplate generatorTemplate = GeneratorTool.getGeneratorTemplate(heldItem);
-        if (generatorTemplate == null) {
-            plugin.sendMessage(player, context, "generator-not-exists");
-            return;
-        }
-
-        context = context.with(GeneratorTemplate.class, generatorTemplate);
-        if (!player.hasPermission("orestack.generator.place")) {
-            plugin.sendMessage(player, context, "cannot-place-generator");
-            return;
-        }
-
-        Rotation rotation = GeneratorTool.getRotation(heldItem);
-        if (rotation == null) {
-            plugin.sendMessage(player, context, "corrupt-tool-rotation");
-            return;
-        }
-
-        GeneratorPlaceEvent generatorPlaceEvent = new GeneratorPlaceEvent(player, location, generatorTemplate.getName(), generatorTemplate.getOccupiedBlocks(location, rotation));
-        Server.callEvent(generatorPlaceEvent);
-
-        if (generatorPlaceEvent.isCancelled()) {
-            PlayerUtil.sendActionBar(player, plugin.getTranslation("generator-conflict"));
-            return;
-        }
-
-        Context finalContext = context;
-        plugin.getRegionScheduler(location).runTaskLater(1, () -> {
-            try {
-                GlobalGenerator.create(generatorTemplate, location, rotation);
-                PlayerUtil.sendActionBar(player, plugin.getTranslation("placed-generator"));
-            }
-            catch (GeneratorCreateException e) {
-                PlayerUtil.sendActionBar(player, finalContext, e.getMessage());
-            }
-        });
     }
 
 }

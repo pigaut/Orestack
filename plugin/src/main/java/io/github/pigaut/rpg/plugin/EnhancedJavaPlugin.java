@@ -1,17 +1,17 @@
 package io.github.pigaut.rpg.plugin;
 
-import io.github.pigaut.sql.*;
 import io.github.pigaut.rpg.bukkit.*;
+import io.github.pigaut.rpg.config.*;
+import io.github.pigaut.rpg.core.gameplay.brew.*;
 import io.github.pigaut.rpg.core.buildstation.*;
 import io.github.pigaut.rpg.core.command.*;
-import io.github.pigaut.rpg.config.*;
 import io.github.pigaut.rpg.core.context.*;
+import io.github.pigaut.rpg.core.gameplay.chicken.*;
 import io.github.pigaut.rpg.core.gameplay.cow.*;
 import io.github.pigaut.rpg.core.language.*;
 import io.github.pigaut.rpg.core.menu.*;
 import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.core.playerblocks.*;
-import io.github.pigaut.rpg.core.gameplay.chicken.*;
+import io.github.pigaut.rpg.core.gameplay.playerblocks.*;
 import io.github.pigaut.rpg.core.tool.*;
 import io.github.pigaut.rpg.module.command.*;
 import io.github.pigaut.rpg.module.function.*;
@@ -31,17 +31,18 @@ import io.github.pigaut.rpg.module.mob.template.*;
 import io.github.pigaut.rpg.module.particle.*;
 import io.github.pigaut.rpg.module.recipe.*;
 import io.github.pigaut.rpg.module.sound.*;
+import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.module.structure.*;
 import io.github.pigaut.rpg.module.structure.virtual.*;
 import io.github.pigaut.rpg.player.data.*;
-import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.boot.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import io.github.pigaut.rpg.plugin.task.scheduler.*;
-import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.rpg.server.Server;
+import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.rpg.util.reflection.*;
+import io.github.pigaut.sql.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.*;
 import io.github.pigaut.yaml.configurator.load.*;
@@ -99,30 +100,29 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     private final VirtualStructureManager virtualStructureManager = new VirtualStructureManager(this);
     private final BuildStationManager buildStationManager = new BuildStationManager(this);
     private final PlayerPlacedBlockManager playerPlacedBlockManager = new PlayerPlacedBlockManager(this);
+    private final BrewedPotionManager brewedPotionManager = new BrewedPotionManager(this);
     private final ChickenEggManager chickenEggManager = new ChickenEggManager(this);
     private final CowMilkManager cowMilkManager = new CowMilkManager(this);
 
     private final Settings settings = new Settings(this);
 
     private final PluginBootstrap bootstrap = new PluginBootstrap(this);
-
-    private volatile boolean ready = false;
     private final Object readyLock = new Object();
     private final List<Runnable> pendingTasks = new ArrayList<>();
     private final List<Runnable> pendingAsyncTasks = new ArrayList<>();
-
+    private volatile boolean ready = false;
     private boolean reloading = false;
 
     private String namespace;
 
     @Override
-    public void onEnable() {
-        bootstrap.boot();
+    public void onDisable() {
+        bootstrap.shutdown();
     }
 
     @Override
-    public void onDisable() {
-        bootstrap.shutdown();
+    public void onEnable() {
+        bootstrap.boot();
     }
 
     public void onBoot() {
@@ -146,6 +146,38 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
         return ready;
     }
 
+    public void setReady(boolean ready) {
+        List<Runnable> tasksToRun = null;
+        List<Runnable> asyncTasksToRun = null;
+
+        synchronized (readyLock) {
+            this.ready = ready;
+            if (ready) {
+                tasksToRun = new ArrayList<>(pendingTasks);
+                pendingTasks.clear();
+                asyncTasksToRun = new ArrayList<>(pendingAsyncTasks);
+                pendingAsyncTasks.clear();
+            }
+        }
+
+        if (tasksToRun != null) {
+            for (Runnable task : tasksToRun) {
+                task.run();
+            }
+            List<Runnable> finalAsyncTasks = asyncTasksToRun;
+            scheduler.runTaskAsync(() -> {
+                for (Runnable asyncTask : finalAsyncTasks) {
+                    asyncTask.run();
+                }
+            });
+        }
+    }
+
+    @Override
+    public boolean isReloading() {
+        return reloading;
+    }
+
     @Override
     public void runWhenReady(@NotNull Runnable task) {
         synchronized (readyLock) {
@@ -166,6 +198,11 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
             }
             pendingAsyncTasks.add(task);
         }
+    }
+
+    @Override
+    public void runOnStartup(@NotNull Runnable task) {
+        bootstrap.registerStartupTask(task);
     }
 
     @Override
@@ -276,6 +313,12 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     }
 
     @Override
+    public boolean isTool(@NotNull ItemStack item) {
+        Tool tool = getTool(item);
+        return tool != null;
+    }
+
+    @Override
     public @Nullable Tool getTool(@NotNull String name) {
         return toolRegistry.get(name);
     }
@@ -329,7 +372,7 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     }
 
     @Override
-    public @NotNull PlayerDataManager<? extends PlayerData> getPlayersData() {
+    public @NotNull PlayerDataManager<? extends PlayerData> getPlayerData() {
         throw new UnsupportedOperationException("Plugin does not support player data.");
     }
 
@@ -346,6 +389,12 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     @Override
     public @NotNull ItemManager getItems() {
         return itemManager;
+    }
+
+    @Override
+    public boolean hasItemTemplate(@NotNull ItemStack item) {
+        ItemTemplate itemTemplate = getItemTemplate(item);
+        return itemTemplate != null;
     }
 
     @Override
@@ -423,6 +472,11 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     }
 
     @Override
+    public @NotNull StatManager getStats() {
+        return playerStatsManager;
+    }
+
+    @Override
     public @NotNull MobTemplateManager getMobTemplates() {
         return mobTemplateManager;
     }
@@ -435,6 +489,12 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     @Override
     public @NotNull MobManager getMobs() {
         return mobManager;
+    }
+
+    @Override
+    public boolean isMob(@NotNull Entity entity) {
+        Mob mob = getMob(entity);
+        return mob != null;
     }
 
     @Override
@@ -528,11 +588,6 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     }
 
     @Override
-    public @NotNull StatManager getStats() {
-        return playerStatsManager;
-    }
-
-    @Override
     public @NotNull ChickenEggManager getChickenEggs() {
         return chickenEggManager;
     }
@@ -545,6 +600,11 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     @Override
     public @NotNull CowMilkManager getCowsMilk() {
         return cowMilkManager;
+    }
+
+    @Override
+    public BrewedPotionManager getBrewedPotions() {
+        return brewedPotionManager;
     }
 
     @Override
@@ -611,38 +671,6 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
         return getFiles(directory).stream()
                 .map(file -> file.getPath().replaceAll("plugins\\\\" + this.getName() + "\\\\" + directory + "\\\\", ""))
                 .toList();
-    }
-
-    public void setReady(boolean ready) {
-        List<Runnable> tasksToRun = null;
-        List<Runnable> asyncTasksToRun = null;
-
-        synchronized (readyLock) {
-            this.ready = ready;
-            if (ready) {
-                tasksToRun = new ArrayList<>(pendingTasks);
-                pendingTasks.clear();
-                asyncTasksToRun = new ArrayList<>(pendingAsyncTasks);
-                pendingAsyncTasks.clear();
-            }
-        }
-
-        if (tasksToRun != null) {
-            for (Runnable task : tasksToRun) {
-                task.run();
-            }
-            List<Runnable> finalAsyncTasks = asyncTasksToRun;
-            scheduler.runTaskAsync(() -> {
-                for (Runnable asyncTask : finalAsyncTasks) {
-                    asyncTask.run();
-                }
-            });
-        }
-    }
-
-    @Override
-    public boolean isReloading() {
-        return reloading;
     }
 
     public void setReloading(boolean reloading) {

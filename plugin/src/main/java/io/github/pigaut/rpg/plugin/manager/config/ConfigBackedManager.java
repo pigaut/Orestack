@@ -62,6 +62,7 @@ public abstract class ConfigBackedManager<T extends Identifiable> extends Contai
         disable();
         plugin.getScheduler().runTaskAsync(() -> {
             saveData();
+            clear();
             loadData();
             plugin.getScheduler().runTask(this::enable);
             errorCollector.accept(loadConfigurationData());

@@ -2,7 +2,7 @@
 item: pumpkin
 
 on-unlock:
-  - sendMessage collection_unlock
+  - sendMessage collection_unlocked
 
 on-tier-up:
   - sendCollectionTierUpMessage

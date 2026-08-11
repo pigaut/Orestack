@@ -56,13 +56,13 @@ public class MultiHologramEditor extends FramedSelectionEditor {
 
             if (hologramSection.isSet("line|text")) {
                 hologramButton.type(Material.NAME_TAG)
-                        .name(hologramSection.getString("line|text", ColorUtil.FORMATTER).orElse("not set"))
+                        .name(hologramSection.getString("line|text").orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new SingleLineHologramEditor(hologramSection)));
             }
 
             else if (hologramSection.isSet("lines")) {
                 hologramButton.type(Material.OAK_SIGN)
-                        .name(hologramSection.getString("lines[0]", ColorUtil.FORMATTER).orElse("not set"))
+                        .name(hologramSection.getString("lines[0]").orElse("not set"))
                         .onLeftClick((view, player) -> player.openMenu(new SingleLineHologramEditor(hologramSection)));
             }
 

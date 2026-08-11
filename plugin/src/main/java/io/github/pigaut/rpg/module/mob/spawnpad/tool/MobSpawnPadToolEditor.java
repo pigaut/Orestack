@@ -38,6 +38,12 @@ public class MobSpawnPadToolEditor extends FramedMenu {
     }
 
     @Override
+    public void onClose(MenuView view) {
+        Player player = view.getViewer().asPlayer();
+        player.getInventory().setItem(itemSlot, item);
+    }
+
+    @Override
     public Button getToolbarButton3() {
         return Button.builder()
                 .type(Material.GREEN_CONCRETE)

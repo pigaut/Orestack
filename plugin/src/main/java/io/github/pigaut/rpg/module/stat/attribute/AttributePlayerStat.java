@@ -1,7 +1,6 @@
 package io.github.pigaut.rpg.module.stat.attribute;
 
 import io.github.pigaut.rpg.module.stat.*;
-import io.github.pigaut.rpg.module.stat.*;
 import org.bukkit.*;
 import org.bukkit.attribute.*;
 import org.bukkit.entity.*;
@@ -244,20 +243,20 @@ public class AttributePlayerStat extends PlayerStat {
     }
 
     @Override
-    public void setBuff(@NotNull String source, double value) {
-        super.setBuff(source, value);
+    public void setBoost(@NotNull String name, double value) {
+        super.setBoost(name, value);
         sync();
     }
 
     @Override
-    public void setBuff(@NotNull String source, double value, @NotNull StatOperation type) {
-        super.setBuff(source, value, type);
+    public void setBoost(@NotNull String name, double value, @NotNull StatOperation type) {
+        super.setBoost(name, value, type);
         sync();
     }
 
     @Override
-    public void removeBuff(@NotNull String source) {
-        super.removeBuff(source);
+    public void removeBoost(@NotNull String name) {
+        super.removeBoost(name);
         sync();
     }
 

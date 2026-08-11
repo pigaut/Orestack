@@ -37,12 +37,11 @@ public class SendHologramToPlayer implements Action {
                                          Double offsetX, Double offsetY, Double offsetZ,
                                          Double radiusX, Double radiusY, Double radiusZ) {
         HologramTemplate hologramTemplate;
-        if (Server.isPluginEnabled("DecentHolograms")) {
-            hologramTemplate = new DecentSingleLineHologramTemplate(plugin, text);
-
-        }
-        else if (Server.isPluginEnabled("FancyHolograms")) {
+        if (Server.isPluginEnabled("FancyHolograms")) {
             hologramTemplate = new FancySingleLineHologramTemplate(plugin, plugin.getSettings().getDefaultHologramStyle(), text);
+        }
+        else if (Server.isPluginEnabled("DecentHolograms")) {
+            hologramTemplate = new DecentSingleLineHologramTemplate(plugin, text);
         }
         else {
             hologramTemplate = new FallbackHologramTemplate();
@@ -50,13 +49,6 @@ public class SendHologramToPlayer implements Action {
 
         return new SendHologramToPlayer(plugin, hologramTemplate, duration, offsetX, offsetY, offsetZ,
                 radiusX, radiusY, radiusZ);
-    }
-
-    private static class NotEnabled implements PlayerAction {
-        @Override
-        public void execute(@NotNull Player player) {
-            player.sendMessage(ChatColor.RED + "Could not find any compatible hologram plugin installed.");
-        }
     }
 
 }

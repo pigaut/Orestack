@@ -7,14 +7,36 @@ import io.github.pigaut.rpg.module.stat.modifier.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
 import io.github.pigaut.yaml.node.line.*;
+import io.github.pigaut.yaml.node.line.scalar.*;
 import org.jetbrains.annotations.*;
 
 public class StatModifierLoader implements ConfigLoader<StatModifier> {
 
     @Override
     public @NotNull StatModifier loadFromScalar(ConfigScalar scalar) throws InvalidConfigException {
-        ConfigLine line = scalar.toLine(LineStyle.SPACED);
+        if (scalar.isInLine()) {
+            double amount = scalar.toDouble().orThrow();
+            StatOperation operation;
 
+            String token = scalar.toString();
+            if (token.startsWith("+") || token.startsWith("-")) {
+                if (token.endsWith("%")) {
+                    operation = StatOperation.SCALE;
+                } else {
+                    operation = StatOperation.ADD;
+                }
+            }
+            else if (token.startsWith("*")) {
+                operation = StatOperation.MULTIPLY;
+            }
+            else {
+                throw new InvalidConfigException(scalar, "Could not determine stat modifier operation");
+            }
+
+            return new StatModifier(amount, operation);
+        }
+
+        ConfigLine line = scalar.toLine(LineStyle.SPACED);
         StatOperation operation;
         boolean offsetByOne = false;
 

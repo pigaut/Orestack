@@ -15,6 +15,7 @@ public class BaseStats {
     public static final Stat MANA_REGEN = new Stat("mana_regen");
     public static final Stat CRIT_DAMAGE = new Stat("crit_damage");
     public static final Stat CRIT_CHANCE = new Stat("crit_chance");
+    public static final Stat EXP_GAIN = new Stat("exp_gain");
     public static final Stat MINING_FORTUNE = new Stat("mining_fortune");
     public static final Stat FARMING_FORTUNE = new Stat("farming_fortune");
     public static final Stat FORAGING_FORTUNE = new Stat("foraging_fortune");
@@ -33,6 +34,7 @@ public class BaseStats {
         BASE_STATS_BY_NAME.put(MANA_REGEN.getName(), MANA_REGEN);
         BASE_STATS_BY_NAME.put(CRIT_DAMAGE.getName(), CRIT_DAMAGE);
         BASE_STATS_BY_NAME.put(CRIT_CHANCE.getName(), CRIT_CHANCE);
+        BASE_STATS_BY_NAME.put(EXP_GAIN.getName(), EXP_GAIN);
         BASE_STATS_BY_NAME.put(MINING_FORTUNE.getName(), MINING_FORTUNE);
         BASE_STATS_BY_NAME.put(FARMING_FORTUNE.getName(), FARMING_FORTUNE);
         BASE_STATS_BY_NAME.put(FORAGING_FORTUNE.getName(), FORAGING_FORTUNE);

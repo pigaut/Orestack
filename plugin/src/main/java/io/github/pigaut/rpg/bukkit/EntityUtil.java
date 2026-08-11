@@ -3,20 +3,33 @@ package io.github.pigaut.rpg.bukkit;
 import io.github.pigaut.rpg.bukkit.attribute.*;
 import io.github.pigaut.rpg.bukkit.effect.*;
 import io.github.pigaut.rpg.core.enchant.*;
-import io.github.pigaut.rpg.bukkit.attribute.*;
-import io.github.pigaut.rpg.bukkit.effect.*;
-import io.github.pigaut.rpg.core.enchant.*;
 import org.bukkit.*;
 import org.bukkit.attribute.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.potion.*;
+import org.bukkit.projectiles.*;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
 
 public class EntityUtil {
+
+    public static @Nullable LivingEntity getDamagerEntity(@NotNull Entity entity) {
+        if (entity instanceof LivingEntity livingEntity) {
+            return livingEntity;
+        }
+
+        if (entity instanceof Projectile projectile) {
+            ProjectileSource shooter = projectile.getShooter();
+            if (shooter instanceof LivingEntity livingEntity) {
+                return livingEntity;
+            }
+        }
+
+        return null;
+    }
 
     public static @NotNull Vector getForwardVector(@NotNull LivingEntity entity) {
         Vector forward = entity.getEyeLocation().getDirection().setY(0);
@@ -50,7 +63,7 @@ public class EntityUtil {
 
     public static boolean attack(@NotNull LivingEntity attacker, @NotNull LivingEntity target, double damage) {
         if (damage(target, damage)) {
-            knockback(target, attacker, damage);
+            knockback(attacker, target, damage);
             return true;
         }
         return false;
@@ -235,8 +248,9 @@ public class EntityUtil {
     }
 
     public static @NotNull ArmorStand createHologram(@NotNull String displayName, @NotNull Location location, boolean persistent) {
-        ArmorStand hologram = (ArmorStand) location.getWorld().spawnEntity(
-                new Location(null, location.getBlockX(), 3, location.getBlockZ()),
+        World world = LocationUtil.getWorldOrDefault(location);
+        ArmorStand hologram = (ArmorStand) world.spawnEntity(
+                new Location(world, location.getBlockX(), 3, location.getBlockZ()),
                 EntityType.ARMOR_STAND
         );
         hologram.setVisible(false);
@@ -248,7 +262,7 @@ public class EntityUtil {
         for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
             hologram.addEquipmentLock(equipmentSlot, ArmorStand.LockType.REMOVING_OR_CHANGING);
         }
-        hologram.teleport(location.subtract(0, 0.5, 0));
+        hologram.teleport(location.clone().subtract(0, 0.5, 0));
         hologram.setPersistent(persistent);
         hologram.setCustomNameVisible(true);
         hologram.setCustomName(ColorUtil.parseAll(displayName));

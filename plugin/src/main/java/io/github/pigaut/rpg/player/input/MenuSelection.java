@@ -84,10 +84,10 @@ public class MenuSelection<T> extends GenericInputCollector<T> {
             try {
                 parser.parse(entry.getValue());
             } catch (StringParseException e) {
-                throw new IllegalStateException("Invalid menu input selection value. " + e.getMessage());
+                return this;
             }
         }
-        this.valueEntries = entries;
+        this.valueEntries = List.copyOf(entries);
         return this;
     }
 
@@ -100,7 +100,7 @@ public class MenuSelection<T> extends GenericInputCollector<T> {
         try {
             parser.parse(entry.getValue());
         } catch (StringParseException e) {
-            throw new IllegalStateException("Invalid menu input selection value. " + e.getMessage());
+            return this;
         }
         this.valueEntries.add(entry);
         return this;

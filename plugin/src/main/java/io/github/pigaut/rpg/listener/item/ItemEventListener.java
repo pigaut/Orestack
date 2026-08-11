@@ -254,12 +254,6 @@ public class ItemEventListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEquip(PlayerEquipmentChangeEvent event) {
-        PlayerState playerState = plugin.getPlayerState(event.getPlayer());
-        playerState.refreshStats(event.getSlot());
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
     public void onAnvil(PrepareAnvilEvent event) {
         ItemStack result = event.getResult();
         if (result == null) {

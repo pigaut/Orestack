@@ -26,7 +26,7 @@ public class MobBossBarTemplateLoader implements ConfigLoader<MobBossBarTemplate
 
     @Override
     public @NotNull MobBossBarTemplate loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
-        String title = section.getRequiredString("title", ColorUtil.FORMATTER);
+        String title = section.getRequiredString("title");
         double range = section.getDouble("range").withDefault(50.0);
         BarColor color = section.get("color", BarColor.class).withDefault(BarColor.RED);
         BarStyle style = section.get("style", BarStyle.class).withDefault(BarStyle.SOLID);

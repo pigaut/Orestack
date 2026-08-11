@@ -30,7 +30,7 @@ public class CustomPlaceholdersLoader implements ConfigLoader.Line<CustomPlaceho
             String id = CaseFormatter.toSnakeCase(key);
             Object value = scalar.getValue();
             if (!(value instanceof Number)) {
-                value = scalar.toString(ColorUtil.FORMATTER);
+                value = scalar.toString();
             }
             placeholders.put(id, value);
         });
@@ -42,10 +42,10 @@ public class CustomPlaceholdersLoader implements ConfigLoader.Line<CustomPlaceho
     public @NotNull CustomPlaceholders loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
         Map<String, Object> placeholders = new HashMap<>();
         for (KeyedScalar scalar : section.getNestedScalars()) {
-            String id = CaseFormatter.toSnakeCase(scalar.getKey());
+            String id = scalar.getKey(CaseStyle.SNAKE);
             Object value = scalar.getValue();
             if (!(value instanceof Number)) {
-                value = scalar.toString(ColorUtil.FORMATTER);
+                value = scalar.toString();
             }
             placeholders.put(id, value);
         }

@@ -11,82 +11,231 @@ description:
   - 'Mine ores and blocks to'
   - 'earn Mining EXP!'
 
-# Triggered anytime a player levels up this skill
-on-level-up:
-  - sendSkillLevelUpMessage   # Found in "functions/utils/MessageUtil.yml"
-
-# The exp gained when a player breaks a block
 block-break-exp:
   switch: blockTypeEquals
   cases:
-    dirt: basic exp   # Exp earning activities can be found in config.yml and help you stay consistent.
-    stone: basic exp
+    # Sub statements example
+    stone:
+      if: hasPermission common.stone.exp
+      yield: 1-2 exp
+      else: basic exp
+
+    # Basic stone-type blocks
     cobblestone: basic exp
+    andesite: basic exp
+    diorite: basic exp
+    granite: basic exp
+    tuff: basic exp
+    calcite: basic exp
+    deepslate: basic exp
+    cobbled_deepslate: basic exp
+    netherrack: basic exp
+    end_stone: basic exp
+    blackstone: basic exp
+    basalt: basic exp
+    obsidian: epic exp
+    crying_obsidian: legendary exp
+
+    # Coal
     coal_ore: common exp
+    deepslate_coal_ore: common exp
+    coal_block: uncommon exp
+
+    # Copper
+    copper_ore: common exp
+    deepslate_copper_ore: common exp
+    raw_copper_block: uncommon exp
+    copper_block: uncommon exp
+
+    # Iron
     iron_ore: uncommon exp
+    deepslate_iron_ore: uncommon exp
+    raw_iron_block: rare exp
+    iron_block: rare exp
+
+    # Gold
     gold_ore: rare exp
-    diamond_ore:
-      if: hasPermission extra.diamond.exp
-      return: 100 exp
-      else: epic exp
-    emerald_ore: legendary exp
+    deepslate_gold_ore: rare exp
+    nether_gold_ore: uncommon exp
+    raw_gold_block: rare exp
+    gold_block: rare exp
+
+    # Redstone
+    redstone_ore: common exp
+    deepslate_redstone_ore: common exp
+    redstone_block: uncommon exp
+
+    # Lapis
+    lapis_ore: uncommon exp
+    deepslate_lapis_ore: uncommon exp
+    lapis_block: rare exp
+
+    # Diamond
+    diamond_ore: epic exp
+    deepslate_diamond_ore: epic exp
     diamond_block: 100-200 exp
+
+    # Emerald
+    emerald_ore: legendary exp
+    deepslate_emerald_ore: legendary exp
+    emerald_block: 200-300 exp
+
+    # Nether Quartz
+    nether_quartz_ore: common exp
+
+    # Ancient Debris / Netherite
+    ancient_debris: legendary exp
+    netherite_block: 300-400 exp
+
   default: 0 exp
 
 
---- # ===== Levels 1-25 ===== #
-levels: 1-25
+--- # ===== Levels 1-10 ===== #
+levels: 1-10
 
-# Define the stat increment amount per level
 stats:
   defense: +1 every 1 level
   mining-fortune: +4 every 1 level
 
 rewards:
-  - '&8+&a1 $strength'
-  - '&8+&64 $foraging_fortune'
+  - '&8+&a1 $defense'
+  - '&8+&64 $mining_fortune'
+  - '&8+&e5,000 $coin Coins'
 
-on-completion: []
+on-completion:
+  - giveMoney 5000
 
---- # ===== Levels 26-50 ===== #
-levels: 26-50
+--- # ===== Levels 11-20 ===== #
+levels: 11-20
 
-# Define the stat increment amount per level
 stats:
   defense: +1 every 1 level
   mining-fortune: +4 every 1 level
 
 rewards:
-  - '&8+&a1 $strength'
-  - '&8+&64 $foraging_fortune'
+  - '&8+&a1 $defense'
+  - '&8+&64 $mining_fortune'
+  - '&8+&e10,000 $coin Coins'
 
-on-completion: []
+on-completion:
+  - giveMoney 10000
 
---- # ===== Levels 51-75 ===== #
-levels: 51-75
+--- # ===== Levels 21-30 ===== #
+levels: 21-30
 
-# Define the stat increment amount per level
 stats:
   defense: +1 every 1 level
   mining-fortune: +4 every 1 level
 
 rewards:
-  - '&8+&a1 $strength'
-  - '&8+&64 $foraging_fortune'
+  - '&8+&a1 $defense'
+  - '&8+&64 $mining_fortune'
+  - '&8+&e20,000 $coin Coins'
 
-on-completion: []
+on-completion:
+  - giveMoney 20000
 
---- # ===== Levels 76-100 ===== #
-levels: 76-100
+--- # ===== Levels 31-40 ===== #
+levels: 31-40
 
-# Define the stat increment amount per level
 stats:
   defense: +1 every 1 level
   mining-fortune: +4 every 1 level
 
 rewards:
-  - '&8+&a1 $strength'
-  - '&8+&64 $foraging_fortune'
+  - '&8+&a1 $defense'
+  - '&8+&64 $mining_fortune'
+  - '&8+&e40,000 $coin Coins'
 
-on-completion: []
-on-regression: []
+on-completion:
+  - giveMoney 40000
+
+--- # ===== Levels 41-50 ===== #
+levels: 41-50
+
+stats:
+  defense: +1 every 1 level
+  mining-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $defense'
+  - '&8+&64 $mining_fortune'
+  - '&8+&e75,000 $coin Coins'
+
+on-completion:
+  - giveMoney 75000
+
+--- # ===== Levels 51-60 ===== #
+levels: 51-60
+
+stats:
+  defense: +1 every 1 level
+  mining-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $defense'
+  - '&8+&64 $mining_fortune'
+  - '&8+&e125,000 $coin Coins'
+
+on-completion:
+  - giveMoney 125000
+
+--- # ===== Levels 61-70 ===== #
+levels: 61-70
+
+stats:
+  defense: +1 every 1 level
+  mining-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $defense'
+  - '&8+&64 $mining_fortune'
+  - '&8+&e200,000 $coin Coins'
+
+on-completion:
+  - giveMoney 200000
+
+--- # ===== Levels 71-80 ===== #
+levels: 71-80
+
+stats:
+  defense: +1 every 1 level
+  mining-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $defense'
+  - '&8+&64 $mining_fortune'
+  - '&8+&e350,000 $coin Coins'
+
+on-completion:
+  - giveMoney 350000
+
+--- # ===== Levels 81-90 ===== #
+levels: 81-90
+
+stats:
+  defense: +1 every 1 level
+  mining-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $defense'
+  - '&8+&64 $mining_fortune'
+  - '&8+&e600,000 $coin Coins'
+
+on-completion:
+  - giveMoney 600000
+
+--- # ===== Levels 91-100 ===== #
+levels: 91-100
+
+stats:
+  defense: +1 every 1 level
+  mining-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $defense'
+  - '&8+&64 $mining_fortune'
+  - '&8+&e1,000,000 $coin Coins'
+
+on-completion:
+  - giveMoney 1000000

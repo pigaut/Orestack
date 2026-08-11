@@ -1,5 +1,7 @@
 package io.github.pigaut.rpg.bukkit;
 
+import com.github.retrooper.packetevents.protocol.attribute.*;
+import io.github.pigaut.rpg.bukkit.attribute.Attributes;
 import io.github.pigaut.rpg.bukkit.material.*;
 import io.github.pigaut.rpg.core.enchant.*;
 import io.github.pigaut.rpg.bukkit.material.*;
@@ -11,6 +13,8 @@ import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.rpg.util.reflection.*;
 import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
+import org.bukkit.attribute.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
@@ -29,6 +33,40 @@ public class ItemUtil {
 
     public static boolean isNotAir(@NotNull ItemStack item) {
         return MaterialUtil.isNotAir(item.getType());
+    }
+
+    public static double getStatAmount(@NotNull ItemStack item, @NotNull Attribute attribute, double baseValue) {
+        if (!item.hasItemMeta()) {
+            return baseValue;
+        }
+
+        ItemMeta meta = item.getItemMeta();
+        Collection<AttributeModifier> modifiers = meta.getAttributeModifiers(attribute);
+        if (modifiers == null || modifiers.isEmpty()) {
+            return baseValue;
+        }
+
+        double addNumber = 0.0;
+        double addScalar = 0.0;
+        double multiplyScalar = 1.0;
+
+        for (AttributeModifier modifier : modifiers) {
+            switch (modifier.getOperation()) {
+                case ADD_NUMBER -> addNumber += modifier.getAmount();
+                case ADD_SCALAR -> addScalar += modifier.getAmount();
+                case MULTIPLY_SCALAR_1 -> multiplyScalar *= (1.0 + modifier.getAmount());
+            }
+        }
+
+        double result = baseValue + addNumber;
+        result *= (1.0 + addScalar);
+        result *= multiplyScalar;
+
+        return result;
+    }
+
+    public static int getAttackDamage(@NotNull ItemStack item) {
+        return (int) getStatAmount(item, Attributes.ATTACK_DAMAGE, 0);
     }
 
     public static void dropItem(@NotNull Location location, @NotNull ItemStack item) {

@@ -1,7 +1,6 @@
 package io.github.pigaut.rpg.module.stat;
 
 import io.github.pigaut.rpg.module.stat.modifier.*;
-import io.github.pigaut.rpg.module.stat.modifier.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
@@ -335,28 +334,40 @@ public class PlayerStat {
         return sumRaw(skills);
     }
 
-    public double getBuff(@NotNull String source) {
-        return buffs.getOrDefault(source, StatModifier.ZERO).getAmount();
-    }
-
-    public void setBuff(@NotNull String source, double value) {
-        buffs.put(source, StatModifier.add(value));
-    }
-
-    public void setBuff(@NotNull String source, double value, @NotNull StatOperation type) {
-        buffs.put(source, new StatModifier(value, type));
-    }
-
-    public void removeBuff(@NotNull String source) {
-        buffs.remove(source);
-    }
-
-    public double getTotalBuff() {
+    public double getTotalBoost() {
         return sumRaw(buffs);
     }
 
-    public double getEvent(@NotNull String source) {
-        return events.getOrDefault(source, StatModifier.ZERO).getAmount();
+    public boolean hasBoost(@NotNull String name) {
+        return buffs.containsKey(name);
+    }
+
+    public double getBoost(@NotNull String name) {
+        return buffs.getOrDefault(name, StatModifier.ZERO).getAmount();
+    }
+
+    public void setBoost(@NotNull String name, @NotNull StatModifier modifier) {
+        buffs.put(name, modifier);
+    }
+
+    public void setBoost(@NotNull String name, double value) {
+        buffs.put(name, StatModifier.add(value));
+    }
+
+    public void setBoost(@NotNull String name, double value, @NotNull StatOperation type) {
+        buffs.put(name, new StatModifier(value, type));
+    }
+
+    public void removeBoost(@NotNull String name) {
+        buffs.remove(name);
+    }
+
+    public void clearBoosts() {
+        buffs.clear();
+    }
+
+    public double getEvent(@NotNull String name) {
+        return events.getOrDefault(name, StatModifier.ZERO).getAmount();
     }
 
     public void setEvent(@NotNull String source, double value) {

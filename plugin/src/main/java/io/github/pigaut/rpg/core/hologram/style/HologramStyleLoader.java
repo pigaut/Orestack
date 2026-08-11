@@ -44,7 +44,7 @@ public class HologramStyleLoader implements ConfigLoader<HologramStyle> {
                 .withDefault(plugin.getSettings().getHologramViewDistance());
 
         int updateInterval = section.get("update|update-interval", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(0);
 
         boolean seeThrough = section.getBoolean("see-through|see-through-blocks")

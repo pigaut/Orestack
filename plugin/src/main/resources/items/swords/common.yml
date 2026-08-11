@@ -1,0 +1,37 @@
+
+rookie_sword:
+  type: stone_sword
+  description:
+    - 'A basic sword to'
+    - 'help you survive'
+  stats:
+    damage: 30
+    max-health: 20
+  enchants:
+    sharpness: 5
+    unbreaking: 4
+  rarity: common_sword
+
+rogue_sword:
+  type: copper_sword
+  stats:
+    damage: 20
+  ability-descriptions:
+    - name: Speed Boost
+      trigger: right click
+      description: '&7Grants &f+100$speed Speed &7for &a30s&7.'
+      mana-cost: 50
+      cooldown: 5s
+  rarity: common_sword
+  on-right-click:
+    - if: hasCooldown item_speed_boost # Use the same cooldown on all items to avoid stacking multiple boosts from different items
+      do:
+        - sendMessage ability_on_cooldown
+        - return
+    - if-not: hasMana 50
+      do:
+        - sendMessage not_enough_mana
+        - return
+    - do:
+        - giveStatBoost movement_speed amount=+100 duration=30s
+        - startCooldown item_speed_boost duration=35s # boost duration + cooldown duration (30s + 5s = 35s)

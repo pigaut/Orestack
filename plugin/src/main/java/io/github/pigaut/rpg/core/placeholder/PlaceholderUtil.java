@@ -94,7 +94,7 @@ public class PlaceholderUtil {
 
         for (String element : elements) {
             String parsedElement = parseAll(context, element);
-            if (parsedElement.equals("%%EMPTY_LIST%%")) {
+            if (parsedElement.contains("%%EMPTY_LIST%%")) {
                 continue;
             }
 

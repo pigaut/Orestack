@@ -32,7 +32,21 @@ public class ItemManager extends ConfigBackedManager<ItemTemplate> {
     @Override
     public void enable() {
         for (Player player : Bukkit.getOnlinePlayers()) {
+            PlayerInventory inventory = player.getInventory();
+            for (int i = 0; i < inventory.getSize(); i++) {
+                ItemStack item = inventory.getItem(i);
+                if (item == null) {
+                    continue;
+                }
+                ItemTemplate itemTemplate = get(item);
+                if (itemTemplate == null) {
+                    continue;
+                }
 
+                ItemStack updatedItem = itemTemplate.createItemStack(player);
+                updatedItem.setAmount(item.getAmount());
+                inventory.setItem(i, updatedItem);
+            }
         }
     }
 
@@ -104,6 +118,14 @@ public class ItemManager extends ConfigBackedManager<ItemTemplate> {
             }
         }
         return stats;
+    }
+
+    public boolean hasStat(@NotNull ItemStack item, @NotNull Stat statType) {
+        if (!item.hasItemMeta()) {
+            return false;
+        }
+        NamespacedKey statKey = getStatKey(statType);
+        return PersistentData.hasInteger(item.getItemMeta(), statKey);
     }
 
     public @Nullable Integer getStatLevel(@NotNull ItemStack item, @NotNull Stat statType) {

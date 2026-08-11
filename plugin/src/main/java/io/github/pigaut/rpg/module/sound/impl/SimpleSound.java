@@ -51,7 +51,7 @@ public class SimpleSound implements SoundEffect {
     }
 
     public void play(@Nullable Player player, @NotNull Location location) {
-        final Location offsetLocation = LocationUtil.getOffsetLocation(location, offsetX, offsetY, offsetZ);
+        Location offsetLocation = LocationUtil.getOffsetLocation(location, offsetX, offsetY, offsetZ);
 
         if (playerOnly) {
             if (player != null) {

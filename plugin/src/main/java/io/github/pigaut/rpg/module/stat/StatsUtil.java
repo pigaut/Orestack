@@ -1,12 +1,15 @@
 package io.github.pigaut.rpg.module.stat;
 
 import io.github.pigaut.rpg.module.stat.modifier.*;
-import io.github.pigaut.rpg.module.stat.modifier.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
 
 public class StatsUtil {
+
+    public static double getDefenseDamageReduction(int defense) {
+        return (double) 100 / (defense + 100);
+    }
 
     public static int calculateDamage(double damage, int defense) {
         double damageReduction = (double) 100 / (defense + 100);

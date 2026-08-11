@@ -28,4 +28,15 @@ public class CustomPlaceholders {
         return new HashMap<>(placeholders);
     }
 
+    public void withDefault(@NotNull String id, @Nullable Object value) {
+        placeholders.putIfAbsent(id, value);
+    }
+
+    @Override
+    public String toString() {
+        return "CustomPlaceholders{" +
+                "placeholders=" + placeholders +
+                '}';
+    }
+
 }

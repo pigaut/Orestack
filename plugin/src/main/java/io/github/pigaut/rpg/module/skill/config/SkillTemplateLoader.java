@@ -113,7 +113,7 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
 
             lastLevel = levelsRangeMax;
 
-            List<String> rewards = levelSection.getStringList("rewards", ColorUtil.FORMATTER)
+            List<String> rewards = levelSection.getStringList("rewards")
                     .withDefault(null);
 
             Function onCompletion = levelSection.get("on-completion", Function.class)
@@ -166,7 +166,7 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
         ItemStack icon = settingsSection.get("icon", ItemStack.class)
                 .withDefault(new ItemStack(Material.BEDROCK));
 
-        List<String> description = settingsSection.getStringList("description", ColorUtil.FORMATTER)
+        List<String> description = settingsSection.getStringList("description")
                 .withDefault(null);
 
         Function onUnlock = settingsSection.get("on-unlock", Function.class)
@@ -176,7 +176,7 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
                 .withDefault(null);
 
         Function onLevelUp = settingsSection.get("on-level-up", Function.class)
-                .withDefault(null);
+                .withDefault(plugin.getSettings().getDefaultOnSkillLevelUp());
 
         Function onLevelDown = settingsSection.get("on-level-down", Function.class)
                 .withDefault(null);
@@ -185,6 +185,9 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
                 .withDefault(plugin.getSettings().getDefaultOnExpEarn());
 
         ExpYieldFunction blockBreakExp = settingsSection.get("block-break-exp", ExpYieldFunction.class)
+                .withDefault(null);
+
+        ExpYieldFunction entityKillExp = settingsSection.get("entity-kill-exp", ExpYieldFunction.class)
                 .withDefault(null);
 
         ExpYieldFunction eggCollectExp = settingsSection.get("egg-collect-exp", ExpYieldFunction.class)
@@ -208,9 +211,10 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
                 onUnlock, onLock,
                 onLevelUp, onLevelDown,
                 onExpEarn,
-                blockBreakExp, eggCollectExp,
-                milkCowExp, shearSheepExp,
-                enchantItemExp, brewPotionExp);
+                blockBreakExp, entityKillExp,
+                eggCollectExp, milkCowExp,
+                shearSheepExp, enchantItemExp,
+                brewPotionExp);
     }
 
 }

@@ -23,6 +23,7 @@ import org.bukkit.block.data.type.*;
 import org.bukkit.block.data.type.Beehive;
 import org.bukkit.block.data.type.BrewingStand;
 import org.bukkit.block.data.type.Campfire;
+import org.bukkit.block.data.type.Skull;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -171,6 +172,18 @@ public class BlockTemplateLoader implements ConfigLoader.Line<BlockTemplate> {
                         .withDefault(brushable.getDusted());
 
                 return new BrushableBlockTemplate(type, dusted);
+            }
+        }
+
+        if (Server.isPaper() && Server.getVersion() >= Version.V1_18_1) {
+            if (blockData instanceof Skull skull) {
+                BlockFace rotation = line.get("direction|facing", BlockFace.class)
+                        .withDefault(skull.getRotation());
+
+                String headTexture = line.getString("headTexture")
+                        .withDefault(null);
+
+                return new HeadBlockTemplate(type, rotation, headTexture);
             }
         }
 
@@ -356,6 +369,18 @@ public class BlockTemplateLoader implements ConfigLoader.Line<BlockTemplate> {
                         .withDefault(brushable.getDusted());
 
                 return new BrushableBlockTemplate(type, dusted);
+            }
+        }
+
+        if (Server.isPaper() && Server.getVersion() >= Version.V1_18_1) {
+            if (blockData instanceof Skull skull) {
+                BlockFace rotation = section.get("direction|facing", BlockFace.class)
+                        .withDefault(skull.getRotation());
+
+                String headTexture = section.getString("head-texture")
+                        .withDefault(null);
+
+                return new HeadBlockTemplate(type, rotation, headTexture);
             }
         }
 

@@ -12,17 +12,6 @@ import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import io.github.pigaut.rpg.server.*;
 import io.github.pigaut.rpg.server.version.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.core.placeholder.custom.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.item.*;
-import io.github.pigaut.rpg.module.stat.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.server.*;
-import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.configurator.load.*;
@@ -62,25 +51,37 @@ public class ItemTemplateLoader implements ConfigLoader<ItemTemplate> {
             meta.setLore(settings.getDefaultItemLore());
         }
 
-        List<String> description = section.getStringList("description", ColorUtil.FORMATTER)
-                .withDefault(null);
+        List<String> description = section.getStringList("description")
+                .formatEach(line -> ColorUtil.startsWithColor(line) ? line :
+                        settings.getDefaultDescriptionColor() + line)
+                .orEmpty();
 
-        List<String> abilitiesDescription = section.getStringList("abilities-description", ColorUtil.FORMATTER)
-                .withDefault(null);
+        if (!description.isEmpty()) {
+            description.addAll(0, settings.getDescriptionHeader());
+            description.addAll(settings.getDescriptionFooter());
+        }
 
-        if (abilitiesDescription == null) {
+        List<String> abilitiesDescription = section.getStringList("ability-description")
+                .orEmpty();
+
+        if (abilitiesDescription.isEmpty()) {
             abilitiesDescription = new ArrayList<>();
             List<String> divider = settings.getAbilityDescriptionDivider();
 
-            for (ConfigScalar scalar : section.getScalarList("abilities").orEmpty()) {
-                CustomPlaceholders placeholders = scalar.getRequired(CustomPlaceholders.class);
-                Context abilityContext = placeholders.asContext(plugin);
+            for (ConfigField field : section.getNestedFields("ability-descriptions|abilities")) {
+                CustomPlaceholders placeholders = field.getRequired(CustomPlaceholders.class);
+                placeholders.withDefault("name", "NOT SET");
+                placeholders.withDefault("trigger", "");
+                placeholders.withDefault("description", List.of());
+                placeholders.withDefault("mana", List.of());
+                placeholders.withDefault("cooldown", List.of());
 
+                Context abilityContext = placeholders.asContext(plugin);
                 if (!abilitiesDescription.isEmpty() && !divider.isEmpty()) {
                     abilitiesDescription.addAll(divider);
                 }
 
-                List<String> abilityDescription = settings.getAbilityDescriptionFormat();
+                List<String> abilityDescription = settings.getAbilityDescriptionTemplate();
                 abilitiesDescription.addAll(PlaceholderUtil.parseAll(abilityContext, abilityDescription));
             }
 
@@ -93,6 +94,14 @@ public class ItemTemplateLoader implements ConfigLoader<ItemTemplate> {
         String rarity = section.getString("rarity")
                 .require(settings::isItemRarity, "Could not find item rarity")
                 .withDefault(null);
+
+        if (!meta.hasDisplayName()) {
+            if (rarity != null) {
+                meta.setDisplayName(settings.getItemNameByRarity(rarity));
+            } else {
+                meta.setDisplayName(settings.getDefaultItemName());
+            }
+        }
 
         ToolBreakingPower toolBreakingPower = null;
         for (BreakingPower breakingPower : settings.getBreakingPowers()) {
@@ -130,7 +139,7 @@ public class ItemTemplateLoader implements ConfigLoader<ItemTemplate> {
         }
 
         Map<Stat, Amount> stats = new HashMap<>();
-        for (KeyedScalar scalar : section.getNestedScalars("stats")) {
+        for (KeyedScalar scalar : section.getSectionOrEmpty("stats").getNestedScalars()) {
             Stat stat = scalar.getKey(Stat.class);
             if (stat == BaseStats.MINING_SPEED && Server.getVersion() < Version.V1_21) {
                 section.collectWarning(new InvalidConfigException(scalar, "Mining speed stat is only available in 1.21+"));

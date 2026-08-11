@@ -2,9 +2,12 @@ package io.github.pigaut.rpg.module.function.condition.config;
 
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.menu.atlas.*;
+import io.github.pigaut.rpg.core.tag.*;
 import io.github.pigaut.rpg.module.function.condition.*;
 import io.github.pigaut.rpg.module.function.condition.block.*;
-import io.github.pigaut.rpg.module.function.condition.enchant.*;
+import io.github.pigaut.rpg.module.function.condition.entity.*;
+import io.github.pigaut.rpg.module.function.condition.item.*;
+import io.github.pigaut.rpg.module.function.condition.item.enchant.*;
 import io.github.pigaut.rpg.module.function.condition.menu.*;
 import io.github.pigaut.rpg.module.function.condition.mob.*;
 import io.github.pigaut.rpg.module.function.condition.player.*;
@@ -14,21 +17,7 @@ import io.github.pigaut.rpg.module.function.condition.player.state.*;
 import io.github.pigaut.rpg.module.function.condition.player.tool.*;
 import io.github.pigaut.rpg.module.function.condition.server.*;
 import io.github.pigaut.rpg.hook.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.menu.atlas.*;
-import io.github.pigaut.rpg.hook.*;
-import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.module.function.condition.block.*;
-import io.github.pigaut.rpg.module.function.condition.enchant.*;
-import io.github.pigaut.rpg.module.function.condition.menu.*;
-import io.github.pigaut.rpg.module.function.condition.mob.*;
-import io.github.pigaut.rpg.module.function.condition.player.*;
-import io.github.pigaut.rpg.module.function.condition.player.ability.*;
-import io.github.pigaut.rpg.module.function.condition.player.action.*;
-import io.github.pigaut.rpg.module.function.condition.player.state.*;
-import io.github.pigaut.rpg.module.function.condition.player.tool.*;
-import io.github.pigaut.rpg.module.function.condition.server.*;
+import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
 import io.github.pigaut.yaml.*;
@@ -38,8 +27,13 @@ import io.github.pigaut.yaml.configurator.load.*;
 import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
 import org.bukkit.enchantments.*;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
+import org.bukkit.potion.*;
+import org.checkerframework.checker.units.qual.*;
 import org.jetbrains.annotations.*;
+
+import java.util.*;
 
 public class ConditionLoader extends AbstractLoader<Condition> {
 
@@ -58,6 +52,12 @@ public class ConditionLoader extends AbstractLoader<Condition> {
 
         addLoader("PLAYER_HAS_FLAG", (Line<Condition>) line ->
                 new PlayerHasFlag(line.getRequiredString(1)));
+
+        addLoader("PLAYER_HAS_STAT_BOOST", (Line<Condition>) line ->
+                new PlayerHasStatBoost(
+                        line.getRequired(1, Stat.class),
+                        line.getRequiredString("name|id")
+            ));
 
         addLoader("PLAYER_HAS_EXP", (Line<Condition>) line ->
                 new PlayerHasExp(line.getRequired(1, Amount.class)));
@@ -177,9 +177,13 @@ public class ConditionLoader extends AbstractLoader<Condition> {
 
 
         // Block conditions
-        addLoader("BLOCK_TYPE_EQUALS", (Line<Condition>) line ->
-                new BlockTypeEquals(line.getAllRequired(1, Material.class)));
-
+        addLoader("BLOCK_TYPE_EQUALS", (Line<Condition>) line -> {
+            Set<Material> materials = new HashSet<>();
+            for (MaterialTag materialTag : line.getAllRequired(1, MaterialTag.class)) {
+                materials.addAll(materialTag.getMaterials());
+            }
+            return new BlockTypeEquals(materials);
+        });
 
         // Event conditions
         addLoader("CLICK_TYPE_EQUALS", (Line<Condition>) line ->
@@ -188,6 +192,12 @@ public class ConditionLoader extends AbstractLoader<Condition> {
                         line.getBoolean("shift|sneak|sneaking").withDefault(null)
                 ));
 
+        // Entity conditions
+        addLoader("ENTITY_IS_MOB", (Line<Condition>) line ->
+                new EntityIsMob(plugin));
+
+        addLoader("ENTITY_TYPE_EQUALS", (Line<Condition>) line ->
+                new EntityTypeEquals(line.getAllRequired(1, EntityType.class)));
 
         // Mob conditions start
         addLoader("MOB_HAS_FLAG", (Line<Condition>) line ->
@@ -204,6 +214,9 @@ public class ConditionLoader extends AbstractLoader<Condition> {
 
         addLoader("MOB_IS_FULL_HEALTH", (Line<Condition>) line ->
                 new MobIsFullHealth());
+
+        addLoader("MOB_NAME_EQUALS", (Line<Condition>) line ->
+                new MobNameEquals(line.getRequiredString(1)));
 
         addLoader("ATTACKER_COUNT_EQUALS", (Line<Condition>) line ->
                 new AttackerCountEquals(line.getRequired(1, Amount.class)));
@@ -263,14 +276,21 @@ public class ConditionLoader extends AbstractLoader<Condition> {
         addAliases("MENU_CAN_SCROLL_LEFT_DOWN", "CAN_SCROLL_LEFT_DOWN");
         addAliases("MENU_CAN_SCROLL_LEFT_UP", "CAN_SCROLL_LEFT_UP");
 
-        // Added Enchant Condition
+        // Item conditions
         addLoader("ADDED_ENCHANT_EQUALS", (Line<Condition>) line ->
                 new AddedEnchantEquals(
                         line.getRequired(1, Enchantment.class),
                         line.get("level|lvl", Amount.class).withDefault(Amount.ANY)
                 ));
 
+        addLoader("ITEM_IS_POTION", (Line<Condition>) line ->
+                new ItemIsPotion());
+
+        addLoader("ITEM_POTION_TYPE_EQUALS", (Line<Condition>) line ->
+                new ItemPotionTypeEquals(line.getRequired(1, PotionType.class)));
+
         addAliases("ADDED_ENCHANT_EQUALS", "ENCHANT_EQUALS");
+        addAliases("ITEM_POTION_TYPE_EQUALS", "ITEM_POTION_EQUALS");
 
         // Ability conditions
         addLoader("PLAYER_HAS_COOLDOWN", (Line<Condition>) line ->

@@ -28,7 +28,7 @@ public class PluginBootstrap {
     private final PluginLogger logger;
 
     private final Set<BootPhase> missingStartupRequirements = new HashSet<>();
-    private final List<StartupTask> startupTasks = new ArrayList<>();
+    private final List<Runnable> startupTasks = new ArrayList<>();
     private final List<ErrorCollector> startupErrors = new ArrayList<>();
     private final List<Manager> loadedManagers = new ArrayList<>();
 
@@ -47,7 +47,6 @@ public class PluginBootstrap {
 
     public void boot() {
         Preconditions.checkState(!initialized, "Plugin bootstrap has already been initialized.");
-        initialized = true;
         plugin.setReady(false);
 
         // Generate and load configuration
@@ -74,12 +73,7 @@ public class PluginBootstrap {
         DefaultListeners.registerAll(plugin);
         plugin.registerListeners();
 
-        // Register the startup tasks
-        for (StartupTask startupTask : plugin.getStartupTasks()) {
-            startupTasks.add(startupTask);
-            startupTask.init();
-        }
-
+        initialized = true;
         plugin.onBoot();
 
         // Register and check already met startup requirements
@@ -109,11 +103,11 @@ public class PluginBootstrap {
         }
     }
 
-    public void markReady(@NotNull BootPhase bootPhase) {
-        for (StartupTask delayedTask : startupTasks) {
-            delayedTask.markReady(bootPhase);
-        }
+    public void registerStartupTask(@NotNull Runnable startupTask) {
+        startupTasks.add(startupTask);
+    }
 
+    public void markReady(@NotNull BootPhase bootPhase) {
         missingStartupRequirements.remove(bootPhase);
         if (missingStartupRequirements.isEmpty()) {
             startup();
@@ -154,6 +148,10 @@ public class PluginBootstrap {
                     manager.enable();
                 });
                 loadedManagers.add(manager);
+            }
+
+            for (Runnable startupTask : startupTasks) {
+                startupTask.run();
             }
 
             LifecycleLog.startup(plugin, startupErrors);
@@ -231,6 +229,10 @@ public class PluginBootstrap {
                 plugin.onReload();
                 plugin.setReloading(false);
             });
+
+            for (Runnable startupTask : startupTasks) {
+                startupTask.run();
+            }
         });
     }
 

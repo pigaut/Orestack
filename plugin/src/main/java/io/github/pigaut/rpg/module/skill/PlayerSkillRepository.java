@@ -105,4 +105,10 @@ public class PlayerSkillRepository implements PlayerDataRepository<SimpleRpgPlay
         }
         insertStatement.executeBatch();
     }
+
+    @Override
+    public void clearData(@NotNull SimpleRpgPlayerData playerData) {
+        playerData.setSkills(Set.of());
+    }
+
 }

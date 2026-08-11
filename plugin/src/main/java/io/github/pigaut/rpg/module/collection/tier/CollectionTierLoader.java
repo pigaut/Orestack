@@ -22,7 +22,7 @@ public class CollectionTierLoader implements ConfigLoader<CollectionTier> {
         int amount = section.getInteger("amount")
                 .requireOrThrow(Requirements.positive());
 
-        List<String> rewards = section.getStringList("rewards", ColorUtil.FORMATTER)
+        List<String> rewards = section.getStringList("rewards")
                 .orEmpty();
 
         Function onCompletion = section.get("on-completion", Function.class)

@@ -53,7 +53,8 @@ public class FunctionLoader implements ConfigLoader<Function> {
             return new SimpleFunction(action);
         }
 
-        if (plugin.getSettings().getFunctionNames().contains(functionName)) {
+        Set<String> functionNames = plugin.getFunctions().getAllExistingNames();
+        if (functionNames.contains(functionName)) {
             return new LazyFunction(plugin, functionName);
         }
 
@@ -134,7 +135,7 @@ public class FunctionLoader implements ConfigLoader<Function> {
             Function defaultCase = section.get("default", Function.class)
                     .withDefault(null);
 
-            function = new SwitchFunction(cases.toArray(new SwitchCase[0]), defaultCase);
+            function = new SwitchFunction(name, group, cases.toArray(new SwitchCase[0]), defaultCase);
         }
         else {
             throw new InvalidConfigException(section, "Function doesn't contain any valid statement");
@@ -146,7 +147,7 @@ public class FunctionLoader implements ConfigLoader<Function> {
 
         Integer interval = section.get("interval|period", Delay.class)
                 .check(repetitions != null, "repetitions must be set to use interval delay")
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(null);
 
         if (interval != null) {
@@ -157,7 +158,7 @@ public class FunctionLoader implements ConfigLoader<Function> {
         }
 
         Integer delay = section.get("delay", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(null);
 
         if (delay != null) {
@@ -181,7 +182,9 @@ public class FunctionLoader implements ConfigLoader<Function> {
         String functionGroup = null;
         if (!sequence.isRoot() && sequence.getParent() instanceof ConfigRoot root) {
             functionName = sequence.getKey();
-            functionGroup = Group.byFunctionFile(root.getFile());
+            if (root.hasFile()) {
+                functionGroup = Group.byFunctionFile(root.getFile());
+            }
         }
 
         List<Function> functions = sequence.getAllRequired(Function.class);

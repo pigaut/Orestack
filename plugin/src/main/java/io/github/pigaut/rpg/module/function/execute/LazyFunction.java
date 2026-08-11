@@ -34,18 +34,13 @@ public class LazyFunction implements Function {
     @Override
     public @NotNull FunctionResponse dispatch(@NotNull Context context) {
         lookupFunction();
-        System.out.println("Debug 1");
         if (function == null) {
             Player player = context.player();
-            System.out.println("Debug 2");
             if (player != null) {
-                System.out.println("Debug 3");
                 plugin.sendMessage(player, context.withPlaceholder("function-name", name), "function-not-found");
             }
-            System.out.println("Debug 4");
             return FunctionResponse.STOP;
         }
-        System.out.println("Debug 5");
         return function.dispatch(context);
     }
 

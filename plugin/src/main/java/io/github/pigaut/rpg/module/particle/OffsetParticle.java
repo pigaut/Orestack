@@ -38,7 +38,7 @@ public class OffsetParticle implements ParticleEffect {
         double yOffset = offsetY.doubleValue();
         double zOffset = offsetZ.doubleValue();
 
-        Location spawnLocation = LocationUtil.centered(entity.getLocation());
+        Location spawnLocation = entity.getLocation();
         Vector forward = EntityUtil.getForwardVector(entity);
         Vector right = EntityUtil.getRightVector(entity);
 

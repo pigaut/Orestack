@@ -32,6 +32,7 @@ public class SkillTemplate implements Identifiable {
     private final @Nullable Function onExpEarn;
 
     private final @Nullable ExpYieldFunction blockBreakExp;
+    private final @Nullable ExpYieldFunction entityKillExp;
     private final @Nullable ExpYieldFunction eggCollectExp;
     private final @Nullable ExpYieldFunction milkCowExp;
     private final @Nullable ExpYieldFunction shearSheepExp;
@@ -43,9 +44,10 @@ public class SkillTemplate implements Identifiable {
                          @NotNull List<SkillLevel> skillLevels,
                          @Nullable Function onUnlock, @Nullable Function onLock,
                          @Nullable Function onLevelUp, @Nullable Function onLevelDown, @Nullable Function onExpEarn,
-                         @Nullable ExpYieldFunction blockBreakExp, @Nullable ExpYieldFunction eggCollectExp,
-                         @Nullable ExpYieldFunction milkCowExp, @Nullable ExpYieldFunction shearSheepExp,
-                         @Nullable ExpYieldFunction enchantItemExp, @Nullable ExpYieldFunction brewPotionExp) {
+                         @Nullable ExpYieldFunction blockBreakExp, @Nullable ExpYieldFunction entityKillExp,
+                         @Nullable ExpYieldFunction eggCollectExp, @Nullable ExpYieldFunction milkCowExp,
+                         @Nullable ExpYieldFunction shearSheepExp, @Nullable ExpYieldFunction enchantItemExp,
+                         @Nullable ExpYieldFunction brewPotionExp) {
         this.name = name;
         this.group = group;
         this.icon = icon;
@@ -57,6 +59,7 @@ public class SkillTemplate implements Identifiable {
         this.onLevelDown = onLevelDown;
         this.onExpEarn = onExpEarn;
         this.blockBreakExp = blockBreakExp;
+        this.entityKillExp = entityKillExp;
         this.eggCollectExp = eggCollectExp;
         this.milkCowExp = milkCowExp;
         this.shearSheepExp = shearSheepExp;
@@ -115,6 +118,10 @@ public class SkillTemplate implements Identifiable {
 
     public @Nullable ExpYieldFunction getBlockBreakExp() {
         return blockBreakExp;
+    }
+
+    public @Nullable ExpYieldFunction getEntityKillExp() {
+        return entityKillExp;
     }
 
     public @Nullable ExpYieldFunction getEggCollectExp() {

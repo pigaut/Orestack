@@ -67,7 +67,7 @@ public class SimplePlayerData implements PlayerData {
     }
 
     public void setUnlockedRecipes(@NotNull Set<NamespacedKey> unlockedRecipes) {
-        this.unlockedRecipes = unlockedRecipes;
+        this.unlockedRecipes = new HashSet<>(unlockedRecipes);
     }
 
 

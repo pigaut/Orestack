@@ -42,7 +42,6 @@ public class ConditionalFunction implements Function {
         if (met == null) {
             return FunctionResponse.STOP;
         }
-
         if (met) {
             return success.dispatch(context);
         } else {

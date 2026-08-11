@@ -1,7 +1,6 @@
 package io.github.pigaut.rpg.event.farm;
 
-import io.github.pigaut.rpg.event.*;
-import io.github.pigaut.rpg.event.*;
+import io.github.pigaut.rpg.event.player.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;

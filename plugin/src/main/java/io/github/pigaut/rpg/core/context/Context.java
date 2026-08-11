@@ -328,6 +328,36 @@ public class Context {
                 .build();
     }
 
+    public static @NotNull Context fromPlayerAndItem(@NotNull EnhancedPlugin plugin, @NotNull Player player, @NotNull ItemStack item) {
+        return builder(plugin)
+                .withPlayer(player)
+                .withPlayerState(plugin.getPlayerState(player))
+                .withTool(PlayerUtil.getTool(player))
+                .withItem(item)
+                .build();
+    }
+
+    public static @NotNull Context fromPlayerAndEntity(@NotNull EnhancedPlugin plugin, @NotNull Player player, @NotNull LivingEntity entity) {
+        return builder(plugin)
+                .withPlayer(player)
+                .withPlayerState(plugin.getPlayerState(player))
+                .withTool(PlayerUtil.getTool(player))
+                .withEnemy(entity)
+                .withMob(plugin.getMob(entity))
+                .build();
+    }
+
+    public static @NotNull Context fromPlayerAndEntity(@NotNull EnhancedPlugin plugin, @NotNull Player player, @NotNull LivingEntity entity, @NotNull Event event) {
+        return builder(plugin)
+                .withPlayer(player)
+                .withPlayerState(plugin.getPlayerState(player))
+                .withTool(PlayerUtil.getTool(player))
+                .withEnemy(entity)
+                .withMob(plugin.getMob(entity))
+                .withEvent(event)
+                .build();
+    }
+
     public static @NotNull Context fromMob(@NotNull EnhancedPlugin plugin, @NotNull Mob mob) {
         return fromMob(plugin, mob, null);
     }

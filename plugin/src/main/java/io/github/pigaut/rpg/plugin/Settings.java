@@ -8,6 +8,7 @@ import io.github.pigaut.rpg.core.hologram.style.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.placeholder.settings.*;
 import io.github.pigaut.rpg.core.progressbar.*;
+import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.item.power.*;
 import io.github.pigaut.rpg.module.item.settings.*;
@@ -16,15 +17,13 @@ import io.github.pigaut.rpg.module.stat.custom.*;
 import io.github.pigaut.rpg.module.stat.settings.*;
 import io.github.pigaut.rpg.plugin.manager.config.*;
 import io.github.pigaut.rpg.plugin.manager.module.Module;
+import io.github.pigaut.rpg.server.Server;
 import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.server.Server;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
-import io.github.pigaut.yaml.convert.format.*;
 import io.github.pigaut.yaml.delay.*;
 import io.github.pigaut.yaml.node.*;
-import io.github.pigaut.yaml.node.section.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.enchantments.*;
@@ -44,15 +43,17 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     private final SimpleItemSettings itemSettings;
     private final SimpleStatSettings statSettings;
     private final SimplePlaceholderSettings placeholderSettings;
-
+    // Noise
+    private final NamespacedKey wandKey;
+    public int guiReopenDelay = 40;
     // Shortcuts
     private boolean shortcuts;
     private Map<String, String> configShortcuts;
-
     // Generic settings
     private boolean keepConfigUpToDate;
     private boolean debug;
     private boolean showReloadErrors;
+    private boolean showReloadWarnings;
     private boolean generateLanguageFiles;
     private boolean coloredConsole;
     private boolean generateExamples;
@@ -63,32 +64,24 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     private Delay autoSave;
     private Delay worldLoadTimeout;
     private Delay playerCacheDuration;
-
     // Modules
     private Set<Module> disabledModules;
-
     // Mobs
     private String playerSlainMessage;
-
     // Holograms
     private int hologramViewDistance;
     private HologramProvider preferredHologramProvider;
     private HologramStyle defaultHologramStyle;
     private Map<String, HologramStyle> hologramStyles;
-
-    // Noise
-    private final NamespacedKey wandKey;
-    public int guiReopenDelay = 40;
     private Set<Material> structureBlacklist;
     private ItemStack structureWand;
-    private Set<String> functionNames;
 
     public Settings(EnhancedPlugin plugin) {
         this.plugin = plugin;
         this.wandKey = plugin.getNamespacedKey("wand");
-        this.gameplaySettings = new SimpleGameplaySettings();
+        this.gameplaySettings = new SimpleGameplaySettings(plugin);
         this.dropSettings = new SimpleDropSettings();
-        this.itemSettings = new SimpleItemSettings();
+        this.itemSettings = new SimpleItemSettings(plugin);
         this.statSettings = new SimpleStatSettings(plugin);
         this.placeholderSettings = new SimplePlaceholderSettings();
     }
@@ -113,6 +106,10 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
                 }
 
                 for (String shortcut : argSection.getKeys()) {
+                    if (configShortcuts.containsKey(shortcut)) {
+                        config.collectError(new InvalidConfigException(config, key, "Duplicate shortcut found with name: " + shortcut));
+                    }
+
                     String value = argSection.getString(shortcut).withDefault(null);
                     if (value != null) {
                         configShortcuts.put(shortcut, value);
@@ -130,6 +127,9 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
 
         showReloadErrors = config.getBoolean("show-reload-errors")
                 .withDefault(true);
+
+        showReloadWarnings = config.getBoolean("show-reload-warnings")
+                .withDefault(false);
 
         generateLanguageFiles = config.getBoolean("generate-language-files")
                 .withDefault(false);
@@ -151,7 +151,7 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
 
         languageFileName = config.getString("language")
                 .require(Requirements.minLength(1))
-                .map(fileName -> fileName + ".yml")
+                .mapIfValid(fileName -> fileName + ".yml")
                 .withDefault("languages/en.yml");
 
         autoSave = config.get("auto-save", Delay.class)
@@ -168,7 +168,7 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
                 .withDefault(List.of()));
 
         // Mob settings
-        playerSlainMessage = config.getString("player-slain-message", ColorUtil.FORMATTER)
+        playerSlainMessage = config.getString("player-slain-message")
                 .withDefault(ChatColor.RED + "{player_tc} was killed by a {mob_tc}");
 
         hologramViewDistance = config.getInteger("hologram-view-distance")
@@ -192,7 +192,7 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
         }
 
         structureBlacklist = config.getList("structure-blacklist", Material.class)
-                .map(HashSet::new)
+                .mapIfValid(HashSet::new)
                 .withDefault(new HashSet<>());
 
         {
@@ -205,14 +205,6 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
                 structureWand.setItemMeta(meta);
             } else {
                 config.collectError(new InvalidConfigException(config, "structure-wand.type", "item does not support item meta"));
-            }
-        }
-
-        functionNames = new HashSet<>();
-        for (File file : plugin.getFiles("functions")) {
-            ConfigSection functionConfig = YamlConfig.loadSectionOrEmpty(file);
-            for (String key : functionConfig.getKeys()) {
-                functionNames.add(CaseFormatter.toSnakeCase(key));
             }
         }
 
@@ -239,6 +231,10 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
 
     public boolean isShowReloadErrors() {
         return showReloadErrors;
+    }
+
+    public boolean isShowReloadWarnings() {
+        return showReloadWarnings;
     }
 
     public boolean isGenerateLanguageFiles() {
@@ -355,10 +351,6 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
         configShortcuts.forEach(field::replaceAll);
     }
 
-    public @NotNull Set<String> getFunctionNames() {
-        return functionNames;
-    }
-
     @Override
     public boolean isShowDeathMessages() {
         return gameplaySettings.isShowDeathMessages();
@@ -427,6 +419,11 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     @Override
     public @NotNull Delay getEggLayDelay() {
         return gameplaySettings.getEggLayDelay();
+    }
+
+    @Override
+    public @Nullable Function getOnPlayerDamageEntity() {
+        return gameplaySettings.getOnPlayerDamageEntity();
     }
 
     @Override
@@ -625,11 +622,6 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     }
 
     @Override
-    public double getSharpnessDamageDebuff(@NotNull ItemStack item) {
-        return statSettings.getSharpnessDamageDebuff(item);
-    }
-
-    @Override
     public boolean isEfficiencyEnchantAsStat() {
         return statSettings.isEfficiencyEnchantAsStat();
     }
@@ -665,18 +657,23 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     }
 
     @Override
-    public boolean isItemRarity(@NotNull String rarity) {
-        return itemSettings.isItemRarity(rarity);
+    public @NotNull List<String> getDefaultItemLore() {
+        return itemSettings.getDefaultItemLore();
     }
 
     @Override
-    public @Nullable String getDefaultItemRarity() {
-        return itemSettings.getDefaultItemRarity();
+    public @NotNull String getDefaultDescriptionColor() {
+        return itemSettings.getDefaultDescriptionColor();
     }
 
     @Override
-    public @Nullable String getItemRarityDisplay(@NotNull String name) {
-        return itemSettings.getItemRarityDisplay(name);
+    public @NotNull List<String> getDescriptionHeader() {
+        return itemSettings.getDescriptionHeader();
+    }
+
+    @Override
+    public @NotNull List<String> getDescriptionFooter() {
+        return itemSettings.getDescriptionFooter();
     }
 
     @Override
@@ -745,28 +742,48 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     }
 
     @Override
-    public @NotNull List<String> getAbilityDescriptionFormat() {
-        return itemSettings.getAbilityDescriptionFormat();
+    public @NotNull List<String> getAbilityDescriptionTemplate() {
+        return itemSettings.getAbilityDescriptionTemplate();
     }
 
     @Override
-    public @NotNull List<String> getLorePartsHeader() {
-        return itemSettings.getLorePartsHeader();
+    public boolean isItemRarity(@NotNull String rarity) {
+        return itemSettings.isItemRarity(rarity);
     }
 
     @Override
-    public @NotNull List<String> getLorePartsFooter() {
-        return itemSettings.getLorePartsFooter();
+    public @Nullable String getDefaultItemRarity() {
+        return itemSettings.getDefaultItemRarity();
     }
 
     @Override
-    public @NotNull String getLoreFormat() {
-        return itemSettings.getLoreFormat();
+    public @Nullable String getItemRarityDisplay(@NotNull String name) {
+        return itemSettings.getItemRarityDisplay(name);
     }
 
     @Override
-    public @NotNull List<String> getDefaultItemLore() {
-        return itemSettings.getDefaultItemLore();
+    public @NotNull List<String> getItemRarityDescription(@NotNull String name) {
+        return itemSettings.getItemRarityDescription(name);
+    }
+
+    @Override
+    public @NotNull String getDefaultItemName() {
+        return itemSettings.getDefaultItemName();
+    }
+
+    @Override
+    public @Nullable String getItemNameByRarity(@NotNull String name) {
+        return itemSettings.getItemNameByRarity(name);
+    }
+
+    @Override
+    public @NotNull List<String> getRarityHeader() {
+        return itemSettings.getRarityHeader();
+    }
+
+    @Override
+    public @NotNull List<String> getRarityFooter() {
+        return itemSettings.getRarityFooter();
     }
 
     @Override
@@ -780,13 +797,23 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     }
 
     @Override
+    public @NotNull Set<BreakingPower> getBreakingPowers() {
+        return itemSettings.getBreakingPowers();
+    }
+
+    @Override
     public @Nullable BlockBreakingPower getBlockBreakingPower(@NotNull Block block) {
         return itemSettings.getBlockBreakingPower(block);
     }
 
     @Override
-    public @NotNull Set<BreakingPower> getBreakingPowers() {
-        return itemSettings.getBreakingPowers();
+    public @NotNull List<String> getBreakingPowerHeader() {
+        return itemSettings.getBreakingPowerHeader();
+    }
+
+    @Override
+    public @NotNull List<String> getBreakingPowerFooter() {
+        return itemSettings.getBreakingPowerFooter();
     }
 
     @Override

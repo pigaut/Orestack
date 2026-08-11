@@ -8,4 +8,6 @@ public interface PlayerDataRepository<T extends PlayerData> {
 
     void saveData(@NotNull T playerData);
 
+    void clearData(@NotNull T playerData);
+
 }

@@ -1,6 +1,6 @@
 package io.github.pigaut.rpg.settings;
 
-import io.github.pigaut.rpg.core.tools.*;
+import io.github.pigaut.rpg.module.generator.tool.*;
 import io.github.pigaut.rpg.module.skill.exp.*;
 import io.github.pigaut.rpg.module.structure.health.*;
 import io.github.pigaut.rpg.bukkit.*;
@@ -28,7 +28,6 @@ public class RpgSettings extends Settings {
     private boolean restoreOriginalBlocksOnRemove;
 
     // Generator settings
-    private ItemStack generatorTool;
     private Amount defaultToolDamage;
     private int generatorClickCooldown;
     private int generatorHitCooldown;
@@ -40,7 +39,6 @@ public class RpgSettings extends Settings {
     private Map<Integer, Integer> veinSizeByLevel;
 
     // Gate settings
-    private ItemStack gateTool;
     private int gateClickCooldown;
 
     // Collections settings
@@ -51,6 +49,7 @@ public class RpgSettings extends Settings {
     private int defaultMaxLevel;
     private Expression defaultExpFormula;
     private Function defaultOnExpEarn;
+    private Function defaultOnSkillLevelUp;
     private Map<String, ExpAmount> expEarningActivities;
     private ProgressBar skillProgressBar;
 
@@ -79,10 +78,6 @@ public class RpgSettings extends Settings {
                 .withDefault(true);
 
         // Generator settings
-        generatorTool = config.get("generator-tool", ItemStack.class)
-                .require(ItemUtil::isNotAir, "Item type cannot be air")
-                .withDefault(GeneratorTool.getItemTemplate());
-
         defaultToolDamage = config.get("default-tool-durability-damage|default-tool-damage", Amount.class)
                 .withDefault(Amount.ONE);
 
@@ -121,10 +116,6 @@ public class RpgSettings extends Settings {
         }
 
         // Gate settings
-        gateTool = config.get("gate-tool", ItemStack.class)
-                .require(ItemUtil::isNotAir, "Item type cannot be air")
-                .withDefault(GateTool.getItemTemplate());
-
         gateClickCooldown = config.getInteger("gate-click-cooldown")
                 .require(Requirements.positive())
                 .withDefault(4);
@@ -158,8 +149,11 @@ public class RpgSettings extends Settings {
         defaultOnExpEarn = config.get("default-skill-settings.on-exp-earn", Function.class)
                 .withDefault(null);
 
+        defaultOnSkillLevelUp = config.get("default-skill-settings.on-level-up", Function.class)
+                .withDefault(null);
+
         expEarningActivities = new HashMap<>();
-        for (KeyedScalar scalar : config.getNestedScalars("exp-earning-activities")) {
+        for (KeyedScalar scalar : config.getSectionOrEmpty("exp-earning-activities").getNestedScalars()) {
             ConfigLine line = scalar.toLine();
             String name = scalar.getKey();
             ExpAmount expAmount = line.get(ExpAmount.class)
@@ -198,7 +192,7 @@ public class RpgSettings extends Settings {
         reducedCooldownDamage = config.getBoolean("reduced-cooldown-damage")
                 .withDefault(true);
 
-        damageByTool = config.getList("damage-by-tool-type", ToolDamage.class)
+        damageByTool = config.getList("structure-damage", ToolDamage.class)
                 .withDefault(List.of());
 
         return config;
@@ -210,15 +204,6 @@ public class RpgSettings extends Settings {
 
     public boolean isRestoreBlocksOnRemove() {
         return restoreOriginalBlocksOnRemove;
-    }
-
-    @NotNull
-    public ItemStack getGeneratorTool() {
-        return generatorTool.clone();
-    }
-
-    public ItemStack getGateTool() {
-        return gateTool.clone();
     }
 
     public int getGateClickCooldown() {
@@ -322,6 +307,10 @@ public class RpgSettings extends Settings {
 
     public @Nullable Function getDefaultOnExpEarn() {
         return defaultOnExpEarn;
+    }
+
+    public @Nullable Function getDefaultOnSkillLevelUp() {
+        return defaultOnSkillLevelUp;
     }
 
     public @Nullable ExpAmount getExpEarningActivity(@NotNull String name) {

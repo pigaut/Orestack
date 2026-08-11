@@ -121,7 +121,7 @@ public class YieldFunctionLoader<C extends Function & YieldFunction<R>, R> imple
             }
 
             Function defaultCase = section.get("default", functionType).withDefault(null);
-            function = new SwitchFunction(cases.toArray(new SwitchCase[0]), defaultCase);
+            function = new SwitchFunction(name, group, cases.toArray(new SwitchCase[0]), defaultCase);
         }
         else {
             throw new InvalidConfigException(section, "Function doesn't contain any valid statement");
@@ -132,7 +132,21 @@ public class YieldFunctionLoader<C extends Function & YieldFunction<R>, R> imple
 
     @Override
     public @NotNull C loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigException {
-        return wrap(sequence.getRequired(Function.class));
+        String name = StringUtil.randomName();
+        String group = null;
+        if (!sequence.isRoot() && sequence.getParent() instanceof ConfigRoot root) {
+            name = sequence.getKey();
+            group = Group.byFunctionFile(root.getFile());
+        }
+
+        List<C> functions = sequence.getAllRequired(functionType);
+        if (functions.isEmpty()) {
+            return wrap(Function.EMPTY);
+        }
+        if (functions.size() == 1) {
+            return functions.get(0);
+        }
+        return wrap(new MultiFunction(name, group, new ArrayList<>(functions)));
     }
 
 }

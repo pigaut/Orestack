@@ -1,6 +1,7 @@
 package io.github.pigaut.rpg.module.function.action.player;
 
 import io.github.pigaut.rpg.bukkit.*;
+import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.amount.*;
@@ -26,6 +27,11 @@ public class GiveExpToPlayer implements PlayerToolAction {
         if (experience) {
             double expMultiplier = plugin.getSettings().getExperienceMultiplier(tool).doubleValue();
             totalExp = totalExp.transform(amount -> amount * expMultiplier);
+        }
+
+        if (plugin.getSettings().isStats()) {
+            PlayerState playerState = plugin.getPlayerState(player);
+            totalExp.transform(amount -> amount * playerState.getExpGainMultiplier());
         }
 
         player.giveExp(totalExp.intValue());

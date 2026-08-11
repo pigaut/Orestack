@@ -109,6 +109,10 @@ public class Skill {
         return template.getBlockBreakExp();
     }
 
+    public @Nullable ExpYieldFunction getEntityKillExp() {
+        return template.getEntityKillExp();
+    }
+
     public @Nullable ExpYieldFunction getEggCollectExp() {
         return template.getEggCollectExp();
     }

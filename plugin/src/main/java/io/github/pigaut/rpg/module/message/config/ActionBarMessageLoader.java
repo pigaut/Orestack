@@ -26,7 +26,7 @@ public class ActionBarMessageLoader implements ConfigLoader<ActionBarMessage> {
     public @NotNull ActionBarMessage loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
         String name = section.getKey();
         String group = Group.byMessageFile(section.getRoot().getFile());
-        String actionbar = section.getRequiredString("actionbar|action-bar", ColorUtil.FORMATTER);
+        String actionbar = section.getRequiredString("actionbar|action-bar");
         BarAlignment statusBarAlign = section.get("align", BarAlignment.class).withDefault(null);
         return new ActionBarMessage(plugin, name, group, actionbar, statusBarAlign);
     }

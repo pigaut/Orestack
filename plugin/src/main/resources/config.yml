@@ -1,14 +1,17 @@
 
 
-#░░░█▀█░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░█░█░░░█▀▀░█▀█░█▀█░█▀▀░▀█▀░█▀▀░░░░
-#░░░█░█░█▀▄░█▀▀░▀▀█░░█░░█▀█░█░░░█▀▄░░░█░░░█░█░█░█░█▀▀░░█░░█░█░░░░
-#░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░░▀░░▀░▀░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀░░░▀▀▀░▀▀▀░░░░
+#░░░█▀▄░█▀█░█▀▀░░░░░█▄█░█▀█░█░█░█▀▀░█▀▄░░░█▀▀░█▀█░█▀█░█▀▀░▀█▀░█▀▀░░░░
+#░░░█▀▄░█▀▀░█░█░▄▄▄░█░█░█▀█░█▀▄░█▀▀░█▀▄░░░█░░░█░█░█░█░█▀▀░░█░░█░█░░░░
+#░░░▀░▀░▀░░░▀▀▀░░░░░▀░▀░▀░▀░▀░▀░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀░░░▀▀▀░▀▀▀░░░░
 
 # Whether to automatically add missing options to this config file.
 keep-file-up-to-date: true
 
-# Whether to show config errors in chat when a player uses /orestack reload
+# Whether to show config errors in chat when a player uses /rpg reload
 show-reload-errors: true
+
+# Whether to show config warnings in chat when a player uses /rpg reload
+show-reload-warnings: false
 
 # Print the stacktrace of configuration errors for development
 debug: false
@@ -80,59 +83,74 @@ structure-wand:
 # Whether shortcuts should be enabled
 shortcuts: true
 
+# Color code and hex shortcuts
+color-config-shortcuts:
+  '&0': '§0'
+  '&1': '§1'
+  '&2': '§2'
+  '&3': '§3'
+  '&4': '§4'
+  '&5': '§5'
+  '&6': '§6'
+  '&7': '§7'
+  '&8': '§8'
+  '&9': '§9'
+  '&a': '§a'
+  '&b': '§b'
+  '&c': '§c'
+  '&d': '§d'
+  '&e': '§e'
+  '&f': '§f'
+  '&k': '§k'
+  '&l': '§l'
+  '&m': '§m'
+  '&n': '§n'
+  '&o': '§o'
+  '&r': '§r'
+# How to convert hex #22B573 to color codes?
+#   # -> §x
+#   2 -> §2
+#   2 -> §2
+#   B -> §b
+#   5 -> §5
+#   7 -> §7
+#   3 -> §3
+  '&emerald': '§x§2§2§b§5§7§3' # Result: §x + §2 + §2 + §b + §5 + §7 + §3
+  '&diamond': '§x§5§d§d§9§d§9'
+  '&gold': '§x§f§2§c§1§4§d'
+  '&iron': '§x§c§8§c§8§c§8'
+  '&copper': '§x§b§8§7§3§3§3'
+  '&redstone': '§x§d§0§0§0§0§0'
+  '&lapis': '§x§1§d§3§b§8§b'
+  '&podzol': '§x§7§b§3§f§0§0'
+
 # Generic shortcuts, that do not belong to any module.
 generic-config-shortcuts:
-  # Stars
   $star: ★
   $star-outline: ☆
   $sparkle: ✦
   $sparkle-outline: ✧
-
-  # Arrows
   $arrow-right: ➜
   $arrow-left: ⬅
   $arrow-up: ⬆
   $arrow-down: ⬇
   $arrow-double: »
-
-  # Status / feedback
   $check: ✔
   $cross: ✘
   $warning: ⚠
   $info: ℹ
-
-  # Combat / stats
-  $heart: '❤'
-  $protect: '❈'
-  $pencil: '✎'
-  $clover: '☘'
-  $power: '❁'
-  $pickaxe: '⛏'
-  $sword: ⚔
-  $shield: 🛡
-  $skull: ☠
-  $bolt: ⚡
-  $droplet: 💧
-
-  # Currency / economy
   $coin: ⛁
   $gem: ♦
-
-  # Bullets & separators
   $bullet: •
   $dot: ·
   $divider: ─
   $divider-bold: ━
   $pipe: │
-
-  # Brackets / decorative
   $corner-left: ❮
   $corner-right: ❯
   $diamond: ◆
   $square: ■
   $circle: ●
-
-  # Misc useful symbols
   $infinity: ∞
   $degree: °
   $copyright: ©
@@ -212,16 +230,42 @@ custom-egg-laying: true
 # How many eggs and how frequently a chicken should lay eggs
 egg-laying: 1 egg every 20-40s
 
+# Triggered when a player damages an entity
+on-player-damage-entity:
+  - sendHologram &c-{damage}$heart offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=0.5s
+
 
 #░░░█▀▀░▀█▀░█▀█░▀█▀░█▀▀░░░░
 #░░░▀▀█░░█░░█▀█░░█░░▀▀█░░░░
 #░░░▀▀▀░░▀░░▀░▀░░▀░░▀▀▀░░░░
 
+# Stat shortcuts, can be used in any config file
+stats-config-shortcuts:
+  $heart: ❤
+  $speed: ✦
+  $protection: ❈
+  $wisdom: ✎
+  $power: ❁
+  $skull: ☠
+  $ferocity: ⫽
+  $arthropod: Ж
+  $undead: ༕
+  $ender: ⊙
+  $shield: 🛡
+  $bone: 🦴
+  $bolt: ⚡
+  $droplet: 💧
+  $clover: ☘
+  $balance: ☯
+  $passive: ☮
+  $soul: ⸎
+  $flower: ✿
+
 # Whether to use the actionbar to show the status bar (health, defense, mana)
 show-status-bar: true
 
 # The status bar to show to the player
-status-bar: '&c{player_health}/{player_max_health}$health    &a{player_defense}$defense    &b{player_mana}/{player_max_mana}$mana  '
+status-bar: '&c{player_health}/{player_max_health}$health     &a{player_defense}$defense     &b{player_mana}/{player_max_mana}$mana  '
 
 # Whether action bar messages should be inserted into the status bar. Otherwise, the message will replace the status bar.
 insert-messages-in-status-bar: true
@@ -240,8 +284,9 @@ base-stats:
   max-mana: 100
   health-regen: 3
   mana-regen: 2
-  crit-damage: 50%
-  crit-chance: 30%
+  crit-damage: 150%
+  crit-chance: 15%
+  exp-gain: 100%
   mining_fortune: 0
   farming_fortune: 0
   foraging_fortune: 0
@@ -255,7 +300,8 @@ custom-stats:
     base: 0 # The base level
     stats: # Custom stats work by incrementing other base stats
       damage: +1 every 5 levels
-      crit-damage: +1% every 1 level
+      defense: +1 every 5 levels
+      crit-damage: +1% every 5 levels
       crit-chance: +0.1% every 1 level
 
   intelligence:
@@ -263,6 +309,16 @@ custom-stats:
     stats:
       max-mana: +1 every 1 level
       mana-regen: +1 every 50 levels
+
+  digging_speed:
+    base: 0
+    stats:
+      mining_speed: +1 every 1 level
+
+  chopping_speed:
+    base: 0
+    stats:
+      mining_speed: +1 every 1 level
 
 
 #░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░█▀▀░▀█▀░█▀█░▀█▀░█▀▀░░░░
@@ -275,32 +331,34 @@ sharpness-enchant-as-stat: true
 
 # The damage multiplier by sharpness enchant level.
 damage-multiplier-by-sharpness-enchant-level:
-  1: 5%
-  2: 10%
-  3: 15%
-  4: 20%
-  5: 30%
+  1: 105%
+  2: 110%
+  3: 115%
+  4: 120%
+  5: 130%
+  6: 135%
+  7: 140%
 
 # Whether the efficiency enchant should be treated as a stat increment.
 efficiency-enchant-as-stat: true
 
 # Set the Mining Speed amount gained by the items efficiency enchant level.
 mining-speed-by-efficiency-enchant-level:
-  1: 20
-  2: 40
-  3: 60
-  4: 80
-  5: 100
+  1: +20
+  2: +40
+  3: +60
+  4: +80
+  5: +100
 
 # Whether the fortune enchant should be treated as a stat increment.
 fortune-enchant-as-stat: true
 
 # Set the Mining Fortune amount gained by the items fortune enchant level.
 mining-fortune-by-fortune-enchant-level:
-  1: 30
-  2: 60
-  3: 90
-  4: 120
+  1: +30
+  2: +60
+  3: +90
+  4: +120
 
 
 #░░░█▀▀░█░█░▀█▀░█░░░█░░░█▀▀░░░░
@@ -318,6 +376,9 @@ default-skill-settings:
   # The function triggered when a player earns exp for any skill
   on-exp-earn:
     - sendActionBar &a+{exp} {skill_tc} exp
+
+  on-level-up:
+    - sendSkillLevelUpMessage # Found in functions/utils/MessageUtil.yml
 
 # The default skill progress bar for some placeholders
 skill-progress-bar: line
@@ -344,7 +405,7 @@ skill-config-shortcuts:
 # |  wheat farm that regrows 1-3 every few seconds  |   common   |
 # |     diamond ores placed scarcely in a cave      |    epic    |
 
-# Exp earnings per activity duration (Different factors affect duration: walk distance, regrowth/respawn rate, etc...)
+# Exp earnings per activity duration (Duration: mining speed, walk distance, regrowth/respawn rate, etc...)
 # |    Name    |       Duration      | exp/sec | reach lvl 100 | bonus |
 # |    basic   |        instant      |  2.00   |  138.8+ hours |  +0%  |
 # |   common   |      <1 second      |  2.00   |  138.8 hours  |  +0%  |
@@ -396,16 +457,6 @@ generator-hit-cooldown: 3
 # The default delay in ticks between each harvest attempt (right-click), it can be overridden in the generator phase.
 generator-harvest-cooldown: 3
 
-# The generator item used to place and break generators (admin tool)
-generator-tool:
-  material: terracotta # Replaced by the last phase block
-  name: '&b&l{generator_tc} Generator ({generator_tool_rotation_tc})'
-  glow: true
-  lore:
-    - '&fright-click to place'
-    - '&fleft-click to break'
-    - '&fshift + left-click (air) to rotate'
-
 
 #░░░█░█░█▀▀░▀█▀░█▀█░░░░░█▄█░▀█▀░█▀█░█▀▀░█▀▄░░░█▀▀░█▀▀░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█▀█░█▀▄░█▀▀░░░░
 #░░░▀▄▀░█▀▀░░█░░█░█░▄▄▄░█░█░░█░░█░█░█▀▀░█▀▄░░░█░█░█▀▀░█░█░█▀▀░█▀▄░█▀█░░█░░█░█░█▀▄░▀▀█░░░░
@@ -429,7 +480,7 @@ vein-generators:
   - gold
   - diamond
   - emerald
-# - copper   # 1.17+
+  - copper # 1.17+
 
 # How many blocks are broken based on the enchant level.
 vein-size-by-level:
@@ -465,16 +516,6 @@ per-player-generators-barrier-layouts:
 # The default delay in ticks between each click, it can be overridden in each gate phase.
 gate-click-cooldown: 3
 
-# The gate item used to place and break gates (admin tool)
-gate-tool:
-  material: terracotta   # Replaced by the last phase block
-  name: '&b&l{gate_tc} Gate ({gate_tool_rotation_tc})'
-  glow: true
-  lore:
-    - '&fright-click to place'
-    - '&fleft-click to break'
-    - '&fshift + left-click (air) to rotate'
-
 
 #░░░█▄█░█▀█░█▀▄░█▀▀░░░░
 #░░░█░█░█░█░█▀▄░▀▀█░░░░
@@ -490,36 +531,45 @@ player-slain-message: '&c{player_tc} was killed by a {mob_name_tc}'
 
 # Default lore generation (Useful to avoid writing lore manually)
 default-item-lore:
-  header: [] # The header before some lore parts
-  footer: [''] # The footer after some lore parts
-  color: '&7' # The default lore color/format
-  parts:
-    - '{item_breaking_power}'
-    - '{item_description}' # Headers and footers will be added automatically if configured.
-    - '{item_stats}' # Stats, Enchants and abilities use their custom headers, footers, and dividers.
-    - '{item_enchants}'
-    - '{item_abilities}' # Try adding indentation or characters before/after the placeholder!
-    - '{item_rarity}' # The last element will not have a footer
+  - '{item_breaking_power}'
+  - '{item_stats}'
+  - '{item_description}'
+  - '{item_enchants}'
+  - '{item_abilities}'
+  - '{item_rarity}'
 
-# Settings for the {item_abilities} placeholder
-ability-descriptions:
-  header: [] # The header before the abilities
-  divider: [''] # The divider between abilities
-  footer: [''] # The footer after the abilities
-  format:
-    - '&6Ability: {name} &e&l{trigger_spu}' # spu = SPACED UPPERCASE
-    - '&7{description}'
-    - '&8Mana Cost: &b{mana_cost}$pencil'
+# The header before an item placeholder
+item-placeholder-headers: {}
 
-# Settings for the {item_stats} placeholders
+# The divider for an item placeholder that has multiples elements: enchants, abilities, stats
+item-placeholder-dividers:
+  item_enchants: ['']
+  item_abilities: ['']
+
+# The footer after an item placeholder
+item-placeholder-footers:
+  item_breaking_power: ['']
+  item_stats: ['']
+  item_description: ['']
+  item_enchants: ['']
+  item_abilities: ['']
+
+# The max elements before compression strategies are applied.
+# Compression strategies: 1. Remove divider, 2. Remove extra description lines, 3. Inline multiple elements
+item-placeholder-max-lines:
+  item_stats: 10
+  item_enchants: 10
+
+# The default name when the item has no display name or rarity set
+default-item-name: '&f{item_name_tc}'
+
+# The default description color/formatting
+default-description-color: '&7'
+
+# Stat descriptions used by {item_stats}
 stat-descriptions:
-  header: [] # The header before the stats
-  divider: [] # The divider between stats
-  footer: [''] # The footer after the stats
-  max-lines: 10
   default: ['&7{stat_name_tc}: &a+{stat_level}']
-
-  # Stat descriptions in order:
+  # Base stats:
   damage: ['&7Damage: &c+{item_stat:damage}']
   defense: ['&7Defense: &a+{item_stat:defense}']
   max_health: ['&7Health: &a+{item_stat:max_health}']
@@ -528,103 +578,285 @@ stat-descriptions:
   mana_regen: ['&7Mana Regen: &b+{item_stat:mana_regen}/1 sec']
   crit_damage: ['&7Crit Damage: &a+{item_stat:crit_damage}%']
   crit_chance: ['&7Crit Chance: &a+{item_stat:crit_chance}%']
+  exp-gain: ['&7Exp Gain: &e+{item_stat:exp_gain}%']
   mining_fortune: ['&7Mining Fortune: &a+{item_stat:mining_fortune}']
   farming_fortune: ['&7Farming Fortune: &a+{item_stat:farming_fortune}']
   foraging_fortune: ['&7Foraging Fortune: &a+{item_stat:foraging_fortune}']
   movement_speed: ['&7Speed: &a+{item_stat:movement_speed}']
   attack_speed: ['&7Attack Speed: &a+{item_stat:attack_speed}']
   mining_speed: ['&7Mining Speed: &a+{item_stat:mining_speed}']
-  intelligence: ['&7Intelligence: &a+{item_stat:intelligence}'] # Custom stat
-  strength: ['&7Strength: &c+{item_stat:strength}'] # Custom stat
+  # Custom stats:
+  intelligence: ['&7Intelligence: &a+{item_stat:intelligence}']
+  strength: ['&7Strength: &c+{item_stat:strength}']
+  digging-speed: ['&7Digging Speed: &a+{item_stat:digging_speed}']
+  chopping-speed: ['&7Chopping Speed: &a+{item_stat:chopping_speed}']
 
+# Settings for the {item_abilities} placeholder
+# Add your own placeholders: {name}, {trigger}, {description}, {mana-cost}, {cooldown}, {anything_you_want}, etc...
+ability-description-template:
+  - '&6Ability: {name} &e&l{trigger_spu}' # spu = SPACED UPPERCASE
+  - '&7{description}'
+  - '&8Mana Cost: &b{mana_cost}$mana'
+  - '&8Cooldown: &a{cooldown}'
 
-# Settings for the {item_enchants} placeholder
+# Whether breaking blocks should require breaking power
+use-breaking-power: true
+
+# The default player breaking power with no tool
+default-breaking-power: 1 # Set to 0 and players will not be able to mine anything without a proper tool
+
+# Item breaking powers and block power requirements, and display for {item_breaking_power} placeholder
+# Breaking power is a number starting at 1 (Anything can mine it) and each level beyond requires a more powerful tool.
+breaking-powers:
+  mining-power:
+    display: '&8Mining Power {amount_rm}'
+    # Triggered when the player tool does not have mining power
+    on-wrong-tool: # Placeholders: {tool_breaking_power}, {block_breaking_power}
+      - sendChat &cYou need a pickaxe to mine ores
+    # Triggered when the player tool doesn't have enough breaking power
+    on-insufficient-power: # Placeholders: {tool_breaking_power}, {block_breaking_power}
+      - sendChat &cYou need a pickaxe with &8Mining Power {block_mining_power_rm} &cto mine this ore
+    block-requirements:
+      coal_ore: 1 power
+      copper_ore: 2 power
+      gold_ore: 3 power
+      iron_ore: 3 power
+      diamond_ore: 4 power
+      emerald_ore: 5 power
+      ancient-debris: 5 power
+      items-adder:ruby_ore: 6 power # items-adder (ia), nexo (nx), craft-engine (ce)
+
+  chopping-power:
+    display: '&8Chopping Power {amount_rm}'
+    on-wrong-tool:
+      - sendChat &cYou need an axe to chop wood
+    on-insufficient-power:
+      - sendChat &cYou need an axe with &8Chopping Power {tool_chopping_power_rm} &cto chop this tree
+    block-requirements:
+      # Breaking power of 1 means any tool or empty hand can mine it.
+      raw_oak: 1 power # raw_oak includes: oak_log, oak_wood
+      raw_birch: 2 power
+      raw_spruce: 2 power
+
+  digging-power:
+    display: '&8Digging Power {amount_rm}'
+    on-wrong-tool:
+      - sendChat &cYou need a shovel to dig blocks
+    on-insufficient-power:
+      - sendChat &cYou need a shovel with &8Digging Power {tool_digging_power_rm} &cto dig this block
+    block-requirements:
+      sand: 2 power
+      red_sand: 3 power
+
+# Enchant descriptions used by {item_enchants} placeholder
 enchant-descriptions:
-  header: [] # The header before the enchants
-  divider: [''] # The divider between enchants
-  footer: [''] # The footer after the enchants
-  max-lines: 10 # The lore lines enchants should take up (If surpassed: 1° divider is removed, 2° description is removed, 3° multiple enchants per line)
-
-  # The default enchant description
   default:
-    - '&9{enchant_name_tc} {enchant_level_rm}'   # tc: Title Case, rm: Roman Numerals (IV)
+    - '&9{enchant_name_tc} {enchant_level_rm}' # tc: Title Case, rm: Roman Numerals (IV)
   sharpness:
     - '&9Sharpness {enchant_level_rm}'
     - '&7Increases melee damage dealt by &a{item_enchant_damage}%'
+  smite:
+    - '&9Smite {enchant_level_rm}'
+    - '&7Increases melee damage dealt to &e$undead Undead'
+  bane_of_arthropods:
+    - '&9Bane of Arthropods {enchant_level_rm}'
+    - '&7Increases melee damage dealt to &e$arthropod Arthropods'
+  knockback:
+    - '&9Knockback {enchant_level_rm}'
+    - '&7Increases knockback dealt to enemies on hit'
+  fire_aspect:
+    - '&9Fire Aspect {enchant_level_rm}'
+    - '&7Sets target on fire when hit'
+  looting:
+    - '&9Looting {enchant_level_rm}'
+    - '&7Increases mob loot drops by &a+{item_enchant_looting}'
+  sweeping_edge:
+    - '&9Sweeping Edge {enchant_level_rm}'
+    - '&7Increases damage dealt by sweep attacks'
+  protection:
+    - '&9Protection {enchant_level_rm}'
+    - '&7Reduces most damage taken from any source'
+  fire_protection:
+    - '&9Fire Protection {enchant_level_rm}'
+    - '&7Reduces damage taken from fire'
+  blast_protection:
+    - '&9Blast Protection {enchant_level_rm}'
+    - '&7Reduces damage and knockback taken from explosions'
+  projectile_protection:
+    - '&9Projectile Protection {enchant_level_rm}'
+    - '&7Reduces damage taken from projectiles'
+  thorns:
+    - '&9Thorns {enchant_level_rm}'
+    - '&7Chance to reflect melee damage back to the attacker'
+  respiration:
+    - '&9Respiration {enchant_level_rm}'
+    - '&7Extends underwater breathing time and reduces drowning damage'
+  aqua_affinity:
+    - '&9Aqua Affinity'
+    - '&7Restores normal underwater mining speed'
+  feather_falling:
+    - '&9Feather Falling {enchant_level_rm}'
+    - '&7Reduces damage taken from falling'
+  depth_strider:
+    - '&9Depth Strider {enchant_level_rm}'
+    - '&7Increases underwater movement speed'
+  frost_walker:
+    - '&9Frost Walker {enchant_level_rm}'
+    - '&7Freezes water into ice beneath your feet as you walk'
+  soul_speed:
+    - '&9Soul Speed {enchant_level_rm}'
+    - '&7Increases movement speed on soul sand and soul soil'
+  swift_sneak:
+    - '&9Swift Sneak {enchant_level_rm}'
+    - '&7Increases movement speed while sneaking'
+  power:
+    - '&9Power {enchant_level_rm}'
+    - '&7Increases arrow damage'
+  punch:
+    - '&9Punch {enchant_level_rm}'
+    - '&7Increases arrow knockback on hit'
+  flame:
+    - '&9Flame'
+    - '&7Sets arrows on fire, igniting the target on hit'
+  infinity:
+    - '&9Infinity'
+    - '&7Shooting consumes no arrows from your inventory'
+  multishot:
+    - '&9Multishot'
+    - '&7Fires 3 arrows for the cost of a single arrow'
+  piercing:
+    - '&9Piercing {enchant_level_rm}'
+    - '&7Arrows pierce through multiple entities'
+  quick_charge:
+    - '&9Quick Charge {enchant_level_rm}'
+    - '&7Decreases crossbow reload time'
+  loyalty:
+    - '&9Loyalty {enchant_level_rm}'
+    - '&7Trident returns to you after being thrown'
+  impaling:
+    - '&9Impaling {enchant_level_rm}'
+    - '&7Increases damage dealt to aquatic mobs'
+  riptide:
+    - '&9Riptide {enchant_level_rm}'
+    - '&7Launches you forward with the trident'
+    - '&7when thrown while in water or rain'
+  channeling:
+    - '&9Channeling'
+    - '&7Summons a lightning bolt on the'
+    - '&7target when it storms'
   efficiency:
     - '&9Efficiency {enchant_level_rm}'
     - '&7Grants &a+{item_enchant_mining_speed} $mining_speed'
+  silk_touch:
+    - '&9Silk Touch'
+    - '&7Mined blocks drop themselves'
+    - '&7instead of their usual items'
   fortune:
     - '&9Fortune {enchant_level_rm}'
     - '&7Grants &a+{item_enchant_mining_fortune} $mining_fortune'
   unbreaking:
     - '&9Unbreaking {enchant_level_rm}'
     - '&7Reduces durability loss'
+  mending:
+    - '&9Mending'
+    - '&7Repairs item durability using'
+    - '&7collected experience orbs'
+  luck_of_the_sea:
+    - '&9Luck of the Sea {enchant_level_rm}'
+    - '&7Increases chance of catching treasure while fishing'
+  lure:
+    - '&9Lure {enchant_level_rm}'
+    - '&7Decreases wait time for a fish to bite'
+  density:
+    - '&9Density {enchant_level_rm}'
+    - '&7Increases smash attack damage based on fall distance'
+  breach:
+    - '&9Breach {enchant_level_rm}'
+    - '&7Reduces the effectiveness of enemy armor'
+  wind_burst:
+    - '&9Wind Burst {enchant_level_rm}'
+    - '&7Launches you upward after a smash attack'
 
 
 # The default item rarity.
 default-item-rarity: common # Set to 'none' to disable
 
-# Item rarities and values for {item_rarity} placeholder
+# Item rarities and display for {item_rarity} placeholder
 item-rarities:
-  common: '&fCOMMON'
-  uncommon: '&aUNCOMMON'
-  rare: '&9RARE'
-  epic: '&dEPIC'
-  legendary: '&6LEGENDARY'
+  common:
+    display: '&f&l{name_spu}'
+    item-name: '&f{item_name_tc}'
+    variants:
+      sword: display=&f&lCOMMON SWORD itemName=&f{item_name}
+      pickaxe: default # Uses default common settings
+      axe: default
+      shovel: default
+      farming_tool: default
+      helmet: default
+      chestplate: default
+      leggings: default
+      boots: default
+      ingredient: default
 
-# Item breaking powers and block power requirements, and values for {item_breaking_power} placeholder
-# Breaking power is a number starting at 1 (Anything can mine it) and each level beyond requires a more powerful tool.
-breaking-power:
-  enabled: true
+  uncommon:
+    display: '&a&l{name_spu}'
+    item-name: '&a{item_name}'
+    variants:
+      sword: display=&a&lUNCOMMON SWORD itemName=&a{item_name}
+      pickaxe: default # Uses default uncommon settings
+      axe: default
+      shovel: default
+      farming_tool: default
+      helmet: default
+      chestplate: default
+      leggings: default
+      boots: default
+      ingredient: default
 
-  default-power: 1 # Set to 0 and players will not be able to mine anything without a proper tool
+  rare:
+    display: '&9&l{name_spu}'
+    item-name: '&9{item_name}'
+    variants:
+      sword: display=&9&lRARE SWORD itemName=&9{item_name}
+      pickaxe: default # Uses default rare settings
+      axe: default
+      shovel: default
+      farming_tool: default
+      helmet: default
+      chestplate: default
+      leggings: default
+      boots: default
+      ingredient: default
 
-  mining-power:
-    display: '&8Mining Power {amount_rm}'
+  epic:
+    display: '&d&l{name_spu}'
+    item-name: '&d{item_name}'
+    variants:
+      sword: display=&d&lEPIC SWORD itemName=&d{item_name}
+      pickaxe: default # Uses default epic settings
+      axe: default
+      shovel: default
+      farming_tool: default
+      helmet: default
+      chestplate: default
+      leggings: default
+      boots: default
+      ingredient: default
 
-    # Triggered when the player tool does not have mining power
-    on-wrong-tool:
-      - sendChat &cYou need a pickaxe to mine ores
-
-    # Triggered when the player tool doesn't have enough breaking power
-    on-insufficient-power: # Placeholders: {tool_breaking_power}, {block_breaking_power}
-      - sendChat &cYou need a pickaxe with &8{block_mining_power} Mining Power &cto mine this ore
-
-    block-requirements:
-      iron_ore: 2 power
-      gold_ore: 3 power
-      diamond_ore: 3 power
-      emerald_ore: 4 power
-      ItemsAdder:ruby_ore: 5 power # ItemsAdder, Nexo, CraftEngine
-
-  chopping-power:
-    display: '&8Chopping Power {amount_rm}'
-
-    on-wrong-tool:
-      - sendChat &cYou need an axe to chop wood
-
-    on-insufficient-power:
-      - sendChat &cYou need an axe with &8{tool_chopping_power} Chopping Power &cto chop this tree
-
-    block-requirements:
-      # Breaking power of 1 means any tool or empty hand can mine it.
-      oak: 1 power # oak includes: oak_log, oak_wood, stripped_oak_log, stripped_oak_wood.
-      birch: 2 power
-      spruce: 2 power
-
-  digging-power:
-    display: '&8Digging Power {amount_rm}'
-
-    on-wrong-tool:
-      - sendChat &cYou need a shovel to dig blocks
-
-    on-insufficient-power:
-      - sendChat &cYou need a shovel with &8{tool_digging_power} Digging Power &cto dig this block
-
-    block-requirements:
-      sand: 2 power
-      red_sand: 3 power
+  legendary:
+    display: '&6&l{name_spu}'
+    item-name: '&6{item_name}'
+    variants:
+      sword: display=&6&lLEGENDARY SWORD itemName=&6{item_name}
+      pickaxe: default # Uses default legendary settings
+      axe: default
+      shovel: default
+      farming_tool: default
+      helmet: default
+      chestplate: default
+      leggings: default
+      boots: default
+      ingredient: default
 
 
 #░░░█░█░█▀█░█░░░█▀█░█▀▀░█▀▄░█▀█░█▄█░█▀▀░░░░
@@ -641,15 +873,13 @@ hologram-view-distance: 15
 hologram-styles:
   default:
     view-distance: 15
-#   update: 3s
     see-through: false # See hologram through blocks
-    billboard: vertical # fixed, vertical, horizontal, center
+    billboard: center # fixed, vertical, horizontal, center
     alignment: center # center, left, right
-    brightness: 15 # from 0 to 15
-#   background-color: { red: 0, green: 0, blue: 0 } # Better system is coming
+    brightness: none # from 0 to 15
     scale: x=1 y=1 z=1
     shadow: none #strength=1 radius=1
-#   background-color: { red: 0, green: 0, blue: 0 } # [Text-only] Better system is coming
+#   background-color: { red: 0, green: 0, blue: 0 } # [Text-only]
 #   update: 3s   # [Text-only]
 
 
@@ -674,8 +904,8 @@ silk-touch-items:
   lapis_lazuli: lapis_ore
   quartz: nether_quartz_ore
   redstone: redstone_ore
-# raw_copper: copper_ore             # 1.17+
-# amethyst_shard: amethyst_cluster   # 1.17+
+  raw_copper: copper_ore # 1.17+
+  amethyst_shard: amethyst_cluster # 1.17+
 
 # Whether fortune should be allowed to affect item drops
 fortune: true
@@ -690,8 +920,7 @@ apply-fortune:
   - quartz
   - raw_iron
   - raw_gold
-# - raw_copper   # 1.17+
-# - dirt         # Supports any item type
+  - raw_copper # 1.17+
 
 # Whether looting enchant should be allowed to affect item drops
 looting: true
@@ -741,8 +970,8 @@ auto-smelt-aliases:
 smeltable-items:
   raw_iron: iron_ingot
   raw_gold: gold_ingot
-#  raw_copper: copper_ingot   # 1.17+
-#  dirt: diamond              # Supports any item type
+  raw_copper: copper_ingot # 1.17+
+#  dirt: diamond # Supports any item type
 
 # The chance to smelt an item based on the enchant level.
 smelt-chance-by-level:
@@ -780,7 +1009,7 @@ apply-mining-fortune:
   - quartz
   - raw_iron
   - raw_gold
-# - raw_copper   # 1.17+
+  - raw_copper # 1.17+
 
 #░░░█▀▀░█░█░█▀█░░░█▀▄░█▀▄░█▀█░█▀█░█▀▀░░░░
 #░░░█▀▀░▄▀▄░█▀▀░░░█░█░█▀▄░█░█░█▀▀░▀▀█░░░░
@@ -831,18 +1060,18 @@ efficiency-damage-multiplier-by-level:
 reduced-cooldown-damage: true
 
 # The damage amount for a block based on the tool type.
-damage-by-tool-type:
+structure-damage:
   - # ===== Ores =====
     blocks:
       - cobblestone
       - stone
       - coal_ore
-      - #- copper_ore   # 1.17+
-        iron_ore
+      - copper_ore # 1.17+
+      - iron_ore
       - gold_ore
       - diamond_ore
       - emerald_ore
-    tools:
+    damage-by-tool:
       wooden_pickaxe: 1-3
       stone_pickaxe: 2-4
       iron_axe: 3-5
@@ -852,7 +1081,7 @@ damage-by-tool-type:
 
   - # ===== Wood =====
     blocks:
-      - oak # oak tag: oak_log, oak_wood, stripped_oak_log, stripped_oak_wood.
+      - oak # oak includes: oak_log, oak_wood, stripped_oak_log, stripped_oak_wood, oak_fence, oak_door, oak_button, etc...
       - spruce
       - birch
       - jungle

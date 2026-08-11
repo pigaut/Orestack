@@ -10,7 +10,7 @@ public class OrestackMenuSubCommand extends MenuSubCommand {
     public OrestackMenuSubCommand(@NotNull RpgMakerPlugin plugin) {
         super(plugin);
         withPlayerStateExecution((player, args, placeholders) -> {
-            player.openMenu(new OrestackMenu(plugin));
+            player.openMenu(new RpgMakerMenu(plugin));
         });
     }
 

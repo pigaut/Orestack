@@ -21,10 +21,12 @@ import io.github.pigaut.rpg.module.collection.*;
 import io.github.pigaut.rpg.module.collection.template.*;
 import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.module.gate.template.*;
+import io.github.pigaut.rpg.module.gate.tool.*;
 import io.github.pigaut.rpg.module.generator.*;
 import io.github.pigaut.rpg.module.generator.global.*;
 import io.github.pigaut.rpg.module.generator.instanced.*;
 import io.github.pigaut.rpg.module.generator.template.*;
+import io.github.pigaut.rpg.module.generator.tool.*;
 import io.github.pigaut.rpg.module.skill.*;
 import io.github.pigaut.rpg.module.skill.template.*;
 import io.github.pigaut.rpg.player.data.*;
@@ -133,6 +135,8 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
 
         // Register Tools
         ToolRegistry tools = getTools();
+        tools.register("generator", new GeneratorTool(this));
+        tools.register("gate", new GateTool(this));
         tools.register("mob_spawn_pad", new MobSpawnPadTool(this));
         tools.register("mob_spawn_egg", new MobSpawnEggTool(this));
     }
@@ -169,27 +173,27 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
 
     @Override
     public @NotNull RpgPlayerState getPlayerState(@NotNull Player player) {
-        return playerStateManager.getPlayerState(player);
+        return playerStateManager.get(player);
     }
 
     @Override
     public @Nullable RpgPlayerState getPlayerState(@NotNull UUID playerId) {
-        return playerStateManager.getPlayerState(playerId);
+        return playerStateManager.get(playerId);
     }
 
     @Override
-    public @NotNull RpgPlayerDataManger getPlayersData() {
+    public @NotNull RpgPlayerDataManger getPlayerData() {
         return playerDataManger;
     }
 
     @Override
     public @NotNull RpgPlayerData getPlayerData(@NotNull Player player) {
-        return playerDataManger.getPlayerData(player);
+        return playerDataManger.get(player);
     }
 
     @Override
     public @Nullable RpgPlayerData getPlayerData(@NotNull UUID playerId) {
-        return playerDataManger.getPlayerData(playerId);
+        return playerDataManger.get(playerId);
     }
 
     @Override
@@ -204,7 +208,7 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
 
     @Override
     public void registerCommands(@NotNull CommandRegistry commands) {
-        commands.registerCommand(new OrestackCommand(this));
+        commands.registerCommand(new RpgMakerCommand(this));
     }
 
     @Override
@@ -251,10 +255,20 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
     public @Nullable String getLogo() {
         return """
                 
-                ┏━┓┏━┓┏━╸┏━┓╺┳╸┏━┓┏━╸╻┏\s
-                ┃ ┃┣┳┛┣╸ ┗━┓ ┃ ┣━┫┃  ┣┻┓
-                ┗━┛╹┗╸┗━╸┗━┛ ╹ ╹ ╹┗━╸╹ ╹""";
+                
+                ┏━┓┏━┓┏━╸   ┏┳┓┏━┓╻┏ ┏━╸┏━┓
+                ┣┳┛┣━┛┃╺┓╺━╸┃┃┃┣━┫┣┻┓┣╸ ┣┳┛
+                ╹┗╸╹  ┗━┛   ╹ ╹╹ ╹╹ ╹┗━╸╹┗╸""";
     }
+
+    //    @Override
+//    public @Nullable String getLogo() {
+//        return """
+//
+//                ┏━┓┏━┓┏━╸┏━┓╺┳╸┏━┓┏━╸╻┏\s
+//                ┃ ┃┣┳┛┣╸ ┗━┓ ┃ ┣━┫┃  ┣┻┓
+//                ┗━┛╹┗╸┗━╸┗━┛ ╹ ╹ ╹┗━╸╹ ╹""";
+//    }
 
     @Override
     public @Nullable Integer getMetricsId() {

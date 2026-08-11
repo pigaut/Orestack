@@ -20,6 +20,8 @@ import io.github.pigaut.rpg.module.particle.*;
 import io.github.pigaut.rpg.module.recipe.*;
 import io.github.pigaut.rpg.module.sound.*;
 import io.github.pigaut.rpg.hook.*;
+import io.github.pigaut.rpg.module.stat.*;
+import io.github.pigaut.rpg.module.stat.modifier.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.rpg.bukkit.*;
@@ -243,8 +245,29 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
         addLoader("ADD_TEMPORARY_PLAYER_FLAG", (Line<Action>) line ->
                 new AddTemporaryPlayerFlag(
                         line.getRequiredString(1),
-                        line.get("duration", Delay.class).map(Delay::toTicks).orThrow()
+                        line.get("duration", Delay.class).mapIfValid(Delay::toTicks).orThrow()
                 ));
+
+        addLoader("ADD_PLAYER_STAT_BOOST", (Line<Action>) line ->
+                new AddPlayerStatBoost(plugin,
+                        line.getRequired(1, Stat.class),
+                        line.getRequired("amount", StatModifier.class),
+                        line.getRequired("duration", Delay.class),
+                        line.getString("name|id").withDefault(null)
+                        ));
+
+        addLoader("REMOVE_PLAYER_STAT_BOOST", (Line<Action>) line ->
+                new RemovePlayerStatBoost(
+                        line.getRequired(1, Stat.class),
+                        line.getRequiredString("name|id")
+                ));
+
+        addLoader("CLEAR_PLAYER_STAT_BOOSTS", (Line<Action>) line ->
+                new ClearPlayerStatBoosts(line.getRequired(1, Stat.class)));
+
+        addAliases("ADD_PLAYER_STAT_BOOST", "ADD_STAT_BOOST", "GIVE_PLAYER_STAT_BOOST", "GIVE_STAT_BOOST");
+        addAliases("REMOVE_PLAYER_STAT_BOOST", "REMOVE_STAT_BOOST", "TAKE_PLAYER_STAT_BOOST", "TAKE_STAT_BOOST");
+        addAliases("CLEAR_PLAYER_STAT_BOOSTS", "CLEAR_STAT_BOOSTS");
 
         addLoader("ADD_PLAYER_ITEM", (Line<Action>) line ->
                 new GiveItemToPlayer(line.getRequired(ItemDrop.class)));
@@ -294,18 +317,18 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
                 new ExecutePlayerCommand(line.getRequiredString(1)));
 
         addLoader("SEND_PLAYER_CHAT", (Line<Action>) line ->
-                new SendChatToPlayer(line.getRequiredString(1, ColorUtil.FORMATTER)));
+                new SendChatToPlayer(line.getRequiredString(1)));
 
         addLoader("SEND_PLAYER_ACTIONBAR", (Line<Action>) line ->
                 new SendActionbarToPlayer(plugin,
-                        line.getRequiredString(1, ColorUtil.FORMATTER),
+                        line.getRequiredString(1),
                         line.get("align", BarAlignment.class).withDefault(plugin.getSettings().getInsertedMessageAlign())
                 ));
 
         addLoader("SEND_PLAYER_TITLE", (Line<Action>) line ->
                 new SendTitleToPlayer(plugin,
-                        line.getRequiredString(1, ColorUtil.FORMATTER),
-                        line.getString("subtitle", ColorUtil.FORMATTER).withDefault(""),
+                        line.getRequiredString(1),
+                        line.getString("subtitle").withDefault(""),
                         line.getInteger("fadeIn|fade-in").withDefault(10),
                         line.getInteger("stay").withDefault(70),
                         line.getInteger("fadeOut|fade-out").withDefault(20)
@@ -313,7 +336,7 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
 
         addLoader("SEND_PLAYER_HOLOGRAM", (Line<Action>) line ->
                 SendHologramToPlayer.create(plugin,
-                        line.getRequiredString(1, ColorUtil.FORMATTER),
+                        line.getRequiredString(1),
                         line.get("duration", Delay.class).withDefault(Delay.fromTicks(40)),
                         line.getDouble("offsetX").withDefault(0d),
                         line.getDouble("offsetY").withDefault(0d),
@@ -478,7 +501,7 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
         addLoader("ADD_TEMPORARY_MOB_FLAG", (Line<Action>) line ->
                 new AddTemporaryMobFlag(
                         line.getRequiredString(1),
-                        line.get("duration", Delay.class).map(Delay::toTicks).orThrow()
+                        line.get("duration", Delay.class).mapIfValid(Delay::toTicks).orThrow()
                 ));
 
         addLoader("REMOVE_MOB_FLAG", (Line<Action>) line ->
@@ -599,7 +622,7 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
 
         Integer interval = line.get("interval|period", Delay.class)
                 .check(repetitions != null, "Repetitions must be set to use interval delay")
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(null);
 
         if (interval != null) {
@@ -609,7 +632,7 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
         }
 
         Integer delay = line.get("delay", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(null);
 
         if (delay != null) {

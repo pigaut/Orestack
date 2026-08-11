@@ -48,7 +48,7 @@ public class ProgressBarLoader implements ConfigLoader<ProgressBar> {
                     .require(Requirements.amountBetween(0, 100))
                     .orThrow();
 
-            String healthBar = nestedScalar.toString(ColorUtil.FORMATTER);
+            String healthBar = nestedScalar.toString();
 
             for (int i = 0; i <= 100; i++) {
                 if (progressPercent.match(i)) {

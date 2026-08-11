@@ -99,7 +99,7 @@ public class MobTemplateLoader implements ConfigLoader<MobTemplate> {
         boolean slimeSplit = section.getBoolean("slime-split")
                 .withDefault(false);
 
-        String playerSlainMessage = section.getString("player-slain-message|slain-message", ColorUtil.FORMATTER)
+        String playerSlainMessage = section.getString("player-slain-message|slain-message")
                 .withDefault(null);
 
         Function onSpawn = section.get("on-spawn", Function.class).withDefault(null);

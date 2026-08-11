@@ -23,7 +23,7 @@ public class TextComponentLoader implements ConfigLoader<TextComponent> {
 
     @Override
     public @NotNull TextComponent loadFromScalar(ConfigScalar scalar) throws InvalidConfigException {
-        String text = scalar.toString(ColorUtil.FORMATTER);
+        String text = scalar.toString();
 
         TextComponent component = new TextComponent();
         for (BaseComponent extra : TextComponent.fromLegacyText(text)) {
@@ -35,7 +35,7 @@ public class TextComponentLoader implements ConfigLoader<TextComponent> {
 
     @Override
     public @NotNull TextComponent loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
-        String text = section.getRequiredString("text", ColorUtil.FORMATTER);
+        String text = section.getRequiredString("text");
 
         TextComponent component = new TextComponent();
         for (BaseComponent extra : TextComponent.fromLegacyText(text)) {
@@ -54,7 +54,7 @@ public class TextComponentLoader implements ConfigLoader<TextComponent> {
             HoverEvent.Action action = hoverLine.getRequired(0, HoverEvent.Action.class);
             Content content = switch (action) {
                 case SHOW_TEXT -> {
-                    String hoverText = hoverLine.getRequiredString(1, ColorUtil.FORMATTER);
+                    String hoverText = hoverLine.getRequiredString(1);
                     yield new Text(TextComponent.fromLegacyText(hoverText));
                 }
                 case SHOW_ITEM -> {

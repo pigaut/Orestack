@@ -42,7 +42,7 @@ public class GenericPlayerState implements PlayerState {
     private String statusBar = "";
     private @Nullable String statusBarMessage = null;
     private int health = 100;
-    private int mana = 20;
+    private int mana = 100;
 
     private @Nullable MenuView openMenu = null;
     private @Nullable Location firstSelection = null;
@@ -56,10 +56,12 @@ public class GenericPlayerState implements PlayerState {
         this.plugin = plugin;
         this.playerId = player.getUniqueId();
         this.playerName = player.getName();
-        this.playerData = plugin.getPlayerData(player);
+        this.playerData = plugin.getPlayerData().load(player);
         this.context = Context.fromPlayer(plugin, player, this);
         this.stats = new StatsMap(plugin, this);
         refreshStats();
+        this.health = stats.getTotalMaxHealth();
+        this.mana = stats.getTotalMaxMana();
         updateStatusBar();
     }
 
@@ -329,6 +331,11 @@ public class GenericPlayerState implements PlayerState {
 
         setInCombat(true);
 
+        double critChance = getCritChance();
+        if (Probability.test(critChance)) {
+            damage *= getCritDamageMultiplier();
+        }
+
         PlayerState playerVictim = plugin.getPlayerState(victim);
         if (playerVictim != null && plugin.getSettings().isStats()) {
             EntityUtil.knockback(playerAttacker, victim);
@@ -347,7 +354,7 @@ public class GenericPlayerState implements PlayerState {
     }
 
     @Override
-    public void damage(@NotNull LivingEntity attacker, double amount) {
+    public void damage(@NotNull LivingEntity attacker, double damageAmount) {
         Player player = asPlayer();
         if (player == null) {
             return;
@@ -356,10 +363,10 @@ public class GenericPlayerState implements PlayerState {
         setInCombat(true);
 
         if (plugin.getSettings().isStats()) {
-            int damage = StatsUtil.calculateDamage(amount, getDefense());
-            setHealth(health - damage);
+            damageAmount *= damageAmount * StatsUtil.getDefenseDamageReduction(getDefense());
+            setHealth((int) (health - damageAmount));
         } else {
-            EntityUtil.damage(player, amount);
+            EntityUtil.damage(player, damageAmount);
         }
 
         if (player.getHealth() == 0) {
@@ -450,7 +457,7 @@ public class GenericPlayerState implements PlayerState {
         Settings settings = plugin.getSettings();
 
         for (Stat stat : plugin.getStats().getAll()) {
-            PlayerStat playerStat = getStat(BaseStats.DAMAGE);
+            PlayerStat playerStat = getStat(stat);
             if (playerStat == null) {
                 continue;
             }
@@ -460,9 +467,12 @@ public class GenericPlayerState implements PlayerState {
                 playerStat.setEquipment(slot, statLevel);
             }
 
-            if (stat == BaseStats.DAMAGE && settings.isSharpnessEnchantAsStat()) {
-                double enchantDebuff = settings.getSharpnessDamageDebuff(item);
-                playerStat.setEquipmentBuff(slot, enchantDebuff);
+            if (stat == BaseStats.MAX_HEALTH) {
+                health = Math.min(getMaxHealth(), health);
+            }
+
+            if (stat == BaseStats.MAX_MANA) {
+                mana = Math.min(getMaxMana(), mana);
             }
 
             if (stat == BaseStats.MINING_SPEED && settings.isEfficiencyEnchantAsStat()) {
@@ -489,22 +499,22 @@ public class GenericPlayerState implements PlayerState {
 
     @Override
     public boolean isMaxHealth() {
-        return health == getMaxHealth();
+        return health >= getMaxHealth();
     }
 
     @Override
     public int getMaxHealth() {
-        return (int) stats.getBaseMaxHealth().getTotal();
+        return stats.getTotalMaxHealth();
     }
 
     @Override
     public int getHealthRegen() {
-        return (int) stats.getBaseHealthRegen().getTotal();
+        return stats.getTotalHealthRegen();
     }
 
     @Override
     public int getManaRegen() {
-        return (int) stats.getBaseManaRegen().getTotal();
+        return stats.getTotalManaRegen();
     }
 
     @Override
@@ -534,12 +544,12 @@ public class GenericPlayerState implements PlayerState {
 
     @Override
     public void resetHealth() {
-        setHealth((int) stats.getBaseMaxHealth().getTotal());
+        setHealth(stats.getTotalMaxHealth());
     }
 
     @Override
     public int getDefense() {
-        return (int) stats.getBaseDefense().getTotal();
+        return stats.getTotalDefense();
     }
 
     @Override
@@ -549,7 +559,7 @@ public class GenericPlayerState implements PlayerState {
 
     @Override
     public int getMaxMana() {
-        return (int) stats.getBaseMaxMana().getTotal();
+        return stats.getTotalMaxMana();
     }
 
     @Override
@@ -564,6 +574,11 @@ public class GenericPlayerState implements PlayerState {
     }
 
     @Override
+    public void resetMana() {
+        setMana(getMaxMana());
+    }
+
+    @Override
     public double getStatDisplayAmount(@NotNull Stat statType) {
         PlayerStat stat = getStat(statType);
         return stat != null ? stat.getDisplayTotal() : 0;
@@ -573,6 +588,12 @@ public class GenericPlayerState implements PlayerState {
     public int getAttackDamage() {
         PlayerStat stat = getStat(BaseStats.DAMAGE);
         return stat != null ? (int) stat.getTotal() : 1;
+    }
+
+    @Override
+    public double getExpGainMultiplier() {
+        PlayerStat stat = getStat(BaseStats.EXP_GAIN);
+        return stat != null ? stat.getTotal() : 1;
     }
 
     @Override
@@ -608,7 +629,7 @@ public class GenericPlayerState implements PlayerState {
     @Override
     public double getCritDamageMultiplier() {
         PlayerStat stat = getStat(BaseStats.CRIT_DAMAGE);
-        return stat != null ? stat.getTotal() : 0;
+        return stat != null ? stat.getTotal() : 1;
     }
 
     @Override

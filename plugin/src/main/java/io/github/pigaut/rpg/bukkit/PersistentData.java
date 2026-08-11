@@ -39,6 +39,11 @@ public class PersistentData {
         item.setItemMeta(meta);
     }
 
+    public static boolean hasInteger(@NotNull PersistentDataHolder holder, @NotNull NamespacedKey key) {
+        Integer foundValue = getInteger(holder, key);
+        return foundValue != null;
+    }
+
     public static boolean hasInteger(@NotNull PersistentDataHolder holder, @NotNull NamespacedKey key, int value) {
         Integer foundValue = getInteger(holder, key);
         return foundValue != null && foundValue == value;

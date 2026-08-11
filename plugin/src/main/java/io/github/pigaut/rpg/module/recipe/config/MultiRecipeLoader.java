@@ -54,14 +54,14 @@ public class MultiRecipeLoader implements ConfigLoader<MultiRecipe> {
         float experience = section.getFloat("exp|experience")
                 .withDefault(0f);
         Integer defaultSmeltTime = section.get("cook-time|cooking-time|smelt-time|smelting-time", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .orElse(null);
 
         List<RecipeTemplate> smeltRecipes = new ArrayList<>();
         ConfigSection smeltTimeSection = section.getSectionOrCreate("cook-time-by-furnace|cooking-time-by-furnace|smelt-time-by-furnace|smelting-time-by-furnace");
 
         Integer furnaceSmeltTime = smeltTimeSection.get("furnace", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .orElse(defaultSmeltTime);
 
         if (furnaceSmeltTime != null) {
@@ -77,7 +77,7 @@ public class MultiRecipeLoader implements ConfigLoader<MultiRecipe> {
         }
 
         Integer blastingSmeltTime = smeltTimeSection.get("blasting|blast-furnace", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .orElse(defaultSmeltTime);
 
         if (blastingSmeltTime != null) {
@@ -93,7 +93,7 @@ public class MultiRecipeLoader implements ConfigLoader<MultiRecipe> {
         }
 
         Integer smokingSmeltTime = smeltTimeSection.get("smoking|smoker", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .orElse(defaultSmeltTime);
 
         if (smokingSmeltTime != null) {
@@ -109,7 +109,7 @@ public class MultiRecipeLoader implements ConfigLoader<MultiRecipe> {
         }
 
         Integer campfireSmeltTime = smeltTimeSection.get("campfire|cooking", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .orElse(defaultSmeltTime);
 
         if (campfireSmeltTime != null) {

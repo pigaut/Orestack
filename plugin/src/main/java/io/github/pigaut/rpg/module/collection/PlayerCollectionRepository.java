@@ -105,4 +105,9 @@ public class PlayerCollectionRepository implements PlayerDataRepository<SimpleRp
         }
         insertStatement.executeBatch();
     }
+
+    @Override
+    public void clearData(@NotNull SimpleRpgPlayerData playerData) {
+        playerData.setItemCollections(Set.of());
+    }
 }

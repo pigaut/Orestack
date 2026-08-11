@@ -1,0 +1,56 @@
+
+wooden_pickaxe:
+  type: wooden_pickaxe
+  mining-power: 1
+  stats:
+    damage: +10
+    mining-speed: +70
+  rarity: common_pickaxe
+
+stone_pickaxe:
+  type: stone_pickaxe
+  mining-power: 2
+  stats:
+    damage: +15
+    mining-speed: +110
+  rarity: common_pickaxe
+
+copper_pickaxe:
+  type: copper_pickaxe
+  mining-power: 3
+  stats:
+    damage: +20
+    mining-speed: +120
+  rarity: common_pickaxe
+
+golden_pickaxe:
+  type: golden_pickaxe
+  mining-power: 3
+  stats:
+    damage: +10
+    mining-speed: +250
+  rarity: common_pickaxe
+
+iron_pickaxe:
+  type: iron_pickaxe
+  mining-power: 4
+  stats:
+    damage: +25
+    mining-speed: +160
+  rarity: common_pickaxe
+
+diamond_pickaxe:
+  type: diamond_pickaxe
+  mining-power: 5
+  stats:
+    damage: +30
+    mining-speed: +220
+  rarity: uncommon_pickaxe
+
+netherite_pickaxe:
+  type: netherite_pickaxe
+  mining-power: 6
+  stats:
+    damage: +35
+    mining-speed: +250
+  rarity: rare_pickaxe

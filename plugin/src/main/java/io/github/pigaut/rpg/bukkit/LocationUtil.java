@@ -67,14 +67,24 @@ public class LocationUtil {
     }
 
     public static Location getOffsetLocation(Location location, double right, double up, double front) {
-        org.bukkit.util.Vector direction = location.getDirection().normalize();
-        org.bukkit.util.Vector rightVector = direction.getCrossProduct(new org.bukkit.util.Vector(0, 1, 0)).normalize();
-        org.bukkit.util.Vector upVector = new org.bukkit.util.Vector(0, 1, 0);
-        Vector offset = rightVector.multiply(right)
-                .add(upVector.multiply(up))
-                .add(direction.multiply(front));
+        Location result = location.clone();
+        Vector direction = result.getDirection().normalize();
 
-        return location.add(offset);
+        Vector rightVector;
+        if (Math.abs(direction.getY()) > 0.999) {
+            rightVector = new Vector(1, 0, 0);
+        } else {
+            rightVector = direction.getCrossProduct(new Vector(0, 1, 0)).normalize();
+        }
+
+        Vector upVector = new Vector(0, 1, 0);
+
+        Vector offset = new Vector()
+                .add(rightVector.clone().multiply(right))
+                .add(upVector.clone().multiply(up))
+                .add(direction.clone().multiply(front));
+
+        return result.add(offset);
     }
 
 }

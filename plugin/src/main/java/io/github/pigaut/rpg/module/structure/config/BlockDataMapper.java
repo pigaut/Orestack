@@ -12,6 +12,7 @@ import io.github.pigaut.yaml.configurator.map.*;
 import net.momirealms.craftengine.bukkit.api.*;
 import net.momirealms.craftengine.core.block.*;
 import org.bukkit.block.*;
+import org.bukkit.block.Skull;
 import org.bukkit.block.data.*;
 import org.bukkit.block.data.type.Bed;
 import org.bukkit.block.data.type.*;
@@ -57,6 +58,7 @@ public class BlockDataMapper implements ConfigMapper<Block> {
         section.set("block", block.getType());
 
         BlockData blockData = block.getBlockData();
+        BlockState blockState = block.getState();
 
         // Specific block data
         if (blockData instanceof Stairs stairs) {
@@ -145,6 +147,13 @@ public class BlockDataMapper implements ConfigMapper<Block> {
 
         if (blockData instanceof Brushable brushable) {
             section.set("dusted", brushable.getDusted());
+        }
+
+        if (Server.isPaper() && Server.getVersion() >= Version.V1_18_1 && blockState instanceof Skull skull) {
+            String texture = SkullUtil.getSkullTexture(skull);
+            if (texture != null) {
+                section.set("head-texture", texture);
+            }
         }
 
         if (blockData instanceof Waterlogged waterlogged) {

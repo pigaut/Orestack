@@ -34,10 +34,10 @@ public class ItemOptionsLoader implements ConfigLoader.Section<ItemOptions> {
 
         Integer amount = section.getInteger("amount").withDefault(null);
 
-        String displayName = section.getString("name|display", ColorUtil.FORMATTER).withDefault(null);
+        String displayName = section.getString("name|display").withDefault(null);
 
         List<String> lore = section.isSet("lore")
-                ? section.getStringList("lore", ColorUtil.FORMATTER).orEmpty()
+                ? section.getStringList("lore").orEmpty()
                 : null;
 
         Boolean hideTooltip = section.getBoolean("hide-tooltip")
@@ -58,7 +58,7 @@ public class ItemOptionsLoader implements ConfigLoader.Section<ItemOptions> {
         Integer customModelData = section.getInteger("model-data|custom-model-data").withDefault(null);
 
         NamespacedKey itemModel = section.get("model|custom-model", NamespacedKey.class)
-                .check(Server.getVersion() >= Version.V1_21_4, "item model is only available in version 1.21.4+")
+                .check(Server.getVersion() >= Version.V1_21_4, "Item model is only available on server version: 1.21.4+")
                 .withDefault(null);
 
         Boolean unbreakable = section.getBoolean("unbreakable").withDefault(null);
@@ -68,7 +68,7 @@ public class ItemOptionsLoader implements ConfigLoader.Section<ItemOptions> {
         Integer damage = section.getInteger("durability").withDefault(null);
 
         Integer maxDamage = section.getInteger("max-durability")
-                .check(Server.getVersion() >= Version.V1_20_5, "max durability is only available in version 1.20.5+")
+                .check(Server.getVersion() >= Version.V1_20_5, "Max durability is only available on server version: 1.20.5+")
                 .withDefault(null);
 
         Map<Enchantment, Integer> enchantments = null;
@@ -87,7 +87,8 @@ public class ItemOptionsLoader implements ConfigLoader.Section<ItemOptions> {
                 : null;
 
         String headTexture = section.getString("head-texture|head-data|head")
-                .check(Server.isPaper(), "Head textures require a paper server")
+                .checkOrWarn(Server.isPaper(), "Head textures require a paper server")
+                .checkOrWarn(Server.getVersion() >= Version.V1_18_1, "Head texture is only available on server version: 1.18.1+")
                 .withDefault(null);
 
         return new ItemOptions(material, amount, displayName, lore, hideTooltip, itemFlags, glow, customModelData, itemModel,

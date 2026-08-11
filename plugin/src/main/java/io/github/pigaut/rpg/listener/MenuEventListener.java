@@ -37,7 +37,7 @@ public class MenuEventListener implements Listener {
 
         PlayerState player = plugin.getPlayerState((Player) event.getPlayer());
         MenuView view = player.getOpenMenu();
-        if (view == null) {
+        if (view == null || !view.getInventory().equals(event.getInventory())) {
             return;
         }
 

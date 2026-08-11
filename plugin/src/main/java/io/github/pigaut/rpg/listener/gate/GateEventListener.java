@@ -2,21 +2,18 @@ package io.github.pigaut.rpg.listener.gate;
 
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.api.event.gate.*;
-import io.github.pigaut.rpg.core.tools.*;
 import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.module.gate.exception.*;
 import io.github.pigaut.rpg.module.gate.template.*;
+import io.github.pigaut.rpg.module.gate.tool.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.bukkit.material.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.api.event.gate.GatePlaceEvent;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.bukkit.material.*;
 import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.tools.*;
-import io.github.pigaut.rpg.core.transform.Rotation;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.gate.*;
@@ -59,7 +56,7 @@ public class GateEventListener implements Listener {
             return;
         }
 
-        if (event.hasItem() && GateTool.isValidItem(event.getItem())) {
+        if (event.hasItem() && plugin.isTool(event.getItem())) {
             return;
         }
 
@@ -79,7 +76,7 @@ public class GateEventListener implements Listener {
 
         if (action == Action.RIGHT_CLICK_BLOCK) {
             event.setCancelled(true);
-            if (player.hasPermission("castlegates.build.on.gate") && event.hasItem()
+            if (player.hasPermission("rpg-maker.gate.build-on") && event.hasItem()
                     && !MaterialUtil.isInteractable(block.getType())) {
                 event.setCancelled(false);
             }
@@ -96,7 +93,7 @@ public class GateEventListener implements Listener {
         }
         playerState.addTemporaryFlag("gate:click_cooldown", phase.getClickCooldown());
 
-        io.github.pigaut.rpg.api.event.gate.GateInteractEvent gateInteractEvent = new io.github.pigaut.rpg.api.event.gate.GateInteractEvent(player, action, block,
+        GateInteractEvent gateInteractEvent = new GateInteractEvent(player, action, block,
                 gate.getOrigin(), gate.getName(), gate.getState().getCurrentPhase());
         Server.callEvent(gateInteractEvent);
 
@@ -130,128 +127,6 @@ public class GateEventListener implements Listener {
                 }
             }
         }
-    }
-
-    @EventHandler
-    public void handleGateItemInteract(PlayerInteractEvent event) {
-        if (event.getHand() != EquipmentSlot.HAND) {
-            return;
-        }
-
-        ItemStack heldItem = event.getItem();
-        if (heldItem == null) {
-            return;
-        }
-
-        GateTemplate heldGate = GateTool.getGateTemplate(heldItem);
-        if (heldGate == null) {
-            return;
-        }
-
-        Player player = event.getPlayer();
-        Action action = event.getAction();
-        Block clickedBlock = event.getClickedBlock();
-        Context context = Context.builder(plugin)
-                .withPlayer(player)
-                .withPlayerState(plugin.getPlayerState(player))
-                .withTool(heldItem)
-                .withBlock(clickedBlock)
-                .build();
-
-        if (action == Action.LEFT_CLICK_AIR && player.isSneaking()) {
-            event.setCancelled(true);
-
-            if (!player.hasPermission("orestack.gate.rotate")) {
-                plugin.sendMessage(player, context, "cannot-rotate-gate");
-                return;
-            }
-
-            GateTool.switchToolRotation(heldItem);
-            PlayerUtil.sendActionBar(player, plugin.getTranslation("changed-gate-rotation"));
-            return;
-        }
-
-        if (clickedBlock == null) {
-            return;
-        }
-
-        if (action == Action.LEFT_CLICK_BLOCK) {
-            Gate clickedGate = plugin.getGate(clickedBlock.getLocation());
-            if (clickedGate == null || !clickedGate.getTemplate().equals(heldGate)) {
-                return;
-            }
-
-            event.setCancelled(true);
-
-            if (!player.hasPermission("orestack.gate.break")) {
-                plugin.sendMessage(player, context, "cannot-break-gate");
-                return;
-            }
-
-            clickedGate.remove();
-            PlayerUtil.sendActionBar(player, plugin.getTranslation("broke-gate"));
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void handleGatePlace(BlockPlaceEvent event) {
-        Player player = event.getPlayer();
-        Location location = event.getBlockPlaced().getLocation();
-        Context context = Context.builder(plugin)
-                .withPlayer(player)
-                .withPlayerState(plugin.getPlayerState(player))
-                .withTool(event.getItemInHand())
-                .withBlock(event.getBlockPlaced())
-                .build();
-
-        if (plugin.getGates().isGate(location)) {
-            plugin.sendMessage(player, context, "gate-occupied-block");
-            event.setCancelled(true);
-            return;
-        }
-
-        ItemStack heldItem = event.getItemInHand();
-        if (!GateTool.isValidItem(heldItem)) {
-            return;
-        }
-
-        event.setCancelled(true);
-        GateTemplate gateTemplate = GateTool.getGateTemplate(heldItem);
-        if (gateTemplate == null) {
-            plugin.sendMessage(player, context, "gate-not-exists");
-            return;
-        }
-
-        context = context.with(GateTemplate.class, gateTemplate);
-        if (!player.hasPermission("orestack.gate.place")) {
-            plugin.sendMessage(player, context, "cannot-place-gate");
-            return;
-        }
-
-        Rotation rotation = GateTool.getRotation(heldItem);
-        if (rotation == null) {
-            plugin.sendMessage(player, context, "corrupt-tool-rotation");
-            return;
-        }
-
-        io.github.pigaut.rpg.api.event.gate.GatePlaceEvent gatePlaceEvent = new GatePlaceEvent(player, location, gateTemplate.getName(), gateTemplate.getOccupiedBlocks(location, rotation));
-        Server.callEvent(gatePlaceEvent);
-
-        if (gatePlaceEvent.isCancelled()) {
-            PlayerUtil.sendActionBar(player, plugin.getTranslation("gate-conflict"));
-            return;
-        }
-
-        Context finalContext = context;
-        plugin.getRegionScheduler(location).runTaskLater(1, () -> {
-            try {
-                Gate.create(gateTemplate, location, rotation);
-                PlayerUtil.sendActionBar(player, plugin.getTranslation("placed-gate"));
-            }
-            catch (GateCreateException e) {
-                PlayerUtil.sendActionBar(player, finalContext, e.getMessage());
-            }
-        });
     }
 
 }

@@ -26,7 +26,7 @@ public class SendMessage implements Action {
             String id = CaseFormatter.toSnakeCase(key);
             Object value = scalar.getValue();
             if (!(value instanceof Number)) {
-                value = scalar.toString(ColorUtil.FORMATTER);
+                value = scalar.toString();
             }
             customPlaceholders.put(id, value);
         });

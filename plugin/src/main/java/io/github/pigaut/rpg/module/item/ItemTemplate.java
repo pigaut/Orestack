@@ -57,7 +57,7 @@ public class ItemTemplate implements Identifiable {
 
     public ItemTemplate(EnhancedPlugin plugin, String name, @Nullable String group,
                         ItemStack itemStack, ItemMeta itemMeta,
-                        List<String> description, List<String> abilities,
+                        @NotNull List<String> description, @NotNull List<String> abilities,
                         @Nullable ToolBreakingPower breakingPower, @Nullable String rarity,
                         boolean unplaceable, Integer maxUses, Amount uses,
                         Map<Stat, Amount> stats,
@@ -206,12 +206,12 @@ public class ItemTemplate implements Identifiable {
         return onDrop;
     }
 
-    public @Nullable List<String> getDescription() {
-        return description != null ? new ArrayList<>(description) : null;
+    public @NotNull List<String> getDescription() {
+        return new ArrayList<>(description);
     }
 
-    public @Nullable List<String> getAbilitiesDescription() {
-        return abilities != null ? new ArrayList<>(abilities) : null;
+    public @NotNull List<String> getAbilitiesDescription() {
+        return new ArrayList<>(abilities);
     }
 
     public @Nullable ToolBreakingPower getBreakingPower() {

@@ -1,0 +1,19 @@
+
+enderman_sword:
+  type: diamond_sword
+  name: '&d&lEnderman Sword'
+  stats:
+    damage: 80
+    strength: 20
+    max-health: 50
+  description:
+    - 'A magic sword that'
+    - 'mimics enderman abilities.'
+  ability-descriptions:
+    - name: Instant Transmission
+      description: '&7Teleports you &a12 blocks &7in front of you.'
+      trigger: right click
+      mana-cost: 25
+  rarity: rare_sword
+  on-right-click:
+    - instantTransmission # Found in: functions/abilities/mobility.yml

@@ -2,7 +2,7 @@
 item: tropical_fish
 
 on-unlock:
-  - sendMessage collection_unlock
+  - sendMessage collection_unlocked
 
 on-tier-up:
   - sendCollectionTierUpMessage

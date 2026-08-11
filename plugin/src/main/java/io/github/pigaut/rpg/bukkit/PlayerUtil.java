@@ -5,11 +5,7 @@ import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.event.item.*;
 import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.event.item.*;
 import io.github.pigaut.rpg.server.Server;
-import io.github.pigaut.rpg.util.*;
 import net.md_5.bungee.api.*;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -86,35 +82,45 @@ public class PlayerUtil {
         }
     }
 
-    public static void takeItems(@NotNull Player player, @NotNull ItemStack item, int amount) {
-        PlayerTakeItemEvent itemTakeEvent = new PlayerTakeItemEvent(player, item, amount);
+    public static boolean removeItem(@NotNull Player player, @NotNull ItemStack item, int amount) {
+        if (amount <= 0) {
+            return true;
+        }
+
+        PlayerRemoveItemEvent itemTakeEvent = new PlayerRemoveItemEvent(player, item, amount);
         Server.callEvent(itemTakeEvent);
         if (itemTakeEvent.isCancelled()) {
-            return;
+            return false;
         }
 
         PlayerInventory inventory = player.getInventory();
         int remaining = amount;
 
-        for (ItemStack foundItem : inventory.getContents()) {
-            if (foundItem == null || !foundItem.isSimilar(item)) {
-                continue;
-            }
-
-            int stackAmount = foundItem.getAmount();
-
-            if (stackAmount <= remaining) {
-                remaining -= stackAmount;
-                inventory.remove(foundItem);
-            } else {
-                foundItem.setAmount(stackAmount - remaining);
-                remaining = 0;
-            }
-
+        ItemStack[] contents = inventory.getStorageContents();
+        for (int slot = 0; slot < contents.length; slot++) {
             if (remaining <= 0) {
                 break;
             }
+
+            ItemStack stack = contents[slot];
+            if (stack == null || stack.getType().isAir() || !stack.isSimilar(item)) {
+                continue;
+            }
+
+            int stackAmount = stack.getAmount();
+            if (stackAmount <= remaining) {
+                remaining -= stackAmount;
+                contents[slot] = null;
+            } else {
+                stack.setAmount(stackAmount - remaining);
+                remaining = 0;
+            }
         }
+
+        inventory.setStorageContents(contents);
+        player.updateInventory();
+
+        return remaining <= 0;
     }
 
     public static void heal(@NotNull Player player, double amount) {

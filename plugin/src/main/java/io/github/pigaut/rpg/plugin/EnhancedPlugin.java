@@ -1,12 +1,13 @@
 package io.github.pigaut.rpg.plugin;
 
+import io.github.pigaut.rpg.core.gameplay.brew.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.rpg.core.buildstation.*;
 import io.github.pigaut.rpg.core.command.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.gameplay.cow.*;
 import io.github.pigaut.rpg.core.menu.*;
-import io.github.pigaut.rpg.core.playerblocks.*;
+import io.github.pigaut.rpg.core.gameplay.playerblocks.*;
 import io.github.pigaut.rpg.core.gameplay.chicken.*;
 import io.github.pigaut.rpg.core.tool.*;
 import io.github.pigaut.rpg.module.command.*;
@@ -60,6 +61,8 @@ public interface EnhancedPlugin extends Plugin {
     void runWhenReady(@NotNull Runnable task);
 
     void runWhenReadyAsync(@NotNull Runnable task);
+
+    void runOnStartup(@NotNull Runnable task);
 
     String getNamespace();
 
@@ -117,6 +120,8 @@ public interface EnhancedPlugin extends Plugin {
     @NotNull
     ToolRegistry getTools();
 
+    boolean isTool(@NotNull ItemStack item);
+
     @Nullable
     Tool getTool(@NotNull String id);
 
@@ -147,7 +152,7 @@ public interface EnhancedPlugin extends Plugin {
     PlayerState getPlayerState(@NotNull UUID playerId);
 
     @NotNull
-    PlayerDataManager<? extends PlayerData> getPlayersData();
+    PlayerDataManager<? extends PlayerData> getPlayerData();
 
     @NotNull
     PlayerData getPlayerData(@NotNull Player player);
@@ -157,6 +162,8 @@ public interface EnhancedPlugin extends Plugin {
 
     @NotNull
     ItemManager getItems();
+
+    boolean hasItemTemplate(@NotNull ItemStack item);
 
     @Nullable
     ItemTemplate getItemTemplate(@NotNull String name);
@@ -201,6 +208,9 @@ public interface EnhancedPlugin extends Plugin {
     RecipeTemplate getRecipe(@NotNull String name);
 
     @NotNull
+    StatManager getStats();
+
+    @NotNull
     MobTemplateManager getMobTemplates();
 
     @Nullable
@@ -208,6 +218,8 @@ public interface EnhancedPlugin extends Plugin {
 
     @NotNull
     MobManager getMobs();
+
+    boolean isMob(@NotNull Entity entity);
 
     @Nullable
     Mob getMob(@NotNull UUID entityId);
@@ -263,14 +275,13 @@ public interface EnhancedPlugin extends Plugin {
     boolean isPlayerPlacedBlock(@NotNull Block block);
 
     @NotNull
-    StatManager getStats();
-
-    @NotNull
     ChickenEggManager getChickenEggs();
 
     boolean isChickenLaidEgg(@NotNull Item item);
 
     @NotNull CowMilkManager getCowsMilk();
+
+    BrewedPotionManager getBrewedPotions();
 
     void sendMessage(@NotNull Player player, @NotNull Context context, @NotNull String messageId) throws TranslationNotFoundException;
 

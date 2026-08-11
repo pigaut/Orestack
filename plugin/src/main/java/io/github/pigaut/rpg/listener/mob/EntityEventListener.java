@@ -1,5 +1,6 @@
 package io.github.pigaut.rpg.listener.mob;
 
+import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.event.mob.*;
@@ -30,7 +31,9 @@ public class EntityEventListener implements Listener {
         if (!(event.getEntity() instanceof LivingEntity victim)) {
             return;
         }
-        if (!(event.getDamager() instanceof LivingEntity damager)) {
+
+        LivingEntity damager = EntityUtil.getDamagerEntity(event.getDamager());
+        if (damager == null) {
             return;
         }
 

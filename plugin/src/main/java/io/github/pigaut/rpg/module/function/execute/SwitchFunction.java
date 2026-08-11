@@ -10,21 +10,26 @@ import org.jetbrains.annotations.*;
 
 public class SwitchFunction implements Function {
 
+    private final String name;
+    private final String group;
     private final SwitchCase[] cases;
     private final Function defaultCase;
 
-    public SwitchFunction(@NotNull SwitchCase[] cases, @Nullable Function defaultCase) {
+    public SwitchFunction(@NotNull String name, @Nullable String group,
+                          @NotNull SwitchCase[] cases, @Nullable Function defaultCase) {
+        this.name = name;
+        this.group = group;
         this.cases = cases;
         this.defaultCase = defaultCase;
     }
 
     public @NotNull String getName() {
-        return defaultCase.getName();
+        return name;
     }
 
     @Override
     public @Nullable String getGroup() {
-        return defaultCase.getGroup();
+        return group;
     }
 
     @Override

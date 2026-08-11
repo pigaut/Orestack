@@ -183,7 +183,7 @@ public class ParticleEffectLoader implements ConfigLoader.Line<ParticleEffect> {
 
         Integer interval = line.get("interval|period", Delay.class)
                 .check(repetitions != null, "repetitions must be set to use interval delay")
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(null);
 
         if (interval != null) {
@@ -193,7 +193,7 @@ public class ParticleEffectLoader implements ConfigLoader.Line<ParticleEffect> {
         }
 
         Integer delay = line.get("delay", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(null);
 
         if (delay != null) {
@@ -336,7 +336,7 @@ public class ParticleEffectLoader implements ConfigLoader.Line<ParticleEffect> {
 
         Integer interval = section.get("interval|period", Delay.class)
                 .check(repetitions != null, "repetitions must be set to use interval delay")
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(null);
 
         if (interval != null) {
@@ -347,7 +347,7 @@ public class ParticleEffectLoader implements ConfigLoader.Line<ParticleEffect> {
         }
 
         Integer delay = section.get("delay", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(null);
 
         if (delay != null) {

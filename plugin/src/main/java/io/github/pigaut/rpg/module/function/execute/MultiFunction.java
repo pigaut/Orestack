@@ -36,10 +36,15 @@ public class MultiFunction implements Function {
     public @NotNull FunctionResponse dispatch(@NotNull Context context) {
         for (int i = 0; i < functions.size(); i++) {
             FunctionResponse response = functions.get(i).dispatch(context);
-            if (response == FunctionResponse.RETURN) {
+
+            ResponseType type = response.getType();
+            if (type == ResponseType.RETURN) {
                 return response;
             }
-            if (response == FunctionResponse.STOP) {
+            if (type == ResponseType.STOP) {
+                return response;
+            }
+            if (type == ResponseType.YIELD) {
                 return response;
             }
             if (response instanceof GotoResponse gotoResponse) {

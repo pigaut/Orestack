@@ -33,7 +33,7 @@ public class MobOptionsLoader implements ConfigLoader<MobOptions> {
                         "The entity must be a living entity")
                 .orThrow();
 
-        String displayName = section.getString("name", ColorUtil.FORMATTER)
+        String displayName = section.getString("name")
                 .withDefault(null);
 
         Amount health = section.get("health", Amount.class)
@@ -70,7 +70,7 @@ public class MobOptionsLoader implements ConfigLoader<MobOptions> {
         boolean hasAi = section.getBoolean("has-ai").withDefault(true);
         boolean invulnerable = section.getBoolean("invulnerable").withDefault(false);
         boolean invisible = section.getBoolean("invisible").withDefault(false);
-        int noDamageTicks = section.get("invulnerability-cooldown", Delay.class).map(Delay::toTicks).withDefault(10);
+        int noDamageTicks = section.get("invulnerability-cooldown", Delay.class).mapIfValid(Delay::toTicks).withDefault(10);
         boolean silent = section.getBoolean("silent").withDefault(false);
 
         Integer size = section.getInteger("size").withDefault(null);

@@ -74,8 +74,6 @@ public interface StatSettings {
 
     double getDamageMultiplierFromSharpnessEnchant(@NotNull ItemStack item);
 
-    double getSharpnessDamageDebuff(@NotNull ItemStack item);
-
     boolean isEfficiencyEnchantAsStat();
 
     int getMiningSpeedFromEfficiencyEnchant(@NotNull ItemStack item);

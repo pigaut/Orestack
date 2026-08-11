@@ -1,0 +1,56 @@
+package io.github.pigaut.rpg.bukkit.potion;
+
+/**
+ * An enum of all material IDs available in version: 26.2
+ * Regex to match constructor: "\([^)]*\)"
+ */
+public enum LatestPotion {
+
+    AWKWARD,
+    FIRE_RESISTANCE,
+    HARMING,
+    HEALING,
+    INFESTED,
+    INVISIBILITY,
+    LEAPING,
+    LONG_FIRE_RESISTANCE,
+    LONG_INVISIBILITY,
+    LONG_LEAPING,
+    LONG_NIGHT_VISION,
+    LONG_POISON,
+    LONG_REGENERATION,
+    LONG_SLOW_FALLING,
+    LONG_SLOWNESS,
+    LONG_STRENGTH,
+    LONG_SWIFTNESS,
+    LONG_TURTLE_MASTER,
+    LONG_WATER_BREATHING,
+    LONG_WEAKNESS,
+    LUCK,
+    MUNDANE,
+    NIGHT_VISION,
+    OOZING,
+    POISON,
+    REGENERATION,
+    SLOW_FALLING,
+    SLOWNESS,
+    STRENGTH,
+    STRONG_HARMING,
+    STRONG_HEALING,
+    STRONG_LEAPING,
+    STRONG_POISON,
+    STRONG_REGENERATION,
+    STRONG_SLOWNESS,
+    STRONG_STRENGTH,
+    STRONG_SWIFTNESS,
+    STRONG_TURTLE_MASTER,
+    SWIFTNESS,
+    THICK,
+    TURTLE_MASTER,
+    WATER,
+    WATER_BREATHING,
+    WEAKNESS,
+    WEAVING,
+    WIND_CHARGED;
+
+}

@@ -19,8 +19,8 @@ public class TitleMessageLoader implements ConfigLoader<TitleMessage> {
         String name = section.getKey();
         String group = Group.byMessageFile(section.getRoot().getFile());
         return new TitleMessage(name, group,
-                section.getRequiredString("title", ColorUtil.FORMATTER),
-                section.getString("subtitle", ColorUtil.FORMATTER).withDefault(""),
+                section.getRequiredString("title"),
+                section.getString("subtitle").withDefault(""),
                 section.getInteger("fade-in").withDefault(10),
                 section.getInteger("stay").withDefault(70),
                 section.getInteger("fade-out").withDefault(20)

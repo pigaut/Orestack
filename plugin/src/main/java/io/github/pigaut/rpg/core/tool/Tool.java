@@ -7,6 +7,7 @@ import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
@@ -17,6 +18,7 @@ import java.util.function.*;
 public class Tool {
 
     private final NamespacedKey namespacedKey;
+    private final String permission;
 
     private ItemStack itemTemplate = new ItemStack(Material.DIRT);
     private Consumer<ItemMeta> metaTemplate = meta -> {};
@@ -29,11 +31,12 @@ public class Tool {
     private BiConsumer<Player, Entity> onLeftClickEntity;
     private BiConsumer<Player, Entity> onRightClickEntity;
 
-    private Consumer<Player> onSwapHand;
-    private Consumer<Player> onDropItem;
+    private BiConsumer<Player, ItemStack> onSwapHand;
+    private BiConsumer<Player, ItemStack> onDropItem;
 
-    public Tool(EnhancedPlugin plugin, String name) {
+    public Tool(@NotNull EnhancedPlugin plugin, @NotNull String name) {
         this.namespacedKey = plugin.getNamespacedKey(name);
+        this.permission = plugin.getPermission(name);
     }
 
     public @NotNull String getId() {
@@ -46,6 +49,10 @@ public class Tool {
 
     public @NotNull NamespacedKey getNamespacedKey() {
         return namespacedKey;
+    }
+
+    public @NotNull String getPermission() {
+        return permission;
     }
 
     public @NotNull ItemStack getItemTemplate() {
@@ -98,12 +105,12 @@ public class Tool {
         return this;
     }
 
-    public Tool onSwapHand(Consumer<Player> action) {
+    public Tool onSwapHand(BiConsumer<Player, ItemStack> action) {
         this.onSwapHand = action;
         return this;
     }
 
-    public Tool onDropItem(Consumer<Player> action) {
+    public Tool onDropItem(BiConsumer<Player, ItemStack> action) {
         this.onDropItem = action;
         return this;
     }
@@ -120,9 +127,8 @@ public class Tool {
 
     public @Nullable BiConsumer<Player, Entity> getOnRightClickEntity() { return onRightClickEntity; }
 
+    public @Nullable BiConsumer<Player, ItemStack> getOnSwapHand() { return onSwapHand; }
 
-    public @Nullable Consumer<Player> getOnSwapHand() { return onSwapHand; }
-
-    public @Nullable Consumer<Player> getOnDropItem() { return onDropItem; }
+    public @Nullable BiConsumer<Player, ItemStack> getOnDropItem() { return onDropItem; }
 
 }

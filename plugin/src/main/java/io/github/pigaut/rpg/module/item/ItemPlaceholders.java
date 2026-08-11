@@ -36,12 +36,21 @@ public class ItemPlaceholders {
         PlaceholderRegistry placeholders = plugin.getPlaceholders();
         Settings settings = plugin.getSettings();
 
-        placeholders.register(prefix, context -> {
+        placeholders.register(prefix + "_name", context -> {
             ItemStack item = resolver.apply(context);
-            return item != null ? CaseFormatter.toTitleCase(item.getType().toString()) : null;
+            if (item == null) {
+                return null;
+            }
+            ItemTemplate itemTemplate = plugin.getItemTemplate(item);
+            return itemTemplate != null ? itemTemplate.getName() : null;
         });
 
-        placeholders.register(prefix + "_name", context -> {
+        placeholders.register(prefix + "_type", context -> {
+            ItemStack item = resolver.apply(context);
+            return item != null ? item.getType().toString() : null;
+        });
+
+        placeholders.register(prefix + "_display", context -> {
             ItemStack item = resolver.apply(context);
             if (item == null) {
                 return null;
@@ -292,7 +301,16 @@ public class ItemPlaceholders {
                 return List.of();
             }
             ToolBreakingPower toolBreakingPower = itemTemplate.getBreakingPower();
-            return toolBreakingPower != null ? toolBreakingPower.getDisplay() : List.of();
+            if (toolBreakingPower == null) {
+                return List.of();
+            }
+
+            List<String> description = new ArrayList<>();
+            description.addAll(settings.getBreakingPowerHeader());
+            description.add(toolBreakingPower.getDisplay());
+            description.addAll(settings.getBreakingPowerFooter());
+
+            return description;
         });
 
         for (BreakingPower breakingPower : settings.getBreakingPowers()) {
@@ -313,7 +331,7 @@ public class ItemPlaceholders {
         placeholders.register(prefix + "_rarity", context -> {
             ItemStack item = resolver.apply(context);
             String rarity = plugin.getItems().getRarity(item);
-            return rarity != null ? settings.getItemRarityDisplay(rarity) : List.of();
+            return rarity != null ? settings.getItemRarityDescription(rarity) : List.of();
         });
 
     }

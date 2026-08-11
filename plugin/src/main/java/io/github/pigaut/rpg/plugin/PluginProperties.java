@@ -42,10 +42,6 @@ public interface PluginProperties {
         return List.of();
     }
 
-    default List<StartupTask> getStartupTasks() {
-        return List.of();
-    }
-
     default @NotNull List<Integer> getIncompatibleVersions() {
         return List.of();
     }

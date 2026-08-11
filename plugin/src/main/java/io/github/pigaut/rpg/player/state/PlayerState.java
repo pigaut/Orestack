@@ -159,9 +159,13 @@ public interface PlayerState extends FlagHolder {
 
     void setMana(int mana);
 
+    void resetMana();
+
     double getStatDisplayAmount(@NotNull Stat stat);
 
     int getAttackDamage();
+
+    double getExpGainMultiplier();
 
     int getMiningFortune();
 

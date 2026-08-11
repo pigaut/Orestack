@@ -9,7 +9,7 @@ import java.util.regex.*;
 
 public class ColorUtil {
 
-    public static final StringFormatter FORMATTER = ColorUtil::translateColors;
+//    public static final StringFormatter FORMATTER = ColorUtil::translateColors;
 
     public static @NotNull String parseAll(@NotNull String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
@@ -27,21 +27,21 @@ public class ColorUtil {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
-    public static String translateHexColors(String string) {
-        Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
-        Matcher matcher = pattern.matcher(string);
-        while (matcher.find()) {
-            String hexCode = string.substring(matcher.start(), matcher.end());
-            String replaceSharp = hexCode.replace('#', 'x');
+    private static final Pattern HEX_PATTERN = Pattern.compile("\\{#([a-fA-F0-9]{6})\\}");
 
-            char[] ch = replaceSharp.toCharArray();
+    public static String translateHexColors(String string) {
+        Matcher matcher = HEX_PATTERN.matcher(string);
+        while (matcher.find()) {
+            String fullMatch = string.substring(matcher.start(), matcher.end());
+            String hexDigits = matcher.group(1);
+
             StringBuilder builder = new StringBuilder();
-            for (char c : ch) {
-                builder.append("&" + c);
+            for (char c : hexDigits.toCharArray()) {
+                builder.append('&').append(c);
             }
 
-            string = string.replace(hexCode, builder.toString());
-            matcher = pattern.matcher(string);
+            string = string.replace(fullMatch, "&x" + builder);
+            matcher = HEX_PATTERN.matcher(string);
         }
         return string;
     }

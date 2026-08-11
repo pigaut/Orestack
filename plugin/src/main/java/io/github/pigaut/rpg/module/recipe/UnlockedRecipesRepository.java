@@ -85,4 +85,10 @@ public class UnlockedRecipesRepository<T extends SimplePlayerData> implements Pl
 
         insertStatement.executeBatch();
     }
+
+    @Override
+    public void clearData(@NotNull T playerData) {
+        playerData.setUnlockedRecipes(Set.of());
+    }
+
 }

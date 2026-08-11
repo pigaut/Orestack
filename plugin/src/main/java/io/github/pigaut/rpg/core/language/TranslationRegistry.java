@@ -72,7 +72,7 @@ public class TranslationRegistry implements ConfigBacked {
         Set<String> existingKeys = existingConfig.getKeys();
         for (String key : defaultConfig.getKeys()) {
             if (!existingKeys.contains(key)) {
-                String defaultTranslation = defaultConfig.getString(key, ColorUtil.FORMATTER)
+                String defaultTranslation = defaultConfig.getString(key)
                         .orElse("not set");
 
                 register(CaseFormatter.toKebabCase(key), defaultTranslation);
@@ -86,7 +86,7 @@ public class TranslationRegistry implements ConfigBacked {
 
         // Register existing translations in language config
         for (String key : existingConfig.getKeys()) {
-            String translation = existingConfig.getString(key, ColorUtil.FORMATTER)
+            String translation = existingConfig.getString(key)
                     .withDefault("not set");
 
             register(CaseFormatter.toKebabCase(key), translation);

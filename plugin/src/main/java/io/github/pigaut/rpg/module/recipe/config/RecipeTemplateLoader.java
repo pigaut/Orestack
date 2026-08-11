@@ -71,7 +71,7 @@ public class RecipeTemplateLoader implements ConfigLoader<RecipeTemplate> {
             float experience = section.getFloat("exp|experience")
                     .withDefault(0f);
             int cookingTime = section.get("cook-time|cooking-time|smelt-time|smelting-time", Delay.class)
-                    .map(Delay::toTicks)
+                    .mapIfValid(Delay::toTicks)
                     .orThrow();
 
             CookingRecipe<?> recipe;

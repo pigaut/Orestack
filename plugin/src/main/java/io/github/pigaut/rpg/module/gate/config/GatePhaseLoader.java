@@ -41,19 +41,19 @@ public class GatePhaseLoader implements ConfigLoader<GatePhase> {
         List<Material> decorativeBlocks = section.getAllRequired("decorative-blocks", Material.class);
 
         int defaultDelay = section.get("delay|transition-delay", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(0);
 
         boolean closingOnly = section.getBoolean("closing-only").withDefault(false);
         int openingDelay = section.get("opening-delay|open-delay", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .require(Requirements.min(0))
                 .require(delay -> delay == 0 || !closingOnly, "Cannot set opening delay when closing-only is true")
                 .withDefault(closingOnly ? 0 : defaultDelay);
 
         boolean openingOnly = section.getBoolean("opening-only").withDefault(false);
         int closingDelay = section.get("closing-delay|close-delay", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .require(Requirements.min(0))
                 .require(delay -> delay == 0 || !openingOnly, "Cannot set closing delay when opening-only is true")
                 .withDefault(openingOnly ? 0 : defaultDelay);

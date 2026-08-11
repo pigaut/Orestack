@@ -22,7 +22,7 @@ public class ChatMessageLoader implements ConfigLoader<ChatMessage> {
     @Override
     public @NotNull ChatMessage loadFromScalar(ConfigScalar scalar) throws InvalidConfigException {
         String group = Group.byMessageFile(scalar.getRoot().getFile());
-        return new SimpleChatMessage(scalar.getKey(), group, scalar.toString(ColorUtil.FORMATTER));
+        return new SimpleChatMessage(scalar.getKey(), group, scalar.toString());
     }
 
     @Override
@@ -32,10 +32,10 @@ public class ChatMessageLoader implements ConfigLoader<ChatMessage> {
 
         List<String> chatLines;
         if (section.isScalar("message|messages|chat")) {
-            chatLines = List.of(section.getRequiredString("message|messages|chat", ColorUtil.FORMATTER));
+            chatLines = List.of(section.getRequiredString("message|messages|chat"));
         }
         else if (section.isSequence("message|messages|chat")) {
-            chatLines = section.getStringList("message|messages|chat", ColorUtil.FORMATTER)
+            chatLines = section.getStringList("message|messages|chat")
                     .require(Requirements.minSize(1), "Chat message must have at least one line")
                     .orThrow();
         } else {

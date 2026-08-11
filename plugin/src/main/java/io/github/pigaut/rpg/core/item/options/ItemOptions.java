@@ -74,7 +74,7 @@ public class ItemOptions {
             item.setAmount(amount);
         }
 
-        if (headTexture != null && Server.isPaper()) {
+        if (headTexture != null && Server.isPaper() && Server.getVersion() >= Version.V1_18_1) {
             SkullUtil.setSkullTexture(item, headTexture);
         }
 

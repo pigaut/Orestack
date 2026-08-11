@@ -1,5 +1,6 @@
 package io.github.pigaut.rpg.player.data;
 
+import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import org.bukkit.*;
@@ -12,63 +13,93 @@ import java.util.concurrent.*;
 public class PlayerDataManager<T extends PlayerData> extends Manager {
 
     private final PlayerDataFactory<T> playerDataFactory;
+    private final List<PlayerDataRepository<T>> playerDataRepositories = new ArrayList<>();
 
     private final Map<UUID, T> playerDataByUUID = new ConcurrentHashMap<>();
-    private final Map<UUID, T> cachedPlayerData = new ConcurrentHashMap<>();
-    private final List<PlayerDataRepository<T>> playerDataRepositories = new ArrayList<>();
 
     public PlayerDataManager(@NotNull EnhancedJavaPlugin plugin, @NotNull PlayerDataFactory<T> playerDataFactory) {
         super(plugin);
         this.playerDataFactory = playerDataFactory;
     }
 
-    public @Nullable T getPlayerData(@NotNull String name) {
+    public @Nullable T get(@NotNull String name) {
         Player player = Bukkit.getPlayer(name);
-        return player != null ? getPlayerData(player) : null;
+        return player != null ? get(player) : null;
     }
 
-    public @Nullable T getPlayerData(@NotNull UUID playerId) {
-        return playerDataByUUID.get(playerId);
+    public @Nullable T get(@NotNull UUID playerId) {
+        Player player = Bukkit.getPlayer(playerId);
+        return player != null ? get(player) : null;
     }
 
-    public @NotNull T getPlayerData(@NotNull Player player) {
+    @SuppressWarnings("unchecked")
+    public @NotNull T get(@NotNull Player player) {
         UUID playerId = player.getUniqueId();
+        if (playerDataByUUID.containsKey(playerId)) {
+            return playerDataByUUID.get(playerId);
+        }
+        PlayerState playerState = plugin.getPlayerState(player);
+        return (T) playerState.getPlayerData();
+    }
 
-        T playerData = playerDataByUUID.get(playerId);
-        if (playerData != null) {
+    public @NotNull T load(@NotNull Player player) {
+        UUID playerId = player.getUniqueId();
+        if (playerDataByUUID.containsKey(playerId)) {
+            return playerDataByUUID.get(playerId);
+        }
+
+        T playerData = playerDataFactory.create(player);
+        playerDataByUUID.put(playerId, playerData);
+
+        if (playerDataRepositories.isEmpty()) {
+            playerData.setLoaded(true);
             return playerData;
         }
 
-        playerData = cachedPlayerData.remove(playerId);
-        if (playerData == null) {
-            playerData = playerDataFactory.create(player);
-            playerDataByUUID.put(playerId, playerData);
-
-            if (playerDataRepositories.isEmpty()) {
-                playerData.setLoaded(true);
-                return playerData;
+        plugin.runWhenReadyAsync(() -> {
+            if (playerData.isLoaded()) {
+                return;
             }
-
-            T finalPlayerData = playerData;
-            plugin.runWhenReadyAsync(() -> {
-                if (finalPlayerData.isLoaded()) {
-                    return;
-                }
-                for (PlayerDataRepository<T> dataRepository : playerDataRepositories) {
-                    dataRepository.loadData(finalPlayerData);
-                }
-                plugin.getScheduler().runTask(() -> {
-                    finalPlayerData.setLoaded(true);
-                    plugin.getColoredLogger().info("Loaded all player data for: " + player.getName());
-                });
+            for (PlayerDataRepository<T> dataRepository : playerDataRepositories) {
+                dataRepository.loadData(playerData);
+            }
+            plugin.getScheduler().runTask(() -> {
+                playerData.setLoaded(true);
+                plugin.getColoredLogger().info("Loaded all player data for: " + player.getName());
             });
-        }
+        });
 
         return playerData;
     }
 
-    public List<T> getAll() {
-        return new ArrayList<>(playerDataByUUID.values());
+    public void unload(@NotNull UUID playerId) {
+        T playerData = playerDataByUUID.get(playerId);
+        if (playerData == null) {
+            return;
+        }
+
+        PlayerState playerState = plugin.getPlayerState(playerId);
+        if (playerState != null && playerState.getPlayerData() == playerData) {
+            throw new IllegalStateException("Cannot unload player data because owning player state hasn't been destroyed");
+        }
+
+        playerDataByUUID.remove(playerId);
+        plugin.getScheduler().runTaskAsync(() -> {
+            if (playerData.isLoaded()) {
+                for (PlayerDataRepository<T> dataRepository : playerDataRepositories) {
+                    dataRepository.saveData(playerData);
+                    dataRepository.clearData(playerData);
+                }
+            }
+        });
+    }
+
+    public void save(@NotNull T playerData) {
+        if (playerData.isLoaded()) {
+            for (PlayerDataRepository<T> dataRepository : playerDataRepositories) {
+                dataRepository.saveData(playerData);
+            }
+        }
     }
 
     @Override
@@ -77,58 +108,31 @@ public class PlayerDataManager<T extends PlayerData> extends Manager {
     }
 
     @Override
-    public void clear() {
-        playerDataByUUID.clear();
-        cachedPlayerData.clear();
-    }
-
-    @Override
     public void loadData() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            T playerData = playerDataFactory.create(player);
-            playerDataByUUID.put(player.getUniqueId(), playerData);
+        for (T playerData : playerDataByUUID.values()) {
+            if (playerData.isLoaded()) {
+                continue;
+            }
 
             if (playerDataRepositories.isEmpty()) {
                 playerData.setLoaded(true);
                 continue;
             }
 
-            plugin.runWhenReady(() -> {
-                if (playerData.isLoaded()) {
-                    return;
-                }
-                for (PlayerDataRepository<T> dataRepository : playerDataRepositories) {
-                    dataRepository.loadData(playerData);
-                }
-                plugin.getScheduler().runTask(() -> {
-                    playerData.setLoaded(true);
-                });
-            });
-        }
-    }
+            for (PlayerDataRepository<T> dataRepository : playerDataRepositories) {
+                dataRepository.loadData(playerData);
+            }
 
-    @Override
-    public void enable() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            registerPlayer(player);
+            plugin.getScheduler().runTask(() -> {
+                playerData.setLoaded(true);
+            });
         }
     }
 
     @Override
     public void saveData() {
         for (T playerData : playerDataByUUID.values()) {
-            if (playerData.isLoaded()) {
-                for (PlayerDataRepository<T> dataRepository : playerDataRepositories) {
-                    dataRepository.saveData(playerData);
-                }
-            }
-        }
-        for (T playerData : cachedPlayerData.values()) {
-            if (playerData.isLoaded()) {
-                for (PlayerDataRepository<T> dataRepository : playerDataRepositories) {
-                    dataRepository.saveData(playerData);
-                }
-            }
+            save(playerData);
         }
     }
 
@@ -140,33 +144,4 @@ public class PlayerDataManager<T extends PlayerData> extends Manager {
         playerDataRepositories.remove(dataRepository);
     }
 
-    public void registerPlayer(@NotNull Player player) {
-        getPlayerData(player);
-    }
-
-    public void unregisterPlayer(@NotNull Player player) {
-        UUID playerId = player.getUniqueId();
-        T playerData = playerDataByUUID.remove(playerId);
-
-        if (playerData == null) {
-            playerData = cachedPlayerData.get(playerId);
-        }
-
-        if (playerData != null) {
-            if (playerData.isLoaded()) {
-                T finalPlayerData = playerData;
-                plugin.getScheduler().runTaskAsync(() -> {
-                    for (PlayerDataRepository<T> repo : playerDataRepositories) {
-                        repo.saveData(finalPlayerData);
-                    }
-                });
-            }
-
-            cachedPlayerData.put(playerId, playerData);
-            int playerCacheDuration = plugin.getSettings().getPlayerCacheDuration().toTicks();
-            plugin.getScheduler().runTaskLater(playerCacheDuration, () -> {
-                cachedPlayerData.remove(playerId);
-            });
-        }
-    }
 }

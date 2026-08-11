@@ -1,0 +1,12 @@
+
+miner_helmet:
+  type: leather_helmet
+  name: 'Miner''s helmet'
+  description:
+    - An helmet to light up the
+    - caves and help mine ores
+  stats:
+    mining-speed: 60
+    mining-fortune: 40
+    max-health: 20
+  rarity: common_helmet

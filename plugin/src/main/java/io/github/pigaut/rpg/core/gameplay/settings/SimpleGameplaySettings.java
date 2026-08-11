@@ -1,5 +1,9 @@
 package io.github.pigaut.rpg.core.gameplay.settings;
 
+import io.github.pigaut.rpg.module.function.*;
+import io.github.pigaut.rpg.plugin.*;
+import io.github.pigaut.rpg.plugin.boot.*;
+import io.github.pigaut.rpg.plugin.boot.phase.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.delay.*;
@@ -10,6 +14,8 @@ import org.jetbrains.annotations.*;
 import java.util.*;
 
 public class SimpleGameplaySettings implements GameplaySettings {
+
+    private final EnhancedPlugin plugin;
 
     private boolean showDeathMessages;
     private boolean showSlainMessages;
@@ -28,6 +34,12 @@ public class SimpleGameplaySettings implements GameplaySettings {
     private boolean customEggLaying;
     private Amount eggLayAmount;
     private Delay eggLayDelay;
+
+    private Function onPlayerDamageEntity = null;
+
+    public SimpleGameplaySettings(EnhancedPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     public void loadConfigurationData(@NotNull ConfigSection config) {
         showDeathMessages = config.getBoolean("show-death-messages")
@@ -84,6 +96,13 @@ public class SimpleGameplaySettings implements GameplaySettings {
                     eggLayAmount = Amount.ONE;
                     eggLayDelay = Delay.fromSeconds(20);
                 });
+
+
+        plugin.runOnStartup(() -> {
+            onPlayerDamageEntity = config.get("on-player-damage-entity", Function.class)
+                    .withDefault(null);
+        });
+
     }
 
     @Override
@@ -156,4 +175,8 @@ public class SimpleGameplaySettings implements GameplaySettings {
         return eggLayDelay;
     }
 
+    @Override
+    public @Nullable Function getOnPlayerDamageEntity() {
+        return onPlayerDamageEntity;
+    }
 }

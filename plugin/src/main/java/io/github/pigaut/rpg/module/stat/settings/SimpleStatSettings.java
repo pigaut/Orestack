@@ -85,7 +85,7 @@ public class SimpleStatSettings implements StatSettings {
         insertedMessageAlign = config.get("status-bar-messages.align", BarAlignment.class)
                 .withDefault(BarAlignment.CENTER);
 
-        statusBar = config.getString("status-bar", ColorUtil.FORMATTER)
+        statusBar = config.getString("status-bar")
                 .withDefault("&cStatus Bar Not Set");
 
         baseDamage = config.getInteger("base-stats.damage")
@@ -106,7 +106,7 @@ public class SimpleStatSettings implements StatSettings {
 
         healthRegenInterval = config.getString("health-regen-interval").test(s -> s.equals("none")) ? -1 :
                 config.get("health-regen-interval", Delay.class)
-                    .map(Delay::toTicks)
+                    .mapIfValid(Delay::toTicks)
                     .withDefault(40);
 
         baseManaRegen = config.getInteger("base-stats.mana-regen")
@@ -119,7 +119,7 @@ public class SimpleStatSettings implements StatSettings {
 
         manaRegenInterval = config.getString("mana-regen-interval").test(s -> s.equals("none")) ? -1 :
                 config.get("mana-regen-interval", Delay.class)
-                    .map(Delay::toTicks)
+                    .mapIfValid(Delay::toTicks)
                     .withDefault(20);
 
         baseCritDamage = config.getDouble("base-stats.crit-damage")
@@ -162,7 +162,7 @@ public class SimpleStatSettings implements StatSettings {
         }
 
         customStats = new HashMap<>();
-        for (KeyedField field : config.getNestedFields("custom-stats")) {
+        for (KeyedField field : config.getSectionOrEmpty("custom-stats").getNestedFields()) {
             String name = CaseFormatter.toSnakeCase(field.getKey());
             if (stats.contains(name)) {
                 config.collectError(new InvalidConfigException(field, name, "Stat name already in use: " + name));
@@ -193,12 +193,11 @@ public class SimpleStatSettings implements StatSettings {
                     .require(Requirements.positive())
                     .withDefault(null);
 
-            Double attackDamage = scalar.toDouble()
-                    .map(value -> value + 1)
+            Double damageMultiplier = scalar.toDouble()
                     .withDefault(null);
 
-            if (level != null && attackDamage != null) {
-                damageMultiplierByEnchantLevel.put(level, attackDamage);
+            if (level != null && damageMultiplier != null) {
+                damageMultiplierByEnchantLevel.put(level, damageMultiplier);
             }
         }
 
@@ -370,17 +369,7 @@ public class SimpleStatSettings implements StatSettings {
     @Override
     public double getDamageMultiplierFromSharpnessEnchant(@NotNull ItemStack item) {
         int sharpnessEnchantLevel = item.getEnchantmentLevel(Enchants.SHARPNESS);
-        return damageMultiplierByEnchantLevel.getOrDefault(sharpnessEnchantLevel, 0d);
-    }
-
-    private static final double[] SHARPNESS_DEBUFFS = { -1.0, -1.5, -2.0, -2.5, -3.0, -3.5, -4.0, -4.5, -5.0, -5.5, -6.0, -6.5,
-            -7.0, -7.5, -8.0, -8.5, -9.0, -9.5, -10.0, -10.5, -11.0 };
-
-    @Override
-    public double getSharpnessDamageDebuff(@NotNull ItemStack item) {
-        int sharpnessEnchantLevel = item.getEnchantmentLevel(Enchants.SHARPNESS);
-        if (sharpnessEnchantLevel > 20) return -11.0;
-        return SHARPNESS_DEBUFFS[sharpnessEnchantLevel];
+        return damageMultiplierByEnchantLevel.getOrDefault(sharpnessEnchantLevel, 1d);
     }
 
     @Override

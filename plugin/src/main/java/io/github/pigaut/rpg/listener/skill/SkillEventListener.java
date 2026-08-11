@@ -1,6 +1,7 @@
 package io.github.pigaut.rpg.listener.skill;
 
 import io.github.pigaut.rpg.*;
+import io.github.pigaut.rpg.event.player.*;
 import io.github.pigaut.rpg.module.skill.*;
 import io.github.pigaut.rpg.module.skill.exp.*;
 import io.github.pigaut.rpg.module.skill.level.*;
@@ -19,6 +20,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
 import org.bukkit.event.enchantment.*;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 
 public class SkillEventListener implements Listener {
@@ -160,6 +162,56 @@ public class SkillEventListener implements Listener {
             }
 
             ExpAmount expAmount = enchantItemExp.yield(context);
+            if (expAmount == null) {
+                continue;
+            }
+
+            int totalExp = expAmount.intValue();
+            context.addPlaceholder("skill", skill.getName());
+            context.addPlaceholder("exp", totalExp);
+            skill.increaseExp(context, totalExp);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onBrewPotion(PlayerCollectBrewedPotionEvent event) {
+        Player player = event.getPlayer();
+        Context context = Context.fromPlayerAndItem(plugin, player, event.getPotion());
+
+        int amount = event.getAmount();
+
+        RpgPlayerData playerData = plugin.getPlayerData(player);
+        for (Skill skill : playerData.getSkills()) {
+            ExpYieldFunction brewPotionExp = skill.getBrewPotionExp();
+            if (brewPotionExp == null) {
+                continue;
+            }
+
+            ExpAmount expAmount = brewPotionExp.yield(context);
+            if (expAmount == null) {
+                continue;
+            }
+
+            int totalExp = expAmount.intValue() * amount;
+            context.addPlaceholder("skill", skill.getName());
+            context.addPlaceholder("exp", totalExp);
+            skill.increaseExp(context, totalExp);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onKillEntity(PlayerKillEntityEvent event) {
+        Player player = event.getPlayer();
+        Context context = Context.fromPlayerAndEntity(plugin, player, event.getEntity());
+
+        RpgPlayerData playerData = plugin.getPlayerData(player);
+        for (Skill skill : playerData.getSkills()) {
+            ExpYieldFunction entityKillExp = skill.getEntityKillExp();
+            if (entityKillExp == null) {
+                continue;
+            }
+
+            ExpAmount expAmount = entityKillExp.yield(context);
             if (expAmount == null) {
                 continue;
             }

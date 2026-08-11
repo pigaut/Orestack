@@ -30,7 +30,7 @@ public class SingleLineHologramEditor extends GenericHologramEditor {
                 .enchanted(true)
                 .name("&f&lLine")
                 .addEmptyLine()
-                .addLine(section.getString("line", ColorUtil.FORMATTER).orElse("not set"))
+                .addLine(section.getString("line").orElse("not set"))
                 .addEmptyLine()
                 .addLeftClickLine("To set hologram line text")
                 .onLeftClick((view, player) -> player.collectChatInput()

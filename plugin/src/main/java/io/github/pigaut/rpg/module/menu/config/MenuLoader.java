@@ -53,9 +53,9 @@ public class MenuLoader implements ConfigLoader<Menu> {
         String type = section.getString("type", CaseStyle.SNAKE)
                 .withDefault("fixed");
 
-        String title = section.getRequiredString("title", ColorUtil.FORMATTER);
+        String title = section.getRequiredString("title");
         int size = section.getInteger("rows")
-                .map(rows -> rows * 9)
+                .mapIfValid(rows -> rows * 9)
                 .requireOrThrow(InventoryUtil::isValidChestSize, "Chest rows must be a value between 1-6");
         boolean keepOpen = section.getBoolean("keep-open").withDefault(false);
         boolean backtrack = section.getBoolean("backtrack").withDefault(false);

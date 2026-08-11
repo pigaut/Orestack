@@ -5,6 +5,8 @@ import io.github.pigaut.rpg.core.command.node.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.module.structure.*;
 import io.github.pigaut.rpg.plugin.*;
+import io.github.pigaut.rpg.server.Server;
+import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.node.sequence.*;
 import org.bukkit.*;
@@ -25,13 +27,14 @@ public class StructureSaveSubCommand extends SubCommand {
         withPlayerExecution((player, context, args) -> {
             PlayerState playerState = plugin.getPlayerState(player);
 
-            File file = plugin.getFile("structures", args[0]);
-            YamlConfig.createFileIfNotExists(file);
-
-            if (!YamlConfig.isYamlFile(file)) {
-                plugin.sendMessage(player, context, "not-yaml-file");
-                return;
+            String fileName = args[0];
+            if (!YamlConfig.isYamlFile(fileName)) {
+                fileName += ".yml";
+                context.addPlaceholder("file-path", fileName);
             }
+
+            File file = plugin.getFile("structures", fileName);
+            YamlConfig.createFileIfNotExists(file);
 
             Location firstSelection = playerState.getFirstSelection();
             Location secondSelection = playerState.getSecondSelection();
@@ -47,6 +50,8 @@ public class StructureSaveSubCommand extends SubCommand {
             RootSequence sequence = YamlConfig.createEmptySequence(file, plugin.getConfigurator());
             sequence.setFlowStyle(FlowStyle.AUTO);
 
+            boolean structureContainsHeads = false;
+
             Set<Material> structureBlacklist = plugin.getSettings().getStructureBlacklist();
             for (Location location : CuboidRegion.getAllLocations(player.getWorld(), firstSelection, secondSelection)) {
                 Block block = location.getBlock();
@@ -54,6 +59,10 @@ public class StructureSaveSubCommand extends SubCommand {
 
                 if (structureBlacklist.contains(blockType)) {
                     continue;
+                }
+
+                if (blockType == Material.PLAYER_HEAD || blockType == Material.PLAYER_WALL_HEAD) {
+                    structureContainsHeads = true;
                 }
 
                 ConfigSection blockConfig = sequence.addEmptySection();
@@ -66,6 +75,10 @@ public class StructureSaveSubCommand extends SubCommand {
             if (sequence.size() < 2) {
                 plugin.sendMessage(player, context, "structure-minimum-blocks");
                 return;
+            }
+
+            if (structureContainsHeads && Server.isPaper() && Server.getVersion() >= Version.V1_18_1) {
+                plugin.sendMessage(player, context, "structure-heads-requirement");
             }
 
             sequence.save();

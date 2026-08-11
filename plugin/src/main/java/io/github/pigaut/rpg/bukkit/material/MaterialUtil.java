@@ -123,6 +123,19 @@ public class MaterialUtil {
         return CHANGED_MATERIAL_NAMES.get(name);
     }
 
+    public static Material getMaterialOrDefault(@NotNull String name) {
+        return getMaterialOrDefault(name, STONE);
+    }
+
+    public static Material getMaterialOrDefault(@NotNull String name, Material defaultMaterial) {
+        name = CaseFormatter.toConstantCase(name);
+        Material material = Material.getMaterial(name);
+        if (material != null) {
+            return material;
+        }
+        return CHANGED_MATERIAL_NAMES.getOrDefault(name, defaultMaterial);
+    }
+
     private static final Map<String, Material> CHANGED_MATERIAL_NAMES = new HashMap<>();
 
     private static void registerChangedName(int version, String oldName, String newName) {

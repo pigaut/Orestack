@@ -68,7 +68,7 @@ public class GeneratorPhaseLoader implements ConfigLoader<GeneratorPhase> {
         Boolean harvestOnly = section.getBoolean("harvest-only").withDefault(null);
         int growthTime = section.get("growth|growth-time", Delay.class)
                 .check(harvestOnly == null || !harvestOnly, "Cannot set growth time while harvest-only is true")
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(0);
 
         Double chance = section.getDouble("chance|growth-chance").withDefault(null);

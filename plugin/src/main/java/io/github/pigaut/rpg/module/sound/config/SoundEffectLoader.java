@@ -66,7 +66,7 @@ public class SoundEffectLoader implements ConfigLoader<SoundEffect> {
 
         Integer interval = section.get("interval|period", Delay.class)
                 .check(repetitions != null, "repetitions must be set to use interval delay")
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(null);
 
         if (interval != null) {
@@ -77,7 +77,7 @@ public class SoundEffectLoader implements ConfigLoader<SoundEffect> {
         }
 
         Integer delay = section.get("delay", Delay.class)
-                .map(Delay::toTicks)
+                .mapIfValid(Delay::toTicks)
                 .withDefault(null);
 
         if (delay != null) {

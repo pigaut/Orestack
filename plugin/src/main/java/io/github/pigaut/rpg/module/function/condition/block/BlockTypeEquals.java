@@ -8,21 +8,15 @@ import java.util.*;
 
 public class BlockTypeEquals implements BlockCondition {
 
-    private final List<Material> validBlockTypes;
+    private final Set<Material> validBlockTypes;
 
-    public BlockTypeEquals(List<Material> validBlockTypes) {
-        this.validBlockTypes = validBlockTypes;
+    public BlockTypeEquals(Set<Material> validBlockTypes) {
+        this.validBlockTypes = Set.copyOf(validBlockTypes);
     }
 
     @Override
     public Boolean evaluate(@NotNull Block block) {
-        final Material blockType = block.getType();
-        for (Material validBlockType : validBlockTypes) {
-            if (blockType == validBlockType) {
-                return true;
-            }
-        }
-        return false;
+        return validBlockTypes.contains(block.getType());
     }
 
 }

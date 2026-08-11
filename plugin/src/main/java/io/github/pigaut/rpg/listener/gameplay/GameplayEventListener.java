@@ -1,7 +1,11 @@
 package io.github.pigaut.rpg.listener.gameplay;
 
+import io.github.pigaut.rpg.bukkit.*;
+import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.gameplay.cow.*;
 import io.github.pigaut.rpg.event.farm.*;
+import io.github.pigaut.rpg.event.player.*;
+import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.core.gameplay.cow.*;
 import io.github.pigaut.rpg.event.farm.*;
@@ -14,6 +18,7 @@ import org.bukkit.event.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.*;
+import org.bukkit.projectiles.*;
 
 public class GameplayEventListener implements Listener {
 
@@ -21,6 +26,37 @@ public class GameplayEventListener implements Listener {
 
     public GameplayEventListener(EnhancedPlugin plugin) {
         this.plugin = plugin;
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof LivingEntity victim)) {
+            return;
+        }
+
+        LivingEntity livingEntity = EntityUtil.getDamagerEntity(event.getDamager());
+        if (!(livingEntity instanceof Player killer)) {
+            return;
+        }
+
+        Context context = Context.fromPlayerAndEntity(plugin, killer, victim, event);
+
+        double damage = event.getFinalDamage();
+        context.addPlaceholder("damage", damage);
+
+        Function onPlayerDamageEntity = plugin.getSettings().getOnPlayerDamageEntity();
+        if (onPlayerDamageEntity != null) {
+            onPlayerDamageEntity.run(context);
+            if (event.isCancelled()) {
+                return;
+            }
+        }
+
+        if (victim.getHealth() <= damage) {
+            PlayerKillEntityEvent killEvent = new PlayerKillEntityEvent(killer, victim);
+            Server.callEvent(killEvent);
+            event.setCancelled(killEvent.isCancelled());
+        }
     }
 
     @EventHandler

@@ -12,10 +12,6 @@ description:
   - 'collect eggs, and shear sheep'
   - 'to earn Farming EXP!'
 
-# Triggered anytime a player levels up this skill
-on-level-up:
-  - sendSkillLevelUpMessage   # Found in functions/utils/MessageUtil.yml
-
 # The exp gained when a player collects an egg laid by a chicken
 egg-collect-exp:
   yield: 10 exp
@@ -55,54 +51,44 @@ block-break-exp:
     vine: common exp
     twisting_vines: epic exp
     weeping_vines: epic exp
-    # moss_block: uncommon exp   # 1.17+
-    # mangrove_propagule: rare exp   # 1.17+
-    # pitcher_crop: legendary exp   # 1.20+
-    # torchflower_crop: legendary exp   # 1.20+
+    moss_block: uncommon exp # 1.17+
+    mangrove_propagule: rare exp # 1.17+
+    pitcher_crop: legendary exp # 1.20+
+    torchflower_crop: legendary exp # 1.20+
   default: 0 exp
 
---- # ===== Levels 1-25 ===== #
-levels: 1-25
+--- # ===== Levels 1-10 ===== #
+levels: 1-10
 
-# Define the stat increment amount per level
 stats:
-  max-health: +2 every 1 level
+  max-health: +1 every 1 level
   farming-fortune: +4 every 1 level
 
 rewards:
-  - '&8+&a2 $health'
+  - '&8+&a1 $health'
   - '&8+&64 $farming_fortune'
+  - '&8+&e5,000 $coin Coins'
 
-on-completion: []
+on-completion:
+  - giveMoney 5000
 
---- # ===== Levels 26-50 ===== #
-levels: 26-50
+--- # ===== Levels 11-20 ===== #
+levels: 11-20
 
 stats:
-  max-health: +2 every 1 level
+  max-health: +1 every 1 level
   farming-fortune: +4 every 1 level
 
 rewards:
-  - '&8+&a2 $health'
+  - '&8+&a1 $health'
   - '&8+&64 $farming_fortune'
+  - '&8+&e10,000 $coin Coins'
 
-on-completion: []
+on-completion:
+  - giveMoney 10000
 
---- # ===== Levels 51-75 ===== #
-levels: 51-75
-
-stats:
-  max-health: +2 every 1 level
-  farming-fortune: +4 every 1 level
-
-rewards:
-  - '&8+&a2 $health'
-  - '&8+&64 $farming_fortune'
-
-on-completion: []
-
---- # ===== Levels 76-100 ===== #
-levels: 76-100
+--- # ===== Levels 21-30 ===== #
+levels: 21-30
 
 stats:
   max-health: +2 every 1 level
@@ -111,6 +97,112 @@ stats:
 rewards:
   - '&8+&a2 $health'
   - '&8+&64 $farming_fortune'
+  - '&8+&e20,000 $coin Coins'
 
-on-completion: []
-on-regression: []
+on-completion:
+  - giveMoney 20000
+
+--- # ===== Levels 31-40 ===== #
+levels: 31-40
+
+stats:
+  max-health: +2 every 1 level
+  farming-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a2 $health'
+  - '&8+&64 $farming_fortune'
+  - '&8+&e40,000 $coin Coins'
+
+on-completion:
+  - giveMoney 40000
+
+--- # ===== Levels 41-50 ===== #
+levels: 41-50
+
+stats:
+  max-health: +3 every 1 level
+  farming-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a3 $health'
+  - '&8+&64 $farming_fortune'
+  - '&8+&e75,000 $coin Coins'
+
+on-completion:
+  - giveMoney 75000
+
+--- # ===== Levels 51-60 ===== #
+levels: 51-60
+
+stats:
+  max-health: +3 every 1 level
+  farming-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a3 $health'
+  - '&8+&64 $farming_fortune'
+  - '&8+&e125,000 $coin Coins'
+
+on-completion:
+  - giveMoney 125000
+
+--- # ===== Levels 61-70 ===== #
+levels: 61-70
+
+stats:
+  max-health: +4 every 1 level
+  farming-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a4 $health'
+  - '&8+&64 $farming_fortune'
+  - '&8+&e200,000 $coin Coins'
+
+on-completion:
+  - giveMoney 200000
+
+--- # ===== Levels 71-80 ===== #
+levels: 71-80
+
+stats:
+  max-health: +4 every 1 level
+  farming-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a4 $health'
+  - '&8+&64 $farming_fortune'
+  - '&8+&e350,000 $coin Coins'
+
+on-completion:
+  - giveMoney 350000
+
+--- # ===== Levels 81-90 ===== #
+levels: 81-90
+
+stats:
+  max-health: +5 every 1 level
+  farming-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a5 $health'
+  - '&8+&64 $farming_fortune'
+  - '&8+&e600,000 $coin Coins'
+
+on-completion:
+  - giveMoney 600000
+
+--- # ===== Levels 91-100 ===== #
+levels: 91-100
+
+stats:
+  max-health: +5 every 1 level
+  farming-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a5 $health'
+  - '&8+&64 $farming_fortune'
+  - '&8+&e1,000,000 $coin Coins'
+
+on-completion:
+  - giveMoney 1000000

@@ -28,10 +28,10 @@ public class BossBarMessageLoader implements ConfigLoader<BossBarMessage> {
         String name = section.getKey();
         String group = Group.byMessageFile(section.getRoot().getFile());
         return new BossBarMessage(plugin, name, group,
-                section.getRequiredString("bossbar|boss-bar", ColorUtil.FORMATTER),
+                section.getRequiredString("bossbar|boss-bar"),
                 section.get("style", BarStyle.class).withDefault(BarStyle.SOLID),
                 section.get("color", BarColor.class).withDefault(BarColor.RED),
-                section.get("duration", Delay.class).map(Delay::toTicks).withDefault(100),
+                section.get("duration", Delay.class).mapIfValid(Delay::toTicks).withDefault(100),
                 section.getDoubleList("progress").orEmpty()
         );
     }

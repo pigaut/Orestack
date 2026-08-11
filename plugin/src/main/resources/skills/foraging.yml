@@ -11,52 +11,24 @@ description:
   - 'Cut down trees and forage for other'
   - 'plants to earn Foraging EXP!'
 
-# Triggered anytime a player levels up this skill
-on-level-up:
-  - sendSkillLevelUpMessage   # Found in functions/utils/MessageUtil.yml
-
 # The exp gained when a player breaks a block
 block-break-exp:
   switch: blockTypeEquals
   cases:
-    oak_log: common exp   # Exp earning activities can be found in config.yml and help you stay consistent.
-    oak_wood: common exp
-    birch_log: uncommon exp
-    birch_wood: uncommon exp
-    spruce_log: uncommon exp
-    spruce_wood: uncommon exp
-    jungle_log: common exp
-    jungle_wood: common exp
-    dark_oak_log: common exp
-    dark_oak_wood: common exp
-    acacia_log: legendary exp
-    acacia_wood: legendary exp
-    # mangrove_log: rare exp   # 1.19+
-    # mangrove_wood: rare exp   # 1.19+
-    # mangrove_roots: uncommon exp   # 1.19+
-    # muddy_mangrove_roots: uncommon exp   # 1.19+
-    # cherry_log: rare exp   # 1.21+
-    # cherry_wood: rare exp   # 1.21+
-    # pale_oak_log: legendary exp   # 1.21+
-    # pale_oak_wood: legendary exp   # 1.21+
+    raw_oak: common exp # Exp earning activities can be found in config.yml and help you stay consistent.
+    raw_birch: uncommon exp # raw_birch includes: birch_log, birch_wood
+    raw_spruce: uncommon exp
+    raw_jungle: common exp
+    raw_dark_oak: common exp
+    raw_acacia: legendary exp
+    raw_mangrove: rare exp # 1.19+
+    mangrove_roots: uncommon exp # 1.19+
+    raw_cherry: rare exp # 1.21+
+    raw_pale_oak: legendary exp # 1.21+
   default: 0 exp
 
---- # ===== Levels 1-25 ===== #
-levels: 1-25
-
-# Define the stat increment amount per level
-stats:
-  strength: +1 every 1 level
-  foraging-fortune: +4 every 1 level
-
-rewards:
-  - '&8+&a1 $strength'
-  - '&8+&64 $foraging_fortune'
-
-on-completion: []
-
---- # ===== Levels 26-50 ===== #
-levels: 26-50
+--- # ===== Levels 1-10 ===== #
+levels: 1-10
 
 stats:
   strength: +1 every 1 level
@@ -65,24 +37,13 @@ stats:
 rewards:
   - '&8+&a1 $strength'
   - '&8+&64 $foraging_fortune'
+  - '&8+&e5,000 $coin Coins'
 
-on-completion: []
+on-completion:
+  - giveMoney 5000
 
---- # ===== Levels 51-75 ===== #
-levels: 51-75
-
-stats:
-  strength: +1 every 1 level
-  foraging-fortune: +4 every 1 level
-
-rewards:
-  - '&8+&a1 $strength'
-  - '&8+&64 $foraging_fortune'
-
-on-completion: []
-
---- # ===== Levels 76-100 ===== #
-levels: 76-100
+--- # ===== Levels 11-20 ===== #
+levels: 11-20
 
 stats:
   strength: +1 every 1 level
@@ -91,6 +52,127 @@ stats:
 rewards:
   - '&8+&a1 $strength'
   - '&8+&64 $foraging_fortune'
+  - '&8+&e10,000 $coin Coins'
 
-on-completion: []
-on-regression: []
+on-completion:
+  - giveMoney 10000
+
+--- # ===== Levels 21-30 ===== #
+levels: 21-30
+
+stats:
+  strength: +1 every 1 level
+  foraging-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $strength'
+  - '&8+&64 $foraging_fortune'
+  - '&8+&e20,000 $coin Coins'
+
+on-completion:
+  - giveMoney 20000
+
+--- # ===== Levels 31-40 ===== #
+levels: 31-40
+
+stats:
+  strength: +1 every 1 level
+  foraging-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $strength'
+  - '&8+&64 $foraging_fortune'
+  - '&8+&e40,000 $coin Coins'
+
+on-completion:
+  - giveMoney 40000
+
+--- # ===== Levels 41-50 ===== #
+levels: 41-50
+
+stats:
+  strength: +1 every 1 level
+  foraging-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $strength'
+  - '&8+&64 $foraging_fortune'
+  - '&8+&e75,000 $coin Coins'
+
+on-completion:
+  - giveMoney 75000
+
+--- # ===== Levels 51-60 ===== #
+levels: 51-60
+
+stats:
+  strength: +1 every 1 level
+  foraging-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $strength'
+  - '&8+&64 $foraging_fortune'
+  - '&8+&e125,000 $coin Coins'
+
+on-completion:
+  - giveMoney 125000
+
+--- # ===== Levels 61-70 ===== #
+levels: 61-70
+
+stats:
+  strength: +1 every 1 level
+  foraging-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $strength'
+  - '&8+&64 $foraging_fortune'
+  - '&8+&e200,000 $coin Coins'
+
+on-completion:
+  - giveMoney 200000
+
+--- # ===== Levels 71-80 ===== #
+levels: 71-80
+
+stats:
+  strength: +1 every 1 level
+  foraging-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $strength'
+  - '&8+&64 $foraging_fortune'
+  - '&8+&e350,000 $coin Coins'
+
+on-completion:
+  - giveMoney 350000
+
+--- # ===== Levels 81-90 ===== #
+levels: 81-90
+
+stats:
+  strength: +1 every 1 level
+  foraging-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $strength'
+  - '&8+&64 $foraging_fortune'
+  - '&8+&e600,000 $coin Coins'
+
+on-completion:
+  - giveMoney 600000
+
+--- # ===== Levels 91-100 ===== #
+levels: 91-100
+
+stats:
+  strength: +1 every 1 level
+  foraging-fortune: +4 every 1 level
+
+rewards:
+  - '&8+&a1 $strength'
+  - '&8+&64 $foraging_fortune'
+  - '&8+&e1,000,000 $coin Coins'
+
+on-completion:
+  - giveMoney 1000000

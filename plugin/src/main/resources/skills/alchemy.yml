@@ -1,7 +1,7 @@
 
-#░░░█▀█░█░░░█▀▀░█░█░█▀▀░█▄█░█░█░░░░
-#░░░█▀█░█░░░█░░░█▀█░█▀▀░█░█░░█░░░░░
-#░░░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░░▀░░░░░
+#░░░█▀█░█░░░█▀▀░█░█░█▀▀░█▄█░█░█░░░█▀▀░█░█░▀█▀░█░░░█░░░░
+#░░░█▀█░█░░░█░░░█▀█░█▀▀░█░█░░█░░░░▀▀█░█▀▄░░█░░█░░░█░░░░
+#░░░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░░▀░░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░░
 
 # The item for {skill_icon} placeholder
 icon: brewing_stand
@@ -10,52 +10,189 @@ icon: brewing_stand
 description:
   - 'Brew potions to earn Alchemy EXP!'
 
-# Triggered anytime a player levels up this skill
-on-level-up:
-  - sendSkillLevelUpMessage   # Found in functions/utils/MessageUtil.yml
+# Triggered when a player collects a brewed potion from a brewing stand
+brew-potion-exp:
+  switch: itemPotionTypeEquals
+  cases:
+    awkward: common exp # Exp earning activity or exp amount (i.e. 100 exp, 10-20 exp)
+    fire_resistance: uncommon exp
+    harming: rare exp
+    healing: rare exp
+    infested: uncommon exp
+    invisibility: uncommon exp
+    leaping: common exp
+    luck: legendary exp
+    mundane: basic exp
+    night_vision: common exp
+    oozing: uncommon exp
+    poison: common exp
+    regeneration: uncommon exp
+    slow_falling: uncommon exp
+    slowness: common exp
+    strength: uncommon exp
+    swiftness: common exp
+    thick: basic exp
+    turtle_master: rare exp
+    water: basic exp
+    water_breathing: uncommon exp
+    weakness: basic exp
+    weaving: uncommon exp
+    wind_charged: uncommon exp
 
---- # ===== Levels 1-25 ===== #
-levels: 1-25
+    # Long duration variants
+    long_fire_resistance: uncommon exp
+    long_invisibility: uncommon exp
+    long_leaping: common exp
+    long_night_vision: common exp
+    long_poison: common exp
+    long_regeneration: uncommon exp
+    long_slow_falling: uncommon exp
+    long_slowness: common exp
+    long_strength: uncommon exp
+    long_swiftness: common exp
+    long_turtle_master: rare exp
+    long_water_breathing: uncommon exp
+    long_weakness: basic exp
 
-# Define the stats amount per level
+    # Strong effect variants
+    strong_harming: epic exp
+    strong_healing: epic exp
+    strong_leaping: uncommon exp
+    strong_poison: uncommon exp
+    strong_regeneration: rare exp
+    strong_slowness: uncommon exp
+    strong_strength: rare exp
+    strong_swiftness: uncommon exp
+    strong_turtle_master: epic exp
+  default: 0 exp
+
+
+--- # ===== Levels 1-10 ===== #
+levels: 1-10
+
 stats:
   intelligence: +1 every 1 level
 
 rewards:
   - '&8+&a1 $intelligence'
+  - '&8+&e5,000 $coin Coins'
 
-on-completion: []
+on-completion:
+  - giveMoney 5000
 
---- # ===== Levels 26-50 ===== #
-levels: 26-50
-
-stats:
-  intelligence: +1 every 1 level
-
-rewards:
-  - '&8+&a1 $intelligence'
-
-on-completion: []
-
---- # ===== Levels 51-75 ===== #
-levels: 51-75
+--- # ===== Levels 11-20 ===== #
+levels: 11-20
 
 stats:
   intelligence: +1 every 1 level
 
 rewards:
   - '&8+&a1 $intelligence'
+  - '&8+&e10,000 $coin Coins'
 
-on-completion: []
+on-completion:
+  - giveMoney 10000
 
---- # ===== Levels 76-100 ===== #
-levels: 76-100
+--- # ===== Levels 21-30 ===== #
+levels: 21-30
 
 stats:
-  intelligence: +1 every 1 level
+  intelligence: +2 every 1 level
 
 rewards:
-  - '&8+&a1 $intelligence'
+  - '&8+&a2 $intelligence'
+  - '&8+&e20,000 $coin Coins'
 
-on-completion: []
-on-regression: []
+on-completion:
+  - giveMoney 20000
+
+--- # ===== Levels 31-40 ===== #
+levels: 31-40
+
+stats:
+  intelligence: +2 every 1 level
+
+rewards:
+  - '&8+&a2 $intelligence'
+  - '&8+&e40,000 $coin Coins'
+
+on-completion:
+  - giveMoney 40000
+
+--- # ===== Levels 41-50 ===== #
+levels: 41-50
+
+stats:
+  intelligence: +3 every 1 level
+
+rewards:
+  - '&8+&a3 $intelligence'
+  - '&8+&e75,000 $coin Coins'
+
+on-completion:
+  - giveMoney 75000
+
+--- # ===== Levels 51-60 ===== #
+levels: 51-60
+
+stats:
+  intelligence: +3 every 1 level
+
+rewards:
+  - '&8+&a3 $intelligence'
+  - '&8+&e125,000 $coin Coins'
+
+on-completion:
+  - giveMoney 125000
+
+--- # ===== Levels 61-70 ===== #
+levels: 61-70
+
+stats:
+  intelligence: +4 every 1 level
+
+rewards:
+  - '&8+&a4 $intelligence'
+  - '&8+&e200,000 $coin Coins'
+
+on-completion:
+  - giveMoney 200000
+
+--- # ===== Levels 71-80 ===== #
+levels: 71-80
+
+stats:
+  intelligence: +4 every 1 level
+
+rewards:
+  - '&8+&a4 $intelligence'
+  - '&8+&e350,000 $coin Coins'
+
+on-completion:
+  - giveMoney 350000
+
+--- # ===== Levels 81-90 ===== #
+levels: 81-90
+
+stats:
+  intelligence: +5 every 1 level
+
+rewards:
+  - '&8+&a5 $intelligence'
+  - '&8+&e600,000 $coin Coins'
+
+on-completion:
+  - giveMoney 600000
+
+--- # ===== Levels 91-100 ===== #
+levels: 91-100
+
+stats:
+  intelligence: +5 every 1 level
+
+rewards:
+  - '&8+&a5 $intelligence'
+  - '&8+&e1,000,000 $coin Coins'
+
+on-completion:
+  - giveMoney 1000000

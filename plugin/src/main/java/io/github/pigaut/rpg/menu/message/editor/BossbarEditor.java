@@ -39,7 +39,7 @@ public class BossbarEditor extends GenericMessageEditor {
                 .name("&f&lTitle")
                 .enchanted(true)
                 .addEmptyLine()
-                .addLine(section.getString("bossbar|boss-bar", ColorUtil.FORMATTER).orElse("not set"))
+                .addLine(section.getString("bossbar|boss-bar").orElse("not set"))
                 .addEmptyLine()
                 .addLeftClickLine("To set healthBar title")
                 .onLeftClick((view, player) -> {

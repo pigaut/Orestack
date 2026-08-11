@@ -36,6 +36,7 @@ import org.bukkit.enchantments.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.trim.*;
 import org.bukkit.persistence.*;
+import org.bukkit.potion.*;
 
 public class SpigotConfigurator extends StandardConfigurator {
 
@@ -78,6 +79,7 @@ public class SpigotConfigurator extends StandardConfigurator {
         addSerializer(Enchantment.class, enchant -> enchant.getKey().getKey());
 
         addDeserializer(Material.class, new MaterialDeserializer());
+        addDeserializer(PotionType.class, new PotionTypeDeserializer());
         addDeserializer(Particle.class, new ParticleDeserializer());
         addDeserializer(Sound.class, new SoundDeserializer());
         addDeserializer(Attribute.class, new AttributeDeserializer());

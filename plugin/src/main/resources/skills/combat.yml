@@ -11,54 +11,138 @@ description:
   - 'Fight mobs and special bosses to'
   - 'to earn Combat EXP!'
 
-# Triggered anytime a player levels up this skill
-on-level-up:
-  - sendSkillLevelUpMessage   # Found in functions/utils/MessageUtil.yml
+entity-kill-exp:
+  - if: entityIsMob # Whether entity is a custom RpgMaker Mob
+    then:
+      switch: mobNameEquals # Test the mob name (i.e. mobs/boar.yml = boar)
+      cases:
+        slime: common exp
+        boar: common exp
+        zombie: uncommon exp
+      default: 0 exp
 
-block-break-exp: []
+  - switch: entityTypeEquals
+    cases:
+      zombie: common exp
+      spider: common exp
+    default: 0 exp
 
---- # ===== Levels 1-25 ===== #
-levels: 1-25
+--- # ===== Levels 1-10 ===== #
+levels: 1-10
+stats:
+  damage: +1% every 1 level
+  crit-chance: +0.1% every 1 level
+rewards:
+  - '&8+&a1% $damage'
+  - '&8+&b0.1% $crit-chance'
+  - '&8+&e5,000 $coin Coins'
+on-completion:
+  - giveMoney 5000
 
-# Define the stat increment amount per level
+--- # ===== Levels 11-20 ===== #
+levels: 11-20
+stats:
+  damage: +1% every 1 level
+  crit-chance: +0.1% every 1 level
+rewards:
+  - '&8+&a1% $damage'
+  - '&8+&b0.1% $crit-chance'
+  - '&8+&e10,000 $coin Coins'
+on-completion:
+  - giveMoney 10000
+
+--- # ===== Levels 21-30 ===== #
+levels: 21-30
+stats:
+  damage: +2% every 1 level
+  crit-chance: +0.2% every 1 level
+rewards:
+  - '&8+&a2% $damage'
+  - '&8+&b0.2% $crit-chance'
+  - '&8+&e20,000 $coin Coins'
+on-completion:
+  - giveMoney 20000
+
+--- # ===== Levels 31-40 ===== #
+levels: 31-40
+stats:
+  damage: +2% every 1 level
+  crit-chance: +0.2% every 1 level
+rewards:
+  - '&8+&a2% $damage'
+  - '&8+&b0.2% $crit-chance'
+  - '&8+&e40,000 $coin Coins'
+on-completion:
+  - giveMoney 40000
+
+--- # ===== Levels 41-50 ===== #
+levels: 41-50
+stats:
+  damage: +3% every 1 level
+  crit-chance: +0.3% every 1 level
+rewards:
+  - '&8+&a3% $damage'
+  - '&8+&b0.3% $crit-chance'
+  - '&8+&e75,000 $coin Coins'
+on-completion:
+  - giveMoney 75000
+
+--- # ===== Levels 51-60 ===== #
+levels: 51-60
+stats:
+  damage: +3% every 1 level
+  crit-chance: +0.3% every 1 level
+rewards:
+  - '&8+&a3% $damage'
+  - '&8+&b0.3% $crit-chance'
+  - '&8+&e125,000 $coin Coins'
+on-completion:
+  - giveMoney 125000
+
+--- # ===== Levels 61-70 ===== #
+levels: 61-70
 stats:
   damage: +4% every 1 level
-
+  crit-chance: +0.4% every 1 level
 rewards:
   - '&8+&a4% $damage'
+  - '&8+&b0.4% $crit-chance'
+  - '&8+&e200,000 $coin Coins'
+on-completion:
+  - giveMoney 200000
 
-on-completion: []
-
---- # ===== Levels 26-50 ===== #
-levels: 26-50
-
+--- # ===== Levels 71-80 ===== #
+levels: 71-80
 stats:
   damage: +4% every 1 level
-
+  crit-chance: +0.4% every 1 level
 rewards:
   - '&8+&a4% $damage'
+  - '&8+&b0.4% $crit-chance'
+  - '&8+&e350,000 $coin Coins'
+on-completion:
+  - giveMoney 350000
 
-on-completion: []
-
---- # ===== Levels 51-75 ===== #
-levels: 51-75
-
+--- # ===== Levels 81-90 ===== #
+levels: 81-90
 stats:
-  damage: +4% every 1 level
-
+  damage: +5% every 1 level
+  crit-chance: +0.5% every 1 level
 rewards:
-  - '&8+&a4% $damage'
+  - '&8+&a5% $damage'
+  - '&8+&b0.5% $crit-chance'
+  - '&8+&e600,000 $coin Coins'
+on-completion:
+  - giveMoney 600000
 
-on-completion: []
-
---- # ===== Levels 76-100 ===== #
-levels: 76-100
-
+--- # ===== Levels 91-100 ===== #
+levels: 91-100
 stats:
-  damage: +4% every 1 level
-
+  damage: +5% every 1 level
+  crit-chance: +0.5% every 1 level
 rewards:
-  - '&8+&a4% $damage'
-
-on-completion: []
-on-regression: []
+  - '&8+&a5% $damage'
+  - '&8+&b0.5% $crit-chance'
+  - '&8+&e1,000,000 $coin Coins'
+on-completion:
+  - giveMoney 1000000

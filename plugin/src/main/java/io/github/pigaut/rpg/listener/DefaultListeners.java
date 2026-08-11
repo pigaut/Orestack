@@ -1,7 +1,8 @@
 package io.github.pigaut.rpg.listener;
 
+import io.github.pigaut.rpg.core.gameplay.brew.*;
 import io.github.pigaut.rpg.core.gameplay.chicken.*;
-import io.github.pigaut.rpg.core.playerblocks.*;
+import io.github.pigaut.rpg.core.gameplay.playerblocks.*;
 import io.github.pigaut.rpg.hook.itemsadder.*;
 import io.github.pigaut.rpg.listener.gameplay.GameplayEventListener;
 import io.github.pigaut.rpg.listener.item.ItemEventListener;
@@ -10,16 +11,10 @@ import io.github.pigaut.rpg.listener.mob.EntityPaperEventListener;
 import io.github.pigaut.rpg.listener.mob.MobEventListener;
 import io.github.pigaut.rpg.listener.phase.PluginPhaseListener;
 import io.github.pigaut.rpg.listener.phase.ServerPhaseListener;
-import io.github.pigaut.rpg.listener.player.PlayerEquipmentChangeListener;
+import io.github.pigaut.rpg.listener.player.PlayerEquipmentChangeEventListener;
 import io.github.pigaut.rpg.listener.player.PlayerInputListener;
 import io.github.pigaut.rpg.listener.player.PlayerLifecycleListener;
-import io.github.pigaut.rpg.listener.player.PlayerStatListener;
-import io.github.pigaut.rpg.core.playerblocks.*;
-import io.github.pigaut.rpg.core.gameplay.chicken.*;
-import io.github.pigaut.rpg.module.recipe.listener.*;
-import io.github.pigaut.rpg.hook.itemsadder.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.server.*;
+import io.github.pigaut.rpg.listener.stat.StatEventListener;
 import io.github.pigaut.rpg.module.recipe.listener.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.*;
@@ -34,8 +29,8 @@ public class DefaultListeners {
 
         plugin.registerListener(new PlayerLifecycleListener(plugin));
         plugin.registerListener(new PlayerInputListener(plugin));
-        plugin.registerListener(new PlayerEquipmentChangeListener(plugin));
-        plugin.registerListener(new PlayerStatListener(plugin));
+        plugin.registerListener(new PlayerEquipmentChangeEventListener(plugin));
+        plugin.registerListener(new StatEventListener(plugin));
 
         plugin.registerListener(new ToolEventListener(plugin));
         plugin.registerListener(new MenuEventListener(plugin));
@@ -59,6 +54,7 @@ public class DefaultListeners {
 
         // Player placed blocks and dropped items listener
         plugin.registerListener(new PlayerPlacedBlockListener(plugin));
+        plugin.registerListener(new BrewedPotionListener(plugin));
         plugin.registerListener(new ChickenLayEggListener(plugin));
 
         if (Server.isPluginLoaded("ItemsAdder")) {

@@ -1,5 +1,6 @@
 package io.github.pigaut.rpg.core.gameplay.settings;
 
+import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.delay.*;
 import org.jetbrains.annotations.*;
@@ -37,5 +38,8 @@ public interface GameplaySettings {
 
     @NotNull
     Delay getEggLayDelay();
+
+    @Nullable
+    Function getOnPlayerDamageEntity();
 
 }
