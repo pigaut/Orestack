@@ -107,7 +107,7 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
 
                 for (String shortcut : argSection.getKeys()) {
                     if (configShortcuts.containsKey(shortcut)) {
-                        config.collectError(new InvalidConfigException(config, key, "Duplicate shortcut found with name: " + shortcut));
+                        config.collectError(new InvalidConfigException(config, shortcut, "Duplicate shortcut found with name: " + shortcut));
                     }
 
                     String value = argSection.getString(shortcut).withDefault(null);
