@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Orestack.iml" filepath="$PROJECT_DIR$/.idea/Orestack.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RpgMakerPlugin.iml" filepath="$PROJECT_DIR$/RpgMakerPlugin.iml" />
     </modules>
   </component>
 </project>
