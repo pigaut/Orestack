@@ -11,8 +11,8 @@ clickable_message:
 
 multi_chat_example:
   message:
-    - 'This is a chat message'
-    - 'and here is another'
+    - This is a chat message
+    - and here is another
 
 json_example:
   message: '[json]{"text":"This is a chat message","color":"gold","hoverEvent":{"action":"show_text","contents":"Nothing to see here"}}'

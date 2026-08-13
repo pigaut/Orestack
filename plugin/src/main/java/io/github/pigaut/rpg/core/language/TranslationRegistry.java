@@ -84,6 +84,8 @@ public class TranslationRegistry implements ConfigBacked {
             }
         }
 
+        settings.applyConfigShortcuts(existingConfig);
+
         // Register existing translations in language config
         for (String key : existingConfig.getKeys()) {
             String translation = existingConfig.getString(key)

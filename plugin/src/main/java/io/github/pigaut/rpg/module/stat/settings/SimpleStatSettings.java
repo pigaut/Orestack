@@ -1,12 +1,5 @@
 package io.github.pigaut.rpg.module.stat.settings;
 
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.enchant.*;
-import io.github.pigaut.rpg.module.stat.*;
-import io.github.pigaut.rpg.module.stat.custom.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.enchant.*;
 import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.module.stat.custom.*;
@@ -16,11 +9,10 @@ import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.convert.format.*;
 import io.github.pigaut.yaml.delay.*;
 import io.github.pigaut.yaml.node.*;
-import io.github.pigaut.yaml.node.line.*;
 import io.github.pigaut.yaml.node.scalar.*;
-import io.github.pigaut.yaml.node.section.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
+import static org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import java.util.*;
 
@@ -63,6 +55,8 @@ public class SimpleStatSettings implements StatSettings {
 
     private boolean fortuneEnchantAsStat;
     private Map<Integer, Integer> miningFortuneByEnchantLevel;
+
+    private Map<DamageCause, Double> damageMultiplierByCause;
 
     public SimpleStatSettings(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
@@ -232,6 +226,19 @@ public class SimpleStatSettings implements StatSettings {
 
             if (level != null && miningFortune != null) {
                 miningFortuneByEnchantLevel.put(level, miningFortune);
+            }
+        }
+
+        damageMultiplierByCause = new HashMap<>();
+        for (KeyedScalar scalar : config.getSectionOrEmpty("damage-multipliers").getNestedScalars()) {
+            DamageCause damageCause = scalar.getKeyAs(DamageCause.class)
+                    .withDefault(null);
+
+            Double damageMultiplier = scalar.toDouble()
+                    .withDefault(null);
+
+            if (damageCause != null && damageMultiplier != null) {
+                damageMultiplierByCause.put(damageCause, damageMultiplier);
             }
         }
     }
@@ -412,6 +419,11 @@ public class SimpleStatSettings implements StatSettings {
     @Override
     public int getManaRegenInterval() {
         return manaRegenInterval;
+    }
+
+    @Override
+    public double getDamageMultiplier(@NotNull DamageCause cause) {
+        return damageMultiplierByCause.getOrDefault(cause, 1.0);
     }
 
 }

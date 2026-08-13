@@ -11,6 +11,8 @@ import org.bukkit.event.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 
+import java.util.*;
+
 public class StatEventListener implements Listener {
 
     private final EnhancedPlugin plugin;
@@ -50,33 +52,59 @@ public class StatEventListener implements Listener {
             return;
         }
 
-        if (event.getDamager() instanceof Player damager) {
-            PlayerState playerState = plugin.getPlayerState(damager);
-            playerState.setInCombat(true);
-
-            double damage = 0;
-            if (!plugin.getItems().hasStat(PlayerUtil.getTool(damager), BaseStats.DAMAGE)) {
-                damage = event.getDamage();
-            }
-
-            damage += playerState.getAttackDamage();
-            
-            double critChance = playerState.getCritChance();
-            if (Probability.test(critChance)) {
-                damage *= playerState.getCritDamageMultiplier();
-            }
-            
-            event.setDamage(damage);
+        if (!(event.getDamager() instanceof Player damager)) {
+            return;
         }
 
-        if (event.getEntity() instanceof Player victim) {
-            PlayerState playerState = plugin.getPlayerState(victim);
-            playerState.setInCombat(true);
+        PlayerState playerState = plugin.getPlayerState(damager);
+        playerState.setInCombat(true);
 
-            double damage = event.getDamage();
+        double damage = 0;
+        if (!plugin.getItems().hasStat(PlayerUtil.getTool(damager), BaseStats.DAMAGE)) {
+            damage = event.getDamage();
+        }
+
+        damage += playerState.getAttackDamage();
+
+        double critChance = playerState.getCritChance();
+        if (Probability.test(critChance)) {
+            damage *= playerState.getCritDamageMultiplier();
+        }
+
+        event.setDamage(damage);
+    }
+
+    private static final Set<EntityDamageEvent.DamageCause> DEFENSE_IGNORED_CAUSES = EnumSet.of(
+            EntityDamageEvent.DamageCause.KILL,
+            EntityDamageEvent.DamageCause.WORLD_BORDER,
+            EntityDamageEvent.DamageCause.VOID,
+            EntityDamageEvent.DamageCause.SUICIDE,
+            EntityDamageEvent.DamageCause.CUSTOM
+    );
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onDamaged(EntityDamageEvent event) {
+        if (!plugin.getSettings().isStats()) {
+            return;
+        }
+
+        if (!(event.getEntity() instanceof Player victim)) {
+            return;
+        }
+
+        PlayerState playerState = plugin.getPlayerState(victim);
+        playerState.setInCombat(true);
+
+        double damage = event.getDamage();
+        EntityDamageEvent.DamageCause cause = event.getCause();
+
+        if (!DEFENSE_IGNORED_CAUSES.contains(cause)) {
+            damage *= plugin.getSettings().getDamageMultiplier(cause);
             damage *= StatsUtil.getDefenseDamageReduction(playerState.getDefense());
-            event.setDamage(damage);
         }
+
+        event.setDamage(0);
+        playerState.setHealth((int) (playerState.getHealth() - damage));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -99,6 +127,16 @@ public class StatEventListener implements Listener {
         }
 
         PlayerState playerState = plugin.getPlayerState(event.getEntity());
+        playerState.resetHealth();
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onRespawn(PlayerRespawnEvent event) {
+        if (!plugin.getSettings().isStats()) {
+            return;
+        }
+
+        PlayerState playerState = plugin.getPlayerState(event.getPlayer());
         playerState.resetHealth();
     }
 

@@ -27,6 +27,7 @@ import io.github.pigaut.yaml.node.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.enchantments.*;
+import org.bukkit.event.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
 import org.jetbrains.annotations.*;
@@ -348,7 +349,9 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     }
 
     public void applyConfigShortcuts(@NotNull ConfigField field) {
-        configShortcuts.forEach(field::replaceAll);
+        for (Map.Entry<String, String> entry : configShortcuts.entrySet()) {
+            field.replaceAll(entry.getKey(), entry.getValue());
+        }
     }
 
     @Override
@@ -654,6 +657,11 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     @Override
     public int getManaRegenInterval() {
         return statSettings.getManaRegenInterval();
+    }
+
+    @Override
+    public double getDamageMultiplier(EntityDamageEvent.@NotNull DamageCause cause) {
+        return statSettings.getDamageMultiplier(cause);
     }
 
     @Override

@@ -103,13 +103,8 @@ public class ConfigErrorUtil {
 
             builder.append("&5&l").append(optionalPrefix).append("Config: &d&o").append(optionalFile).append("\n");
 
-            for (ConfigException error : report.errors) {
-                appendExceptionDetails(builder, error, report.configType, false);
-            }
-
-            for (ConfigException warning : report.warnings) {
-                appendExceptionDetails(builder, warning, report.configType, true);
-            }
+            appendExceptionGroup(builder, report.errors, report.configType, false);
+            appendExceptionGroup(builder, report.warnings, report.configType, true);
 
             formattedMessages.add(builder.toString());
         }
@@ -117,9 +112,12 @@ public class ConfigErrorUtil {
         return formattedMessages;
     }
 
-    private static void appendExceptionDetails(StringBuilder builder, ConfigException exception, ConfigType configType, boolean isWarning) {
+    private static String[] renderExceptionParts(ConfigException exception, ConfigType configType, boolean isWarning) {
         String label = isWarning ? "  &e&lWARNING: &8" : "  &c&lERROR: &8";
         String keyColor = isWarning ? "&e&l" : "&c&l";
+
+        String labelLine;
+        StringBuilder body = new StringBuilder();
 
         if (exception instanceof InvalidConfigException invalidException) {
             String problem = invalidException.getError();
@@ -127,22 +125,48 @@ public class ConfigErrorUtil {
             String key = configType == ConfigType.SECTION_KEY ? invalidException.getTopLevelKey() : invalidException.getFileName();
             String line = invalidException.getLine();
 
-            builder.append(label).append(problemText).append("\n");
+            labelLine = label + problemText;
             if (key != null && !key.isEmpty()) {
-                builder.append("    ").append(keyColor).append("Name >> &3").append(key).append("\n");
+                body.append("    ").append(keyColor).append("Name >> &3").append(key).append("\n");
             }
             if (line != null) {
-                builder.append("    ").append(keyColor).append("Field >> &f").append(line).append("\n");
+                body.append("    ").append(keyColor).append("Field >> &f").append(line).append("\n");
             }
-            builder.append("    ").append(keyColor).append("Desc >> &6").append(invalidException.getDetails());
+            body.append("    ").append(keyColor).append("Desc >> &6").append(invalidException.getDetails());
         } else if (exception instanceof ConfigLoadException loadException) {
-            builder.append(label).append("INVALID YAML FORMAT\n");
-            builder.append("    ").append(keyColor).append("  Desc &6>> ").append(loadException.getDetails());
+            labelLine = label + "INVALID YAML FORMAT";
+            body.append("    ").append(keyColor).append("  Desc &6>> ").append(loadException.getDetails());
         } else {
-            builder.append(label).append(exception.getMessage());
+            labelLine = label + exception.getMessage();
         }
 
-        builder.append("\n");
+        return new String[] { labelLine, body.toString() };
+    }
+
+    private static void appendExceptionGroup(StringBuilder builder, List<ConfigException> exceptions, ConfigType configType, boolean isWarning) {
+        Map<String, Integer> counts = new LinkedHashMap<>();
+        Map<String, String[]> content = new LinkedHashMap<>();
+
+        for (ConfigException exception : exceptions) {
+            String[] parts = renderExceptionParts(exception, configType, isWarning);
+            String key = parts[0] + "\u0000" + parts[1];
+            counts.merge(key, 1, Integer::sum);
+            content.putIfAbsent(key, parts);
+        }
+
+        for (Map.Entry<String, Integer> entry : counts.entrySet()) {
+            String[] parts = content.get(entry.getKey());
+            int count = entry.getValue();
+
+            builder.append(parts[0]);
+            if (count > 1) {
+                builder.append(" x").append(count);
+            }
+            builder.append("\n");
+            if (!parts[1].isEmpty()) {
+                builder.append(parts[1]).append("\n");
+            }
+        }
     }
 
 

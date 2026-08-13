@@ -221,13 +221,13 @@ custom-cow-milking: true
 # How many times a cow can be milked before it runs out
 cow-max-milk: 3
 
-# How much milk and how frequently a cow should produce milk
+# How frequently a cow should produce milk
 milk-production: 1 milk every 20-40s
 
 # Whether the custom egg laying system should be enabled
 custom-egg-laying: true
 
-# How many eggs and how frequently a chicken should lay eggs
+# How frequently a chicken should lay eggs
 egg-laying: 1 egg every 20-40s
 
 # Triggered when a player damages an entity
@@ -320,6 +320,29 @@ custom-stats:
     stats:
       mining_speed: +1 every 1 level
 
+# Adjust the entity/player damage taken from different causes
+# Damage multiplier (vanilla danger) = max-health stat (100) / vanilla health (20)
+damage-multipliers:
+  entity_attack: 100%
+  entity_sweep_attack: 100%
+  projectile: 100%
+  contact: 500%          # Cactus, berry bush, dripstone
+  falling_block: 500%    # Anvils, etc.
+  fire: 500%
+  fire_tick: 500%
+  lava: 500%
+  block_explosion: 500%
+  entity_explosion: 500%
+  thorns: 500%
+  hot_floor: 500%
+  campfire: 500%
+  lightning: 500%
+  fly_into_wall: 500%
+  cramming: 500%
+  freeze: 500%
+  sonic_boom: 500%
+  magic: 500%
+  wither: 500%
 
 #░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░█▀▀░▀█▀░█▀█░▀█▀░█▀▀░░░░
 #░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░▀▀█░░█░░█▀█░░█░░▀▀█░░░░

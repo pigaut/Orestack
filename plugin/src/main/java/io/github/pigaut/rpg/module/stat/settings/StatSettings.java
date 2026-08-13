@@ -7,6 +7,7 @@ import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.module.stat.custom.*;
 import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.yaml.delay.*;
+import org.bukkit.event.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
@@ -88,4 +89,5 @@ public interface StatSettings {
 
     int getManaRegenInterval();
 
+    double getDamageMultiplier(@NotNull EntityDamageEvent.DamageCause cause);
 }

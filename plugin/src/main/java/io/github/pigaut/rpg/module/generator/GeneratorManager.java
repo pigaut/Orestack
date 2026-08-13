@@ -162,7 +162,7 @@ public class GeneratorManager extends Manager {
     }
 
     public boolean isGenerator(@NotNull Location location) {
-        return globalGeneratorsByBlocks.containsKey(location);
+        return globalGeneratorsByBlocks.containsKey(location) || virtualGeneratorsByBlocks.containsKey(location);
     }
 
     public boolean isGlobalGenerator(@NotNull Location location) {

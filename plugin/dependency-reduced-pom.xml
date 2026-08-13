@@ -29,10 +29,10 @@
               <relocations>
                 <relocation>
                   <pattern>org.bstats</pattern>
-                  <shadedPattern>io.github.pigaut.orestack.bstats</shadedPattern>
+                  <shadedPattern>io.github.pigaut.rpg.bstats</shadedPattern>
                 </relocation>
               </relocations>
-              <outputFile>D:\files\Development\java\spigot\servers\${mc.version}\plugins\RpgMaker-${project.version}.jar</outputFile>
+              <outputFile>/home/virgilio/servers/minecraft/${mc.version}/plugins/RpgMaker-${project.version}.jar</outputFile>
             </configuration>
           </execution>
         </executions>
