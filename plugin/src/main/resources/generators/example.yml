@@ -115,7 +115,7 @@ on-break:
   - if: hasPermission orestack.generator.harvest
     do:
       - giveItem emerald
-      - spawnParticleAtBlock flame_ring
+      - spawnParticleAtBlock small_flame_ring
       - dropExpAtBlock 10-100 orbs=5-20
       - sendMessage hologram_example
 

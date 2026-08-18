@@ -3,6 +3,8 @@ package io.github.pigaut.rpg.util;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
+import java.util.regex.*;
+import java.util.stream.*;
 
 public class StringUtil {
 
@@ -138,6 +140,34 @@ public class StringUtil {
                 yield " ".repeat(leftPadding) + text + " ".repeat(rightPadding);
             }
         };
+    }
+
+    public static @NotNull Pattern createReplacePatter(@NotNull Map<String, String> replacements) {
+        if (replacements.isEmpty()) {
+            return Pattern.compile("(?!)");
+        }
+
+        String alternation = replacements.keySet().stream()
+                .sorted(Comparator.comparingInt(String::length).reversed())
+                .map(Pattern::quote)
+                .collect(Collectors.joining("|"));
+        return Pattern.compile(alternation);
+    }
+
+    public static @NotNull String replaceAll(@NotNull String string, @NotNull Pattern pattern, @NotNull Map<String, String> replacements) {
+        Matcher matcher = pattern.matcher(string);
+
+        if (!matcher.find()) {
+            return string;
+        }
+
+        StringBuilder result = new StringBuilder();
+        do {
+            matcher.appendReplacement(result, Matcher.quoteReplacement(replacements.get(matcher.group())));
+        } while (matcher.find());
+        matcher.appendTail(result);
+
+        return result.toString();
     }
 
 }

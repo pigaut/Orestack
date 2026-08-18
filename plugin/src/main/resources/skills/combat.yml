@@ -34,7 +34,7 @@ stats:
   crit-chance: +0.1% every 1 level
 rewards:
   - '&8+&a1% $damage'
-  - '&8+&b0.1% $crit-chance'
+  - '&8+&30.1% $crit_chance'
   - '&8+&e5,000 $coin Coins'
 on-completion:
   - giveMoney 5000
@@ -46,7 +46,7 @@ stats:
   crit-chance: +0.1% every 1 level
 rewards:
   - '&8+&a1% $damage'
-  - '&8+&b0.1% $crit-chance'
+  - '&8+&30.1% $crit_chance'
   - '&8+&e10,000 $coin Coins'
 on-completion:
   - giveMoney 10000
@@ -58,7 +58,7 @@ stats:
   crit-chance: +0.2% every 1 level
 rewards:
   - '&8+&a2% $damage'
-  - '&8+&b0.2% $crit-chance'
+  - '&8+&30.2% $crit_chance'
   - '&8+&e20,000 $coin Coins'
 on-completion:
   - giveMoney 20000
@@ -70,7 +70,7 @@ stats:
   crit-chance: +0.2% every 1 level
 rewards:
   - '&8+&a2% $damage'
-  - '&8+&b0.2% $crit-chance'
+  - '&8+&30.2% $crit_chance'
   - '&8+&e40,000 $coin Coins'
 on-completion:
   - giveMoney 40000
@@ -82,7 +82,7 @@ stats:
   crit-chance: +0.3% every 1 level
 rewards:
   - '&8+&a3% $damage'
-  - '&8+&b0.3% $crit-chance'
+  - '&8+&30.3% $crit_chance'
   - '&8+&e75,000 $coin Coins'
 on-completion:
   - giveMoney 75000
@@ -94,7 +94,7 @@ stats:
   crit-chance: +0.3% every 1 level
 rewards:
   - '&8+&a3% $damage'
-  - '&8+&b0.3% $crit-chance'
+  - '&8+&30.3% $crit_chance'
   - '&8+&e125,000 $coin Coins'
 on-completion:
   - giveMoney 125000
@@ -106,7 +106,7 @@ stats:
   crit-chance: +0.4% every 1 level
 rewards:
   - '&8+&a4% $damage'
-  - '&8+&b0.4% $crit-chance'
+  - '&8+&30.4% $crit_chance'
   - '&8+&e200,000 $coin Coins'
 on-completion:
   - giveMoney 200000
@@ -118,7 +118,7 @@ stats:
   crit-chance: +0.4% every 1 level
 rewards:
   - '&8+&a4% $damage'
-  - '&8+&b0.4% $crit-chance'
+  - '&8+&30.4% $crit_chance'
   - '&8+&e350,000 $coin Coins'
 on-completion:
   - giveMoney 350000
@@ -130,7 +130,7 @@ stats:
   crit-chance: +0.5% every 1 level
 rewards:
   - '&8+&a5% $damage'
-  - '&8+&b0.5% $crit-chance'
+  - '&8+&30.5% $crit_chance'
   - '&8+&e600,000 $coin Coins'
 on-completion:
   - giveMoney 600000
@@ -142,7 +142,7 @@ stats:
   crit-chance: +0.5% every 1 level
 rewards:
   - '&8+&a5% $damage'
-  - '&8+&b0.5% $crit-chance'
+  - '&8+&30.5% $crit_chance'
   - '&8+&e1,000,000 $coin Coins'
 on-completion:
   - giveMoney 1000000

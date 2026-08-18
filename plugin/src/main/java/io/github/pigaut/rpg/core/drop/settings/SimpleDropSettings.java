@@ -2,8 +2,6 @@ package io.github.pigaut.rpg.core.drop.settings;
 
 import io.github.pigaut.rpg.core.enchant.*;
 import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.core.enchant.*;
-import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.node.*;
@@ -43,7 +41,7 @@ public class SimpleDropSettings implements DropSettings {
     private List<String> experienceAliases;
     private Map<Integer, Amount> expMultiplierByLevel;
 
-    public void loadConfigurationData(@NotNull ConfigSection config) {
+    public void loadConfiguration(@NotNull ConfigSection config) {
         defaultItemDropTarget = config.get("default-item-drop-target", ItemDropTarget.class)
                 .withDefault(ItemDropTarget.BLOCK);
 

@@ -20,6 +20,7 @@ import org.bukkit.plugin.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
+import java.util.concurrent.atomic.*;
 import java.util.function.*;
 
 public class PluginBootstrap {
@@ -53,16 +54,21 @@ public class PluginBootstrap {
         configurator = plugin.createConfigurator();
         config = PluginSetup.loadConfig(plugin, "config.yml", true);
 
-        // Load settings from config.yml
+        // Preload boot settings from config.yml
         Settings settings = plugin.getSettings();
-        startupErrors.add(settings.loadConfigurationData());
+        settings.loadBootConfiguration();
 
-        // Generate directories and files
+        // Check version and generate directories and files
+        PluginSetup.checkServerVersion(plugin);
         PluginSetup.generateDirectoriesAndFiles(plugin);
+        PluginSetup.generateExampleFiles(plugin);
+
+        // Load all settings from config.yml
+        startupErrors.add(settings.loadConfiguration());
 
         // Load language file messages
         TranslationRegistry dictionary = plugin.getTranslations();
-        startupErrors.add(dictionary.loadConfigurationData());
+        startupErrors.add(dictionary.loadConfiguration());
 
         // Initialize command registry and register commands
         CommandRegistry commandRegistry = plugin.getRegisteredCommands();
@@ -117,8 +123,6 @@ public class PluginBootstrap {
     public void startup() {
         Preconditions.checkState(missingStartupRequirements.isEmpty(), "Cannot startup plugin because not all startup requirements are met.");
 
-        PluginSetup.checkServerVersion(plugin);
-        PluginSetup.generateExampleFiles(plugin);
         metrics = PluginSetup.createMetrics(plugin);
         updateChecker = PluginSetup.createUpdateChecker(plugin);
         configurator = plugin.createConfigurator();
@@ -138,7 +142,7 @@ public class PluginBootstrap {
                 manager.clear();
                 manager.loadData();
                 if (manager instanceof ConfigBacked configBackedManager) {
-                    startupErrors.add(configBackedManager.loadConfigurationData());
+                    startupErrors.add(configBackedManager.loadConfiguration());
                 }
 
                 plugin.getScheduler().runTask(() -> {
@@ -148,6 +152,7 @@ public class PluginBootstrap {
                     manager.enable();
                 });
                 loadedManagers.add(manager);
+                logger.info("Startup progress: " + Percentage.asInteger(loadedManagers.size(), pluginManagers.size()) + "%");
             }
 
             for (Runnable startupTask : startupTasks) {
@@ -193,7 +198,7 @@ public class PluginBootstrap {
         LifecycleLog.shutdown(plugin);
     }
 
-    public void reload(@NotNull Consumer<ErrorCollector> errorConsumer) throws PluginReloadInProgressException {
+    public void reload(@NotNull Consumer<Manager> onManagerReloaded, @NotNull Consumer<ErrorCollector> onReloadComplete) throws PluginReloadInProgressException {
         if (plugin.isReloading()) {
             throw new PluginReloadInProgressException();
         }
@@ -205,26 +210,29 @@ public class PluginBootstrap {
         configurator = plugin.createConfigurator();
         config = PluginSetup.loadConfig(plugin, "config.yml", true);
 
-        // Load settings from config.yml
+        // Preload boot settings from config.yml
         Settings settings = plugin.getSettings();
-        errorCollector.collectAll(settings.loadConfigurationData());
+        settings.loadBootConfiguration();
 
         // Generate directories and files
         PluginSetup.generateDirectoriesAndFiles(plugin);
+        PluginSetup.generateExampleFiles(plugin);
+
+        // Load all settings from config.yml
+        errorCollector.collectAll(settings.loadConfiguration());
 
         // Load language file messages
         TranslationRegistry dictionary = plugin.getTranslations();
-        errorCollector.collectAll(dictionary.loadConfigurationData());
+        errorCollector.collectAll(dictionary.loadConfiguration());
 
-        PluginSetup.generateExampleFiles(plugin);
         metrics = PluginSetup.createMetrics(plugin);
         updateChecker = PluginSetup.createUpdateChecker(plugin);
 
         Scheduler scheduler = plugin.getScheduler();
         scheduler.runTaskLater(1, () -> {
-            reloadManager(scheduler, loadedManagers.iterator(), errorCollector, () -> {
+            reloadManager(scheduler, loadedManagers.iterator(), errorCollector, onManagerReloaded, () -> {
                 LifecycleLog.reload(plugin, errorCollector);
-                errorConsumer.accept(errorCollector);
+                onReloadComplete.accept(errorCollector);
 
                 plugin.onReload();
                 plugin.setReloading(false);
@@ -236,10 +244,10 @@ public class PluginBootstrap {
         });
     }
 
-    private void reloadManager(@NotNull Scheduler scheduler, @NotNull Iterator<Manager> managers,
-                               @NotNull ErrorCollector errorCollector, @NotNull Runnable onComplete) {
+    private void reloadManager(@NotNull Scheduler scheduler, @NotNull Iterator<Manager> managers, @NotNull ErrorCollector errorCollector,
+                               @NotNull Consumer<Manager> onManagerReloaded, @NotNull Runnable onReloadComplete) {
         if (!managers.hasNext()) {
-            onComplete.run();
+            onReloadComplete.run();
             return;
         }
 
@@ -251,11 +259,12 @@ public class PluginBootstrap {
             manager.clear();
             manager.loadData();
             if (manager instanceof ConfigBacked configBackedManager) {
-                errorCollector.collectAll(configBackedManager.loadConfigurationData());
+                errorCollector.collectAll(configBackedManager.loadConfiguration());
             }
             scheduler.runTask(() -> {
                 manager.enable();
-                reloadManager(scheduler, managers, errorCollector, onComplete);
+                onManagerReloaded.accept(manager);
+                reloadManager(scheduler, managers, errorCollector, onManagerReloaded, onReloadComplete);
             });
         });
     }

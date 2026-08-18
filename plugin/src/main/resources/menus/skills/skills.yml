@@ -11,7 +11,7 @@ rows: 6
 layout:
   - "8 8 8 8 A 8 8 8 8"
   - "8 8 8 8 8 8 8 8 8"
-  - "8 B C D 8 E F G 8"
+  - "8 B C D E F G H 8"
   - "8 8 8 8 8 8 8 8 8"
   - "8 8 8 8 8 8 8 8 8"
   - "8 8 8 - X = 8 8 8"
@@ -120,7 +120,7 @@ on-click:
 --- #===== Enchanting =====#
 id: G
 type: enchanting_table
-name: '&aEnchanting {enchanting_level}'
+name: '&aEnchanting {enchanting_skill_level}'
 lore:
   - '&7{enchanting_skill_description}'
   - ''
@@ -134,3 +134,22 @@ lore:
 
 on-click:
   - openMenu skill_path skill=enchanting
+
+
+--- #===== Alchemy =====#
+id: H
+type: brewing_stand
+name: '&aAlchemy {alchemy_skill_level}'
+lore:
+  - '&7{alchemy_skill_description}'
+  - ''
+  - '&7Progress to Level {alchemy_skill_next_level}: &e{alchemy_skill_progress}&6%'
+  - '{alchemy_skill_progress_bar} &e{alchemy_skill_exp}&6/&e{alchemy_skill_exp_required}'
+  - ''
+  - '&7Level {alchemy_skill_next_level} Rewards:'
+  - '  {alchemy_skill_rewards}'
+  - ''
+  - '&eClick to view!'
+
+on-click:
+  - openMenu skill_path skill=alchemy

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
 
 public interface Function extends Identifiable {
 
-    Function EMPTY = new SimpleFunction(DispatchableAction.EMPTY);
+    Function EMPTY = new SimpleFunction(Action.EMPTY);
 
     @NotNull
     FunctionResponse dispatch(@NotNull Context context);

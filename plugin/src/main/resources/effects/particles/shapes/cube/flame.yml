@@ -1,0 +1,70 @@
+
+tiny_flame_cube:
+  particle: flame
+  amount: 10
+  shape: cube length=0.5 filled=false density=0.5
+
+small_flame_cube:
+  particle: flame
+  amount: 10
+  shape: cube length=1 filled=false density=0.5
+
+medium_flame_cube:
+  particle: flame
+  amount: 10
+  shape: cube length=1.5 filled=false density=0.5
+
+large_flame_cube:
+  particle: flame
+  amount: 10
+  shape: cube length=2.0 filled=false density=0.5
+
+huge_flame_cube:
+  particle: flame
+  amount: 10
+  shape: cube length=2.5 filled=false density=0.5
+
+massive_flame_cube:
+  particle: flame
+  amount: 10
+  shape: cube length=5 filled=false density=0.5
+
+colossal_flame_cube:
+  particle: flame
+  amount: 10
+  shape: cube length=10 filled=false density=0.5
+
+tiny_flame_cube_perimeter:
+  particle: flame
+  amount: 10
+  shape: cube length=0.5 perimeter=true density=0.5
+
+small_flame_cube_perimeter:
+  particle: flame
+  amount: 10
+  shape: cube length=1 perimeter=true density=0.5
+
+medium_flame_cube_perimeter:
+  particle: flame
+  amount: 10
+  shape: cube length=1.5 perimeter=true density=0.5
+
+large_flame_cube_perimeter:
+  particle: flame
+  amount: 10
+  shape: cube length=2.0 perimeter=true density=0.5
+
+huge_flame_cube_perimeter:
+  particle: flame
+  amount: 10
+  shape: cube length=2.5 perimeter=true density=0.5
+
+massive_flame_cube_perimeter:
+  particle: flame
+  amount: 10
+  shape: cube length=5 perimeter=true density=0.5
+
+colossal_flame_cube_perimeter:
+  particle: flame
+  amount: 10
+  shape: cube length=10 perimeter=true density=0.5

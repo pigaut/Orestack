@@ -54,7 +54,7 @@ public class PluginLogger {
             String result = matcher.group(1);
             if (colored) {
                 ConsoleColor color = ConsoleColor.getColorByCode(result.charAt(1));
-                messageCopy = messageCopy.replace(result, color.getAnsiColor());
+                messageCopy = messageCopy.replace(result, color != null ? color.getAnsiColor() : "");
             }
             else {
                 messageCopy = messageCopy.replace(result, "");
@@ -97,11 +97,11 @@ public class PluginLogger {
             this.ansiColor = String.format(pattern, ansiCode);
         }
 
-        public static ConsoleColor getColorByCode(char code) {
-            for(ConsoleColor color: values()) {
-                if(color.bukkitColor == code) return color;
+        public static @Nullable ConsoleColor getColorByCode(char code) {
+            for (ConsoleColor color : values()) {
+                if (color.bukkitColor == code) return color;
             }
-            throw new IllegalArgumentException("Color with code " + code + " does not exists");
+            return null;
         }
 
         public String getAnsiColor() {

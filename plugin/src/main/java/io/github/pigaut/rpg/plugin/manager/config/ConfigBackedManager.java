@@ -7,7 +7,6 @@ import io.github.pigaut.rpg.plugin.manager.module.Module;
 import io.github.pigaut.yaml.*;
 import org.jetbrains.annotations.*;
 
-import java.util.*;
 import java.util.function.*;
 
 public abstract class ConfigBackedManager<T extends Identifiable> extends ContainerBackedManager<T> implements ConfigBacked, Toggleable {
@@ -49,7 +48,7 @@ public abstract class ConfigBackedManager<T extends Identifiable> extends Contai
     }
 
     @Override
-    public @NotNull ErrorCollector loadConfigurationData() {
+    public @NotNull ErrorCollector loadConfiguration() {
         return dataLoader.loadFromConfigFiles();
     }
 
@@ -65,7 +64,7 @@ public abstract class ConfigBackedManager<T extends Identifiable> extends Contai
             clear();
             loadData();
             plugin.getScheduler().runTask(this::enable);
-            errorCollector.accept(loadConfigurationData());
+            errorCollector.accept(loadConfiguration());
         });
     }
 

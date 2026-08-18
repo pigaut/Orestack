@@ -167,7 +167,7 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull RpgPlayerStateManager getPlayersState() {
+    public @NotNull RpgPlayerStateManager getPlayerStates() {
         return playerStateManager;
     }
 

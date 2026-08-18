@@ -37,6 +37,7 @@ public class GenericPlayerState implements PlayerState {
     private final Set<String> flags = new HashSet<>();
     private final Map<String, Long> cooldowns = new ConcurrentHashMap<>();
     private final TypeMap<String, Object> cache = new TypeMap<>();
+    private long lastDamageTime = 0;
 
     private final StatsMap stats;
     private String statusBar = "";
@@ -663,6 +664,16 @@ public class GenericPlayerState implements PlayerState {
     @Override
     public void removeCooldown(@NotNull String name) {
         cooldowns.remove(name);
+    }
+
+    @Override
+    public long getLastDamageTime() {
+        return lastDamageTime;
+    }
+
+    @Override
+    public void setLastDamageTime(long lastDamageTime) {
+        this.lastDamageTime = lastDamageTime;
     }
 
     @Override

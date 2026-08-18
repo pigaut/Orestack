@@ -27,7 +27,7 @@ sendCollectionTierUpMessage:
 # Sends a skill level up message based on
 # whether: first level or not / has rewards or not.
 sendSkillLevelUpMessage:
-  if: skillLevelEquals 1
+  if: skillLevelEquals 0
   then:
     if: skillHasRewards
     do:
@@ -35,7 +35,7 @@ sendSkillLevelUpMessage:
     or:
       - sendMessage skill-first-level-up-no-rewards
 
-  # Send skill level up message for level 2 and above
+  # Send skill level up message for level 1 and above
   else:
     if: skillHasRewards
     do:

@@ -62,11 +62,11 @@ public class Skill {
     }
 
     public boolean isFirstLevelUnlocked() {
-        return currentLevel >= 1;
+        return currentLevel > -1;
     }
 
     public @Nullable SkillLevel getLevel() {
-        return currentLevel >= 1 ? template.getLevel(currentLevel) : null;
+        return isFirstLevelUnlocked() ? template.getLevel(currentLevel) : null;
     }
 
     public @NotNull SkillLevel getLevel(int level) {
@@ -81,8 +81,11 @@ public class Skill {
         return currentLevel >= template.getMaxLevel() ? currentLevel : currentLevel + 1;
     }
 
+    /*
+     * Returns the previous level or -1 if there is none
+     */
     public int getPreviousLevel() {
-        return currentLevel <= 0 ? currentLevel : currentLevel - 1;
+        return isFirstLevelUnlocked() ? currentLevel - 1 : currentLevel;
     }
 
     public long getNextLevelExp() {
@@ -146,6 +149,7 @@ public class Skill {
 
         this.totalExp += amount;
         context = context.with(Skill.class, this);
+        context.addPlaceholder("exp", amount);
 
         Function onExpEarn = template.getOnExpEarn();
         if (onExpEarn != null) {
@@ -187,7 +191,7 @@ public class Skill {
         totalExp = Math.max(0, totalExp - amount);
         context = context.with(Skill.class, this);
 
-        while (currentLevel >= 1 && totalExp < template.getLevel(currentLevel).getExpRequired()) {
+        while (currentLevel >= 0 && totalExp < template.getLevel(currentLevel).getExpRequired()) {
             SkillLevel lostLevel = template.getLevel(currentLevel);
 
             currentLevel--;

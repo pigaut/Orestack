@@ -4,14 +4,10 @@ import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.event.mob.*;
+import io.github.pigaut.rpg.event.player.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.event.mob.*;
 import io.github.pigaut.rpg.module.mob.Mob;
-import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
 import io.github.pigaut.yaml.delay.*;
 import org.bukkit.entity.*;
@@ -26,9 +22,39 @@ public class EntityEventListener implements Listener {
         this.plugin = plugin;
     }
 
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onEntityDamageByPlayer(EntityDamageByPlayerEvent event) {
+        Player player = event.getPlayer();
+        LivingEntity victim = event.getVictim();
+        double damage = event.getDamage();
+
+        Mob mobVictim = plugin.getMob(victim);
+        if (mobVictim != null) {
+            mobVictim.addAttacker(player, damage);
+
+            // Player kills the mob
+            if (victim.getHealth() <= damage) {
+                MobDeathEvent mobDeathEvent = new MobDeathEvent(mobVictim, player);
+                Server.callEvent(mobDeathEvent);
+                event.setCancelled(mobDeathEvent.isCancelled());
+            }
+            // Player doesn't kill the mob
+            else {
+                MobDamageEvent mobDamageEvent = new MobDamageEvent(mobVictim, player, damage);
+                Server.callEvent(mobDamageEvent);
+                event.setDamage(mobDamageEvent.getDamage());
+                event.setCancelled(mobDamageEvent.isCancelled());
+            }
+        }
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof LivingEntity victim)) {
+            return;
+        }
+
+        if (event.getDamager() instanceof Player) {
             return;
         }
 
@@ -68,10 +94,6 @@ public class EntityEventListener implements Listener {
 
         Mob mobVictim = plugin.getMob(victim);
         if (mobVictim != null && !event.isCancelled()) {
-            if (damager instanceof Player player) {
-                mobVictim.addAttacker(player, finalDamage);
-            }
-
             // Damager kills the mob
             if (victim.getHealth() <= finalDamage) {
                 MobDeathEvent mobDeathEvent = new MobDeathEvent(mobVictim, damager);

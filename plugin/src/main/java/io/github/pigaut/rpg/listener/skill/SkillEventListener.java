@@ -69,8 +69,6 @@ public class SkillEventListener implements Listener {
             }
 
             int totalExp = expAmount.intValue();
-            context.addPlaceholder("skill", skill.getName());
-            context.addPlaceholder("exp", totalExp);
             skill.increaseExp(context, totalExp);
         }
     }
@@ -95,8 +93,6 @@ public class SkillEventListener implements Listener {
             }
 
             int totalExp = expAmount.intValue() * eggs;
-            context.addPlaceholder("skill", skill.getName());
-            context.addPlaceholder("exp", totalExp);
             skill.increaseExp(context, totalExp);
         }
     }
@@ -119,8 +115,6 @@ public class SkillEventListener implements Listener {
             }
 
             int totalExp = expAmount.intValue();
-            context.addPlaceholder("skill", skill.getName());
-            context.addPlaceholder("exp", totalExp);
             skill.increaseExp(context, totalExp);
         }
     }
@@ -143,8 +137,6 @@ public class SkillEventListener implements Listener {
             }
 
             int totalExp = expAmount.intValue();
-            context.addPlaceholder("skill", skill.getName());
-            context.addPlaceholder("exp", totalExp);
             skill.increaseExp(context, totalExp);
         }
     }
@@ -167,8 +159,6 @@ public class SkillEventListener implements Listener {
             }
 
             int totalExp = expAmount.intValue();
-            context.addPlaceholder("skill", skill.getName());
-            context.addPlaceholder("exp", totalExp);
             skill.increaseExp(context, totalExp);
         }
     }
@@ -193,8 +183,6 @@ public class SkillEventListener implements Listener {
             }
 
             int totalExp = expAmount.intValue() * amount;
-            context.addPlaceholder("skill", skill.getName());
-            context.addPlaceholder("exp", totalExp);
             skill.increaseExp(context, totalExp);
         }
     }
@@ -217,10 +205,21 @@ public class SkillEventListener implements Listener {
             }
 
             int totalExp = expAmount.intValue();
-            context.addPlaceholder("skill", skill.getName());
-            context.addPlaceholder("exp", totalExp);
             skill.increaseExp(context, totalExp);
         }
+    }
+
+    @EventHandler
+    public void onPlayerFish(PlayerFishEvent event) {
+        if (event.getState() != PlayerFishEvent.State.CAUGHT_FISH) {
+            return;
+        }
+
+        Player player = event.getPlayer();
+        Entity item = event.getCaught();
+
+        Context context = Context.fromPlayerAndItem(plugin, player, item.getI);
+
     }
 
 }

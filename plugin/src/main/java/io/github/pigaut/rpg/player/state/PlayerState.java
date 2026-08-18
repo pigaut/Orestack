@@ -192,4 +192,8 @@ public interface PlayerState extends FlagHolder {
 
     void removeCooldown(@NotNull String name);
 
+    long getLastDamageTime();
+
+    void setLastDamageTime(long time);
+
 }

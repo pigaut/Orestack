@@ -16,13 +16,13 @@ public class PlayerLifecycleListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        plugin.getPlayersState().register(player);
+        plugin.getPlayerStates().register(player);
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        plugin.getPlayersState().unregister(player);
+        plugin.getPlayerStates().unregister(player);
     }
 
 }

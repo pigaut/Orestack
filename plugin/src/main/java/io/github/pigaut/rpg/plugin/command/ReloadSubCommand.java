@@ -3,6 +3,10 @@ package io.github.pigaut.rpg.plugin.command;
 import io.github.pigaut.rpg.core.command.node.*;
 import io.github.pigaut.rpg.config.*;
 import io.github.pigaut.rpg.plugin.*;
+import io.github.pigaut.rpg.plugin.manager.*;
+import io.github.pigaut.rpg.plugin.manager.config.*;
+import io.github.pigaut.rpg.util.*;
+import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
@@ -16,8 +20,17 @@ public class ReloadSubCommand extends SubCommand {
         withDescription(plugin.getTranslation("reload-command"));
         withCommandExecution((sender, context, args) -> {
             plugin.sendMessage(sender, context, "reloading");
+
+            List<Manager> loadedManagers = plugin.getBootstrap().getLoadedManagers();
             try {
-                plugin.reload(errorCollector -> {
+                plugin.reload(reloadedManager -> {
+                    if (!(reloadedManager instanceof ConfigBackedManager<?> configBackedManager)) {
+                        return;
+                    }
+                    context.addPlaceholder("module", configBackedManager.getModule().toString());
+                    context.addPlaceholder("progress", Percentage.asInteger(loadedManagers.indexOf(reloadedManager) + 1, loadedManagers.size()));
+                    plugin.sendMessage(sender, context, "reload-progress");
+                },errorCollector -> {
                     if (sender instanceof Player player) {
                         if (!errorCollector.hasErrors() && !errorCollector.hasWarnings()) {
                             plugin.sendMessage(player, context, "reload-completed");

@@ -27,6 +27,10 @@ public class HealthRegenTask extends PluginRunnable {
     public void run() {
         Settings settings = plugin.getSettings();
         for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.isDead()) {
+                continue;
+            }
+
             PlayerState playerState = plugin.getPlayerState(player);
             if (playerState.isMaxHealth()) {
                 continue;

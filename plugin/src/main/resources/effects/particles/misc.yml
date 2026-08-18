@@ -1,11 +1,12 @@
+
 simple_particle:
   particle: crit                 # The particle type
   amount: 1                       # The number of particles
-  offset: { x: 0, y: 0, z: 0 }   # The exact offset where the particle will spawn
+  offset: x=0 y=0 z=0   # The exact offset where the particle will spawn
   delay: 10                       # The delay after which this particle should spawn
   repeat: 20                # The amount of times this particle should spawn
   interval: 5                    # The interval between each repetition, repetitions must be set for this to work
-  range: { x: 1, y: 1, z: 1 }    # The random range in which it will spawn
+  range: x=1 y=1 z=1    # The random range in which it will spawn
   player-only: false   # Whether visible to all or just target player, default is false
 
 explosion: explosion_large count=3
@@ -26,14 +27,141 @@ magic_circle:
   - enchantment_table count=3 offsetZ=-1 delay=18
   - enchantment_table count=3 offsetX=0.707 offsetZ=-0.707 delay=21
 
-# 1.17+
-#ice_crystals:
-#  - { particle: snowflake, amount: 10, offset: {x: 0.1, y: 0.3, z: 0.1} }
-#  - { particle: snow_shovel, amount: 8, offset: {x: 0.2, y: 0.5, z: 0.2}, delay: 3 }
-#  - { particle: snowflake, amount: 10, offset: {x: 0.3, y: 0.7, z: 0.3}, delay: 6 }
+## 1.17+
+##ice_crystals:
+##  - { particle: snowflake, amount: 10, offset: x=0.1 y=0.3 z=0.1 }
+##  - { particle: snow_shovel, amount: 8, offset: x=0.2 y=0.5 z=0.2, delay: 3 }
+##  - { particle: snowflake, amount: 10, offset: x=0.3 y=0.7 z=0.3, delay: 6 }
+#
 
 lava_burst:
-  - { particle: flame, amount: 10, offset: {x: 0, y: 0.2, z: 0} }
-  - { particle: lava, amount: 5, offset: {x: 0.3, y: 0.4, z: 0.3}, delay: 2 }
-  - { particle: lava, amount: 5, offset: {x: -0.3, y: 0.4, z: -0.3}, delay: 4 }
-  - { particle: smoke, amount: 8, offset: {x: 0.2, y: 0.6, z: 0.2}, delay: 6 }
+  - { particle: flame, amount: 10, offset: x=0 y=0.2 z=0 }
+  - { particle: lava, amount: 5, offset: x=0.3 y=0.4 z=0.3, delay: 2 }
+  - { particle: lava, amount: 5, offset: x=-0.3 y=0.4 z=-0.3, delay: 4 }
+  - { particle: smoke, amount: 8, offset: x=0.2 y=0.6 z=0.2, delay: 6 }
+
+rising_flames:
+  type: DIRECTIONAL
+  particle: FLAME
+  speed: 0.1
+  direction: x=0 y=1 z=0
+  offset: x=0-1 y=0 z=0-1
+  repeat: 5
+  interval: 10
+
+flame_spiral:
+  - { particle: flame, count: 1, offset: x=1.0 y=-0.4 z=0 }
+  - { particle: flame, count: 1, offset: x=0.923 y=-0.3 z=0.383, delay: 4 }
+  - { particle: flame, count: 1, offset: x=0.707 y=-0.2 z=0.707, delay: 8 }
+  - { particle: flame, count: 1, offset: x=0.383 y=-0.1 z=0.923, delay: 12 }
+  - { particle: flame, count: 1, offset: x=0.0 y=0.0 z=1.0, delay: 16 }
+  - { particle: flame, count: 1, offset: x=-0.383 y=0.1 z=0.923, delay: 20 }
+  - { particle: flame, count: 1, offset: x=-0.707 y=0.2 z=0.707, delay: 24 }
+  - { particle: flame, count: 1, offset: x=-0.923 y=0.3 z=0.383, delay: 28 }
+  - { particle: flame, count: 1, offset: x=-1.0 y=0.4 z=0, delay: 32 }
+  - { particle: flame, count: 1, offset: x=-0.923 y=0.5 z=-0.383, delay: 36 }
+  - { particle: flame, count: 1, offset: x=-0.707 y=0.6 z=-0.707, delay: 40 }
+  - { particle: flame, count: 1, offset: x=-0.383 y=0.7 z=-0.923, delay: 44 }
+  - { particle: flame, count: 1, offset: x=0.0 y=0.8 z=-1.0, delay: 48 }
+  - { particle: flame, count: 1, offset: x=0.383 y=0.9 z=-0.923, delay: 52 }
+  - { particle: flame, count: 1, offset: x=0.707 y=1.0 z=-0.707, delay: 56 }
+  - { particle: flame, count: 1, offset: x=0.923 y=1.1 z=-0.383, delay: 60 }
+
+another_flame_spiral:
+  - { particle: flame, count: 1, offset: x=-1.0 y=-0.4 z=0.0 }
+  - { particle: flame, count: 1, offset: x=-0.923 y=-0.3 z=-0.383, delay: 4 }
+  - { particle: flame, count: 1, offset: x=-0.707 y=-0.2 z=-0.707, delay: 8 }
+  - { particle: flame, count: 1, offset: x=-0.383 y=-0.1 z=-0.923, delay: 12 }
+  - { particle: flame, count: 1, offset: x=0.0 y=0.0 z=-1.0, delay: 16 }
+  - { particle: flame, count: 1, offset: x=0.383 y=0.1 z=-0.923, delay: 20 }
+  - { particle: flame, count: 1, offset: x=0.707 y=0.2 z=-0.707, delay: 24 }
+  - { particle: flame, count: 1, offset: x=0.923 y=0.3 z=-0.383, delay: 28 }
+  - { particle: flame, count: 1, offset: x=1.0 y=0.4 z=0, delay: 32 }
+  - { particle: flame, count: 1, offset: x=0.923 y=0.5 z=0.383, delay: 36 }
+  - { particle: flame, count: 1, offset: x=0.707 y=0.6 z=0.707, delay: 40 }
+  - { particle: flame, count: 1, offset: x=0.383 y=0.7 z=0.923, delay: 44 }
+  - { particle: flame, count: 1, offset: x=0.0 y=0.8 z=1.0, delay: 48 }
+  - { particle: flame, count: 1, offset: x=-0.383 y=0.9 z=0.923, delay: 52 }
+  - { particle: flame, count: 1, offset: x=-0.707 y=1.0 z=0.707, delay: 56 }
+  - { particle: flame, count: 1, offset: x=-0.923 y=1.1 z=0.383, delay: 60 }
+
+# You can use particles that have already been defined before
+double_flame_spiral:
+  - flame_spiral
+  - another_flame_spiral
+
+dust:
+  type: DUST   # BASIC, DUST, DIRECTIONAL, SPELL, NOTE, DUST_TRANSITION, MATERIAL
+  amount: 10
+  range: x=1 y=1 z=1
+  player-only: false
+  delay: 0
+  repeat: 1
+  interval: 0
+  offset: x=0 y=0 z=0
+  color: red=0-255 green=0-255 blue=0-255
+  size: 0.1-1.0
+  # Uniform Explained
+  # It affects only COLOR and SIZE, and only if they use a range (1-10) not a constant (10)
+  # If true, all the particles will be of the same color and size
+  # If false, all the particles will be of different colors and sizes
+  uniform: true
+
+# ALL DIRECTIONAL PARTICLES: (Warning: some names might change between versions)
+# portal, totem_of_undying, spit, squid_ink, large_smoke, smoke, fishing, nautilus,
+# bubble, bubble_column_up, bubble_pop, campfire_cosy_smoke, campfire_signal_smoke,
+# cloud, crit, enchanted_hit, damage_indicator, dragon_breath, enchant, end_rod, poof
+# firework, flame, soul, soul_fire_flame, reverse_portal,
+# [1.17+] scrape, small_flame, electric_spark
+# [1.19+] sculk_charge, sculk_charge_pop, sculk_soul
+# [1.20+] wax_off, wax_on
+
+directional:
+  type: DIRECTIONAL
+  particle: FLAME
+  amount: 1
+  player-only: false
+  delay: 0
+  repeat: 1
+  interval: 0
+  offset: x=0 y=0 z=0
+  direction: x=0 y=1 z=0
+  speed: 0.1
+
+spell:
+  type: SPELL
+  particle: SPELL_MOB  # SPELL_MOB, SPELL_MOB_AMBIENT
+  amount: 3
+  range: x=1 y=1 z=1   #[!] ONLY 1.20.6+
+  player-only: false
+  delay: 0
+  repeat: 1
+  interval: 0
+  offset: x=0 y=0 z=0
+  color: red=255 green=0 blue=0
+  size: 1.0   #[!] ONLY 1.20.6+
+  uniform: true   #[!] ONLY 1.20.6+
+
+note:
+  type: NOTE
+  amount: 3
+  player-only: false
+  delay: 0
+  repeat: 1
+  interval: 0
+  offset: x=0 y=0 z=0
+  note: 6   # 1 to 24
+
+
+material:
+  type: MATERIAL
+  particle: BLOCK_CRACK   # BLOCK_CRACK, BLOCK_DUST, FALLING_DUST, ITEM_CRACK
+  amount: 10
+  range: x=1 y=1 z=1
+  player-only: false
+  delay: 0
+  repeat: 1
+  interval: 0
+  offset: x=0 y=0 z=0
+  block: dirt
+  #item: iron_sword

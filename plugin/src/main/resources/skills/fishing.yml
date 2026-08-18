@@ -11,6 +11,14 @@ description:
   - 'Visit your local pond to fish and'
   - 'earn Fishing EXP!'
 
+catch-fish-exp:
+  switch: itemTypeEquals
+  cases:
+    cod: rare exp # Rarity can be replaced with exp amount (i.e. 10 exp, 1-10 exp, 20;30;40 exp)
+    salmon: epic exp
+    tropical_fish: epic exp
+    pufferfish: legendary exp
+
 --- # ===== Levels 1-10 ===== #
 levels: 1-10
 

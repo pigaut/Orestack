@@ -8,7 +8,7 @@ import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.function.response.*;
 import org.jetbrains.annotations.*;
 
-public class ReturnValueAction implements DispatchableAction {
+public class ReturnValueAction implements Action {
 
     private final FunctionResponse returnValueResponse;
 

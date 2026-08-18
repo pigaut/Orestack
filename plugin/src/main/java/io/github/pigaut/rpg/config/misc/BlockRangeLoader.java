@@ -16,6 +16,13 @@ public class BlockRangeLoader implements ConfigLoader.Line<BlockRange> {
 
     @Override
     public @NotNull BlockRange loadFromLine(ConfigLine line) throws InvalidConfigException {
+        if (!line.isRoot() && line.getKey().equalsIgnoreCase("range")) {
+            Amount rangeX = line.get("x", Amount.class).withDefault(Amount.ZERO);
+            Amount rangeY = line.get("y", Amount.class).withDefault(Amount.ZERO);
+            Amount rangeZ = line.get("z", Amount.class).withDefault(Amount.ZERO);
+            return new BlockRange(rangeX, rangeY, rangeZ);
+        }
+
         Amount rangeX = line.get("rangeX", Amount.class).withDefault(Amount.ZERO);
         Amount rangeY = line.get("rangeY", Amount.class).withDefault(Amount.ZERO);
         Amount rangeZ = line.get("rangeZ", Amount.class).withDefault(Amount.ZERO);

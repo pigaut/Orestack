@@ -8,12 +8,12 @@ import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.rpg.util.*;
 import org.jetbrains.annotations.*;
 
-public class ChanceAction implements DispatchableAction {
+public class ChanceAction implements Action {
 
-    private final DispatchableAction action;
+    private final Action action;
     private final double chance;
 
-    public ChanceAction(DispatchableAction action, double chance) {
+    public ChanceAction(Action action, double chance) {
         this.action = action;
         this.chance = chance;
     }

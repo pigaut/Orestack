@@ -57,12 +57,13 @@ public class SimpleStatSettings implements StatSettings {
     private Map<Integer, Integer> miningFortuneByEnchantLevel;
 
     private Map<DamageCause, Double> damageMultiplierByCause;
+    private Double defaultDamageMultiplier = 1.0;
 
     public SimpleStatSettings(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 
-    public void loadConfigurationData(@NotNull ConfigSection config) {
+    public void loadConfiguration(@NotNull ConfigSection config) {
         showStatusBar = config.getBoolean("show-status-bar")
                 .withDefault(true);
 
@@ -228,6 +229,10 @@ public class SimpleStatSettings implements StatSettings {
                 miningFortuneByEnchantLevel.put(level, miningFortune);
             }
         }
+
+        defaultDamageMultiplier = config.getDouble("default-damage-multiplier")
+                .require(Requirements.positive())
+                .withDefault(1.0);
 
         damageMultiplierByCause = new HashMap<>();
         for (KeyedScalar scalar : config.getSectionOrEmpty("damage-multipliers").getNestedScalars()) {
@@ -423,7 +428,7 @@ public class SimpleStatSettings implements StatSettings {
 
     @Override
     public double getDamageMultiplier(@NotNull DamageCause cause) {
-        return damageMultiplierByCause.getOrDefault(cause, 1.0);
+        return damageMultiplierByCause.getOrDefault(cause, defaultDamageMultiplier);
     }
 
 }

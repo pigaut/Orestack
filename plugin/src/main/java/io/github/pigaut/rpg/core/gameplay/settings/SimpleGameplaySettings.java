@@ -2,16 +2,11 @@ package io.github.pigaut.rpg.core.gameplay.settings;
 
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.boot.*;
-import io.github.pigaut.rpg.plugin.boot.phase.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.delay.*;
 import io.github.pigaut.yaml.node.line.*;
-import io.github.pigaut.yaml.node.section.*;
 import org.jetbrains.annotations.*;
-
-import java.util.*;
 
 public class SimpleGameplaySettings implements GameplaySettings {
 
@@ -41,7 +36,7 @@ public class SimpleGameplaySettings implements GameplaySettings {
         this.plugin = plugin;
     }
 
-    public void loadConfigurationData(@NotNull ConfigSection config) {
+    public void loadConfiguration(@NotNull ConfigSection config) {
         showDeathMessages = config.getBoolean("show-death-messages")
                 .withDefault(true);
 

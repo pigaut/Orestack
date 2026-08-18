@@ -29,19 +29,12 @@ public class GameplayEventListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof LivingEntity victim)) {
-            return;
-        }
+    public void onEntityDamageByPlayer(EntityDamageByPlayerEvent event) {
+        Player player = event.getPlayer();
+        LivingEntity victim = event.getVictim();
+        double damage = event.getDamage();
 
-        LivingEntity livingEntity = EntityUtil.getDamagerEntity(event.getDamager());
-        if (!(livingEntity instanceof Player killer)) {
-            return;
-        }
-
-        Context context = Context.fromPlayerAndEntity(plugin, killer, victim, event);
-
-        double damage = event.getFinalDamage();
+        Context context = Context.fromPlayerAndEntity(plugin, player, victim, event);
         context.addPlaceholder("damage", damage);
 
         Function onPlayerDamageEntity = plugin.getSettings().getOnPlayerDamageEntity();
@@ -53,7 +46,7 @@ public class GameplayEventListener implements Listener {
         }
 
         if (victim.getHealth() <= damage) {
-            PlayerKillEntityEvent killEvent = new PlayerKillEntityEvent(killer, victim);
+            PlayerKillEntityEvent killEvent = new PlayerKillEntityEvent(player, victim);
             Server.callEvent(killEvent);
             event.setCancelled(killEvent.isCancelled());
         }
@@ -97,7 +90,7 @@ public class GameplayEventListener implements Listener {
 
     @EventHandler
     public void onEntityExhaustion(EntityExhaustionEvent event) {
-        if (!(event.getEntity() instanceof Player player)) {
+        if (!(event.getEntity() instanceof Player)) {
             return;
         }
 
@@ -110,7 +103,7 @@ public class GameplayEventListener implements Listener {
         event.setExhaustion(event.getExhaustion() * settings.getExhaustionMultiplier());
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerItemConsume(PlayerItemConsumeEvent event) {
         Player player = event.getPlayer();
         Bukkit.getScheduler().runTask(plugin, () -> {

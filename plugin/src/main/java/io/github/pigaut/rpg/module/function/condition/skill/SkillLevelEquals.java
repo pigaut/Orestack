@@ -23,7 +23,7 @@ public class SkillLevelEquals implements Condition {
         if (skill == null) {
             return null;
         }
-        return amount.match(skill.getCurrentLevel());
+        return amount.match(skill.getCurrentLevel() + 1);
     }
 
 }

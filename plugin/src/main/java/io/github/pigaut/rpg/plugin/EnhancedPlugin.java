@@ -1,6 +1,7 @@
 package io.github.pigaut.rpg.plugin;
 
 import io.github.pigaut.rpg.core.gameplay.brew.*;
+import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.rpg.core.buildstation.*;
 import io.github.pigaut.rpg.core.command.*;
@@ -140,7 +141,7 @@ public interface EnhancedPlugin extends Plugin {
     VirtualStructureManager getVirtualStructures();
 
     @NotNull
-    PlayerStateManager<? extends PlayerState> getPlayersState();
+    PlayerStateManager<? extends PlayerState> getPlayerStates();
 
     @NotNull
     PlayerState getPlayerState(@NotNull Player player);
@@ -200,6 +201,8 @@ public interface EnhancedPlugin extends Plugin {
 
     @Nullable
     ConfigLoader<? extends Condition> getConditionLoader(@NotNull String name);
+
+    @Nullable ConfigLoader<? extends Action> getActionLoader(@NotNull String name);
 
     @NotNull
     RecipeManager getRecipes();

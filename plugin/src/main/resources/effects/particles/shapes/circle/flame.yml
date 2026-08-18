@@ -1,0 +1,37 @@
+
+tiny_flame_circle:
+  particle: flame
+  amount: 10
+  shape: circle radius=0.5 density=0.5
+
+small_flame_circle:
+  particle: flame
+  amount: 10
+  shape: circle radius=1 density=0.5
+
+medium_flame_circle:
+  particle: flame
+  amount: 10
+  shape: circle radius=1.5 density=0.5
+
+large_flame_circle:
+  particle: flame
+  amount: 10
+  shape: circle radius=2.0 density=0.5
+
+huge_flame_circle:
+  particle: flame
+  amount: 10
+  shape: circle radius=2.5 density=0.5
+
+massive_flame_circle:
+  particle: flame
+  amount: 10
+  shape: circle radius=5 density=0.5
+
+colossal_flame_circle:
+  particle: flame
+  amount: 10
+  shape: circle radius=10 density=0.5
+
+

@@ -1,11 +1,8 @@
-package io.github.pigaut.rpg.module.particle.impl;
+package io.github.pigaut.rpg.module.particle.type;
 
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.module.particle.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.module.particle.*;
 import io.github.pigaut.rpg.server.Server;
-import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;

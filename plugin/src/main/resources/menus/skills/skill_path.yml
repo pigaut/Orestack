@@ -86,7 +86,7 @@ lore:
 id: level_template
 template: true
 args:
-  - $ # Skill Level (i.e. [1, 2, 3, ..., 98, 99, 100])
+  - $ # Skill Level (i.e. 1, 2, 3, ..., 99, 100)
 
 # Locked
 type: red_stained_glass_pane

@@ -34,6 +34,9 @@ import org.jetbrains.annotations.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.Comparator;
+import java.util.regex.*;
+import java.util.stream.*;
 
 public class Settings implements ConfigBacked, GameplaySettings, DropSettings, StatSettings, ItemSettings, PlaceholderSettings {
 
@@ -50,6 +53,8 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     // Shortcuts
     private boolean shortcuts;
     private Map<String, String> configShortcuts;
+    private Pattern shortcutsPattern;
+
     // Generic settings
     private boolean keepConfigUpToDate;
     private boolean debug;
@@ -65,10 +70,13 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     private Delay autoSave;
     private Delay worldLoadTimeout;
     private Delay playerCacheDuration;
+
     // Modules
     private Set<Module> disabledModules;
+
     // Mobs
     private String playerSlainMessage;
+
     // Holograms
     private int hologramViewDistance;
     private HologramProvider preferredHologramProvider;
@@ -87,8 +95,20 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
         this.placeholderSettings = new SimplePlaceholderSettings();
     }
 
+    // Preload settings required for booting the plugin
+    public void loadBootConfiguration() {
+        ConfigSection config = plugin.getConfiguration();
+
+        generateExamples = config.getBoolean("generate-examples")
+                .withDefault(true);
+
+        disabledModules = new HashSet<>(config.getList("disabled-modules", Module.class)
+                .withDefault(List.of()));
+
+    }
+
     @Override
-    public @NotNull ErrorCollector loadConfigurationData() {
+    public @NotNull ErrorCollector loadConfiguration() {
         ConfigSection config = plugin.getConfiguration();
 
         shortcuts = config.getBoolean("shortcuts")
@@ -96,8 +116,10 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
 
         configShortcuts = new HashMap<>();
         if (shortcuts) {
+            Map<String, String> colorShortcuts = new HashMap<>();
+
             for (String key : config.getKeys()) {
-                if (!key.endsWith("-config-shortcuts")) {
+                if (!key.endsWith("-shortcuts")) {
                     continue;
                 }
 
@@ -106,17 +128,35 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
                     continue;
                 }
 
+                boolean colorShortcut = key.equalsIgnoreCase("color-shortcuts");
                 for (String shortcut : argSection.getKeys()) {
-                    if (configShortcuts.containsKey(shortcut)) {
+                    boolean isDuplicate = configShortcuts.containsKey(shortcut) ||
+                            colorShortcuts.containsKey(shortcut);
+
+                    if (isDuplicate) {
                         config.collectError(new InvalidConfigException(config, shortcut, "Duplicate shortcut found with name: " + shortcut));
                     }
 
                     String value = argSection.getString(shortcut).withDefault(null);
                     if (value != null) {
-                        configShortcuts.put(shortcut, value);
+                        if (!colorShortcut) {
+                            configShortcuts.put(shortcut, value);
+                        } else {
+                            colorShortcuts.put(shortcut, value);
+                        }
                     }
                 }
             }
+
+            // Apply color shortcuts to other shortcuts
+            Pattern colorPattern = StringUtil.createReplacePatter(colorShortcuts);
+            configShortcuts.replaceAll((key, value) ->
+                    StringUtil.replaceAll(value, colorPattern, colorShortcuts));
+
+            configShortcuts.putAll(colorShortcuts);
+
+            // Replace shortcuts in this configuration file
+            shortcutsPattern = StringUtil.createReplacePatter(configShortcuts);
             applyConfigShortcuts(config);
         }
 
@@ -209,11 +249,11 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
             }
         }
 
-        gameplaySettings.loadConfigurationData(config);
-        dropSettings.loadConfigurationData(config);
-        statSettings.loadConfigurationData(config);
-        itemSettings.loadConfigurationData(config);
-        placeholderSettings.loadConfigurationData(config);
+        gameplaySettings.loadConfiguration(config);
+        dropSettings.loadConfiguration(config);
+        statSettings.loadConfiguration(config);
+        itemSettings.loadConfiguration(config);
+        placeholderSettings.loadConfiguration(config);
 
         return config;
     }
@@ -349,9 +389,7 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     }
 
     public void applyConfigShortcuts(@NotNull ConfigField field) {
-        for (Map.Entry<String, String> entry : configShortcuts.entrySet()) {
-            field.replaceAll(entry.getKey(), entry.getValue());
-        }
+        field.replaceAll(shortcutsPattern, configShortcuts);
     }
 
     @Override

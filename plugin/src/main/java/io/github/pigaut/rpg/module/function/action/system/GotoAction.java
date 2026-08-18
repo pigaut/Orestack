@@ -8,7 +8,7 @@ import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.function.response.*;
 import org.jetbrains.annotations.*;
 
-public class GotoAction extends GotoResponse implements DispatchableAction {
+public class GotoAction extends GotoResponse implements Action {
 
     public GotoAction(int gotoLine) {
         super(gotoLine);

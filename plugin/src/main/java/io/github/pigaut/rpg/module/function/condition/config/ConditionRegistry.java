@@ -6,6 +6,7 @@ import io.github.pigaut.rpg.core.tag.*;
 import io.github.pigaut.rpg.module.function.condition.*;
 import io.github.pigaut.rpg.module.function.condition.block.*;
 import io.github.pigaut.rpg.module.function.condition.entity.*;
+import io.github.pigaut.rpg.module.function.condition.event.*;
 import io.github.pigaut.rpg.module.function.condition.item.*;
 import io.github.pigaut.rpg.module.function.condition.item.enchant.*;
 import io.github.pigaut.rpg.module.function.condition.menu.*;
@@ -30,14 +31,13 @@ import org.bukkit.enchantments.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.potion.*;
-import org.checkerframework.checker.units.qual.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class ConditionLoader extends AbstractLoader<Condition> {
+public class ConditionRegistry extends AbstractLoader<Condition> {
 
-    public ConditionLoader(@NotNull EnhancedPlugin plugin) {
+    public ConditionRegistry(@NotNull EnhancedPlugin plugin) {
 
         // Server conditions
         addLoader("CHANCE", (Line<Condition>) line ->
@@ -87,7 +87,7 @@ public class ConditionLoader extends AbstractLoader<Condition> {
         addLoader("PLAYER_HAS_MONEY", (Line<Condition>) line -> {
             if (economy == null) {
                 ConfigRoot root = line.getRoot();
-                root.collectWarning(new InvalidConfigException(line, "Vault or an economy plugin is not installed"));
+                root.collectWarning(new InvalidConfigException(line, "Vault or economy plugin is not installed"));
                 return Condition.EMPTY;
             }
             return new PlayerHasMoney(economy, line.getRequired(1, Amount.class));
@@ -198,6 +198,16 @@ public class ConditionLoader extends AbstractLoader<Condition> {
 
         addLoader("ENTITY_TYPE_EQUALS", (Line<Condition>) line ->
                 new EntityTypeEquals(line.getAllRequired(1, EntityType.class)));
+
+        // Event conditions
+        addLoader("DAMAGE_IS_CRITICAL", (Line<Condition>) line ->
+                new DamageIsCritical());
+
+        addLoader("DAMAGE_IS_FALLING_CRITICAL", (Line<Condition>) line ->
+                new DamageIsFallingCritical());
+
+        addAliases("DAMAGE_IS_CRITICAL", "DAMAGE_IS_CRIT");
+        addAliases("DAMAGE_IS_FALLING_CRITICAL", "DAMAGE_IS_FALLING_CRIT");
 
         // Mob conditions start
         addLoader("MOB_HAS_FLAG", (Line<Condition>) line ->

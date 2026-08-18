@@ -8,7 +8,7 @@ import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.function.response.*;
 import org.jetbrains.annotations.*;
 
-public class ReturnAction implements DispatchableAction {
+public class ReturnAction implements Action {
 
     @Override
     public @NotNull FunctionResponse dispatch(@NotNull Context context) {

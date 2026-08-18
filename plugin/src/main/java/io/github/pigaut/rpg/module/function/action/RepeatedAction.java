@@ -6,12 +6,12 @@ import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.response.*;
 import org.jetbrains.annotations.*;
 
-public class RepeatedAction implements DispatchableAction {
+public class RepeatedAction implements Action {
 
-    private final DispatchableAction action;
+    private final Action action;
     private final int repetitions;
 
-    public RepeatedAction(DispatchableAction action, int repetitions) {
+    public RepeatedAction(Action action, int repetitions) {
         this.action = action;
         this.repetitions = repetitions;
     }

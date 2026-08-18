@@ -1,10 +1,7 @@
 package io.github.pigaut.rpg.module.stat;
 
 import io.github.pigaut.rpg.module.stat.tasks.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.plugin.registry.*;
-import io.github.pigaut.rpg.module.stat.tasks.*;
+import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import io.github.pigaut.rpg.plugin.registry.*;
@@ -52,6 +49,9 @@ public class StatManager extends Manager implements Registry<Stat> {
         manaRegenTask.start();
 
         if (plugin.getSettings().isShowStatusBar()) {
+            for (PlayerState playerState : plugin.getPlayerStates().getAll()) {
+                playerState.updateStatusBar();
+            }
             statusBarUpdateTask = new StatusBarUpdateTask(plugin);
             statusBarUpdateTask.start();
         }

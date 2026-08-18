@@ -84,7 +84,7 @@ structure-wand:
 shortcuts: true
 
 # Color code and hex shortcuts
-color-config-shortcuts:
+color-shortcuts:
   '&0': '§0'
   '&1': '§1'
   '&2': '§2'
@@ -123,9 +123,10 @@ color-config-shortcuts:
   '&redstone': '§x§d§0§0§0§0§0'
   '&lapis': '§x§1§d§3§b§8§b'
   '&podzol': '§x§7§b§3§f§0§0'
+  '&crit': '§x§c§8§9§7§5§b'
 
 # Generic shortcuts, that do not belong to any module.
-generic-config-shortcuts:
+generic-shortcuts:
   $star: ★
   $star-outline: ☆
   $sparkle: ✦
@@ -232,7 +233,15 @@ egg-laying: 1 egg every 20-40s
 
 # Triggered when a player damages an entity
 on-player-damage-entity:
-  - sendHologram &c-{damage}$heart offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=0.5s
+  - if: damageIsFallingCrit # Vanilla crit damage
+    do:
+      - sendHologram &crit-{damage}$heart offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=0.5s
+
+  - if: damageIsCrit # Stat crit damage
+    do:
+      - sendHologram &c-{damage}$heart offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=0.5s
+    else:
+      - sendHologram &7-{damage}$heart offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=0.5s
 
 
 #░░░█▀▀░▀█▀░█▀█░▀█▀░█▀▀░░░░
@@ -240,13 +249,14 @@ on-player-damage-entity:
 #░░░▀▀▀░░▀░░▀░▀░░▀░░▀▀▀░░░░
 
 # Stat shortcuts, can be used in any config file
-stats-config-shortcuts:
+stat-shortcuts:
   $heart: ❤
   $speed: ✦
   $protection: ❈
   $wisdom: ✎
   $power: ❁
   $skull: ☠
+  $biohazard: ☣
   $ferocity: ⫽
   $arthropod: Ж
   $undead: ༕
@@ -261,7 +271,7 @@ stats-config-shortcuts:
   $soul: ⸎
   $flower: ✿
 
-# Whether to use the actionbar to show the status bar (health, defense, mana)
+# Whether to use the actionbar to show a status bar (health, defense, mana)
 show-status-bar: true
 
 # The status bar to show to the player
@@ -273,7 +283,7 @@ insert-messages-in-status-bar: true
 # Settings for status bar messages
 status-bar-messages:
   length: 18
-  duration: 3s
+  duration: 1s
   align: center   # left, center, right
 
 # The base player stats
@@ -320,29 +330,24 @@ custom-stats:
     stats:
       mining_speed: +1 every 1 level
 
-# Adjust the entity/player damage taken from different causes
-# Damage multiplier (vanilla danger) = max-health stat (100) / vanilla health (20)
+
+# The default multiplier when a player takes damage.
+# For Vanilla Danger use: damage multiplier = 100 / 20 (100 = base max-health, 20 = vanilla health)
+default-damage-multiplier: 500%
+
+# All Damage Causes:
+# world_border, contact, entity_attack, entity_sweep_attack, projectile,
+# suffocation, fall, fire, fire_tick, melting, lava, drowning, block_explosion,
+# entity_explosion, void, lightning, starvation, poison, magic, wither,
+# falling_block, thorns, dragon_breath, fly_into_wall, hot_floor, campfire,
+# cramming, dryout, freeze, sonic_boom, custom.
+
+# The multiplier when a player takes damage taken from different causes
 damage-multipliers:
   entity_attack: 100%
   entity_sweep_attack: 100%
   projectile: 100%
-  contact: 500%          # Cactus, berry bush, dripstone
-  falling_block: 500%    # Anvils, etc.
-  fire: 500%
-  fire_tick: 500%
-  lava: 500%
-  block_explosion: 500%
-  entity_explosion: 500%
-  thorns: 500%
-  hot_floor: 500%
-  campfire: 500%
-  lightning: 500%
-  fly_into_wall: 500%
-  cramming: 500%
-  freeze: 500%
-  sonic_boom: 500%
-  magic: 500%
-  wither: 500%
+
 
 #░░░█▀▀░█▀█░█▀▀░█░█░█▀█░█▀█░▀█▀░░░█▀▀░▀█▀░█▀█░▀█▀░█▀▀░░░░
 #░░░█▀▀░█░█░█░░░█▀█░█▀█░█░█░░█░░░░▀▀█░░█░░█▀█░░█░░▀▀█░░░░
@@ -398,7 +403,7 @@ default-skill-settings:
 
   # The function triggered when a player earns exp for any skill
   on-exp-earn:
-    - sendActionBar &a+{exp} {skill_tc} exp
+    - sendActionBar &3+{exp} {skill_name_tc} ({skill_exp}/{skill_exp_required_cp}) # cp = compact (i.e. 1k, 5.5k, 10m)
 
   on-level-up:
     - sendSkillLevelUpMessage # Found in functions/utils/MessageUtil.yml
@@ -408,7 +413,7 @@ skill-progress-bar: line
 
 # Config shortcuts, these placeholders can be used in all configurations and
 # will be replaced by the specified value. This way you can avoid typing weird characters and waste time.
-skill-config-shortcuts:
+skill-shortcuts:
   $health: '&c❤ Health'
   $defense: '&a❈ Defense'
   $damage: '&c❁ Damage'
@@ -419,6 +424,8 @@ skill-config-shortcuts:
   $foraging_fortune: '&6☘ Foraging Fortune'
   $strength: '&c❁ Strength'
   $intelligence: '&b✎ Intelligence'
+  $crit_chance: '&3☣ Crit Chance'
+  $crit_damage: '&3☠ Crit Damage'
 
 # EXP Earning Activities Guidelines
 # Target: Level 1 -> 100 (1,000,000 exp) in ~90 hours average

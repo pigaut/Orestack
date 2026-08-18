@@ -1,0 +1,35 @@
+
+tiny_flame_line:
+  particle: flame
+  amount: 10
+  shape: line length=0.5 thickness=0 density=0.5
+
+small_flame_line:
+  particle: flame
+  amount: 10
+  shape: line length=1 thickness=0 density=0.5
+
+medium_flame_line:
+  particle: flame
+  amount: 10
+  shape: line length=1.5 thickness=0 density=0.5
+
+large_flame_line:
+  particle: flame
+  amount: 10
+  shape: line length=2.0 thickness=0 density=0.5
+
+huge_flame_line:
+  particle: flame
+  amount: 10
+  shape: line length=2.5 thickness=0 density=0.5
+
+massive_flame_line:
+  particle: flame
+  amount: 10
+  shape: line length=5 thickness=0 density=0.5
+
+colossal_flame_line:
+  particle: flame
+  amount: 10
+  shape: line length=10 thickness=0 density=0.5

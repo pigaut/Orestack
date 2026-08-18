@@ -1,0 +1,35 @@
+
+tiny_flame_square:
+  particle: flame
+  amount: 10
+  shape: square length=0.5 filled=false density=0.5
+
+small_flame_square:
+  particle: flame
+  amount: 10
+  shape: square length=1 filled=false density=0.5
+
+medium_flame_square:
+  particle: flame
+  amount: 10
+  shape: square length=1.5 filled=false density=0.5
+
+large_flame_square:
+  particle: flame
+  amount: 10
+  shape: square length=2.0 filled=false density=0.5
+
+huge_flame_square:
+  particle: flame
+  amount: 10
+  shape: square length=2.5 filled=false density=0.5
+
+massive_flame_square:
+  particle: flame
+  amount: 10
+  shape: square length=5 filled=false density=0.5
+
+colossal_flame_square:
+  particle: flame
+  amount: 10
+  shape: square length=10 filled=false density=0.5

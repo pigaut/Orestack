@@ -85,7 +85,7 @@ public class PlayerStateManager<T extends PlayerState> extends Manager {
                     return;
                 }
                 cachedPlayerStates.remove(playerId);
-                plugin.getPlayerData().unload(playerId);
+                plugin.getPlayerData().destroy(playerId);
             });
         }
     }

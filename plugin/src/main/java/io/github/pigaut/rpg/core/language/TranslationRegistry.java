@@ -50,7 +50,7 @@ public class TranslationRegistry implements ConfigBacked {
     }
 
     @Override
-    public @NotNull ErrorCollector loadConfigurationData() {
+    public @NotNull ErrorCollector loadConfiguration() {
         Settings settings = plugin.getSettings();
         File file = settings.getLanguageFile();
         RootSection existingConfig = new RootSection(file, plugin.getConfigurator(), "Language");
@@ -72,13 +72,12 @@ public class TranslationRegistry implements ConfigBacked {
         Set<String> existingKeys = existingConfig.getKeys();
         for (String key : defaultConfig.getKeys()) {
             if (!existingKeys.contains(key)) {
-                String defaultTranslation = defaultConfig.getString(key)
-                        .orElse("not set");
+                String defaultTranslation = defaultConfig.getString(key).orElse("not set");
+                existingConfig.set(key, defaultTranslation); // write into existingConfig instead of dictionary directly
 
-                register(CaseFormatter.toKebabCase(key), defaultTranslation);
                 if (file.exists()) {
                     existingConfig.collectWarning(
-                            new InvalidConfigException(existingConfig, key, "Lang key not found: " + key + " (Fix or regenerate the language file)")
+                            new InvalidConfigException(existingConfig, key, "Translation not found: " + key + " (Fix or regenerate the language file)")
                     );
                 }
             }

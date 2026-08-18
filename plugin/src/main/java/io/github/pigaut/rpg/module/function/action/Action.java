@@ -6,14 +6,12 @@ import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.response.*;
 import org.jetbrains.annotations.*;
 
-@FunctionalInterface
-public interface Action extends DispatchableAction {
+public interface Action {
 
-    Action EMPTY = context -> {};
+    Action EMPTY = new Action() {};
 
-    void execute(@NotNull Context context);
+    default void execute(@NotNull Context context) {}
 
-    @Override
     default @NotNull FunctionResponse dispatch(@NotNull Context context) {
         execute(context);
         return FunctionResponse.NONE;

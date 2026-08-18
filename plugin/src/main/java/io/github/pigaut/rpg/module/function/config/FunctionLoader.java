@@ -48,17 +48,18 @@ public class FunctionLoader implements ConfigLoader<Function> {
             return function;
         }
 
-        DispatchableAction action = scalar.get(DispatchableAction.class).orElse(null);
-        if (action != null) {
-            return new SimpleFunction(action);
-        }
-
         Set<String> functionNames = plugin.getFunctions().getAllExistingNames();
         if (functionNames.contains(functionName)) {
             return new LazyFunction(plugin, functionName);
         }
 
-        throw new InvalidConfigException(scalar, "Could not find function/action with name: " + CaseFormatter.toCamelCase(functionName.split(" ")[0]));
+        String actionName = scalar.toString().split(" ")[0];
+        ConfigLoader<? extends Action> actionLoader = plugin.getActionLoader(actionName);
+        if (actionLoader != null) {
+            return new SimpleFunction(actionLoader.loadFromScalar(scalar));
+        }
+
+        throw new InvalidConfigException(scalar, "Could not find function/action with name: " + CaseFormatter.toCamelCase(actionName));
     }
 
     @Override
@@ -109,7 +110,7 @@ public class FunctionLoader implements ConfigLoader<Function> {
         }
         else if (section.isSet("do|action|actions")) {
             function = new SimpleFunction(name, group,
-                    section.getRequired("do|action|actions", DispatchableAction.class));
+                    section.getRequired("do|action|actions", Action.class));
         }
         else if (section.isSet("switch")) {
             String conditionName = section.getRequiredString("switch");

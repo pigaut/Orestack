@@ -8,13 +8,13 @@ import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.rpg.plugin.*;
 import org.jetbrains.annotations.*;
 
-public class DelayedAction implements DispatchableAction {
+public class DelayedAction implements Action {
 
     private final EnhancedPlugin plugin;
-    private final DispatchableAction action;
+    private final Action action;
     private final int delay;
 
-    public DelayedAction(EnhancedPlugin plugin, DispatchableAction action, int delay) {
+    public DelayedAction(EnhancedPlugin plugin, Action action, int delay) {
         this.plugin = plugin;
         this.action = action;
         this.delay = delay;

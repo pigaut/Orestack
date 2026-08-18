@@ -8,14 +8,14 @@ import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.rpg.plugin.*;
 import org.jetbrains.annotations.*;
 
-public class PeriodicAction implements DispatchableAction {
+public class PeriodicAction implements Action {
 
     private final EnhancedPlugin plugin;
-    private final DispatchableAction action;
+    private final Action action;
     private final int interval;
     private final int repetitions;
 
-    public PeriodicAction(EnhancedPlugin plugin, DispatchableAction action, int interval, int repetitions) {
+    public PeriodicAction(EnhancedPlugin plugin, Action action, int interval, int repetitions) {
         this.plugin = plugin;
         this.action = action;
         this.interval = interval;

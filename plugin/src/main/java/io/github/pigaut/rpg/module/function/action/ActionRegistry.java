@@ -1,6 +1,5 @@
 package io.github.pigaut.rpg.module.function.action;
 
-import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.drop.*;
 import io.github.pigaut.rpg.core.menu.atlas.*;
 import io.github.pigaut.rpg.module.function.action.block.*;
@@ -24,29 +23,7 @@ import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.module.stat.modifier.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.drop.*;
-import io.github.pigaut.rpg.core.menu.atlas.*;
-import io.github.pigaut.rpg.hook.*;
-import io.github.pigaut.rpg.module.function.action.block.*;
-import io.github.pigaut.rpg.module.function.action.event.*;
-import io.github.pigaut.rpg.module.function.action.menu.*;
-import io.github.pigaut.rpg.module.function.action.mob.*;
-import io.github.pigaut.rpg.module.function.action.mob.flag.*;
-import io.github.pigaut.rpg.module.function.action.player.*;
-import io.github.pigaut.rpg.module.function.action.player.ability.*;
-import io.github.pigaut.rpg.module.function.action.player.state.*;
-import io.github.pigaut.rpg.module.function.action.player.tool.*;
-import io.github.pigaut.rpg.module.function.action.protagonist.*;
-import io.github.pigaut.rpg.module.function.action.server.*;
-import io.github.pigaut.rpg.module.function.action.system.*;
-import io.github.pigaut.rpg.module.message.*;
-import io.github.pigaut.rpg.module.particle.*;
-import io.github.pigaut.rpg.module.recipe.*;
-import io.github.pigaut.rpg.module.sound.*;
-import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
-import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.configurator.load.*;
@@ -59,11 +36,11 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class ActionLoader extends AbstractLoader<DispatchableAction> {
+public class ActionRegistry extends AbstractLoader<Action> {
 
     private final EnhancedPlugin plugin;
 
-    public ActionLoader(EnhancedPlugin plugin) {
+    public ActionRegistry(EnhancedPlugin plugin) {
         this.plugin = plugin;
 
         // Server actions start
@@ -159,7 +136,7 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
 
 
         // Function actions start
-        addLoader("RETURN", (Line<DispatchableAction>) line -> {
+        addLoader("RETURN", (Line<Action>) line -> {
             String returnValue = line.getString(1).orElse(null);
             if (returnValue != null) {
                 Object parsedValue = ParseUtil.parseAsScalar(returnValue);
@@ -168,10 +145,10 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
             return new ReturnAction();
         });
 
-        addLoader("STOP", (Line<DispatchableAction>) line ->
+        addLoader("STOP", (Line<Action>) line ->
                 new StopAction());
 
-        addLoader("GOTO", (Line<DispatchableAction>) line ->
+        addLoader("GOTO", (Line<Action>) line ->
                 new GotoAction(line.getInteger(1)
                         .require(Requirements.positive(), "Value must be greater than or equal to 1")
                         .orThrow() - 1
@@ -276,7 +253,7 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
         addLoader("ADD_PLAYER_MONEY", (Line<Action>) line -> {
             if (economy == null) {
                 ConfigRoot root = line.getRoot();
-                root.collectWarning(new InvalidConfigException(line, "Vault or an economy plugin is not installed"));
+                root.collectWarning(new InvalidConfigException(line, "Vault or economy plugin is not installed"));
                 return Action.EMPTY;
             }
             return new GiveMoneyToPlayer(economy, line.getRequired(1, Amount.class));
@@ -285,7 +262,7 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
         addLoader("REMOVE_PLAYER_MONEY", (Line<Action>) line -> {
             if (economy == null) {
                 ConfigRoot root = line.getRoot();
-                root.collectWarning(new InvalidConfigException(line, "Vault or an economy plugin is not installed"));
+                root.collectWarning(new InvalidConfigException(line, "Vault or economy plugin is not installed"));
                 return Action.EMPTY;
             }
             return new TakeMoneyFromPlayer(economy, line.getRequired(1, Amount.class));
@@ -604,17 +581,17 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
     }
 
     @Override
-    public @NotNull DispatchableAction loadFromScalar(ConfigScalar scalar) throws InvalidConfigException {
+    public @NotNull Action loadFromScalar(ConfigScalar scalar) throws InvalidConfigException {
         ConfigLine line = scalar.toLine();
         String actionId = line.getRequiredString(0);
 
-        ConfigLoader<? extends DispatchableAction> loader = getLoader(actionId);
+        ConfigLoader<? extends Action> loader = getLoader(actionId);
         if (loader == null) {
             throw new InvalidConfigException(line,
                     "Could not find action with name: " + CaseFormatter.toCamelCase(actionId));
         }
 
-        DispatchableAction action = loader.loadFromScalar(scalar);
+        Action action = loader.loadFromScalar(scalar);
 
         Integer repetitions = line.getInteger("repeat|repetitions")
                 .require(Requirements.positive())
@@ -651,8 +628,8 @@ public class ActionLoader extends AbstractLoader<DispatchableAction> {
     }
 
     @Override
-    public @NotNull DispatchableAction loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigException {
-        return new MultiAction(sequence.getAll(DispatchableAction.class).orThrow());
+    public @NotNull Action loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigException {
+        return new MultiAction(sequence.getAll(Action.class).orThrow());
     }
 
 }

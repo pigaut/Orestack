@@ -24,7 +24,7 @@ public class GateOptionsManager extends Manager implements ConfigBacked {
     }
 
     @Override
-    public @NotNull ErrorCollector loadConfigurationData() {
+    public @NotNull ErrorCollector loadConfiguration() {
         ConfigSection config = plugin.getConfiguration();
 
         playerConstructions = config.getList("player-constructions", GateTemplate.class)

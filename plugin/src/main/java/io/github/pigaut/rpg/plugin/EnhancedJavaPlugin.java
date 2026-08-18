@@ -16,7 +16,9 @@ import io.github.pigaut.rpg.core.tool.*;
 import io.github.pigaut.rpg.module.command.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.function.Function;
+import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.function.condition.*;
+import io.github.pigaut.rpg.module.function.condition.config.*;
 import io.github.pigaut.rpg.module.function.foreach.*;
 import io.github.pigaut.rpg.module.item.*;
 import io.github.pigaut.rpg.module.menu.*;
@@ -77,13 +79,15 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     private final ToolRegistry toolRegistry = new ToolRegistry();
     private final DynamicIconRegistry dynamicIconRegistry = new DynamicIconRegistry();
     private final ForEachSourceRegistry forEachSourceRegistry = new ForEachSourceRegistry();
+    private final ConditionRegistry conditionRegistry = new ConditionRegistry(this);
+    private final ActionRegistry actionRegistry = new ActionRegistry(this);
 
     private final StatManager playerStatsManager = new StatManager(this);
 
-    private final ItemManager itemManager = new ItemManager(this);
-    private final MessageManager messageManager = new MessageManager(this);
     private final ParticleManager particleManager = new ParticleManager(this);
     private final SoundManager soundManager = new SoundManager(this);
+    private final MessageManager messageManager = new MessageManager(this);
+    private final ItemManager itemManager = new ItemManager(this);
     private final RecipeManager recipeManager = new RecipeManager(this);
     private final FunctionManager functionManager = new FunctionManager(this);
 
@@ -349,7 +353,7 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     }
 
     @Override
-    public @NotNull PlayerStateManager<? extends PlayerState> getPlayersState() {
+    public @NotNull PlayerStateManager<? extends PlayerState> getPlayerStates() {
         throw new UnsupportedOperationException("Plugin does not support player state.");
     }
 
@@ -457,6 +461,15 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
         Configurator configurator = getConfigurator();
         if (configurator instanceof PluginConfigurator pluginConfigurator) {
             return pluginConfigurator.getConditionLoader().getLoader(name);
+        }
+        return null;
+    }
+
+    @Override
+    public @Nullable ConfigLoader<? extends Action> getActionLoader(@NotNull String name) {
+        Configurator configurator = getConfigurator();
+        if (configurator instanceof PluginConfigurator pluginConfigurator) {
+            return pluginConfigurator.getActionLoader().getLoader(name);
         }
         return null;
     }
@@ -678,8 +691,8 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
         setReady(!reloading);
     }
 
-    public void reload(@NotNull Consumer<ErrorCollector> errorCollector) throws PluginReloadInProgressException {
-        bootstrap.reload(errorCollector);
+    public void reload(@NotNull Consumer<Manager> onManagerReloaded, @NotNull Consumer<ErrorCollector> onReloadComplete) throws PluginReloadInProgressException {
+        bootstrap.reload(onManagerReloaded, onReloadComplete);
     }
 
     public @NotNull List<Manager> getAllManagers() {
@@ -687,10 +700,10 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
 
         managers.add(playerStatsManager);
 
-        managers.add(itemManager);
-        managers.add(messageManager);
         managers.add(particleManager);
         managers.add(soundManager);
+        managers.add(messageManager);
+        managers.add(itemManager);
         managers.add(recipeManager);
         managers.add(functionManager);
         managers.add(structureManager);

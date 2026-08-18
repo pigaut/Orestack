@@ -6,11 +6,6 @@ import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.function.condition.*;
 import io.github.pigaut.rpg.module.function.condition.config.*;
 import io.github.pigaut.rpg.server.*;
-import io.github.pigaut.rpg.config.*;
-import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.module.function.condition.config.*;
-import io.github.pigaut.rpg.server.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.configurator.load.*;
@@ -18,7 +13,7 @@ import io.github.pigaut.yaml.configurator.load.*;
 public class McMMOHook {
 
     public static void registerConfiguration(PluginConfigurator configurator) {
-        ConditionLoader conditions = configurator.getConditionLoader();
+        ConditionRegistry conditions = configurator.getConditionLoader();
 
         ConfigLoader.Line<Condition> NOT_ENABLED_CONDITION_LOADER = line -> {
             throw new InvalidConfigException(line, "McMMO plugin is not installed");
@@ -35,7 +30,7 @@ public class McMMOHook {
                         line.get("skill", PrimarySkillType.class).withDefault(PrimarySkillType.MINING)
                 ));
 
-        ActionLoader actions = configurator.getActionLoader();
+        ActionRegistry actions = configurator.getActionLoader();
 
         ConfigLoader.Line<Action> NOT_ENABLED_ACTION_LOADER = line -> {
             throw new InvalidConfigException(line, "McMMO plugin is not installed");

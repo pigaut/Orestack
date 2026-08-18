@@ -10,6 +10,8 @@ import java.util.*;
 
 public class SkillLevel {
 
+    public static final SkillLevel LOCKED = new SkillLevel(0, SkillStats.EMPTY, null, null, null);
+
     private final long expRequirement;
     private final SkillStats stats;
     private final List<String> rewards;

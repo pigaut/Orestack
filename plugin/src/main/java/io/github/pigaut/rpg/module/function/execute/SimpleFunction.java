@@ -15,13 +15,13 @@ public class SimpleFunction implements Function {
 
     private final String name;
     private final String group;
-    private final DispatchableAction action;
+    private final Action action;
 
-    public SimpleFunction(@NotNull DispatchableAction action) {
+    public SimpleFunction(@NotNull Action action) {
         this(YamlConfig.generateRandomKey(), null, action);
     }
 
-    public SimpleFunction(String name, String group, @NotNull DispatchableAction action) {
+    public SimpleFunction(String name, String group, @NotNull Action action) {
         this.name = name;
         this.group = group;
         this.action = action;

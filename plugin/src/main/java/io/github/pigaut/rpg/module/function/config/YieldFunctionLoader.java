@@ -59,7 +59,7 @@ public class YieldFunctionLoader<C extends Function & YieldFunction<R>, R> imple
 
     @Override
     public @NotNull C loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
-        C defaultEvaluation = wrap(new SimpleFunction(DispatchableAction.EMPTY));
+        C defaultEvaluation = wrap(new SimpleFunction(Action.EMPTY));
         if (section.isEmpty()) {
             return defaultEvaluation;
         }

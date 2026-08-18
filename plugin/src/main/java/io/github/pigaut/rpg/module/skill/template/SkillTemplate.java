@@ -93,6 +93,7 @@ public class SkillTemplate implements Identifiable {
     }
 
     public @NotNull SkillLevel getLevel(int level) {
+        if (level == -1) return SkillLevel.LOCKED;
         return skillLevels.get(level);
     }
 
@@ -150,7 +151,7 @@ public class SkillTemplate implements Identifiable {
     }
 
     public int getLevelForExp(long totalExp) {
-        int level = 0;
+        int level = -1;
         for (SkillLevel skillLevel : skillLevels) {
             if (totalExp >= skillLevel.getExpRequired()) {
                 level++;

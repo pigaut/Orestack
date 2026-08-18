@@ -27,33 +27,6 @@ import io.github.pigaut.rpg.module.skill.exp.*;
 import io.github.pigaut.rpg.module.skill.template.*;
 import io.github.pigaut.rpg.module.structure.health.*;
 import io.github.pigaut.rpg.module.structure.health.config.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.module.collection.template.*;
-import io.github.pigaut.rpg.module.collection.tier.*;
-import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.module.function.action.collection.*;
-import io.github.pigaut.rpg.module.function.action.gate.*;
-import io.github.pigaut.rpg.module.function.action.generator.*;
-import io.github.pigaut.rpg.module.function.action.menu.*;
-import io.github.pigaut.rpg.module.function.action.skill.*;
-import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.module.function.condition.collection.*;
-import io.github.pigaut.rpg.module.function.condition.config.*;
-import io.github.pigaut.rpg.module.function.condition.generator.*;
-import io.github.pigaut.rpg.module.function.condition.skill.*;
-import io.github.pigaut.rpg.module.function.config.*;
-import io.github.pigaut.rpg.module.gate.*;
-import io.github.pigaut.rpg.module.gate.config.*;
-import io.github.pigaut.rpg.module.gate.template.*;
-import io.github.pigaut.rpg.module.generator.config.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.module.skill.*;
-import io.github.pigaut.rpg.module.skill.config.*;
-import io.github.pigaut.rpg.module.skill.exp.*;
-import io.github.pigaut.rpg.module.skill.template.*;
-import io.github.pigaut.rpg.module.structure.health.*;
-import io.github.pigaut.rpg.module.structure.health.config.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
@@ -83,8 +56,8 @@ public class RpgMakerConfigurator extends PluginConfigurator {
         addLoader(ExpYieldFunction.class, new YieldFunctionLoader<>(plugin,
                 ExpYieldFunction.class, ExpAmount.class, ExpYieldFunction::new));
 
-        ConditionLoader conditions = getConditionLoader();
-        ActionLoader actions = getActionLoader();
+        ConditionRegistry conditions = getConditionLoader();
+        ActionRegistry actions = getActionLoader();
 
         // Generator Actions start
         actions.addLoader("KEEP_STAGE", (Line<Action>) line ->
@@ -181,7 +154,7 @@ public class RpgMakerConfigurator extends PluginConfigurator {
                 new SkillLevelEquals(line.getRequired(1, Amount.class)));
 
         conditions.addLoader("SKILL_LEVEL_IS_LOCKED", (Line<Condition>) line ->
-                new SkillLevelEquals(Amount.lessThan(line.getRequiredInteger(1) - 1)));
+                new SkillLevelEquals(Amount.lessThan(line.getRequiredInteger(1))));
 
         conditions.addLoader("SKILL_LEVEL_IS_IN_PROGRESS", (Line<Condition>) line ->
                 new SkillLevelEquals(Amount.fixed(line.getRequiredInteger(1) - 1)));

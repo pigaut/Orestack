@@ -1,6 +1,5 @@
 package io.github.pigaut.rpg.module.item.settings;
 
-import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.module.function.*;
@@ -55,7 +54,7 @@ public class SimpleItemSettings implements ItemSettings {
         this.plugin = plugin;
     }
 
-    public void loadConfigurationData(@NotNull ConfigSection config) {
+    public void loadConfiguration(@NotNull ConfigSection config) {
         defaultItemLore = config.getStringList("default-item-lore")
                 .withDefault(List.of());
 

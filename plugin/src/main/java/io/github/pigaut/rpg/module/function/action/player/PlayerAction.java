@@ -4,20 +4,27 @@ import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.response.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-@FunctionalInterface
 public interface PlayerAction extends Action {
 
-    void execute(@NotNull Player player);
+    default void execute(@NotNull Player player) {}
+
+    @NotNull
+    default FunctionResponse dispatch(@NotNull Player player) {
+        execute(player);
+        return FunctionResponse.NONE;
+    }
 
     @Override
-    default void execute(@NotNull Context context) {
+    default @NotNull FunctionResponse dispatch(@NotNull Context context) {
         Player player = context.player();
         if (player != null) {
-            execute(player);
+            return dispatch(player);
         }
+        return FunctionResponse.NONE;
     }
 
 }

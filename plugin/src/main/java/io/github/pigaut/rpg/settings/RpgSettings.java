@@ -1,9 +1,7 @@
 package io.github.pigaut.rpg.settings;
 
-import io.github.pigaut.rpg.module.generator.tool.*;
 import io.github.pigaut.rpg.module.skill.exp.*;
 import io.github.pigaut.rpg.module.structure.health.*;
-import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.enchant.*;
 import io.github.pigaut.rpg.core.progressbar.*;
 import io.github.pigaut.rpg.module.function.*;
@@ -66,8 +64,8 @@ public class RpgSettings extends Settings {
     }
 
     @Override
-    public @NotNull ErrorCollector loadConfigurationData() {
-        super.loadConfigurationData();
+    public @NotNull ErrorCollector loadConfiguration() {
+        super.loadConfiguration();
         ConfigSection config = plugin.getConfiguration();
 
         // Generic settings

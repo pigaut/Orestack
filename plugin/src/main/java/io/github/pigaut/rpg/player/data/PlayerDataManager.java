@@ -73,6 +73,23 @@ public class PlayerDataManager<T extends PlayerData> extends Manager {
     }
 
     public void unload(@NotNull UUID playerId) {
+        T playerData = get(playerId);
+        if (playerData != null) {
+            unload(playerData);
+        }
+    }
+
+    public void unload(@NotNull T playerData) {
+        if (playerData.isLoaded()) {
+            for (PlayerDataRepository<T> dataRepository : playerDataRepositories) {
+                dataRepository.saveData(playerData);
+                dataRepository.clearData(playerData);
+            }
+            playerData.setLoaded(false);
+        }
+    }
+
+    public void destroy(@NotNull UUID playerId) {
         T playerData = playerDataByUUID.get(playerId);
         if (playerData == null) {
             return;
@@ -80,18 +97,11 @@ public class PlayerDataManager<T extends PlayerData> extends Manager {
 
         PlayerState playerState = plugin.getPlayerState(playerId);
         if (playerState != null && playerState.getPlayerData() == playerData) {
-            throw new IllegalStateException("Cannot unload player data because owning player state hasn't been destroyed");
+            throw new IllegalStateException("Cannot destroy player data because owning player state still exists");
         }
 
         playerDataByUUID.remove(playerId);
-        plugin.getScheduler().runTaskAsync(() -> {
-            if (playerData.isLoaded()) {
-                for (PlayerDataRepository<T> dataRepository : playerDataRepositories) {
-                    dataRepository.saveData(playerData);
-                    dataRepository.clearData(playerData);
-                }
-            }
-        });
+        plugin.getScheduler().runTaskAsync(() -> unload(playerData));
     }
 
     public void save(@NotNull T playerData) {
@@ -123,16 +133,14 @@ public class PlayerDataManager<T extends PlayerData> extends Manager {
                 dataRepository.loadData(playerData);
             }
 
-            plugin.getScheduler().runTask(() -> {
-                playerData.setLoaded(true);
-            });
+            plugin.getScheduler().runTask(() -> playerData.setLoaded(true));
         }
     }
 
     @Override
     public void saveData() {
         for (T playerData : playerDataByUUID.values()) {
-            save(playerData);
+            unload(playerData);
         }
     }
 

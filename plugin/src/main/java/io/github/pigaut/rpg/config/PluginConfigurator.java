@@ -67,12 +67,12 @@ import org.jetbrains.annotations.*;
 
 public class PluginConfigurator extends SpigotConfigurator {
 
-    private final ConditionLoader conditionLoader;
-    private final ActionLoader actionLoader;
+    private final ConditionRegistry conditionLoader;
+    private final ActionRegistry actionLoader;
 
     public PluginConfigurator(@NotNull EnhancedPlugin plugin) {
-        this.conditionLoader = new ConditionLoader(plugin);
-        this.actionLoader = new ActionLoader(plugin);
+        this.conditionLoader = new ConditionRegistry(plugin);
+        this.actionLoader = new ActionRegistry(plugin);
 
         addLoader(MaterialTag.class, new MaterialTagLoader());
 
@@ -107,7 +107,7 @@ public class PluginConfigurator extends SpigotConfigurator {
         addLoader(Condition.class, conditionLoader);
         addLoader(NegativeCondition.class, new NegativeConditionLoader());
         addLoader(DisjunctiveCondition.class, new DisjunctiveConditionLoader());
-        addLoader(DispatchableAction.class, actionLoader);
+        addLoader(Action.class, actionLoader);
         addLoader(Function.class, new FunctionLoader(plugin));
         addLoader(ForEachSource.class, plugin.getForEachSources());
 
@@ -180,11 +180,11 @@ public class PluginConfigurator extends SpigotConfigurator {
 
     }
 
-    public ConditionLoader getConditionLoader() {
+    public ConditionRegistry getConditionLoader() {
         return conditionLoader;
     }
 
-    public ActionLoader getActionLoader() {
+    public ActionRegistry getActionLoader() {
         return actionLoader;
     }
 

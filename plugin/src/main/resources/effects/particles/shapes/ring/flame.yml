@@ -1,0 +1,36 @@
+
+# RING (density, radius, thickness)
+tiny_flame_ring:
+  particle: flame
+  amount: 10
+  shape: ring radius=0.5 thickness=0.3 density=0.5
+
+small_flame_ring:
+  particle: flame
+  amount: 10
+  shape: ring radius=1 thickness=0.3 density=0.5
+
+medium_flame_ring:
+  particle: flame
+  amount: 10
+  shape: ring radius=1.5 thickness=0.3 density=0.5
+
+large_flame_ring:
+  particle: flame
+  amount: 10
+  shape: ring radius=2.0 thickness=0.3 density=0.5
+
+huge_flame_ring:
+  particle: flame
+  amount: 10
+  shape: ring radius=2.5 thickness=0.3 density=0.5
+
+massive_flame_ring:
+  particle: flame
+  amount: 10
+  shape: ring radius=5 thickness=0.3 density=0.5
+
+colossal_flame_ring:
+  particle: flame
+  amount: 10
+  shape: ring radius=10 thickness=0.3 density=0.5

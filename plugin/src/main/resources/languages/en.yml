@@ -54,6 +54,7 @@ reload-command: 'Reload configuration and data'
 already-reloading: '&4The plugin is already reloading, please wait'
 # Success
 reloading: '&aReloading Orestack plugin... &c(Wait)'
+reload-progress: '&7Loaded {module_lc}... ({progress}%)'
 reload-completed: '&aReload completed successfully.'
 reload-completed-with-errors: '&aReload completed with &c({error_count}) ERRORS &aand &e({warning_count}) WARNINGS.'
 reload-completed-check-console: '&aReload completed with &c({error_count}) ERRORS &aand &e({warning_count}) WARNINGS. &aSee console for full log.'

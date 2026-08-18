@@ -38,9 +38,11 @@ public class MenuButtonManager extends Manager implements ConfigBacked, Toggleab
     }
 
     @Override
-    public @NotNull ErrorCollector loadConfigurationData() {
+    public @NotNull ErrorCollector loadConfiguration() {
         File file = plugin.getFile("menus/buttons.yml");
         RootSequence sequence = YamlConfig.loadSequenceOrEmpty(file, plugin.getConfigurator(), "Buttons");
+
+        plugin.getSettings().applyConfigShortcuts(sequence);
 
         for (ConfigSection buttonSection : sequence.getNestedSections()) {
             String id = buttonSection.getString("id")

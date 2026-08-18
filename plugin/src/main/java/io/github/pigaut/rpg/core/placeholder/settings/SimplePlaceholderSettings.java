@@ -3,9 +3,6 @@ package io.github.pigaut.rpg.core.placeholder.settings;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.progressbar.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.core.progressbar.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.node.*;
 import org.jetbrains.annotations.*;
@@ -22,7 +19,7 @@ public class SimplePlaceholderSettings implements PlaceholderSettings {
 
     private record WildcardFallback(String[] parts, Object value) {}
 
-    public void loadConfigurationData(@NotNull ConfigSection config) {
+    public void loadConfiguration(@NotNull ConfigSection config) {
         placeholderFallback = config.getScalar("placeholder-fallback")
                 .mapIfValid(ConfigScalar::getValue)
                 .withDefault("");

@@ -1,6 +1,8 @@
 package io.github.pigaut.rpg.module.function.action.player;
 
 import io.github.pigaut.rpg.bukkit.*;
+import io.github.pigaut.rpg.core.context.*;
+import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;
@@ -19,10 +21,12 @@ public class TakeItemFromPlayer implements PlayerAction {
     }
 
     @Override
-    public void execute(@NotNull Player player) {
+    public @NotNull FunctionResponse dispatch(@NotNull Player player) {
         if (!PlayerUtil.removeItem(player, item, amount.intValue())) {
             player.sendMessage(ChatColor.RED + "Could not remove all required items from player inventory.");
+            return FunctionResponse.STOP;
         }
+        return FunctionResponse.NONE;
     }
 
 }
