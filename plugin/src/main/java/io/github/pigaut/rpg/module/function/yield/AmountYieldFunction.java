@@ -14,23 +14,13 @@ public class AmountYieldFunction implements YieldFunction<Amount> {
 
     private final Function function;
 
-    public AmountYieldFunction(Function function) {
+    public AmountYieldFunction(@NotNull Function function) {
         this.function = function;
     }
 
     @Override
     public @NotNull FunctionResponse dispatch(@NotNull Context context) {
         return function.dispatch(context);
-    }
-
-    @Override
-    public @NotNull String getName() {
-        return function.getName();
-    }
-
-    @Override
-    public @Nullable String getGroup() {
-        return function.getGroup();
     }
 
     @Override

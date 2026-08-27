@@ -13,7 +13,7 @@ public interface EventCondition extends Condition {
     @Nullable Boolean evaluate(@NotNull Event event);
 
     @Override
-    default @Nullable Boolean evaluate(@NotNull Context context) {
+    default @Nullable Boolean isMet(@NotNull Context context) {
         Event event = context.event();
         return event != null ? evaluate(event) : null;
     }

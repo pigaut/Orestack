@@ -1,14 +1,10 @@
 package io.github.pigaut.rpg.module.recipe;
 
-import io.github.pigaut.rpg.player.data.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.manager.config.*;
-import io.github.pigaut.rpg.player.data.*;
+import io.github.pigaut.rpg.player.data.base.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.manager.config.*;
 import io.github.pigaut.rpg.plugin.manager.module.Module;
 import io.github.pigaut.rpg.server.Server;
-import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.rpg.server.version.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -54,7 +50,7 @@ public class RecipeManager extends ConfigBackedManager<RecipeTemplate> {
             }
 
             for (Player player : Bukkit.getOnlinePlayers()) {
-                PlayerData playerData = plugin.getPlayerData(player);
+                EnhancedPlayerData playerData = plugin.getPlayerData(player);
                 playerData.runWhenLoaded(() -> {
                     if (playerData.hasUnlockedRecipe(recipe)) {
                         player.discoverRecipe(recipe);

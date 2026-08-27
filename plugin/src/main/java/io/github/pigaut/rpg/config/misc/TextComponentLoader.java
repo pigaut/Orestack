@@ -4,6 +4,7 @@ import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
+import io.github.pigaut.yaml.node.line.*;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -42,14 +43,14 @@ public class TextComponentLoader implements ConfigLoader<TextComponent> {
             component.addExtra(extra);
         }
 
-        ConfigLine clickLine = section.getLine("on-click|click").withDefault(null);
+        ConfigLine clickLine = section.getLine("on-click|click", LineStyle.LABELED, "<click_action> <value>").withDefault(null);
         if (clickLine != null) {
             ClickEvent.Action action = clickLine.getRequired(0, ClickEvent.Action.class);
             String value = clickLine.getRequiredString(1);
             component.setClickEvent(new ClickEvent(action, value));
         }
 
-        ConfigLine hoverLine = section.getLine("on-hover|hover").withDefault(null);
+        ConfigLine hoverLine = section.getLine("on-hover|hover", LineStyle.LABELED, "<hover_action> <value>").withDefault(null);
         if (hoverLine != null) {
             HoverEvent.Action action = hoverLine.getRequired(0, HoverEvent.Action.class);
             Content content = switch (action) {

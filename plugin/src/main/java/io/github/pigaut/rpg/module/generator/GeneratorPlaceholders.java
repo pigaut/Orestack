@@ -135,7 +135,7 @@ public class GeneratorPlaceholders {
             return generator != null ? HealthUtil.getPhaseMaxHealthInt(generator) : null;
         });
 
-        RpgSettings settings = plugin.getSettings();
+        Settings settings = plugin.getSettings();
         for (ProgressBar bar : settings.getProgressBars()) {
             placeholders.register("generator_health_bar:" + bar.getId(), context -> {
                 Generator generator = context.get(Generator.class);

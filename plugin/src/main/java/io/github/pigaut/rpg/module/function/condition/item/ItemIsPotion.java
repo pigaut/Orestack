@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
 public class ItemIsPotion implements Condition {
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Context context) {
+    public @Nullable Boolean isMet(@NotNull Context context) {
         ItemStack item = context.item();
         if (item == null || !item.hasItemMeta()) {
             return false;

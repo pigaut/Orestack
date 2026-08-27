@@ -6,12 +6,6 @@ import io.github.pigaut.rpg.core.menu.button.*;
 import io.github.pigaut.rpg.core.menu.template.button.*;
 import io.github.pigaut.rpg.core.menu.template.menu.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.menu.*;
-import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.core.menu.template.button.*;
-import io.github.pigaut.rpg.core.menu.template.menu.*;
-import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.convert.format.*;
 import org.jetbrains.annotations.*;
 
@@ -30,7 +24,7 @@ public class FunctionsMenu extends FramedSelectionMenu {
 
     @Override
     public List<Button> createEntries(@NotNull Context context) {
-        return plugin.getFunctions().getAll(group).stream()
+        return plugin.getGlobalFunctions().getAll(group).stream()
                 .map(function -> Button.builder()
                         .type(function.getIcon().getType())
                         .name("&8&o" + CaseFormatter.toTitleCase(function.getName()))

@@ -3,9 +3,6 @@ package io.github.pigaut.rpg.module.function.execute;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.function.condition.*;
 import org.jetbrains.annotations.*;
 
 public class SwitchCase implements Condition {
@@ -19,8 +16,8 @@ public class SwitchCase implements Condition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Context context) {
-        return condition.evaluate(context);
+    public @Nullable Boolean isMet(@NotNull Context context) {
+        return condition.isMet(context);
     }
 
     public Function getFunction() {

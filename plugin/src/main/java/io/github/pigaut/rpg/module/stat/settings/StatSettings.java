@@ -3,9 +3,6 @@ package io.github.pigaut.rpg.module.stat.settings;
 import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.module.stat.custom.*;
 import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.module.stat.*;
-import io.github.pigaut.rpg.module.stat.custom.*;
-import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.yaml.delay.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.inventory.*;
@@ -78,8 +75,6 @@ public interface StatSettings {
     boolean isEfficiencyEnchantAsStat();
 
     int getMiningSpeedFromEfficiencyEnchant(@NotNull ItemStack item);
-
-    double getEfficiencyMiningSpeedDebuff(@NotNull ItemStack item);
 
     boolean isFortuneEnchantAsStat();
 

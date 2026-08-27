@@ -1,14 +1,9 @@
 package io.github.pigaut.rpg.module.recipe.listener;
 
-import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.rpg.module.recipe.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.module.recipe.*;
-import io.github.pigaut.rpg.player.data.*;
+import io.github.pigaut.rpg.player.data.base.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
-import io.github.pigaut.rpg.server.version.*;
-import io.github.pigaut.rpg.util.reflection.*;
 import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.rpg.util.reflection.*;
 import org.bukkit.*;
@@ -89,7 +84,7 @@ public class PrepareSmithingInventoryListener implements Listener {
             player = Reflect.on(event.getView()).call("getPlayer").get();
         }
 
-        PlayerData playerData = plugin.getPlayerData(player);
+        EnhancedPlayerData playerData = plugin.getPlayerData(player);
         if (!playerData.hasUnlockedRecipe(recipeKey)) {
             event.setResult(null);
         }

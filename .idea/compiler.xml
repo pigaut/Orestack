@@ -6,12 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="OrestackPlugin" />
         <module name="RpgMakerPlugin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="OrestackAPI" target="16" />
-      <module name="OrestackPlugin" target="16" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -12,27 +12,12 @@ import java.util.*;
 
 public class ForEachFunction implements Function {
 
-    private final String name;
-    private final String group;
     private final ForEachSource<?> source;
     private final Function function;
 
-    public ForEachFunction(@NotNull String name, @Nullable String group,
-                           @NotNull ForEachSource<?> source, @NotNull Function function) {
-        this.name = name;
-        this.group = group;
+    public ForEachFunction(@NotNull ForEachSource<?> source, @NotNull Function function) {
         this.source = source;
         this.function = function;
-    }
-
-    @Override
-    public @NotNull String getName() {
-        return name;
-    }
-
-    @Override
-    public @Nullable String getGroup() {
-        return group;
     }
 
     @Override

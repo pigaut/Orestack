@@ -6,12 +6,6 @@ import io.github.pigaut.rpg.core.menu.button.*;
 import io.github.pigaut.rpg.core.menu.fixed.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.menu.*;
-import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.core.menu.fixed.*;
-import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.util.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -21,7 +15,7 @@ public class PagedMenu extends FixedMenu {
     private final List<Integer> entrySlots;
 
     public PagedMenu(@NotNull String title, int size) {
-        this(StringUtil.randomName(), null, title, size, List.of());
+        this(StringUtil.generateRandomName(), null, title, size, List.of());
     }
 
     public PagedMenu(@NotNull String name, @Nullable String group,

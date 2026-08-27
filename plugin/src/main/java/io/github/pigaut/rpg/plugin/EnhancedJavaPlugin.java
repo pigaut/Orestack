@@ -2,24 +2,31 @@ package io.github.pigaut.rpg.plugin;
 
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.config.*;
-import io.github.pigaut.rpg.core.gameplay.brew.*;
 import io.github.pigaut.rpg.core.buildstation.*;
 import io.github.pigaut.rpg.core.command.*;
 import io.github.pigaut.rpg.core.context.*;
+import io.github.pigaut.rpg.core.gameplay.brew.*;
 import io.github.pigaut.rpg.core.gameplay.chicken.*;
 import io.github.pigaut.rpg.core.gameplay.cow.*;
+import io.github.pigaut.rpg.core.gameplay.playerblocks.*;
 import io.github.pigaut.rpg.core.language.*;
 import io.github.pigaut.rpg.core.menu.*;
 import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.core.gameplay.playerblocks.*;
 import io.github.pigaut.rpg.core.tool.*;
+import io.github.pigaut.rpg.module.collection.template.*;
 import io.github.pigaut.rpg.module.command.*;
 import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.function.Function;
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.function.condition.*;
 import io.github.pigaut.rpg.module.function.condition.config.*;
+import io.github.pigaut.rpg.module.function.execute.*;
 import io.github.pigaut.rpg.module.function.foreach.*;
+import io.github.pigaut.rpg.module.gate.*;
+import io.github.pigaut.rpg.module.gate.template.*;
+import io.github.pigaut.rpg.module.generator.*;
+import io.github.pigaut.rpg.module.generator.global.*;
+import io.github.pigaut.rpg.module.generator.instanced.*;
+import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.module.item.*;
 import io.github.pigaut.rpg.module.menu.*;
 import io.github.pigaut.rpg.module.menu.button.*;
@@ -32,6 +39,7 @@ import io.github.pigaut.rpg.module.mob.spawnpad.*;
 import io.github.pigaut.rpg.module.mob.template.*;
 import io.github.pigaut.rpg.module.particle.*;
 import io.github.pigaut.rpg.module.recipe.*;
+import io.github.pigaut.rpg.module.skill.template.*;
 import io.github.pigaut.rpg.module.sound.*;
 import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.module.structure.*;
@@ -89,11 +97,23 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     private final MessageManager messageManager = new MessageManager(this);
     private final ItemManager itemManager = new ItemManager(this);
     private final RecipeManager recipeManager = new RecipeManager(this);
-    private final FunctionManager functionManager = new FunctionManager(this);
+    private final GlobalFunctionManager functionManager = new GlobalFunctionManager(this);
 
     private final MobTemplateManager mobTemplateManager = new MobTemplateManager(this);
     private final MobManager mobManager = new MobManager(this);
     private final MobSpawnPadManager mobSpawnPadManager = new MobSpawnPadManager(this);
+
+    private final GeneratorTemplateManager generatorTemplateManager = new GeneratorTemplateManager(this);
+    private final GeneratorManager generatorManager = new GeneratorManager(this);
+
+    private final GateTemplateManager gateTemplateManager = new GateTemplateManager(this);
+    private final GateManager gateManager = new GateManager(this);
+
+    private final CollectionTemplateManager collectionTemplateManager = new CollectionTemplateManager(this);
+    private final SkillTemplateManager skillTemplateManager = new SkillTemplateManager(this);
+
+    private final PlayerStateManager playerStateManager = new PlayerStateManager(this);
+    private final PlayerDataManager playerDataManger = new PlayerDataManager(this);
 
     private final MenuButtonManager menuButtonManager = new MenuButtonManager(this);
     private final MenuEntriesManager menuEntriesManager = new MenuEntriesManager(this);
@@ -112,6 +132,7 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
 
     private final PluginBootstrap bootstrap = new PluginBootstrap(this);
     private final Object readyLock = new Object();
+    private final List<Runnable> pendingLoadTasks = new ArrayList<>();
     private final List<Runnable> pendingTasks = new ArrayList<>();
     private final List<Runnable> pendingAsyncTasks = new ArrayList<>();
     private volatile boolean ready = false;
@@ -133,6 +154,10 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
 
     }
 
+    public void onPreStartup() {
+
+    }
+
     public void onStartup() {
 
     }
@@ -151,20 +176,28 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     }
 
     public void setReady(boolean ready) {
+        List<Runnable> loadTasksToRun = null;
         List<Runnable> tasksToRun = null;
         List<Runnable> asyncTasksToRun = null;
 
         synchronized (readyLock) {
             this.ready = ready;
             if (ready) {
+                loadTasksToRun = new ArrayList<>(pendingLoadTasks);
+                pendingLoadTasks.clear();
+
                 tasksToRun = new ArrayList<>(pendingTasks);
                 pendingTasks.clear();
+
                 asyncTasksToRun = new ArrayList<>(pendingAsyncTasks);
                 pendingAsyncTasks.clear();
             }
         }
 
         if (tasksToRun != null) {
+            for (Runnable loadTask : loadTasksToRun) {
+                loadTask.run();
+            }
             for (Runnable task : tasksToRun) {
                 task.run();
             }
@@ -180,6 +213,17 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     @Override
     public boolean isReloading() {
         return reloading;
+    }
+
+    @Override
+    public void loadWhenReady(@NotNull Runnable task) {
+        synchronized (readyLock) {
+            if (ready) {
+                task.run();
+                return;
+            }
+            pendingLoadTasks.add(task);
+        }
     }
 
     @Override
@@ -202,11 +246,6 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
             }
             pendingAsyncTasks.add(task);
         }
-    }
-
-    @Override
-    public void runOnStartup(@NotNull Runnable task) {
-        bootstrap.registerStartupTask(task);
     }
 
     @Override
@@ -353,13 +392,13 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     }
 
     @Override
-    public @NotNull PlayerStateManager<? extends PlayerState> getPlayerStates() {
-        throw new UnsupportedOperationException("Plugin does not support player state.");
+    public @NotNull PlayerStateManager getPlayerStates() {
+        return playerStateManager;
     }
 
     @Override
     public @NotNull PlayerState getPlayerState(@NotNull Player player) {
-        throw new UnsupportedOperationException("Plugin does not support player state.");
+        return playerStateManager.get(player);
     }
 
     @Override
@@ -372,22 +411,22 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
 
     @Override
     public @Nullable PlayerState getPlayerState(@NotNull UUID playerId) {
-        throw new UnsupportedOperationException("Plugin does not support player state.");
+        return playerStateManager.get(playerId);
     }
 
     @Override
-    public @NotNull PlayerDataManager<? extends PlayerData> getPlayerData() {
-        throw new UnsupportedOperationException("Plugin does not support player data.");
+    public @NotNull PlayerDataManager getPlayerData() {
+        return playerDataManger;
     }
 
     @Override
     public @NotNull PlayerData getPlayerData(@NotNull Player player) {
-        throw new UnsupportedOperationException("Plugin does not support player data.");
+        return playerDataManger.get(player);
     }
 
     @Override
     public @Nullable PlayerData getPlayerData(@NotNull UUID playerId) {
-        throw new UnsupportedOperationException("Plugin does not support player data.");
+        return playerDataManger.get(playerId);
     }
 
     @Override
@@ -447,31 +486,33 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     }
 
     @Override
-    public @NotNull FunctionManager getFunctions() {
+    public @NotNull GlobalFunctionManager getGlobalFunctions() {
         return functionManager;
     }
 
     @Override
-    public @Nullable Function getFunction(@NotNull String name) {
+    public @Nullable GlobalFunction getGlobalFunction(@NotNull String name) {
         return functionManager.get(name);
     }
 
     @Override
-    public @Nullable ConfigLoader<? extends Condition> getConditionLoader(@NotNull String name) {
-        Configurator configurator = getConfigurator();
-        if (configurator instanceof PluginConfigurator pluginConfigurator) {
-            return pluginConfigurator.getConditionLoader().getLoader(name);
-        }
-        return null;
+    public @NotNull ConditionRegistry getConditions() {
+        return conditionRegistry;
     }
 
     @Override
-    public @Nullable ConfigLoader<? extends Action> getActionLoader(@NotNull String name) {
-        Configurator configurator = getConfigurator();
-        if (configurator instanceof PluginConfigurator pluginConfigurator) {
-            return pluginConfigurator.getActionLoader().getLoader(name);
-        }
-        return null;
+    public @NotNull ActionRegistry getActions() {
+        return actionRegistry;
+    }
+
+    @Override
+    public @Nullable ConfigLoader<? extends Condition> getCondition(@NotNull String name) {
+        return conditionRegistry.getLoader(name);
+    }
+
+    @Override
+    public @Nullable ConfigLoader<? extends Action> getAction(@NotNull String name) {
+        return actionRegistry.getLoader(name);
     }
 
     @Override
@@ -487,6 +528,96 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     @Override
     public @NotNull StatManager getStats() {
         return playerStatsManager;
+    }
+
+    @Override
+    public @NotNull GeneratorTemplateManager getGeneratorTemplates() {
+        return generatorTemplateManager;
+    }
+
+    @Override
+    public @Nullable GeneratorTemplate getGeneratorTemplate(String name) {
+        return generatorTemplateManager.get(name);
+    }
+
+    @Override
+    public @NotNull List<GeneratorTemplate> getGeneratorTemplates(String group) {
+        return generatorTemplateManager.getAll(group);
+    }
+
+    @Override
+    public @NotNull GeneratorManager getGenerators() {
+        return generatorManager;
+    }
+
+    @Override
+    public @Nullable GlobalGenerator getGlobalGenerator(@NotNull Location location) {
+        return generatorManager.getGlobalGenerator(location);
+    }
+
+    @Override
+    public @Nullable VirtualGenerator getVirtualGenerator(@NotNull Location location) {
+        return generatorManager.getVirtualGenerator(location);
+    }
+
+    @Override
+    public @Nullable InstancedGenerator getInstancedGenerator(@NotNull Player player, @NotNull Location location) {
+        return generatorManager.getPlayerGenerator(player, location);
+    }
+
+    @Override
+    public @Nullable Generator getGenerator(@Nullable Player player, @NotNull Location location) {
+        return generatorManager.getGenerator(player, location);
+    }
+
+    @Override
+    public @NotNull GateTemplateManager getGateTemplates() {
+        return gateTemplateManager;
+    }
+
+    @Override
+    public @Nullable GateTemplate getGateTemplate(String name) {
+        return gateTemplateManager.get(name);
+    }
+
+    @Override
+    public @NotNull List<GateTemplate> getGateTemplates(String group) {
+        return gateTemplateManager.getAll(group);
+    }
+
+    @Override
+    public @NotNull GateManager getGates() {
+        return gateManager;
+    }
+
+    @Override
+    public @Nullable Gate getGate(@NotNull Location location) {
+        return gateManager.getGate(location);
+    }
+
+    @Override
+    public @NotNull CollectionTemplateManager getCollectionTemplates() {
+        return collectionTemplateManager;
+    }
+
+    @Override
+    public @Nullable CollectionTemplate getCollectionTemplate(@NotNull String name) {
+        return collectionTemplateManager.get(name);
+    }
+
+    @Override
+    public @Nullable CollectionTemplate getCollectionTemplate(@NotNull ItemStack item) {
+        return collectionTemplateManager.get(item);
+    }
+
+    @Override
+    public @NotNull SkillTemplateManager getSkillTemplates() {
+        return skillTemplateManager;
+    }
+
+    @Override
+    public @Nullable SkillTemplate getSkillTemplate(@NotNull String name) {
+        return skillTemplateManager.get(name);
     }
 
     @Override
@@ -712,6 +843,15 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
         managers.add(mobSpawnPadManager);
         managers.add(mobManager);
 
+        managers.add(generatorTemplateManager);
+        managers.add(generatorManager);
+
+        managers.add(gateTemplateManager);
+        managers.add(gateManager);
+
+        managers.add(collectionTemplateManager);
+        managers.add(skillTemplateManager);
+
         for (Field field : getClass().getDeclaredFields()) {
             Manager manager = ReflectionUtil.accessField(field, Manager.class, this);
             if (manager != null) {
@@ -733,7 +873,7 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     }
 
     public @NotNull Configurator createConfigurator() {
-        return new PluginConfigurator(this);
+        return new SpigotConfigurator();
     }
 
     public void saveResources(@NotNull String folder) {

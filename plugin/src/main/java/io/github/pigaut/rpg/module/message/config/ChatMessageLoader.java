@@ -9,6 +9,7 @@ import io.github.pigaut.yaml.configurator.load.*;
 import net.md_5.bungee.api.chat.*;
 import org.jetbrains.annotations.*;
 
+import javax.swing.text.*;
 import java.util.*;
 import java.util.regex.*;
 
@@ -54,6 +55,11 @@ public class ChatMessageLoader implements ConfigLoader<ChatMessage> {
             if (StringUtil.isAnyEqualIgnoreCase(key, "message", "messages", "chat")) {
                 continue;
             }
+
+            if (StringUtil.isParenthesized(key, "<", ">")) {
+                throw new InvalidConfigException(section, key, "Button name must start/end with angle brackets [<, >]");
+            }
+
             TextComponent component = section.getRequired(key, TextComponent.class);
             componentsByName.put(key.toLowerCase(), component);
         }

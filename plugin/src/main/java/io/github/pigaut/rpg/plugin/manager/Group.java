@@ -52,7 +52,8 @@ public class Group {
     }
 
     @Nullable
-    public static String byFile(File file, String parentFolder, boolean ignoreFileName) {
+    public static String byFile(@Nullable File file, String parentFolder, boolean ignoreFileName) {
+        if (file == null) return null;
         return byPath(file.toPath(), parentFolder, ignoreFileName);
     }
 

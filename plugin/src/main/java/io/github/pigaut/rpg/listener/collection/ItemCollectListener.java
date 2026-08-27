@@ -5,11 +5,6 @@ import io.github.pigaut.rpg.module.collection.*;
 import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.event.drop.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.event.drop.*;
-import io.github.pigaut.rpg.module.collection.*;
-import io.github.pigaut.rpg.player.data.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
@@ -36,7 +31,7 @@ public class ItemCollectListener implements Listener {
             return;
         }
 
-        RpgPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
         Context context = Context.builder(plugin)
                 .withPlayer(player)
                 .withPlayerState(plugin.getPlayerState(player))
@@ -63,7 +58,7 @@ public class ItemCollectListener implements Listener {
         }
 
         Player player = event.getPlayer();
-        RpgPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
 
         Context context = Context.builder(plugin)
                 .withPlayer(player)
@@ -92,7 +87,7 @@ public class ItemCollectListener implements Listener {
             return;
         }
 
-        RpgPlayerData playerData = plugin.getPlayerData(killer);
+        PlayerData playerData = plugin.getPlayerData(killer);
         Context context = Context.builder(plugin)
                 .withPlayer(killer)
                 .withPlayerState(plugin.getPlayerState(killer))
@@ -130,7 +125,7 @@ public class ItemCollectListener implements Listener {
         ItemStack item = caughtEntity.getItemStack();
 
         Player player = event.getPlayer();
-        RpgPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
         ItemCollection collection = playerData.getItemCollection(item);
         if (collection == null) {
             return;

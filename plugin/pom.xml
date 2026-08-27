@@ -46,7 +46,7 @@
                                 </relocation>
                             </relocations>
                             <outputFile>
-                                /home/virgilio/servers/minecraft/${mc.version}/plugins/RpgMaker-${project.version}.jar
+                                D:\files\Development\java\spigot\servers\${mc.version}\plugins\RpgMaker-${project.version}.jar
                             </outputFile>
                         </configuration>
                     </execution>

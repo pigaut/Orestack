@@ -205,6 +205,9 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
         ExpYieldFunction brewPotionExp = settingsSection.get("brew-potion-exp", ExpYieldFunction.class)
                 .withDefault(null);
 
+        ExpYieldFunction fishCatchExp = settingsSection.get("fish-catch-exp", ExpYieldFunction.class)
+                .withDefault(null);
+
         return new SkillTemplate(name, group,
                 icon, description,
                 skillLevels,
@@ -214,7 +217,7 @@ public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
                 blockBreakExp, entityKillExp,
                 eggCollectExp, milkCowExp,
                 shearSheepExp, enchantItemExp,
-                brewPotionExp);
+                brewPotionExp, fishCatchExp);
     }
 
 }

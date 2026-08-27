@@ -20,7 +20,7 @@ public class SkillDecrementSubCommand extends SubCommand {
         withParameter(OrestackParameters.SKILL_NAME);
         withParameter(CommandParameter.create("amount", "1", (sender, args) -> List.of("1", "10", "100", "1000", "10000")));
         withPlayerExecution((player, context, args) -> {
-            RpgPlayerData playerData = plugin.getPlayerData(player);
+            PlayerData playerData = plugin.getPlayerData(player);
             Skill skill = playerData.getSkill(args[0]);
             if (skill == null) {
                 plugin.sendMessage(player, context, "skill-not-found");

@@ -8,12 +8,6 @@ import io.github.pigaut.rpg.core.hologram.style.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.task.*;
 import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.hologram.*;
-import io.github.pigaut.rpg.core.hologram.style.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.task.*;
-import io.github.pigaut.rpg.util.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
@@ -28,7 +22,7 @@ public abstract class FancyTextHologram implements Hologram {
     private @Nullable Task updateTask;
 
     public FancyTextHologram(@NotNull EnhancedPlugin plugin, @NotNull HologramStyle style, @NotNull Location location, double yHeight) {
-        this.name = StringUtil.randomName();
+        this.name = StringUtil.generateRandomName();
 
         LocationUtil.setDefaultWorldIfMissing(location);
         location.subtract(0, yHeight, 0);

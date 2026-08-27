@@ -13,7 +13,7 @@ public interface BlockCondition extends Condition {
     @Nullable Boolean evaluate(@NotNull Block block);
 
     @Override
-    default @Nullable Boolean evaluate(@NotNull Context context) {
+    default @Nullable Boolean isMet(@NotNull Context context) {
         Block block = context.block();
         return block != null ? evaluate(block) : null;
     }

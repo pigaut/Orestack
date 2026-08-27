@@ -8,7 +8,6 @@ import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
 import io.github.pigaut.rpg.util.*;
-import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.entity.*;
@@ -82,10 +81,12 @@ public class StatEventListener implements Listener {
         double critChance = playerState.getCritChance();
         double critMultiplier = 1;
         if (Probability.test(critChance)) {
-            damage *= playerState.getCritDamageMultiplier();
+            critMultiplier = playerState.getCritDamageMultiplier();
         }
 
-        damage *= critMultiplier;
+        if (critMultiplier != 1) {
+            damage *= critMultiplier;
+        }
 
         EntityDamageByPlayerEvent damageByPlayerEvent = new EntityDamageByPlayerEvent(damager, victim,
                 damage, critMultiplier, event.isCritical());
@@ -153,7 +154,7 @@ public class StatEventListener implements Listener {
 
         if (!IGNORED_DAMAGE_CAUSES.contains(cause)) {
             damage *= plugin.getSettings().getDamageMultiplier(cause);
-            damage *= StatsUtil.getDefenseDamageReduction(playerState.getDefense());
+            damage *= StatUtil.getDefenseDamageReduction(playerState.getDefense());
         }
 
         event.setDamage(0);

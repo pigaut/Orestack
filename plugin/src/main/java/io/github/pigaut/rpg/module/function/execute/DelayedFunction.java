@@ -16,20 +16,10 @@ public class DelayedFunction implements Function {
     private final Function function;
     private final int delay;
 
-    public DelayedFunction(EnhancedPlugin plugin, Function function, int delay) {
+    public DelayedFunction(@NotNull EnhancedPlugin plugin, @NotNull Function function, int delay) {
         this.plugin = plugin;
         this.function = function;
         this.delay = delay;
-    }
-
-    @Override
-    public @NotNull String getName() {
-        return function.getName();
-    }
-
-    @Override
-    public @Nullable String getGroup() {
-        return function.getGroup();
     }
 
     @Override

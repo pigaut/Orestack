@@ -26,7 +26,7 @@ public class DamageGeneratorWithTool implements Action {
             return;
         }
 
-        RpgSettings settings = plugin.getSettings();
+        Settings settings = plugin.getSettings();
         generator.damage(player, context, settings.getStructureDamage(player, block));
     }
 

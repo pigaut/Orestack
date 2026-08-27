@@ -30,7 +30,7 @@ public class DamageGateWithTool implements Action {
             return;
         }
 
-        RpgSettings settings = plugin.getSettings();
+        Settings settings = plugin.getSettings();
         gate.damage(player, context, settings.getStructureDamage(player, block));
     }
 

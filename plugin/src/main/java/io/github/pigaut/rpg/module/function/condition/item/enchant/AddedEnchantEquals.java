@@ -18,7 +18,7 @@ public class AddedEnchantEquals implements Condition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Context context) {
+    public @Nullable Boolean isMet(@NotNull Context context) {
         EnchantLevel enchantAdded = context.enchantAdded();
         if (enchantAdded == null) {
             return null;

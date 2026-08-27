@@ -3,17 +3,8 @@ package io.github.pigaut.rpg.module.skill;
 import io.github.pigaut.rpg.module.skill.exp.*;
 import io.github.pigaut.rpg.module.skill.level.*;
 import io.github.pigaut.rpg.module.skill.template.*;
-import io.github.pigaut.rpg.module.skill.exp.*;
-import io.github.pigaut.rpg.module.skill.level.*;
-import io.github.pigaut.rpg.module.skill.template.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.skill.exp.*;
-import io.github.pigaut.rpg.module.skill.level.*;
-import io.github.pigaut.rpg.module.skill.template.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.yaml.util.*;
 import org.bukkit.inventory.*;
@@ -134,6 +125,10 @@ public class Skill {
 
     public @Nullable ExpYieldFunction getBrewPotionExp() {
         return template.getBrewPotionExp();
+    }
+
+    public @Nullable ExpYieldFunction getFishCatchExp() {
+        return template.getFishCatchExp();
     }
 
     public void increaseExp(@NotNull Context context, int amount) {

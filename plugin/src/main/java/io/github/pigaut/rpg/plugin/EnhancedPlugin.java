@@ -1,7 +1,18 @@
 package io.github.pigaut.rpg.plugin;
 
 import io.github.pigaut.rpg.core.gameplay.brew.*;
+import io.github.pigaut.rpg.module.collection.template.*;
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.condition.config.*;
+import io.github.pigaut.rpg.module.gate.*;
+import io.github.pigaut.rpg.module.gate.template.*;
+import io.github.pigaut.rpg.module.generator.*;
+import io.github.pigaut.rpg.module.generator.global.*;
+import io.github.pigaut.rpg.module.generator.instanced.*;
+import io.github.pigaut.rpg.module.generator.template.*;
+import io.github.pigaut.rpg.module.skill.template.*;
+import io.github.pigaut.rpg.player.data.base.*;
+import io.github.pigaut.rpg.player.state.base.*;
 import io.github.pigaut.sql.*;
 import io.github.pigaut.rpg.core.buildstation.*;
 import io.github.pigaut.rpg.core.command.*;
@@ -59,11 +70,11 @@ public interface EnhancedPlugin extends Plugin {
 
     boolean isReloading();
 
+    void loadWhenReady(@NotNull Runnable task);
+
     void runWhenReady(@NotNull Runnable task);
 
     void runWhenReadyAsync(@NotNull Runnable task);
-
-    void runOnStartup(@NotNull Runnable task);
 
     String getNamespace();
 
@@ -141,7 +152,7 @@ public interface EnhancedPlugin extends Plugin {
     VirtualStructureManager getVirtualStructures();
 
     @NotNull
-    PlayerStateManager<? extends PlayerState> getPlayerStates();
+    EnhancedPlayerStateManager<? extends PlayerState> getPlayerStates();
 
     @NotNull
     PlayerState getPlayerState(@NotNull Player player);
@@ -153,7 +164,7 @@ public interface EnhancedPlugin extends Plugin {
     PlayerState getPlayerState(@NotNull UUID playerId);
 
     @NotNull
-    PlayerDataManager<? extends PlayerData> getPlayerData();
+    EnhancedPlayerDataManager<? extends EnhancedPlayerData> getPlayerData();
 
     @NotNull
     PlayerData getPlayerData(@NotNull Player player);
@@ -194,15 +205,22 @@ public interface EnhancedPlugin extends Plugin {
     SoundEffect getSound(@NotNull String name);
 
     @NotNull
-    FunctionManager getFunctions();
+    GlobalFunctionManager getGlobalFunctions();
 
     @Nullable
-    Function getFunction(@NotNull String name);
+    Function getGlobalFunction(@NotNull String name);
+
+    @NotNull
+    ConditionRegistry getConditions();
 
     @Nullable
-    ConfigLoader<? extends Condition> getConditionLoader(@NotNull String name);
+    ConfigLoader<? extends Condition> getCondition(@NotNull String name);
 
-    @Nullable ConfigLoader<? extends Action> getActionLoader(@NotNull String name);
+    @NotNull
+    ActionRegistry getActions();
+
+    @Nullable
+    ConfigLoader<? extends Action> getAction(@NotNull String name);
 
     @NotNull
     RecipeManager getRecipes();
@@ -212,6 +230,42 @@ public interface EnhancedPlugin extends Plugin {
 
     @NotNull
     StatManager getStats();
+
+    @NotNull GeneratorTemplateManager getGeneratorTemplates();
+
+    @Nullable GeneratorTemplate getGeneratorTemplate(String name);
+
+    @NotNull List<GeneratorTemplate> getGeneratorTemplates(String group);
+
+    @NotNull GeneratorManager getGenerators();
+
+    @Nullable GlobalGenerator getGlobalGenerator(@NotNull Location location);
+
+    @Nullable VirtualGenerator getVirtualGenerator(@NotNull Location location);
+
+    @Nullable InstancedGenerator getInstancedGenerator(@NotNull Player player, @NotNull Location location);
+
+    @Nullable Generator getGenerator(@Nullable Player player, @NotNull Location location);
+
+    @NotNull GateTemplateManager getGateTemplates();
+
+    @Nullable GateTemplate getGateTemplate(String name);
+
+    @NotNull List<GateTemplate> getGateTemplates(String group);
+
+    @NotNull GateManager getGates();
+
+    @Nullable Gate getGate(@NotNull Location location);
+
+    @NotNull CollectionTemplateManager getCollectionTemplates();
+
+    @Nullable CollectionTemplate getCollectionTemplate(@NotNull String name);
+
+    @Nullable CollectionTemplate getCollectionTemplate(@NotNull ItemStack item);
+
+    @NotNull SkillTemplateManager getSkillTemplates();
+
+    @Nullable SkillTemplate getSkillTemplate(@NotNull String name);
 
     @NotNull
     MobTemplateManager getMobTemplates();

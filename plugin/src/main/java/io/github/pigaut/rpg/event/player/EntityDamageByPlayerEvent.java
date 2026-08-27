@@ -34,7 +34,7 @@ public class EntityDamageByPlayerEvent extends PlayerEvent {
     }
 
     public boolean isCritDamage() {
-        return critMultiplier > 1;
+        return critMultiplier != 1;
     }
 
     public double getCritMultiplier() {

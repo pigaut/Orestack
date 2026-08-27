@@ -19,16 +19,6 @@ public class RepeatedFunction implements Function {
     }
 
     @Override
-    public @NotNull String getName() {
-        return function.getName();
-    }
-
-    @Override
-    public @Nullable String getGroup() {
-        return function.getGroup();
-    }
-
-    @Override
     public @NotNull FunctionResponse dispatch(@NotNull Context context) {
         for (int i = 0; i < repetitions; i++) {
             FunctionResponse response = function.dispatch(context);

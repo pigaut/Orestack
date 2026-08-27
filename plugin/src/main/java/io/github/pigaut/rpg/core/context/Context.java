@@ -3,16 +3,10 @@ package io.github.pigaut.rpg.core.context;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.command.node.*;
 import io.github.pigaut.rpg.core.enchant.*;
-import io.github.pigaut.rpg.player.data.*;
+import io.github.pigaut.rpg.player.data.base.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.core.enchant.*;
 import io.github.pigaut.rpg.module.mob.Mob;
-import io.github.pigaut.rpg.player.data.*;
-import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.plugin.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.command.*;
@@ -78,6 +72,11 @@ public class Context {
         this.playerProtagonist = playerProtagonist;
     }
 
+    @NotNull
+    public EnhancedPlugin plugin() {
+        return plugin;
+    }
+
     public @Nullable String resolvePlaceholder(@NotNull String placeholder) {
         return plugin.resolvePlaceholder(placeholder, this);
     }
@@ -102,7 +101,7 @@ public class Context {
     }
 
     @Nullable
-    public PlayerData playerData() {
+    public EnhancedPlayerData playerData() {
         return playerState != null ? playerState.getPlayerData() : null;
     }
 

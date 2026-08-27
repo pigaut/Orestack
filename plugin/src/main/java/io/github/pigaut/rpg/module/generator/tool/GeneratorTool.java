@@ -17,6 +17,7 @@ import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.server.Server;
 import io.github.pigaut.yaml.convert.parse.*;
 import org.bukkit.*;
+import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
@@ -72,7 +73,8 @@ public class GeneratorTool extends Tool {
 
             Generator generator = plugin.getGenerator(player, location);
             GeneratorTemplate heldTemplate = getGeneratorTemplate(event.getItem());
-            if (generator == null || !generator.getTemplate().equals(heldTemplate)) {
+            if (generator == null) {
+                event.setCancelled(false);
                 return;
             }
 
@@ -89,7 +91,8 @@ public class GeneratorTool extends Tool {
         onRightClickBlock(event -> {
             Player player = event.getPlayer();
             ItemStack item = event.getItem();
-            Location location = event.getClickedBlock().getLocation();
+            Block block = event.getClickedBlock();
+            Location location = block.getRelative(event.getBlockFace()).getLocation();
 
             double offsetX = getOffsetX(item);
             double offsetY = getOffsetY(item);

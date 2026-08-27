@@ -4,6 +4,7 @@ import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.skill.level.*;
 import io.github.pigaut.rpg.module.skill.template.*;
 import io.github.pigaut.rpg.player.data.*;
+import io.github.pigaut.rpg.player.data.base.*;
 import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.progressbar.*;
@@ -15,28 +16,28 @@ public class SkillPlaceholders {
     public static void registerAll(@NotNull RpgMakerPlugin plugin) {
         PlaceholderRegistry placeholders = plugin.getPlaceholders();
 
-        RpgSettings settings = plugin.getSettings();
+        Settings settings = plugin.getSettings();
         ProgressBar skillProgressBar = settings.getSkillProgressBar();
 
         placeholders.register("skills_count", context -> {
-            PlayerData playerData = context.playerData();
-            if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
+            EnhancedPlayerData playerData = context.playerData();
+            if (!(playerData instanceof PlayerData rpgPlayerData)) {
                 return null;
             }
             return rpgPlayerData.getSkills().size();
         });
 
         placeholders.register("skills_maxed", context -> {
-            PlayerData playerData = context.playerData();
-            if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
+            EnhancedPlayerData playerData = context.playerData();
+            if (!(playerData instanceof PlayerData rpgPlayerData)) {
                 return null;
             }
             return rpgPlayerData.getSkillsMaxed();
         });
 
         placeholders.register("skills_maxed_progress", context -> {
-            PlayerData playerData = context.playerData();
-            if (playerData instanceof RpgPlayerData rpgPlayerData) {
+            EnhancedPlayerData playerData = context.playerData();
+            if (playerData instanceof PlayerData rpgPlayerData) {
                 int skillsMaxed = rpgPlayerData.getSkillsMaxed();
                 int skillCount = rpgPlayerData.getSkillCount();
                 return Percentage.asDouble(skillsMaxed, skillCount);
@@ -45,8 +46,8 @@ public class SkillPlaceholders {
         });
 
         placeholders.register("skills_maxed_progress_bar", context -> {
-            PlayerData playerData = context.playerData();
-            if (playerData instanceof RpgPlayerData rpgPlayerData) {
+            EnhancedPlayerData playerData = context.playerData();
+            if (playerData instanceof PlayerData rpgPlayerData) {
                 int skillsMaxed = rpgPlayerData.getSkillsMaxed();
                 int skillCount = rpgPlayerData.getSkillCount();
                 int percentage = Percentage.asInteger(skillsMaxed, skillCount);
@@ -59,8 +60,8 @@ public class SkillPlaceholders {
             String skillName = skillTemplate.getName();
 
             placeholders.register(skillName + "_skill_description", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     Skill skill = rpgPlayerData.getSkill(skillName);
                     if (skill != null) {
                         return skill.getDescription();
@@ -70,8 +71,8 @@ public class SkillPlaceholders {
             });
 
             placeholders.register(skillName + "_skill_level", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     Skill skill = rpgPlayerData.getSkill(skillName);
                     if (skill != null && skill.isFirstLevelUnlocked()) {
                         return skill.getCurrentLevel() + 1;
@@ -81,8 +82,8 @@ public class SkillPlaceholders {
             });
 
             placeholders.register(skillName + "_skill_next_level", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     Skill skill = rpgPlayerData.getSkill(skillName);
                     return skill != null ? skill.getNextLevel() + 1 : null;
                 }
@@ -90,8 +91,8 @@ public class SkillPlaceholders {
             });
 
             placeholders.register(skillName + "_skill_exp", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     Skill skill = rpgPlayerData.getSkill(skillName);
                     return skill != null ? skill.getTotalExp() : null;
                 }
@@ -99,8 +100,8 @@ public class SkillPlaceholders {
             });
 
             placeholders.register(skillName + "_skill_exp_required", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     Skill skill = rpgPlayerData.getSkill(skillName);
                     return skill != null ? skill.getNextLevelExp() : null;
                 }
@@ -108,8 +109,8 @@ public class SkillPlaceholders {
             });
 
             placeholders.register(skillName + "_skill_exp_left", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     Skill skill = rpgPlayerData.getSkill(skillName);
                     return skill != null ? skill.getExpToNextLevel() : null;
                 }
@@ -117,8 +118,8 @@ public class SkillPlaceholders {
             });
 
             placeholders.register(skillName + "_skill_progress", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     Skill skill = rpgPlayerData.getSkill(skillName);
                     if (skill != null) {
                         return Percentage.asDouble(skill.getTotalExp(), skill.getNextLevelExp());
@@ -128,8 +129,8 @@ public class SkillPlaceholders {
             });
 
             placeholders.register(skillName + "_skill_progress_bar", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     Skill skill = rpgPlayerData.getSkill(skillName);
                     if (skill != null) {
                         int percentage = Percentage.asInteger(skill.getTotalExp(), skill.getNextLevelExp());
@@ -140,8 +141,8 @@ public class SkillPlaceholders {
             });
 
             placeholders.register(skillName + "_skill_rewards", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     Skill skill = rpgPlayerData.getSkill(skillName);
                     return skill != null ? skill.getNextLevelRewards() : null;
                 }
@@ -163,8 +164,8 @@ public class SkillPlaceholders {
                 });
 
                 placeholders.register(skillName + "_skill_level_" + level + "_exp_left", context -> {
-                    PlayerData playerData = context.playerData();
-                    if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                    EnhancedPlayerData playerData = context.playerData();
+                    if (playerData instanceof PlayerData rpgPlayerData) {
                         Skill skill = rpgPlayerData.getSkill(skillName);
                         if (skill != null) {
                             int totalExp = skill.getTotalExp();
@@ -175,8 +176,8 @@ public class SkillPlaceholders {
                 });
 
                 placeholders.register(skillName + "_skill_level_" + level + "_progress", context -> {
-                    PlayerData playerData = context.playerData();
-                    if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                    EnhancedPlayerData playerData = context.playerData();
+                    if (playerData instanceof PlayerData rpgPlayerData) {
                         Skill skill = rpgPlayerData.getSkill(skillName);
                         if (skill != null) {
                             return Percentage.asDouble(skill.getTotalExp(), levelUpExp);
@@ -186,8 +187,8 @@ public class SkillPlaceholders {
                 });
 
                 placeholders.register(skillName + "_skill_level_" + level + "_progress_bar", context -> {
-                    PlayerData playerData = context.playerData();
-                    if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                    EnhancedPlayerData playerData = context.playerData();
+                    if (playerData instanceof PlayerData rpgPlayerData) {
                         Skill skill = rpgPlayerData.getSkill(skillName);
                         if (skill != null) {
                             int percentage = Percentage.asInteger(skill.getTotalExp(), levelUpExp);
@@ -198,8 +199,8 @@ public class SkillPlaceholders {
                 });
 
                 placeholders.register(skillName + "_skill_level_" + level + "_rewards", context -> {
-                    PlayerData playerData = context.playerData();
-                    if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                    EnhancedPlayerData playerData = context.playerData();
+                    if (playerData instanceof PlayerData rpgPlayerData) {
                         Skill skill = rpgPlayerData.getSkill(skillName);
                         if (skill != null) {
                             SkillLevel skillLevel = skill.getLevel(index);
@@ -213,24 +214,24 @@ public class SkillPlaceholders {
 
         for (String groupName : plugin.getSkillTemplates().getAllGroups()) {
             placeholders.register(groupName + "_skills_count", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     return rpgPlayerData.getSkillCount(groupName);
                 }
                 return null;
             });
 
             placeholders.register(groupName + "_skills_maxed", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     return rpgPlayerData.getSkillsMaxed(groupName);
                 }
                 return null;
             });
 
             placeholders.register(groupName + "_skills_maxed_progress", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     int skillsMaxed = rpgPlayerData.getSkillsMaxed(groupName);
                     int skillCount = rpgPlayerData.getSkillCount(groupName);
                     return Percentage.asDouble(skillsMaxed, skillCount);
@@ -239,8 +240,8 @@ public class SkillPlaceholders {
             });
 
             placeholders.register(groupName + "_skills_maxed_progress_bar", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     int skillsMaxed = rpgPlayerData.getSkillsMaxed(groupName);
                     int skillCount = rpgPlayerData.getSkillCount(groupName);
                     int percentage = Percentage.asInteger(skillsMaxed, skillCount);

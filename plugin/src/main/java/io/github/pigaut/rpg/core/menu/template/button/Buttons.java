@@ -127,4 +127,13 @@ public class Buttons {
             })
             .buildButton();
 
+    public static final Button INVALID_CONDITION = Button.builder()
+            .type(Material.RED_WOOL)
+            .enchanted(true)
+            .name("&4Invalid Condition")
+            .addEmptyLine()
+            .addLine("&cCould not evaluate condition")
+            .buildButton();
+
+
 }

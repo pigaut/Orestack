@@ -17,7 +17,7 @@ public class CollectionNameEquals implements Condition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Context context) {
+    public @Nullable Boolean isMet(@NotNull Context context) {
         ItemCollection collection = context.get(ItemCollection.class);
         if (collection == null) {
             return false;

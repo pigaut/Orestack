@@ -8,18 +8,6 @@ import io.github.pigaut.rpg.module.function.yield.*;
 import io.github.pigaut.rpg.module.function.execute.*;
 import io.github.pigaut.rpg.module.function.foreach.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.module.function.action.system.*;
-import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.module.function.execute.*;
-import io.github.pigaut.rpg.module.function.foreach.*;
-import io.github.pigaut.rpg.module.function.yield.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
 import io.github.pigaut.yaml.node.scalar.*;
@@ -54,7 +42,7 @@ public class YieldFunctionLoader<C extends Function & YieldFunction<R>, R> imple
     @Override
     public @NotNull C loadFromScalar(@NotNull ConfigScalar scalar) throws InvalidConfigException {
         R value = scalar.getRequired(returnType);
-        return wrap(new SimpleFunction(new ReturnValueAction(value)));
+        return wrap(new SimpleFunction(new YieldAction(value)));
     }
 
     @Override
@@ -64,35 +52,29 @@ public class YieldFunctionLoader<C extends Function & YieldFunction<R>, R> imple
             return defaultEvaluation;
         }
 
-        String name = StringUtil.randomName();
-        String group = null;
-        if (!section.isRoot() && section.getParent() instanceof ConfigRoot root) {
-            name = section.getKey();
-            group = Group.byFunctionFile(root.getFile());
-        }
-
         Function function;
         if (section.isSet("for|for-each|for each|for-every|for every")) {
-            function = new ForEachFunction(name, group,
+            function = new ForEachFunction(
                     section.getRequired("for|for-each|for each|for-every|for every", ForEachSource.class),
-                    section.get(Function.class).withDefault(Function.EMPTY));
+                    section.get(Function.class).withDefault(Function.EMPTY)
+            );
         }
         else if (section.isSet("if|condition|conditions")) {
-            function = new ConditionalFunction(name, group,
+            function = new ConditionalFunction(
                     section.getRequired("if|condition|conditions", Condition.class),
                     section.get("then|do|return|yield", functionType).withDefault(defaultEvaluation),
                     section.get("else|or|or-else|or else", functionType).withDefault(defaultEvaluation)
             );
         }
         else if (section.isSet("if-not|if not")) {
-            function = new ConditionalFunction(name, group,
+            function = new ConditionalFunction(
                     section.getRequired("if-not|if not", NegativeCondition.class),
                     section.get("then|do|return|yield", functionType).withDefault(defaultEvaluation),
                     section.get("else|or|or-else|or else", functionType).withDefault(defaultEvaluation)
             );
         }
         else if (section.isSet("if-any|if any")) {
-            function = new ConditionalFunction(name, group,
+            function = new ConditionalFunction(
                     section.getRequired("if-any|if any", DisjunctiveCondition.class),
                     section.get("then|do|return|yield", functionType).withDefault(defaultEvaluation),
                     section.get("else|or|or-else|or else", functionType).withDefault(defaultEvaluation)
@@ -100,11 +82,11 @@ public class YieldFunctionLoader<C extends Function & YieldFunction<R>, R> imple
         }
         else if (section.isSet("return|yield")) {
             R value = section.getRequired("return|yield", returnType);
-            function = new SimpleFunction(new ReturnValueAction(value));
+            function = new SimpleFunction(new YieldAction(value));
         }
         else if (section.isSet("switch")) {
             String conditionName = section.getRequiredString("switch");
-            ConfigLoader<? extends Condition> conditionLoader = plugin.getConditionLoader(conditionName);
+            ConfigLoader<? extends Condition> conditionLoader = plugin.getCondition(conditionName);
             if (conditionLoader == null) {
                 throw new InvalidConfigException(section, "switch", "Could not find condition with name: " + conditionName);
             }
@@ -121,7 +103,7 @@ public class YieldFunctionLoader<C extends Function & YieldFunction<R>, R> imple
             }
 
             Function defaultCase = section.get("default", functionType).withDefault(null);
-            function = new SwitchFunction(name, group, cases.toArray(new SwitchCase[0]), defaultCase);
+            function = new SwitchFunction(cases, defaultCase);
         }
         else {
             throw new InvalidConfigException(section, "Function doesn't contain any valid statement");
@@ -132,21 +114,16 @@ public class YieldFunctionLoader<C extends Function & YieldFunction<R>, R> imple
 
     @Override
     public @NotNull C loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigException {
-        String name = StringUtil.randomName();
-        String group = null;
-        if (!sequence.isRoot() && sequence.getParent() instanceof ConfigRoot root) {
-            name = sequence.getKey();
-            group = Group.byFunctionFile(root.getFile());
-        }
-
         List<C> functions = sequence.getAllRequired(functionType);
         if (functions.isEmpty()) {
             return wrap(Function.EMPTY);
         }
+
         if (functions.size() == 1) {
             return functions.get(0);
         }
-        return wrap(new MultiFunction(name, group, new ArrayList<>(functions)));
+
+        return wrap(new MultiFunction(new ArrayList<>(functions)));
     }
 
 }

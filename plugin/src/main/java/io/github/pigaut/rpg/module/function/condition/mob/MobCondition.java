@@ -12,7 +12,7 @@ public interface MobCondition extends Condition {
     Boolean evaluate(@NotNull Mob mob);
 
     @Override
-    default @Nullable Boolean evaluate(@NotNull Context context) {
+    default @Nullable Boolean isMet(@NotNull Context context) {
         Mob mob = context.mob();
         if (mob == null) {
             return null;

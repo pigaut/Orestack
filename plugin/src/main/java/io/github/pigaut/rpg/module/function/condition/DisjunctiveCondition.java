@@ -1,7 +1,6 @@
 package io.github.pigaut.rpg.module.function.condition;
 
 import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.context.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -15,9 +14,9 @@ public class DisjunctiveCondition implements Condition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Context context) {
+    public @Nullable Boolean isMet(@NotNull Context context) {
         for (Condition condition : conditions) {
-            Boolean met = condition.evaluate(context);
+            Boolean met = condition.isMet(context);
             if (met == null) {
                 return null;
             }

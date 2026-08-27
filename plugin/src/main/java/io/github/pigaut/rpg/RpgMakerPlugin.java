@@ -18,21 +18,12 @@ import io.github.pigaut.rpg.hook.plotsquared.*;
 import io.github.pigaut.rpg.listener.player.PlayerChunkLoadListener;
 import io.github.pigaut.rpg.listener.skill.*;
 import io.github.pigaut.rpg.module.collection.*;
-import io.github.pigaut.rpg.module.collection.template.*;
 import io.github.pigaut.rpg.module.gate.*;
-import io.github.pigaut.rpg.module.gate.template.*;
 import io.github.pigaut.rpg.module.gate.tool.*;
 import io.github.pigaut.rpg.module.generator.*;
-import io.github.pigaut.rpg.module.generator.global.*;
-import io.github.pigaut.rpg.module.generator.instanced.*;
-import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.module.generator.tool.*;
 import io.github.pigaut.rpg.module.skill.*;
-import io.github.pigaut.rpg.module.skill.template.*;
-import io.github.pigaut.rpg.player.data.*;
-import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.server.version.*;
-import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.module.function.foreach.*;
 import io.github.pigaut.rpg.module.function.foreach.config.*;
 import io.github.pigaut.rpg.module.function.foreach.type.*;
@@ -47,10 +38,9 @@ import io.github.pigaut.rpg.plugin.boot.*;
 import io.github.pigaut.rpg.plugin.boot.phase.*;
 import io.github.pigaut.rpg.server.Server;
 import io.github.pigaut.yaml.configurator.*;
-import org.bukkit.*;
+import io.github.pigaut.yaml.util.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.*;
-import org.bukkit.inventory.*;
 import org.bukkit.plugin.*;
 import org.jetbrains.annotations.*;
 
@@ -60,33 +50,23 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
 
     private static RpgMakerPlugin plugin;
 
-    private final RpgSettings settings = new RpgSettings(this);
-
-    private final GeneratorTemplateManager generatorTemplateManager = new GeneratorTemplateManager(this);
-    private final GeneratorOptionsManager generatorOptionsManager = new GeneratorOptionsManager(this);
-    private final GeneratorManager generatorManager = new GeneratorManager(this);
-
-    private final GateTemplateManager gateTemplateManager = new GateTemplateManager(this);
-    private final GateOptionsManager gateOptionsManager = new GateOptionsManager(this);
-    private final GateManager gateManager = new GateManager(this);
-
-    private final CollectionTemplateManager collectionTemplateManager = new CollectionTemplateManager(this);
-    private final SkillTemplateManager skillTemplateManager = new SkillTemplateManager(this);
-
-    private final RpgPlayerStateManager playerStateManager = new RpgPlayerStateManager(this);
-    private final RpgPlayerDataManger playerDataManger = new RpgPlayerDataManger(this);
-
-    public static RpgMakerPlugin getInstance() {
-        return plugin;
-    }
-
     @Override
     public void onLoad() {
         plugin = this;
     }
 
+    public static @NotNull RpgMakerPlugin getInstance() {
+        Preconditions.checkState(plugin != null, "Plugin has not been loaded yet");
+        return plugin;
+    }
+
     @Override
     public void onBoot() {
+
+    }
+
+    @Override
+    public void onPreStartup() {
         DynamicIconRegistry dynamicIcons = getDynamicIcons();
         dynamicIcons.register("player_head", (item, context) -> {
             Player player = context.player();
@@ -94,14 +74,12 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
                 SkullUtil.setSkullTexture(item, player);
             }
         });
-
         dynamicIcons.register("collection_item", (item, context) -> {
             ItemCollection collection = context.get(ItemCollection.class);
             if (collection != null) {
                 item.setType(collection.getItem().getType());
             }
         });
-
         dynamicIcons.register("skill_icon", (item, context) -> {
             Skill skill = context.get(Skill.class);
             if (skill != null) {
@@ -117,6 +95,9 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
         forEachSources.register("entity_in_radius", new ForEachEntityInRadiusLoader());
         forEachSources.register("entity_in_range", new ForEachEntityInRangeLoader());
         forEachSources.register("entity_in_ring", new ForEachEntityInRingLoader());
+
+
+
     }
 
     @Override
@@ -162,43 +143,8 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public @NotNull RpgSettings getSettings() {
-        return settings;
-    }
-
-    @Override
-    public @NotNull RpgPlayerStateManager getPlayerStates() {
-        return playerStateManager;
-    }
-
-    @Override
-    public @NotNull RpgPlayerState getPlayerState(@NotNull Player player) {
-        return playerStateManager.get(player);
-    }
-
-    @Override
-    public @Nullable RpgPlayerState getPlayerState(@NotNull UUID playerId) {
-        return playerStateManager.get(playerId);
-    }
-
-    @Override
-    public @NotNull RpgPlayerDataManger getPlayerData() {
-        return playerDataManger;
-    }
-
-    @Override
-    public @NotNull RpgPlayerData getPlayerData(@NotNull Player player) {
-        return playerDataManger.get(player);
-    }
-
-    @Override
-    public @Nullable RpgPlayerData getPlayerData(@NotNull UUID playerId) {
-        return playerDataManger.get(playerId);
-    }
-
-    @Override
     public @NotNull Configurator createConfigurator() {
-        return new RpgMakerConfigurator(this);
+        return new EnhancedPluginConfigurator(this);
     }
 
     @Override
@@ -260,15 +206,6 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
                 ┣┳┛┣━┛┃╺┓╺━╸┃┃┃┣━┫┣┻┓┣╸ ┣┳┛
                 ╹┗╸╹  ┗━┛   ╹ ╹╹ ╹╹ ╹┗━╸╹┗╸""";
     }
-
-    //    @Override
-//    public @Nullable String getLogo() {
-//        return """
-//
-//                ┏━┓┏━┓┏━╸┏━┓╺┳╸┏━┓┏━╸╻┏\s
-//                ┃ ┃┣┳┛┣╸ ┗━┓ ┃ ┣━┫┃  ┣┻┓
-//                ┗━┛╹┗╸┗━╸┗━┛ ╹ ╹ ╹┗━╸╹ ╹""";
-//    }
 
     @Override
     public @Nullable Integer getMetricsId() {
@@ -370,91 +307,6 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
                 "ItemsAdder", List.of("generators/examples/hooks/ruby_ore.yml"),
                 "CraftEngine", List.of("generators/examples/hooks/topaz_ore.yml")
         );
-    }
-
-    public @NotNull GeneratorTemplateManager getGeneratorTemplates() {
-        return generatorTemplateManager;
-    }
-
-    public @Nullable GeneratorTemplate getGeneratorTemplate(String name) {
-        return generatorTemplateManager.get(name);
-    }
-
-    public @NotNull List<GeneratorTemplate> getGeneratorTemplates(String group) {
-        return generatorTemplateManager.getAll(group);
-    }
-
-    public @NotNull GeneratorManager getGenerators() {
-        return generatorManager;
-    }
-
-    public @Nullable GlobalGenerator getGlobalGenerator(@NotNull Location location) {
-        return generatorManager.getGlobalGenerator(location);
-    }
-
-    public @Nullable VirtualGenerator getVirtualGenerator(@NotNull Location location) {
-        return generatorManager.getVirtualGenerator(location);
-    }
-
-    public @Nullable InstancedGenerator getInstancedGenerator(@NotNull Player player, @NotNull Location location) {
-        return generatorManager.getPlayerGenerator(player, location);
-    }
-
-    public @Nullable Generator getGenerator(@Nullable Player player, @NotNull Location location) {
-        return generatorManager.getGenerator(player, location);
-    }
-
-    public GeneratorOptionsManager getGeneratorOptions() {
-        return generatorOptionsManager;
-    }
-
-    public @NotNull GateTemplateManager getGateTemplates() {
-        return gateTemplateManager;
-    }
-
-    public @Nullable GateTemplate getGateTemplate(String name) {
-        return gateTemplateManager.get(name);
-    }
-
-    public @NotNull List<GateTemplate> getGateTemplates(String group) {
-        return gateTemplateManager.getAll(group);
-    }
-
-    public @NotNull GateManager getGates() {
-        return gateManager;
-    }
-
-    public @Nullable Gate getGate(@NotNull Location location) {
-        return gateManager.getGate(location);
-    }
-
-    public GateOptionsManager getGateOptions() {
-        return gateOptionsManager;
-    }
-
-    @NotNull
-    public CollectionTemplateManager getCollectionTemplates() {
-        return collectionTemplateManager;
-    }
-
-    @Nullable
-    public CollectionTemplate getCollectionTemplate(@NotNull String name) {
-        return collectionTemplateManager.get(name);
-    }
-
-    @Nullable
-    public CollectionTemplate getCollectionTemplate(@NotNull ItemStack item) {
-        return collectionTemplateManager.get(item);
-    }
-
-    @NotNull
-    public SkillTemplateManager getSkillTemplates() {
-        return skillTemplateManager;
-    }
-
-    @Nullable
-    public SkillTemplate getSkillTemplate(@NotNull String name) {
-        return skillTemplateManager.get(name);
     }
 
 }

@@ -12,7 +12,7 @@ public interface ServerCondition extends Condition {
     @Nullable Boolean evaluate();
 
     @Override
-    default @Nullable Boolean evaluate(@NotNull Context context) {
+    default @Nullable Boolean isMet(@NotNull Context context) {
         return evaluate();
     }
 

@@ -32,7 +32,7 @@
                   <shadedPattern>io.github.pigaut.rpg.bstats</shadedPattern>
                 </relocation>
               </relocations>
-              <outputFile>/home/virgilio/servers/minecraft/${mc.version}/plugins/RpgMaker-${project.version}.jar</outputFile>
+              <outputFile>D:\files\Development\java\spigot\servers\${mc.version}\plugins\RpgMaker-${project.version}.jar</outputFile>
             </configuration>
           </execution>
         </executions>

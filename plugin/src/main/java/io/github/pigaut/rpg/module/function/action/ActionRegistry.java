@@ -4,14 +4,15 @@ import io.github.pigaut.rpg.core.drop.*;
 import io.github.pigaut.rpg.core.menu.atlas.*;
 import io.github.pigaut.rpg.module.function.action.block.*;
 import io.github.pigaut.rpg.module.function.action.event.*;
+import io.github.pigaut.rpg.module.function.action.item.*;
 import io.github.pigaut.rpg.module.function.action.menu.*;
 import io.github.pigaut.rpg.module.function.action.mob.*;
 import io.github.pigaut.rpg.module.function.action.mob.flag.*;
 import io.github.pigaut.rpg.module.function.action.player.*;
 import io.github.pigaut.rpg.module.function.action.player.ability.*;
 import io.github.pigaut.rpg.module.function.action.player.state.*;
-import io.github.pigaut.rpg.module.function.action.player.tool.*;
 import io.github.pigaut.rpg.module.function.action.protagonist.*;
+import io.github.pigaut.rpg.module.function.action.recipe.*;
 import io.github.pigaut.rpg.module.function.action.server.*;
 import io.github.pigaut.rpg.module.function.action.system.*;
 import io.github.pigaut.rpg.module.message.*;
@@ -140,20 +141,16 @@ public class ActionRegistry extends AbstractLoader<Action> {
             String returnValue = line.getString(1).orElse(null);
             if (returnValue != null) {
                 Object parsedValue = ParseUtil.parseAsScalar(returnValue);
-                return new ReturnValueAction(parsedValue);
+                return new YieldAction(parsedValue);
             }
             return new ReturnAction();
         });
 
+        addLoader("CONTINUE", (Line<Action>) line ->
+                new ContinueAction());
+
         addLoader("STOP", (Line<Action>) line ->
                 new StopAction());
-
-        addLoader("GOTO", (Line<Action>) line ->
-                new GotoAction(line.getInteger(1)
-                        .require(Requirements.positive(), "Value must be greater than or equal to 1")
-                        .orThrow() - 1
-                ));
-
 
         // Event actions start
         addLoader("CANCEL_EVENT", (Line<Action>) line ->
@@ -278,7 +275,7 @@ public class ActionRegistry extends AbstractLoader<Action> {
             ItemStack item = line.getRequired(1, ItemStack.class);
             Amount amount = line.get("amount", Amount.class)
                     .withDefault(Amount.fixed(item.getAmount()));
-            return new TakeItemFromPlayer(item, amount);
+            return new RemovePlayerItem(item, amount);
         });
 
         addLoader("SET_PLAYER_EXP", (Line<Action>) line ->
@@ -290,10 +287,10 @@ public class ActionRegistry extends AbstractLoader<Action> {
         addLoader("DAMAGE_PLAYER", (Line<Action>) line ->
                 new DamagePlayer(line.get(1, Amount.class).orElse(Amount.fixed(2))));
 
-        addLoader("EXECUTE_PLAYER_COMMAND", (Line<Action>) line ->
+        addLoader("EXECUTE_COMMAND_AS_PLAYER", (Line<Action>) line ->
                 new ExecutePlayerCommand(line.getRequiredString(1)));
 
-        addLoader("SEND_PLAYER_CHAT", (Line<Action>) line ->
+        addLoader("SEND_CHAT_TO_PLAYER", (Line<Action>) line ->
                 new SendChatToPlayer(line.getRequiredString(1)));
 
         addLoader("SEND_PLAYER_ACTIONBAR", (Line<Action>) line ->
@@ -302,7 +299,7 @@ public class ActionRegistry extends AbstractLoader<Action> {
                         line.get("align", BarAlignment.class).withDefault(plugin.getSettings().getInsertedMessageAlign())
                 ));
 
-        addLoader("SEND_PLAYER_TITLE", (Line<Action>) line ->
+        addLoader("SEND_TITLE_TO_PLAYER", (Line<Action>) line ->
                 new SendTitleToPlayer(plugin,
                         line.getRequiredString(1),
                         line.getString("subtitle").withDefault(""),
@@ -311,7 +308,7 @@ public class ActionRegistry extends AbstractLoader<Action> {
                         line.getInteger("fadeOut|fade-out").withDefault(20)
                 ));
 
-        addLoader("SEND_PLAYER_HOLOGRAM", (Line<Action>) line ->
+        addLoader("SEND_HOLOGRAM_TO_PLAYER", (Line<Action>) line ->
                 SendHologramToPlayer.create(plugin,
                         line.getRequiredString(1),
                         line.get("duration", Delay.class).withDefault(Delay.fromTicks(40)),
@@ -323,7 +320,7 @@ public class ActionRegistry extends AbstractLoader<Action> {
                         line.getDouble("radiusZ|rangeZ").withDefault(null)
                 ));
 
-        addLoader("SEND_PLAYER_MESSAGE", (Line<Action>) line ->
+        addLoader("SEND_MESSAGE_TO_PLAYER", (Line<Action>) line ->
                 new SendMessage(line.getRequired(1, Message.class), line.getAllFlags()));
 
         addLoader("LIGHTNING_AT_PLAYER", (Line<Action>) line ->
@@ -375,13 +372,13 @@ public class ActionRegistry extends AbstractLoader<Action> {
         addAliases("HEAL_PLAYER", "HEAL");
         addAliases("DAMAGE_PLAYER", "DAMAGE");
 
-        addAliases("EXECUTE_PLAYER_COMMAND", "EXECUTE_COMMAND", "COMMAND");
+        addAliases("EXECUTE_COMMAND_AS_PLAYER", "EXECUTE_COMMAND", "COMMAND");
 
-        addAliases("SEND_PLAYER_MESSAGE", "SEND_MESSAGE", "MESSAGE");
-        addAliases("SEND_PLAYER_CHAT", "SEND_CHAT", "CHAT", "CHAT_MESSAGE");
-        addAliases("SEND_PLAYER_ACTIONBAR", "SEND_PLAYER_ACTION_BAR", "SEND_ACTIONBAR", "SEND_ACTION_BAR", "ACTIONBAR", "ACTION_BAR", "ACTIONBAR_MESSAGE", "ACTION_BAR_MESSAGE");
-        addAliases("SEND_PLAYER_TITLE", "SEND_TITLE", "TITLE", "TITLE_MESSAGE");
-        addAliases("SEND_PLAYER_HOLOGRAM", "SEND_HOLOGRAM", "HOLOGRAM", "HOLOGRAM_MESSAGE");
+        addAliases("SEND_MESSAGE_TO_PLAYER", "SEND_MESSAGE", "MESSAGE");
+        addAliases("SEND_CHAT_TO_PLAYER", "SEND_CHAT", "CHAT", "CHAT_MESSAGE");
+        addAliases("SEND_ACTIONBAR_TO_PLAYER", "SEND_PLAYER_ACTION_BAR", "SEND_ACTIONBAR", "SEND_ACTION_BAR", "ACTIONBAR", "ACTION_BAR", "ACTIONBAR_MESSAGE", "ACTION_BAR_MESSAGE");
+        addAliases("SEND_TITLE_TO_PLAYER", "SEND_TITLE", "TITLE", "TITLE_MESSAGE");
+        addAliases("SEND_HOLOGRAM_TO_PLAYER", "SEND_HOLOGRAM", "HOLOGRAM", "HOLOGRAM_MESSAGE");
 
         addAliases("SET_PLAYER_FLIGHT", "SET_FLIGHT", "FLIGHT", "FLY");
         addAliases("TELEPORT_PLAYER", "TELEPORT");
@@ -525,7 +522,7 @@ public class ActionRegistry extends AbstractLoader<Action> {
 
         // Cooldowns and abilities
         addLoader("START_COOLDOWN", (Line<Action>) line ->
-                new AddCooldown(
+                new StartPlayerCooldown(
                         line.getRequiredString(1),
                         line.getRequired("duration", Delay.class)
                 ));

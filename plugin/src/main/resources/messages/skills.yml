@@ -1,30 +1,49 @@
 
-# Message for gaining exp for a skill for the first time
-skill-unlocked:
-  - '&b&lSKILL UNLOCKED &3{skill_name_tc}'   # tc: Title Case
+#░░░█▀▀░█░█░▀█▀░█░░░█░░░░░█▄█░█▀▀░█▀▀░█▀▀░█▀█░█▀▀░█▀▀░█▀▀░░░░
+#░░░▀▀█░█▀▄░░█░░█░░░█░░░░░█░█░█▀▀░▀▀█░▀▀█░█▀█░█░█░█▀▀░▀▀█░░░░
+#░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░░░░
+# Skill level up chat messages with clickable/hoverable text
 
-# Message for levelling up to the first level of a skill
+# Skill first level up message (with rewards)
 skill-first-level-up:
-  - '&3&l--------------------------------------------'
-  - '&b&lSKILL LEVEL UP &3{skill_name_tc} I'
-  - ''
-  - '  &a&lREWARDS'
-  - '    {skill_rewards}' # Each reward takes one line
-  - '&3&l--------------------------------------------'
+  message:
+    - '&3&l--------------------------------------------'
+    - '&b&lSKILL LEVEL UP <skill>'
+    - ''
+    - '  &a&lREWARDS'
+    - '    {skill_rewards}' # Each reward takes one line
+    - '&3&l--------------------------------------------'
+  <skill>:
+    text: '&3{skill_name_tc} I' # tc: Title Case
+    on-click: runCommand skill {skill_name}
+    on-hover: showText &3Click to view
 
-# Message for levelling up to the first level of a skill (no rewards)
+# Skill first level up message (no rewards)
 skill-first-level-up-no-rewards:
-  - '&b&lSKILL LEVEL UP &3{skill_name_tc} I'
+  message: '&b&lSKILL LEVEL UP <skill>'
+  <skill>:
+    text: '&3{skill_name_tc} I'
+    on-click: runCommand skill {skill_name}
+    on-hover: showText &3Click to view
 
 # Message for levelling up a skill
 skill-level-up:
-  - '&3&l--------------------------------------------'
-  - '&b&lSKILL LEVEL UP &3{skill_name_tc} &8{skill_previous_level_rm}&l→&3{skill_level_rm}' # rm: IV (Roman numerals)
-  - ''
-  - '  &a&lREWARDS'
-  - '   {skill_rewards}'
-  - '&3&l--------------------------------------------'
+  message:
+    - '&3&l--------------------------------------------'
+    - '&b&lSKILL LEVEL UP <skill>'
+    - ''
+    - '  &a&lREWARDS'
+    - '    {skill_rewards}'
+    - '&3&l--------------------------------------------'
+  <skill>:
+    text: '&3{skill_name_tc} &8{skill_previous_level_rm}&l→&3{skill_level_rm}' # rm: IV (Roman numerals)
+    on-click: runCommand skill {skill_name}
+    on-hover: showText &3Click to view
 
 # Message for levelling up a skill (no rewards)
 skill-level-up-no-rewards:
-  - '&b&lSKILL LEVEL UP &3{skill_name_tc} &8{skill_previous_level_rm}&l→&3{skill_level_rm}'  # rm: IV (Roman numerals)
+  message: '&b&lSKILL LEVEL UP <skill>'
+  <skill>:
+    text: '&3{skill_name_tc} &8{skill_previous_level_rm}&l→&3{skill_level_rm}'
+    on-click: runCommand skill {skill_name}
+    on-hover: showText &3Click to view

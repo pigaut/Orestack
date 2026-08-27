@@ -3,10 +3,7 @@ package io.github.pigaut.rpg.module.sound.impl;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.module.sound.*;
 import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.module.sound.*;
 import io.github.pigaut.rpg.server.Server;
-import io.github.pigaut.rpg.util.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
@@ -22,7 +19,7 @@ public class SimpleSound implements SoundEffect {
     private final boolean playerOnly;
 
     public SimpleSound(@NotNull Sound sound) {
-        this(StringUtil.randomName(), null, sound, 1, 1, 0, 0, 0, false);
+        this(StringUtil.generateRandomName(), null, sound, 1, 1, 0, 0, 0, false);
     }
 
     public SimpleSound(@NotNull String name, @Nullable String group,

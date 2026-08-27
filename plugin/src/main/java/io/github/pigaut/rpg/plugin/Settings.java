@@ -10,11 +10,20 @@ import io.github.pigaut.rpg.core.placeholder.settings.*;
 import io.github.pigaut.rpg.core.progressbar.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.gate.settings.*;
+import io.github.pigaut.rpg.module.gate.template.*;
+import io.github.pigaut.rpg.module.generator.*;
+import io.github.pigaut.rpg.module.generator.settings.*;
+import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.module.item.power.*;
 import io.github.pigaut.rpg.module.item.settings.*;
+import io.github.pigaut.rpg.module.skill.exp.*;
+import io.github.pigaut.rpg.module.skill.settings.*;
 import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.module.stat.custom.*;
 import io.github.pigaut.rpg.module.stat.settings.*;
+import io.github.pigaut.rpg.module.structure.*;
+import io.github.pigaut.rpg.module.structure.settings.*;
 import io.github.pigaut.rpg.plugin.manager.config.*;
 import io.github.pigaut.rpg.plugin.manager.module.Module;
 import io.github.pigaut.rpg.server.Server;
@@ -24,9 +33,11 @@ import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.delay.*;
 import io.github.pigaut.yaml.node.*;
+import net.objecthunter.exp4j.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.enchantments.*;
+import org.bukkit.entity.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
@@ -34,22 +45,28 @@ import org.jetbrains.annotations.*;
 
 import java.io.*;
 import java.util.*;
-import java.util.Comparator;
 import java.util.regex.*;
-import java.util.stream.*;
 
-public class Settings implements ConfigBacked, GameplaySettings, DropSettings, StatSettings, ItemSettings, PlaceholderSettings {
+public class Settings implements ConfigBacked, GameplaySettings, DropSettings, ItemSettings,
+        StatSettings, SkillSettings, GeneratorSettings, GateSettings, StructureSettings,
+        PlaceholderSettings {
 
     protected final EnhancedPlugin plugin;
 
-    private final SimpleGameplaySettings gameplaySettings;
-    private final SimpleDropSettings dropSettings;
-    private final SimpleItemSettings itemSettings;
-    private final SimpleStatSettings statSettings;
-    private final SimplePlaceholderSettings placeholderSettings;
+    private final GameplayConfigSettings gameplaySettings;
+    private final DropConfigSettings dropSettings;
+    private final ItemConfigSettings itemSettings;
+    private final StatConfigSettings statSettings;
+    private final SkillConfigSettings skillSettings;
+    private final GeneratorConfigSettings generatorSettings;
+    private final GateConfigSettings gateSettings;
+    private final StructureConfigSettings structureSettings;
+    private final PlaceholderConfigSettings placeholderSettings;
+
     // Noise
     private final NamespacedKey wandKey;
     public int guiReopenDelay = 40;
+
     // Shortcuts
     private boolean shortcuts;
     private Map<String, String> configShortcuts;
@@ -88,11 +105,15 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     public Settings(EnhancedPlugin plugin) {
         this.plugin = plugin;
         this.wandKey = plugin.getNamespacedKey("wand");
-        this.gameplaySettings = new SimpleGameplaySettings(plugin);
-        this.dropSettings = new SimpleDropSettings();
-        this.itemSettings = new SimpleItemSettings(plugin);
-        this.statSettings = new SimpleStatSettings(plugin);
-        this.placeholderSettings = new SimplePlaceholderSettings();
+        this.gameplaySettings = new GameplayConfigSettings(plugin);
+        this.dropSettings = new DropConfigSettings();
+        this.itemSettings = new ItemConfigSettings(plugin);
+        this.statSettings = new StatConfigSettings(plugin);
+        this.skillSettings = new SkillConfigSettings(plugin);
+        this.generatorSettings = new GeneratorConfigSettings(plugin);
+        this.gateSettings = new GateConfigSettings(plugin);
+        this.structureSettings = new StructureConfigSettings(plugin);
+        this.placeholderSettings = new PlaceholderConfigSettings();
     }
 
     // Preload settings required for booting the plugin
@@ -104,7 +125,6 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
 
         disabledModules = new HashSet<>(config.getList("disabled-modules", Module.class)
                 .withDefault(List.of()));
-
     }
 
     @Override
@@ -251,8 +271,12 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
 
         gameplaySettings.loadConfiguration(config);
         dropSettings.loadConfiguration(config);
-        statSettings.loadConfiguration(config);
         itemSettings.loadConfiguration(config);
+        statSettings.loadConfiguration(config);
+        skillSettings.loadConfiguration(config);
+        generatorSettings.loadConfiguration(config);
+        gateSettings.loadConfiguration(config);
+        structureSettings.loadConfiguration(config);
         placeholderSettings.loadConfiguration(config);
 
         return config;
@@ -673,11 +697,6 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     }
 
     @Override
-    public double getEfficiencyMiningSpeedDebuff(@NotNull ItemStack item) {
-        return statSettings.getEfficiencyMiningSpeedDebuff(item);
-    }
-
-    @Override
     public boolean isFortuneEnchantAsStat() {
         return statSettings.isFortuneEnchantAsStat();
     }
@@ -705,6 +724,11 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     @Override
     public @NotNull List<String> getDefaultItemLore() {
         return itemSettings.getDefaultItemLore();
+    }
+
+    @Override
+    public @NotNull String getDefaultItemName() {
+        return itemSettings.getDefaultItemName();
     }
 
     @Override
@@ -808,18 +832,13 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     }
 
     @Override
-    public @NotNull List<String> getItemRarityDescription(@NotNull String name) {
-        return itemSettings.getItemRarityDescription(name);
-    }
-
-    @Override
-    public @NotNull String getDefaultItemName() {
-        return itemSettings.getDefaultItemName();
-    }
-
-    @Override
     public @Nullable String getItemNameByRarity(@NotNull String name) {
         return itemSettings.getItemNameByRarity(name);
+    }
+
+    @Override
+    public @NotNull List<String> getItemRarityDescription(@NotNull String name) {
+        return itemSettings.getItemRarityDescription(name);
     }
 
     @Override
@@ -880,6 +899,126 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, S
     @Override
     public @NotNull List<ProgressBar> getCountdownBars() {
         return placeholderSettings.getCountdownBars();
+    }
+
+    @Override
+    public int getDefaultMaxSkillLevel() {
+        return skillSettings.getDefaultMaxSkillLevel();
+    }
+
+    @Override
+    public @NotNull Expression getDefaultExpFormula() {
+        return skillSettings.getDefaultExpFormula();
+    }
+
+    @Override
+    public @Nullable Function getDefaultOnExpEarn() {
+        return skillSettings.getDefaultOnExpEarn();
+    }
+
+    @Override
+    public @Nullable Function getDefaultOnSkillLevelUp() {
+        return skillSettings.getDefaultOnSkillLevelUp();
+    }
+
+    @Override
+    public @Nullable ExpAmount getExpEarningActivity(@NotNull String name) {
+        return skillSettings.getExpEarningActivity(name);
+    }
+
+    @Override
+    public @NotNull ProgressBar getSkillProgressBar() {
+        return skillSettings.getSkillProgressBar();
+    }
+
+    @Override
+    public boolean isVeinMiner() {
+        return generatorSettings.isVeinMiner();
+    }
+
+    @Override
+    public boolean isVeinGenerator(@NotNull Generator generator) {
+        return generatorSettings.isVeinGenerator(generator);
+    }
+
+    @Override
+    public int getToolMaxVeinSize(@NotNull ItemStack tool) {
+        return generatorSettings.getToolMaxVeinSize(tool);
+    }
+
+    @Override
+    public @Nullable StructureTemplate getVirtualGeneratorBarrierLayout(@NotNull GeneratorTemplate generatorTemplate) {
+        return generatorSettings.getVirtualGeneratorBarrierLayout(generatorTemplate);
+    }
+
+    @Override
+    public boolean isDefaultToolDamage() {
+        return generatorSettings.isDefaultToolDamage();
+    }
+
+    @Override
+    public Amount getDefaultToolDamage() {
+        return generatorSettings.getDefaultToolDamage();
+    }
+
+    @Override
+    public int getGeneratorHitCooldown() {
+        return generatorSettings.getGeneratorHitCooldown();
+    }
+
+    @Override
+    public int getGeneratorClickCooldown() {
+        return generatorSettings.getGeneratorClickCooldown();
+    }
+
+    @Override
+    public int getGeneratorHarvestCooldown() {
+        return generatorSettings.getGeneratorHarvestCooldown();
+    }
+
+    @Override
+    public int getGateClickCooldown() {
+        return gateSettings.getGateClickCooldown();
+    }
+
+    @Override
+    public boolean isPlayerConstruction(@NotNull GateTemplate construction) {
+        return gateSettings.isPlayerConstruction(construction);
+    }
+
+    @Override
+    public boolean isKeepBlocksOnRemove() {
+        return structureSettings.isKeepBlocksOnRemove();
+    }
+
+    @Override
+    public boolean isRestoreBlocksOnRemove() {
+        return structureSettings.isRestoreBlocksOnRemove();
+    }
+
+    @Override
+    public boolean isDamageOverflow() {
+        return structureSettings.isDamageOverflow();
+    }
+
+    @Override
+    public boolean isEfficiencyDamageMultiplier() {
+        return structureSettings.isEfficiencyDamageMultiplier();
+    }
+
+    @Override
+    public boolean isReducedCooldownDamage() {
+        return structureSettings.isReducedCooldownDamage();
+    }
+
+    @Override
+    public @NotNull Amount getToolDamage(@NotNull Material toolType, @NotNull Material blockType) {
+        return structureSettings.getToolDamage(toolType, blockType);
+    }
+
+    @Override
+    public double getStructureDamage(@NotNull Player player, @NotNull Block block) {
+        return structureSettings.getStructureDamage(player, block);
     }
 
 }

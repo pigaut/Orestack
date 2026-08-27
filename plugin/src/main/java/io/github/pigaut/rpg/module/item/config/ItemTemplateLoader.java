@@ -19,6 +19,7 @@ import io.github.pigaut.yaml.convert.format.*;
 import io.github.pigaut.yaml.node.scalar.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
+import org.bukkit.inventory.meta.components.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;

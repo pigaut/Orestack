@@ -21,12 +21,14 @@ public class ItemManager extends ConfigBackedManager<ItemTemplate> {
 
     private final NamespacedKey itemKey;
     private final NamespacedKey usesKey;
+    private final NamespacedKey renamedKey;
 
     public ItemManager(EnhancedJavaPlugin plugin) {
         super(plugin, Module.ITEMS, ItemTemplate.class);
 
         itemKey = plugin.getNamespacedKey("item");
         usesKey = plugin.getNamespacedKey("uses");
+        renamedKey = plugin.getNamespacedKey("renamed");
     }
 
     @Override
@@ -56,6 +58,10 @@ public class ItemManager extends ConfigBackedManager<ItemTemplate> {
 
     public @NotNull NamespacedKey getUsesKey() {
         return usesKey;
+    }
+
+    public @NotNull NamespacedKey getRenamedKey() {
+        return renamedKey;
     }
 
     public @NotNull NamespacedKey getStatKey(@NotNull Stat stat) {

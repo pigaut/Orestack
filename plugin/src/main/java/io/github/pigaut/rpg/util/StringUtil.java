@@ -8,7 +8,7 @@ import java.util.stream.*;
 
 public class StringUtil {
 
-    public static @NotNull String randomName() {
+    public static @NotNull String generateRandomName() {
         return UUID.randomUUID().toString();
     }
 

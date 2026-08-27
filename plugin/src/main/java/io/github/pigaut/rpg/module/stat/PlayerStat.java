@@ -46,7 +46,7 @@ public class PlayerStat {
         modifiers.addAll(buffs.values());
         modifiers.addAll(skills.values());
         modifiers.addAll(events.values());
-        return StatsUtil.calculateStatTotal(base, modifiers);
+        return StatUtil.calculateStatTotal(base, modifiers);
     }
 
     public double getDisplayTotal() {
@@ -59,7 +59,7 @@ public class PlayerStat {
         modifiers.add(feet);
         modifiers.addAll(skills.values());
         modifiers.addAll(events.values());
-        return StatsUtil.calculateStatTotal(base, modifiers);
+        return StatUtil.calculateStatTotal(base, modifiers);
     }
 
     public void setEquipment(@NotNull EquipmentSlot slot, double value) {

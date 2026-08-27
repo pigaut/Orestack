@@ -12,46 +12,30 @@ import java.util.*;
 
 public class MultiFunction implements Function {
 
-    private final String name;
-    private final String group;
-    private final List<Function> functions;
+    private final Function[] functions;
 
-    public MultiFunction(String name, String group, @NotNull List<@NotNull Function> functions) {
-        this.name = name;
-        this.group = group;
-        this.functions = functions;
-    }
-
-    @Override
-    public @NotNull String getName() {
-        return name;
-    }
-
-    @Override
-    public @Nullable String getGroup() {
-        return group;
+    public MultiFunction(@NotNull Collection<Function> functions) {
+        this.functions = functions.toArray(new Function[0]);
     }
 
     @Override
     public @NotNull FunctionResponse dispatch(@NotNull Context context) {
-        for (int i = 0; i < functions.size(); i++) {
-            FunctionResponse response = functions.get(i).dispatch(context);
-
+        for (Function function : functions) {
+            FunctionResponse response = function.dispatch(context);
             ResponseType type = response.getType();
             if (type == ResponseType.RETURN) {
-                return response;
-            }
-            if (type == ResponseType.STOP) {
-                return response;
-            }
-            if (type == ResponseType.YIELD) {
-                return response;
-            }
-            if (response instanceof GotoResponse gotoResponse) {
-                int gotoLine = gotoResponse.getLine();
-                if (gotoLine < functions.size()) {
-                    i = gotoResponse.getLine();
+                if (function.isGlobal()) {
+                    continue;
                 }
+                return response;
+            }
+
+            if (type == ResponseType.CONTINUE) {
+                continue;
+            }
+
+            if (type.isStopEarly()) {
+                return response;
             }
         }
 

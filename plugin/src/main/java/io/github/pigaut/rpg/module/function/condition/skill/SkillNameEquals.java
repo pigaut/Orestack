@@ -17,7 +17,7 @@ public class SkillNameEquals implements Condition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Context context) {
+    public @Nullable Boolean isMet(@NotNull Context context) {
         Skill skill = context.get(Skill.class);
         if (skill == null) {
             return false;

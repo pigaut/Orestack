@@ -4,10 +4,10 @@ chat_example:
 
 clickable_message:
   message: "Welcome to the server! <wiki_link> to get started!"
-  wiki_link:
+  <wiki_link>:
     text: "&bClick here {player}"
-    on-click: openUrl https://google.com
-    on-hover: showText Opens the wiki page
+    on-click: openUrl https://google.com # openUrl, runCommand, suggestCommand, copyToClipboard
+    on-hover: showText Open the wiki page # showText, showItem, showEntity
 
 multi_chat_example:
   message:

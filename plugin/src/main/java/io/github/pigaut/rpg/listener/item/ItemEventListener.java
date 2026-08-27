@@ -1,6 +1,7 @@
 package io.github.pigaut.rpg.listener.item;
 
 import io.github.pigaut.rpg.api.event.generator.*;
+import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.drop.*;
 import io.github.pigaut.rpg.module.function.*;
@@ -10,6 +11,8 @@ import io.github.pigaut.rpg.event.item.*;
 import io.github.pigaut.rpg.module.item.power.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
+import io.github.pigaut.rpg.server.Server;
+import io.github.pigaut.rpg.server.version.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -19,6 +22,7 @@ import org.bukkit.event.enchantment.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.view.*;
 
 public class ItemEventListener implements Listener {
 
@@ -253,6 +257,7 @@ public class ItemEventListener implements Listener {
         playerState.clearStats();
     }
 
+    @SuppressWarnings("removal")
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onAnvil(PrepareAnvilEvent event) {
         ItemStack result = event.getResult();
@@ -263,6 +268,29 @@ public class ItemEventListener implements Listener {
         ItemTemplate itemTemplate = plugin.getItemTemplate(result);
         if (itemTemplate == null) {
             return;
+        }
+
+        ItemStack input;
+        String renameText;
+
+        if (Server.getVersion() > Version.V1_21) {
+            AnvilView anvilView = event.getView();
+            input = anvilView.getItem(0);
+            renameText = anvilView.getRenameText();
+        } else {
+            AnvilInventory anvilInventory = event.getInventory();
+            input = anvilInventory.getItem(0);
+            renameText = anvilInventory.getRenameText();
+        }
+
+        if (input != null && renameText != null) {
+            String currentName = input.hasItemMeta() && input.getItemMeta().hasDisplayName()
+                    ? input.getItemMeta().getDisplayName()
+                    : null;
+
+            if (!renameText.equals(currentName)) {
+                ItemUtil.modifyMeta(result, meta -> PersistentData.setTag(meta, plugin.getItems().getRenamedKey()));
+            }
         }
 
         Player player = (Player) event.getView().getPlayer();

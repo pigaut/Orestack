@@ -12,9 +12,13 @@ import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import org.jetbrains.annotations.*;
 
-public interface Function extends Identifiable {
+public interface Function {
 
-    Function EMPTY = new SimpleFunction(Action.EMPTY);
+    Function EMPTY = context -> FunctionResponse.NONE;
+
+    default boolean isGlobal() {
+        return false;
+    }
 
     @NotNull
     FunctionResponse dispatch(@NotNull Context context);

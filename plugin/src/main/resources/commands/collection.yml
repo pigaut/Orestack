@@ -1,0 +1,215 @@
+
+#░░░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░░░░
+#░░░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░░░░
+#░░░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░░░░
+# Opens a specific collection progress menu
+
+---
+command: collection # /collection
+on-execute:
+  - sendChat &cYou must specify a collection name
+
+---
+sub-command: blaze_rod # /collection blaze_rod
+on-execute:
+  - openMenu collection_progress collection=blaze_rod
+---
+sub-command: bone # /collection bone
+on-execute:
+  - openMenu collection_progress collection=bone
+---
+sub-command: ender_pearl # /collection ender_pearl
+on-execute:
+  - openMenu collection_progress collection=ender_pearl
+---
+sub-command: ghast_tear # /collection ghast_tear
+on-execute:
+  - openMenu collection_progress collection=ghast_tear
+---
+sub-command: gunpowder # /collection gunpowder
+on-execute:
+  - openMenu collection_progress collection=gunpowder
+---
+sub-command: magma_cream # /collection magma_cream
+on-execute:
+  - openMenu collection_progress collection=magma_cream
+---
+sub-command: rotten_flesh # /collection rotten_flesh
+on-execute:
+  - openMenu collection_progress collection=rotten_flesh
+---
+sub-command: slime_ball # /collection slime_ball
+on-execute:
+  - openMenu collection_progress collection=slime_ball
+---
+sub-command: spider_eye # /collection spider_eye
+on-execute:
+  - openMenu collection_progress collection=spider_eye
+---
+sub-command: string # /collection string
+on-execute:
+  - openMenu collection_progress collection=string
+---
+sub-command: beetroot # /collection beetroot
+on-execute:
+  - openMenu collection_progress collection=beetroot
+---
+sub-command: carrots # /collection carrots
+on-execute:
+  - openMenu collection_progress collection=carrots
+---
+sub-command: cocoa_beans # /collection cocoa_beans
+on-execute:
+  - openMenu collection_progress collection=cocoa_beans
+---
+sub-command: melon # /collection melon
+on-execute:
+  - openMenu collection_progress collection=melon
+---
+sub-command: nether_wart # /collection nether_wart
+on-execute:
+  - openMenu collection_progress collection=nether_wart
+---
+sub-command: potatoes # /collection potatoes
+on-execute:
+  - openMenu collection_progress collection=potatoes
+---
+sub-command: pumpkin # /collection pumpkin
+on-execute:
+  - openMenu collection_progress collection=pumpkin
+---
+sub-command: sugar_cane # /collection sugar_cane
+on-execute:
+  - openMenu collection_progress collection=sugar_cane
+---
+sub-command: sweet_berries # /collection sweet_berries
+on-execute:
+  - openMenu collection_progress collection=sweet_berries
+---
+sub-command: wheat # /collection wheat
+on-execute:
+  - openMenu collection_progress collection=wheat
+---
+sub-command: cod # /collection cod
+on-execute:
+  - openMenu collection_progress collection=cod
+---
+sub-command: pufferfish # /collection pufferfish
+on-execute:
+  - openMenu collection_progress collection=pufferfish
+---
+sub-command: salmon # /collection salmon
+on-execute:
+  - openMenu collection_progress collection=salmon
+---
+sub-command: tropical_fish # /collection tropical_fish
+on-execute:
+  - openMenu collection_progress collection=tropical_fish
+---
+sub-command: acacia_log # /collection acacia_log
+on-execute:
+  - openMenu collection_progress collection=acacia_log
+---
+sub-command: birch_log # /collection birch_log
+on-execute:
+  - openMenu collection_progress collection=birch_log
+---
+sub-command: cherry_log # /collection cherry_log
+on-execute:
+  - openMenu collection_progress collection=cherry_log
+---
+sub-command: dark_oak_log # /collection dark_oak_log
+on-execute:
+  - openMenu collection_progress collection=dark_oak_log
+---
+sub-command: jungle_log # /collection jungle_log
+on-execute:
+  - openMenu collection_progress collection=jungle_log
+---
+sub-command: mangrove_log # /collection mangrove_log
+on-execute:
+  - openMenu collection_progress collection=mangrove_log
+---
+sub-command: oak_log # /collection oak_log
+on-execute:
+  - openMenu collection_progress collection=oak_log
+---
+sub-command: pale_oak_log # /collection pale_oak_log
+on-execute:
+  - openMenu collection_progress collection=pale_oak_log
+---
+sub-command: spruce_log # /collection spruce_log
+on-execute:
+  - openMenu collection_progress collection=spruce_log
+---
+sub-command: coal # /collection coal
+on-execute:
+  - openMenu collection_progress collection=coal
+---
+sub-command: cobblestone # /collection cobblestone
+on-execute:
+  - openMenu collection_progress collection=cobblestone
+---
+sub-command: diamond # /collection diamond
+on-execute:
+  - openMenu collection_progress collection=diamond
+---
+sub-command: dirt # /collection dirt
+on-execute:
+  - openMenu collection_progress collection=dirt
+---
+sub-command: emerald # /collection emerald
+on-execute:
+  - openMenu collection_progress collection=emerald
+---
+sub-command: endstone # /collection endstone
+on-execute:
+  - openMenu collection_progress collection=endstone
+---
+sub-command: glowstone # /collection glowstone
+on-execute:
+  - openMenu collection_progress collection=glowstone
+---
+sub-command: gold # /collection gold
+on-execute:
+  - openMenu collection_progress collection=gold
+---
+sub-command: gravel # /collection gravel
+on-execute:
+  - openMenu collection_progress collection=gravel
+---
+sub-command: ice # /collection ice
+on-execute:
+  - openMenu collection_progress collection=ice
+---
+sub-command: iron # /collection iron
+on-execute:
+  - openMenu collection_progress collection=iron
+---
+sub-command: lapis # /collection lapis
+on-execute:
+  - openMenu collection_progress collection=lapis
+---
+sub-command: nether_quartz # /collection nether_quartz
+on-execute:
+  - openMenu collection_progress collection=nether_quartz
+---
+sub-command: netherrack # /collection netherrack
+on-execute:
+  - openMenu collection_progress collection=netherrack
+---
+sub-command: obsidian # /collection obsidian
+on-execute:
+  - openMenu collection_progress collection=obsidian
+---
+sub-command: red_sand # /collection red_sand
+on-execute:
+  - openMenu collection_progress collection=red_sand
+---
+sub-command: redstone # /collection redstone
+on-execute:
+  - openMenu collection_progress collection=redstone
+---
+sub-command: sand # /collection sand
+on-execute:
+  - openMenu collection_progress collection=sand

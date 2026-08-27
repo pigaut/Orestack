@@ -1,11 +1,8 @@
 package io.github.pigaut.rpg.core.menu.paged;
 
 import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.context.Context;
 import io.github.pigaut.rpg.core.menu.button.Button;
-import io.github.pigaut.rpg.module.menu.entries.*;
-import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.rpg.module.menu.entries.*;
 import io.github.pigaut.rpg.util.*;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +24,7 @@ public class PagedMenuBuilder {
     private Collection<Integer> entrySlots = Collections.emptyList();
 
     public PagedMenuBuilder() {
-        this(StringUtil.randomName(), null);
+        this(StringUtil.generateRandomName(), null);
     }
 
     public PagedMenuBuilder(String name, String group) {

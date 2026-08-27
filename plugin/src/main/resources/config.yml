@@ -78,7 +78,7 @@ structure-wand:
 #░░░▀▀▀░▀░▀░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀▀░░▀░░▀▀▀░░░░
 # Shortcuts let you define reusable YAML values once and reference them
 # anywhere in this plugin's config files, instead of copy and pasting
-# text/symbols repeatedly.
+# text/symbols/hex repeatedly.
 
 # Whether shortcuts should be enabled
 shortcuts: true
@@ -107,15 +107,15 @@ color-shortcuts:
   '&n': '§n'
   '&o': '§o'
   '&r': '§r'
-# How to convert hex #22B573 to color codes?
-#   # -> §x
+# Guide to convert hex #22B573 to color codes:
+#   # -> §x (§x signals the start of a hex color)
 #   2 -> §2
 #   2 -> §2
 #   B -> §b
 #   5 -> §5
 #   7 -> §7
 #   3 -> §3
-  '&emerald': '§x§2§2§b§5§7§3' # Result: §x + §2 + §2 + §b + §5 + §7 + §3
+  '&emerald': '§x§2§2§b§5§7§3' # Result: §x + §2 + §2 + §b + §5 + §7 + §3 (#22B573)
   '&diamond': '§x§5§d§d§9§d§9'
   '&gold': '§x§f§2§c§1§4§d'
   '&iron': '§x§c§8§c§8§c§8'
@@ -125,7 +125,7 @@ color-shortcuts:
   '&podzol': '§x§7§b§3§f§0§0'
   '&crit': '§x§c§8§9§7§5§b'
 
-# Generic shortcuts, that do not belong to any module.
+# Generic symbols shortcuts
 generic-shortcuts:
   $star: ★
   $star-outline: ☆
@@ -231,17 +231,22 @@ custom-egg-laying: true
 # How frequently a chicken should lay eggs
 egg-laying: 1 egg every 20-40s
 
+# Always allow using color codes (&7) in anvil when renaming an item. Otherwise, you need the permission: rpgmaker.player.anvil-colors
+anvil-colors: true
+
 # Triggered when a player damages an entity
 on-player-damage-entity:
   - if: damageIsFallingCrit # Vanilla crit damage
     do:
       - sendHologram &crit-{damage}$heart offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=0.5s
+      - return
 
   - if: damageIsCrit # Stat crit damage
     do:
       - sendHologram &c-{damage}$heart offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=0.5s
-    else:
-      - sendHologram &7-{damage}$heart offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=0.5s
+      - return
+
+  - sendHologram &7-{damage}$heart offsetY=1 rangeX=0.7 rangeY=0.4 rangeZ=0.7 duration=0.5s
 
 
 #░░░█▀▀░▀█▀░█▀█░▀█▀░█▀▀░░░░
@@ -295,7 +300,7 @@ base-stats:
   health-regen: 3
   mana-regen: 2
   crit-damage: 150%
-  crit-chance: 15%
+  crit-chance: 30%
   exp-gain: 100%
   mining_fortune: 0
   farming_fortune: 0

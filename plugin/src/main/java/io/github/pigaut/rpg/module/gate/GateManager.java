@@ -7,6 +7,7 @@ import io.github.pigaut.rpg.module.gate.exception.*;
 import io.github.pigaut.rpg.module.gate.template.*;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.core.transform.Rotation;
+import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import io.github.pigaut.rpg.module.gate.exception.*;
 import io.github.pigaut.rpg.module.gate.template.*;
@@ -21,12 +22,12 @@ import java.util.concurrent.*;
 
 public class GateManager extends Manager {
 
-    private final RpgMakerPlugin plugin;
+    private final EnhancedJavaPlugin plugin;
     private final Set<Gate> gates = new HashSet<>();
     private final Map<Location, Gate> gateBlocks = new ConcurrentHashMap<>();
     private final Map<Gate, List<BlockState>> removedBlocks = new HashMap<>();
 
-    public GateManager(RpgMakerPlugin plugin) {
+    public GateManager(EnhancedJavaPlugin plugin) {
         super(plugin);
         this.plugin = plugin;
     }

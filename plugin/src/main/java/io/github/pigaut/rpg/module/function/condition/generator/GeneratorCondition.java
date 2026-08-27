@@ -16,7 +16,7 @@ public interface GeneratorCondition extends Condition {
     Boolean evaluate(@NotNull Generator generator);
 
     @Override
-    default @Nullable Boolean evaluate(@NotNull Context context) {
+    default @Nullable Boolean isMet(@NotNull Context context) {
         Block block = context.block();
         if (block == null) {
             return null;

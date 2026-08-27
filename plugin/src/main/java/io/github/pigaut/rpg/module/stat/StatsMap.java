@@ -1,21 +1,7 @@
 package io.github.pigaut.rpg.module.stat;
 
-import io.github.pigaut.rpg.bukkit.attribute.*;
-import io.github.pigaut.rpg.module.stat.attribute.*;
 import io.github.pigaut.rpg.module.stat.custom.*;
 import io.github.pigaut.rpg.module.stat.modifier.*;
-import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.server.*;
-import io.github.pigaut.rpg.server.version.*;
-import io.github.pigaut.rpg.bukkit.attribute.*;
-import io.github.pigaut.rpg.module.stat.attribute.*;
-import io.github.pigaut.rpg.module.stat.custom.*;
-import io.github.pigaut.rpg.module.stat.modifier.*;
-import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.server.*;
-import io.github.pigaut.rpg.server.version.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -25,33 +11,28 @@ public class StatsMap {
     private final Map<Stat, PlayerStat> baseStats = new HashMap<>();
     private final Map<Stat, CustomStat> customStats = new HashMap<>();
 
-    public StatsMap(@NotNull EnhancedPlugin plugin, @NotNull PlayerState playerState) {
-        Settings settings = plugin.getSettings();
+    public void put(@NotNull Stat type, @NotNull PlayerStat baseStat) {
+        baseStats.put(type, baseStat);
+    }
 
-        baseStats.put(BaseStats.MAX_HEALTH, new PlayerStat(settings.getBaseMaxHealth()));
-        baseStats.put(BaseStats.MAX_MANA, new PlayerStat(settings.getBaseMaxMana()));
-        baseStats.put(BaseStats.DEFENSE, new PlayerStat(settings.getBaseDefense()));
-        baseStats.put(BaseStats.DAMAGE, new PlayerStat(settings.getBaseDamage()));
-        baseStats.put(BaseStats.HEALTH_REGEN, new PlayerStat(settings.getBaseHealthRegen()));
-        baseStats.put(BaseStats.MANA_REGEN, new PlayerStat(settings.getBaseManaRegen()));
-        baseStats.put(BaseStats.CRIT_DAMAGE, new PlayerStat(settings.getBaseCritDamage()));
-        baseStats.put(BaseStats.CRIT_CHANCE, new PlayerStat(settings.getBaseCritChance()));
-        baseStats.put(BaseStats.MINING_FORTUNE, new PlayerStat(settings.getBaseMiningFortune()));
-        baseStats.put(BaseStats.FARMING_FORTUNE, new PlayerStat(settings.getBaseFarmingFortune()));
-        baseStats.put(BaseStats.FORAGING_FORTUNE, new PlayerStat(settings.getBaseForagingFortune()));
+    public void put(@NotNull Stat type, @NotNull CustomStat customStat) {
+        customStats.put(type, customStat);
+    }
 
-        baseStats.put(BaseStats.MOVEMENT_SPEED, new AttributePlayerStat(playerState.getUniqueId(), Attributes.MOVEMENT_SPEED,
-                plugin.getNamespacedKey("movement_speed"), 100));
+    public void putAll(@NotNull Map<Stat, CustomStat> customStats) {
+        this.customStats.putAll(customStats);
+    }
 
-        baseStats.put(BaseStats.ATTACK_SPEED, new AttributePlayerStat(playerState.getUniqueId(), Attributes.ATTACK_SPEED,
-                plugin.getNamespacedKey("attack_speed")));
-
-        if (Server.getVersion() >= Version.V1_21) {
-            baseStats.put(BaseStats.MINING_SPEED, new AttributePlayerStat(playerState.getUniqueId(), Attributes.MINING_EFFICIENCY,
-                    plugin.getNamespacedKey("mining_speed"), 20));
+    public void clear() {
+        for (PlayerStat baseStat : baseStats.values()) {
+            baseStat.clear();
         }
+        baseStats.clear();
 
-        customStats.putAll(settings.getCustomStats());
+        for (CustomStat customStat : customStats.values()) {
+            customStat.clear();
+        }
+        customStats.clear();
     }
 
     private int getTotal(@NotNull Stat stat, @Nullable PlayerStat baseStat) {
@@ -69,7 +50,7 @@ public class StatsMap {
             }
         }
 
-        return (int) StatsUtil.calculateStatTotal(base, modifierLevels);
+        return (int) StatUtil.calculateStatTotal(base, modifierLevels);
     }
 
     public @NotNull PlayerStat getBaseMaxHealth() {

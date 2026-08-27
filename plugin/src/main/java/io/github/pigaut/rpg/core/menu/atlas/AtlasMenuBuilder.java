@@ -1,10 +1,8 @@
 package io.github.pigaut.rpg.core.menu.atlas;
 
 import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.context.Context;
 import io.github.pigaut.rpg.core.menu.button.Button;
-import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.rpg.util.*;
 import org.jetbrains.annotations.*;
 
@@ -25,7 +23,7 @@ public class AtlasMenuBuilder {
     private Function<Context, Button[][]> createAtlas = context -> new Button[atlasWidth][atlasHeight];
 
     public AtlasMenuBuilder() {
-        this(StringUtil.randomName(), null);
+        this(StringUtil.generateRandomName(), null);
     }
 
     public AtlasMenuBuilder(@NotNull String name, @Nullable String group) {

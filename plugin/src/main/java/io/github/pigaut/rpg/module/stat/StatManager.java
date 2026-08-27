@@ -50,10 +50,16 @@ public class StatManager extends Manager implements Registry<Stat> {
 
         if (plugin.getSettings().isShowStatusBar()) {
             for (PlayerState playerState : plugin.getPlayerStates().getAll()) {
+                playerState.reloadStats();
                 playerState.updateStatusBar();
             }
             statusBarUpdateTask = new StatusBarUpdateTask(plugin);
             statusBarUpdateTask.start();
+        }
+        else {
+            for (PlayerState playerState : plugin.getPlayerStates().getAll()) {
+                playerState.reloadStats();
+            }
         }
     }
 

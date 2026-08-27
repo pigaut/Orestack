@@ -15,19 +15,9 @@ public class ChanceFunction implements Function {
     private final Function function;
     private final double chance;
 
-    public ChanceFunction(Function function, double chance) {
+    public ChanceFunction(@NotNull Function function, double chance) {
         this.function = function;
         this.chance = chance;
-    }
-
-    @Override
-    public @NotNull String getName() {
-        return function.getName();
-    }
-
-    @Override
-    public @Nullable String getGroup() {
-        return function.getGroup();
     }
 
     @Override

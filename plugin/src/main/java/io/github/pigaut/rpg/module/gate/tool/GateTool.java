@@ -16,6 +16,7 @@ import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.server.Server;
 import io.github.pigaut.yaml.convert.parse.*;
 import org.bukkit.*;
+import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
@@ -46,7 +47,7 @@ public class GateTool extends Tool {
         setItemTemplate(new ItemStack(Material.TERRACOTTA));
         setItemMetaTemplate(meta -> MetaEditor.of(meta)
                 .withAllFlags()
-                .withName("&b&l{gate_tool_template_tc} Gate &f&l({gate_rotation_uc})")
+                .withName("&b&l{gate_tool_template_tc} Gate &f&l({gate_tool_rotation_uc})")
                 .addLine("&8Use this tool to place and")
                 .addLine("&8remove gates in your worlds.")
                 .addEmptyLine()
@@ -69,7 +70,8 @@ public class GateTool extends Tool {
 
             Gate gate = plugin.getGate(location);
             GateTemplate heldTemplate = getGateTemplate(event.getItem());
-            if (gate == null || !gate.getTemplate().equals(heldTemplate)) {
+            if (gate == null) {
+                event.setCancelled(false);
                 return;
             }
 
@@ -86,7 +88,8 @@ public class GateTool extends Tool {
         onRightClickBlock(event -> {
             Player player = event.getPlayer();
             ItemStack item = event.getItem();
-            Location location = event.getClickedBlock().getLocation();
+            Block block = event.getClickedBlock();
+            Location location = block.getRelative(event.getBlockFace()).getLocation();
 
             double offsetX = getOffsetX(item);
             double offsetY = getOffsetY(item);
@@ -265,8 +268,11 @@ public class GateTool extends Tool {
     }
 
     public @NotNull String getNextRotation(@NotNull ItemStack item) {
-        Rotation rotation = getRotation(item);
-        return switch (rotation.toString()) {
+        String rotation = getRotationData(item);
+        if (rotation == null) {
+            return "NONE";
+        }
+        return switch (rotation) {
             case "NONE" -> "RIGHT";
             case "RIGHT" -> "BACK";
             case "BACK" -> "LEFT";

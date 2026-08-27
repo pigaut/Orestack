@@ -21,7 +21,7 @@ public class PlaceholderEqualsString implements Condition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Context context) {
+    public @Nullable Boolean isMet(@NotNull Context context) {
         String parsedValue = PlaceholderUtil.parseAll(context, placeholder);
         if (ignoreCase) {
             return value.equalsIgnoreCase(parsedValue);

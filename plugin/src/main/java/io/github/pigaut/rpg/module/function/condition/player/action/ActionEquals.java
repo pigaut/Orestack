@@ -23,7 +23,7 @@ public class ActionEquals implements Condition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Context context) {
+    public @Nullable Boolean isMet(@NotNull Context context) {
         if (sneaking != null) {
             Player player = context.player();
             if (player == null) {

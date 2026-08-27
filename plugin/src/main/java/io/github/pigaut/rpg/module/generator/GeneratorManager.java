@@ -12,6 +12,7 @@ import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.core.transform.Rotation;
 import io.github.pigaut.rpg.module.structure.*;
+import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import io.github.pigaut.rpg.module.generator.exception.*;
 import io.github.pigaut.rpg.module.generator.global.*;
@@ -30,7 +31,7 @@ import java.util.concurrent.*;
 
 public class GeneratorManager extends Manager {
 
-    private final RpgMakerPlugin plugin;
+    private final EnhancedPlugin plugin;
 
     private final Set<GlobalGenerator> globalGenerators = new HashSet<>();
     private final Map<Location, GlobalGenerator> globalGeneratorsByBlocks = new ConcurrentHashMap<>();
@@ -40,7 +41,7 @@ public class GeneratorManager extends Manager {
 
     private final Map<Object, List<BlockState>> removedBlocksByGenerator = new HashMap<>();
 
-    public GeneratorManager(RpgMakerPlugin plugin) {
+    public GeneratorManager(EnhancedJavaPlugin plugin) {
         super(plugin);
         this.plugin = plugin;
     }

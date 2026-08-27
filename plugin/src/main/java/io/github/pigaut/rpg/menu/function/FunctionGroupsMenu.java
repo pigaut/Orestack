@@ -5,11 +5,6 @@ import io.github.pigaut.rpg.core.menu.*;
 import io.github.pigaut.rpg.core.menu.button.*;
 import io.github.pigaut.rpg.core.menu.template.menu.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.menu.*;
-import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.core.menu.template.menu.*;
-import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
@@ -27,7 +22,7 @@ public class FunctionGroupsMenu extends FramedSelectionMenu {
 
     @Override
     public List<Button> createEntries(@NotNull Context context) {
-        return plugin.getFunctions().getAllGroups().stream()
+        return plugin.getGlobalFunctions().getAllGroups().stream()
                 .map(group -> Button.builder()
                         .type(Material.CHEST)
                         .name("&8&l" + CaseFormatter.toTitleCase(group))

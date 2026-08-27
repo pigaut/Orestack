@@ -5,14 +5,7 @@ import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.menu.*;
 import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.player.data.*;
-import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.menu.*;
-import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.module.skill.*;
-import io.github.pigaut.rpg.player.data.*;
+import io.github.pigaut.rpg.player.data.base.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
 import org.bukkit.entity.*;
@@ -38,8 +31,8 @@ public class OpenSkillMenu implements Action {
             return;
         }
 
-        PlayerData playerData = context.playerData();
-        if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
+        EnhancedPlayerData playerData = context.playerData();
+        if (!(playerData instanceof PlayerData rpgPlayerData)) {
             return;
         }
 

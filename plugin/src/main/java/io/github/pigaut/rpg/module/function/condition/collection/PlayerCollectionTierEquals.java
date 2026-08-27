@@ -4,9 +4,6 @@ import io.github.pigaut.rpg.module.collection.ItemCollection;
 import io.github.pigaut.rpg.module.collection.template.*;
 import io.github.pigaut.rpg.module.function.condition.player.*;
 import io.github.pigaut.rpg.player.data.*;
-import io.github.pigaut.rpg.module.collection.template.*;
-import io.github.pigaut.rpg.module.function.condition.player.*;
-import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
 
@@ -21,7 +18,7 @@ public class PlayerCollectionTierEquals implements RpgPlayerDataCondition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull RpgPlayerData playerData) {
+    public @Nullable Boolean evaluate(@NotNull PlayerData playerData) {
         ItemCollection collection = playerData.getItemCollection(collectionName);
         if (collection == null) {
             return false;

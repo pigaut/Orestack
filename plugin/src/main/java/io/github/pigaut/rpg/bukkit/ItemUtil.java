@@ -1,14 +1,9 @@
 package io.github.pigaut.rpg.bukkit;
 
-import com.github.retrooper.packetevents.protocol.attribute.*;
 import io.github.pigaut.rpg.bukkit.attribute.Attributes;
 import io.github.pigaut.rpg.bukkit.material.*;
 import io.github.pigaut.rpg.core.enchant.*;
-import io.github.pigaut.rpg.bukkit.material.*;
-import io.github.pigaut.rpg.core.enchant.*;
 import io.github.pigaut.rpg.server.Server;
-import io.github.pigaut.rpg.server.version.*;
-import io.github.pigaut.rpg.util.reflection.*;
 import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.rpg.util.reflection.*;
 import io.github.pigaut.yaml.util.*;
@@ -24,6 +19,7 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.function.*;
 
 public class ItemUtil {
 
@@ -33,6 +29,24 @@ public class ItemUtil {
 
     public static boolean isNotAir(@NotNull ItemStack item) {
         return MaterialUtil.isNotAir(item.getType());
+    }
+
+    public static double getMiningEfficiencyByType(@NotNull ItemStack item) {
+        return switch (item.getType()) {
+            case WOODEN_AXE, WOODEN_PICKAXE, WOODEN_SHOVEL, WOODEN_HOE -> 2.0;
+            case STONE_AXE, STONE_PICKAXE, STONE_SHOVEL, STONE_HOE -> 4.0;
+            case COPPER_AXE, COPPER_PICKAXE, COPPER_SHOVEL, COPPER_HOE -> 5.0;
+            case IRON_AXE, IRON_PICKAXE, IRON_SHOVEL, IRON_HOE -> 6.0;
+            case GOLDEN_AXE, GOLDEN_PICKAXE, GOLDEN_SHOVEL, GOLDEN_HOE -> 12.0;
+            case DIAMOND_AXE, DIAMOND_PICKAXE, DIAMOND_SHOVEL, DIAMOND_HOE -> 8.0;
+            case NETHERITE_AXE, NETHERITE_PICKAXE, NETHERITE_SHOVEL, NETHERITE_HOE -> 9.0;
+            default -> 0;
+        };
+    }
+
+    public static double getMiningEfficiencyByEnchant(@NotNull ItemStack item) {
+        int efficiencyEnchantLevel = item.getEnchantmentLevel(Enchants.EFFICIENCY);
+        return efficiencyEnchantLevel <= 0 ? 0 : Math.pow(efficiencyEnchantLevel, 2) + 1;
     }
 
     public static double getStatAmount(@NotNull ItemStack item, @NotNull Attribute attribute, double baseValue) {
@@ -123,6 +137,15 @@ public class ItemUtil {
         }
     }
 
+    public static void modifyMeta(@NotNull ItemStack item, @NotNull Consumer<ItemMeta> modifier) {
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            modifier.accept(meta);
+            item.setItemMeta(meta);
+        }
+    }
+
+    // Brain damage
     private static final boolean MAX_DAMAGE_EXISTS = Reflect.onClass(Damageable.class).matchMethod("hasMaxDamage");
 
     public static void damageItem(@NotNull ItemStack item, @NotNull Player player, int amount) {

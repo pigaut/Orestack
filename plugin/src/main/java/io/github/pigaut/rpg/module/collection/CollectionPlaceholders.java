@@ -4,6 +4,7 @@ import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.collection.template.*;
 import io.github.pigaut.rpg.module.collection.tier.*;
 import io.github.pigaut.rpg.player.data.*;
+import io.github.pigaut.rpg.player.data.base.*;
 import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.progressbar.*;
@@ -15,28 +16,28 @@ public class CollectionPlaceholders {
     public static void registerAll(@NotNull RpgMakerPlugin plugin) {
         PlaceholderRegistry placeholders = plugin.getPlaceholders();
 
-        RpgSettings settings = plugin.getSettings();
+        Settings settings = plugin.getSettings();
         ProgressBar collectionProgressBar = settings.getCollectionProgressBar();
 
         placeholders.register("collections_count", context -> {
-            PlayerData playerData = context.playerData();
-            if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
+            EnhancedPlayerData playerData = context.playerData();
+            if (!(playerData instanceof PlayerData rpgPlayerData)) {
                 return null;
             }
             return rpgPlayerData.getItemCollections().size();
         });
 
         placeholders.register("collections_unlocked", context -> {
-            PlayerData playerData = context.playerData();
-            if (!(playerData instanceof RpgPlayerData rpgPlayerData)) {
+            EnhancedPlayerData playerData = context.playerData();
+            if (!(playerData instanceof PlayerData rpgPlayerData)) {
                 return null;
             }
             return rpgPlayerData.getCollectionsUnlocked();
         });
 
         placeholders.register("collections_unlocked_progress", context -> {
-            PlayerData playerData = context.playerData();
-            if (playerData instanceof RpgPlayerData rpgPlayerData) {
+            EnhancedPlayerData playerData = context.playerData();
+            if (playerData instanceof PlayerData rpgPlayerData) {
                 int collectionsUnlocked = rpgPlayerData.getCollectionsUnlocked();
                 int collectionCount = rpgPlayerData.getCollectionCount();
                 return Percentage.asDouble(collectionsUnlocked, collectionCount);
@@ -45,8 +46,8 @@ public class CollectionPlaceholders {
         });
 
         placeholders.register("collections_unlocked_progress_bar", context -> {
-            PlayerData playerData = context.playerData();
-            if (playerData instanceof RpgPlayerData rpgPlayerData) {
+            EnhancedPlayerData playerData = context.playerData();
+            if (playerData instanceof PlayerData rpgPlayerData) {
                 int collectionsUnlocked = rpgPlayerData.getCollectionsUnlocked();
                 int collectionCount = rpgPlayerData.getCollectionCount();
                 int percentage = Percentage.asInteger(collectionsUnlocked, collectionCount);
@@ -59,8 +60,8 @@ public class CollectionPlaceholders {
             String collectionName = collectionTemplate.getName();
 
             placeholders.register(collectionName + "_collection_tier", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                     if (collection != null && collection.isFirstTierUnlocked()) {
                         return collection.getCurrentTier() + 1;
@@ -70,8 +71,8 @@ public class CollectionPlaceholders {
             });
 
             placeholders.register(collectionName + "_collection_next_tier", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                     if (collection != null) {
                         return collection.getNextTier() + 1;
@@ -81,8 +82,8 @@ public class CollectionPlaceholders {
             });
 
             placeholders.register(collectionName + "_collection_amount", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                     if (collection != null) {
                         return collection.getTotalAmount();
@@ -92,8 +93,8 @@ public class CollectionPlaceholders {
             });
 
             placeholders.register(collectionName + "_collection_amount_required", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                     if (collection != null) {
                         return collection.getNextTierAmount();
@@ -103,8 +104,8 @@ public class CollectionPlaceholders {
             });
 
             placeholders.register(collectionName + "_collection_amount_left", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                     if (collection != null) {
                         return collection.getAmountToNextTier();
@@ -114,8 +115,8 @@ public class CollectionPlaceholders {
             });
 
             placeholders.register(collectionName + "_collection_progress", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                     if (collection != null) {
                         return Percentage.asDouble(collection.getTotalAmount(), collection.getNextTierAmount());
@@ -125,8 +126,8 @@ public class CollectionPlaceholders {
             });
 
             placeholders.register(collectionName + "_collection_progress_bar", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                     if (collection != null) {
                         int percentage = Percentage.asInteger(collection.getTotalAmount(), collection.getNextTierAmount());
@@ -137,8 +138,8 @@ public class CollectionPlaceholders {
             });
 
             placeholders.register(collectionName + "_collection_rewards", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                     return collection != null ? collection.getNextTierRewards() : null;
                 }
@@ -160,8 +161,8 @@ public class CollectionPlaceholders {
                 });
 
                 placeholders.register(collectionName + "_collection_tier_" + tier + "_amount_left", context -> {
-                    PlayerData playerData = context.playerData();
-                    if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                    EnhancedPlayerData playerData = context.playerData();
+                    if (playerData instanceof PlayerData rpgPlayerData) {
                         ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                         if (collection != null) {
                             int totalAmount = collection.getTotalAmount();
@@ -172,8 +173,8 @@ public class CollectionPlaceholders {
                 });
 
                 placeholders.register(collectionName + "_collection_tier_" + tier + "_progress", context -> {
-                    PlayerData playerData = context.playerData();
-                    if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                    EnhancedPlayerData playerData = context.playerData();
+                    if (playerData instanceof PlayerData rpgPlayerData) {
                         ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                         if (collection != null) {
                             return Percentage.asDouble(collection.getTotalAmount(), tierUpAmount);
@@ -183,8 +184,8 @@ public class CollectionPlaceholders {
                 });
 
                 placeholders.register(collectionName + "_collection_tier_" + tier + "_progress_bar", context -> {
-                    PlayerData playerData = context.playerData();
-                    if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                    EnhancedPlayerData playerData = context.playerData();
+                    if (playerData instanceof PlayerData rpgPlayerData) {
                         ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                         if (collection != null) {
                             int percentage = Percentage.asInteger(collection.getTotalAmount(), tierUpAmount);
@@ -195,8 +196,8 @@ public class CollectionPlaceholders {
                 });
 
                 placeholders.register(collectionName + "_collection_tier_" + tier + "_rewards", context -> {
-                    PlayerData playerData = context.playerData();
-                    if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                    EnhancedPlayerData playerData = context.playerData();
+                    if (playerData instanceof PlayerData rpgPlayerData) {
                         ItemCollection collection = rpgPlayerData.getItemCollection(collectionName);
                         if (collection != null) {
                             CollectionTier collectionTier = collection.getTier(index);
@@ -210,24 +211,24 @@ public class CollectionPlaceholders {
 
         for (String groupName : plugin.getCollectionTemplates().getAllGroups()) {
             placeholders.register(groupName + "_collections_count", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     return rpgPlayerData.getCollectionCount(groupName);
                 }
                 return null;
             });
 
             placeholders.register(groupName + "_collections_unlocked", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     return rpgPlayerData.getCollectionsUnlocked();
                 }
                 return null;
             });
 
             placeholders.register(groupName + "_collections_unlocked_progress", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     int collectionsUnlocked = rpgPlayerData.getCollectionsUnlocked(groupName);
                     int collectionCount = rpgPlayerData.getCollectionCount(groupName);
                     return Percentage.asDouble(collectionsUnlocked, collectionCount);
@@ -236,8 +237,8 @@ public class CollectionPlaceholders {
             });
 
             placeholders.register(groupName + "_collections_unlocked_progress_bar", context -> {
-                PlayerData playerData = context.playerData();
-                if (playerData instanceof RpgPlayerData rpgPlayerData) {
+                EnhancedPlayerData playerData = context.playerData();
+                if (playerData instanceof PlayerData rpgPlayerData) {
                     int collectionsUnlocked = rpgPlayerData.getCollectionsUnlocked(groupName);
                     int collectionCount = rpgPlayerData.getCollectionCount(groupName);
                     int percentage = Percentage.asInteger(collectionsUnlocked, collectionCount);

@@ -2,10 +2,10 @@
 #░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░█▀▀░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░░░░
 #░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░▀▀█░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░░░░
 #░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀░▀░▀▀░░░░░
+# Opens the collections menu or a collection category
 
 --- #===== Root Command =====#
 command: collections # /collections
-aliases: [ collection ]
 on-execute:
   - openMenu collections
 
@@ -33,6 +33,5 @@ on-execute:
 sub-command: fishing # /collections fishing
 on-execute:
   - openMenu fishing_collections
-
 
 

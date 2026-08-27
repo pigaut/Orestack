@@ -20,6 +20,7 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
+import org.bukkit.inventory.meta.Damageable;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -142,15 +143,24 @@ public class ItemTemplate implements Identifiable {
                 .withItem(item)
                 .build();
 
-        ItemMeta metaTemplate = itemMeta.clone();
-        metaTemplate.removeEnchantments();
+        ItemMeta updatedMeta = itemMeta.clone();
+        updatedMeta.removeEnchantments();
 
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.getEnchants().forEach((enchant, level) -> {
-            metaTemplate.addEnchant(enchant, level, true);
+        ItemMeta oldMeta = item.getItemMeta();
+        if (PersistentData.hasTag(oldMeta, plugin.getItems().getRenamedKey())) {
+            updatedMeta.setDisplayName(oldMeta.getDisplayName());
+        }
+
+        if (oldMeta instanceof Damageable oldDamageable && oldDamageable.hasDamage() &&
+                updatedMeta instanceof Damageable updatedDamageable) {
+            updatedDamageable.setDamage(oldDamageable.getDamage());
+        }
+
+        oldMeta.getEnchants().forEach((enchant, level) -> {
+            updatedMeta.addEnchant(enchant, level, true);
         });
 
-        ItemMeta parsedMeta = PlaceholderUtil.parseAll(context, metaTemplate);
+        ItemMeta parsedMeta = PlaceholderUtil.parseAll(context, updatedMeta);
         item.setItemMeta(parsedMeta);
     }
 
@@ -216,10 +226,6 @@ public class ItemTemplate implements Identifiable {
 
     public @Nullable ToolBreakingPower getBreakingPower() {
         return breakingPower;
-    }
-
-    public int getBreakingPowerAmount() {
-        return breakingPower != null ? breakingPower.getAmount() : plugin.getSettings().getDefaultBreakingPower();
     }
 
     public @Nullable String getRarity() {

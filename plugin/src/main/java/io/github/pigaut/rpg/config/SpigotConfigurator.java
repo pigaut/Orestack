@@ -40,12 +40,8 @@ import org.bukkit.potion.*;
 
 public class SpigotConfigurator extends StandardConfigurator {
 
-    public SpigotConfigurator() {
-        this(true);
-    }
-
     @SuppressWarnings("UnstableApiUsage")
-    public SpigotConfigurator(boolean compact) {
+    public SpigotConfigurator() {
         int serverVersion = Server.getVersion();
 
         addLoader(NamespacedKey.class, new NamespacedKeyLoader());
@@ -55,7 +51,7 @@ public class SpigotConfigurator extends StandardConfigurator {
         addMapper(ItemStack.class, new ItemStackMapper());
 
         addLoader(Location.class, new LocationLoader());
-        addMapper(Location.class, new LocationMapper(compact));
+        addMapper(Location.class, new LocationMapper());
 
         addLoader(CustomAttribute.class, new AttributeLoader());
         addMapper(CustomAttribute.class, new AttributeMapper());

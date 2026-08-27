@@ -13,23 +13,13 @@ public class LongYieldFunction implements YieldFunction<Long> {
 
     private final Function function;
 
-    public LongYieldFunction(Function function) {
+    public LongYieldFunction(@NotNull Function function) {
         this.function = function;
     }
 
     @Override
     public @NotNull FunctionResponse dispatch(@NotNull Context context) {
         return function.dispatch(context);
-    }
-
-    @Override
-    public @NotNull String getName() {
-        return function.getName();
-    }
-
-    @Override
-    public @Nullable String getGroup() {
-        return function.getGroup();
     }
 
     @Override

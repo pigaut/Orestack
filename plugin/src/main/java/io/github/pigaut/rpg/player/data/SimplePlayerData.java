@@ -1,49 +1,22 @@
 package io.github.pigaut.rpg.player.data;
 
+import io.github.pigaut.rpg.module.collection.*;
+import io.github.pigaut.rpg.module.skill.*;
+import io.github.pigaut.rpg.player.data.base.*;
 import org.bukkit.*;
+import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class SimplePlayerData implements PlayerData {
+public class SimplePlayerData extends AbstractPlayerData implements PlayerData {
 
-    private final UUID playerId;
     private Set<NamespacedKey> unlockedRecipes = new HashSet<>();
-
-    private boolean loaded = false;
-    private final List<Runnable> pendingTasks = new ArrayList<>();
+    private Map<String, Skill> skillsByName = new HashMap<>();
+    private Map<String, ItemCollection> itemCollectionsByName = new HashMap<>();
 
     public SimplePlayerData(@NotNull UUID playerId) {
-        this.playerId = playerId;
-    }
-
-    @Override
-    public @NotNull UUID getUniqueId() {
-        return playerId;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
-    }
-
-    public void setLoaded(boolean loaded) {
-        this.loaded = loaded;
-        if (loaded) {
-            for (Runnable pendingTask : pendingTasks) {
-                pendingTask.run();
-            }
-            pendingTasks.clear();
-        }
-    }
-
-    @Override
-    public void runWhenLoaded(@NotNull Runnable task) {
-        if (loaded) {
-            task.run();
-        } else {
-            pendingTasks.add(task);
-        }
+        super(playerId);
     }
 
     @Override
@@ -70,5 +43,138 @@ public class SimplePlayerData implements PlayerData {
         this.unlockedRecipes = new HashSet<>(unlockedRecipes);
     }
 
+    @Override
+    public @NotNull Collection<Skill> getSkills() {
+        if (!isLoaded()) {
+            return List.of();
+        }
+        return new ArrayList<>(skillsByName.values());
+    }
+
+    @Override
+    public @Nullable Skill getSkill(@NotNull String name) {
+        return skillsByName.get(name);
+    }
+
+    @Override
+    public int getSkillCount() {
+        return skillsByName.size();
+    }
+
+    @Override
+    public int getSkillCount(@NotNull String groupName) {
+        int skillCount = 0;
+        for (Skill skill : skillsByName.values()) {
+            String group = skill.getGroup();
+            if (group != null && group.equals(groupName) && skill.isMaxLevel()) {
+                skillCount++;
+            }
+        }
+        return skillCount;
+    }
+
+    @Override
+    public int getSkillsMaxed() {
+        int skillsMaxed = 0;
+        for (Skill skill : skillsByName.values()) {
+            if (skill.isMaxLevel()) {
+                skillsMaxed++;
+            }
+        }
+        return skillsMaxed;
+    }
+
+    @Override
+    public int getSkillsMaxed(@NotNull String groupName) {
+        int skillsMaxed = 0;
+        for (Skill skill : skillsByName.values()) {
+            String group = skill.getGroup();
+            if (group != null && group.equals(groupName) && skill.isMaxLevel()) {
+                skillsMaxed++;
+            }
+        }
+        return skillsMaxed;
+    }
+
+    public @NotNull Collection<ItemCollection> getItemCollections() {
+        if (!isLoaded()) {
+            return List.of();
+        }
+        return new ArrayList<>(itemCollectionsByName.values());
+    }
+
+    public @Nullable ItemCollection getItemCollection(@NotNull String name) {
+        for (ItemCollection collection : itemCollectionsByName.values()) {
+            if (collection.getName().equalsIgnoreCase(name)) {
+                return collection;
+            }
+        }
+        return null;
+    }
+
+    public @Nullable ItemCollection getItemCollection(@NotNull ItemStack item) {
+        for (ItemCollection collection : itemCollectionsByName.values()) {
+            if (collection.matchItem(item)) {
+                return collection;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public int getCollectionCount() {
+        return itemCollectionsByName.size();
+    }
+
+    @Override
+    public int getCollectionCount(@NotNull String groupName) {
+        int collectionCount = 0;
+        for (ItemCollection collection : itemCollectionsByName.values()) {
+            String group = collection.getGroup();
+            if (group != null && group.equals(groupName)) {
+                collectionCount++;
+            }
+        }
+        return collectionCount;
+    }
+
+    @Override
+    public int getCollectionsUnlocked() {
+        int collectionsUnlocked = 0;
+        for (ItemCollection collection : itemCollectionsByName.values()) {
+            if (collection.isUnlocked()) {
+                collectionsUnlocked++;
+            }
+        }
+        return collectionsUnlocked;
+    }
+
+    @Override
+    public int getCollectionsUnlocked(@NotNull String groupName) {
+        int collectionsUnlocked = 0;
+        for (ItemCollection collection : itemCollectionsByName.values()) {
+            String group = collection.getGroup();
+            if (group != null && group.equals(groupName) && collection.isUnlocked()) {
+                collectionsUnlocked++;
+            }
+        }
+        return collectionsUnlocked;
+    }
+
+    public void setItemCollections(@NotNull Set<ItemCollection> itemCollections) {
+        Map<String, ItemCollection> newItemCollectionsByName = new HashMap<>();
+        for (ItemCollection itemCollection : itemCollections) {
+            newItemCollectionsByName.put(itemCollection.getName(), itemCollection);
+        }
+        itemCollectionsByName = newItemCollectionsByName;
+    }
+
+    public void setSkills(@NotNull Set<Skill> skills) {
+        Map<String, Skill> newSkillsByName = new HashMap<>();
+        for (Skill skill : skills) {
+            newSkillsByName.put(skill.getName(), skill);
+        }
+        skillsByName = newSkillsByName;
+    }
 
 }

@@ -16,23 +16,13 @@ public class ExpYieldFunction implements YieldFunction<ExpAmount> {
 
     private final Function function;
 
-    public ExpYieldFunction(Function function) {
+    public ExpYieldFunction(@NotNull Function function) {
         this.function = function;
     }
 
     @Override
     public @NotNull FunctionResponse dispatch(@NotNull Context context) {
         return function.dispatch(context);
-    }
-
-    @Override
-    public @NotNull String getName() {
-        return function.getName();
-    }
-
-    @Override
-    public @Nullable String getGroup() {
-        return function.getGroup();
     }
 
     @Override

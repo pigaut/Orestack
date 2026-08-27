@@ -102,7 +102,7 @@ public class GeneratorPacketEventListener implements PacketListener {
                 return;
             }
 
-            RpgSettings settings = plugin.getSettings();
+            Settings settings = plugin.getSettings();
             if (settings.isVeinMiner()) {
                 int maxVeinSize = settings.getToolMaxVeinSize(player.getInventory().getItemInMainHand());
                 if (maxVeinSize > 1) {

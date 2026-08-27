@@ -17,7 +17,7 @@ public class EntityIsMob implements Condition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Context context) {
+    public @Nullable Boolean isMet(@NotNull Context context) {
         LivingEntity entity = context.enemy();
         if (entity == null) {
             return null;

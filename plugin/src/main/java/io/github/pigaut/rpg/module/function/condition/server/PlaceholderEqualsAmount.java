@@ -21,7 +21,7 @@ public class PlaceholderEqualsAmount implements Condition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Context context) {
+    public @Nullable Boolean isMet(@NotNull Context context) {
         String parsedValue = PlaceholderUtil.parseAll(context, placeholder);
 
         Double parsedAmount = ParseUtil.parseDoubleOrNull(parsedValue);

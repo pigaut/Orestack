@@ -6,16 +6,6 @@ import io.github.pigaut.rpg.module.function.condition.*;
 import io.github.pigaut.rpg.module.function.execute.*;
 import io.github.pigaut.rpg.module.function.foreach.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.module.function.execute.*;
-import io.github.pigaut.rpg.module.function.foreach.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
 import io.github.pigaut.yaml.convert.format.*;
@@ -30,7 +20,7 @@ public class FunctionLoader implements ConfigLoader<Function> {
 
     private final EnhancedPlugin plugin;
 
-    public FunctionLoader(EnhancedPlugin plugin) {
+    public FunctionLoader(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -43,18 +33,18 @@ public class FunctionLoader implements ConfigLoader<Function> {
     public @NotNull Function loadFromScalar(ConfigScalar scalar) throws InvalidConfigException {
         String functionName = scalar.toString(CaseStyle.SNAKE);
 
-        Function function = plugin.getFunction(functionName);
+        Function function = plugin.getGlobalFunction(functionName);
         if (function != null) {
             return function;
         }
 
-        Set<String> functionNames = plugin.getFunctions().getAllExistingNames();
+        Set<String> functionNames = plugin.getGlobalFunctions().getAllExistingNames();
         if (functionNames.contains(functionName)) {
             return new LazyFunction(plugin, functionName);
         }
 
         String actionName = scalar.toString().split(" ")[0];
-        ConfigLoader<? extends Action> actionLoader = plugin.getActionLoader(actionName);
+        ConfigLoader<? extends Action> actionLoader = plugin.getAction(actionName);
         if (actionLoader != null) {
             return new SimpleFunction(actionLoader.loadFromScalar(scalar));
         }
@@ -68,53 +58,44 @@ public class FunctionLoader implements ConfigLoader<Function> {
             return Function.EMPTY;
         }
 
-        String name = StringUtil.randomName();
-        String group = null;
-        if (!section.isRoot() && section.getParent() instanceof ConfigRoot root) {
-            name = section.getKey();
-            group = Group.byFunctionFile(root.getFile());
-        }
-
         if (section.isSet("for|for-each|for each|for-every|for every")) {
-            return new ForEachFunction(name, group,
-                    section.getRequired("for|for-each|for each|for-every|for every", ForEachSource.class),
-                    loadFunction(section, name, group));
+            ForEachSource<?> forEachSource = section.getRequired("for|for-each|for each|for-every|for every", ForEachSource.class);
+            return new ForEachFunction(forEachSource, loadFunction(section));
         }
 
-        return loadFunction(section, name, group);
+        return loadFunction(section);
     }
 
-    private @NotNull Function loadFunction(@NotNull ConfigSection section, @NotNull String name,
-                                           @Nullable String group) throws InvalidConfigException {
+    private @NotNull Function loadFunction(@NotNull ConfigSection section) throws InvalidConfigException {
         Function function;
         if (section.isSet("if|condition|conditions")) {
-            function = new ConditionalFunction(name, group,
+            function = new ConditionalFunction(
                     section.getRequired("if|condition|conditions", Condition.class),
                     section.get("then|do|do-this|do this", Function.class).withDefault(Function.EMPTY),
                     section.get("else|or|or-else|or else", Function.class).withDefault(Function.EMPTY)
             );
         }
         else if (section.isSet("if-not|if not")) {
-            function = new ConditionalFunction(name, group,
+            function = new ConditionalFunction(
                     section.getRequired("if-not|if not", NegativeCondition.class),
                     section.get("then|do|do-this|do this", Function.class).withDefault(Function.EMPTY),
                     section.get("else|or|or-else|or else", Function.class).withDefault(Function.EMPTY)
             );
         }
         else if (section.isSet("if-any|if any")) {
-            function = new ConditionalFunction(name, group,
+            function = new ConditionalFunction(
                     section.getRequired("if-any|if any", DisjunctiveCondition.class),
                     section.get("then|do|do-this|do this", Function.class).withDefault(Function.EMPTY),
                     section.get("else|or|or-else|or else", Function.class).withDefault(Function.EMPTY)
             );
         }
         else if (section.isSet("do|action|actions")) {
-            function = new SimpleFunction(name, group,
+            function = new SimpleFunction(
                     section.getRequired("do|action|actions", Action.class));
         }
         else if (section.isSet("switch")) {
             String conditionName = section.getRequiredString("switch");
-            ConfigLoader<? extends Condition> conditionLoader = plugin.getConditionLoader(conditionName);
+            ConfigLoader<? extends Condition> conditionLoader = plugin.getCondition(conditionName);
             if (conditionLoader == null) {
                 throw new InvalidConfigException(section, "switch", "Could not find condition with name: " + conditionName);
             }
@@ -136,7 +117,7 @@ public class FunctionLoader implements ConfigLoader<Function> {
             Function defaultCase = section.get("default", Function.class)
                     .withDefault(null);
 
-            function = new SwitchFunction(name, group, cases.toArray(new SwitchCase[0]), defaultCase);
+            function = new SwitchFunction(cases, defaultCase);
         }
         else {
             throw new InvalidConfigException(section, "Function doesn't contain any valid statement");
@@ -179,23 +160,16 @@ public class FunctionLoader implements ConfigLoader<Function> {
 
     @Override
     public @NotNull Function loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigException {
-        String functionName = StringUtil.randomName();
-        String functionGroup = null;
-        if (!sequence.isRoot() && sequence.getParent() instanceof ConfigRoot root) {
-            functionName = sequence.getKey();
-            if (root.hasFile()) {
-                functionGroup = Group.byFunctionFile(root.getFile());
-            }
-        }
-
         List<Function> functions = sequence.getAllRequired(Function.class);
         if (functions.isEmpty()) {
             return Function.EMPTY;
         }
+
         if (functions.size() == 1) {
             return functions.get(0);
         }
-        return new MultiFunction(functionName, functionGroup, sequence.getAllRequired(Function.class));
+
+        return new MultiFunction(sequence.getAllRequired(Function.class));
     }
 
 }

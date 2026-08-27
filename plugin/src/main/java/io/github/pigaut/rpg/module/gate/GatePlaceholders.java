@@ -13,7 +13,7 @@ public class GatePlaceholders {
     public static void registerAll(@NotNull RpgMakerPlugin plugin) {
         PlaceholderRegistry placeholders = plugin.getPlaceholders();
 
-        RpgSettings settings = plugin.getSettings();
+        Settings settings = plugin.getSettings();
         placeholders.register("gate", context -> {
             GateTemplate gateTemplate = context.get(GateTemplate.class);
             if (gateTemplate != null) {

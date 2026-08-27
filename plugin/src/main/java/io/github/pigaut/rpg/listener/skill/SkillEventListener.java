@@ -8,20 +8,13 @@ import io.github.pigaut.rpg.module.skill.level.*;
 import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.event.farm.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.event.farm.*;
-import io.github.pigaut.rpg.module.skill.*;
-import io.github.pigaut.rpg.module.skill.exp.*;
-import io.github.pigaut.rpg.module.skill.level.*;
-import io.github.pigaut.rpg.player.data.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
 import org.bukkit.event.enchantment.*;
-import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.*;
 
 public class SkillEventListener implements Listener {
 
@@ -34,7 +27,7 @@ public class SkillEventListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        RpgPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
         playerData.runWhenLoaded(() -> {
             for (Skill skill : playerData.getSkills()) {
                 SkillLevel level = skill.getLevel();
@@ -56,7 +49,7 @@ public class SkillEventListener implements Listener {
         Player player = event.getPlayer();
         Context context = Context.fromPlayerAndBlock(plugin, player, block);
 
-        RpgPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
         for (Skill skill : playerData.getSkills()) {
             ExpYieldFunction blockBreakExp = skill.getBlockBreakExp();
             if (blockBreakExp == null) {
@@ -80,7 +73,7 @@ public class SkillEventListener implements Listener {
 
         int eggs = event.getEgg().getItemStack().getAmount();
 
-        RpgPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
         for (Skill skill : playerData.getSkills()) {
             ExpYieldFunction eggCollectExp = skill.getEggCollectExp();
             if (eggCollectExp == null) {
@@ -102,7 +95,7 @@ public class SkillEventListener implements Listener {
         Player player = event.getPlayer();
         Context context = Context.fromPlayer(plugin, player);
 
-        RpgPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
         for (Skill skill : playerData.getSkills()) {
             ExpYieldFunction milkCowExp = skill.getMilkCowExp();
             if (milkCowExp == null) {
@@ -124,7 +117,7 @@ public class SkillEventListener implements Listener {
         Player player = event.getPlayer();
         Context context = Context.fromPlayer(plugin, player);
 
-        RpgPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
         for (Skill skill : playerData.getSkills()) {
             ExpYieldFunction shearSheepExp = skill.getShearSheepExp();
             if (shearSheepExp == null) {
@@ -146,7 +139,7 @@ public class SkillEventListener implements Listener {
         Player player = event.getEnchanter();
         Context context = Context.fromPlayer(plugin, player);
 
-        RpgPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
         for (Skill skill : playerData.getSkills()) {
             ExpYieldFunction enchantItemExp = skill.getEnchantItemExp();
             if (enchantItemExp == null) {
@@ -170,7 +163,7 @@ public class SkillEventListener implements Listener {
 
         int amount = event.getAmount();
 
-        RpgPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
         for (Skill skill : playerData.getSkills()) {
             ExpYieldFunction brewPotionExp = skill.getBrewPotionExp();
             if (brewPotionExp == null) {
@@ -192,7 +185,7 @@ public class SkillEventListener implements Listener {
         Player player = event.getPlayer();
         Context context = Context.fromPlayerAndEntity(plugin, player, event.getEntity());
 
-        RpgPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
         for (Skill skill : playerData.getSkills()) {
             ExpYieldFunction entityKillExp = skill.getEntityKillExp();
             if (entityKillExp == null) {
@@ -209,16 +202,37 @@ public class SkillEventListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerFish(PlayerFishEvent event) {
         if (event.getState() != PlayerFishEvent.State.CAUGHT_FISH) {
             return;
         }
 
         Player player = event.getPlayer();
-        Entity item = event.getCaught();
+        Entity caught = event.getCaught();
 
-        Context context = Context.fromPlayerAndItem(plugin, player, item.getI);
+        if (!(caught instanceof Item caughtItem)) {
+            return;
+        }
+
+        ItemStack item = caughtItem.getItemStack();
+        Context context = Context.fromPlayerAndItem(plugin, player, item);
+
+        PlayerData playerData = plugin.getPlayerData(player);
+        for (Skill skill : playerData.getSkills()) {
+            ExpYieldFunction entityKillExp = skill.getFishCatchExp();
+            if (entityKillExp == null) {
+                continue;
+            }
+
+            ExpAmount expAmount = entityKillExp.yield(context);
+            if (expAmount == null) {
+                continue;
+            }
+
+            int totalExp = expAmount.intValue();
+            skill.increaseExp(context, totalExp * item.getAmount());
+        }
 
     }
 

@@ -9,12 +9,6 @@ import org.snakeyaml.engine.v2.common.*;
 
 public class LocationMapper implements ConfigMapper<Location> {
 
-    private final boolean compact;
-
-    public LocationMapper(boolean compact) {
-        this.compact = compact;
-    }
-
     @Override
     public @NotNull FieldType getDefaultMappingType() {
         return FieldType.SEQUENCE;
@@ -22,7 +16,7 @@ public class LocationMapper implements ConfigMapper<Location> {
 
     @Override
     public void mapToSequence(@NotNull ConfigSequence sequence, @NotNull Location location) {
-        final World world = location.getWorld();
+        World world = location.getWorld();
         if (world != null) {
             sequence.add(world.getName());
         }
@@ -31,21 +25,19 @@ public class LocationMapper implements ConfigMapper<Location> {
         sequence.add(location.getY());
         sequence.add(location.getZ());
 
-        final float yaw = location.getYaw();
-        final double pitch = location.getPitch();
+        float yaw = location.getYaw();
+        double pitch = location.getPitch();
 
         if (yaw != 0 || pitch != 0) {
             sequence.add(yaw);
             sequence.add(pitch);
         }
 
-        if (compact) {
-            sequence.setFlowStyle(FlowStyle.FLOW);
-        }
+        sequence.setFlowStyle(FlowStyle.FLOW);
     }
 
     @Override
-    public void mapToSection(ConfigSection section, Location location) {
+    public void mapToSection(@NotNull ConfigSection section, Location location) {
         World world = location.getWorld();
 
         if (world != null) {
@@ -66,9 +58,7 @@ public class LocationMapper implements ConfigMapper<Location> {
             section.set("pitch", pitch);
         }
 
-        if (compact) {
-            section.setFlowStyle(FlowStyle.FLOW);
-        }
+        section.setFlowStyle(FlowStyle.FLOW);
     }
 
 }

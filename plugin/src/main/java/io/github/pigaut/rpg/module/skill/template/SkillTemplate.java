@@ -38,6 +38,7 @@ public class SkillTemplate implements Identifiable {
     private final @Nullable ExpYieldFunction shearSheepExp;
     private final @Nullable ExpYieldFunction enchantItemExp;
     private final @Nullable ExpYieldFunction brewPotionExp;
+    private final @Nullable ExpYieldFunction fishCatchExp;
 
     public SkillTemplate(@NotNull String name, @Nullable String group,
                          @NotNull ItemStack icon, List<String> description,
@@ -47,7 +48,7 @@ public class SkillTemplate implements Identifiable {
                          @Nullable ExpYieldFunction blockBreakExp, @Nullable ExpYieldFunction entityKillExp,
                          @Nullable ExpYieldFunction eggCollectExp, @Nullable ExpYieldFunction milkCowExp,
                          @Nullable ExpYieldFunction shearSheepExp, @Nullable ExpYieldFunction enchantItemExp,
-                         @Nullable ExpYieldFunction brewPotionExp) {
+                         @Nullable ExpYieldFunction brewPotionExp, @Nullable ExpYieldFunction fishCatchExp) {
         this.name = name;
         this.group = group;
         this.icon = icon;
@@ -65,6 +66,7 @@ public class SkillTemplate implements Identifiable {
         this.shearSheepExp = shearSheepExp;
         this.enchantItemExp = enchantItemExp;
         this.brewPotionExp = brewPotionExp;
+        this.fishCatchExp = fishCatchExp;
     }
 
     public @NotNull String getName() {
@@ -143,6 +145,10 @@ public class SkillTemplate implements Identifiable {
 
     public @Nullable ExpYieldFunction getBrewPotionExp() {
         return brewPotionExp;
+    }
+
+    public @Nullable ExpYieldFunction getFishCatchExp() {
+        return fishCatchExp;
     }
 
     public long getExpRequiredForLevel(int level) {

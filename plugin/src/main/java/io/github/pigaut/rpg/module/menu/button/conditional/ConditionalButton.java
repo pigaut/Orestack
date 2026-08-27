@@ -2,11 +2,10 @@ package io.github.pigaut.rpg.module.menu.button.conditional;
 
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.menu.button.*;
+import io.github.pigaut.rpg.core.menu.template.button.*;
+import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.module.menu.button.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.module.function.condition.*;
+import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.rpg.module.menu.button.*;
 import org.jetbrains.annotations.*;
 
@@ -25,10 +24,16 @@ public class ConditionalButton implements ButtonTemplate {
 
     @Override
     public @NotNull Button createButton(@NotNull Context context) {
-        if (condition.isMet(context)) {
+        FunctionResponse response = condition.evaluate(context);
+        if (response == FunctionResponse.MET) {
             return metButton;
         }
-        return unmetButton;
+
+        if (response == FunctionResponse.UNMET) {
+            return unmetButton;
+        }
+
+        return Buttons.INVALID_CONDITION;
     }
 
     public @NotNull Condition getCondition() {

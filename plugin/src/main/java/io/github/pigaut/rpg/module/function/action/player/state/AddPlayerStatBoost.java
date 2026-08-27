@@ -30,7 +30,7 @@ public class AddPlayerStatBoost implements PlayerStateAction {
     public void execute(@NotNull Player player, @NotNull PlayerState playerState) {
         PlayerStat playerStat = playerState.getStat(stat);
         if (playerStat != null) {
-            String id = this.id != null ? this.id : StringUtil.randomName();
+            String id = this.id != null ? this.id : StringUtil.generateRandomName();
             playerStat.setBoost(id, modifier);
             plugin.getScheduler().runTaskLater(duration.toTicks(), () -> {
                 playerStat.removeBoost(id);

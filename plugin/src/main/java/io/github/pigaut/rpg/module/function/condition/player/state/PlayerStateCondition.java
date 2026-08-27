@@ -14,7 +14,7 @@ public interface PlayerStateCondition extends Condition {
     @Nullable Boolean evaluate(@NotNull PlayerState playerState);
 
     @Override
-    default @Nullable Boolean evaluate(@NotNull Context context) {
+    default @Nullable Boolean isMet(@NotNull Context context) {
         PlayerState playerState = context.playerState();
         return playerState != null ? evaluate(playerState) : null;
     }

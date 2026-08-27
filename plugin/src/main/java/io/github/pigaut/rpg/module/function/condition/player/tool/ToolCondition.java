@@ -12,7 +12,7 @@ public interface ToolCondition extends Condition {
     @Nullable Boolean evaluate(@NotNull ItemStack tool);
 
     @Override
-    default @Nullable Boolean evaluate(@NotNull Context context) {
+    default @Nullable Boolean isMet(@NotNull Context context) {
         ItemStack tool = context.tool();
         return tool != null ? evaluate(tool) : null;
     }

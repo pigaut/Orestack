@@ -6,10 +6,6 @@ import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.hologram.*;
 import io.github.pigaut.rpg.core.hologram.style.*;
 import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.hologram.*;
-import io.github.pigaut.rpg.core.hologram.style.*;
-import io.github.pigaut.rpg.util.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
@@ -24,7 +20,7 @@ public class FancyItemHologram implements Hologram {
     private final de.oliver.fancyholograms.api.hologram.Hologram hologram;
 
     public FancyItemHologram(@NotNull HologramStyle style, @NotNull Location location, @NotNull ItemStack item) {
-        this.name = StringUtil.randomName();
+        this.name = StringUtil.generateRandomName();
 
         LocationUtil.setDefaultWorldIfMissing(location);
         location.subtract(0, 0.2, 0);

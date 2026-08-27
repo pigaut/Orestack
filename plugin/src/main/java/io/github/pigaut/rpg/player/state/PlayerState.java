@@ -1,12 +1,13 @@
 package io.github.pigaut.rpg.player.state;
 
 import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.flag.*;
+import io.github.pigaut.rpg.core.protagonist.*;
 import io.github.pigaut.rpg.core.menu.*;
 import io.github.pigaut.rpg.module.mob.Mob;
 import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.rpg.player.input.*;
 import io.github.pigaut.rpg.module.stat.*;
+import io.github.pigaut.rpg.player.state.base.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.yaml.convert.parse.*;
@@ -17,21 +18,21 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public interface PlayerState extends FlagHolder {
+public interface PlayerState extends EnhancedPlayerState, FlagHolder, CooldownHolder {
 
     @NotNull
     EnhancedPlugin getPlugin();
 
-    @NotNull
-    PlayerData getPlayerData();
+    @Override
+    @NotNull PlayerData getPlayerData();
 
-    UUID getUniqueId();
+    @NotNull UUID getUniqueId();
 
-    String getName();
+    @NotNull String getName();
 
-    Player asPlayer();
+    @Nullable Player asPlayer();
 
-    OfflinePlayer asOfflinePlayer();
+    @Nullable OfflinePlayer asOfflinePlayer();
 
     void sendRawMessage(String message);
 
@@ -126,6 +127,8 @@ public interface PlayerState extends FlagHolder {
     void sendActionBar(@NotNull String message, @NotNull BarAlignment align);
 
     void sendActionBar(@NotNull String message);
+
+    void reloadStats();
 
     void refreshStats();
 

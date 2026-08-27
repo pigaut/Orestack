@@ -29,7 +29,6 @@ public class PluginBootstrap {
     private final PluginLogger logger;
 
     private final Set<BootPhase> missingStartupRequirements = new HashSet<>();
-    private final List<Runnable> startupTasks = new ArrayList<>();
     private final List<ErrorCollector> startupErrors = new ArrayList<>();
     private final List<Manager> loadedManagers = new ArrayList<>();
 
@@ -109,10 +108,6 @@ public class PluginBootstrap {
         }
     }
 
-    public void registerStartupTask(@NotNull Runnable startupTask) {
-        startupTasks.add(startupTask);
-    }
-
     public void markReady(@NotNull BootPhase bootPhase) {
         missingStartupRequirements.remove(bootPhase);
         if (missingStartupRequirements.isEmpty()) {
@@ -122,6 +117,7 @@ public class PluginBootstrap {
 
     public void startup() {
         Preconditions.checkState(missingStartupRequirements.isEmpty(), "Cannot startup plugin because not all startup requirements are met.");
+        plugin.onPreStartup();
 
         metrics = PluginSetup.createMetrics(plugin);
         updateChecker = PluginSetup.createUpdateChecker(plugin);
@@ -153,10 +149,6 @@ public class PluginBootstrap {
                 });
                 loadedManagers.add(manager);
                 logger.info("Startup progress: " + Percentage.asInteger(loadedManagers.size(), pluginManagers.size()) + "%");
-            }
-
-            for (Runnable startupTask : startupTasks) {
-                startupTask.run();
             }
 
             LifecycleLog.startup(plugin, startupErrors);
@@ -234,13 +226,9 @@ public class PluginBootstrap {
                 LifecycleLog.reload(plugin, errorCollector);
                 onReloadComplete.accept(errorCollector);
 
-                plugin.onReload();
                 plugin.setReloading(false);
+                plugin.onReload();
             });
-
-            for (Runnable startupTask : startupTasks) {
-                startupTask.run();
-            }
         });
     }
 
