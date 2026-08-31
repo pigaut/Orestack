@@ -1,6 +1,7 @@
-package io.github.pigaut.rpg.module.function.action.system;
+package io.github.pigaut.rpg.module.function.action.registry;
 
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.action.system.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.convert.parse.*;
 import org.jetbrains.annotations.*;

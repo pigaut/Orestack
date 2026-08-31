@@ -1,17 +1,15 @@
-package io.github.pigaut.rpg.module.function.action.server;
+package io.github.pigaut.rpg.module.function.action.registry;
 
 import io.github.pigaut.rpg.core.drop.*;
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.function.action.block.*;
 import io.github.pigaut.rpg.module.function.action.player.*;
+import io.github.pigaut.rpg.module.function.action.server.*;
 import io.github.pigaut.rpg.module.particle.*;
 import io.github.pigaut.rpg.module.sound.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
-import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
-import io.github.pigaut.yaml.configurator.load.*;
-import io.github.pigaut.yaml.convert.parse.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 

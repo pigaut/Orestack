@@ -1,8 +1,8 @@
 package io.github.pigaut.rpg.hook.auraskill;
 
 import dev.aurelium.auraskills.api.skill.*;
-import io.github.pigaut.rpg.config.*;
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.action.registry.*;
 import io.github.pigaut.rpg.module.function.condition.*;
 import io.github.pigaut.rpg.module.function.condition.config.*;
 import io.github.pigaut.rpg.server.*;

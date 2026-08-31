@@ -17,6 +17,7 @@ import io.github.pigaut.rpg.module.collection.template.*;
 import io.github.pigaut.rpg.module.command.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.action.registry.*;
 import io.github.pigaut.rpg.module.function.condition.*;
 import io.github.pigaut.rpg.module.function.condition.config.*;
 import io.github.pigaut.rpg.module.function.execute.*;

@@ -1,8 +1,9 @@
-package io.github.pigaut.rpg.module.function.action.player;
+package io.github.pigaut.rpg.module.function.action.registry;
 
 import io.github.pigaut.rpg.core.drop.*;
 import io.github.pigaut.rpg.hook.*;
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.action.player.*;
 import io.github.pigaut.rpg.module.function.action.player.ability.*;
 import io.github.pigaut.rpg.module.function.action.player.state.*;
 import io.github.pigaut.rpg.module.message.*;

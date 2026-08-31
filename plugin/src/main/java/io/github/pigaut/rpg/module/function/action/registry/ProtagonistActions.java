@@ -1,6 +1,7 @@
-package io.github.pigaut.rpg.module.function.action.protagonist;
+package io.github.pigaut.rpg.module.function.action.registry;
 
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.action.protagonist.*;
 import io.github.pigaut.rpg.module.particle.*;
 import io.github.pigaut.rpg.module.sound.*;
 import io.github.pigaut.rpg.plugin.*;
@@ -22,6 +23,7 @@ public class ProtagonistActions {
         actions.addLoader("PLAY_SOUND_AT_PROTAGONIST", (ConfigLoader.Line<Action>) line ->
                 new PlaySoundAtProtagonist(line.getRequired(1, SoundEffect.class)));
 
+        actions.addAliases("DAMAGE_ENEMY", "DAMAGE_ENTITY", "DAMAGE_TARGET", "DAMAGE_VICTIM");
     }
 
 }

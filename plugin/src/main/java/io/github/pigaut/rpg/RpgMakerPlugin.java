@@ -18,6 +18,9 @@ import io.github.pigaut.rpg.hook.plotsquared.*;
 import io.github.pigaut.rpg.listener.player.PlayerChunkLoadListener;
 import io.github.pigaut.rpg.listener.skill.*;
 import io.github.pigaut.rpg.module.collection.*;
+import io.github.pigaut.rpg.module.function.action.block.*;
+import io.github.pigaut.rpg.module.function.action.event.*;
+import io.github.pigaut.rpg.module.function.action.registry.*;
 import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.module.gate.tool.*;
 import io.github.pigaut.rpg.module.generator.*;
@@ -67,6 +70,17 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
 
     @Override
     public void onPreStartup() {
+        SystemActions.registerAll(this);
+        ServerActions.registerAll(this);
+        EventActions.registerAll(this);
+        BlockActions.registerAll(this);
+        ProtagonistActions.registerAll(this);
+        PlayerActions.registerAll(this);
+        MobActions.registerAll(this);
+        ItemActions.registerAll(this);
+        MenuActions.registerAll(this);
+        RecipeActions.registerAll(this);
+
         DynamicIconRegistry dynamicIcons = getDynamicIcons();
         dynamicIcons.register("player_head", (item, context) -> {
             Player player = context.player();

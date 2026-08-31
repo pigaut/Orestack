@@ -1,9 +1,9 @@
-package io.github.pigaut.rpg.module.function.action.menu;
+package io.github.pigaut.rpg.module.function.action.registry;
 
 import io.github.pigaut.rpg.core.menu.atlas.*;
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.action.menu.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.yaml.*;
 import org.jetbrains.annotations.*;
 import static io.github.pigaut.yaml.configurator.load.ConfigLoader.Line;
 

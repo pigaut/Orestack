@@ -22,6 +22,7 @@ import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.function.action.collection.*;
 import io.github.pigaut.rpg.module.function.action.menu.*;
+import io.github.pigaut.rpg.module.function.action.registry.*;
 import io.github.pigaut.rpg.module.function.condition.*;
 import io.github.pigaut.rpg.module.function.condition.collection.*;
 import io.github.pigaut.rpg.module.function.condition.config.*;

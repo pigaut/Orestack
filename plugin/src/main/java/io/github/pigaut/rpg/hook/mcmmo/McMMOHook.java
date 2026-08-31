@@ -1,8 +1,8 @@
 package io.github.pigaut.rpg.hook.mcmmo;
 
 import com.gmail.nossr50.datatypes.skills.*;
-import io.github.pigaut.rpg.config.*;
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.action.registry.*;
 import io.github.pigaut.rpg.module.function.condition.*;
 import io.github.pigaut.rpg.module.function.condition.config.*;
 import io.github.pigaut.rpg.server.*;

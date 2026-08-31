@@ -1,6 +1,7 @@
-package io.github.pigaut.rpg.module.function.action.recipe;
+package io.github.pigaut.rpg.module.function.action.registry;
 
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.action.recipe.*;
 import io.github.pigaut.rpg.module.recipe.*;
 import io.github.pigaut.rpg.plugin.*;
 import org.jetbrains.annotations.*;

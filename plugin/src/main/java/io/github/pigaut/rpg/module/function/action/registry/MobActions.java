@@ -1,15 +1,12 @@
-package io.github.pigaut.rpg.module.function.action.mob;
+package io.github.pigaut.rpg.module.function.action.registry;
 
 import io.github.pigaut.rpg.core.drop.*;
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.action.mob.*;
 import io.github.pigaut.rpg.module.function.action.mob.flag.*;
-import io.github.pigaut.rpg.module.function.action.protagonist.*;
-import io.github.pigaut.rpg.module.function.action.player.ability.*;
-import io.github.pigaut.rpg.module.function.action.player.state.*;
 import io.github.pigaut.rpg.module.particle.*;
 import io.github.pigaut.rpg.module.sound.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.delay.*;
 import org.jetbrains.annotations.*;
@@ -60,7 +57,6 @@ public class MobActions {
         actions.addLoader("PLAY_SOUND_AT_MOB", (Line<Action>) line ->
                 new PlaySoundAtMob(line.getRequired(1, SoundEffect.class)));
 
-        actions.addAliases("DAMAGE_ENEMY", "DAMAGE_ENTITY", "DAMAGE_TARGET", "DAMAGE_VICTIM");
         actions.addAliases("DAMAGE_MOB_TARGET", "DAMAGE_MOB_ENEMY", "DAMAGE_MOB_VICTIM");
         actions.addAliases("DROP_ITEM_AT_MOB", "DROP_AT_MOB");
         actions.addAliases("DROP_ITEM_AT_LAST_DAMAGER", "DROP_AT_LAST_DAMAGER");
