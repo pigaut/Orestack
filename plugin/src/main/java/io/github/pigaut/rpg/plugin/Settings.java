@@ -8,6 +8,8 @@ import io.github.pigaut.rpg.core.hologram.style.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.placeholder.settings.*;
 import io.github.pigaut.rpg.core.progressbar.*;
+import io.github.pigaut.rpg.event.drop.*;
+import io.github.pigaut.rpg.module.collection.settings.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.gate.settings.*;
@@ -48,8 +50,8 @@ import java.util.*;
 import java.util.regex.*;
 
 public class Settings implements ConfigBacked, GameplaySettings, DropSettings, ItemSettings,
-        StatSettings, SkillSettings, GeneratorSettings, GateSettings, StructureSettings,
-        PlaceholderSettings {
+        StatSettings, SkillSettings, CollectionSettings, GeneratorSettings, GateSettings,
+        StructureSettings, PlaceholderSettings {
 
     protected final EnhancedPlugin plugin;
 
@@ -58,6 +60,7 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     private final ItemConfigSettings itemSettings;
     private final StatConfigSettings statSettings;
     private final SkillConfigSettings skillSettings;
+    private final CollectionConfigSettings collectionSettings;
     private final GeneratorConfigSettings generatorSettings;
     private final GateConfigSettings gateSettings;
     private final StructureConfigSettings structureSettings;
@@ -110,6 +113,7 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
         this.itemSettings = new ItemConfigSettings(plugin);
         this.statSettings = new StatConfigSettings(plugin);
         this.skillSettings = new SkillConfigSettings(plugin);
+        this.collectionSettings = new CollectionConfigSettings(plugin);
         this.generatorSettings = new GeneratorConfigSettings(plugin);
         this.gateSettings = new GateConfigSettings(plugin);
         this.structureSettings = new StructureConfigSettings(plugin);
@@ -274,6 +278,7 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
         itemSettings.loadConfiguration(config);
         statSettings.loadConfiguration(config);
         skillSettings.loadConfiguration(config);
+        collectionSettings.loadConfiguration(config);
         generatorSettings.loadConfiguration(config);
         gateSettings.loadConfiguration(config);
         structureSettings.loadConfiguration(config);
@@ -492,8 +497,13 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     }
 
     @Override
-    public @NotNull ItemDropTarget getDefaultItemDropTarget() {
-        return dropSettings.getDefaultItemDropTarget();
+    public @NotNull List<DropLocation> getItemDropLocationPriority() {
+        return dropSettings.getItemDropLocationPriority();
+    }
+
+    @Override
+    public @NotNull List<DropLocation> getExpDropLocationPriority() {
+        return dropSettings.getExpDropLocationPriority();
     }
 
     @Override
@@ -962,22 +972,22 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     }
 
     @Override
-    public int getGeneratorHitCooldown() {
+    public @NotNull Delay getGeneratorHitCooldown() {
         return generatorSettings.getGeneratorHitCooldown();
     }
 
     @Override
-    public int getGeneratorClickCooldown() {
+    public @NotNull Delay getGeneratorClickCooldown() {
         return generatorSettings.getGeneratorClickCooldown();
     }
 
     @Override
-    public int getGeneratorHarvestCooldown() {
+    public @NotNull Delay getGeneratorHarvestCooldown() {
         return generatorSettings.getGeneratorHarvestCooldown();
     }
 
     @Override
-    public int getGateClickCooldown() {
+    public @NotNull Delay getGateClickCooldown() {
         return gateSettings.getGateClickCooldown();
     }
 
@@ -1019,6 +1029,21 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     @Override
     public double getStructureDamage(@NotNull Player player, @NotNull Block block) {
         return structureSettings.getStructureDamage(player, block);
+    }
+
+    @Override
+    public @NotNull Set<ItemSpawnReason> getCollectionSources() {
+        return collectionSettings.getCollectionSources();
+    }
+
+    @Override
+    public boolean isCollectionSourceEnabled(@NotNull ItemSpawnReason source) {
+        return collectionSettings.isCollectionSourceEnabled(source);
+    }
+
+    @Override
+    public @NotNull ProgressBar getCollectionProgressBar() {
+        return collectionSettings.getCollectionProgressBar();
     }
 
 }

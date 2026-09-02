@@ -1,17 +1,12 @@
 package io.github.pigaut.rpg.module.item;
 
+import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.enchant.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.module.item.power.*;
 import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.enchant.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.module.stat.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.enchantments.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
@@ -57,6 +52,14 @@ public class ItemPlaceholders {
             }
             ItemMeta meta = item.getItemMeta();
             return meta != null ? meta.getDisplayName() : null;
+        });
+
+        placeholders.register(prefix + "_creator", context -> {
+            ItemStack item = resolver.apply(context);
+            if (item == null || !item.hasItemMeta()) {
+                return null;
+            }
+            return PersistentData.getString(item.getItemMeta(), plugin.getItems().getCreatorKey());
         });
 
         placeholders.register(prefix + "_uses", context -> {

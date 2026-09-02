@@ -5,7 +5,7 @@ import io.github.pigaut.rpg.module.mob.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
 
-public class HealMob implements MobAction {
+public class HealMob implements MobAction.Executor {
 
     private final @Nullable Amount amount;
 

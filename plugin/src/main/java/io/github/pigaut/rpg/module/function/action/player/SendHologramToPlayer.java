@@ -14,7 +14,7 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class SendHologramToPlayer implements Action {
+public class SendHologramToPlayer implements Action.Executor {
 
     private final Message hologram;
 

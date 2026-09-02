@@ -10,6 +10,10 @@ public interface FunctionResponse {
     FunctionResponse STOP = () -> ResponseType.STOP;
     FunctionResponse ERROR = () -> ResponseType.ERROR;
 
+    static FunctionResponse met(boolean met) {
+        return met ? MET : UNMET;
+    }
+
     ResponseType getType();
 
 }

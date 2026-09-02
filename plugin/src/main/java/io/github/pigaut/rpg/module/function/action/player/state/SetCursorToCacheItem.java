@@ -6,7 +6,7 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
-public class SetCursorToCacheItem implements PlayerStateAction {
+public class SetCursorToCacheItem implements PlayerStateAction.Executor {
 
     private final String name;
 

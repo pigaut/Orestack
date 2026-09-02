@@ -7,6 +7,7 @@ import io.github.pigaut.rpg.core.hologram.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.structure.*;
 import io.github.pigaut.yaml.amount.*;
+import io.github.pigaut.yaml.delay.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -25,9 +26,9 @@ public class GeneratorPhase {
     private final @Nullable Double growthChance;
     private final @Nullable Double health;
     private final boolean damageOverflow;
-    private final int clickCooldown;
-    private final int hitCooldown;
-    private final int harvestCooldown;
+    private final Delay clickCooldown;
+    private final Delay hitCooldown;
+    private final Delay harvestCooldown;
     private final @Nullable HologramTemplate hologramTemplate;
     private final @Nullable Function onBreak;
     private final @Nullable Function onGrowth;
@@ -38,7 +39,7 @@ public class GeneratorPhase {
 
     public GeneratorPhase(@NotNull GrowthState state, @NotNull StructureTemplate structure, List<Material> decorativeBlocks,
                           boolean dropItems, boolean dropExp, Amount toolDamage, boolean idle, int growthTime, @Nullable Double growthChance,
-                          @Nullable Double health, boolean damageOverflow, int clickCooldown, int hitCooldown, int harvestCooldown,
+                          @Nullable Double health, boolean damageOverflow, Delay clickCooldown, Delay hitCooldown, Delay harvestCooldown,
                           @Nullable HologramTemplate hologramTemplate, @Nullable Function onBreak, @Nullable Function onGrowth,
                           @Nullable Function onClick, @Nullable Function onHit, @Nullable Function onHarvest, @Nullable Function onDestroy) {
         this.state = state;
@@ -100,15 +101,15 @@ public class GeneratorPhase {
         return damageOverflow;
     }
 
-    public int getClickCooldown() {
+    public @NotNull Delay getClickCooldown() {
         return clickCooldown;
     }
 
-    public int getHarvestCooldown() {
+    public @NotNull Delay getHarvestCooldown() {
         return harvestCooldown;
     }
 
-    public int getHitCooldown() {
+    public @NotNull Delay getHitCooldown() {
         return hitCooldown;
     }
 

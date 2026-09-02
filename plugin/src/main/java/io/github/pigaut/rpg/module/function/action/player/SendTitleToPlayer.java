@@ -8,7 +8,7 @@ import io.github.pigaut.rpg.plugin.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class SendTitleToPlayer implements Action {
+public class SendTitleToPlayer implements Action.Executor {
 
     private final Message title;
 

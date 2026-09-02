@@ -6,6 +6,7 @@ import io.github.pigaut.rpg.module.structure.*;
 import io.github.pigaut.rpg.core.hologram.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.structure.*;
+import io.github.pigaut.yaml.delay.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
@@ -18,7 +19,7 @@ public class GatePhase {
     private final int openingDelay;
     private final int closingDelay;
     private final Double maxHealth;
-    private final int clickCooldown;
+    private final Delay clickCooldown;
     private final @Nullable HologramTemplate openingHologram;
     private final @Nullable HologramTemplate closingHologram;
     private final @Nullable Function onBreak;
@@ -31,7 +32,7 @@ public class GatePhase {
     private final @Nullable Function onDestroy;
 
     public GatePhase(@NotNull StructureTemplate structureTemplate, List<Material> decorativeBlocks,
-                     int openingDelay, int closingDelay, Double health, int clickCooldown,
+                     int openingDelay, int closingDelay, Double health, Delay clickCooldown,
                      @Nullable HologramTemplate openingHologram, @Nullable HologramTemplate closingHologram, @Nullable Function onBreak,
                      @Nullable Function onTransition, @Nullable Function onOpening, @Nullable Function onClosing,
                      @Nullable Function onClick, @Nullable Function onLeftClick, @Nullable Function onRightClick,
@@ -62,7 +63,7 @@ public class GatePhase {
         return new ArrayList<>(decorativeBlocks);
     }
 
-    public int getClickCooldown() {
+    public @NotNull Delay getClickCooldown() {
         return clickCooldown;
     }
 

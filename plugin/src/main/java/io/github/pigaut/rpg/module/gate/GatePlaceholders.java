@@ -3,9 +3,9 @@ package io.github.pigaut.rpg.module.gate;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.gate.template.*;
 import io.github.pigaut.rpg.module.structure.health.*;
-import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.progressbar.*;
+import io.github.pigaut.rpg.plugin.*;
 import org.jetbrains.annotations.*;
 
 public class GatePlaceholders {

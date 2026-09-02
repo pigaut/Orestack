@@ -6,7 +6,7 @@ import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class HealPlayer implements PlayerAction {
+public class HealPlayer implements PlayerAction.Executor {
 
     private final Amount amount;
 

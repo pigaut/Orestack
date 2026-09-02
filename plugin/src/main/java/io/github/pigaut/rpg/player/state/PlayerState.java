@@ -189,12 +189,6 @@ public interface PlayerState extends EnhancedPlayerState, FlagHolder, CooldownHo
     // Use getStatDisplayAmount to get the visual stat amount to show players
     int getRawMiningSpeed();
 
-    boolean hasCooldown(@NotNull String name);
-
-    void addCooldown(@NotNull String name, int ticksDuration);
-
-    void removeCooldown(@NotNull String name);
-
     long getLastDamageTime();
 
     void setLastDamageTime(long time);

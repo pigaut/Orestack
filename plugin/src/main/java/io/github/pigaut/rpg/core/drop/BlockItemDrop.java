@@ -4,19 +4,12 @@ import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.event.drop.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.event.drop.*;
-import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
-
-import java.util.*;
 
 public class BlockItemDrop extends ItemDrop {
 

@@ -14,7 +14,7 @@ public class ItemDropLoader implements ConfigLoader.Line<ItemDrop> {
 
     private final EnhancedPlugin plugin;
 
-    public ItemDropLoader(EnhancedPlugin plugin) {
+    public ItemDropLoader(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 

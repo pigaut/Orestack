@@ -2,10 +2,12 @@ package io.github.pigaut.rpg.hook.mcmmo;
 
 import com.gmail.nossr50.datatypes.player.*;
 import com.gmail.nossr50.datatypes.skills.*;
+import io.github.pigaut.rpg.core.context.*;
+import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
 
-public class HasMcMMOLevel implements McMMOPlayerCondition {
+public class HasMcMMOLevel implements McMMOPlayerCondition.Predicate {
 
     private final Amount levelAmount;
     private final PrimarySkillType skill;
@@ -16,7 +18,7 @@ public class HasMcMMOLevel implements McMMOPlayerCondition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull McMMOPlayer player) {
+    public boolean test(@NotNull McMMOPlayer player) {
         return levelAmount.match(player.getSkillLevel(skill));
     }
 

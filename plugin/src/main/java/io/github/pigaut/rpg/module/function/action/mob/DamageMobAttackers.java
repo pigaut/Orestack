@@ -5,7 +5,7 @@ import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class DamageMobAttackers implements MobAction {
+public class DamageMobAttackers implements MobAction.Executor {
 
     private final Amount amount;
 

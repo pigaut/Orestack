@@ -10,10 +10,10 @@ import java.util.*;
 
 public class MultiAction implements Action {
 
-    private final List<Action> actions;
+    private final Action[] actions;
 
-    public MultiAction(@NotNull List<@NotNull Action> actions) {
-        this.actions = actions;
+    public MultiAction(@NotNull Collection<Action> actions) {
+        this.actions = actions.toArray(new Action[0]);
     }
 
     @Override

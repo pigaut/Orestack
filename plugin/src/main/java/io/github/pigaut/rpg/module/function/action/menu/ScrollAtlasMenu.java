@@ -11,7 +11,7 @@ import io.github.pigaut.rpg.player.state.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class ScrollAtlasMenu implements PlayerStateAction {
+public class ScrollAtlasMenu implements PlayerStateAction.Executor {
 
     private final ScrollDirection direction;
     private final int amount;

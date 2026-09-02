@@ -261,7 +261,7 @@ public class GeneratorManager extends Manager {
             block.setType(Material.AIR, false);
         }
 
-        StructureTemplate customBarrierLayout = plugin.getGeneratorOptions().getVirtualGeneratorBarrierLayout(template);
+        StructureTemplate customBarrierLayout = plugin.getSettings().getVirtualGeneratorBarrierLayout(template);
         for (Block solidBlock : customBarrierLayout != null ?
                 customBarrierLayout.getOccupiedBlocks(generator.getOrigin(), generator.getRotation()) : generator.getAllOccupiedSolidBlocks()) {
             solidBlock.setType(Material.BARRIER, false);

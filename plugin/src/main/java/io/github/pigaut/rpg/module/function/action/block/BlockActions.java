@@ -23,11 +23,7 @@ public class BlockActions {
                 new DropItemAtBlock(line.getRequired(ItemDrop.class)));
 
         actions.addLoader("DROP_EXP_AT_BLOCK", (Line<Action>) line ->
-                new DropExpAtBlock(plugin,
-                        line.getRequired(1, Amount.class),
-                        line.get("orbs|orbCount", Amount.class).withDefault(null),
-                        line.getBoolean("experience").withDefault(plugin.getSettings().isExperience())
-                ));
+                new DropExpAtBlock(line.getRequired(ExpDrop.class)));
 
         actions.addLoader("SPAWN_PARTICLE_AT_BLOCK", (Line<Action>) line ->
                 new SpawnParticleAtBlock(line.getRequired(1, ParticleEffect.class)));

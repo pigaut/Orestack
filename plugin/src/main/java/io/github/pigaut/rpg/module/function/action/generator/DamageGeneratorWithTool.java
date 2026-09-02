@@ -2,14 +2,14 @@ package io.github.pigaut.rpg.module.function.action.generator;
 
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.generator.*;
-import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.plugin.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class DamageGeneratorWithTool implements Action {
+public class DamageGeneratorWithTool implements Action.Executor {
 
     private final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
 

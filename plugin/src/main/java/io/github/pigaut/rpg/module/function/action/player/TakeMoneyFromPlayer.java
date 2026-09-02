@@ -6,7 +6,7 @@ import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class TakeMoneyFromPlayer implements PlayerAction {
+public class TakeMoneyFromPlayer implements PlayerAction.Executor {
 
     private final EconomyHook economy;
     private final Amount amount;

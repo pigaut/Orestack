@@ -87,7 +87,7 @@ public class GateEventListener implements Listener {
             return;
         }
 
-        RpgPlayerState playerState = plugin.getPlayerState(player);
+        PlayerState playerState = plugin.getPlayerState(player);
         if (playerState.hasFlag("gate:click_cooldown")) {
             return;
         }

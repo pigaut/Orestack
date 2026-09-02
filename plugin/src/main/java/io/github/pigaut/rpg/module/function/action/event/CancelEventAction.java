@@ -3,7 +3,7 @@ package io.github.pigaut.rpg.module.function.action.event;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
 
-public class CancelEventAction implements EventAction {
+public class CancelEventAction implements EventAction.Executor {
 
     private final boolean cancel;
 

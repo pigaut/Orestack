@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class SendMessage implements Action {
+public class SendMessage implements Action.Executor {
 
     private final Message message;
     private final Map<String, Object> customPlaceholders = new HashMap<>();

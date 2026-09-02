@@ -4,7 +4,7 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
-public class SetPlayerCursorItem implements PlayerAction {
+public class SetPlayerCursorItem implements PlayerAction.Executor {
 
     private final ItemStack item;
 

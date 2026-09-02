@@ -3,9 +3,7 @@ package io.github.pigaut.rpg.module.function.condition.skill;
 import io.github.pigaut.rpg.module.skill.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.module.skill.*;
+import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
 
@@ -18,13 +16,13 @@ public class SkillMaxLevelEquals implements Condition {
     }
 
     @Override
-    public @Nullable Boolean isMet(@NotNull Context context) {
+    public @NotNull FunctionResponse evaluate(@NotNull Context context) {
         Skill skill = context.get(Skill.class);
         if (skill == null) {
-            return null;
+            return new FunctionError("Context does not have a skill");
         }
 
-        return amount.match(skill.getMaxLevel());
+        return FunctionResponse.met(amount.match(skill.getMaxLevel()));
     }
 
 }

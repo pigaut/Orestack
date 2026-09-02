@@ -8,7 +8,7 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
-public class GiveCachedItem implements PlayerStateAction {
+public class GiveCachedItem implements PlayerStateAction.Executor {
 
     private final String name;
 

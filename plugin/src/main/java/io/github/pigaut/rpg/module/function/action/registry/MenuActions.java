@@ -2,7 +2,9 @@ package io.github.pigaut.rpg.module.function.action.registry;
 
 import io.github.pigaut.rpg.core.menu.atlas.*;
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.action.collection.*;
 import io.github.pigaut.rpg.module.function.action.menu.*;
+import io.github.pigaut.rpg.module.function.action.skill.*;
 import io.github.pigaut.rpg.plugin.*;
 import org.jetbrains.annotations.*;
 import static io.github.pigaut.yaml.configurator.load.ConfigLoader.Line;
@@ -14,6 +16,17 @@ public class MenuActions {
 
         actions.addLoader("OPEN_MENU", (Line<Action>) line -> {
             String menuName = line.getRequiredString(1);
+
+            if (line.hasFlag("collection")) {
+                String collectionName = line.getRequiredString("collection");
+                return new OpenCollectionMenu(plugin, menuName, collectionName);
+            }
+
+            if (line.hasFlag("skill")) {
+                String skillName = line.getRequiredString("skill");
+                return new OpenSkillMenu(plugin, menuName, skillName);
+            }
+
             return new OpenMenu(plugin, menuName);
         });
 

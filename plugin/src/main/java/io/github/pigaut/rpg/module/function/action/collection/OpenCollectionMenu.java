@@ -11,7 +11,7 @@ import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 import io.github.pigaut.rpg.module.collection.ItemCollection;
 
-public class OpenCollectionMenu implements Action {
+public class OpenCollectionMenu implements Action.Executor {
 
     private final EnhancedPlugin plugin;
     private final String menuName;

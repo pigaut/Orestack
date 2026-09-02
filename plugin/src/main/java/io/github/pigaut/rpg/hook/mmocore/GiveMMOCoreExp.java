@@ -8,7 +8,7 @@ import net.Indyuce.mmocore.experience.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class GiveMMOCoreExp implements PlayerAction {
+public class GiveMMOCoreExp implements PlayerAction.Executor {
 
     private final Amount exp;
     private final boolean splitExp;

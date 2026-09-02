@@ -10,17 +10,21 @@ import io.github.pigaut.rpg.module.collection.tier.*;
 import io.github.pigaut.rpg.module.function.condition.*;
 import org.jetbrains.annotations.*;
 
-public class CollectionHasRewards implements Condition {
+public class CollectionHasRewards implements Condition.Predicate {
 
     @Override
-    public @Nullable Boolean isMet(@NotNull Context context) {
+    public boolean test(@NotNull Context context) {
         ItemCollection collection = context.get(ItemCollection.class);
         if (collection == null) {
             return false;
         }
 
         CollectionTier tier = collection.getTier();
-        return tier != null ? !tier.getRewards().isEmpty() : null;
+        if (tier == null) {
+            return false;
+        }
+
+        return !tier.getRewards().isEmpty();
     }
 
 }

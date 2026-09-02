@@ -11,7 +11,7 @@ import io.github.pigaut.rpg.plugin.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class OpenMenu implements PlayerStateAction {
+public class OpenMenu implements PlayerStateAction.Executor {
 
     private final EnhancedPlugin plugin;
     private final String menuName;

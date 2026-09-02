@@ -19,7 +19,7 @@ import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.function.action.registry.*;
 import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.module.function.condition.config.*;
+import io.github.pigaut.rpg.module.function.condition.registry.*;
 import io.github.pigaut.rpg.module.function.execute.*;
 import io.github.pigaut.rpg.module.function.foreach.*;
 import io.github.pigaut.rpg.module.gate.*;
@@ -88,7 +88,7 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     private final ToolRegistry toolRegistry = new ToolRegistry();
     private final DynamicIconRegistry dynamicIconRegistry = new DynamicIconRegistry();
     private final ForEachSourceRegistry forEachSourceRegistry = new ForEachSourceRegistry();
-    private final ConditionRegistry conditionRegistry = new ConditionRegistry(this);
+    private final ConditionRegistry conditionRegistry = new ConditionRegistry();
     private final ActionRegistry actionRegistry = new ActionRegistry(this);
 
     private final StatManager playerStatsManager = new StatManager(this);

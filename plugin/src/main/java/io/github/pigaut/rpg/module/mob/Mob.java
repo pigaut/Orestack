@@ -15,13 +15,14 @@ import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.delay.*;
+import io.lumine.mythic.bukkit.utils.cooldown.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class Mob implements FlagHolder {
+public class Mob implements FlagHolder, CooldownHolder {
 
     private final EnhancedPlugin plugin;
     private final UUID entityId;
@@ -29,15 +30,19 @@ public class Mob implements FlagHolder {
     private final @Nullable MobSpawnPad spawnPad;
     private final Map<UUID, Double> damageByAttackers = new HashMap<>();
     private final Set<UUID> provokedBy = new HashSet<>();
+
     private final Set<String> flags = new HashSet<>();
+    private final Map<String, Long> cooldowns = new HashMap<>();
 
     private @Nullable MobBossBar bossBar;
     private @Nullable UUID lastDamager;
-    private @Nullable Location lastLocation;
+    private Location lastLocation;
 
-    public Mob(EnhancedPlugin plugin, UUID entityId, MobTemplate mobTemplate, @Nullable MobSpawnPad spawnPad) {
+    public Mob(@NotNull EnhancedPlugin plugin, @NotNull LivingEntity entity,
+               @NotNull MobTemplate mobTemplate, @Nullable MobSpawnPad spawnPad) {
         this.plugin = plugin;
-        this.entityId = entityId;
+        this.entityId = entity.getUniqueId();
+        this.lastLocation = entity.getLocation();
         this.mobTemplate = mobTemplate;
         this.spawnPad = spawnPad;
     }
@@ -159,7 +164,7 @@ public class Mob implements FlagHolder {
         return entity != null ? entity.getHealth() : 0;
     }
 
-    public @Nullable Location getLocation() {
+    public @NotNull Location getLocation() {
         Entity entity = getEntity();
         if (entity != null) {
             return entity.getLocation();
@@ -336,9 +341,9 @@ public class Mob implements FlagHolder {
     }
 
     @Override
-    public void addTemporaryFlag(@NotNull String flag, int ticks) {
+    public void addTemporaryFlag(@NotNull String flag, @NotNull Delay duration) {
         flags.add(flag);
-        mobTemplate.getPlugin().getScheduler().runTaskLater(ticks, () -> flags.remove(flag));
+        plugin.getScheduler().runTaskLater(duration.toTicks(), () -> flags.remove(flag));
     }
 
     @Override
@@ -364,6 +369,37 @@ public class Mob implements FlagHolder {
         }
 
         plugin.getMobs().unregister(entityId);
+    }
+
+    @Override
+    public void addCooldown(@NotNull String name, @NotNull Delay duration) {
+        long expiresAt = System.currentTimeMillis() + duration.toMillis();
+        cooldowns.put(name, expiresAt);
+
+        plugin.getScheduler().runTaskLater(duration.toTicks(), () -> {
+            cooldowns.remove(name, expiresAt);
+        });
+    }
+
+    @Override
+    public void removeCooldown(@NotNull String name) {
+        cooldowns.remove(name);
+    }
+
+    @Override
+    public boolean hasCooldown(@NotNull String name) {
+        Long expiresAt = cooldowns.get(name);
+        return expiresAt != null && expiresAt > System.currentTimeMillis();
+    }
+
+    @Override
+    public long getCooldownRemaining(@NotNull String name) {
+        return cooldowns.getOrDefault(name, 0L);
+    }
+
+    @Override
+    public @NotNull Map<String, Long> getCooldowns() {
+        return new HashMap<>(cooldowns);
     }
 
 }

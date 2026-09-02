@@ -19,7 +19,7 @@ public class PersistentData {
         return value.equals(foundValue);
     }
 
-    public static String getString(@NotNull PersistentDataHolder holder, @NotNull NamespacedKey key) {
+    public static @Nullable String getString(@NotNull PersistentDataHolder holder, @NotNull NamespacedKey key) {
         return holder.getPersistentDataContainer().get(key, PersistentDataType.STRING);
     }
 

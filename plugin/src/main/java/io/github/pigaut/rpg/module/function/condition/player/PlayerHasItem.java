@@ -4,7 +4,7 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
-public class PlayerHasItem implements PlayerCondition {
+public class PlayerHasItem implements PlayerCondition.Predicate {
 
     private final ItemStack item;
 
@@ -13,7 +13,7 @@ public class PlayerHasItem implements PlayerCondition {
     }
 
     @Override
-    public Boolean evaluate(@NotNull Player player) {
+    public boolean test(@NotNull Player player) {
         return player.getInventory().containsAtLeast(item, item.getAmount());
     }
 

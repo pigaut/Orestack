@@ -3,7 +3,6 @@ package io.github.pigaut.rpg.module.generator;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.module.structure.health.*;
-import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.progressbar.*;
 import io.github.pigaut.yaml.delay.*;

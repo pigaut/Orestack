@@ -11,12 +11,11 @@ import io.github.pigaut.rpg.module.generator.phase.*;
 import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.module.generator.tool.*;
 import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.bukkit.material.*;
 import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.transform.Rotation;
 import io.github.pigaut.rpg.module.function.*;
+import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
 
 import org.bukkit.*;
@@ -123,7 +122,7 @@ public class GeneratorEventListener implements Listener {
             return;
         }
 
-        RpgPlayerState playerState = plugin.getPlayerState(player);
+        PlayerState playerState = plugin.getPlayerState(player);
         Context context = Context.builder(plugin)
                 .withPlayer(player)
                 .withPlayerState(playerState)

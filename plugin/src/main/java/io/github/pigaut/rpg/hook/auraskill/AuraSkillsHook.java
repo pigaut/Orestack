@@ -4,16 +4,18 @@ import dev.aurelium.auraskills.api.skill.*;
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.function.action.registry.*;
 import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.module.function.condition.config.*;
+import io.github.pigaut.rpg.module.function.condition.registry.*;
+import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.configurator.load.*;
+import org.jetbrains.annotations.*;
 
 public class AuraSkillsHook {
 
-    public static void registerConfiguration(PluginConfigurator configurator) {
-        ConditionRegistry conditions = configurator.getConditionLoader();
+    public static void registerAllConditions(@NotNull EnhancedPlugin plugin) {
+        ConditionRegistry conditions = plugin.getConditions();
 
         ConfigLoader.Line<Condition> NOT_ENABLED_CONDITION_LOADER = line -> {
             throw new InvalidConfigException(line, "AuraSkills plugin is not installed");
@@ -33,8 +35,10 @@ public class AuraSkillsHook {
 
         conditions.addLoader("HAS_AURA_MANA", (ConfigLoader.Line<Condition>) line ->
                 new HasAuraMana(line.getRequired(1, Amount.class)));
+    }
 
-        ActionRegistry actions = configurator.getActionLoader();
+    public static void registerAllActions(@NotNull EnhancedPlugin plugin) {
+        ActionRegistry actions = plugin.getActions();
 
         ConfigLoader.Line<Action> NOT_ENABLED_ACTION_LOADER = line -> {
             throw new InvalidConfigException(line, "AuraSkills plugin is not installed");
@@ -59,7 +63,6 @@ public class AuraSkillsHook {
 
         actions.addLoader("TAKE_AURA_MANA", (ConfigLoader.Line<Action>) line ->
                 new TakeAuraMana(line.getRequired(1, Amount.class)));
-
     }
 
 }

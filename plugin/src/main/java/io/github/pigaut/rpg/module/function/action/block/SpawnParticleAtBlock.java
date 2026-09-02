@@ -10,7 +10,7 @@ import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class SpawnParticleAtBlock implements Action {
+public class SpawnParticleAtBlock implements Action.Executor {
 
     private final ParticleEffect particle;
 

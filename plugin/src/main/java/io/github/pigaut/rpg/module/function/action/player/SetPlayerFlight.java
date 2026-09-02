@@ -3,7 +3,7 @@ package io.github.pigaut.rpg.module.function.action.player;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class SetPlayerFlight implements PlayerAction {
+public class SetPlayerFlight implements PlayerAction.Executor {
 
     private final boolean flight;
 

@@ -4,7 +4,7 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class StrikePlayerWithLightning implements PlayerAction {
+public class StrikePlayerWithLightning implements PlayerAction.Executor {
 
     private final boolean doDamage;
 

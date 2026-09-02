@@ -4,7 +4,7 @@ import io.github.pigaut.rpg.core.gameplay.brew.*;
 import io.github.pigaut.rpg.module.collection.template.*;
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.function.action.registry.*;
-import io.github.pigaut.rpg.module.function.condition.config.*;
+import io.github.pigaut.rpg.module.function.condition.registry.*;
 import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.module.gate.template.*;
 import io.github.pigaut.rpg.module.generator.*;

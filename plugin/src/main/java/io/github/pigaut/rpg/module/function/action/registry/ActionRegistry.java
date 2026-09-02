@@ -8,6 +8,8 @@ import io.github.pigaut.yaml.convert.format.*;
 import io.github.pigaut.yaml.delay.*;
 import org.jetbrains.annotations.*;
 
+import java.util.*;
+
 public class ActionRegistry extends AbstractLoader<Action> {
 
     private final EnhancedPlugin plugin;
@@ -70,7 +72,14 @@ public class ActionRegistry extends AbstractLoader<Action> {
 
     @Override
     public @NotNull Action loadFromSequence(@NotNull ConfigSequence sequence) throws InvalidConfigException {
-        return new MultiAction(sequence.getAll(Action.class).orThrow());
+        List<Action> actions = sequence.getAllRequired(Action.class);
+        if (actions.isEmpty()) {
+            return Action.EMPTY;
+        }
+        if (actions.size() == 1) {
+            return actions.get(0);
+        }
+        return new MultiAction(actions);
     }
 
 }

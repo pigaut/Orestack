@@ -7,7 +7,7 @@ import io.github.pigaut.rpg.module.function.action.event.*;
 import org.bukkit.event.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorKeepPhaseAction implements EventAction {
+public class GeneratorKeepPhaseAction implements EventAction.Executor {
 
     @Override
     public void execute(@NotNull Event event) {

@@ -5,7 +5,7 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class PlayerHasPermission implements PlayerCondition {
+public class PlayerHasPermission implements PlayerCondition.Predicate {
 
     private final List<String> permissions;
 
@@ -18,7 +18,7 @@ public class PlayerHasPermission implements PlayerCondition {
     }
 
     @Override
-    public Boolean evaluate(@NotNull Player player) {
+    public boolean test(@NotNull Player player) {
         for (String permission : permissions) {
             if (!player.hasPermission(permission)) {
                 return false;

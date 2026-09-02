@@ -62,8 +62,7 @@ public class GatePhaseLoader implements ConfigLoader<GatePhase> {
                 .require(Requirements.positive())
                 .withDefault(null);
 
-        int clickCooldown = section.getInteger("click-cooldown")
-                .require(Requirements.min(1))
+        Delay clickCooldown = section.get("click-cooldown", Delay.class)
                 .withDefault(plugin.getSettings().getGateClickCooldown());
 
         HologramTemplate defaultHologram = section.get("hologram", HologramTemplate.class)

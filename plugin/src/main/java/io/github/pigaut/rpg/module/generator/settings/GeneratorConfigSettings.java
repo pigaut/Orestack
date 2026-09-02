@@ -7,6 +7,7 @@ import io.github.pigaut.rpg.module.structure.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
+import io.github.pigaut.yaml.delay.*;
 import io.github.pigaut.yaml.node.scalar.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
@@ -18,9 +19,9 @@ public class GeneratorConfigSettings implements GeneratorSettings {
     private final EnhancedPlugin plugin;
 
     private Amount defaultToolDamage;
-    private int generatorClickCooldown;
-    private int generatorHitCooldown;
-    private int generatorHarvestCooldown;
+    private Delay generatorClickCooldown;
+    private Delay generatorHitCooldown;
+    private Delay generatorHarvestCooldown;
 
     private boolean veinMiner;
     private List<String> veinMinerAliases;
@@ -37,17 +38,14 @@ public class GeneratorConfigSettings implements GeneratorSettings {
         defaultToolDamage = config.get("default-tool-durability-damage|default-tool-damage", Amount.class)
                 .withDefault(Amount.ONE);
 
-        generatorClickCooldown = config.getInteger("generator-click-cooldown")
-                .require(Requirements.positive())
-                .withDefault(4);
+        generatorClickCooldown = config.get("generator-click-cooldown", Delay.class)
+                .withDefault(Delay.fromTicks(4));
 
-        generatorHitCooldown = config.getInteger("generator-hit-cooldown")
-                .require(Requirements.positive())
-                .withDefault(4);
+        generatorHitCooldown = config.get("generator-hit-cooldown", Delay.class)
+                .withDefault(Delay.fromTicks(4));
 
-        generatorHarvestCooldown = config.getInteger("generator-harvest-cooldown")
-                .require(Requirements.positive())
-                .withDefault(4);
+        generatorHarvestCooldown = config.get("generator-harvest-cooldown", Delay.class)
+                .withDefault(Delay.fromTicks(20));
 
         veinMiner = config.getBoolean("vein-miner")
                 .withDefault(false);
@@ -130,17 +128,17 @@ public class GeneratorConfigSettings implements GeneratorSettings {
     }
 
     @Override
-    public int getGeneratorHitCooldown() {
+    public @NotNull Delay getGeneratorHitCooldown() {
         return generatorHitCooldown;
     }
 
     @Override
-    public int getGeneratorClickCooldown() {
+    public @NotNull Delay getGeneratorClickCooldown() {
         return generatorClickCooldown;
     }
 
     @Override
-    public int getGeneratorHarvestCooldown() {
+    public @NotNull Delay getGeneratorHarvestCooldown() {
         return generatorHarvestCooldown;
     }
 

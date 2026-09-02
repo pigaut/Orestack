@@ -1,14 +1,11 @@
 package io.github.pigaut.rpg.module.function.condition.server;
 
 import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.module.function.condition.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.module.function.condition.*;
 import org.jetbrains.annotations.*;
 
-public class PlaceholderEqualsString implements Condition {
+public class PlaceholderEqualsString implements Condition.Predicate {
 
     private final String placeholder;
     private final String value;
@@ -21,7 +18,7 @@ public class PlaceholderEqualsString implements Condition {
     }
 
     @Override
-    public @Nullable Boolean isMet(@NotNull Context context) {
+    public boolean test(@NotNull Context context) {
         String parsedValue = PlaceholderUtil.parseAll(context, placeholder);
         if (ignoreCase) {
             return value.equalsIgnoreCase(parsedValue);

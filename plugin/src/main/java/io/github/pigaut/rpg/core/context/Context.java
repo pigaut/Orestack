@@ -3,7 +3,7 @@ package io.github.pigaut.rpg.core.context;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.command.node.*;
 import io.github.pigaut.rpg.core.enchant.*;
-import io.github.pigaut.rpg.player.data.base.*;
+import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.module.mob.Mob;
@@ -77,6 +77,11 @@ public class Context {
         return plugin;
     }
 
+    @NotNull
+    public Settings settings() {
+        return plugin.getSettings();
+    }
+
     public @Nullable String resolvePlaceholder(@NotNull String placeholder) {
         return plugin.resolvePlaceholder(placeholder, this);
     }
@@ -101,7 +106,7 @@ public class Context {
     }
 
     @Nullable
-    public EnhancedPlayerData playerData() {
+    public PlayerData playerData() {
         return playerState != null ? playerState.getPlayerData() : null;
     }
 

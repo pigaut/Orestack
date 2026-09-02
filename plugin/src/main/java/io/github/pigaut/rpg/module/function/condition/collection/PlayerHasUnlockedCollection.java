@@ -6,7 +6,7 @@ import io.github.pigaut.rpg.module.function.condition.player.*;
 import io.github.pigaut.rpg.player.data.*;
 import org.jetbrains.annotations.*;
 
-public class PlayerHasUnlockedCollection implements RpgPlayerDataCondition {
+public class PlayerHasUnlockedCollection implements PlayerDataCondition.Predicate {
 
     private final String collectionName;
 
@@ -15,7 +15,7 @@ public class PlayerHasUnlockedCollection implements RpgPlayerDataCondition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull PlayerData playerData) {
+    public boolean test(@NotNull PlayerData playerData) {
         ItemCollection collection = playerData.getItemCollection(collectionName);
         if (collection == null) {
             return false;

@@ -8,7 +8,7 @@ import io.github.pigaut.rpg.module.collection.*;
 import io.github.pigaut.rpg.module.function.condition.*;
 import org.jetbrains.annotations.*;
 
-public class CollectionNameEquals implements Condition {
+public class CollectionNameEquals implements Condition.Predicate {
 
     private final String collectionName;
 
@@ -17,7 +17,7 @@ public class CollectionNameEquals implements Condition {
     }
 
     @Override
-    public @Nullable Boolean isMet(@NotNull Context context) {
+    public boolean test(@NotNull Context context) {
         ItemCollection collection = context.get(ItemCollection.class);
         if (collection == null) {
             return false;

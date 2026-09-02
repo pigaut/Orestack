@@ -4,10 +4,6 @@ import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.manager.config.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.module.stat.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.manager.config.*;
 import io.github.pigaut.rpg.plugin.manager.module.Module;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -20,6 +16,7 @@ import java.util.*;
 public class ItemManager extends ConfigBackedManager<ItemTemplate> {
 
     private final NamespacedKey itemKey;
+    private final NamespacedKey createdByKey;
     private final NamespacedKey usesKey;
     private final NamespacedKey renamedKey;
 
@@ -27,6 +24,7 @@ public class ItemManager extends ConfigBackedManager<ItemTemplate> {
         super(plugin, Module.ITEMS, ItemTemplate.class);
 
         itemKey = plugin.getNamespacedKey("item");
+        createdByKey = plugin.getNamespacedKey("created-by");
         usesKey = plugin.getNamespacedKey("uses");
         renamedKey = plugin.getNamespacedKey("renamed");
     }
@@ -54,6 +52,10 @@ public class ItemManager extends ConfigBackedManager<ItemTemplate> {
 
     public @NotNull NamespacedKey getItemKey() {
         return itemKey;
+    }
+
+    public @NotNull NamespacedKey getCreatorKey() {
+        return createdByKey;
     }
 
     public @NotNull NamespacedKey getUsesKey() {

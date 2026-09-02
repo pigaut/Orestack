@@ -7,7 +7,7 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class EntityTypeEquals implements Condition {
+public class EntityTypeEquals implements EntityCondition.Predicate {
 
     private final Set<EntityType> entityTypes;
 
@@ -16,12 +16,8 @@ public class EntityTypeEquals implements Condition {
     }
 
     @Override
-    public @Nullable Boolean isMet(@NotNull Context context) {
-        LivingEntity entity = context.enemy();
-        if (entity == null) {
-            return null;
-        }
-
+    public boolean test(@NotNull Entity entity) {
         return entityTypes.contains(entity.getType());
     }
+
 }

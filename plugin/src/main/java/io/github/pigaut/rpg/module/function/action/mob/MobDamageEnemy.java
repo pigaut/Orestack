@@ -9,11 +9,11 @@ import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class MobDamageEnemy implements Action {
+public class MobDamageEnemy implements Action.Executor {
 
     private final Amount amount;
 
-    public MobDamageEnemy(Amount amount) {
+    public MobDamageEnemy(@NotNull Amount amount) {
         this.amount = amount;
     }
 

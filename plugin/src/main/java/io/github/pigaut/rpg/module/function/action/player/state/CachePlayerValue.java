@@ -5,7 +5,7 @@ import io.github.pigaut.rpg.player.state.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class CachePlayerValue implements PlayerStateAction {
+public class CachePlayerValue implements PlayerStateAction.Executor {
 
     private final String id;
     private final Object value;

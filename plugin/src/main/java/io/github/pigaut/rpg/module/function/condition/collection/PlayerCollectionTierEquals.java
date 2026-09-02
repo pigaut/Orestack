@@ -7,7 +7,7 @@ import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
 
-public class PlayerCollectionTierEquals implements RpgPlayerDataCondition {
+public class PlayerCollectionTierEquals implements PlayerDataCondition.Predicate {
 
     private final String collectionName;
     private final Amount amount;
@@ -18,12 +18,11 @@ public class PlayerCollectionTierEquals implements RpgPlayerDataCondition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull PlayerData playerData) {
+    public boolean test(@NotNull PlayerData playerData) {
         ItemCollection collection = playerData.getItemCollection(collectionName);
         if (collection == null) {
             return false;
         }
-
         return amount.match(collection.getCurrentTier());
     }
 

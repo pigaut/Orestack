@@ -74,7 +74,7 @@ public class EntityEventListener implements Listener {
                     event.setCancelled(true);
                     return;
                 }
-                mobDamager.addTemporaryFlag("plugin:mob_attack_cooldown", attackCooldown.toTicks());
+                mobDamager.addTemporaryFlag("plugin:mob_attack_cooldown", attackCooldown);
             }
 
             // Mob kills the victim

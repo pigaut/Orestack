@@ -1,5 +1,6 @@
 package io.github.pigaut.rpg.module.recipe;
 
+import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.rpg.player.data.base.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.manager.config.*;
@@ -50,7 +51,7 @@ public class RecipeManager extends ConfigBackedManager<RecipeTemplate> {
             }
 
             for (Player player : Bukkit.getOnlinePlayers()) {
-                EnhancedPlayerData playerData = plugin.getPlayerData(player);
+                PlayerData playerData = plugin.getPlayerData(player);
                 playerData.runWhenLoaded(() -> {
                     if (playerData.hasUnlockedRecipe(recipe)) {
                         player.discoverRecipe(recipe);

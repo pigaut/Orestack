@@ -5,7 +5,7 @@ import io.github.pigaut.rpg.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class OpenEnderChest implements PlayerAction {
+public class OpenEnderChest implements PlayerAction.Executor {
 
     @Override
     public void execute(@NotNull Player player) {

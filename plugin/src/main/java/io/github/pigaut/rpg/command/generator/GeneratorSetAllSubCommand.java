@@ -33,7 +33,7 @@ public class GeneratorSetAllSubCommand extends SubCommand {
         withDescription(plugin.getTranslation("generator-set-all-command"));
         withParameter(OrestackParameters.GENERATOR_NAME);
         withPlayerExecution((player, context, args) -> {
-            RpgPlayerState playerState = plugin.getPlayerState(player);
+            PlayerState playerState = plugin.getPlayerState(player);
 
             GeneratorTemplate generator = plugin.getGeneratorTemplate(args[0]);
             if (generator == null) {

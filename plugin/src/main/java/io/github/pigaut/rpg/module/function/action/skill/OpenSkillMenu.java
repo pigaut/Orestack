@@ -11,7 +11,7 @@ import io.github.pigaut.rpg.plugin.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class OpenSkillMenu implements Action {
+public class OpenSkillMenu implements Action.Executor {
 
     private final EnhancedPlugin plugin;
     private final String menuName;

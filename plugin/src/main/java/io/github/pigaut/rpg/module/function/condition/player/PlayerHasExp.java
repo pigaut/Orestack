@@ -4,7 +4,7 @@ import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class PlayerHasExp implements PlayerCondition {
+public class PlayerHasExp implements PlayerCondition.Predicate {
 
     private final Amount exp;
 
@@ -13,7 +13,7 @@ public class PlayerHasExp implements PlayerCondition {
     }
 
     @Override
-    public Boolean evaluate(@NotNull Player player) {
+    public boolean test(@NotNull Player player) {
         return exp.match(player.getTotalExperience());
     }
 

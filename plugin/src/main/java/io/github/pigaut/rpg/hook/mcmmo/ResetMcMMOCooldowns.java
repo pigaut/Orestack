@@ -3,7 +3,7 @@ package io.github.pigaut.rpg.hook.mcmmo;
 import com.gmail.nossr50.datatypes.player.*;
 import org.jetbrains.annotations.*;
 
-public class ResetMcMMOCooldowns implements McMMOPlayerAction {
+public class ResetMcMMOCooldowns implements McMMOPlayerAction.Executor {
 
     @Override
     public void execute(@NotNull McMMOPlayer player) {

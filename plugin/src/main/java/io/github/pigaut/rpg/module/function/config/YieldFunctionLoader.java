@@ -53,33 +53,41 @@ public class YieldFunctionLoader<C extends Function & YieldFunction<R>, R> imple
         }
 
         Function function;
-        if (section.isSet("for|for-each|for each|for-every|for every")) {
+        if (section.isSet("for|for-each|for-every")) {
             function = new ForEachFunction(
-                    section.getRequired("for|for-each|for each|for-every|for every", ForEachSource.class),
+                    section.getRequired("for|for-each|for-every", ForEachSource.class),
                     section.get(Function.class).withDefault(Function.EMPTY)
             );
         }
-        else if (section.isSet("if|condition|conditions")) {
+        else if (section.isSet("if")) {
             function = new ConditionalFunction(
-                    section.getRequired("if|condition|conditions", Condition.class),
+                    section.getRequired("if", Condition.class),
                     section.get("then|do|return|yield", functionType).withDefault(defaultEvaluation),
-                    section.get("else|or|or-else|or else", functionType).withDefault(defaultEvaluation)
+                    section.get("else|or|or-else", functionType).withDefault(defaultEvaluation)
             );
         }
-        else if (section.isSet("if-not|if not")) {
+        else if (section.isSet("if-not")) {
             function = new ConditionalFunction(
-                    section.getRequired("if-not|if not", NegativeCondition.class),
+                    section.getRequired("if-not", NotCondition.class),
                     section.get("then|do|return|yield", functionType).withDefault(defaultEvaluation),
-                    section.get("else|or|or-else|or else", functionType).withDefault(defaultEvaluation)
+                    section.get("else|or|or-else", functionType).withDefault(defaultEvaluation)
             );
         }
-        else if (section.isSet("if-any|if any")) {
+        else if (section.isSet("if-any")) {
             function = new ConditionalFunction(
-                    section.getRequired("if-any|if any", DisjunctiveCondition.class),
+                    section.getRequired("if-any", OrCondition.class),
                     section.get("then|do|return|yield", functionType).withDefault(defaultEvaluation),
-                    section.get("else|or|or-else|or else", functionType).withDefault(defaultEvaluation)
+                    section.get("else|or|or-else", functionType).withDefault(defaultEvaluation)
             );
         }
+        else if (section.isSet("if-none")) {
+            function = new ConditionalFunction(
+                    section.getRequired("if-none", NorCondition.class),
+                    section.get("then|do|return|yield", Function.class).withDefault(Function.EMPTY),
+                    section.get("else|or|or-else", Function.class).withDefault(Function.EMPTY)
+            );
+        }
+
         else if (section.isSet("return|yield")) {
             R value = section.getRequired("return|yield", returnType);
             function = new SimpleFunction(new YieldAction(value));

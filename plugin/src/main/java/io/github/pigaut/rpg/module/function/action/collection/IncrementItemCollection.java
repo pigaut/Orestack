@@ -9,7 +9,7 @@ import io.github.pigaut.rpg.player.data.base.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
 
-public class IncrementItemCollection implements Action {
+public class IncrementItemCollection implements Action.Executor {
 
     private final String collectionName;
     private final Amount amount;

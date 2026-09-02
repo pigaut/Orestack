@@ -8,7 +8,7 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class SpawnParticleAtProtagonist implements ProtagonistAction {
+public class SpawnParticleAtProtagonist implements ProtagonistAction.Executor {
 
     private final ParticleEffect particle;
 

@@ -1,6 +1,8 @@
 package io.github.pigaut.rpg;
 
 import io.github.pigaut.rpg.api.*;
+import io.github.pigaut.rpg.hook.auraskill.*;
+import io.github.pigaut.rpg.hook.mcmmo.*;
 import io.github.pigaut.rpg.listener.block.*;
 import io.github.pigaut.rpg.listener.collection.*;
 import io.github.pigaut.rpg.listener.gate.*;
@@ -21,6 +23,7 @@ import io.github.pigaut.rpg.module.collection.*;
 import io.github.pigaut.rpg.module.function.action.block.*;
 import io.github.pigaut.rpg.module.function.action.event.*;
 import io.github.pigaut.rpg.module.function.action.registry.*;
+import io.github.pigaut.rpg.module.function.condition.registry.*;
 import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.module.gate.tool.*;
 import io.github.pigaut.rpg.module.generator.*;
@@ -70,6 +73,21 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
 
     @Override
     public void onPreStartup() {
+        // Register conditions
+        ServerConditions.registerAll(this);
+        EventConditions.registerAll(this);
+        BlockConditions.registerAll(this);
+        PlayerConditions.registerAll(this);
+        MobConditions.registerAll(this);
+        ItemConditions.registerAll(this);
+        MenuConditions.registerAll(this);
+        GeneratorConditions.registerAll(this);
+        SkillConditions.registerAll(this);
+        CollectionConditions.registerAll(this);
+        AuraSkillsHook.registerAllConditions(this);
+        McMMOHook.registerAllConditions(this);
+
+        // Register actions
         SystemActions.registerAll(this);
         ServerActions.registerAll(this);
         EventActions.registerAll(this);
@@ -79,8 +97,24 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
         MobActions.registerAll(this);
         ItemActions.registerAll(this);
         MenuActions.registerAll(this);
+        GeneratorActions.registerAll(this);
+        GateActions.registerAll(this);
+        CollectionActions.registerAll(this);
         RecipeActions.registerAll(this);
+        AuraSkillsHook.registerAllActions(this);
+        McMMOHook.registerAllActions(this);
 
+        // Register for-each sources
+        ForEachSourceRegistry forEachSources = getForEachSources();
+        forEachSources.register("online_player", new ForEachOnlinePlayer());
+        forEachSources.register("enchant_added", new ForEachEnchantAdded());
+        forEachSources.register("mob_attacker", new ForEachMobAttacker());
+        forEachSources.register("entity_in_front", new ForEachEntityInFrontLoader());
+        forEachSources.register("entity_in_radius", new ForEachEntityInRadiusLoader());
+        forEachSources.register("entity_in_range", new ForEachEntityInRangeLoader());
+        forEachSources.register("entity_in_ring", new ForEachEntityInRingLoader());
+
+        // Register dynamic icons
         DynamicIconRegistry dynamicIcons = getDynamicIcons();
         dynamicIcons.register("player_head", (item, context) -> {
             Player player = context.player();
@@ -100,18 +134,6 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
                 item.setType(skill.getIcon().getType());
             }
         });
-
-        ForEachSourceRegistry forEachSources = getForEachSources();
-        forEachSources.register("online_player", new ForEachOnlinePlayer());
-        forEachSources.register("enchant_added", new ForEachEnchantAdded());
-        forEachSources.register("mob_attacker", new ForEachMobAttacker());
-        forEachSources.register("entity_in_front", new ForEachEntityInFrontLoader());
-        forEachSources.register("entity_in_radius", new ForEachEntityInRadiusLoader());
-        forEachSources.register("entity_in_range", new ForEachEntityInRangeLoader());
-        forEachSources.register("entity_in_ring", new ForEachEntityInRingLoader());
-
-
-
     }
 
     @Override

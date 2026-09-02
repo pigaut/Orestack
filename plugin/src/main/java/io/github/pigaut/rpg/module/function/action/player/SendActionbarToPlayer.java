@@ -9,7 +9,7 @@ import io.github.pigaut.rpg.util.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class SendActionbarToPlayer implements Action {
+public class SendActionbarToPlayer implements Action.Executor {
 
     private final Message actionbar;
 

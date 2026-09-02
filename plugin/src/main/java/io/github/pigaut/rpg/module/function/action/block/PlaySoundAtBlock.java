@@ -10,7 +10,7 @@ import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class PlaySoundAtBlock implements Action {
+public class PlaySoundAtBlock implements Action.Executor {
 
     private final SoundEffect sound;
 

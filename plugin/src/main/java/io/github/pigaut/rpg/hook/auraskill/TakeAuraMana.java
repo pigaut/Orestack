@@ -8,7 +8,7 @@ import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class TakeAuraMana implements PlayerAction {
+public class TakeAuraMana implements PlayerAction.Executor {
 
     private static final AuraSkillsApi AURA_SKILLS = AuraSkillsApi.get();
 

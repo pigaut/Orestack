@@ -73,16 +73,13 @@ public class GeneratorPhaseLoader implements ConfigLoader<GeneratorPhase> {
 
         Double chance = section.getDouble("chance|growth-chance").withDefault(null);
 
-        int clickCooldown = section.getInteger("click-cooldown")
-                .require(Requirements.min(1))
+        Delay clickCooldown = section.get("click-cooldown", Delay.class)
                 .withDefault(plugin.getSettings().getGeneratorClickCooldown());
 
-        int hitCooldown = section.getInteger("hit-cooldown")
-                .require(Requirements.min(1))
+        Delay hitCooldown = section.get("hit-cooldown", Delay.class)
                 .withDefault(plugin.getSettings().getGeneratorHitCooldown());
 
-        int harvestCooldown = section.getInteger("harvest-cooldown")
-                .require(Requirements.min(1))
+        Delay harvestCooldown = section.get("harvest-cooldown", Delay.class)
                 .withDefault(plugin.getSettings().getGeneratorClickCooldown());
 
         HologramTemplate hologramTemplate = section.get("hologram", HologramTemplate.class)

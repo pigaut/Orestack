@@ -1,10 +1,9 @@
 package io.github.pigaut.rpg.module.function.condition.mob;
 
 import io.github.pigaut.rpg.module.mob.*;
-import io.github.pigaut.rpg.module.mob.*;
 import org.jetbrains.annotations.*;
 
-public class MobHasFlag implements MobCondition {
+public class MobHasFlag implements MobCondition.Predicate {
 
     private final String flag;
 
@@ -13,7 +12,7 @@ public class MobHasFlag implements MobCondition {
     }
 
     @Override
-    public Boolean evaluate(@NotNull Mob mob) {
+    public boolean test(@NotNull Mob mob) {
         return mob.hasFlag(flag);
     }
 

@@ -5,7 +5,7 @@ import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class TakeExpFromPlayer implements PlayerAction {
+public class TakeExpFromPlayer implements PlayerAction.Executor {
 
     private final Amount amount;
 

@@ -259,7 +259,7 @@ public class MobTemplate implements Identifiable {
 
         options.apply(spawnedEntity);
 
-        Mob mob = new Mob(plugin, spawnedEntity.getUniqueId(), this, spawnPad);
+        Mob mob = new Mob(plugin, spawnedEntity, this, spawnPad);
         plugin.getMobs().register(mob);
 
         if (bossBarTemplate != null) {

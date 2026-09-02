@@ -5,7 +5,7 @@ import io.github.pigaut.rpg.module.particle.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class SpawnParticleAtPlayer implements PlayerAction {
+public class SpawnParticleAtPlayer implements PlayerAction.Executor {
 
     private final ParticleEffect particle;
 

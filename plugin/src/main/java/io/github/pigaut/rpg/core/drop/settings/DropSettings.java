@@ -1,16 +1,20 @@
 package io.github.pigaut.rpg.core.drop.settings;
 
 import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
+import java.util.*;
+
 public interface DropSettings {
 
     @NotNull
-    ItemDropTarget getDefaultItemDropTarget();
+    List<DropLocation> getItemDropLocationPriority();
+
+    @NotNull
+    List<DropLocation> getExpDropLocationPriority();
 
     boolean isFortuneDrop(@NotNull Material material);
 

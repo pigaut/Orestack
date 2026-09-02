@@ -5,7 +5,7 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class SetWeather implements PlayerAction {
+public class SetWeather implements PlayerAction.Executor {
 
     private final Weather weather;
     private final int duration;

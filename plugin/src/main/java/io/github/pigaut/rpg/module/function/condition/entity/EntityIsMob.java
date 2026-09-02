@@ -8,20 +8,16 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class EntityIsMob implements Condition {
+public class EntityIsMob implements EntityCondition.Predicate {
 
     private final EnhancedPlugin plugin;
 
-    public EntityIsMob(EnhancedPlugin plugin) {
+    public EntityIsMob(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
-    public @Nullable Boolean isMet(@NotNull Context context) {
-        LivingEntity entity = context.enemy();
-        if (entity == null) {
-            return null;
-        }
+    public boolean test(@NotNull Entity entity) {
         return plugin.isMob(entity);
     }
 

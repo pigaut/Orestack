@@ -1,6 +1,7 @@
 package io.github.pigaut.rpg.module.recipe.listener;
 
 import io.github.pigaut.rpg.module.recipe.*;
+import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.rpg.player.data.base.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
@@ -24,7 +25,7 @@ public class RecipeEventListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        EnhancedPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
         playerData.runWhenLoaded(() -> {
             for (RecipeTemplate recipeTemplate : plugin.getRecipes().getAllRegistered()) {
                 if (!recipeTemplate.isGlobal() && (recipeTemplate.isDiscoverAutomatically()
@@ -51,7 +52,7 @@ public class RecipeEventListener implements Listener {
             return;
         }
 
-        EnhancedPlayerData playerData = plugin.getPlayerData(event.getPlayer());
+        PlayerData playerData = plugin.getPlayerData(event.getPlayer());
         if (!playerData.hasUnlockedRecipe(recipe)) {
             event.setCancelled(true);
         }
@@ -81,7 +82,7 @@ public class RecipeEventListener implements Listener {
             player = Reflect.on(event.getView()).call("getPlayer").get();
         }
 
-        EnhancedPlayerData playerData = plugin.getPlayerData(player);
+        PlayerData playerData = plugin.getPlayerData(player);
         if (!playerData.hasUnlockedRecipe(recipeKey)) {
             event.getInventory().setResult(null);
         }

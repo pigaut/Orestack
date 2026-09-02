@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class UnlockRecipes implements PlayerStateAction {
+public class UnlockRecipes implements PlayerStateAction.Executor {
 
     private final List<RecipeTemplate> recipes;
 

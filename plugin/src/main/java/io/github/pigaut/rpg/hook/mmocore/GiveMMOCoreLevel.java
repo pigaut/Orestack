@@ -8,7 +8,7 @@ import net.Indyuce.mmocore.experience.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class GiveMMOCoreLevel implements PlayerAction {
+public class GiveMMOCoreLevel implements PlayerAction.Executor {
 
     private final Amount levels;
 

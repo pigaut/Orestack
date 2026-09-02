@@ -4,7 +4,7 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class TeleportPlayer implements PlayerAction {
+public class TeleportPlayer implements PlayerAction.Executor {
 
     private final Location destination;
 

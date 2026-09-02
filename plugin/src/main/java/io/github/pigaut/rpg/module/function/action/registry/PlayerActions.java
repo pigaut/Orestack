@@ -4,8 +4,11 @@ import io.github.pigaut.rpg.core.drop.*;
 import io.github.pigaut.rpg.hook.*;
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.function.action.player.*;
-import io.github.pigaut.rpg.module.function.action.player.ability.*;
+import io.github.pigaut.rpg.module.function.action.player.cooldown.*;
+import io.github.pigaut.rpg.module.function.action.player.flag.*;
+import io.github.pigaut.rpg.module.function.action.player.stat.*;
 import io.github.pigaut.rpg.module.function.action.player.state.*;
+import io.github.pigaut.rpg.module.function.action.protagonist.*;
 import io.github.pigaut.rpg.module.message.*;
 import io.github.pigaut.rpg.module.particle.*;
 import io.github.pigaut.rpg.module.sound.*;
@@ -32,11 +35,7 @@ public class PlayerActions {
                 new DropItemAtPlayer(line.getRequired(ItemDrop.class)));
 
         actions.addLoader("DROP_EXP_AT_PLAYER", (Line<Action>) line ->
-                new DropExpAtPlayer(plugin,
-                        line.getRequired(1, Amount.class),
-                        line.get("orbs|orbCount", Amount.class).withDefault(null),
-                        line.getBoolean("experience").withDefault(plugin.getSettings().isExperience())
-                ));
+                new DropExpAtPlayer(line.getRequired(ExpDrop.class)));
 
         actions.addLoader("SPAWN_PARTICLE_AT_PLAYER", (Line<Action>) line ->
                 new SpawnParticleAtPlayer(line.getRequired(1, ParticleEffect.class)));
@@ -45,19 +44,23 @@ public class PlayerActions {
                 new PlaySoundOnPlayer(line.getRequired(1, SoundEffect.class)));
 
         actions.addLoader("ADD_PLAYER_EXP", (Line<Action>) line ->
-                new GiveExpToPlayer(plugin,
-                        line.getRequired(1, Amount.class),
-                        line.getBoolean("experience").withDefault(plugin.getSettings().isExperience())
-                ));
+                new GiveExpToPlayer(line.getRequired(ExpDrop.class)));
 
-        actions.addLoader("ADD_PLAYER_FLAG", (Line<Action>) line ->
-                new AddPlayerFlag(line.getRequiredString(1)));
+        actions.addLoader("ADD_PLAYER_FLAG", (Line<Action>) line -> {
+            if (line.hasFlag("duration")) {
+                return new AddTemporaryPlayerFlag(
+                        line.getRequiredString(1),
+                        line.getRequired("duration", Delay.class)
+                );
+            }
+            return new AddPlayerFlag(line.getRequiredString(1));
+        });
 
         actions.addLoader("ADD_TEMPORARY_PLAYER_FLAG", (Line<Action>) line ->
                 new AddTemporaryPlayerFlag(
                         line.getRequiredString(1),
-                        line.get("duration", Delay.class).mapIfValid(Delay::toTicks).orThrow()
-                ));
+                        line.getRequired("duration", Delay.class)
+        ));
 
         actions.addLoader("ADD_PLAYER_STAT_BOOST", (Line<Action>) line ->
                 new AddPlayerStatBoost(plugin,
@@ -108,7 +111,7 @@ public class PlayerActions {
             ItemStack item = line.getRequired(1, ItemStack.class);
             Amount amount = line.get("amount", Amount.class)
                     .withDefault(Amount.fixed(item.getAmount()));
-            return new RemovePlayerItem(item, amount);
+            return new RemoveItemFromPlayer(item, amount);
         });
 
         actions.addLoader("SET_PLAYER_EXP", (Line<Action>) line ->
@@ -183,22 +186,22 @@ public class PlayerActions {
                         line.getRequiredString(2)
                 ));
 
-        actions.addLoader("START_COOLDOWN", (Line<Action>) line ->
-                new StartPlayerCooldown(
+        actions.addLoader("ADD_PLAYER_COOLDOWN", (Line<Action>) line ->
+                new AddPlayerCooldown(
                         line.getRequiredString(1),
                         line.getRequired("duration", Delay.class)
                 ));
 
-        actions.addLoader("REMOVE_COOLDOWN", (Line<Action>) line ->
-                new RemoveCooldown(line.getRequiredString(1)));
+        actions.addLoader("REMOVE_PLAYER_COOLDOWN", (Line<Action>) line ->
+                new RemovePlayerCooldown(line.getRequiredString(1)));
 
-        actions.addLoader("CONSUME_MANA", (Line<Action>) line ->
-                new ConsumePlayerMana(line.get(1, Amount.class).withDefault(Amount.ONE)));
+        actions.addLoader("ADD_PLAYER_MANA", (Line<Action>) line ->
+                new AddPlayerMana(line.get(1, Amount.class).withDefault(Amount.ONE)));
 
-        actions.addLoader("REGEN_MANA", (Line<Action>) line ->
-                new RegenPlayerMana(line.get(1, Amount.class).withDefault(Amount.ONE)));
+        actions.addLoader("REMOVE_PLAYER_MANA", (Line<Action>) line ->
+                new RemovePlayerMana(line.get(1, Amount.class).withDefault(Amount.ONE)));
 
-        actions.addLoader("SET_MANA", (Line<Action>) line ->
+        actions.addLoader("SET_PLAYER_MANA", (Line<Action>) line ->
                 new SetPlayerMana(line.get(1, Amount.class).withDefault(Amount.ONE)));
 
         actions.addLoader("TELEPORT_FORWARD", (Line<Action>) line ->
@@ -208,6 +211,9 @@ public class PlayerActions {
         actions.addAliases("DROP_EXP_AT_PLAYER", "PLAYER_EXP_DROP");
         actions.addAliases("SPAWN_PARTICLE_AT_PLAYER", "PLAYER_PARTICLE");
         actions.addAliases("PLAY_SOUND_AT_PLAYER", "PLAYER_SOUND");
+
+        actions.addAliases("ADD_PLAYER_COOLDOWN", "START_PLAYER_COOLDOWN");
+        actions.addAliases("REMOVE_PLAYER_COOLDOWN", "STOP_PLAYER_COOLDOWN");
 
         actions.addAliases("ADD_PLAYER_MONEY", "ADD_MONEY", "GIVE_PLAYER_MONEY", "GIVE_MONEY");
         actions.addAliases("REMOVE_PLAYER_MONEY", "REMOVE_MONEY", "TAKE_PLAYER_MONEY", "TAKE_MONEY");
@@ -238,6 +244,9 @@ public class PlayerActions {
         actions.addAliases("TELEPORT_PLAYER", "TELEPORT");
         actions.addAliases("OPEN_PLAYER_ENDERCHEST", "OPEN_PLAYER_ENDER_CHEST", "OPEN_ENDERCHEST", "OPEN_ENDER_CHEST");
         actions.addAliases("CLOSE_PLAYER_INVENTORY", "CLOSE_INVENTORY");
+
+        actions.addAliases("ADD_PLAYER_MANA", "ADD_MANA", "REGEN_PLAYER_MANA", "REGEN_MANA");
+        actions.addAliases("REMOVE_PLAYER_MANA", "REMOVE_MANA", "CONSUME_PLAYER_MANA", "CONSUME_MANA");
     }
 
 }

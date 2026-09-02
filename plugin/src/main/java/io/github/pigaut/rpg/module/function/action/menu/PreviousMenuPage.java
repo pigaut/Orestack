@@ -11,7 +11,7 @@ import io.github.pigaut.rpg.player.state.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class PreviousMenuPage implements PlayerStateAction {
+public class PreviousMenuPage implements PlayerStateAction.Executor {
 
     @Override
     public void execute(@NotNull Player player, @NotNull PlayerState playerState) {

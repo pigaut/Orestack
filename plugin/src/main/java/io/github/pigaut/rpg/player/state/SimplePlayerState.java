@@ -697,11 +697,11 @@ public class SimplePlayerState implements PlayerState {
     }
 
     @Override
-    public void addCooldown(@NotNull String name, int ticksDuration) {
-        long expiresAt = System.currentTimeMillis() + TicksUtil.toMillis(ticksDuration);
+    public void addCooldown(@NotNull String name, @NotNull Delay duration) {
+        long expiresAt = System.currentTimeMillis() + duration.toMillis();
         cooldowns.put(name, expiresAt);
 
-        plugin.getScheduler().runTaskLater(ticksDuration, () -> {
+        plugin.getScheduler().runTaskLater(duration.toTicks(), () -> {
             cooldowns.remove(name, expiresAt);
         });
     }
@@ -709,6 +709,16 @@ public class SimplePlayerState implements PlayerState {
     @Override
     public void removeCooldown(@NotNull String name) {
         cooldowns.remove(name);
+    }
+
+    @Override
+    public long getCooldownRemaining(@NotNull String name) {
+        return cooldowns.getOrDefault(name, 0L);
+    }
+
+    @Override
+    public @NotNull Map<String, Long> getCooldowns() {
+        return new HashMap<>(cooldowns);
     }
 
     @Override
@@ -728,7 +738,7 @@ public class SimplePlayerState implements PlayerState {
 
     @Override
     public @NotNull Collection<String> getFlags() {
-        return new ArrayList<>(flags);
+        return new HashSet<>(flags);
     }
 
     @Override
@@ -737,9 +747,9 @@ public class SimplePlayerState implements PlayerState {
     }
 
     @Override
-    public void addTemporaryFlag(@NotNull String flag, int ticks) {
+    public void addTemporaryFlag(@NotNull String flag, @NotNull Delay duration) {
         flags.add(flag);
-        plugin.getScheduler().runTaskLater(ticks, () -> flags.remove(flag));
+        plugin.getScheduler().runTaskLater(duration.toTicks(), () -> flags.remove(flag));
     }
 
     @Override

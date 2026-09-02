@@ -8,13 +8,6 @@ import io.github.pigaut.rpg.module.item.power.*;
 import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.placeholder.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.stat.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.manager.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -110,6 +103,18 @@ public class ItemTemplate implements Identifiable {
     public @NotNull ItemStack createItemStack(@Nullable Player player) {
         ItemStack item = itemStack.clone();
         ItemMeta meta = itemMeta.clone();
+        Context context = Context.builder(plugin)
+                .withPlayer(player)
+                .withPlayerState(player != null ? plugin.getPlayerState(player) : null)
+                .withItem(item)
+                .build();
+
+        // Item creator
+        if (player != null) {
+            String playerName = player.getName();
+            context.addPlaceholder("creator", playerName);
+            PersistentData.setString(meta, plugin.getItems().getCreatorKey(), playerName);
+        }
 
         // Item template name
         PersistentData.setString(meta, plugin.getItems().getItemKey(), name);
@@ -126,12 +131,6 @@ public class ItemTemplate implements Identifiable {
         });
 
         item.setItemMeta(meta);
-
-        Context context = Context.builder(plugin)
-                .withPlayer(player)
-                .withPlayerState(player != null ? plugin.getPlayerState(player) : null)
-                .withItem(item)
-                .build();
 
         return PlaceholderUtil.parseAll(context, item);
     }

@@ -1,6 +1,10 @@
 package io.github.pigaut.rpg.module.function.action.player;
 
 import io.github.pigaut.rpg.bukkit.*;
+import io.github.pigaut.rpg.core.context.*;
+import io.github.pigaut.rpg.core.drop.*;
+import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.*;
@@ -9,32 +13,24 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
-public class GiveExpToPlayer implements PlayerToolAction {
+public class GiveExpToPlayer implements Action {
 
-    private final EnhancedPlugin plugin;
-    private final Amount amount;
-    private final boolean experience;
+    private final ExpDrop expDrop;
 
-    public GiveExpToPlayer(EnhancedPlugin plugin, Amount amount, boolean experience) {
-        this.plugin = plugin;
-        this.amount = amount;
-        this.experience = experience;
+    public GiveExpToPlayer(@NotNull ExpDrop expDrop) {
+        this.expDrop = expDrop;
     }
 
     @Override
-    public void execute(@NotNull Player player, @NotNull ItemStack tool) {
-        Amount totalExp = amount;
-        if (experience) {
-            double expMultiplier = plugin.getSettings().getExperienceMultiplier(tool).doubleValue();
-            totalExp = totalExp.transform(amount -> amount * expMultiplier);
+    public @NotNull FunctionResponse dispatch(@NotNull Context context) {
+        Player player = context.player();
+        if (player == null) {
+            return new FunctionError("This function trigger does not support player actions");
         }
 
-        if (plugin.getSettings().isStats()) {
-            PlayerState playerState = plugin.getPlayerState(player);
-            totalExp.transform(amount -> amount * playerState.getExpGainMultiplier());
-        }
-
-        player.giveExp(totalExp.intValue());
+        expDrop.give(player, context.tool());
+        return FunctionResponse.NONE;
     }
+
 
 }

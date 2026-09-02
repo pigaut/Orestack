@@ -4,7 +4,7 @@ import io.github.pigaut.rpg.module.generator.*;
 import io.github.pigaut.rpg.module.generator.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorSetPhaseAction implements GeneratorAction {
+public class GeneratorSetPhaseAction implements GeneratorAction.Executor {
 
     private final int phase;
     private final boolean growing;

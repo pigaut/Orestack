@@ -4,34 +4,26 @@ import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.response.*;
 import org.jetbrains.annotations.*;
 
+@FunctionalInterface
 public interface Condition {
 
-    Condition EMPTY = new Condition() {};
-    Condition MET = new Condition() {
-        @Override
-        public Boolean isMet(@NotNull Context context) {
-            return true;
-        }
-    };
-    Condition UNMET = new Condition() {
-        @Override
-        public Boolean isMet(@NotNull Context context) {
-            return false;
-        }
-    };
+    Condition ERROR = context -> FunctionResponse.ERROR;
+    Condition MET = context -> FunctionResponse.MET;
+    Condition UNMET = context -> FunctionResponse.UNMET;
 
     @NotNull
-    default FunctionResponse evaluate(@NotNull Context context) {
-        Boolean result = isMet(context);
-        if (result == null) {
-            return FunctionResponse.ERROR;
-        }
-        return result ? FunctionResponse.MET : FunctionResponse.UNMET;
-    }
+    FunctionResponse evaluate(@NotNull Context context);
 
-    @Nullable
-    default Boolean isMet(@NotNull Context context) {
-        return null;
+    @FunctionalInterface
+    interface Predicate extends Condition {
+
+        boolean test(@NotNull Context context);
+
+        @NotNull
+        default FunctionResponse evaluate(@NotNull Context context) {
+            boolean result = test(context);
+            return result ? FunctionResponse.MET : FunctionResponse.UNMET;
+        }
     }
 
 }

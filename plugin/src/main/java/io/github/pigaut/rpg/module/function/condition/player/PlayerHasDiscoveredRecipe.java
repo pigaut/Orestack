@@ -4,7 +4,7 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class PlayerHasDiscoveredRecipe implements PlayerCondition {
+public class PlayerHasDiscoveredRecipe implements PlayerCondition.Predicate {
 
     private final NamespacedKey recipe;
 
@@ -13,7 +13,7 @@ public class PlayerHasDiscoveredRecipe implements PlayerCondition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Player player) {
+    public boolean test(@NotNull Player player) {
         return player.hasDiscoveredRecipe(recipe);
     }
 

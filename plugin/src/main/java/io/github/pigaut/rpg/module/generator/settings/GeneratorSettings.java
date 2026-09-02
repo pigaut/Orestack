@@ -4,6 +4,7 @@ import io.github.pigaut.rpg.module.generator.*;
 import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.module.structure.*;
 import io.github.pigaut.yaml.amount.*;
+import io.github.pigaut.yaml.delay.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
@@ -22,10 +23,13 @@ public interface GeneratorSettings {
 
     Amount getDefaultToolDamage();
 
-    int getGeneratorHitCooldown();
+    @NotNull
+    Delay getGeneratorHitCooldown();
 
-    int getGeneratorClickCooldown();
+    @NotNull
+    Delay getGeneratorClickCooldown();
 
-    int getGeneratorHarvestCooldown();
+    @NotNull
+    Delay getGeneratorHarvestCooldown();
 
 }

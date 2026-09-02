@@ -4,7 +4,7 @@ import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class PlayerHasExpLevel implements PlayerCondition {
+public class PlayerHasExpLevel implements PlayerCondition.Predicate {
 
     private final Amount level;
 
@@ -13,7 +13,7 @@ public class PlayerHasExpLevel implements PlayerCondition {
     }
 
     @Override
-    public Boolean evaluate(@NotNull Player player) {
+    public boolean test(@NotNull Player player) {
         return level.match(player.getLevel());
     }
 

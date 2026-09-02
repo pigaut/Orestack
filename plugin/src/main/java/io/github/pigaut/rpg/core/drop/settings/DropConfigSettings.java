@@ -14,7 +14,8 @@ import java.util.*;
 
 public class DropConfigSettings implements DropSettings {
 
-    private ItemDropTarget defaultItemDropTarget;
+    private List<DropLocation> itemDropLocationPriority;
+    private List<DropLocation> expDropLocationPriority;
 
     private boolean silkTouch;
     private Map<Material, Material> silkDropByOriginal;
@@ -42,8 +43,11 @@ public class DropConfigSettings implements DropSettings {
     private Map<Integer, Amount> expMultiplierByLevel;
 
     public void loadConfiguration(@NotNull ConfigSection config) {
-        defaultItemDropTarget = config.get("default-item-drop-target", ItemDropTarget.class)
-                .withDefault(ItemDropTarget.BLOCK);
+        itemDropLocationPriority = config.getList("item-drop-location-priority", DropLocation.class)
+                .withDefault(List.of(DropLocation.PLAYER));
+
+        expDropLocationPriority = config.getList("exp-drop-location-priority", DropLocation.class)
+                .withDefault(List.of(DropLocation.PLAYER));
 
         silkTouch = config.getBoolean("silk-touch")
                 .withDefault(true);
@@ -149,8 +153,13 @@ public class DropConfigSettings implements DropSettings {
     }
 
     @Override
-    public @NotNull ItemDropTarget getDefaultItemDropTarget() {
-        return defaultItemDropTarget;
+    public @NotNull List<DropLocation> getItemDropLocationPriority() {
+        return new ArrayList<>(itemDropLocationPriority);
+    }
+
+    @Override
+    public @NotNull List<DropLocation> getExpDropLocationPriority() {
+        return new ArrayList<>(itemDropLocationPriority);
     }
 
     @Override

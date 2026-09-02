@@ -5,6 +5,22 @@
 # All unlockable recipes are locked by default, and require use of unlockRecipe and lockRecipe actions,
 # but if global is set to true they will be available for all players.
 
+#---
+#name: example
+#global: false
+#discover-automatically: false
+#
+#ingredients:
+#  G: gold_ingot amount=2
+#  S: stick, blaze_rod amount=1
+#  DIAMOND_SWORD: diamond_sword amount=3
+#
+#recipe: |
+#  ~  G  ~
+#  ~  G  ~  ->  DIAMOND_SWORD
+#  ~  S  ~
+#---
+
 shaped_example:
   type: shaped
   global: false   # Default is false, whether all players should have access to this recipe

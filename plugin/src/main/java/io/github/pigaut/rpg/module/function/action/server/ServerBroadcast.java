@@ -7,7 +7,7 @@ import io.github.pigaut.rpg.plugin.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 
-public class ServerBroadcast implements ServerAction {
+public class ServerBroadcast implements ServerAction.Executor {
 
     private final EnhancedPlugin plugin;
     private final String message;

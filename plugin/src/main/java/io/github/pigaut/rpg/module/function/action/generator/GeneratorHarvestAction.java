@@ -4,7 +4,7 @@ import io.github.pigaut.rpg.module.generator.*;
 import io.github.pigaut.rpg.module.generator.*;
 import org.jetbrains.annotations.*;
 
-public class GeneratorHarvestAction implements GeneratorAction {
+public class GeneratorHarvestAction implements GeneratorAction.Executor {
 
     @Override
     public void execute(@NotNull Generator generator) {

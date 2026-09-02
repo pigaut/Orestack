@@ -8,7 +8,7 @@ import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.gate.*;
 import org.jetbrains.annotations.*;
 
-public class GateCloseAction implements Action {
+public class GateCloseAction implements Action.Executor {
 
     @Override
     public void execute(@NotNull Context context) {

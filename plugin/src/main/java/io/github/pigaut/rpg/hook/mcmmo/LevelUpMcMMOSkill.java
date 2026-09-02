@@ -5,7 +5,7 @@ import com.gmail.nossr50.datatypes.player.*;
 import com.gmail.nossr50.datatypes.skills.*;
 import org.jetbrains.annotations.*;
 
-public class LevelUpMcMMOSkill implements McMMOPlayerAction {
+public class LevelUpMcMMOSkill implements McMMOPlayerAction.Executor {
 
     private final PrimarySkillType skill;
 

@@ -4,7 +4,7 @@ import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class DamagePlayer implements PlayerAction {
+public class DamagePlayer implements PlayerAction.Executor {
 
     private final Amount amount;
 

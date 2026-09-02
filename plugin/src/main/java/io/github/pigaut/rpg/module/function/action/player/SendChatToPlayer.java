@@ -11,7 +11,7 @@ import io.github.pigaut.rpg.module.function.action.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class SendChatToPlayer implements Action {
+public class SendChatToPlayer implements Action.Executor {
 
     private final String message;
 

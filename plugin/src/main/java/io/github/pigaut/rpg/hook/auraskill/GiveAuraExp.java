@@ -9,7 +9,7 @@ import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class GiveAuraExp implements PlayerAction {
+public class GiveAuraExp implements PlayerAction.Executor {
 
     private static final AuraSkillsApi AURA_SKILLS = AuraSkillsApi.get();
 

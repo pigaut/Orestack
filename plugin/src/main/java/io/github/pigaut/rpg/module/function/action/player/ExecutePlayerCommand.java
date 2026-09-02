@@ -9,7 +9,7 @@ import io.github.pigaut.rpg.module.function.action.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class ExecutePlayerCommand implements Action {
+public class ExecutePlayerCommand implements Action.Executor {
 
     private final String command;
 

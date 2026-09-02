@@ -5,7 +5,7 @@ import io.github.pigaut.rpg.module.sound.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class PlaySoundOnPlayer implements PlayerAction {
+public class PlaySoundOnPlayer implements PlayerAction.Executor {
 
     private final SoundEffect sound;
 

@@ -13,7 +13,7 @@ import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class DamageGeneratorAction implements Action {
+public class DamageGeneratorAction implements Action.Executor {
 
     private final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
 

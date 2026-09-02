@@ -20,7 +20,7 @@ public class GeneratorBlockVein {
             return;
         }
 
-        if (!plugin.getGeneratorOptions().isVeinGenerator(generator)) {
+        if (!plugin.getSettings().isVeinGenerator(generator)) {
             return;
         }
 

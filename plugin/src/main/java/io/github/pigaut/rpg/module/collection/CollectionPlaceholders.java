@@ -5,9 +5,9 @@ import io.github.pigaut.rpg.module.collection.template.*;
 import io.github.pigaut.rpg.module.collection.tier.*;
 import io.github.pigaut.rpg.player.data.*;
 import io.github.pigaut.rpg.player.data.base.*;
-import io.github.pigaut.rpg.settings.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.progressbar.*;
+import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.util.*;
 import org.jetbrains.annotations.*;
 

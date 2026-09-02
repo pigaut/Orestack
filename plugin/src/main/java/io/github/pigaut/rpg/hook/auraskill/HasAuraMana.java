@@ -8,7 +8,7 @@ import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class HasAuraMana implements PlayerCondition {
+public class HasAuraMana implements PlayerCondition.Predicate {
 
     private static final AuraSkillsApi AURA_SKILLS = AuraSkillsApi.get();
 
@@ -19,7 +19,7 @@ public class HasAuraMana implements PlayerCondition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Player player) {
+    public boolean test(@NotNull Player player) {
         SkillsUser skillsUser = AURA_SKILLS.getUser(player.getUniqueId());
         return manaAmount.match(skillsUser.getMana());
     }

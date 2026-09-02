@@ -9,7 +9,7 @@ import io.github.pigaut.rpg.module.function.condition.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
 
-public class CollectionMaxTierEquals implements Condition {
+public class CollectionMaxTierEquals implements Condition.Predicate {
 
     private final Amount amount;
 
@@ -18,7 +18,7 @@ public class CollectionMaxTierEquals implements Condition {
     }
 
     @Override
-    public @Nullable Boolean isMet(@NotNull Context context) {
+    public boolean test(@NotNull Context context) {
         ItemCollection collection = context.get(ItemCollection.class);
         if (collection == null) {
             return false;

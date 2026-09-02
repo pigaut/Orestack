@@ -4,14 +4,10 @@ import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.drop.*;
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.event.drop.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.drop.*;
-import io.github.pigaut.rpg.event.drop.*;
-import io.github.pigaut.rpg.module.function.action.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class GiveItemToPlayer implements Action {
+public class GiveItemToPlayer implements Action.Executor {
 
     private final ItemDrop itemDrop;
 

@@ -3,10 +3,10 @@ package io.github.pigaut.rpg.module.function.condition.player;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class PlayerIsFlying implements PlayerCondition {
+public class PlayerIsFlying implements PlayerCondition.Predicate {
 
     @Override
-    public Boolean evaluate(@NotNull Player player) {
+    public boolean test(@NotNull Player player) {
         return player.isFlying();
     }
 

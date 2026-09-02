@@ -10,7 +10,7 @@ import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class DamageGateAction implements Action {
+public class DamageGateAction implements Action.Executor {
 
     private final Amount damageAmount;
 

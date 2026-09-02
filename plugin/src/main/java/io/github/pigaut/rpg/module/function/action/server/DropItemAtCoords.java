@@ -13,7 +13,7 @@ import io.github.pigaut.rpg.module.function.action.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
-public class DropItemAtCoords implements Action {
+public class DropItemAtCoords implements Action.Executor {
 
     private final ItemDrop itemDrop;
     private final Location location;

@@ -6,7 +6,7 @@ import io.github.pigaut.rpg.module.function.action.mob.*;
 import io.github.pigaut.rpg.module.mob.*;
 import org.jetbrains.annotations.*;
 
-public class RemoveMobFlag implements MobAction {
+public class RemoveMobFlag implements MobAction.Executor {
 
     private final String flag;
 

@@ -2,11 +2,8 @@ package io.github.pigaut.rpg.module.function.condition.menu;
 
 import io.github.pigaut.rpg.core.menu.*;
 import io.github.pigaut.rpg.core.menu.atlas.*;
-import io.github.pigaut.rpg.module.function.condition.player.state.*;
-import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.core.menu.*;
-import io.github.pigaut.rpg.core.menu.atlas.*;
-import io.github.pigaut.rpg.module.function.condition.player.state.*;
+import io.github.pigaut.rpg.module.function.condition.player.*;
+import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.rpg.player.state.*;
 import org.jetbrains.annotations.*;
 
@@ -21,12 +18,12 @@ public class MenuCanScroll implements PlayerStateCondition {
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull PlayerState playerState) {
+    public @NotNull FunctionResponse evaluate(@NotNull PlayerState playerState) {
         MenuView menu = playerState.getOpenMenu();
         if (menu instanceof AtlasMenuView atlasMenu) {
-            return atlasMenu.canScroll(direction, amount);
+            return FunctionResponse.met(atlasMenu.canScroll(direction, amount));
         }
-        return null;
+        return new FunctionError("Player does not have an atlas menu open");
     }
 
 }

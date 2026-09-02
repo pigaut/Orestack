@@ -2,18 +2,18 @@ package io.github.pigaut.rpg.module.function.action.gate;
 
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.gate.*;
-import io.github.pigaut.rpg.settings.*;
+import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.action.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class DamageGateWithTool implements Action {
+public class DamageGateWithTool implements Action.Executor {
 
-    private final RpgMakerPlugin plugin;
+    private final EnhancedPlugin plugin;
 
-    public DamageGateWithTool(RpgMakerPlugin plugin) {
+    public DamageGateWithTool(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 

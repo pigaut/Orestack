@@ -58,8 +58,8 @@ public class FunctionLoader implements ConfigLoader<Function> {
             return Function.EMPTY;
         }
 
-        if (section.isSet("for|for-each|for each|for-every|for every")) {
-            ForEachSource<?> forEachSource = section.getRequired("for|for-each|for each|for-every|for every", ForEachSource.class);
+        if (section.isSet("for|for-each|for-every")) {
+            ForEachSource<?> forEachSource = section.getRequired("for|for-each|for-every", ForEachSource.class);
             return new ForEachFunction(forEachSource, loadFunction(section));
         }
 
@@ -68,30 +68,37 @@ public class FunctionLoader implements ConfigLoader<Function> {
 
     private @NotNull Function loadFunction(@NotNull ConfigSection section) throws InvalidConfigException {
         Function function;
-        if (section.isSet("if|condition|conditions")) {
+        if (section.isSet("if")) {
             function = new ConditionalFunction(
-                    section.getRequired("if|condition|conditions", Condition.class),
-                    section.get("then|do|do-this|do this", Function.class).withDefault(Function.EMPTY),
-                    section.get("else|or|or-else|or else", Function.class).withDefault(Function.EMPTY)
+                    section.getRequired("if", Condition.class),
+                    section.get("then|do|do-this", Function.class).withDefault(Function.EMPTY),
+                    section.get("else|or|or-else", Function.class).withDefault(Function.EMPTY)
             );
         }
-        else if (section.isSet("if-not|if not")) {
+        else if (section.isSet("if-not")) {
             function = new ConditionalFunction(
-                    section.getRequired("if-not|if not", NegativeCondition.class),
-                    section.get("then|do|do-this|do this", Function.class).withDefault(Function.EMPTY),
-                    section.get("else|or|or-else|or else", Function.class).withDefault(Function.EMPTY)
+                    section.getRequired("if-not", NotCondition.class),
+                    section.get("then|do|do-this", Function.class).withDefault(Function.EMPTY),
+                    section.get("else|or|or-else", Function.class).withDefault(Function.EMPTY)
             );
         }
-        else if (section.isSet("if-any|if any")) {
+        else if (section.isSet("if-any")) {
             function = new ConditionalFunction(
-                    section.getRequired("if-any|if any", DisjunctiveCondition.class),
-                    section.get("then|do|do-this|do this", Function.class).withDefault(Function.EMPTY),
-                    section.get("else|or|or-else|or else", Function.class).withDefault(Function.EMPTY)
+                    section.getRequired("if-any", OrCondition.class),
+                    section.get("then|do|do-this", Function.class).withDefault(Function.EMPTY),
+                    section.get("else|or|or-else", Function.class).withDefault(Function.EMPTY)
             );
         }
-        else if (section.isSet("do|action|actions")) {
+        else if (section.isSet("if-none")) {
+            function = new ConditionalFunction(
+                    section.getRequired("if-none", NorCondition.class),
+                    section.get("then|do|do-this", Function.class).withDefault(Function.EMPTY),
+                    section.get("else|or|or-else", Function.class).withDefault(Function.EMPTY)
+            );
+        }
+        else if (section.isSet("do|do-this|action|actions")) {
             function = new SimpleFunction(
-                    section.getRequired("do|action|actions", Action.class));
+                    section.getRequired("do|do-this|action|actions", Action.class));
         }
         else if (section.isSet("switch")) {
             String conditionName = section.getRequiredString("switch");
@@ -164,11 +171,9 @@ public class FunctionLoader implements ConfigLoader<Function> {
         if (functions.isEmpty()) {
             return Function.EMPTY;
         }
-
         if (functions.size() == 1) {
             return functions.get(0);
         }
-
         return new MultiFunction(sequence.getAllRequired(Function.class));
     }
 

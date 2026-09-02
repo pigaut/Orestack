@@ -5,6 +5,7 @@ import dev.aurelium.auraskills.api.skill.*;
 import dev.aurelium.auraskills.api.user.*;
 import io.github.pigaut.rpg.module.function.condition.player.*;
 import io.github.pigaut.rpg.module.function.condition.player.*;
+import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
@@ -16,19 +17,19 @@ public class HasAuraSkillLevel implements PlayerCondition {
     private final Amount level;
     private final Skills skill;
 
-    public HasAuraSkillLevel(Amount level, Skills skill) {
+    public HasAuraSkillLevel(@NotNull Amount level, @NotNull Skills skill) {
         this.level = level;
         this.skill = skill;
     }
 
     @Override
-    public @Nullable Boolean evaluate(@NotNull Player player) {
+    public @NotNull FunctionResponse evaluate(@NotNull Player player) {
         if (!skill.isEnabled()) {
-            return null;
+            return new FunctionError("Cannot check level because skill is not enabled (AuraSkills)");
         }
 
         SkillsUser skillsUser = AURA_SKILLS.getUser(player.getUniqueId());
-        return level.match(skillsUser.getSkillLevel(skill));
+        return FunctionResponse.met(level.match(skillsUser.getSkillLevel(skill)));
     }
 
 }

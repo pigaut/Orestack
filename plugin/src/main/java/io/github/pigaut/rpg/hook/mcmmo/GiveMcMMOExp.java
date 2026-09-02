@@ -6,7 +6,7 @@ import com.gmail.nossr50.datatypes.skills.*;
 import io.github.pigaut.yaml.amount.*;
 import org.jetbrains.annotations.*;
 
-public class GiveMcMMOExp implements McMMOPlayerAction {
+public class GiveMcMMOExp implements McMMOPlayerAction.Executor {
 
     private final Amount expAmount;
     private final PrimarySkillType skill;

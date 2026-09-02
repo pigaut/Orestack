@@ -15,7 +15,7 @@ public class CollectionConfigSettings implements CollectionSettings {
     private Set<ItemSpawnReason> collectionSources;
     private ProgressBar collectionProgressBar;
 
-    public CollectionConfigSettings(EnhancedPlugin plugin) {
+    public CollectionConfigSettings(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 

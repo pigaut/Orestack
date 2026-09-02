@@ -1,5 +1,6 @@
 package io.github.pigaut.rpg.module.function.condition.mob;
 
+import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.rpg.module.mob.Mob;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
@@ -7,12 +8,12 @@ import org.jetbrains.annotations.*;
 public class MobIsFullHealth implements MobCondition {
 
     @Override
-    public Boolean evaluate(@NotNull Mob mob) {
+    public @NotNull FunctionResponse evaluate(@NotNull Mob mob) {
         LivingEntity entity = mob.getEntity();
         if (entity == null) {
-            return null;
+            return new FunctionError("Mob does not have an active entity");
         }
-        return entity.getHealth() == mob.getMaxHealth();
+        return FunctionResponse.met(entity.getHealth() == mob.getMaxHealth());
     }
 
 }

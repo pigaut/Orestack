@@ -25,7 +25,7 @@ public class GeneratorRemoveAllSubCommand extends SubCommand {
         withDescription(plugin.getTranslation("generator-remove-all-command"));
         withParameter(OrestackParameters.GENERATOR_NAME);
         withPlayerExecution((player, context, args) -> {
-            RpgPlayerState playerState = plugin.getPlayerState(player);
+            PlayerState playerState = plugin.getPlayerState(player);
             GeneratorTemplate generatorTemplate = plugin.getGeneratorTemplate(args[0]);
             if (generatorTemplate == null) {
                 plugin.sendMessage(player, context, "generator-not-found");

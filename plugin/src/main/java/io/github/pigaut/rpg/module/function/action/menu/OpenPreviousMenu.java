@@ -9,7 +9,7 @@ import io.github.pigaut.rpg.player.state.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class OpenPreviousMenu implements PlayerStateAction {
+public class OpenPreviousMenu implements PlayerStateAction.Executor {
 
     @Override
     public void execute(@NotNull Player player, @NotNull PlayerState playerState) {

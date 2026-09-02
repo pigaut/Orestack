@@ -4,7 +4,7 @@ import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.bukkit.*;
 import org.bukkit.*;
 
-public class StrikeLightning implements ServerAction {
+public class StrikeLightning implements ServerAction.Executor {
 
     private final Location location;
     private final boolean doDamage;

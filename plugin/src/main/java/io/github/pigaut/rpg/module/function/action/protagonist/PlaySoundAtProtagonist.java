@@ -8,7 +8,7 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class PlaySoundAtProtagonist implements ProtagonistAction {
+public class PlaySoundAtProtagonist implements ProtagonistAction.Executor {
 
     private final SoundEffect sound;
 

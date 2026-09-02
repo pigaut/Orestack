@@ -14,7 +14,7 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
-public class DropItemAtPlayer implements Action {
+public class DropItemAtPlayer implements Action.Executor {
 
     private final ItemDrop itemDrop;
 

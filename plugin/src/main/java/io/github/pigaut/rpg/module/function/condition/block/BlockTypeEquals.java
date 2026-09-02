@@ -6,17 +6,17 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class BlockTypeEquals implements BlockCondition {
+public class BlockTypeEquals implements BlockCondition.Predicate {
 
-    private final Set<Material> validBlockTypes;
+    private final Set<Material> blockTypes;
 
-    public BlockTypeEquals(Set<Material> validBlockTypes) {
-        this.validBlockTypes = Set.copyOf(validBlockTypes);
+    public BlockTypeEquals(@NotNull Set<Material> blockTypes) {
+        this.blockTypes = Set.copyOf(blockTypes);
     }
 
     @Override
-    public Boolean evaluate(@NotNull Block block) {
-        return validBlockTypes.contains(block.getType());
+    public boolean test(@NotNull Block block) {
+        return blockTypes.contains(block.getType());
     }
 
 }
