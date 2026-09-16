@@ -2,8 +2,6 @@ package io.github.pigaut.rpg.module.command;
 
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.manager.config.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.manager.config.*;
 import io.github.pigaut.rpg.plugin.manager.module.Module;
 import org.jetbrains.annotations.*;
 
@@ -17,14 +15,14 @@ public class CustomCommandManager extends ConfigBackedManager<CustomCommand> {
     @Override
     public void enable() {
         for (CustomCommand command : getAll()) {
-            plugin.getRegisteredCommands().registerCommand(command);
+            plugin.getRegisteredCommands().register(command);
         }
     }
 
     @Override
     public void disable() {
         for (CustomCommand command : getAll()) {
-            plugin.getRegisteredCommands().unregisterCommand(command.getName());
+            plugin.getRegisteredCommands().unregister(command.getName());
         }
     }
 

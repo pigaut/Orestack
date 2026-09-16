@@ -16,14 +16,14 @@ public class RecipeUnlockSubCommand extends SubCommand {
         withDescription(plugin.getTranslation("recipe-unlock-command"));
         withParameter(CommandParameters.unlockableRecipeName(plugin));
         withPlayerExecution((player, context, args) -> {
-            RecipeTemplate recipe = plugin.getRecipe(args[0]);
+            RecipeTemplate recipe = plugin.getRecipeTemplate(args[0]);
             if (recipe == null) {
                 plugin.sendMessage(player, context, "recipe-not-found");
                 return;
             }
 
-            if (recipe.isGlobal()) {
-                plugin.sendMessage(player, context, "cannot-unlock-global-recipe");
+            if (!recipe.isLocked()) {
+                plugin.sendMessage(player, context, "cannot-unlock-recipe");
                 return;
             }
 

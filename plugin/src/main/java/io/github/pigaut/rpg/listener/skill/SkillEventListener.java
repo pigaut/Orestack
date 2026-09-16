@@ -18,9 +18,9 @@ import org.bukkit.inventory.*;
 
 public class SkillEventListener implements Listener {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public SkillEventListener(RpgMakerPlugin plugin) {
+    public SkillEventListener(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

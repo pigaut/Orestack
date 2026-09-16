@@ -82,7 +82,7 @@ public class InventoryUtil {
 
         if (rawSlot == targetSlot) {
             ItemStack cursor = event.getCursor();
-            return cursor != null && cursor.getType() != Material.AIR;
+            return cursor.getType() != Material.AIR;
         }
 
         if (event.isShiftClick() && rawSlot >= topSize) {

@@ -13,7 +13,7 @@ import java.util.*;
 
 public class SkillIncrementSubCommand extends SubCommand {
 
-    public SkillIncrementSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public SkillIncrementSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "increment");
         withPermission(plugin.getPermission("skill.increment"));
         withDescription(plugin.getTranslation("skill-increment-command"));

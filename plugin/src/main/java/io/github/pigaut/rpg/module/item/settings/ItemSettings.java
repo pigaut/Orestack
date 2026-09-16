@@ -10,47 +10,45 @@ import java.util.*;
 
 public interface ItemSettings {
 
-    @NotNull List<String> getDefaultItemLore();
-
-    @NotNull String getDefaultItemName();
-
-    @NotNull String getDefaultDescriptionColor();
-    @NotNull List<String> getDescriptionHeader();
-    @NotNull List<String> getDescriptionFooter();
-
-    int getStatsDescriptionMaxLines();
-    @NotNull List<String> getStatsDescriptionHeader();
-    @NotNull List<String> getStatsDescriptionDivider();
-    @NotNull List<String> getStatsDescriptionFooter();
-    @NotNull List<String> getStatDescription(@NotNull Stat statType);
-
-    int getEnchantsDescriptionMaxLines();
-    @NotNull List<String> getEnchantsDescriptionHeader();
-    @NotNull List<String> getEnchantsDescriptionDivider();
-    @NotNull List<String> getEnchantsDescriptionFooter();
-    @NotNull List<String> getEnchantDescription(@NotNull Enchantment enchant);
-
-    @NotNull List<String> getAbilityDescriptionHeader();
-    @NotNull List<String> getAbilityDescriptionDivider();
-    @NotNull List<String> getAbilityDescriptionFooter();
-    @NotNull List<String> getAbilityDescriptionTemplate();
+    boolean isItemCategory(@NotNull String category);
+    @NotNull Set<String> getItemCategories();
 
     boolean isItemRarity(@NotNull String rarity);
+    @NotNull Set<String> getItemRarities();
+
+    int getDefaultBreakingPower();
+    @Nullable String getDefaultItemCategory();
     @Nullable String getDefaultItemRarity();
-    @Nullable String getItemRarityDisplay(@NotNull String name);
+    @Nullable String getDefaultItemName();
+    @Nullable String getItemNameByRarity(@NotNull String rarity);
+    @NotNull String getDefaultDescriptionColor();
+    @Nullable List<String> getDefaultItemLore();
 
-    @Nullable String getItemNameByRarity(@NotNull String name);
+    @NotNull List<String> getItemBreakingPowerLore(@NotNull String breakingPower);
+    @NotNull List<String> getItemCategoryLore();
+    @NotNull List<String> getItemDescriptionLore();
+    @NotNull List<String> getItemCraftedByLore();
+    @NotNull List<String> getItemRarityLore(@NotNull String rarity);
+    @NotNull List<String> getItemAbilitiesLore();
+    @NotNull List<String> getItemStatsLore();
+    @NotNull List<String> getItemEnchantsLore();
 
-    @NotNull List<String> getItemRarityDescription(@NotNull String name);
-
-    @NotNull List<String> getRarityHeader();
-    @NotNull List<String> getRarityFooter();
+    boolean isAbilityTemplate(@NotNull String name);
+    @Nullable String getAbilityLoreDivider();
+    @NotNull Set<String> getAbilityTemplateNames();
+    @Nullable List<String> getAbilityTemplate(@NotNull String name);
 
     boolean isBreakingPower();
-    int getDefaultBreakingPower();
+    int getPlayerBreakingPower();
     @NotNull Set<BreakingPower> getBreakingPowers();
     @Nullable BlockBreakingPower getBlockBreakingPower(@NotNull Block block);
-    @NotNull List<String> getBreakingPowerHeader();
-    @NotNull List<String> getBreakingPowerFooter();
+
+    int getItemLoreMaxStats();
+    @Nullable String getItemLoreStatDivider();
+    @NotNull List<String> getItemStatDescription(@NotNull Stat stat);
+
+    int getItemLoreMaxEnchants();
+    @Nullable String getItemLoreEnchantDivider();
+    @NotNull List<String> getItemEnchantDescription(@NotNull Enchantment enchant);
 
 }

@@ -4,21 +4,15 @@ import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.api.event.generator.*;
 import io.github.pigaut.rpg.hook.veinminer.*;
 import io.github.pigaut.rpg.module.generator.*;
-import io.github.pigaut.rpg.module.generator.exception.*;
-import io.github.pigaut.rpg.module.generator.global.*;
 import io.github.pigaut.rpg.module.generator.instanced.*;
 import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.module.generator.tool.*;
 import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.bukkit.material.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
 
-import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
@@ -28,9 +22,9 @@ import org.bukkit.inventory.*;
 
 public class GeneratorEventListener implements Listener {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public GeneratorEventListener(RpgMakerPlugin plugin) {
+    public GeneratorEventListener(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

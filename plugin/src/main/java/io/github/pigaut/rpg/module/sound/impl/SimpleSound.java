@@ -19,7 +19,7 @@ public class SimpleSound implements SoundEffect {
     private final boolean playerOnly;
 
     public SimpleSound(@NotNull Sound sound) {
-        this(StringUtil.generateRandomName(), null, sound, 1, 1, 0, 0, 0, false);
+        this(StringUtil.randomName(), null, sound, 1, 1, 0, 0, 0, false);
     }
 
     public SimpleSound(@NotNull String name, @Nullable String group,

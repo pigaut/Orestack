@@ -3,10 +3,8 @@ package io.github.pigaut.rpg.core.placeholder;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.hook.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.hook.*;
-import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
+import io.github.pigaut.rpg.util.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
 import org.jetbrains.annotations.*;
@@ -15,6 +13,37 @@ import java.util.*;
 import java.util.regex.*;
 
 public class PlaceholderUtil {
+
+    /**
+     * Checks whether the given text contains the given placeholder, allowing for an optional
+     * formatting suffix (e.g. "{example_placeholder}" matches both "{example_placeholder}" and
+     * "{example_placeholder_tc}").
+     *
+     * @param text the text to search
+     * @param placeholder the base placeholder to look for, including braces (e.g. "{example_placeholder}")
+     */
+    public static boolean containsPlaceholder(@NotNull String text, @NotNull String placeholder) {
+        if (!StringUtil.isParenthesized(placeholder, "{", "}")) {
+            throw new IllegalArgumentException("Placeholder must be surrounded with braces: " + placeholder);
+        }
+
+        String baseName = StringUtil.removeParentheses(placeholder);
+        Pattern pattern = Pattern.compile("\\{" + Pattern.quote(baseName) + "[^}]*}");
+        return pattern.matcher(text).find();
+    }
+
+    /**
+     * Checks whether any element of the given list contains the given placeholder, allowing for
+     * an optional formatting suffix, same rules as {@link #containsPlaceholder(String, String)}.
+     */
+    public static boolean containsPlaceholder(@NotNull List<String> lines, @NotNull String placeholder) {
+        for (String line : lines) {
+            if (containsPlaceholder(line, placeholder)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static @NotNull String parseAll(@NotNull EnhancedPlugin plugin, @NotNull String text) {
         return parseAll(Context.fromPlugin(plugin), text);

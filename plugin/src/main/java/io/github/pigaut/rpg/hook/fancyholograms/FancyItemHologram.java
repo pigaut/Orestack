@@ -20,7 +20,7 @@ public class FancyItemHologram implements Hologram {
     private final de.oliver.fancyholograms.api.hologram.Hologram hologram;
 
     public FancyItemHologram(@NotNull HologramStyle style, @NotNull Location location, @NotNull ItemStack item) {
-        this.name = StringUtil.generateRandomName();
+        this.name = StringUtil.randomName();
 
         LocationUtil.setDefaultWorldIfMissing(location);
         location.subtract(0, 0.2, 0);

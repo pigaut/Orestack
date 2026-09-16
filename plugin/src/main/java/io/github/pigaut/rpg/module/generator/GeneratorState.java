@@ -3,12 +3,6 @@ package io.github.pigaut.rpg.module.generator;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.generator.phase.*;
 import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.plugin.task.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.plugin.task.*;
 import io.github.pigaut.yaml.util.*;
 import org.jetbrains.annotations.*;
@@ -16,7 +10,7 @@ import org.jetbrains.annotations.*;
 import java.time.*;
 
 public class GeneratorState {
-    private static final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     protected final BasicGenerator generator;
 

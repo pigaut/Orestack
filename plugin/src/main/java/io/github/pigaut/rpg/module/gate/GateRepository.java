@@ -3,10 +3,6 @@ package io.github.pigaut.rpg.module.gate;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.module.gate.exception.*;
-import io.github.pigaut.rpg.module.gate.exception.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.module.gate.exception.*;
 import io.github.pigaut.sql.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
@@ -15,7 +11,7 @@ import java.util.*;
 
 public class GateRepository {
 
-    private static final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     private static void createGatesTable(@NotNull Database database) {
         database.createTableIfNotExists("gates",

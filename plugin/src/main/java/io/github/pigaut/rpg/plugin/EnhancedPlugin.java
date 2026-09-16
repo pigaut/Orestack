@@ -174,7 +174,7 @@ public interface EnhancedPlugin extends Plugin {
     PlayerData getPlayerData(@NotNull UUID playerId);
 
     @NotNull
-    ItemManager getItems();
+    ItemTemplateManager getItemTemplates();
 
     boolean hasItemTemplate(@NotNull ItemStack item);
 
@@ -185,7 +185,7 @@ public interface EnhancedPlugin extends Plugin {
     ItemTemplate getItemTemplate(@NotNull ItemStack item);
 
     @NotNull
-    List<ItemTemplate> getItems(@NotNull String group);
+    List<ItemTemplate> getItemTemplates(@NotNull String group);
 
     @NotNull
     MessageManager getMessages();
@@ -215,19 +215,22 @@ public interface EnhancedPlugin extends Plugin {
     ConditionRegistry getConditions();
 
     @Nullable
-    ConfigLoader<? extends Condition> getCondition(@NotNull String name);
+    ConfigLoader<Condition> getCondition(@NotNull String name);
 
     @NotNull
     ActionRegistry getActions();
 
     @Nullable
-    ConfigLoader<? extends Action> getAction(@NotNull String name);
+    ConfigLoader<Action> getAction(@NotNull String name);
 
     @NotNull
-    RecipeManager getRecipes();
+    RecipeTemplateManager getRecipes();
 
     @Nullable
-    RecipeTemplate getRecipe(@NotNull String name);
+    RecipeTemplate getRecipeTemplate(@NotNull String name);
+
+    @Nullable
+    RecipeTemplate getRecipeTemplate(@NotNull Recipe recipe);
 
     @NotNull
     StatManager getStats();

@@ -26,7 +26,7 @@ public class ItemDropLoader implements ConfigLoader.Line<ItemDrop> {
     @Override
     public @NotNull ItemDrop loadFromLine(ConfigLine line) throws InvalidConfigException {
         ItemStack item;
-        if (line.size() <= 1) {
+        if (line.valueCount() <= 1) {
             item = line.getRequired(0, ItemStack.class);
         } else {
             item = line.getRequired(1, ItemStack.class);

@@ -1,6 +1,5 @@
 package io.github.pigaut.rpg.player.state;
 
-import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.bukkit.attribute.*;
 import io.github.pigaut.rpg.core.context.*;
@@ -500,7 +499,7 @@ public class SimplePlayerState implements PlayerState {
                 continue;
             }
 
-            Integer statLevel = plugin.getItems().getStatTotalLevel(item, stat);
+            Integer statLevel = plugin.getItemTemplates().getStatTotalLevel(item, stat);
             if (statLevel != null) {
                 playerStat.setEquipment(slot, statLevel);
             }

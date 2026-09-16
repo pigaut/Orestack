@@ -3,15 +3,12 @@ package io.github.pigaut.rpg.module.generator.exception;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.plugin.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorOverlapException extends GeneratorCreateException {
 
-    private static final EnhancedPlugin PLUGIN = RpgMakerPlugin.getInstance();
+    private static final EnhancedPlugin PLUGIN = OrestackPlugin.getInstance();
     private static final String TRANSLATION_ID = "generator-overlap";
 
     public GeneratorOverlapException(Location location) {

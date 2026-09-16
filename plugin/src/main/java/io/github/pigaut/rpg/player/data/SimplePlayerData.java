@@ -26,7 +26,7 @@ public class SimplePlayerData extends AbstractPlayerData implements PlayerData {
 
     @Override
     public boolean hasUnlockedRecipe(@NotNull NamespacedKey recipe) {
-        return unlockedRecipes.contains(recipe);
+        return isLoaded() && unlockedRecipes.contains(recipe);
     }
 
     @Override

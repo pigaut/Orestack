@@ -5,9 +5,6 @@ import com.github.retrooper.packetevents.event.*;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.listener.generator.*;
 import io.github.pigaut.rpg.listener.packets.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.listener.generator.*;
-import io.github.pigaut.rpg.listener.packets.*;
 import org.jetbrains.annotations.*;
 
 public class PacketEventsHook {
@@ -17,7 +14,7 @@ public class PacketEventsHook {
         events.registerListener(packetListener, priority);
     }
 
-    public static void registerAllPacketListeners(@NotNull RpgMakerPlugin plugin) {
+    public static void registerAllPacketListeners(@NotNull OrestackPlugin plugin) {
         EventManager events = PacketEvents.getAPI().getEventManager();
         events.registerListener(new GeneratorPacketEventListener(plugin), PacketListenerPriority.NORMAL);
         events.registerListener(new VirtualBlockListener(plugin), PacketListenerPriority.NORMAL);

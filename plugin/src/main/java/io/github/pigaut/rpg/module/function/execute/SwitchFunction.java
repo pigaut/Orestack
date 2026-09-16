@@ -10,7 +10,7 @@ import java.util.*;
 public class SwitchFunction implements Function {
 
     private final SwitchCase[] cases;
-    private final Function defaultCase;
+    private final @Nullable Function defaultCase;
 
     public SwitchFunction(@NotNull Collection<SwitchCase> cases, @Nullable Function defaultCase) {
         this.cases = cases.toArray(new SwitchCase[0]);
@@ -20,18 +20,22 @@ public class SwitchFunction implements Function {
     @Override
     public @NotNull FunctionResponse dispatch(@NotNull Context context) {
         for (SwitchCase switchCase : cases) {
-            Boolean met = switchCase.isMet(context);
-            if (met == null) {
-                return FunctionResponse.NONE;
+            FunctionResponse response = switchCase.evaluate(context);
+
+            ResponseType responseType = response.getType();
+            if (responseType == ResponseType.UNMET) {
+                continue;
             }
 
-            if (met) {
+            if (responseType == ResponseType.MET) {
                 Function function = switchCase.getFunction();
                 if (function != null) {
                     return function.dispatch(context);
                 }
                 return FunctionResponse.NONE;
             }
+
+            return response;
         }
 
         if (defaultCase != null) {

@@ -14,6 +14,8 @@ public interface Registry<T> {
 
     void unregister(@NotNull String name);
 
+    void registerAlias(@NotNull String name, @NotNull String... aliases);
+
     @NotNull Collection<T> getAll();
 
     @NotNull Collection<String> getAllNames();

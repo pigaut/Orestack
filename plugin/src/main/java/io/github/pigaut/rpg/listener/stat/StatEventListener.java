@@ -72,7 +72,7 @@ public class StatEventListener implements Listener {
         playerState.setInCombat(true);
 
         double damage = 0;
-        if (!plugin.getItems().hasStat(PlayerUtil.getTool(damager), BaseStats.DAMAGE)) {
+        if (!plugin.getItemTemplates().hasStat(PlayerUtil.getTool(damager), BaseStats.DAMAGE)) {
             damage = event.getDamage();
         }
 

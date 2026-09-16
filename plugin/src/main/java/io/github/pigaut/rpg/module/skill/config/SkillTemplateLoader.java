@@ -5,22 +5,7 @@ import io.github.pigaut.rpg.module.skill.*;
 import io.github.pigaut.rpg.module.skill.exp.*;
 import io.github.pigaut.rpg.module.skill.level.*;
 import io.github.pigaut.rpg.module.skill.template.*;
-import io.github.pigaut.rpg.module.skill.*;
-import io.github.pigaut.rpg.module.skill.exp.*;
-import io.github.pigaut.rpg.module.skill.level.*;
-import io.github.pigaut.rpg.module.skill.template.*;
-import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.stat.*;
-import io.github.pigaut.rpg.module.stat.modifier.*;
-import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.skill.*;
-import io.github.pigaut.rpg.module.skill.exp.*;
-import io.github.pigaut.rpg.module.skill.level.*;
-import io.github.pigaut.rpg.module.skill.template.*;
 import io.github.pigaut.rpg.module.stat.*;
 import io.github.pigaut.rpg.module.stat.modifier.*;
 import io.github.pigaut.rpg.plugin.manager.*;
@@ -38,9 +23,9 @@ import java.util.*;
 
 public class SkillTemplateLoader implements ConfigLoader<SkillTemplate> {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public SkillTemplateLoader(RpgMakerPlugin plugin) {
+    public SkillTemplateLoader(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

@@ -7,19 +7,12 @@ import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.core.command.node.*;
 import io.github.pigaut.rpg.module.structure.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.command.*;
-import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.module.generator.*;
-import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.module.structure.*;
-import io.github.pigaut.rpg.player.state.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorRemoveAllSubCommand extends SubCommand {
 
-    public GeneratorRemoveAllSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public GeneratorRemoveAllSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "remove-all");
         withPermission(plugin.getPermission("generator.remove-all"));
         withDescription(plugin.getTranslation("generator-remove-all-command"));

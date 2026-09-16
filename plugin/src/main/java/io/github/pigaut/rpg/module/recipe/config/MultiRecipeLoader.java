@@ -2,29 +2,27 @@ package io.github.pigaut.rpg.module.recipe.config;
 
 import io.github.pigaut.rpg.module.recipe.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.module.recipe.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.server.Server;
-import io.github.pigaut.rpg.server.version.*;
-import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
-import io.github.pigaut.yaml.delay.*;
-import org.bukkit.*;
-import org.bukkit.inventory.*;
-import org.bukkit.inventory.recipe.*;
 import org.jetbrains.annotations.*;
-
-import java.util.*;
 
 public class MultiRecipeLoader implements ConfigLoader<MultiRecipe> {
 
     private final EnhancedPlugin plugin;
 
-    public MultiRecipeLoader(EnhancedPlugin plugin) {
+    private final ShapedRecipeLoader shapedRecipeLoader;
+    private final ShapelessRecipeLoader shapelessRecipeLoader;
+    private final SmithingRecipeLoader smithingRecipeLoader;
+    private final StonecutterRecipeLoader stonecutterRecipeLoader;
+    private final SmeltingRecipeLoader smeltingRecipeLoader;
+
+    public MultiRecipeLoader(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
+        this.shapedRecipeLoader = new ShapedRecipeLoader(plugin);
+        this.shapelessRecipeLoader = new ShapelessRecipeLoader(plugin);
+        this.smithingRecipeLoader = new SmithingRecipeLoader(plugin);
+        this.stonecutterRecipeLoader = new StonecutterRecipeLoader(plugin);
+        this.smeltingRecipeLoader = new SmeltingRecipeLoader(plugin);
     }
 
     @Override
@@ -34,101 +32,35 @@ public class MultiRecipeLoader implements ConfigLoader<MultiRecipe> {
 
     @Override
     public @NotNull MultiRecipe loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
-        RecipeType recipeType = section.get("type", RecipeType.class)
-                .withDefault(RecipeType.SHAPED);
-
-        if (recipeType != RecipeType.SMELT) {
-            RecipeTemplate recipeTemplate = section.getRequired(RecipeTemplate.class);
-            return new MultiRecipe(section.getKey(), List.of(recipeTemplate));
+        if (!section.getBoolean("enabled").withDefault(true)) {
+            return MultiRecipe.EMPTY;
         }
 
-        String group = Group.byRecipeFile(section.getRoot().getFile());
-        boolean global = section.getBoolean("global")
-                .require(Requirements.isTrue(), "Smelting recipe must be global")
-                .withDefault(true);
-        boolean discoverAutomatically = section.getBoolean("discover-automatically")
-                .withDefault(false);
+        if (section.isSet("shape")) {
+            return new MultiRecipe(shapedRecipeLoader.loadFromSection(section));
+        }
 
-        RecipeChoice input = section.getRequired("input|source", RecipeChoice.class);
-        ItemStack result = section.getRequired("result", ItemStack.class);
-        float experience = section.getFloat("exp|experience")
-                .withDefault(0f);
-        Integer defaultSmeltTime = section.get("cook-time|cooking-time|smelt-time|smelting-time", Delay.class)
-                .mapIfValid(Delay::toTicks)
-                .orElse(null);
+        if (section.isSet("shapeless")) {
+            return new MultiRecipe(shapelessRecipeLoader.loadFromSection(section));
+        }
 
-        List<RecipeTemplate> smeltRecipes = new ArrayList<>();
-        ConfigSection smeltTimeSection = section.getSectionOrCreate("cook-time-by-furnace|cooking-time-by-furnace|smelt-time-by-furnace|smelting-time-by-furnace");
-
-        Integer furnaceSmeltTime = smeltTimeSection.get("furnace", Delay.class)
-                .mapIfValid(Delay::toTicks)
-                .orElse(defaultSmeltTime);
-
-        if (furnaceSmeltTime != null) {
-            String name = "furnace_" + section.getKey();
-            NamespacedKey key = plugin.getNamespacedKey(name);
-            FurnaceRecipe furnaceRecipe = new FurnaceRecipe(key, result, input, experience, furnaceSmeltTime);
-            if (Server.getVersion() >= Version.V1_19_3) {
-                CookingBookCategory category = section.get("category|book-category|cooking-book-category", CookingBookCategory.class)
-                        .withDefault(CookingBookCategory.MISC);
-                furnaceRecipe.setCategory(category);
+        if (section.isSet("forge|smithing-table")) {
+            if (!plugin.getRecipes().isSmithingRecipesSupported()) {
+                section.collectWarning(section, "Smithing recipes require version 1.20+");
+                return MultiRecipe.EMPTY;
             }
-            smeltRecipes.add(new RecipeTemplate(key, name, group, RecipeType.FURNACE, global, discoverAutomatically, furnaceRecipe));
+            return new MultiRecipe(smithingRecipeLoader.loadFromSection(section));
         }
 
-        Integer blastingSmeltTime = smeltTimeSection.get("blasting|blast-furnace", Delay.class)
-                .mapIfValid(Delay::toTicks)
-                .orElse(defaultSmeltTime);
-
-        if (blastingSmeltTime != null) {
-            String name = "blasting_" + section.getKey();
-            NamespacedKey key = plugin.getNamespacedKey(name);
-            BlastingRecipe blastingRecipe = new BlastingRecipe(key, result, input, experience, blastingSmeltTime);
-            if (Server.getVersion() >= Version.V1_19_3) {
-                CookingBookCategory category = section.get("category|book-category|cooking-book-category", CookingBookCategory.class)
-                        .withDefault(CookingBookCategory.MISC);
-                blastingRecipe.setCategory(category);
-            }
-            smeltRecipes.add(new RecipeTemplate(key, name, group, RecipeType.BLAST_FURNACE, global, discoverAutomatically, blastingRecipe));
+        if (section.isSet("stonecutter")) {
+            return new MultiRecipe(stonecutterRecipeLoader.loadFromSection(section));
         }
 
-        Integer smokingSmeltTime = smeltTimeSection.get("smoking|smoker", Delay.class)
-                .mapIfValid(Delay::toTicks)
-                .orElse(defaultSmeltTime);
-
-        if (smokingSmeltTime != null) {
-            String name = "smoking_" + section.getKey();
-            NamespacedKey key = plugin.getNamespacedKey(name);
-            SmokingRecipe smokingRecipe = new SmokingRecipe(key, result, input, experience, smokingSmeltTime);
-            if (Server.getVersion() >= Version.V1_19_3) {
-                CookingBookCategory category = section.get("category|book-category|cooking-book-category", CookingBookCategory.class)
-                        .withDefault(CookingBookCategory.MISC);
-                smokingRecipe.setCategory(category);
-            }
-            smeltRecipes.add(new RecipeTemplate(key, name, group, RecipeType.SMOKER, global, discoverAutomatically, smokingRecipe));
+        if (section.isSet("smelt|furnace|blast-furnace|blast|smoker|campfire|cooking")) {
+            return smeltingRecipeLoader.loadFromSection(section);
         }
 
-        Integer campfireSmeltTime = smeltTimeSection.get("campfire|cooking", Delay.class)
-                .mapIfValid(Delay::toTicks)
-                .orElse(defaultSmeltTime);
-
-        if (campfireSmeltTime != null) {
-            String name = "campfire_" + section.getKey();
-            NamespacedKey key = plugin.getNamespacedKey(name);
-            CampfireRecipe campfireRecipe = new CampfireRecipe(key, result, input, experience, campfireSmeltTime);
-            if (Server.getVersion() >= Version.V1_19_3) {
-                CookingBookCategory category = section.get("category|book-category|cooking-book-category", CookingBookCategory.class)
-                        .withDefault(CookingBookCategory.MISC);
-                campfireRecipe.setCategory(category);
-            }
-            smeltRecipes.add(new RecipeTemplate(key, name, group, RecipeType.CAMPFIRE, global, discoverAutomatically, campfireRecipe));
-        }
-
-        if (smeltRecipes.isEmpty()) {
-            throw new InvalidConfigException(section, "smelt-time", "At least one smelt-time must be set");
-        }
-
-        return new MultiRecipe(section.getKey(), smeltRecipes);
+        throw new InvalidConfigException(section, "Could not determine recipe type");
     }
 
 }

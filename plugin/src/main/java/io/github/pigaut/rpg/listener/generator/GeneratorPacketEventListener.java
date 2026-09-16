@@ -12,6 +12,7 @@ import io.github.pigaut.rpg.module.generator.phase.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.bukkit.material.*;
 import io.github.pigaut.rpg.module.structure.virtual.*;
+import io.github.pigaut.rpg.plugin.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.util.Vector;
@@ -20,10 +21,10 @@ import java.util.*;
 
 public class GeneratorPacketEventListener implements PacketListener {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
     private final Map<UUID, Long> startTimes = new HashMap<>();
 
-    public GeneratorPacketEventListener(RpgMakerPlugin plugin) {
+    public GeneratorPacketEventListener(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

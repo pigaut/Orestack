@@ -1,56 +1,63 @@
 
 wooden_shovel:
   type: wooden_shovel
+  category: shovel
   digging-power: 1
   stats:
     damage: 10
     digging-speed: 40
-  rarity: common_shovel
+  rarity: common
 
 stone_shovel:
   type: stone_shovel
+  category: shovel
   digging-power: 2
   stats:
     damage: 15
     digging-speed: 80
-  rarity: common_shovel
+  rarity: common
 
 copper_shovel:
   type: copper_shovel
+  category: shovel
   digging-power: 3
   stats:
     damage: 20
     digging-speed: 100
-  rarity: common_shovel
+  rarity: common
 
 golden_shovel:
   type: golden_shovel
+  category: shovel
   digging-power: 3
   stats:
     damage: 10
     digging-speed: 240
-  rarity: common_shovel
+  rarity: common
 
 iron_shovel:
   type: iron_shovel
+  category: shovel
   digging-power: 4
   stats:
     damage: 25
     digging-speed: 120
-  rarity: common_shovel
+  rarity: common
 
 diamond_shovel:
   type: diamond_shovel
+  category: shovel
   digging-power: 5
   stats:
     damage: 30
     digging-speed: 160
-  rarity: uncommon_shovel
+  rarity: uncommon
 
 netherite_shovel:
   type: netherite_shovel
+  category: shovel
   digging-power: 6
   stats:
     damage: 35
     digging-speed: 180
-  rarity: rare_shovel
+  rarity: rare

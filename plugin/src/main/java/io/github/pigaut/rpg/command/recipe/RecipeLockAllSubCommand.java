@@ -15,7 +15,7 @@ public class RecipeLockAllSubCommand extends SubCommand {
         withDescription(plugin.getTranslation("recipe-lock-all-command"));
         withPlayerExecution((player, context, args) -> {
             for (RecipeTemplate recipe : plugin.getRecipes().getAllRegistered()) {
-                if (recipe.isGlobal()) {
+                if (!recipe.isLocked()) {
                     continue;
                 }
                 NamespacedKey recipeKey = recipe.getKey();

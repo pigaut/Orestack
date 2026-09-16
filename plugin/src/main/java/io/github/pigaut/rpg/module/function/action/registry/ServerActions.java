@@ -20,10 +20,10 @@ public class ServerActions {
     public static void registerAll(@NotNull EnhancedPlugin plugin) {
         ActionRegistry actions = plugin.getActions();
 
-        actions.addLoader("BROADCAST", (Line<Action>) line ->
+        actions.register("BROADCAST", (Line<Action>) line ->
                 new ServerBroadcast(plugin, line.getRequiredString(1)));
 
-        actions.addLoader("LIGHTNING", (Line<Action>) line ->
+        actions.register("LIGHTNING", (Line<Action>) line ->
                 new StrikeLightning(
                         line.get("world", World.class).withDefault(Server.getDefaultWorld()),
                         line.getRequiredDouble("x"),
@@ -32,16 +32,16 @@ public class ServerActions {
                         line.getBoolean("doDamage|damage").withDefault(true)
                 ));
 
-        actions.addLoader("CONSOLE_COMMAND", (Line<Action>) line ->
+        actions.register("CONSOLE_COMMAND", (Line<Action>) line ->
                 new ExecuteConsoleCommand(line.getRequiredString(1)));
 
-        actions.addLoader("DROP_ITEM", (Line<Action>) line ->
+        actions.register("DROP_ITEM", (Line<Action>) line ->
                 new DropItem(line.getRequired(ItemDrop.class)));
 
-        actions.addLoader("DROP_EXP", (Line<Action>) line ->
+        actions.register("DROP_EXP", (Line<Action>) line ->
                 new DropExp(line.getRequired(ExpDrop.class)));
 
-        actions.addLoader("DROP_ITEM_AT_COORDS", (Line<Action>) line ->
+        actions.register("DROP_ITEM_AT_COORDS", (Line<Action>) line ->
                 new DropItemAtCoords(
                         line.getRequired(ItemDrop.class),
                         line.get("world", World.class).withDefault(Server.getDefaultWorld()),
@@ -50,7 +50,7 @@ public class ServerActions {
                         line.getRequiredDouble("z")
                 ));
 
-        actions.addLoader("DROP_EXP_AT_COORDS", (Line<Action>) line ->
+        actions.register("DROP_EXP_AT_COORDS", (Line<Action>) line ->
                 new DropExpAtCoords(plugin,
                         line.getRequired(1, Amount.class),
                         line.get("orbs|orbCount", Amount.class).withDefault(null),
@@ -61,7 +61,7 @@ public class ServerActions {
                         line.getBoolean("experience").withDefault(plugin.getSettings().isExperience())
                 ));
 
-        actions.addLoader("SPAWN_PARTICLE_AT_COORDS", (Line<Action>) line ->
+        actions.register("SPAWN_PARTICLE_AT_COORDS", (Line<Action>) line ->
                 new SpawnParticleAtCoords(
                         line.getRequired(1, ParticleEffect.class),
                         line.get("world", World.class).withDefault(Server.getDefaultWorld()),
@@ -70,7 +70,7 @@ public class ServerActions {
                         line.getRequiredDouble("z")
                 ));
 
-        actions.addLoader("PLAY_SOUND_AT_COORDS", (Line<Action>) line ->
+        actions.register("PLAY_SOUND_AT_COORDS", (Line<Action>) line ->
                 new PlaySoundAtCoords(
                         line.getRequired(1, SoundEffect.class),
                         line.get("world", World.class).orElse(Server.getDefaultWorld()),
@@ -79,10 +79,10 @@ public class ServerActions {
                         line.getRequiredDouble("z")
                 ));
 
-        actions.addAliases("DROP_ITEM", "DROP");
-        actions.addAliases("DROP_ITEM_AT_COORDS", "DROP_AT_COORDS");
-        actions.addAliases("SPAWN_PARTICLE_AT_COORDS", "SPAWN_AT_COORDS");
-        actions.addAliases("PLAY_SOUND_AT_COORDS", "PLAY_AT_COORDS");
+        actions.registerAlias("DROP_ITEM", "DROP");
+        actions.registerAlias("DROP_ITEM_AT_COORDS", "DROP_AT_COORDS");
+        actions.registerAlias("SPAWN_PARTICLE_AT_COORDS", "SPAWN_AT_COORDS");
+        actions.registerAlias("PLAY_SOUND_AT_COORDS", "PLAY_AT_COORDS");
 
     }
 

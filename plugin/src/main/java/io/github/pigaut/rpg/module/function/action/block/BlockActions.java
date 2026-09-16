@@ -16,25 +16,25 @@ public class BlockActions {
     public static void registerAll(@NotNull EnhancedPlugin plugin) {
         ActionRegistry actions = plugin.getActions();
 
-        actions.addLoader("STRIKE_BLOCK", (Line<Action>) line ->
+        actions.register("STRIKE_BLOCK", (Line<Action>) line ->
                 new StrikeBlockWithLightning(line.getBoolean("doDamage|damage").withDefault(true)));
 
-        actions.addLoader("DROP_ITEM_AT_BLOCK", (Line<Action>) line ->
+        actions.register("DROP_ITEM_AT_BLOCK", (Line<Action>) line ->
                 new DropItemAtBlock(line.getRequired(ItemDrop.class)));
 
-        actions.addLoader("DROP_EXP_AT_BLOCK", (Line<Action>) line ->
+        actions.register("DROP_EXP_AT_BLOCK", (Line<Action>) line ->
                 new DropExpAtBlock(line.getRequired(ExpDrop.class)));
 
-        actions.addLoader("SPAWN_PARTICLE_AT_BLOCK", (Line<Action>) line ->
+        actions.register("SPAWN_PARTICLE_AT_BLOCK", (Line<Action>) line ->
                 new SpawnParticleAtBlock(line.getRequired(1, ParticleEffect.class)));
 
-        actions.addLoader("PLAY_SOUND_AT_BLOCK", (Line<Action>) line ->
+        actions.register("PLAY_SOUND_AT_BLOCK", (Line<Action>) line ->
                 new PlaySoundAtBlock(line.getRequired(1, SoundEffect.class)));
 
-        actions.addAliases("DROP_ITEM_AT_BLOCK", "BLOCK_ITEM_DROP", "DROP_AT_BLOCK");
-        actions.addAliases("DROP_EXP_AT_BLOCK", "BLOCK_EXP_DROP");
-        actions.addAliases("SPAWN_PARTICLE_AT_BLOCK", "BLOCK_PARTICLE");
-        actions.addAliases("PLAY_SOUND_AT_BLOCK", "BLOCK_SOUND");
+        actions.registerAlias("DROP_ITEM_AT_BLOCK", "BLOCK_ITEM_DROP", "DROP_AT_BLOCK");
+        actions.registerAlias("DROP_EXP_AT_BLOCK", "BLOCK_EXP_DROP");
+        actions.registerAlias("SPAWN_PARTICLE_AT_BLOCK", "BLOCK_PARTICLE");
+        actions.registerAlias("PLAY_SOUND_AT_BLOCK", "BLOCK_SOUND");
     }
 
 }

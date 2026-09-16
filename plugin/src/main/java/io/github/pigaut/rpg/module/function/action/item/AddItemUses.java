@@ -30,13 +30,13 @@ public class AddItemUses implements ItemAction {
             return;
         }
 
-        Integer usesLeft = plugin.getItems().getUsesLeft(item);
+        Integer usesLeft = plugin.getItemTemplates().getUsesLeft(item);
         if (usesLeft == null) {
             return;
         }
 
         int uses = Math.min(usesLeft + grantAmount.intValue(), maxUses);
-        PersistentData.setInteger(item, plugin.getItems().getUsesKey(), uses);
+        PersistentData.setInteger(item, plugin.getItemTemplates().getUsesKey(), uses);
 
         itemTemplate.updateItemMeta(item, player);
         PlayerUtil.setTool(player, item);

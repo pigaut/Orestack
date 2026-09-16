@@ -23,7 +23,7 @@ public class AtlasMenuBuilder {
     private Function<Context, Button[][]> createAtlas = context -> new Button[atlasWidth][atlasHeight];
 
     public AtlasMenuBuilder() {
-        this(StringUtil.generateRandomName(), null);
+        this(StringUtil.randomName(), null);
     }
 
     public AtlasMenuBuilder(@NotNull String name, @Nullable String group) {

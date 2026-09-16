@@ -6,12 +6,6 @@ import io.github.pigaut.rpg.core.menu.*;
 import io.github.pigaut.rpg.core.menu.button.*;
 import io.github.pigaut.rpg.core.menu.template.button.*;
 import io.github.pigaut.rpg.core.menu.template.menu.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.menu.*;
-import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.core.menu.template.button.*;
-import io.github.pigaut.rpg.core.menu.template.menu.*;
 import io.github.pigaut.yaml.convert.format.*;
 import org.jetbrains.annotations.*;
 
@@ -19,10 +13,10 @@ import java.util.*;
 
 public class GeneratorsMenu extends FramedSelectionMenu {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
     private final String group;
 
-    public GeneratorsMenu(RpgMakerPlugin plugin, String group) {
+    public GeneratorsMenu(OrestackPlugin plugin, String group) {
         super(CaseFormatter.toTitleCase(group) + " Generators", MenuSize.BIG);
         this.plugin = plugin;
         this.group = group;

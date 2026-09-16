@@ -1,0 +1,30 @@
+
+#░░░█░░░█▀█░█▀▀░█░█░█▀▀░█▀▄░░░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░█▀▀░░░░
+#░░░█░░░█░█░█░░░█▀▄░█▀▀░█░█░░░█▀▄░█▀▀░█░░░░█░░█▀▀░█▀▀░▀▀█░░░░
+#░░░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀░░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░▀▀▀░░░░
+# If locked is set to true, players must unlock recipe before using it.
+# Unlocking/locking recipes can be done with these actions: unlockRecipe, lockRecipe
+
+shaped_example:
+  enabled: false
+  locked: true # Players must unlock the recipe before being ablet to use it
+  discover-automatically: false # All players can see this recipe in their recipe books
+  ingredients:
+    D: diamond
+    S: 32 stick, 1 blaze_rod
+  # The literal symbol "|" turns everything the next lines into text
+  shape: |
+    ~  D  ~
+    ~  D  ~  ->  diamond_sword
+    ~  S  ~
+
+shapeless_example:
+  enabled: false
+  locked: false
+  shapeless: 1 milk_bucket, water_bucket + 3 cocoa_beans + 5 sugar -> 1 mushroom_stew
+
+# Requires 1.20+
+smithing_example:
+  enabled: false
+  locked: false
+  forge: paper + gold_sword + emerald -> diamond_sword

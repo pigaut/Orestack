@@ -1,8 +1,5 @@
 package io.github.pigaut.rpg.plugin;
 
-import io.github.pigaut.rpg.core.command.*;
-import io.github.pigaut.rpg.core.tool.*;
-import io.github.pigaut.rpg.plugin.boot.*;
 import io.github.pigaut.rpg.plugin.boot.phase.*;
 import io.github.pigaut.yaml.configurator.*;
 import org.jetbrains.annotations.*;
@@ -16,11 +13,6 @@ public interface PluginProperties {
     }
 
     @NotNull Configurator createConfigurator();
-
-    default void registerCommands(@NotNull CommandRegistry commands) {}
-    default void registerTools(@NotNull ToolRegistry tools) {}
-    default void registerListeners() {}
-    default void registerHooks() {}
 
     default @Nullable String getDatabaseName() {
         return null;

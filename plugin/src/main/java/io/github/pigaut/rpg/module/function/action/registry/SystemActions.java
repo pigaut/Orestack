@@ -13,7 +13,7 @@ public class SystemActions {
     public static void registerAll(@NotNull EnhancedPlugin plugin) {
         ActionRegistry actions = plugin.getActions();
 
-        actions.addLoader("RETURN", (Line<Action>) line -> {
+        actions.register("RETURN", (Line<Action>) line -> {
             String returnValue = line.getString(1).orElse(null);
             if (returnValue != null) {
                 Object parsedValue = ParseUtil.parseAsScalar(returnValue);
@@ -22,10 +22,10 @@ public class SystemActions {
             return new ReturnAction();
         });
 
-        actions.addLoader("CONTINUE", (Line<Action>) line ->
+        actions.register("CONTINUE", (Line<Action>) line ->
                 new ContinueAction());
 
-        actions.addLoader("STOP", (Line<Action>) line ->
+        actions.register("STOP", (Line<Action>) line ->
                 new StopAction());
     }
 

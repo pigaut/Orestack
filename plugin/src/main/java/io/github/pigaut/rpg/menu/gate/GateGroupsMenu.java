@@ -5,11 +5,6 @@ import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.menu.*;
 import io.github.pigaut.rpg.core.menu.button.*;
 import io.github.pigaut.rpg.core.menu.template.menu.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.menu.*;
-import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.core.menu.template.menu.*;
 import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
@@ -18,9 +13,9 @@ import java.util.*;
 
 public class GateGroupsMenu extends FramedSelectionMenu {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public GateGroupsMenu(RpgMakerPlugin plugin) {
+    public GateGroupsMenu(OrestackPlugin plugin) {
         super("Gate Groups", MenuSize.BIG);
         this.plugin = plugin;
     }

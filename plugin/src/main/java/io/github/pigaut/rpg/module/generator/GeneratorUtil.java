@@ -9,15 +9,6 @@ import io.github.pigaut.rpg.core.drop.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.item.*;
 import io.github.pigaut.rpg.event.drop.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.api.event.generator.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.drop.*;
-import io.github.pigaut.rpg.event.drop.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.item.*;
 import io.github.pigaut.rpg.server.Server;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -29,7 +20,7 @@ import java.util.Collection;
 
 public class GeneratorUtil {
 
-    private final static RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private final static OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     public static void callGeneratorMineEvent(@NotNull Generator generator, int currentPhase, @NotNull Player player, @NotNull Block block, int expToDrop) {
         GeneratorPhase generatorPhase = generator.getPhase(currentPhase);
@@ -69,7 +60,7 @@ public class GeneratorUtil {
         // Run tool function
         ItemTemplate itemTemplate = plugin.getItemTemplate(tool);
         if (itemTemplate != null) {
-            Function onBlockBreak = itemTemplate.getOnBlockBreak();
+            Function onBlockBreak = itemTemplate.getOnMineBlock();
             if (onBlockBreak != null) {
                 onBlockBreak.run(context);
                 if (event.isCancelled()) {

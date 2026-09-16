@@ -7,8 +7,6 @@ import io.github.pigaut.rpg.core.drop.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.module.item.*;
 import io.github.pigaut.rpg.event.drop.*;
-import io.github.pigaut.rpg.event.item.*;
-import io.github.pigaut.rpg.module.item.power.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
@@ -23,70 +21,58 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.view.*;
+import org.jetbrains.annotations.*;
 
 public class ItemEventListener implements Listener {
 
     private final EnhancedPlugin plugin;
 
-    public ItemEventListener(EnhancedPlugin plugin) {
+    public ItemEventListener(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
-        Player player = event.getPlayer();
-        Block block = event.getBlock();
-
-        ItemStack tool = player.getInventory().getItemInMainHand();
-        ItemTemplate itemTemplate = plugin.getItemTemplate(tool);
-        if (itemTemplate == null) {
+        if (!plugin.getSettings().isBreakingPower()) {
             return;
         }
 
+        Player player = event.getPlayer();
+        Block block = event.getBlock();
         Context context = Context.fromPlayerAndBlock(plugin, player, block, event);
 
-        BlockBreakingPower blockBreakingPower = plugin.getSettings().getBlockBreakingPower(block);
-        if (blockBreakingPower != null) {
-            int blockPower = blockBreakingPower.getAmount();
-            context.addPlaceholder("block_" + blockBreakingPower.getName(), blockPower);
+        ItemStack tool = player.getInventory().getItemInMainHand();
+        ItemUtil.checkBreakingPower(event, context, block, tool);
+        if (event.isCancelled()) {
+            return;
+        }
 
-            ToolBreakingPower toolBreakingPower = itemTemplate.getBreakingPower();
-
-            int toolPower = plugin.getSettings().getDefaultBreakingPower();
-            context.addPlaceholder("tool_" + blockBreakingPower.getName(), toolPower);
-            if (toolBreakingPower != null) {
-                toolPower = toolBreakingPower.getAmount();
-                context.addPlaceholder("tool_" + blockBreakingPower.getName(), toolPower);
-
-                if (!toolBreakingPower.getType().equals(blockBreakingPower.getType())) {
-                    event.setCancelled(true);
-                    Function onWrongTool = blockBreakingPower.getOnWrongTool();
-                    if (onWrongTool != null) {
-                        onWrongTool.run(context);
-                    }
+        ItemTemplate toolTemplate = plugin.getItemTemplate(tool);
+        if (toolTemplate != null) {
+            Function onMineBlock = toolTemplate.getOnMineBlock();
+            if (onMineBlock != null) {
+                onMineBlock.run(context);
+                if (event.isCancelled()) {
                     return;
                 }
             }
+        }
 
-            if (blockPower > toolPower) {
-                event.setCancelled(true);
-                context.addPlaceholder("block_" + blockBreakingPower.getName(), blockPower);
-                context.addPlaceholder("tool_" + blockBreakingPower.getName(), toolPower);
-                Function onInsufficientPower = blockBreakingPower.getOnInsufficientPower();
-                if (onInsufficientPower != null) {
-                    onInsufficientPower.run(context);
-                }
+        for (ItemStack equipment : PlayerUtil.getEquippedItems(player)) {
+            ItemTemplate equipmentTemplate = plugin.getItemTemplate(equipment);
+            if (equipmentTemplate == null) {
+                continue;
+            }
+
+            Function onBlockBreak = equipmentTemplate.getOnBlockBreak();
+            if (onBlockBreak == null) {
+                continue;
+            }
+
+            onBlockBreak.run(context);
+            if (event.isCancelled()) {
                 return;
             }
-        }
-
-        Function onBlockBreak = itemTemplate.getOnBlockBreak();
-        if (onBlockBreak != null) {
-            onBlockBreak.run(context);
-        }
-
-        if (event.isCancelled()) {
-            return;
         }
 
         event.setDropItems(false);
@@ -97,51 +83,16 @@ public class ItemEventListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onGeneratorMine(GeneratorMineEvent event) {
-        Player player = event.getPlayer();
-        Block block = event.getBlockMined();
-
-        ItemStack tool = player.getInventory().getItemInMainHand();
-        ItemTemplate itemTemplate = plugin.getItemTemplate(tool);
-        if (itemTemplate == null) {
+        if (!plugin.getSettings().isBreakingPower()) {
             return;
         }
 
+        Player player = event.getPlayer();
+        Block block = event.getBlockMined();
         Context context = Context.fromPlayerAndBlock(plugin, player, block);
 
-        BlockBreakingPower blockBreakingPower = plugin.getSettings().getBlockBreakingPower(block);
-        if (blockBreakingPower != null) {
-            int blockPower = blockBreakingPower.getAmount();
-            context.addPlaceholder("block_" + blockBreakingPower.getName(), blockPower);
-
-            ToolBreakingPower toolBreakingPower = itemTemplate.getBreakingPower();
-
-            int toolPower = plugin.getSettings().getDefaultBreakingPower();
-            context.addPlaceholder("tool_" + blockBreakingPower.getName(), toolPower);
-            if (toolBreakingPower != null) {
-                toolPower = toolBreakingPower.getAmount();
-                context.addPlaceholder("tool_" + blockBreakingPower.getName(), toolPower);
-
-                if (!toolBreakingPower.getType().equals(blockBreakingPower.getType())) {
-                    event.setCancelled(true);
-                    Function onWrongTool = blockBreakingPower.getOnWrongTool();
-                    if (onWrongTool != null) {
-                        onWrongTool.run(context);
-                    }
-                    return;
-                }
-            }
-
-            if (blockPower > toolPower) {
-                event.setCancelled(true);
-                context.addPlaceholder("block_" + blockBreakingPower.getName(), blockPower);
-                context.addPlaceholder("tool_" + blockBreakingPower.getName(), toolPower);
-                Function onInsufficientPower = blockBreakingPower.getOnInsufficientPower();
-                if (onInsufficientPower != null) {
-                    onInsufficientPower.run(context);
-                }
-                return;
-            }
-        }
+        ItemStack tool = player.getInventory().getItemInMainHand();
+        ItemUtil.checkBreakingPower(event, context, block, tool);
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -289,7 +240,7 @@ public class ItemEventListener implements Listener {
                     : null;
 
             if (!renameText.equals(currentName)) {
-                ItemUtil.modifyMeta(result, meta -> PersistentData.setTag(meta, plugin.getItems().getRenamedKey()));
+                ItemUtil.modifyMeta(result, meta -> PersistentData.setTag(meta, plugin.getItemTemplates().getRenamedKey()));
             }
         }
 

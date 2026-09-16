@@ -48,7 +48,7 @@ public class ItemSaveSubCommand extends SubCommand {
             plugin.getScheduler().runTaskAsync(() -> {
                 config.set(args[1], item);
                 config.save();
-                plugin.getItems().reload();
+                plugin.getItemTemplates().reload();
                 plugin.sendMessage(player, context, "saved-item");
             });
         });

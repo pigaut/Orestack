@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
 
 public class CollectionPlaceholders {
 
-    public static void registerAll(@NotNull RpgMakerPlugin plugin) {
+    public static void registerAll(@NotNull OrestackPlugin plugin) {
         PlaceholderRegistry placeholders = plugin.getPlaceholders();
 
         Settings settings = plugin.getSettings();

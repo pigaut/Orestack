@@ -1,0 +1,52 @@
+
+#░░░█▀█░▀█▀░█▀▀░█░█░█▀█░█░█░█▀▀░░░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░█▀▀░░░░
+#░░░█▀▀░░█░░█░░░█▀▄░█▀█░▄▀▄░█▀▀░░░█▀▄░█▀▀░█░░░░█░░█▀▀░█▀▀░▀▀█░░░░
+#░░░▀░░░▀▀▀░▀▀▀░▀░▀░▀░▀░▀░▀░▀▀▀░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░▀▀▀░░░░
+
+wooden_pickaxe:
+  ingredients:
+    A: STICK
+    B: PLANKS # PLANKS includes: oak_planks, spruce_planks, birch_planks, etc...
+  shape: |
+    B  B  B
+    ~  A  ~  ->  wooden_pickaxe
+    ~  A  ~
+
+stone_pickaxe:
+  ingredients:
+    A: STICK
+    B: COBBLESTONE
+  shape: |
+    B  B  B
+    ~  A  ~  ->  stone_pickaxe
+    ~  A  ~
+
+golden_pickaxe:
+  ingredients:
+    A: STICK
+    B: GOLD_INGOT
+  shape: |
+    B  B  B
+    ~  A  ~  ->  golden_pickaxe
+    ~  A  ~
+
+iron_pickaxe:
+  ingredients:
+    A: stick
+    B: iron_ingot
+  shape: |
+    B  B  B
+    ~  A  ~  ->  iron_pickaxe
+    ~  A  ~
+
+diamond_pickaxe:
+  ingredients:
+    A: stick
+    B: diamond
+  shape: |
+    B  B  B
+    ~  A  ~  ->  diamond_pickaxe
+    ~  A  ~
+
+netherite_pickaxe:
+  forge: netherite_upgrade_smithing_template + diamond_pickaxe + netherite_ingot -> netherite_pickaxe

@@ -14,9 +14,9 @@ import org.bukkit.inventory.*;
 
 public class ItemCollectListener implements Listener {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public ItemCollectListener(RpgMakerPlugin plugin) {
+    public ItemCollectListener(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

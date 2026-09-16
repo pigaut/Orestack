@@ -11,7 +11,6 @@ import io.github.pigaut.rpg.core.transform.Rotation;
 import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.module.gate.exception.*;
 import io.github.pigaut.rpg.module.gate.template.*;
-import io.github.pigaut.rpg.module.generator.tool.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.server.Server;
 import io.github.pigaut.yaml.convert.parse.*;
@@ -24,7 +23,7 @@ import org.jetbrains.annotations.*;
 
 public class GateTool extends Tool {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
     private final NamespacedKey GATE_TEMPLATE_KEY;
     private final NamespacedKey GATE_ROTATION_KEY;
@@ -33,7 +32,7 @@ public class GateTool extends Tool {
     private final NamespacedKey GATE_OFFSET_Y_KEY;
     private final NamespacedKey GATE_OFFSET_Z_KEY;
 
-    public GateTool(RpgMakerPlugin plugin) {
+    public GateTool(OrestackPlugin plugin) {
         super(plugin, "gate");
         this.plugin = plugin;
 

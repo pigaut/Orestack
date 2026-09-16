@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 
 public class CollectionSubCommand extends SubCommand {
 
-    public CollectionSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public CollectionSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "collection");
         this.withPermission(plugin.getPermission("collection"));
         this.withDescription(plugin.getTranslation("collection-command"));

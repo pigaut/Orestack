@@ -5,17 +5,10 @@ import io.github.pigaut.rpg.api.event.generator.*;
 import io.github.pigaut.rpg.module.generator.phase.*;
 import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.api.event.generator.*;
-import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.transform.Rotation;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.server.Server;
-import io.github.pigaut.rpg.util.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -25,7 +18,7 @@ import java.util.*;
 
 public abstract class BasicGenerator implements Generator {
 
-    protected static final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    protected static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     protected final GeneratorTemplate template;
     protected final String name;

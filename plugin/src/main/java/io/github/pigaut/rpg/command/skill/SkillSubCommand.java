@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 
 public class SkillSubCommand extends SubCommand {
 
-    public SkillSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public SkillSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "skill");
         this.withPermission(plugin.getPermission("skill"));
         this.withDescription(plugin.getTranslation("skill-command"));

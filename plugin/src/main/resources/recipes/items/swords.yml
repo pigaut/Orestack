@@ -1,0 +1,52 @@
+
+#░░░█▀▀░█░█░█▀█░█▀▄░█▀▄░░░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░█▀▀░░░░
+#░░░▀▀█░█▄█░█░█░█▀▄░█░█░░░█▀▄░█▀▀░█░░░░█░░█▀▀░█▀▀░▀▀█░░░░
+#░░░▀▀▀░▀░▀░▀▀▀░▀░▀░▀▀░░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░▀▀▀░░░░
+
+wooden_sword:
+  ingredients:
+    A: stick
+    B: planks
+  shape: |
+    ~  B  ~
+    ~  B  ~  ->  wooden_sword
+    ~  A  ~
+
+stone_sword:
+  ingredients:
+    A: stick
+    B: cobblestone
+  shape: |
+    ~  B  ~
+    ~  B  ~  ->  stone_sword
+    ~  A  ~
+
+golden_sword:
+  ingredients:
+    A: stick
+    B: gold_ingot
+  shape: |
+    ~  B  ~
+    ~  B  ~  ->  golden_sword
+    ~  A  ~
+
+iron_sword:
+  ingredients:
+    A: stick
+    B: iron_ingot
+  shape: |
+    ~  B  ~
+    ~  B  ~  ->  iron_sword
+    ~  A  ~
+
+diamond_sword:
+  ingredients:
+    A: stick
+    B: diamond
+  shape: |
+    ~  B  ~
+    ~  B  ~  ->  diamond_sword
+    ~  A  ~
+
+netherite_sword:
+  forge: netherite_upgrade_smithing_template + diamond_sword + netherite_ingot -> netherite_sword

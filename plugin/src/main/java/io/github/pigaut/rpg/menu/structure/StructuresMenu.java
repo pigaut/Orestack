@@ -6,12 +6,6 @@ import io.github.pigaut.rpg.core.menu.*;
 import io.github.pigaut.rpg.core.menu.button.*;
 import io.github.pigaut.rpg.core.menu.template.button.*;
 import io.github.pigaut.rpg.core.menu.template.menu.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.menu.*;
-import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.core.menu.template.button.*;
-import io.github.pigaut.rpg.core.menu.template.menu.*;
 import io.github.pigaut.yaml.convert.format.*;
 import org.jetbrains.annotations.*;
 
@@ -19,7 +13,7 @@ import java.util.*;
 
 public class StructuresMenu extends FramedSelectionMenu {
 
-    private final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private final OrestackPlugin plugin = OrestackPlugin.getInstance();
     private final String group;
 
     public StructuresMenu(String group) {

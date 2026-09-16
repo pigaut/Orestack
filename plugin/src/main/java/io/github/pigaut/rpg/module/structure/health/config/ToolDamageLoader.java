@@ -1,7 +1,6 @@
 package io.github.pigaut.rpg.module.structure.health.config;
 
 import io.github.pigaut.rpg.module.structure.health.*;
-import io.github.pigaut.rpg.module.structure.health.*;
 import io.github.pigaut.rpg.core.tag.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
@@ -22,7 +21,7 @@ public class ToolDamageLoader implements ConfigLoader<ToolDamage> {
     @Override
     public @NotNull ToolDamage loadFromSection(@NotNull ConfigSection section) throws InvalidConfigException {
         Set<Material> blocks = new HashSet<>();
-        for (MaterialTag tag : section.getAllRequired("blocks", MaterialTag.class)) {
+        for (MaterialGroup tag : section.getAllRequired("blocks", MaterialGroup.class)) {
             for (Material material : tag.getMaterials()) {
                 if (!material.isBlock()) {
                     throw new InvalidConfigException(section, "blocks", "Expected a block but found: " + material);

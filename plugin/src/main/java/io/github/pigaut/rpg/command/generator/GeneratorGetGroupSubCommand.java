@@ -13,7 +13,7 @@ import java.util.*;
 
 public class GeneratorGetGroupSubCommand extends SubCommand {
 
-    public GeneratorGetGroupSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public GeneratorGetGroupSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "get-group");
         withPermission(plugin.getPermission("generator.get-group"));
         withDescription(plugin.getTranslation("generator-get-group-command"));

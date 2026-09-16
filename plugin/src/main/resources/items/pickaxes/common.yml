@@ -1,6 +1,7 @@
 
 rookie_pickaxe:
   type: stone_pickaxe
+  category: pickaxe
   name: 'Rookie Pickaxe'
   mining-power: 2
   description:
@@ -13,6 +14,6 @@ rookie_pickaxe:
   enchants:
     efficiency: 5
     fortune: 3
-  rarity: common_pickaxe
+  rarity: common
 
 

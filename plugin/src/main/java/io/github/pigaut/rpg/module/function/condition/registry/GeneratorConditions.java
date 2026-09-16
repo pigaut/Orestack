@@ -11,7 +11,7 @@ public class GeneratorConditions {
     public static void registerAll(@NotNull EnhancedPlugin plugin) {
         ConditionRegistry conditions = plugin.getConditions();
 
-        conditions.addLoader("GENERATOR_NAME_EQUALS", (ConfigLoader.Line<Condition>) line ->
+        conditions.register("GENERATOR_NAME_EQUALS", (ConfigLoader.Line<Condition>) line ->
                 new GeneratorNameEquals(line.getRequiredString(1)));
 
     }

@@ -9,12 +9,11 @@ import io.github.pigaut.rpg.bukkit.*;
 
 import io.github.pigaut.rpg.core.command.node.*;
 import io.github.pigaut.rpg.module.generator.tool.*;
-import io.github.pigaut.rpg.module.mob.spawnegg.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorGetSubCommand extends SubCommand {
 
-    public GeneratorGetSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public GeneratorGetSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "get");
         withPermission(plugin.getPermission("generator.get"));
         withDescription(plugin.getTranslation("generator-get-command"));

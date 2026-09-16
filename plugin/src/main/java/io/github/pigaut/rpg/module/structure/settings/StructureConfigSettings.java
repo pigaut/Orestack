@@ -17,19 +17,21 @@ import java.util.*;
 public class StructureConfigSettings implements StructureSettings {
 
     private final EnhancedPlugin plugin;
+    private final Settings settings;
 
-    private boolean keepBlocksOnRemove;
-    private boolean restoreOriginalBlocksOnRemove;
-    private Amount defaultDamage;
-    private boolean overflowDamage;
-    private boolean efficiencyDamageMultiplier;
-    private Map<Integer, Double> efficiencyDamageMultiplierByLevel;
-    private boolean reducedCooldownDamage;
-    private List<ToolDamage> damageByTool;
-
-    public StructureConfigSettings(EnhancedPlugin plugin) {
+    public StructureConfigSettings(@NotNull EnhancedPlugin plugin, @NotNull Settings settings) {
         this.plugin = plugin;
+        this.settings = settings;
     }
+
+    private Boolean keepBlocksOnRemove;
+    private Boolean restoreOriginalBlocksOnRemove;
+    private Amount defaultDamage;
+    private Boolean overflowDamage;
+    private Boolean efficiencyDamageMultiplier;
+    private Map<Integer, Double> efficiencyDamageMultiplierByLevel;
+    private Boolean reducedCooldownDamage;
+    private List<ToolDamage> damageByTool;
 
     public void loadConfiguration(@NotNull ConfigSection config) {
         keepBlocksOnRemove = config.getBoolean("keep-blocks-on-remove")
@@ -71,31 +73,38 @@ public class StructureConfigSettings implements StructureSettings {
 
     @Override
     public boolean isKeepBlocksOnRemove() {
+        settings.checkLoaded(keepBlocksOnRemove);
         return keepBlocksOnRemove;
     }
 
     @Override
     public boolean isRestoreBlocksOnRemove() {
+        settings.checkLoaded(restoreOriginalBlocksOnRemove);
         return restoreOriginalBlocksOnRemove;
     }
 
     @Override
     public boolean isDamageOverflow() {
+        settings.checkLoaded(overflowDamage);
         return overflowDamage;
     }
 
     @Override
     public boolean isEfficiencyDamageMultiplier() {
+        settings.checkLoaded(efficiencyDamageMultiplier);
         return efficiencyDamageMultiplier;
     }
 
     @Override
     public boolean isReducedCooldownDamage() {
+        settings.checkLoaded(reducedCooldownDamage);
         return reducedCooldownDamage;
     }
 
     @Override
     public @NotNull Amount getToolDamage(@NotNull Material toolType, @NotNull Material blockType) {
+        settings.checkLoaded(damageByTool);
+        settings.checkLoaded(defaultDamage);
         for (ToolDamage toolDamage : damageByTool) {
             if (toolDamage.test(toolType, blockType)) {
                 return toolDamage.getDamage(toolType);

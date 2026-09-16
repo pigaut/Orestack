@@ -2,13 +2,11 @@ package io.github.pigaut.rpg.command.generator;
 
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.command.node.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorSubCommand extends SubCommand {
 
-    public GeneratorSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public GeneratorSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "generator");
         withPermission(plugin.getPermission("generator"));
         withDescription(plugin.getTranslation("generator-command"));

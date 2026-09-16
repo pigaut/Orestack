@@ -16,7 +16,7 @@ public class ItemHasUsesLeft implements ItemPredicate {
 
     @Override
     public boolean test(@NotNull ItemStack item) {
-        Integer usesLeft = plugin.getItems().getUsesLeft(item);
+        Integer usesLeft = plugin.getItemTemplates().getUsesLeft(item);
         if (usesLeft == null) {
             return false;
         }

@@ -13,7 +13,7 @@ public class StatLoader implements ConfigLoader<Stat> {
 
     private final EnhancedPlugin plugin;
 
-    public StatLoader(EnhancedPlugin plugin) {
+    public StatLoader(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -23,7 +23,7 @@ public class StatLoader implements ConfigLoader<Stat> {
     }
 
     @Override
-    public @NotNull Stat loadFromScalar(ConfigScalar scalar) throws InvalidConfigException {
+    public @NotNull Stat loadFromScalar(@NotNull ConfigScalar scalar) throws InvalidConfigException {
         String statName = scalar.toString(CaseStyle.SNAKE);
 
         Stat stat = plugin.getStats().get(statName);

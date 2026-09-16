@@ -1,10 +1,12 @@
 package io.github.pigaut.rpg.module.stat;
 
+import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.module.stat.tasks.*;
 import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import io.github.pigaut.rpg.plugin.registry.*;
+import io.github.pigaut.yaml.configurator.load.*;
 import io.github.pigaut.yaml.util.*;
 import org.jetbrains.annotations.*;
 
@@ -19,7 +21,7 @@ public class StatManager extends Manager implements Registry<Stat> {
     private HealthRegenTask healthRegenTask;
     private ManaRegenTask manaRegenTask;
 
-    public StatManager(EnhancedJavaPlugin plugin) {
+    public StatManager(@NotNull EnhancedJavaPlugin plugin) {
         super(plugin);
     }
 
@@ -106,6 +108,16 @@ public class StatManager extends Manager implements Registry<Stat> {
     @Override
     public void unregister(@NotNull String name) {
         statsByName.remove(name);
+    }
+
+    public void registerAlias(@NotNull String name, @NotNull String... aliases) {
+        Stat stat = get(name);
+        if (stat == null) {
+            throw new IllegalArgumentException("Could not find stat with name: " + name);
+        }
+        for (String alias : aliases) {
+            register(alias, stat);
+        }
     }
 
     public @NotNull Collection<Stat> getAll() {

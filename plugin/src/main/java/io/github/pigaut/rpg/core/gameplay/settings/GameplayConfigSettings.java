@@ -11,30 +11,32 @@ import org.jetbrains.annotations.*;
 public class GameplayConfigSettings implements GameplaySettings {
 
     private final EnhancedPlugin plugin;
+    private final Settings settings;
 
-    private boolean showDeathMessages;
-    private boolean showSlainMessages;
+    public GameplayConfigSettings(@NotNull EnhancedPlugin plugin, @NotNull Settings settings) {
+        this.plugin = plugin;
+        this.settings = settings;
+    }
 
-    private boolean hungerDepletion;
-    private boolean hungerHealthRegen;
-    private float exhaustionMultiplier;
-    private int hungerCap;
-    private int saturationCap;
+    private Boolean showDeathMessages;
+    private Boolean showSlainMessages;
 
-    private boolean customCowMilking;
-    private int cowMaxMilk;
+    private Boolean hungerDepletion;
+    private Boolean hungerHealthRegen;
+    private Float exhaustionMultiplier;
+    private Integer hungerCap;
+    private Integer saturationCap;
+
+    private Boolean customCowMilking;
+    private Integer cowMaxMilk;
     private Amount milkProduceAmount;
     private Delay milkProduceDelay;
 
-    private boolean customEggLaying;
+    private Boolean customEggLaying;
     private Amount eggLayAmount;
     private Delay eggLayDelay;
 
-    private Function onPlayerDamageEntity = null;
-
-    public GameplayConfigSettings(EnhancedPlugin plugin) {
-        this.plugin = plugin;
-    }
+    private @Nullable Function onPlayerDamageEntity;
 
     public void loadConfiguration(@NotNull ConfigSection config) {
         showDeathMessages = config.getBoolean("show-death-messages")
@@ -102,71 +104,85 @@ public class GameplayConfigSettings implements GameplaySettings {
 
     @Override
     public boolean isShowDeathMessages() {
+        settings.checkLoaded(showDeathMessages);
         return showDeathMessages;
     }
 
     @Override
     public boolean isShowSlainMessages() {
+        settings.checkLoaded(showSlainMessages);
         return showSlainMessages;
     }
 
     @Override
     public boolean isCustomCowMilking() {
+        settings.checkLoaded(customCowMilking);
         return customCowMilking;
     }
 
     @Override
     public boolean isHungerDepletion() {
+        settings.checkLoaded(hungerDepletion);
         return hungerDepletion;
     }
 
     @Override
     public boolean isHungerHealthRegen() {
+        settings.checkLoaded(hungerHealthRegen);
         return hungerHealthRegen;
     }
 
     @Override
     public float getExhaustionMultiplier() {
+        settings.checkLoaded(exhaustionMultiplier);
         return exhaustionMultiplier;
     }
 
     @Override
     public int getHungerCap() {
+        settings.checkLoaded(hungerCap);
         return hungerCap;
     }
 
     @Override
     public int getSaturationCap() {
+        settings.checkLoaded(saturationCap);
         return saturationCap;
     }
 
     @Override
     public int getCowMaxMilk() {
+        settings.checkLoaded(cowMaxMilk);
         return cowMaxMilk;
     }
 
     @Override
     public @NotNull Amount getMilkProduceAmount() {
+        settings.checkLoaded(milkProduceAmount);
         return milkProduceAmount;
     }
 
     @Override
     public @NotNull Delay getMilkProduceDelay() {
+        settings.checkLoaded(milkProduceDelay);
         return milkProduceDelay;
     }
 
     @Override
     public boolean isCustomEggLaying() {
+        settings.checkLoaded(customEggLaying);
         return customEggLaying;
     }
 
     @Override
     public @NotNull Amount getEggLayAmount() {
+        settings.checkLoaded(eggLayAmount);
         return eggLayAmount;
     }
 
     @Override
     public @NotNull Delay getEggLayDelay() {
+        settings.checkLoaded(eggLayDelay);
         return eggLayDelay;
     }
 
@@ -174,4 +190,5 @@ public class GameplayConfigSettings implements GameplaySettings {
     public @Nullable Function getOnPlayerDamageEntity() {
         return onPlayerDamageEntity;
     }
+
 }

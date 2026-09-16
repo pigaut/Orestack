@@ -96,8 +96,8 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     private final ParticleManager particleManager = new ParticleManager(this);
     private final SoundManager soundManager = new SoundManager(this);
     private final MessageManager messageManager = new MessageManager(this);
-    private final ItemManager itemManager = new ItemManager(this);
-    private final RecipeManager recipeManager = new RecipeManager(this);
+    private final ItemTemplateManager itemManager = new ItemTemplateManager(this);
+    private final RecipeTemplateManager recipeTemplateManager = new RecipeTemplateManager(this);
     private final GlobalFunctionManager functionManager = new GlobalFunctionManager(this);
 
     private final MobTemplateManager mobTemplateManager = new MobTemplateManager(this);
@@ -337,7 +337,7 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
 
     @Override
     public @Nullable EnhancedCommand getRegisteredCommand(@NotNull String name) {
-        return commandRegistry.getCustomCommand(name);
+        return commandRegistry.get(name);
     }
 
     @Override
@@ -431,7 +431,7 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     }
 
     @Override
-    public @NotNull ItemManager getItems() {
+    public @NotNull ItemTemplateManager getItemTemplates() {
         return itemManager;
     }
 
@@ -452,7 +452,7 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     }
 
     @Override
-    public @NotNull List<ItemTemplate> getItems(@NotNull String group) {
+    public @NotNull List<ItemTemplate> getItemTemplates(@NotNull String group) {
         return itemManager.getAll(group);
     }
 
@@ -507,23 +507,28 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
     }
 
     @Override
-    public @Nullable ConfigLoader<? extends Condition> getCondition(@NotNull String name) {
-        return conditionRegistry.getLoader(name);
+    public @Nullable ConfigLoader<Condition> getCondition(@NotNull String name) {
+        return conditionRegistry.get(name);
     }
 
     @Override
-    public @Nullable ConfigLoader<? extends Action> getAction(@NotNull String name) {
-        return actionRegistry.getLoader(name);
+    public @Nullable ConfigLoader<Action> getAction(@NotNull String name) {
+        return actionRegistry.get(name);
     }
 
     @Override
-    public @NotNull RecipeManager getRecipes() {
-        return recipeManager;
+    public @NotNull RecipeTemplateManager getRecipes() {
+        return recipeTemplateManager;
     }
 
     @Override
-    public @Nullable RecipeTemplate getRecipe(@NotNull String name) {
-        return recipeManager.get(name);
+    public @Nullable RecipeTemplate getRecipeTemplate(@NotNull String name) {
+        return recipeTemplateManager.get(name);
+    }
+
+    @Override
+    public @Nullable RecipeTemplate getRecipeTemplate(@NotNull Recipe recipe) {
+        return recipeTemplateManager.get(recipe);
     }
 
     @Override
@@ -836,7 +841,7 @@ public abstract class EnhancedJavaPlugin extends JavaPlugin implements EnhancedP
         managers.add(soundManager);
         managers.add(messageManager);
         managers.add(itemManager);
-        managers.add(recipeManager);
+        managers.add(recipeTemplateManager);
         managers.add(functionManager);
         managers.add(structureManager);
 

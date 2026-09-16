@@ -25,23 +25,23 @@ public class ItemActions {
     private static void registerAll(@NotNull EnhancedPlugin plugin, @NotNull String slot) {
         ActionRegistry actions = plugin.getActions();
 
-        actions.addLoader("DAMAGE_" + slot, (Line<Action>) line ->
+        actions.register("DAMAGE_" + slot, (Line<Action>) line ->
                 createAction(slot, new DamageItemDurability(line.get(1, Amount.class).withDefault(Amount.ONE))));
 
-        actions.addLoader("GRANT_" + slot + "_USES", (Line<Action>) line ->
+        actions.register("GRANT_" + slot + "_USES", (Line<Action>) line ->
                 createAction(slot, new AddItemUses(plugin, line.get(1, Amount.class).withDefault(Amount.ONE))));
 
-        actions.addLoader("RESTORE_" + slot + "_USES", (Line<Action>) line ->
+        actions.register("RESTORE_" + slot + "_USES", (Line<Action>) line ->
                 createAction(slot, new RestoreItemUses(plugin)));
 
-        actions.addLoader("CONSUME_" + slot + "_USES", (Line<Action>) line ->
+        actions.register("CONSUME_" + slot + "_USES", (Line<Action>) line ->
                 createAction(slot, new RemoveItemUses(plugin, line.get(1, Amount.class).withDefault(Amount.ONE))));
 
         if (slot.equals("HAND")) {
-            actions.addAliases("DAMAGE_HAND", "DAMAGE_TOOL");
-            actions.addAliases("GRANT_HAND_USES", "GRANT_TOOL_USES");
-            actions.addAliases("RESTORE_HAND_USES", "RESTORE_TOOL_USES");
-            actions.addAliases("CONSUME_HAND_USES", "CONSUME_TOOL_USES");
+            actions.registerAlias("DAMAGE_HAND", "DAMAGE_TOOL");
+            actions.registerAlias("GRANT_HAND_USES", "GRANT_TOOL_USES");
+            actions.registerAlias("RESTORE_HAND_USES", "RESTORE_TOOL_USES");
+            actions.registerAlias("CONSUME_HAND_USES", "CONSUME_TOOL_USES");
         }
     }
 

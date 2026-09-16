@@ -12,20 +12,20 @@ public class EventConditions {
     public static void registerAll(@NotNull EnhancedPlugin plugin) {
         ConditionRegistry conditions = plugin.getConditions();
 
-        conditions.addLoader("CLICK_TYPE_EQUALS", (Line<Condition>) line ->
+        conditions.register("CLICK_TYPE_EQUALS", (Line<Condition>) line ->
                 new InteractionTypeEquals(
                         line.getAllRequired(1, InteractType.class),
                         line.getBoolean("shift|sneak|sneaking").withDefault(null)
                 ));
 
-        conditions.addLoader("DAMAGE_IS_CRITICAL", (Line<Condition>) line ->
+        conditions.register("DAMAGE_IS_CRITICAL", (Line<Condition>) line ->
                 new DamageIsCritical());
 
-        conditions.addLoader("DAMAGE_IS_FALLING_CRITICAL", (Line<Condition>) line ->
+        conditions.register("DAMAGE_IS_FALLING_CRITICAL", (Line<Condition>) line ->
                 new DamageIsFallingCritical());
 
-        conditions.addAliases("DAMAGE_IS_CRITICAL", "DAMAGE_IS_CRIT");
-        conditions.addAliases("DAMAGE_IS_FALLING_CRITICAL", "DAMAGE_IS_FALLING_CRIT");
+        conditions.registerAlias("DAMAGE_IS_CRITICAL", "DAMAGE_IS_CRIT");
+        conditions.registerAlias("DAMAGE_IS_FALLING_CRITICAL", "DAMAGE_IS_FALLING_CRIT");
     }
 
 }

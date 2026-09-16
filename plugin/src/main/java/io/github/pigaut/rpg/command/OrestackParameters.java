@@ -2,12 +2,10 @@ package io.github.pigaut.rpg.command;
 
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.core.command.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.command.*;
 
 public class OrestackParameters {
 
-    private static final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     public static final CommandParameter GENERATOR_NAME = CommandParameter.create("generator-name",
             (commandSender, strings) -> plugin.getGeneratorTemplates().getAllNames());

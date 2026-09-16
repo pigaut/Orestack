@@ -15,9 +15,9 @@ public class BlockConditions {
     public static void registerAll(@NotNull EnhancedPlugin plugin) {
         ConditionRegistry conditions = plugin.getConditions();
 
-        conditions.addLoader("BLOCK_TYPE_EQUALS", (Line<Condition>) line -> {
+        conditions.register("BLOCK_TYPE_EQUALS", (Line<Condition>) line -> {
             Set<Material> materials = new HashSet<>();
-            for (MaterialTag materialTag : line.getAllRequired(1, MaterialTag.class)) {
+            for (MaterialGroup materialTag : line.getAllRequired(1, MaterialGroup.class)) {
                 materials.addAll(materialTag.getMaterials());
             }
             return new BlockTypeEquals(materials);

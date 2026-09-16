@@ -1,25 +1,19 @@
 package io.github.pigaut.rpg.module.structure.block.matcher.config;
 
-import com.nexomc.nexo.api.*;
-import dev.lone.itemsadder.api.*;
 import io.github.pigaut.rpg.core.tag.*;
 import io.github.pigaut.rpg.hook.craftengine.*;
 import io.github.pigaut.rpg.hook.itemsadder.*;
-import io.github.pigaut.rpg.hook.nexo.*;
 import io.github.pigaut.rpg.module.structure.block.matcher.*;
-import io.github.pigaut.rpg.server.*;
 import io.github.pigaut.rpg.server.Server;
 import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
 import io.github.pigaut.yaml.node.line.*;
-import io.github.pigaut.yaml.node.scalar.*;
 import net.momirealms.craftengine.core.block.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
-import java.util.regex.*;
 
 public class BlockMatcherLoader implements ConfigLoader<BlockMatcher> {
 
@@ -31,7 +25,7 @@ public class BlockMatcherLoader implements ConfigLoader<BlockMatcher> {
     // Format: "stone", "items-adder:block_name"
     @Override
     public @NotNull BlockMatcher loadFromScalar(@NotNull ConfigScalar scalar) throws InvalidConfigException {
-        MaterialTag materialTag = scalar.get(MaterialTag.class)
+        MaterialGroup materialTag = scalar.get(MaterialGroup.class)
                 .orElse(null);
 
         if (materialTag != null) {

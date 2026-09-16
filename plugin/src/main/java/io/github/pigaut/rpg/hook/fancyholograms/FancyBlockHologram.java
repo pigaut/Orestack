@@ -19,7 +19,7 @@ public class FancyBlockHologram implements Hologram {
     private final de.oliver.fancyholograms.api.hologram.Hologram hologram;
 
     public FancyBlockHologram(@NotNull HologramStyle style, @NotNull Location location, @NotNull Material material) {
-        this.name = StringUtil.generateRandomName();
+        this.name = StringUtil.randomName();
 
         LocationUtil.setDefaultWorldIfMissing(location);
         location.subtract(0, 0.2, 0);

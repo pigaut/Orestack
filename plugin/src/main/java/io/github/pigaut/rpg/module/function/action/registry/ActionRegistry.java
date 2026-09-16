@@ -2,19 +2,21 @@ package io.github.pigaut.rpg.module.function.action.registry;
 
 import io.github.pigaut.rpg.module.function.action.*;
 import io.github.pigaut.rpg.plugin.*;
+import io.github.pigaut.rpg.plugin.registry.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
 import io.github.pigaut.yaml.convert.format.*;
 import io.github.pigaut.yaml.delay.*;
+import io.github.pigaut.yaml.util.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class ActionRegistry extends AbstractLoader<Action> {
+public class ActionRegistry extends AbstractRegistry<ConfigLoader<Action>> implements ConfigLoader<Action> {
 
     private final EnhancedPlugin plugin;
 
-    public ActionRegistry(EnhancedPlugin plugin) {
+    public ActionRegistry(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -24,14 +26,14 @@ public class ActionRegistry extends AbstractLoader<Action> {
     }
 
     @Override
-    public @NotNull Action loadFromScalar(ConfigScalar scalar) throws InvalidConfigException {
+    public @NotNull Action loadFromScalar(@NotNull ConfigScalar scalar) throws InvalidConfigException {
         ConfigLine line = scalar.toLine();
-        String actionId = line.getRequiredString(0);
+        String actionName = line.getRequiredString(0);
 
-        ConfigLoader<? extends Action> loader = getLoader(actionId);
+        ConfigLoader<? extends Action> loader = get(actionName);
         if (loader == null) {
             throw new InvalidConfigException(line,
-                    "Could not find action with name: " + CaseFormatter.toCamelCase(actionId));
+                    "Could not find action with name: " + CaseFormatter.toCamelCase(actionName));
         }
 
         Action action = loader.loadFromScalar(scalar);

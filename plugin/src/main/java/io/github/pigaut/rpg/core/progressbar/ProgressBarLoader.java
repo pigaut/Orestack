@@ -16,7 +16,7 @@ public class ProgressBarLoader implements ConfigLoader<ProgressBar> {
 
     private final EnhancedPlugin plugin;
 
-    public ProgressBarLoader(EnhancedPlugin plugin) {
+    public ProgressBarLoader(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 

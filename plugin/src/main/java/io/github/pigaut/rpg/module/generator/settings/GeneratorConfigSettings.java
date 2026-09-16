@@ -17,22 +17,24 @@ import java.util.*;
 public class GeneratorConfigSettings implements GeneratorSettings {
 
     private final EnhancedPlugin plugin;
+    private final Settings settings;
+
+    public GeneratorConfigSettings(@NotNull EnhancedPlugin plugin, @NotNull Settings settings) {
+        this.plugin = plugin;
+        this.settings = settings;
+    }
 
     private Amount defaultToolDamage;
     private Delay generatorClickCooldown;
     private Delay generatorHitCooldown;
     private Delay generatorHarvestCooldown;
 
-    private boolean veinMiner;
+    private Boolean veinMiner;
     private List<String> veinMinerAliases;
     private Map<Integer, Integer> veinSizeByLevel;
 
     private List<GeneratorTemplate> veinGenerators;
     private Map<GeneratorTemplate, StructureTemplate> virtualGeneratorsBarrierLayouts;
-
-    public GeneratorConfigSettings(EnhancedPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     public void loadConfiguration(@NotNull ConfigSection config) {
         defaultToolDamage = config.get("default-tool-durability-damage|default-tool-damage", Amount.class)
@@ -94,11 +96,13 @@ public class GeneratorConfigSettings implements GeneratorSettings {
 
     @Override
     public boolean isVeinMiner() {
+        settings.checkLoaded(veinMiner);
         return veinMiner;
     }
 
     @Override
     public int getToolMaxVeinSize(@NotNull ItemStack tool) {
+        settings.checkLoaded(veinSizeByLevel);
         if (!tool.hasItemMeta()) {
             return 1;
         }
@@ -109,36 +113,43 @@ public class GeneratorConfigSettings implements GeneratorSettings {
 
     @Override
     public boolean isVeinGenerator(@NotNull Generator generator) {
+        settings.checkLoaded(veinGenerators);
         return veinGenerators.contains(generator.getTemplate());
     }
 
     @Override
     public @Nullable StructureTemplate getVirtualGeneratorBarrierLayout(@NotNull GeneratorTemplate generatorTemplate) {
+        settings.checkLoaded(virtualGeneratorsBarrierLayouts);
         return virtualGeneratorsBarrierLayouts.get(generatorTemplate);
     }
 
     @Override
     public boolean isDefaultToolDamage() {
+        settings.checkLoaded(defaultToolDamage);
         return !defaultToolDamage.match(0);
     }
 
     @Override
     public Amount getDefaultToolDamage() {
+        settings.checkLoaded(defaultToolDamage);
         return defaultToolDamage;
     }
 
     @Override
     public @NotNull Delay getGeneratorHitCooldown() {
+        settings.checkLoaded(generatorHitCooldown);
         return generatorHitCooldown;
     }
 
     @Override
     public @NotNull Delay getGeneratorClickCooldown() {
+        settings.checkLoaded(generatorClickCooldown);
         return generatorClickCooldown;
     }
 
     @Override
     public @NotNull Delay getGeneratorHarvestCooldown() {
+        settings.checkLoaded(generatorHarvestCooldown);
         return generatorHarvestCooldown;
     }
 

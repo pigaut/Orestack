@@ -16,7 +16,7 @@ public class MessageLoader implements ConfigLoader<Message> {
 
     private final EnhancedPlugin plugin;
 
-    public MessageLoader(EnhancedPlugin plugin) {
+    public MessageLoader(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 

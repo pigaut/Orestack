@@ -2,14 +2,8 @@ package io.github.pigaut.rpg.module.gate.config;
 
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.gate.*;
-import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.core.hologram.*;
 import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.structure.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.hologram.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.module.structure.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
@@ -21,9 +15,9 @@ import java.util.*;
 
 public class GatePhaseLoader implements ConfigLoader<GatePhase> {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public GatePhaseLoader(RpgMakerPlugin plugin) {
+    public GatePhaseLoader(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

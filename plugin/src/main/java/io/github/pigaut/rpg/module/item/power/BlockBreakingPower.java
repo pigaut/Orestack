@@ -25,10 +25,6 @@ public class BlockBreakingPower {
         return breakingPower.getName();
     }
 
-    public @NotNull String getDisplay() {
-        return breakingPower.getDisplay();
-    }
-
     public @Nullable Function getOnWrongTool() {
         return breakingPower.getOnWrongTool();
     }

@@ -1,20 +1,12 @@
 package io.github.pigaut.rpg.module.gate;
 
 import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.api.event.gate.*;
-import io.github.pigaut.rpg.module.gate.state.*;
 import io.github.pigaut.rpg.module.gate.state.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.hologram.*;
-import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.api.event.gate.GateCloseEvent;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.hologram.*;
 import io.github.pigaut.rpg.core.transform.Rotation;
 import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.structure.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.gate.state.*;
 import io.github.pigaut.rpg.module.structure.*;
 import io.github.pigaut.rpg.module.structure.global.Structure;
 import io.github.pigaut.rpg.server.Server;
@@ -27,7 +19,7 @@ import java.time.*;
 
 public class GateUtil {
 
-    private static final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     public static void mine(@NotNull Gate gate, @NotNull Player player, @NotNull Block block) {
         if (!gate.isValid()) {

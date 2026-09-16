@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
 
 public class DamageGeneratorWithTool implements Action.Executor {
 
-    private final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     @Override
     public void execute(@NotNull Context context) {

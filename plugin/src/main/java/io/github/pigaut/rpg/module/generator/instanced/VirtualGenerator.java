@@ -4,15 +4,7 @@ import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.generator.exception.*;
 import io.github.pigaut.rpg.module.generator.phase.*;
 import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.module.generator.exception.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.core.transform.Rotation;
-import io.github.pigaut.rpg.module.structure.virtual.*;
-import io.github.pigaut.rpg.module.generator.exception.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.module.structure.virtual.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -23,7 +15,7 @@ import java.util.*;
 
 public class VirtualGenerator {
 
-    private static final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     private final GeneratorTemplate template;
     private final Location origin;

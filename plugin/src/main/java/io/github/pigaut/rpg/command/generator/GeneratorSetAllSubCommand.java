@@ -7,27 +7,18 @@ import io.github.pigaut.rpg.module.generator.exception.*;
 import io.github.pigaut.rpg.module.generator.global.*;
 import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.api.event.generator.*;
-import io.github.pigaut.rpg.command.*;
 import io.github.pigaut.rpg.core.command.node.*;
 import io.github.pigaut.rpg.core.transform.Rotation;
 
 
-import io.github.pigaut.rpg.core.command.node.*;
 import io.github.pigaut.rpg.module.structure.*;
-import io.github.pigaut.rpg.module.generator.exception.*;
-import io.github.pigaut.rpg.module.generator.global.*;
-import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.module.structure.*;
-import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.server.Server;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorSetAllSubCommand extends SubCommand {
 
-    public GeneratorSetAllSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public GeneratorSetAllSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "set-all");
         withPermission(plugin.getPermission("generator.set-all"));
         withDescription(plugin.getTranslation("generator-set-all-command"));

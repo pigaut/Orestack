@@ -1,0 +1,52 @@
+
+#░░░█░█░█▀█░█▀▀░░░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░█▀▀░░░░
+#░░░█▀█░█░█░█▀▀░░░█▀▄░█▀▀░█░░░░█░░█▀▀░█▀▀░▀▀█░░░░
+#░░░▀░▀░▀▀▀░▀▀▀░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░▀▀▀░░░░
+
+wooden_hoe:
+  ingredients:
+    A: stick
+    B: planks
+  shape: |
+    B  B  ~
+    ~  A  ~  ->  wooden_hoe
+    ~  A  ~
+
+stone_hoe:
+  ingredients:
+    A: stick
+    B: cobblestone
+  shape: |
+    B  B  ~
+    ~  A  ~  ->  stone_hoe
+    ~  A  ~
+
+golden_hoe:
+  ingredients:
+    A: stick
+    B: gold_ingot
+  shape: |
+    B  B  ~
+    ~  A  ~  ->  golden_hoe
+    ~  A  ~
+
+iron_hoe:
+  ingredients:
+    A: stick
+    B: iron_ingot
+  shape: |
+    B  B  ~
+    ~  A  ~  ->  iron_hoe
+    ~  A  ~
+
+diamond_hoe:
+  ingredients:
+    A: stick
+    B: diamond
+  shape: |
+    B  B  ~
+    ~  A  ~  ->  diamond_hoe
+    ~  A  ~
+
+netherite_hoe:
+  forge: netherite_upgrade_smithing_template + diamond_hoe + netherite_ingot -> netherite_hoe

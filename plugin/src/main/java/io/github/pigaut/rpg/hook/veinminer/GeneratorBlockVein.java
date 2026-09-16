@@ -2,15 +2,13 @@ package io.github.pigaut.rpg.hook.veinminer;
 
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.generator.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.module.generator.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorBlockVein {
 
-    private static final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
     private static final VeinMiningPattern veinMiningPattern = VeinMiningPattern.getInstance();
 
     private GeneratorBlockVein() {}

@@ -13,14 +13,14 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class ItemManager extends ConfigBackedManager<ItemTemplate> {
+public class ItemTemplateManager extends ConfigBackedManager<ItemTemplate> {
 
     private final NamespacedKey itemKey;
     private final NamespacedKey createdByKey;
     private final NamespacedKey usesKey;
     private final NamespacedKey renamedKey;
 
-    public ItemManager(EnhancedJavaPlugin plugin) {
+    public ItemTemplateManager(EnhancedJavaPlugin plugin) {
         super(plugin, Module.ITEMS, ItemTemplate.class);
 
         itemKey = plugin.getNamespacedKey("item");
@@ -70,6 +70,10 @@ public class ItemManager extends ConfigBackedManager<ItemTemplate> {
         return plugin.getNamespacedKey(stat.getName());
     }
 
+    public @Nullable String getName(@NotNull ItemStack item) {
+        return item.hasItemMeta() ? PersistentData.getString(item.getItemMeta(), itemKey) : null;
+    }
+
     public @Nullable ItemStack createItemStack(@NotNull String name) {
         return createItemStack(name, null);
     }
@@ -80,10 +84,7 @@ public class ItemManager extends ConfigBackedManager<ItemTemplate> {
     }
 
     public @Nullable ItemTemplate get(@NotNull ItemStack item) {
-        if (!item.hasItemMeta()) {
-            return null;
-        }
-        String itemName = PersistentData.getString(item.getItemMeta(), itemKey);
+        String itemName = getName(item);
         return itemName != null ? get(itemName) : null;
     }
 
@@ -115,6 +116,38 @@ public class ItemManager extends ConfigBackedManager<ItemTemplate> {
             PersistentData.setInteger(meta, usesKey, uses);
             item.setItemMeta(meta);
         }
+    }
+
+    public boolean hasItemCreator(@NotNull ItemStack item) {
+        if (!item.hasItemMeta()) {
+            return false;
+        }
+        return PersistentData.hasString(item.getItemMeta(), createdByKey);
+    }
+
+    public @Nullable String getItemCreator(@NotNull ItemStack item) {
+        if (!item.hasItemMeta()) {
+            return null;
+        }
+        return PersistentData.getString(item.getItemMeta(), createdByKey);
+    }
+
+    public void setItemCreator(@NotNull ItemStack item, @NotNull Player player) {
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            PersistentData.setString(meta, createdByKey, player.getName());
+            item.setItemMeta(meta);
+        }
+    }
+
+    public boolean hasStats(@NotNull ItemStack item) {
+        for (Stat stat : plugin.getStats().getAll()) {
+            Integer statLevel = getStatLevel(item, stat);
+            if (statLevel != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public @NotNull Map<Stat, Integer> getStats(@NotNull ItemStack item) {

@@ -6,13 +6,11 @@ import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.command.node.*;
 import io.github.pigaut.rpg.module.generator.tool.*;
-import io.github.pigaut.rpg.module.mob.spawnegg.*;
-import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorGetAllSubCommand extends SubCommand {
 
-    public GeneratorGetAllSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public GeneratorGetAllSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "get-all");
         withPermission(plugin.getPermission("generator.get-all"));
         withDescription(plugin.getTranslation("generator-get-all-command"));

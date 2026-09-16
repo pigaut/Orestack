@@ -13,9 +13,9 @@ public class AttributeMapper implements ConfigMapper.Line<CustomAttribute> {
     @Override
     @SuppressWarnings("UnstableApiUsage")
     public void mapToLine(@NotNull ConfigLine line, @NotNull CustomAttribute itemAttribute) {
-        final AttributeModifier modifier = itemAttribute.modifier();
-        line.set(0, itemAttribute.type());
-        line.set(1, modifier.getAmount());
+        AttributeModifier modifier = itemAttribute.modifier();
+        line.setValue(0, itemAttribute.type());
+        line.setValue(1, modifier.getAmount());
         line.setFlag("operation", AttributeOperation.of(modifier.getOperation()));
         line.setFlag("slot", modifier.getSlotGroup());
         line.setFlag("name", modifier.getName());
@@ -23,7 +23,7 @@ public class AttributeMapper implements ConfigMapper.Line<CustomAttribute> {
 
     @Override
     public void mapToSection(@NotNull ConfigSection section, @NotNull CustomAttribute itemAttribute) {
-        final AttributeModifier modifier = itemAttribute.modifier();
+        AttributeModifier modifier = itemAttribute.modifier();
         section.set("type|type", itemAttribute.type());
         section.set("amount", modifier.getAmount());
         section.set("slot", modifier.getSlotGroup());

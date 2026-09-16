@@ -7,19 +7,13 @@ import io.github.pigaut.rpg.module.generator.global.*;
 import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.core.command.node.*;
 import io.github.pigaut.rpg.server.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.command.*;
-import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.module.generator.global.*;
-import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.server.*;
 import org.bukkit.block.*;
 import org.bukkit.event.block.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorHarvestSubCommand extends SubCommand {
 
-    public GeneratorHarvestSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public GeneratorHarvestSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "harvest-all");
         withPermission(plugin.getPermission("generator.harvest-all"));
         withDescription(plugin.getTranslation("generator-harvest-all-command"));

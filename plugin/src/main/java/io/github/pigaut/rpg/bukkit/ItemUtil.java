@@ -2,7 +2,12 @@ package io.github.pigaut.rpg.bukkit;
 
 import io.github.pigaut.rpg.bukkit.attribute.Attributes;
 import io.github.pigaut.rpg.bukkit.material.*;
+import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.enchant.*;
+import io.github.pigaut.rpg.module.function.Function;
+import io.github.pigaut.rpg.module.item.*;
+import io.github.pigaut.rpg.module.item.power.*;
+import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.Server;
 import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.rpg.util.reflection.*;
@@ -10,7 +15,9 @@ import io.github.pigaut.yaml.util.*;
 import org.bukkit.*;
 import org.bukkit.attribute.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.*;
 import org.bukkit.entity.*;
+import org.bukkit.event.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.inventory.meta.Damageable;
@@ -143,6 +150,55 @@ public class ItemUtil {
             modifier.accept(meta);
             item.setItemMeta(meta);
         }
+    }
+
+    /**
+     * Checks whether the given tool can break the given block, based on configured breaking powers.
+     * Cancels the event and runs the relevant Function (wrong-tool or insufficient-power) if not.
+     *
+     * @return true if breaking is allowed, false if the event was cancelled.
+     */
+    public static boolean checkBreakingPower(@NotNull Cancellable event, @NotNull Context context, @NotNull Block block,
+                                             @NotNull ItemStack tool) {
+        EnhancedPlugin plugin = context.plugin();
+
+        BlockBreakingPower blockBreakingPower = plugin.getSettings().getBlockBreakingPower(block);
+        if (blockBreakingPower == null) {
+            return true;
+        }
+
+        String powerName = blockBreakingPower.getName();
+        int blockPower = blockBreakingPower.getAmount();
+        context.addPlaceholder("block_" + powerName, blockPower);
+
+        ItemTemplate itemTemplate = plugin.getItemTemplate(tool);
+        ToolBreakingPower toolBreakingPower = itemTemplate != null ? itemTemplate.getBreakingPower() : null;
+
+        int toolPower = plugin.getSettings().getPlayerBreakingPower();
+        if (toolBreakingPower != null) {
+            toolPower = toolBreakingPower.getAmount();
+            if (!toolBreakingPower.getType().equals(blockBreakingPower.getType())) {
+                context.addPlaceholder("tool_" + powerName, toolPower);
+                event.setCancelled(true);
+                io.github.pigaut.rpg.module.function.Function onWrongTool = blockBreakingPower.getOnWrongTool();
+                if (onWrongTool != null) {
+                    onWrongTool.run(context);
+                }
+                return false;
+            }
+        }
+        context.addPlaceholder("tool_" + powerName, toolPower);
+
+        if (blockPower > toolPower) {
+            event.setCancelled(true);
+            Function onInsufficientPower = blockBreakingPower.getOnInsufficientPower();
+            if (onInsufficientPower != null) {
+                onInsufficientPower.run(context);
+            }
+            return false;
+        }
+
+        return true;
     }
 
     // Brain damage

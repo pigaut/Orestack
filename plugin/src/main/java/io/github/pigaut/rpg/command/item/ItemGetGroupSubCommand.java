@@ -17,7 +17,7 @@ public class ItemGetGroupSubCommand extends SubCommand {
         withDescription(plugin.getTranslation("item-get-group-command"));
         withParameter(CommandParameters.itemGroup(plugin));
         withPlayerExecution((player, context, args) -> {
-            List<ItemTemplate> groupItems = plugin.getItems().getAll(args[0]);
+            List<ItemTemplate> groupItems = plugin.getItemTemplates().getAll(args[0]);
             if (groupItems.isEmpty()) {
                 plugin.sendMessage(player, context, "item-group-not-found");
                 return;

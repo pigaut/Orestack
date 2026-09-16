@@ -3,6 +3,7 @@ package io.github.pigaut.rpg.core.placeholder.settings;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.progressbar.*;
+import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.node.*;
 import org.jetbrains.annotations.*;
@@ -10,6 +11,14 @@ import org.jetbrains.annotations.*;
 import java.util.*;
 
 public class PlaceholderConfigSettings implements PlaceholderSettings {
+
+    private final EnhancedPlugin plugin;
+    private final Settings settings;
+
+    public PlaceholderConfigSettings(@NotNull EnhancedPlugin plugin, @NotNull Settings settings) {
+        this.plugin = plugin;
+        this.settings = settings;
+    }
 
     private Object placeholderFallback;
     private Map<String, Object> placeholderFallbacks;
@@ -67,6 +76,8 @@ public class PlaceholderConfigSettings implements PlaceholderSettings {
     }
 
     public @Nullable Object getPlaceholderFallback(@NotNull String placeholder) {
+        settings.checkLoaded(placeholderFallbacks);
+        settings.checkLoaded(wildcardPlaceholderFallbacks);
         Object direct = placeholderFallbacks.get(placeholder);
         if (direct != null) {
             return direct;
@@ -82,16 +93,19 @@ public class PlaceholderConfigSettings implements PlaceholderSettings {
     }
 
     public void registerPlaceholderFallback(@NotNull String placeholder, @NotNull Object fallback) {
+        settings.checkLoaded(placeholderFallbacks);
         if (!placeholderFallbacks.containsKey(placeholder)) {
             placeholderFallbacks.put(placeholder, fallback);
         }
     }
 
     public @NotNull List<ProgressBar> getProgressBars() {
+        settings.checkLoaded(progressBars);
         return new ArrayList<>(progressBars);
     }
 
     public @NotNull List<ProgressBar> getCountdownBars() {
+        settings.checkLoaded(invertedProgressBars);
         return new ArrayList<>(invertedProgressBars);
     }
 

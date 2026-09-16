@@ -5,14 +5,6 @@ import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.module.generator.exception.*;
 import io.github.pigaut.rpg.module.generator.global.*;
 import io.github.pigaut.rpg.module.generator.instanced.*;
-import io.github.pigaut.rpg.module.generator.exception.*;
-import io.github.pigaut.rpg.module.generator.global.*;
-import io.github.pigaut.rpg.module.generator.instanced.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.module.generator.exception.*;
-import io.github.pigaut.rpg.module.generator.global.*;
-import io.github.pigaut.rpg.module.generator.instanced.*;
 import io.github.pigaut.sql.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
@@ -21,7 +13,7 @@ import java.util.*;
 
 public class GeneratorRepository {
 
-    private static final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     public static void loadGenerators() {
         Database database = plugin.getDatabase();

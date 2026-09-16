@@ -1,7 +1,6 @@
 package io.github.pigaut.rpg.core.tag.config;
 
 import io.github.pigaut.rpg.core.tag.*;
-import io.github.pigaut.rpg.core.tag.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
 import io.github.pigaut.yaml.convert.format.*;
@@ -11,7 +10,7 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class MaterialTagLoader implements ConfigLoader<MaterialTag> {
+public class MaterialGroupLoader implements ConfigLoader<MaterialGroup> {
 
     @Override
     public @Nullable String getErrorDescription() {
@@ -19,16 +18,16 @@ public class MaterialTagLoader implements ConfigLoader<MaterialTag> {
     }
 
     @Override
-    public @NotNull MaterialTag loadFromScalar(ConfigScalar scalar) throws InvalidConfigException {
+    public @NotNull MaterialGroup loadFromScalar(ConfigScalar scalar) throws InvalidConfigException {
         String name = scalar.toString(CaseStyle.CONSTANT);
-        MaterialGroup group = ParseUtil.parseEnumOrNull(MaterialGroup.class, name);
+        MaterialTag group = ParseUtil.parseEnumOrNull(MaterialTag.class, name);
         if (group != null) {
             return group;
         }
 
         Material material = ParseUtil.parseEnumOrNull(Material.class, name);
         if (material != null) {
-            return new MaterialTag() {
+            return new MaterialGroup() {
                 private final Set<Material> materials = Set.of(material);
 
                 @Override
@@ -43,7 +42,7 @@ public class MaterialTagLoader implements ConfigLoader<MaterialTag> {
             };
         }
 
-        throw new InvalidConfigException(scalar, "Could not find material/tag with name: " + name);
+        throw new InvalidConfigException(scalar, "Could not find material/group with name: " + name);
     }
 
 }

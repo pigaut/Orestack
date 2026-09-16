@@ -3,16 +3,13 @@ package io.github.pigaut.rpg.command.generator;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.generator.*;
 import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.module.generator.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorRemoveSubCommand extends SubCommand {
 
-    public GeneratorRemoveSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public GeneratorRemoveSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "remove");
         withPermission(plugin.getPermission("generator.remove"));
         withDescription(plugin.getTranslation("generator-remove-command"));

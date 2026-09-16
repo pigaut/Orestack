@@ -25,13 +25,13 @@ public class RemoveItemUses implements ItemAction {
             return;
         }
 
-        Integer usesLeft = plugin.getItems().getUsesLeft(tool);
+        Integer usesLeft = plugin.getItemTemplates().getUsesLeft(tool);
         if (usesLeft == null) {
             return;
         }
 
         int uses = Math.max(0, usesLeft - consumeAmount.intValue());
-        PersistentData.setInteger(tool, plugin.getItems().getUsesKey(), uses);
+        PersistentData.setInteger(tool, plugin.getItemTemplates().getUsesKey(), uses);
 
         itemTemplate.updateItemMeta(tool, player);
         PlayerUtil.setTool(player, tool);

@@ -14,17 +14,19 @@ import java.util.*;
 public class SkillConfigSettings implements SkillSettings {
 
     private final EnhancedPlugin plugin;
+    private final Settings settings;
 
-    private int defaultMaxLevel;
-    private Expression defaultExpFormula;
-    private Function defaultOnExpEarn;
-    private Function defaultOnSkillLevelUp;
-    private final Map<String, ExpAmount> expEarningActivities = new HashMap<>();
-    private ProgressBar skillProgressBar;
-
-    public SkillConfigSettings(EnhancedPlugin plugin) {
+    public SkillConfigSettings(@NotNull EnhancedPlugin plugin, @NotNull Settings settings) {
         this.plugin = plugin;
+        this.settings = settings;
     }
+
+    private Integer defaultMaxLevel;
+    private Expression defaultExpFormula;
+    private @Nullable Function defaultOnExpEarn;
+    private @Nullable Function defaultOnSkillLevelUp;
+    private Map<String, ExpAmount> expEarningActivities;
+    private ProgressBar skillProgressBar;
 
     public void loadConfiguration(@NotNull ConfigSection config) {
         defaultMaxLevel = config.getInteger("default-skill-settings.max-level")
@@ -52,7 +54,7 @@ public class SkillConfigSettings implements SkillSettings {
                     .withDefault(null);
         });
 
-        expEarningActivities.clear();
+        expEarningActivities = new HashMap<>();
         for (KeyedScalar scalar : config.getSectionOrEmpty("exp-earning-activities").getNestedScalars()) {
             ConfigLine line = scalar.toLine();
             String name = scalar.getKey();
@@ -67,11 +69,13 @@ public class SkillConfigSettings implements SkillSettings {
 
     @Override
     public int getDefaultMaxSkillLevel() {
+        settings.checkLoaded(defaultMaxLevel);
         return defaultMaxLevel;
     }
 
     @Override
     public @NotNull Expression getDefaultExpFormula() {
+        settings.checkLoaded(defaultExpFormula);
         return defaultExpFormula;
     }
 
@@ -87,11 +91,13 @@ public class SkillConfigSettings implements SkillSettings {
 
     @Override
     public @Nullable ExpAmount getExpEarningActivity(@NotNull String name) {
+        settings.checkLoaded(expEarningActivities);
         return expEarningActivities.get(name);
     }
 
     @Override
     public @NotNull ProgressBar getSkillProgressBar() {
+        settings.checkLoaded(skillProgressBar);
         return skillProgressBar;
     }
 

@@ -1,8 +1,7 @@
 
-
-#░░░█▀▄░█▀█░█▀▀░░░░░█▄█░█▀█░█░█░█▀▀░█▀▄░░░█▀▀░█▀█░█▀█░█▀▀░▀█▀░█▀▀░░░░
-#░░░█▀▄░█▀▀░█░█░▄▄▄░█░█░█▀█░█▀▄░█▀▀░█▀▄░░░█░░░█░█░█░█░█▀▀░░█░░█░█░░░░
-#░░░▀░▀░▀░░░▀▀▀░░░░░▀░▀░▀░▀░▀░▀░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀░▀░▀░░░▀▀▀░▀▀▀░░░░
+#░░░█▀█░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░█░█░░░█▀▀░█▀█░█▀▀░▀█▀░█▀█░█▀▀░░░░
+#░░░█░█░█▀▄░█▀▀░▀▀█░░█░░█▀█░█░░░█▀▄░░░█▀▀░█░█░█░█░░█░░█░█░█▀▀░░░░
+#░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░░▀░░▀░▀░▀▀▀░▀░▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░░░░
 
 # Whether to automatically add missing options to this config file.
 keep-file-up-to-date: true
@@ -170,8 +169,11 @@ disabled-modules: []
 #░░░█▀▀░█▀█░█▄█░█▀▀░█▀█░█░░░█▀█░█░█░░
 #░░░█░█░█▀█░█░█░█▀▀░█▀▀░█░░░█▀█░░█░░░
 #░░░▀▀▀░▀░▀░▀░▀░▀▀▀░▀░░░▀▀▀░▀░▀░░▀░░░
-# Hunger Default Configuration Summary: Player food bars are always full and never run out, food level
+# 1. Hunger Configuration Summary: Player food bars are always full and never run out, food level
 # does not regen health because the health is already regenerated through health-regen stat.
+
+# 2. BreakingPower Configuration Summary: Players have a breaking power of 1 when empty-handed, otherwise they
+# need a tool to break blocks. There are 3 item breaking power types: mining, chopping, digging.
 
 # Show death messages when a player dies for any reason except being killed by a custom mob
 show-death-messages: true
@@ -233,6 +235,12 @@ egg-laying: 1 egg every 20-40s
 
 # Always allow using color codes (&7) in anvil when renaming an item. Otherwise, you need the permission: rpgmaker.player.anvil-colors
 anvil-colors: true
+
+# Whether breaking blocks should require breaking power
+breaking-power: true
+
+# The default player breaking power with an empty hand (Scroll down to items to customize item breaking power)
+default-breaking-power: 1 # Set to 0 and players will not be able to mine anything without a proper tool
 
 # Triggered when a player damages an entity
 on-player-damage-entity:
@@ -564,45 +572,170 @@ player-slain-message: '&c{player_tc} was killed by a {mob_name_tc}'
 #░░░░█░░░█░░█▀▀░█░█░▀▀█░░░░
 #░░░▀▀▀░░▀░░▀▀▀░▀░▀░▀▀▀░░░░
 
-# Default lore generation (Useful to avoid writing lore manually)
-default-item-lore:
-  - '{item_breaking_power}'
-  - '{item_stats}'
-  - '{item_description}'
-  - '{item_enchants}'
-  - '{item_abilities}'
-  - '{item_rarity}'
+# The item categories
+item-categories:
+  - sword
+  - pickaxe
+  - axe
+  - shovel
+  - farming_tool
+  - helmet
+  - chestplate
+  - leggings
+  - boots
+  - ingredient
 
-# The header before an item placeholder
-item-placeholder-headers: {}
+# The item rarities
+item-rarities:
+  - common
+  - uncommon
+  - rare
+  - epic
+  - legendary
 
-# The divider for an item placeholder that has multiples elements: enchants, abilities, stats
-item-placeholder-dividers:
-  item_enchants: ['']
-  item_abilities: ['']
+# The default item settings (Use 'key: none' to disable options under this section)
+item-defaults:
+  breaking-power: 1
+  category: none
+  rarity: common
+  name: '&f{item_name_tc}'
+  name-by-rarity:
+    common: '&f{item_name_tc}'
+    uncommon: '&a{item_name_tc}'
+    rare: '&9{item_name_tc}'
+    epic: '&d{item_name_tc}'
+    legendary: '&6{item_name_tc}'
+  description-color: '&7'
+  lore:
+    - '{item_lore:breaking_power}' # Placeholders can be configured below
+    - '{item_lore:stats}'
+    - '{item_lore:description}'
+    - '{item_lore:enchants}'
+    - '{item_lore:abilities}'
+    - '{item_lore:crafted_by}'
+    - '{item_lore:rarity}'
 
-# The footer after an item placeholder
-item-placeholder-footers:
-  item_breaking_power: ['']
-  item_stats: ['']
-  item_description: ['']
-  item_enchants: ['']
-  item_abilities: ['']
+# The display lines for lore placeholders
+lore-placeholders:
+  # Display for: {item_lore:breaking_power}
+  breaking-power:
+    mining-power:
+      - '&8Mining Power {item_mining_power_rm}'
+      - ''
+    chopping-power:
+      - '&8Chopping Power {item_chopping_power_rm}'
+      - ''
+    digging-power:
+      - '&8Digging Power {item_digging_power_rm}'
+      - ''
 
-# The max elements before compression strategies are applied.
-# Compression strategies: 1. Remove divider, 2. Remove extra description lines, 3. Inline multiple elements
-item-placeholder-max-lines:
-  item_stats: 10
-  item_enchants: 10
+  # Display for: {item_lore:category}
+  category:
+    - '&cCategory: &8{item_category_tc}'
+    - ''
 
-# The default name when the item has no display name or rarity set
-default-item-name: '&f{item_name_tc}'
+  # Display for: {item_lore:description}
+  description:
+    - '{item_description}' # Description can span multiple lines
+    - ''
 
-# The default description color/formatting
-default-description-color: '&7'
+  # Display for: {item_lore:crafted_by}
+  crafted-by:
+    - '&cCrafted by: &8{item_creator}'
+    - ''
 
-# Stat descriptions used by {item_stats}
+  # Display for: {item_lore:rarity}
+  rarity:
+    common:
+      - '&f&lCOMMON {item_category_spu}'
+    uncommon:
+      - '&a&lUNCOMMON {item_category_spu}'
+    rare:
+      - '&9&lRARE {item_category_spu}'
+    epic:
+      - '&d&lEPIC {item_category_spu}'
+    legendary:
+      - '&6&lLEGENDARY {item_category_spu}'
+
+  # Display for: {item_lore:stats}
+  stats:
+    - '{item_stats}'
+    - ''
+
+  # Display for: {item_lore:enchants}
+  enchants:
+    - '{item_enchants}'
+    - ''
+
+# Ability description templates. Example fire template usage:
+# fire-abilities:
+#   - name=Fireball trigger=right_click description=Throws a fireball at your opponent manaCost=10 cooldown=3s
+ability-templates:
+  # The divider between abilities, set to 'none' to disable
+  divider: ''
+  # Add your own placeholders: {name}, {trigger}, {description}, {mana-cost}, {cooldown}, {anything_you_want}, etc...
+  basic:
+    - '&6Ability: {name} &e&l{trigger_spu}' # spu = SPACED UPPERCASE
+    - '&7{description}' # Optional line, when {description} is not set this line is removed
+    - '&8Mana Cost: &b{mana_cost}$mana' # Optional line
+    - '&8Cooldown: &a{cooldown}' # Optional line
+
+  fire:
+    - '&cAbility: {name} &e&l{trigger_spu}'
+    - '&7{description}'
+    - '&8Mana Cost: &b{mana_cost}$mana'
+    - '&8Cooldown: &a{cooldown}'
+
+  ender:
+    - '&5Ability: {name} &e&l{trigger_spu}'
+    - '&7{description}'
+    - '&8Mana Cost: &b{mana_cost}$mana'
+    - '&8Cooldown: &a{cooldown}'
+
+# Item breaking powers and block power requirements, and display for {item_lore:breaking_power} placeholder
+# Breaking power is a number starting at 1 (Anything can mine it) and each level beyond requires a more powerful tool.
+breaking-powers:
+  mining-power:
+    # Triggered when the player tool does not have mining power
+    on-wrong-tool: # Placeholders: {tool_breaking_power}, {block_breaking_power}
+      - sendChat &cYou need a pickaxe to mine ores
+    # Triggered when the player tool doesn't have enough breaking power
+    on-insufficient-power: # Placeholders: {tool_breaking_power}, {block_breaking_power}
+      - sendChat &cYou need a pickaxe with &8Mining Power {block_mining_power_rm} &cto mine this ore
+    block-requirements:
+      coal_ore: 1 power
+      copper_ore: 2 power
+      gold_ore: 3 power
+      iron_ore: 3 power
+      diamond_ore: 4 power
+      emerald_ore: 5 power
+      ancient-debris: 5 power
+      items-adder:ruby_ore: 6 power # items-adder (ia), nexo (nx), craft-engine (ce)
+
+  chopping-power:
+    on-wrong-tool:
+      - sendChat &cYou need an axe to chop wood
+    on-insufficient-power:
+      - sendChat &cYou need an axe with &8Chopping Power {tool_chopping_power_rm} &cto chop this tree
+    block-requirements:
+      # Breaking power of 1 means any tool or empty hand can mine it.
+      raw_oak: 1 power # raw_oak includes: oak_log, oak_wood
+      raw_birch: 2 power
+      raw_spruce: 2 power
+
+  digging-power:
+    on-wrong-tool:
+      - sendChat &cYou need a shovel to dig blocks
+    on-insufficient-power:
+      - sendChat &cYou need a shovel with &8Digging Power {tool_digging_power_rm} &cto dig this block
+    block-requirements:
+      sand: 2 power
+      red_sand: 3 power
+
+# Stat descriptions
 stat-descriptions:
+  max-lines: 10
+  divider: none # Set to 'none' to disable
   default: ['&7{stat_name_tc}: &a+{stat_level}']
   # Base stats:
   damage: ['&7Damage: &c+{item_stat:damage}']
@@ -626,65 +759,10 @@ stat-descriptions:
   digging-speed: ['&7Digging Speed: &a+{item_stat:digging_speed}']
   chopping-speed: ['&7Chopping Speed: &a+{item_stat:chopping_speed}']
 
-# Settings for the {item_abilities} placeholder
-# Add your own placeholders: {name}, {trigger}, {description}, {mana-cost}, {cooldown}, {anything_you_want}, etc...
-ability-description-template:
-  - '&6Ability: {name} &e&l{trigger_spu}' # spu = SPACED UPPERCASE
-  - '&7{description}'
-  - '&8Mana Cost: &b{mana_cost}$mana'
-  - '&8Cooldown: &a{cooldown}'
-
-# Whether breaking blocks should require breaking power
-use-breaking-power: true
-
-# The default player breaking power with no tool
-default-breaking-power: 1 # Set to 0 and players will not be able to mine anything without a proper tool
-
-# Item breaking powers and block power requirements, and display for {item_breaking_power} placeholder
-# Breaking power is a number starting at 1 (Anything can mine it) and each level beyond requires a more powerful tool.
-breaking-powers:
-  mining-power:
-    display: '&8Mining Power {amount_rm}'
-    # Triggered when the player tool does not have mining power
-    on-wrong-tool: # Placeholders: {tool_breaking_power}, {block_breaking_power}
-      - sendChat &cYou need a pickaxe to mine ores
-    # Triggered when the player tool doesn't have enough breaking power
-    on-insufficient-power: # Placeholders: {tool_breaking_power}, {block_breaking_power}
-      - sendChat &cYou need a pickaxe with &8Mining Power {block_mining_power_rm} &cto mine this ore
-    block-requirements:
-      coal_ore: 1 power
-      copper_ore: 2 power
-      gold_ore: 3 power
-      iron_ore: 3 power
-      diamond_ore: 4 power
-      emerald_ore: 5 power
-      ancient-debris: 5 power
-      items-adder:ruby_ore: 6 power # items-adder (ia), nexo (nx), craft-engine (ce)
-
-  chopping-power:
-    display: '&8Chopping Power {amount_rm}'
-    on-wrong-tool:
-      - sendChat &cYou need an axe to chop wood
-    on-insufficient-power:
-      - sendChat &cYou need an axe with &8Chopping Power {tool_chopping_power_rm} &cto chop this tree
-    block-requirements:
-      # Breaking power of 1 means any tool or empty hand can mine it.
-      raw_oak: 1 power # raw_oak includes: oak_log, oak_wood
-      raw_birch: 2 power
-      raw_spruce: 2 power
-
-  digging-power:
-    display: '&8Digging Power {amount_rm}'
-    on-wrong-tool:
-      - sendChat &cYou need a shovel to dig blocks
-    on-insufficient-power:
-      - sendChat &cYou need a shovel with &8Digging Power {tool_digging_power_rm} &cto dig this block
-    block-requirements:
-      sand: 2 power
-      red_sand: 3 power
-
-# Enchant descriptions used by {item_enchants} placeholder
+# Enchant descriptions
 enchant-descriptions:
+  max-lines: 10
+  divider: '' # Set to 'none' to disable
   default:
     - '&9{enchant_name_tc} {enchant_level_rm}' # tc: Title Case, rm: Roman Numerals (IV)
   sharpness:
@@ -811,87 +889,6 @@ enchant-descriptions:
   wind_burst:
     - '&9Wind Burst {enchant_level_rm}'
     - '&7Launches you upward after a smash attack'
-
-
-# The default item rarity.
-default-item-rarity: common # Set to 'none' to disable
-
-# Item rarities and display for {item_rarity} placeholder
-item-rarities:
-  common:
-    display: '&f&l{name_spu}'
-    item-name: '&f{item_name_tc}'
-    variants:
-      sword: display=&f&lCOMMON SWORD itemName=&f{item_name}
-      pickaxe: default # Uses default common settings
-      axe: default
-      shovel: default
-      farming_tool: default
-      helmet: default
-      chestplate: default
-      leggings: default
-      boots: default
-      ingredient: default
-
-  uncommon:
-    display: '&a&l{name_spu}'
-    item-name: '&a{item_name}'
-    variants:
-      sword: display=&a&lUNCOMMON SWORD itemName=&a{item_name}
-      pickaxe: default # Uses default uncommon settings
-      axe: default
-      shovel: default
-      farming_tool: default
-      helmet: default
-      chestplate: default
-      leggings: default
-      boots: default
-      ingredient: default
-
-  rare:
-    display: '&9&l{name_spu}'
-    item-name: '&9{item_name}'
-    variants:
-      sword: display=&9&lRARE SWORD itemName=&9{item_name}
-      pickaxe: default # Uses default rare settings
-      axe: default
-      shovel: default
-      farming_tool: default
-      helmet: default
-      chestplate: default
-      leggings: default
-      boots: default
-      ingredient: default
-
-  epic:
-    display: '&d&l{name_spu}'
-    item-name: '&d{item_name}'
-    variants:
-      sword: display=&d&lEPIC SWORD itemName=&d{item_name}
-      pickaxe: default # Uses default epic settings
-      axe: default
-      shovel: default
-      farming_tool: default
-      helmet: default
-      chestplate: default
-      leggings: default
-      boots: default
-      ingredient: default
-
-  legendary:
-    display: '&6&l{name_spu}'
-    item-name: '&6{item_name}'
-    variants:
-      sword: display=&6&lLEGENDARY SWORD itemName=&6{item_name}
-      pickaxe: default # Uses default legendary settings
-      axe: default
-      shovel: default
-      farming_tool: default
-      helmet: default
-      chestplate: default
-      leggings: default
-      boots: default
-      ingredient: default
 
 
 #░░░█░█░█▀█░█░░░█▀█░█▀▀░█▀▄░█▀█░█▄█░█▀▀░░░░

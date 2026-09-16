@@ -13,16 +13,16 @@ public class GateActions {
     public static void registerAll(@NotNull EnhancedPlugin plugin) {
         ActionRegistry actions = plugin.getActions();
 
-        actions.addLoader("OPEN_GATE", (ConfigLoader.Line<Action>) line ->
+        actions.register("OPEN_GATE", (ConfigLoader.Line<Action>) line ->
                 new GateOpenAction());
 
-        actions.addLoader("CLOSE_GATE", (ConfigLoader.Line<Action>) line ->
+        actions.register("CLOSE_GATE", (ConfigLoader.Line<Action>) line ->
                 new GateCloseAction());
 
-        actions.addLoader("REPLACE_GATE", (ConfigLoader.Line<Action>) line ->
+        actions.register("REPLACE_GATE", (ConfigLoader.Line<Action>) line ->
                 new ReplaceGateAction(plugin, line.getRequiredString(1)));
 
-        actions.addLoader("DAMAGE_GATE", (ConfigLoader.Line<Action>) line -> {
+        actions.register("DAMAGE_GATE", (ConfigLoader.Line<Action>) line -> {
             ConfigOptional<Amount> amount = line.get(1, Amount.class);
             if (!amount.existsInConfig()) {
                 return new DamageGateWithTool(plugin);
@@ -30,7 +30,7 @@ public class GateActions {
             return new DamageGateAction(amount.withDefault(Amount.ONE));
         });
 
-        actions.addLoader("DAMAGE_GATE_WITH_TOOL", (ConfigLoader.Line<Action>) line ->
+        actions.register("DAMAGE_GATE_WITH_TOOL", (ConfigLoader.Line<Action>) line ->
                 new DamageGateWithTool(plugin));
 
     }

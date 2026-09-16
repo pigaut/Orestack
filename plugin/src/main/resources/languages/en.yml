@@ -177,8 +177,8 @@ locked-all-recipes: '&aLocking all recipes...'
 recipe-not-found: '&4Could not find recipe with name: {recipe-name}'
 already-unlocked-recipe: '&4You already have this recipe unlocked'
 already-locked-recipe: '&4You already have this recipe locked'
-cannot-unlock-global-recipe: '&4You cannot unlock a global recipe'
-cannot-lock-global-recipe: '&4You cannot lock a global recipe'
+cannot-unlock-recipe: '&4You cannot unlock this recipe'
+cannot-lock-recipe: '&4You cannot lock this recipe'
 
 #░░░█▀▀░█▀█░█░░░█░░░█▀▀░█▀▀░▀█▀░▀█▀░█▀█░█▀█░░░█▀▀░█▀█░█▄█░█▄█░█▀█░█▀█░█▀▄░█▀▀░░░░
 #░░░█░░░█░█░█░░░█░░░█▀▀░█░░░░█░░░█░░█░█░█░█░░░█░░░█░█░█░█░█░█░█▀█░█░█░█░█░▀▀█░░░░

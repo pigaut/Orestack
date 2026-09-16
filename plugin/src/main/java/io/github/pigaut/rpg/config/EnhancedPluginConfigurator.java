@@ -54,6 +54,7 @@ import io.github.pigaut.rpg.module.particle.*;
 import io.github.pigaut.rpg.module.particle.config.*;
 import io.github.pigaut.rpg.module.recipe.*;
 import io.github.pigaut.rpg.module.recipe.config.*;
+import io.github.pigaut.rpg.module.recipe.detail.*;
 import io.github.pigaut.rpg.module.skill.*;
 import io.github.pigaut.rpg.module.skill.config.*;
 import io.github.pigaut.rpg.module.skill.exp.*;
@@ -82,8 +83,8 @@ import org.jetbrains.annotations.*;
 
 public class EnhancedPluginConfigurator extends SpigotConfigurator {
 
-    public EnhancedPluginConfigurator(@NotNull RpgMakerPlugin plugin) {
-        addLoader(MaterialTag.class, new MaterialTagLoader());
+    public EnhancedPluginConfigurator(@NotNull OrestackPlugin plugin) {
+        addLoader(MaterialGroup.class, new MaterialGroupLoader());
 
         addLoader(BlockRange.class, new BlockRangeLoader());
         addMapper(BlockRange.class, new BlockRangeMapper());
@@ -121,6 +122,9 @@ public class EnhancedPluginConfigurator extends SpigotConfigurator {
         addLoader(Menu.class, new MenuLoader(plugin));
 
         addLoader(RecipeChoice.class, new RecipeChoiceLoader());
+        addLoader(Ingredient.class, new IngredientLoader(plugin));
+        addLoader(MultiIngredient.class, new MultiIngredientLoader());
+        addLoader(ParsedShape.class, new ParsedShapeLoader());
         addLoader(RecipeTemplate.class, new RecipeTemplateLoader(plugin));
         addLoader(MultiRecipe.class, new MultiRecipeLoader(plugin));
 
@@ -157,6 +161,7 @@ public class EnhancedPluginConfigurator extends SpigotConfigurator {
         ConditionRegistry conditions = plugin.getConditions();
         addLoader(Condition.class, conditions);
         addLoader(NotCondition.class, new NotConditionLoader());
+        addLoader(AndCondition.class, new AndConditionLoader());
         addLoader(OrCondition.class, new OrConditionLoader());
         addLoader(NorCondition.class, new NorConditionLoader());
 

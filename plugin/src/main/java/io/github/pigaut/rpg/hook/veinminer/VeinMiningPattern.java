@@ -3,9 +3,6 @@ package io.github.pigaut.rpg.hook.veinminer;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.generator.*;
 import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.module.generator.*;
-import io.github.pigaut.rpg.module.generator.template.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
@@ -21,7 +18,7 @@ public class VeinMiningPattern {
 
     private static final VeinMiningPattern INSTANCE = new VeinMiningPattern();
 
-    private final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private final OrestackPlugin plugin = OrestackPlugin.getInstance();
     private final List<Generator> buffer = new ArrayList<>(32), recent = new ArrayList<>(32);
 
     private VeinMiningPattern() {}

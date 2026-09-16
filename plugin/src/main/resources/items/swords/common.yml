@@ -1,6 +1,7 @@
 
 rookie_sword:
   type: stone_sword
+  category: sword
   description:
     - 'A basic sword to'
     - 'help you survive'
@@ -10,10 +11,11 @@ rookie_sword:
   enchants:
     sharpness: 5
     unbreaking: 4
-  rarity: common_sword
+  rarity: common
 
 rogue_sword:
   type: copper_sword
+  category: sword
   stats:
     damage: 20
   ability-descriptions:
@@ -22,7 +24,7 @@ rogue_sword:
       description: '&7Grants &f+100$speed Speed &7for &a30s&7.'
       mana-cost: 50
       cooldown: 5s
-  rarity: common_sword
+  rarity: common
   on-right-click:
     - if: hasCooldown item_speed_boost # Use the same cooldown on all items to avoid stacking multiple boosts from different items
       do:

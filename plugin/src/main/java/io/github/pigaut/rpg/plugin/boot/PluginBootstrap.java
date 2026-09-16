@@ -62,21 +62,13 @@ public class PluginBootstrap {
         PluginSetup.generateDirectoriesAndFiles(plugin);
         PluginSetup.generateExampleFiles(plugin);
 
-        // Load all settings from config.yml
-        startupErrors.add(settings.loadConfiguration());
-
         // Load language file messages
         TranslationRegistry dictionary = plugin.getTranslations();
         startupErrors.add(dictionary.loadConfiguration());
 
-        // Initialize command registry and register commands
+        // Initialize command registry
         CommandRegistry commandRegistry = plugin.getRegisteredCommands();
         commandRegistry.init();
-        plugin.registerCommands(commandRegistry);
-
-        // Register listeners
-        DefaultListeners.registerAll(plugin);
-        plugin.registerListeners();
 
         initialized = true;
         plugin.onBoot();
@@ -123,9 +115,10 @@ public class PluginBootstrap {
         updateChecker = PluginSetup.createUpdateChecker(plugin);
         configurator = plugin.createConfigurator();
         database = PluginSetup.createDatabase(plugin);
-        plugin.registerHooks();
 
+        // Load all settings from config.yml
         Settings settings = plugin.getSettings();
+        startupErrors.add(settings.loadConfiguration());
 
         List<Manager> pluginManagers = plugin.getAllManagers();
         plugin.getScheduler().runTaskAsync(() -> {
@@ -202,16 +195,13 @@ public class PluginBootstrap {
         configurator = plugin.createConfigurator();
         config = PluginSetup.loadConfig(plugin, "config.yml", true);
 
-        // Preload boot settings from config.yml
+        // Load all settings from config.yml
         Settings settings = plugin.getSettings();
-        settings.loadBootConfiguration();
+        errorCollector.collectAll(settings.loadConfiguration());
 
         // Generate directories and files
         PluginSetup.generateDirectoriesAndFiles(plugin);
         PluginSetup.generateExampleFiles(plugin);
-
-        // Load all settings from config.yml
-        errorCollector.collectAll(settings.loadConfiguration());
 
         // Load language file messages
         TranslationRegistry dictionary = plugin.getTranslations();

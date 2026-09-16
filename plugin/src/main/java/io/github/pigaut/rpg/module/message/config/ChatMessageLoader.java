@@ -52,12 +52,8 @@ public class ChatMessageLoader implements ConfigLoader<ChatMessage> {
 
         Map<String, TextComponent> componentsByName = new HashMap<>();
         for (String key : section.getKeys()) {
-            if (StringUtil.isAnyEqualIgnoreCase(key, "message", "messages", "chat")) {
+            if (!StringUtil.isParenthesized(key, "<", ">")) {
                 continue;
-            }
-
-            if (StringUtil.isParenthesized(key, "<", ">")) {
-                throw new InvalidConfigException(section, key, "Button name must start/end with angle brackets [<, >]");
             }
 
             TextComponent component = section.getRequired(key, TextComponent.class);

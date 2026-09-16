@@ -3,12 +3,6 @@ package io.github.pigaut.rpg.module.generator.config;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.generator.phase.*;
 import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
@@ -19,9 +13,9 @@ import java.util.*;
 
 public class GeneratorTemplateLoader implements ConfigLoader<GeneratorTemplate> {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public GeneratorTemplateLoader(RpgMakerPlugin plugin) {
+    public GeneratorTemplateLoader(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

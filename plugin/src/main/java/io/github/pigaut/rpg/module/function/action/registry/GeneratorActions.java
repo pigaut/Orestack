@@ -14,35 +14,35 @@ public class GeneratorActions {
         ActionRegistry actions = plugin.getActions();
 
         // Brain damage
-        actions.addLoader("KEEP_STAGE", (ConfigLoader.Line<Action>) line ->
+        actions.register("KEEP_STAGE", (ConfigLoader.Line<Action>) line ->
                 new GeneratorKeepPhaseAction());
 
-        actions.addLoader("KEEP_PHASE", (ConfigLoader.Line<Action>) line ->
+        actions.register("KEEP_PHASE", (ConfigLoader.Line<Action>) line ->
                 new GeneratorKeepPhaseAction());
 
-        actions.addLoader("NEXT_STAGE", (ConfigLoader.Line<Action>) line ->
+        actions.register("NEXT_STAGE", (ConfigLoader.Line<Action>) line ->
                 new GeneratorGrowAction());
 
-        actions.addLoader("NEXT_PHASE", (ConfigLoader.Line<Action>) line ->
+        actions.register("NEXT_PHASE", (ConfigLoader.Line<Action>) line ->
                 new GeneratorGrowAction());
 
-        actions.addLoader("GROW_GENERATOR", (ConfigLoader.Line<Action>) line ->
+        actions.register("GROW_GENERATOR", (ConfigLoader.Line<Action>) line ->
                 new GeneratorGrowAction());
 
-        actions.addLoader("PREVIOUS_PHASE", (ConfigLoader.Line<Action>) line ->
+        actions.register("PREVIOUS_PHASE", (ConfigLoader.Line<Action>) line ->
                 new GeneratorHarvestAction());
 
-        actions.addLoader("HARVEST_GENERATOR", (ConfigLoader.Line<Action>) line ->
+        actions.register("HARVEST_GENERATOR", (ConfigLoader.Line<Action>) line ->
                 new GeneratorHarvestAction());
 
-        actions.addLoader("REGROW_GENERATOR", (ConfigLoader.Line<Action>) line ->
+        actions.register("REGROW_GENERATOR", (ConfigLoader.Line<Action>) line ->
                 new GeneratorRegrowAction());
 
-        actions.addLoader("SET_GENERATOR_PHASE", (ConfigLoader.Line<Action>) line ->
+        actions.register("SET_GENERATOR_PHASE", (ConfigLoader.Line<Action>) line ->
                 new GeneratorSetPhaseAction(line.getRequiredInteger(1) - 1,
                         line.getBoolean("growing").withDefault(true)));
 
-        actions.addLoader("DAMAGE_GENERATOR", (ConfigLoader.Line<Action>) line -> {
+        actions.register("DAMAGE_GENERATOR", (ConfigLoader.Line<Action>) line -> {
             ConfigOptional<Amount> amount = line.get(1, Amount.class);
             if (!amount.existsInConfig()) {
                 return new DamageGeneratorWithTool();
@@ -50,10 +50,10 @@ public class GeneratorActions {
             return new DamageGeneratorAction(amount.withDefault(Amount.ONE));
         });
 
-        actions.addLoader("DAMAGE_GENERATOR_WITH_TOOL", (ConfigLoader.Line<Action>) line ->
+        actions.register("DAMAGE_GENERATOR_WITH_TOOL", (ConfigLoader.Line<Action>) line ->
                 new DamageGeneratorWithTool());
 
-        actions.addAliases("SET_GENERATOR_PHASE", "SET_PHASE");
+        actions.registerAlias("SET_GENERATOR_PHASE", "SET_PHASE");
 
     }
 

@@ -11,17 +11,15 @@ import java.util.*;
 public class BreakingPower {
 
     private final String name;
-    private final String display;
     private final BlockMatcherMap<Integer> breakingPowersByBlock;
     private final Function onWrongTool;
     private final Function onInsufficientPower;
 
-    public BreakingPower(@NotNull String name, @NotNull String display,
+    public BreakingPower(@NotNull String name,
                          @NotNull BlockMatcherMap<Integer> breakingPowersByBlock,
                          @Nullable Function onWrongTool,
                          @Nullable Function onInsufficientPower) {
         this.name = name;
-        this.display = display;
         this.breakingPowersByBlock = breakingPowersByBlock;
         this.onWrongTool = onWrongTool;
         this.onInsufficientPower = onInsufficientPower;
@@ -29,10 +27,6 @@ public class BreakingPower {
 
     public @NotNull String getName() {
         return name;
-    }
-
-    public @NotNull String getDisplay() {
-        return display;
     }
 
     public @Nullable BlockBreakingPower fromBlock(@NotNull Block block) {

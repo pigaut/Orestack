@@ -3,12 +3,6 @@ package io.github.pigaut.rpg.module.gate.config;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.module.gate.template.*;
-import io.github.pigaut.rpg.module.gate.*;
-import io.github.pigaut.rpg.module.gate.template.*;
-import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.module.gate.*;
-import io.github.pigaut.rpg.module.gate.template.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
@@ -19,9 +13,9 @@ import java.util.*;
 
 public class GateLoader implements ConfigLoader<GateTemplate> {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public GateLoader(RpgMakerPlugin plugin) {
+    public GateLoader(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

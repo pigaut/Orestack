@@ -14,22 +14,22 @@ public class RecipeActions {
     public static void registerAll(@NotNull EnhancedPlugin plugin) {
         ActionRegistry actions = plugin.getActions();
 
-        actions.addLoader("UNLOCK_RECIPE", (Line<Action>) line -> {
+        actions.register("UNLOCK_RECIPE", (Line<Action>) line -> {
             List<RecipeTemplate> recipes = line.getAll(1, RecipeTemplate.class)
                     .requireEach(RecipeTemplate::isUnlockable, "Cannot unlock global recipes")
                     .orThrow();
             return new UnlockRecipes(recipes);
         });
 
-        actions.addLoader("LOCK_RECIPE", (Line<Action>) line -> {
+        actions.register("LOCK_RECIPE", (Line<Action>) line -> {
             List<RecipeTemplate> recipes = line.getAll(1, RecipeTemplate.class)
                     .requireEach(RecipeTemplate::isUnlockable, "Cannot lock global recipes")
                     .orThrow();
             return new LockRecipes(recipes);
         });
 
-        actions.addAliases("UNLOCK_RECIPE", "UNLOCK_RECIPES");
-        actions.addAliases("LOCK_RECIPE", "LOCK_RECIPES");
+        actions.registerAlias("UNLOCK_RECIPE", "UNLOCK_RECIPES");
+        actions.registerAlias("LOCK_RECIPE", "LOCK_RECIPES");
     }
 
 }

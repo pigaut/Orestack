@@ -17,9 +17,9 @@ import org.jetbrains.annotations.*;
 
 public class RpgMakerMenu extends FramedMenu {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public RpgMakerMenu(RpgMakerPlugin plugin) {
+    public RpgMakerMenu(OrestackPlugin plugin) {
         super("RpgMaker v" + plugin.getVersion(), 54);
         this.plugin = plugin;
     }

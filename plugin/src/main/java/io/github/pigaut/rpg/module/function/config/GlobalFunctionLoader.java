@@ -17,7 +17,7 @@ public class GlobalFunctionLoader implements ConfigLoader.Any<GlobalFunction> {
 
     @Override
     public @NotNull GlobalFunction loadFromField(@NotNull ConfigField field) throws InvalidConfigException {
-        String name = !field.isRoot() ? field.getKey() : StringUtil.generateRandomName();
+        String name = !field.isRoot() ? field.getKey() : StringUtil.randomName();
         String group = Group.byFunctionFile(field.getRoot().getFile());
         Function function = field.getRequired(Function.class);
         return new GlobalFunction(name, group, function);

@@ -4,10 +4,6 @@ import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.module.recipe.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.rpg.server.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.module.recipe.*;
-import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.server.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
@@ -53,11 +49,11 @@ public class CommandParameters {
     }
 
     public static CommandParameter itemGroup(@NotNull EnhancedPlugin plugin) {
-        return CommandParameter.create("item-group", (sender, args) -> plugin.getItems().getAllGroups());
+        return CommandParameter.create("item-group", (sender, args) -> plugin.getItemTemplates().getAllGroups());
     }
 
     public static CommandParameter itemName(@NotNull EnhancedPlugin plugin) {
-        return CommandParameter.create("item-name", (sender, args) -> plugin.getItems().getAllNames());
+        return CommandParameter.create("item-name", (sender, args) -> plugin.getItemTemplates().getAllNames());
     }
 
     public static CommandParameter menuName(@NotNull EnhancedPlugin plugin) {

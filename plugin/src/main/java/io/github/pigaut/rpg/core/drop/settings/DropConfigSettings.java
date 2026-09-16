@@ -2,6 +2,7 @@ package io.github.pigaut.rpg.core.drop.settings;
 
 import io.github.pigaut.rpg.core.enchant.*;
 import io.github.pigaut.rpg.module.function.action.*;
+import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.node.*;
@@ -14,35 +15,44 @@ import java.util.*;
 
 public class DropConfigSettings implements DropSettings {
 
+    private final EnhancedPlugin plugin;
+    private final Settings settings;
+
+    public DropConfigSettings(@NotNull EnhancedPlugin plugin, @NotNull Settings settings) {
+        this.plugin = plugin;
+        this.settings = settings;
+    }
+
     private List<DropLocation> itemDropLocationPriority;
     private List<DropLocation> expDropLocationPriority;
 
-    private boolean silkTouch;
+    private Boolean silkTouch;
     private Map<Material, Material> silkDropByOriginal;
 
-    private boolean fortune;
+    private Boolean fortune;
     private List<Material> fortuneDropsWhitelist;
 
-    private boolean looting;
+    private Boolean looting;
     private List<Material> lootingDropsWhitelist;
 
-    private boolean autoSmelt;
+    private Boolean autoSmelt;
     private List<String> autoSmeltAliases;
     private Map<Material, Material> smeltedDropByOriginal;
     private Map<Integer, Double> smeltChanceByLevel;
 
-    private boolean telepathy;
+    private Boolean telepathy;
     private List<String> telepathyAliases;
     private Map<Integer, Double> telepathyChanceByLevel;
 
-    private boolean miningFortune;
+    private Boolean miningFortune;
     private List<Material> applyMiningFortune;
 
-    private boolean experience;
+    private Boolean experience;
     private List<String> experienceAliases;
     private Map<Integer, Amount> expMultiplierByLevel;
 
     public void loadConfiguration(@NotNull ConfigSection config) {
+
         itemDropLocationPriority = config.getList("item-drop-location-priority", DropLocation.class)
                 .withDefault(List.of(DropLocation.PLAYER));
 
@@ -154,68 +164,81 @@ public class DropConfigSettings implements DropSettings {
 
     @Override
     public @NotNull List<DropLocation> getItemDropLocationPriority() {
+        settings.checkLoaded(itemDropLocationPriority);
         return new ArrayList<>(itemDropLocationPriority);
     }
 
     @Override
     public @NotNull List<DropLocation> getExpDropLocationPriority() {
-        return new ArrayList<>(itemDropLocationPriority);
+        settings.checkLoaded(expDropLocationPriority);
+        return new ArrayList<>(expDropLocationPriority);
     }
 
     @Override
     public boolean isExperience() {
+        settings.checkLoaded(experience);
         return experience;
     }
 
     @Override
     public boolean isFortuneDrop(@NotNull Material material) {
+        settings.checkLoaded(fortune);
         return fortune && fortuneDropsWhitelist.contains(material);
     }
 
     @Override
     public boolean isLootingDrop(@NotNull Material material) {
+        settings.checkLoaded(looting);
         return looting && lootingDropsWhitelist.contains(material);
     }
 
     @Override
     public boolean isAutoSmelt() {
+        settings.checkLoaded(autoSmelt);
         return autoSmelt;
     }
 
     @Override
     public boolean isMiningFortuneDrop(@NotNull Material material) {
+        settings.checkLoaded(miningFortune);
         return miningFortune && applyMiningFortune.contains(material);
     }
 
     @Override
     public boolean isTelepathy() {
+        settings.checkLoaded(telepathy);
         return telepathy;
     }
 
     @Override
     public @Nullable Material getSilkDrop(@NotNull Material originalDrop) {
+        settings.checkLoaded(silkTouch);
         return silkTouch ? silkDropByOriginal.get(originalDrop) : null;
     }
 
     @Override
     public @Nullable Material getSmeltedDrop(@NotNull Material originalDrop) {
+        settings.checkLoaded(autoSmelt);
         return autoSmelt ? smeltedDropByOriginal.get(originalDrop) : null;
     }
 
     @Override
     public double getSmeltChance(@NotNull ItemStack tool) {
+        settings.checkLoaded(smeltChanceByLevel);
         int enchantLevel = EnchantUtil.getEnchantLevel(tool, autoSmeltAliases);
         return smeltChanceByLevel.getOrDefault(enchantLevel, 0d);
     }
 
     @Override
     public double getTelepathyChance(@NotNull ItemStack tool) {
+        settings.checkLoaded(telepathyChanceByLevel);
         int enchantLevel = EnchantUtil.getEnchantLevel(tool, telepathyAliases);
         return telepathyChanceByLevel.getOrDefault(enchantLevel, 0d);
     }
 
     @Override
     public @NotNull Amount getExperienceMultiplier(@NotNull ItemStack tool) {
+        settings.checkLoaded(expMultiplierByLevel);
         int enchantLevel = EnchantUtil.getEnchantLevel(tool, experienceAliases);
         return expMultiplierByLevel.getOrDefault(enchantLevel, Amount.ONE);
     }

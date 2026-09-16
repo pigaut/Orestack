@@ -1,6 +1,7 @@
 
 enderman_sword:
   type: diamond_sword
+  category: sword
   name: '&d&lEnderman Sword'
   stats:
     damage: 80
@@ -14,6 +15,6 @@ enderman_sword:
       description: '&7Teleports you &a12 blocks &7in front of you.'
       trigger: right click
       mana-cost: 25
-  rarity: rare_sword
+  rarity: rare
   on-right-click:
     - instantTransmission # Found in: functions/abilities/mobility.yml

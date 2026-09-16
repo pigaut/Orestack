@@ -6,20 +6,14 @@ import io.github.pigaut.rpg.core.tool.*;
 import io.github.pigaut.rpg.module.gate.template.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.command.*;
-import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.module.gate.template.*;
 import io.github.pigaut.rpg.module.gate.tool.*;
-import io.github.pigaut.rpg.module.generator.tool.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
 
 public class GateGetGroupSubCommand extends SubCommand {
 
-    public GateGetGroupSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public GateGetGroupSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "get-group");
         withPermission(plugin.getPermission("gate.get-group"));
         withDescription(plugin.getTranslation("gate-get-group-command"));

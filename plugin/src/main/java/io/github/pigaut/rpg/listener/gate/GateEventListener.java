@@ -3,25 +3,11 @@ package io.github.pigaut.rpg.listener.gate;
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.api.event.gate.*;
 import io.github.pigaut.rpg.module.gate.*;
-import io.github.pigaut.rpg.module.gate.exception.*;
-import io.github.pigaut.rpg.module.gate.template.*;
-import io.github.pigaut.rpg.module.gate.tool.*;
 import io.github.pigaut.rpg.player.state.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.bukkit.material.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.bukkit.material.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.gate.*;
-import io.github.pigaut.rpg.module.gate.exception.*;
-import io.github.pigaut.rpg.module.gate.template.*;
-import io.github.pigaut.rpg.player.state.*;
 import io.github.pigaut.rpg.server.Server;
-import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
@@ -31,9 +17,9 @@ import org.bukkit.inventory.*;
 
 public class GateEventListener implements Listener {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public GateEventListener(RpgMakerPlugin plugin) {
+    public GateEventListener(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

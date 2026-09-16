@@ -1,5 +1,7 @@
 package io.github.pigaut.rpg.module.recipe.config;
 
+import io.github.pigaut.rpg.bukkit.material.*;
+import io.github.pigaut.rpg.core.tag.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.configurator.load.*;
 import io.github.pigaut.yaml.node.line.*;
@@ -23,21 +25,26 @@ public class RecipeChoiceLoader implements ConfigLoader.Line<RecipeChoice> {
 
     @Override
     public @NotNull RecipeChoice loadFromLine(ConfigLine line) throws InvalidConfigException {
-        if (line.size() > 1) {
-            List<Material> materials = line.getAll(Material.class)
-                    .orElse(null);
-
-            if (materials != null) {
+        if (line.valueCount() > 1) {
+            List<MaterialGroup> materialGroups = line.getAll(MaterialGroup.class).orElse(null);
+            if (materialGroups != null) {
+                List<Material> materials = MaterialGroup.toMaterialsList(materialGroups);
                 return new RecipeChoice.MaterialChoice(materials);
-            } else {
-                List<ItemStack> items = line.getAllRequired(ItemStack.class);
-                return new RecipeChoice.ExactChoice(items);
             }
+
+            List<ItemStack> items = line.getAllRequired(ItemStack.class);
+            return new RecipeChoice.ExactChoice(items);
         }
 
-        Material material = line.get(0, Material.class).orElse(null);
-        if (material != null) {
-            return new RecipeChoice.MaterialChoice(material);
+        MaterialGroup materialGroup = line.get(0, MaterialGroup.class)
+                .orElse(null);
+
+        if (materialGroup != null) {
+            List<Material> materials = new ArrayList<>(materialGroup.getMaterials());
+            if (materials.stream().anyMatch(MaterialUtil::isAir)) {
+                throw new InvalidConfigException(line, "Air cannot be used in recipes");
+            }
+            return new RecipeChoice.MaterialChoice(materials);
         } else {
             ItemStack item = line.getRequired(0, ItemStack.class);
             return new RecipeChoice.ExactChoice(item);

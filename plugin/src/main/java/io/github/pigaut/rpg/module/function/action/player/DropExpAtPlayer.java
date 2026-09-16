@@ -13,7 +13,7 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
-public class DropExpAtPlayer implements Action.Executor {
+public class DropExpAtPlayer implements Action {
 
     private final ExpDrop expDrop;
 

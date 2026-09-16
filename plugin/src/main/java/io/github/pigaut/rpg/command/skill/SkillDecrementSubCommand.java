@@ -13,7 +13,7 @@ import java.util.*;
 
 public class SkillDecrementSubCommand extends SubCommand {
 
-    public SkillDecrementSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public SkillDecrementSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "decrement");
         withPermission(plugin.getPermission("skill.decrement"));
         withDescription(plugin.getTranslation("skill-decrement-command"));

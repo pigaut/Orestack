@@ -1,6 +1,5 @@
 package io.github.pigaut.rpg.module.function.condition.item.slot;
 
-import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.inventory.*;
@@ -18,7 +17,7 @@ public class ItemUsesEquals implements ItemPredicate {
 
     @Override
     public boolean test(@NotNull ItemStack item) {
-        Integer usesLeft = plugin.getItems().getUsesLeft(item);
+        Integer usesLeft = plugin.getItemTemplates().getUsesLeft(item);
         if (usesLeft == null) {
             return false;
         }

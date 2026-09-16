@@ -4,17 +4,13 @@ import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.core.command.*;
 import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.command.*;
-import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.yaml.convert.parse.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
 
 public class GateCloseSubCommand extends SubCommand {
 
-    public GateCloseSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public GateCloseSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "close");
         withPermission(plugin.getPermission("gate.close"));
         withDescription(plugin.getTranslation("gate-close-command"));

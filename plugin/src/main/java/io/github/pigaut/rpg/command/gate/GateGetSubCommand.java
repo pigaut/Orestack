@@ -6,17 +6,12 @@ import io.github.pigaut.rpg.core.tool.*;
 import io.github.pigaut.rpg.module.gate.template.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.command.*;
-import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.module.gate.template.*;
 import io.github.pigaut.rpg.module.gate.tool.*;
 import org.jetbrains.annotations.*;
 
 public class GateGetSubCommand extends SubCommand {
 
-    public GateGetSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public GateGetSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "get");
         withPermission(plugin.getPermission("gate.get"));
         withDescription(plugin.getTranslation("gate-get-command"));

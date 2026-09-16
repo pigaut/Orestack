@@ -7,22 +7,15 @@ import io.github.pigaut.rpg.module.gate.template.*;
 import io.github.pigaut.rpg.module.generator.global.*;
 import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.api.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.module.gate.*;
-import io.github.pigaut.rpg.module.gate.template.*;
-import io.github.pigaut.rpg.module.generator.global.*;
-import io.github.pigaut.rpg.module.generator.template.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.*;
 
 public class SimpleRpgMakerAPI implements RpgMakerAPI {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public SimpleRpgMakerAPI(RpgMakerPlugin plugin) {
+    public SimpleRpgMakerAPI(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

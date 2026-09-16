@@ -23,11 +23,9 @@ import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
 import org.jetbrains.annotations.*;
 
-import java.util.function.*;
-
 public class GeneratorTool extends Tool {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
     private final NamespacedKey GENERATOR_TEMPLATE_KEY;
     private final NamespacedKey GENERATOR_ROTATION_KEY;
@@ -36,7 +34,7 @@ public class GeneratorTool extends Tool {
     private final NamespacedKey GENERATOR_OFFSET_Y_KEY;
     private final NamespacedKey GENERATOR_OFFSET_Z_KEY;
 
-    public GeneratorTool(RpgMakerPlugin plugin) {
+    public GeneratorTool(OrestackPlugin plugin) {
         super(plugin, "generator");
         this.plugin = plugin;
 

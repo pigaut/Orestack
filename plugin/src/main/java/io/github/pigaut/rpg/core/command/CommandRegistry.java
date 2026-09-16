@@ -2,8 +2,8 @@ package io.github.pigaut.rpg.core.command;
 
 import com.google.common.base.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.plugin.*;
 import org.bukkit.command.defaults.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -23,17 +23,17 @@ public class CommandRegistry {
         initialized = true;
     }
 
-    public EnhancedCommand getCustomCommand(String name) {
+    public EnhancedCommand get(@NotNull String name) {
         return customCommands.get(name);
     }
 
-    public void registerCommand(EnhancedCommand command) {
+    public void register(@NotNull EnhancedCommand command) {
         Preconditions.checkArgument(initialized, "Command registry has not been initialized.");
         CommandUtil.registerCommand(command);
         customCommands.put(command.getName(), command);
     }
 
-    public void unregisterCommand(String name) {
+    public void unregister(@NotNull String name) {
         Preconditions.checkArgument(initialized, "Command registry has not been initialized.");
         BukkitCommand command = customCommands.get(name);
         if (command != null) {

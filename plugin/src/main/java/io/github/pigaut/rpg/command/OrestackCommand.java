@@ -21,15 +21,15 @@ import io.github.pigaut.rpg.plugin.command.*;
 import io.github.pigaut.rpg.plugin.manager.module.Module;
 import org.jetbrains.annotations.*;
 
-public class RpgMakerCommand extends EnhancedCommand {
+public class OrestackCommand extends EnhancedCommand {
 
-    public RpgMakerCommand(@NotNull RpgMakerPlugin plugin) {
-        super(plugin, "rpg-maker");
+    public OrestackCommand(@NotNull OrestackPlugin plugin) {
+        super(plugin, "orestack");
         this.description = "RpgMaker plugin commands";
-        this.setAliases("rpgmaker", "rpg", "orestack");
+        this.setAliases("rpg");
 
         RootCommand command = this.getRootCommand();
-        command.withPermission("rpgmaker");
+        command.withPermission("orestack");
         command.withPlayerStateExecution((player, args, placeholders) -> {
            player.openMenu(new RpgMakerMenu(plugin));
         });

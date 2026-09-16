@@ -6,7 +6,7 @@ import org.bukkit.event.*;
 import org.bukkit.inventory.*;
 import org.jetbrains.annotations.*;
 
-public class PlaceItemInInventoryEvent extends CancellableEvent {
+public class PlayerPlaceItemInInventoryEvent extends CancellableEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
@@ -16,8 +16,8 @@ public class PlaceItemInInventoryEvent extends CancellableEvent {
     private final int slot;
     private final boolean replaced;
 
-    public PlaceItemInInventoryEvent(@NotNull Inventory inventory, @NotNull Player player,
-                                     @NotNull ItemStack item, int slot, boolean replaced) {
+    public PlayerPlaceItemInInventoryEvent(@NotNull Inventory inventory, @NotNull Player player,
+                                           @NotNull ItemStack item, int slot, boolean replaced) {
         this.inventory = inventory;
         this.player = player;
         this.item = item;

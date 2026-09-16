@@ -5,23 +5,10 @@ import io.github.pigaut.rpg.module.generator.*;
 import io.github.pigaut.rpg.module.generator.exception.*;
 import io.github.pigaut.rpg.module.generator.phase.*;
 import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.module.generator.*;
-import io.github.pigaut.rpg.module.generator.exception.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.template.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.hologram.*;
-import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.hologram.*;
 import io.github.pigaut.rpg.core.transform.Rotation;
 import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.structure.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.generator.*;
-import io.github.pigaut.rpg.module.generator.exception.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.module.structure.*;
 import io.github.pigaut.rpg.module.structure.global.Structure;
 import org.bukkit.*;
@@ -29,7 +16,7 @@ import org.jetbrains.annotations.*;
 
 public class GlobalGenerator extends BasicGenerator {
 
-    private static final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     private Structure structure;
     private @Nullable Hologram hologram = null;

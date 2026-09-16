@@ -15,7 +15,7 @@ public class ItemGetSubCommand extends SubCommand {
         withDescription(plugin.getTranslation("item-get-command"));
         withParameter(CommandParameters.itemName(plugin));
         withPlayerExecution((player, context, args) -> {
-            ItemStack item = plugin.getItems().createItemStack(args[0], player);
+            ItemStack item = plugin.getItemTemplates().createItemStack(args[0], player);
             if (item == null) {
                 plugin.sendMessage(player, context, "item-not-found");
                 return;

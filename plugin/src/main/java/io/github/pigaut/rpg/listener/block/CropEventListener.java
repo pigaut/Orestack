@@ -4,10 +4,6 @@ import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.module.generator.global.*;
 import io.github.pigaut.rpg.bukkit.material.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.bukkit.material.*;
-import io.github.pigaut.rpg.module.gate.*;
-import io.github.pigaut.rpg.module.generator.global.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.event.*;
@@ -19,9 +15,9 @@ import org.bukkit.event.world.*;
 
 public class CropEventListener implements Listener {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public CropEventListener(RpgMakerPlugin plugin) {
+    public CropEventListener(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

@@ -55,37 +55,37 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
 
     protected final EnhancedPlugin plugin;
 
+    private final PlaceholderConfigSettings placeholderSettings;
     private final GameplayConfigSettings gameplaySettings;
     private final DropConfigSettings dropSettings;
-    private final ItemConfigSettings itemSettings;
     private final StatConfigSettings statSettings;
-    private final SkillConfigSettings skillSettings;
-    private final CollectionConfigSettings collectionSettings;
     private final GeneratorConfigSettings generatorSettings;
     private final GateConfigSettings gateSettings;
+    private final ItemConfigSettings itemSettings;
+    private final SkillConfigSettings skillSettings;
+    private final CollectionConfigSettings collectionSettings;
     private final StructureConfigSettings structureSettings;
-    private final PlaceholderConfigSettings placeholderSettings;
 
     // Noise
     private final NamespacedKey wandKey;
     public int guiReopenDelay = 40;
 
     // Shortcuts
-    private boolean shortcuts;
+    private Boolean shortcuts;
     private Map<String, String> configShortcuts;
     private Pattern shortcutsPattern;
 
     // Generic settings
-    private boolean keepConfigUpToDate;
-    private boolean debug;
-    private boolean showReloadErrors;
-    private boolean showReloadWarnings;
-    private boolean generateLanguageFiles;
-    private boolean coloredConsole;
-    private boolean generateExamples;
-    private boolean checkForUpdates;
-    private boolean metrics;
-    private boolean dumpLogo;
+    private Boolean keepConfigUpToDate;
+    private Boolean debug;
+    private Boolean showReloadErrors;
+    private Boolean showReloadWarnings;
+    private Boolean generateLanguageFiles;
+    private Boolean coloredConsole;
+    private Boolean generateExamples;
+    private Boolean checkForUpdates;
+    private Boolean metrics;
+    private Boolean dumpLogo;
     private String languageFileName;
     private Delay autoSave;
     private Delay worldLoadTimeout;
@@ -98,91 +98,61 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     private String playerSlainMessage;
 
     // Holograms
-    private int hologramViewDistance;
+    private Integer hologramViewDistance;
     private HologramProvider preferredHologramProvider;
     private HologramStyle defaultHologramStyle;
     private Map<String, HologramStyle> hologramStyles;
     private Set<Material> structureBlacklist;
     private ItemStack structureWand;
 
-    public Settings(EnhancedPlugin plugin) {
+    private boolean loaded = false;
+
+    public Settings(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
         this.wandKey = plugin.getNamespacedKey("wand");
-        this.gameplaySettings = new GameplayConfigSettings(plugin);
-        this.dropSettings = new DropConfigSettings();
-        this.itemSettings = new ItemConfigSettings(plugin);
-        this.statSettings = new StatConfigSettings(plugin);
-        this.skillSettings = new SkillConfigSettings(plugin);
-        this.collectionSettings = new CollectionConfigSettings(plugin);
-        this.generatorSettings = new GeneratorConfigSettings(plugin);
-        this.gateSettings = new GateConfigSettings(plugin);
-        this.structureSettings = new StructureConfigSettings(plugin);
-        this.placeholderSettings = new PlaceholderConfigSettings();
+        this.placeholderSettings = new PlaceholderConfigSettings(plugin, this);
+        this.gameplaySettings = new GameplayConfigSettings(plugin, this);
+        this.dropSettings = new DropConfigSettings(plugin, this);
+        this.statSettings = new StatConfigSettings(plugin, this);
+        this.generatorSettings = new GeneratorConfigSettings(plugin, this);
+        this.gateSettings = new GateConfigSettings(plugin, this);
+        this.itemSettings = new ItemConfigSettings(plugin, this);
+        this.skillSettings = new SkillConfigSettings(plugin, this);
+        this.collectionSettings = new CollectionConfigSettings(plugin, this);
+        this.structureSettings = new StructureConfigSettings(plugin, this);
     }
 
     // Preload settings required for booting the plugin
     public void loadBootConfiguration() {
         ConfigSection config = plugin.getConfiguration();
+        loadConfigShortcuts(config);
 
         generateExamples = config.getBoolean("generate-examples")
                 .withDefault(true);
 
-        disabledModules = new HashSet<>(config.getList("disabled-modules", Module.class)
-                .withDefault(List.of()));
+        generateLanguageFiles = config.getBoolean("generate-language-files")
+                .withDefault(false);
+
+        languageFileName = config.getString("language")
+                .require(Requirements.minLength(1))
+                .mapIfValid(fileName -> fileName + ".yml")
+                .withDefault("languages/en.yml");
+
+        checkForUpdates = config.getBoolean("check-for-updates")
+                .withDefault(true);
+
+        metrics = config.getBoolean("metrics")
+                .withDefault(true);
+
+        disabledModules = config.getList("disabled-modules", Module.class)
+                .mapIfValid(HashSet::new)
+                .withDefault(new HashSet<>(0));
     }
 
     @Override
     public @NotNull ErrorCollector loadConfiguration() {
         ConfigSection config = plugin.getConfiguration();
-
-        shortcuts = config.getBoolean("shortcuts")
-                .withDefault(true);
-
-        configShortcuts = new HashMap<>();
-        if (shortcuts) {
-            Map<String, String> colorShortcuts = new HashMap<>();
-
-            for (String key : config.getKeys()) {
-                if (!key.endsWith("-shortcuts")) {
-                    continue;
-                }
-
-                ConfigSection argSection = config.getSection(key).withDefault(null);
-                if (argSection == null) {
-                    continue;
-                }
-
-                boolean colorShortcut = key.equalsIgnoreCase("color-shortcuts");
-                for (String shortcut : argSection.getKeys()) {
-                    boolean isDuplicate = configShortcuts.containsKey(shortcut) ||
-                            colorShortcuts.containsKey(shortcut);
-
-                    if (isDuplicate) {
-                        config.collectError(new InvalidConfigException(config, shortcut, "Duplicate shortcut found with name: " + shortcut));
-                    }
-
-                    String value = argSection.getString(shortcut).withDefault(null);
-                    if (value != null) {
-                        if (!colorShortcut) {
-                            configShortcuts.put(shortcut, value);
-                        } else {
-                            colorShortcuts.put(shortcut, value);
-                        }
-                    }
-                }
-            }
-
-            // Apply color shortcuts to other shortcuts
-            Pattern colorPattern = StringUtil.createReplacePatter(colorShortcuts);
-            configShortcuts.replaceAll((key, value) ->
-                    StringUtil.replaceAll(value, colorPattern, colorShortcuts));
-
-            configShortcuts.putAll(colorShortcuts);
-
-            // Replace shortcuts in this configuration file
-            shortcutsPattern = StringUtil.createReplacePatter(configShortcuts);
-            applyConfigShortcuts(config);
-        }
+        loadConfigShortcuts(config);
 
         keepConfigUpToDate = config.getBoolean("keep-file-up-to-date")
                 .withDefault(true);
@@ -229,8 +199,9 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
                 .withDefault(Delay.fromSeconds(30));
 
         // Modules settings
-        disabledModules = new HashSet<>(config.getList("disabled-modules", Module.class)
-                .withDefault(List.of()));
+        disabledModules = config.getList("disabled-modules", Module.class)
+                .mapIfValid(HashSet::new)
+                .withDefault(new HashSet<>(0));
 
         // Mob settings
         playerSlainMessage = config.getString("player-slain-message")
@@ -273,119 +244,212 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
             }
         }
 
+        placeholderSettings.loadConfiguration(config);
         gameplaySettings.loadConfiguration(config);
         dropSettings.loadConfiguration(config);
-        itemSettings.loadConfiguration(config);
         statSettings.loadConfiguration(config);
-        skillSettings.loadConfiguration(config);
-        collectionSettings.loadConfiguration(config);
         generatorSettings.loadConfiguration(config);
         gateSettings.loadConfiguration(config);
+        itemSettings.loadConfiguration(config);
+        skillSettings.loadConfiguration(config);
+        collectionSettings.loadConfiguration(config);
         structureSettings.loadConfiguration(config);
-        placeholderSettings.loadConfiguration(config);
 
+        loaded = true;
         return config;
     }
 
-    public boolean isStats() {
-        return !disabledModules.contains(Module.STATS);
+    private void loadConfigShortcuts(@NotNull ConfigSection config) {
+        shortcuts = config.getBoolean("shortcuts")
+                .withDefault(true);
+
+        configShortcuts = new HashMap<>();
+        if (shortcuts) {
+            Map<String, String> colorShortcuts = new HashMap<>();
+
+            for (String key : config.getKeys()) {
+                if (!key.endsWith("-shortcuts")) {
+                    continue;
+                }
+
+                ConfigSection argSection = config.getSection(key).withDefault(null);
+                if (argSection == null) {
+                    continue;
+                }
+
+                boolean colorShortcut = key.equalsIgnoreCase("color-shortcuts");
+                for (String shortcut : argSection.getKeys()) {
+                    boolean isDuplicate = configShortcuts.containsKey(shortcut) ||
+                            colorShortcuts.containsKey(shortcut);
+
+                    if (isDuplicate) {
+                        config.collectError(new InvalidConfigException(config, shortcut, "Duplicate shortcut found with name: " + shortcut));
+                    }
+
+                    String value = argSection.getString(shortcut).withDefault(null);
+                    if (value != null) {
+                        if (!colorShortcut) {
+                            configShortcuts.put(shortcut, value);
+                        } else {
+                            colorShortcuts.put(shortcut, value);
+                        }
+                    }
+                }
+            }
+
+            // Apply color shortcuts to other shortcuts
+            Pattern colorPattern = StringUtil.createReplacePatter(colorShortcuts);
+            configShortcuts.replaceAll((key, value) ->
+                    StringUtil.replaceAll(value, colorPattern, colorShortcuts));
+
+            configShortcuts.putAll(colorShortcuts);
+            shortcutsPattern = StringUtil.createReplacePatter(configShortcuts);
+
+            // Replace shortcuts in this config file without affecting the shortcut keys
+            for (KeyedField field : config.getNestedFields()) {
+                if (field.getKey().endsWith("-shortcuts")) {
+                    continue;
+                }
+                field.replaceAll(shortcutsPattern, configShortcuts);
+            }
+        }
     }
 
-    public boolean isKeepConfigUpToDate() {
-        return keepConfigUpToDate;
+    public boolean isLoaded() {
+        return loaded;
     }
 
-    public boolean isDebug() {
-        return debug;
-    }
-
-    public boolean isShowReloadErrors() {
-        return showReloadErrors;
-    }
-
-    public boolean isShowReloadWarnings() {
-        return showReloadWarnings;
-    }
-
-    public boolean isGenerateLanguageFiles() {
-        return generateLanguageFiles;
-    }
-
-    public boolean isColoredConsole() {
-        return coloredConsole;
+    public void checkLoaded(@Nullable Object setting) {
+        if (!loaded && setting == null) {
+            throw new IllegalStateException("Setting has not been loaded yet. " +
+                    "loadConfiguration() must be called before accessing settings.");
+        }
     }
 
     public boolean isGenerateExamples() {
+        checkLoaded(generateExamples);
         return generateExamples;
     }
 
-    public boolean isCheckForUpdates() {
-        return checkForUpdates;
-    }
-
-    public boolean isMetrics() {
-        return metrics;
-    }
-
-    public boolean isDumpLogo() {
-        return dumpLogo;
-    }
-
-    public @NotNull String getLanguageFileName() {
-        return languageFileName;
-    }
-
-    public @NotNull File getLanguageFile() {
-        return plugin.getFile(languageFileName);
-    }
-
-    public Delay getAutoSave() {
-        return autoSave;
-    }
-
-    public Delay getWorldLoadTimeout() {
-        return worldLoadTimeout;
-    }
-
-    public Delay getPlayerCacheDuration() {
-        return playerCacheDuration;
-    }
-
-    public boolean isShortcuts() {
-        return shortcuts;
+    public boolean isGenerateLanguageFiles() {
+        checkLoaded(generateLanguageFiles);
+        return generateLanguageFiles;
     }
 
     public boolean isModuleEnabled(@NotNull Module module) {
+        checkLoaded(disabledModules);
         return !disabledModules.contains(module);
     }
 
     public void addDisabledModule(@NotNull Module module) {
+        checkLoaded(disabledModules);
         disabledModules.add(module);
     }
 
     public @NotNull Set<Module> getEnabledModules() {
+        checkLoaded(disabledModules);
         Set<Module> modules = new HashSet<>(Arrays.asList(Module.values()));
         modules.removeAll(disabledModules);
         return modules;
     }
 
     public @NotNull List<Module> getDisabledModules() {
+        checkLoaded(disabledModules);
         return new ArrayList<>(disabledModules);
     }
 
+    public boolean isStats() {
+        checkLoaded(disabledModules);
+        return !disabledModules.contains(Module.STATS);
+    }
+
+    public boolean isKeepConfigUpToDate() {
+        checkLoaded(keepConfigUpToDate);
+        return keepConfigUpToDate;
+    }
+
+    public boolean isDebug() {
+        checkLoaded(debug);
+        return debug;
+    }
+
+    public boolean isShowReloadErrors() {
+        checkLoaded(showReloadErrors);
+        return showReloadErrors;
+    }
+
+    public boolean isShowReloadWarnings() {
+        checkLoaded(showReloadWarnings);
+        return showReloadWarnings;
+    }
+
+    public boolean isColoredConsole() {
+        checkLoaded(coloredConsole);
+        return coloredConsole;
+    }
+
+    public boolean isCheckForUpdates() {
+        checkLoaded(checkForUpdates);
+        return checkForUpdates;
+    }
+
+    public boolean isMetrics() {
+        checkLoaded(metrics);
+        return metrics;
+    }
+
+    public boolean isDumpLogo() {
+        checkLoaded(dumpLogo);
+        return dumpLogo;
+    }
+
+    public @NotNull String getLanguageFileName() {
+        checkLoaded(languageFileName);
+        return languageFileName;
+    }
+
+    public @NotNull File getLanguageFile() {
+        checkLoaded(languageFileName);
+        return plugin.getFile(languageFileName);
+    }
+
+    public Delay getAutoSave() {
+        checkLoaded(autoSave);
+        return autoSave;
+    }
+
+    public Delay getWorldLoadTimeout() {
+        checkLoaded(worldLoadTimeout);
+        return worldLoadTimeout;
+    }
+
+    public Delay getPlayerCacheDuration() {
+        checkLoaded(playerCacheDuration);
+        return playerCacheDuration;
+    }
+
+    public boolean isShortcuts() {
+        checkLoaded(shortcuts);
+        return shortcuts;
+    }
+
     public @NotNull String getPlayerSlainMessage() {
+        checkLoaded(playerSlainMessage);
         return playerSlainMessage;
     }
 
     public int getHologramViewDistance() {
+        checkLoaded(hologramViewDistance);
         return hologramViewDistance;
     }
 
     public @NotNull HologramProvider getPreferredHologramProvider() {
+        checkLoaded(preferredHologramProvider);
         return preferredHologramProvider;
     }
 
     public @NotNull HologramStyle getDefaultHologramStyle() {
+        checkLoaded(defaultHologramStyle);
         if (Server.getVersion() < Version.V1_19_4) {
             throw new UnsupportedOperationException("Hologram styles are only available in 1.19.4+");
         }
@@ -393,6 +457,7 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     }
 
     public @Nullable HologramStyle getHologramStyle(@NotNull String name) {
+        checkLoaded(hologramStyles);
         if (Server.getVersion() < Version.V1_19_4) {
             throw new UnsupportedOperationException("Hologram styles are only available in 1.19.4+");
         }
@@ -402,10 +467,12 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     }
 
     public Set<Material> getStructureBlacklist() {
+        checkLoaded(structureBlacklist);
         return new HashSet<>(structureBlacklist);
     }
 
     public boolean isStructureWand(@NotNull ItemStack item) {
+        checkLoaded(structureWand);
         final ItemMeta meta = item.getItemMeta();
         if (meta == null) {
             return false;
@@ -414,10 +481,13 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     }
 
     public ItemStack getStructureWand() {
+        checkLoaded(structureWand);
         return PlaceholderUtil.parseAll(plugin, structureWand.clone());
     }
 
     public void applyConfigShortcuts(@NotNull ConfigField field) {
+        checkLoaded(shortcutsPattern);
+        checkLoaded(configShortcuts);
         field.replaceAll(shortcutsPattern, configShortcuts);
     }
 
@@ -428,6 +498,7 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
 
     @Override
     public boolean isShowSlainMessages() {
+
         return gameplaySettings.isShowSlainMessages();
     }
 
@@ -732,12 +803,132 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     }
 
     @Override
-    public @NotNull List<String> getDefaultItemLore() {
+    public boolean isItemCategory(@NotNull String category) {
+        return itemSettings.isItemCategory(category);
+    }
+
+    @Override
+    public @NotNull Set<String> getItemCategories() {
+        return itemSettings.getItemCategories();
+    }
+
+    @Override
+    public boolean isItemRarity(@NotNull String rarity) {
+        return itemSettings.isItemRarity(rarity);
+    }
+
+    @Override
+    public @NotNull Set<String> getItemRarities() {
+        return itemSettings.getItemRarities();
+    }
+
+    @Override
+    public int getDefaultBreakingPower() {
+        return itemSettings.getDefaultBreakingPower();
+    }
+
+    @Override
+    public @Nullable String getDefaultItemCategory() {
+        return itemSettings.getDefaultItemCategory();
+    }
+
+    @Override
+    public @NotNull List<String> getItemBreakingPowerLore(@NotNull String breakingPower) {
+        return itemSettings.getItemBreakingPowerLore(breakingPower);
+    }
+
+    @Override
+    public @NotNull List<String> getItemCategoryLore() {
+        return itemSettings.getItemCategoryLore();
+    }
+
+    @Override
+    public @NotNull List<String> getItemDescriptionLore() {
+        return itemSettings.getItemDescriptionLore();
+    }
+
+    @Override
+    public @NotNull List<String> getItemCraftedByLore() {
+        return itemSettings.getItemCraftedByLore();
+    }
+
+    @Override
+    public @NotNull List<String> getItemRarityLore(@NotNull String rarity) {
+        return itemSettings.getItemRarityLore(rarity);
+    }
+
+    @Override
+    public @NotNull List<String> getItemAbilitiesLore() {
+        return itemSettings.getItemAbilitiesLore();
+    }
+
+    @Override
+    public @NotNull List<String> getItemStatsLore() {
+        return itemSettings.getItemStatsLore();
+    }
+
+    @Override
+    public @NotNull List<String> getItemEnchantsLore() {
+        return itemSettings.getItemEnchantsLore();
+    }
+
+    @Override
+    public boolean isAbilityTemplate(@NotNull String name) {
+        return itemSettings.isAbilityTemplate(name);
+    }
+
+    @Override
+    public @Nullable String getAbilityLoreDivider() {
+        return itemSettings.getAbilityLoreDivider();
+    }
+
+    @Override
+    public @NotNull Set<String> getAbilityTemplateNames() {
+        return itemSettings.getAbilityTemplateNames();
+    }
+
+    @Override
+    public @Nullable List<String> getAbilityTemplate(@NotNull String name) {
+        return itemSettings.getAbilityTemplate(name);
+    }
+
+    @Override
+    public int getItemLoreMaxStats() {
+        return itemSettings.getItemLoreMaxStats();
+    }
+
+    @Override
+    public @Nullable String getItemLoreStatDivider() {
+        return itemSettings.getItemLoreStatDivider();
+    }
+
+    @Override
+    public @NotNull List<String> getItemStatDescription(@NotNull Stat stat) {
+        return itemSettings.getItemStatDescription(stat);
+    }
+
+    @Override
+    public int getItemLoreMaxEnchants() {
+        return itemSettings.getItemLoreMaxEnchants();
+    }
+
+    @Override
+    public @Nullable String getItemLoreEnchantDivider() {
+        return itemSettings.getItemLoreEnchantDivider();
+    }
+
+    @Override
+    public @NotNull List<String> getItemEnchantDescription(@NotNull Enchantment enchant) {
+        return itemSettings.getItemEnchantDescription(enchant);
+    }
+
+    @Override
+    public @Nullable List<String> getDefaultItemLore() {
         return itemSettings.getDefaultItemLore();
     }
 
     @Override
-    public @NotNull String getDefaultItemName() {
+    public @Nullable String getDefaultItemName() {
         return itemSettings.getDefaultItemName();
     }
 
@@ -747,118 +938,13 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     }
 
     @Override
-    public @NotNull List<String> getDescriptionHeader() {
-        return itemSettings.getDescriptionHeader();
-    }
-
-    @Override
-    public @NotNull List<String> getDescriptionFooter() {
-        return itemSettings.getDescriptionFooter();
-    }
-
-    @Override
-    public int getStatsDescriptionMaxLines() {
-        return itemSettings.getStatsDescriptionMaxLines();
-    }
-
-    @Override
-    public @NotNull List<String> getStatsDescriptionHeader() {
-        return itemSettings.getStatsDescriptionHeader();
-    }
-
-    @Override
-    public @NotNull List<String> getStatsDescriptionDivider() {
-        return itemSettings.getStatsDescriptionDivider();
-    }
-
-    @Override
-    public @NotNull List<String> getStatsDescriptionFooter() {
-        return itemSettings.getStatsDescriptionFooter();
-    }
-
-    @Override
-    public @NotNull List<String> getStatDescription(@NotNull Stat statType) {
-        return itemSettings.getStatDescription(statType);
-    }
-
-    @Override
-    public int getEnchantsDescriptionMaxLines() {
-        return itemSettings.getEnchantsDescriptionMaxLines();
-    }
-
-    @Override
-    public @NotNull List<String> getEnchantsDescriptionHeader() {
-        return itemSettings.getEnchantsDescriptionHeader();
-    }
-
-    @Override
-    public @NotNull List<String> getEnchantsDescriptionDivider() {
-        return itemSettings.getEnchantsDescriptionDivider();
-    }
-
-    @Override
-    public @NotNull List<String> getEnchantsDescriptionFooter() {
-        return itemSettings.getEnchantsDescriptionFooter();
-    }
-
-    @Override
-    public @NotNull List<String> getEnchantDescription(@NotNull Enchantment enchant) {
-        return itemSettings.getEnchantDescription(enchant);
-    }
-
-    @Override
-    public @NotNull List<String> getAbilityDescriptionHeader() {
-        return itemSettings.getAbilityDescriptionHeader();
-    }
-
-    @Override
-    public @NotNull List<String> getAbilityDescriptionDivider() {
-        return itemSettings.getAbilityDescriptionDivider();
-    }
-
-    @Override
-    public @NotNull List<String> getAbilityDescriptionFooter() {
-        return itemSettings.getAbilityDescriptionFooter();
-    }
-
-    @Override
-    public @NotNull List<String> getAbilityDescriptionTemplate() {
-        return itemSettings.getAbilityDescriptionTemplate();
-    }
-
-    @Override
-    public boolean isItemRarity(@NotNull String rarity) {
-        return itemSettings.isItemRarity(rarity);
-    }
-
-    @Override
     public @Nullable String getDefaultItemRarity() {
         return itemSettings.getDefaultItemRarity();
     }
 
     @Override
-    public @Nullable String getItemRarityDisplay(@NotNull String name) {
-        return itemSettings.getItemRarityDisplay(name);
-    }
-
-    @Override
-    public @Nullable String getItemNameByRarity(@NotNull String name) {
-        return itemSettings.getItemNameByRarity(name);
-    }
-
-    @Override
-    public @NotNull List<String> getItemRarityDescription(@NotNull String name) {
-        return itemSettings.getItemRarityDescription(name);
-    }
-
-    @Override
-    public @NotNull List<String> getRarityHeader() {
-        return itemSettings.getRarityHeader();
-    }
-
-    @Override
-    public @NotNull List<String> getRarityFooter() {
-        return itemSettings.getRarityFooter();
+    public @Nullable String getItemNameByRarity(@NotNull String rarity) {
+        return itemSettings.getItemNameByRarity(rarity);
     }
 
     @Override
@@ -867,8 +953,8 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     }
 
     @Override
-    public int getDefaultBreakingPower() {
-        return itemSettings.getDefaultBreakingPower();
+    public int getPlayerBreakingPower() {
+        return itemSettings.getPlayerBreakingPower();
     }
 
     @Override
@@ -879,16 +965,6 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     @Override
     public @Nullable BlockBreakingPower getBlockBreakingPower(@NotNull Block block) {
         return itemSettings.getBlockBreakingPower(block);
-    }
-
-    @Override
-    public @NotNull List<String> getBreakingPowerHeader() {
-        return itemSettings.getBreakingPowerHeader();
-    }
-
-    @Override
-    public @NotNull List<String> getBreakingPowerFooter() {
-        return itemSettings.getBreakingPowerFooter();
     }
 
     @Override
@@ -1045,5 +1121,6 @@ public class Settings implements ConfigBacked, GameplaySettings, DropSettings, I
     public @NotNull ProgressBar getCollectionProgressBar() {
         return collectionSettings.getCollectionProgressBar();
     }
+
 
 }

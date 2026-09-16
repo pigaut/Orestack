@@ -20,7 +20,7 @@ public class FixedMenuBuilder {
     private Function<Context, Button[]> createButtons = context -> new Button[size];
 
     public FixedMenuBuilder() {
-        this(StringUtil.generateRandomName(), null);
+        this(StringUtil.randomName(), null);
     }
 
     public FixedMenuBuilder(@NotNull String name, @Nullable String group) {

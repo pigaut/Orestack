@@ -1,10 +1,15 @@
 package io.github.pigaut.rpg;
 
 import io.github.pigaut.rpg.api.*;
+import io.github.pigaut.rpg.core.gameplay.brew.*;
+import io.github.pigaut.rpg.core.gameplay.chicken.*;
+import io.github.pigaut.rpg.core.gameplay.playerblocks.*;
 import io.github.pigaut.rpg.hook.auraskill.*;
 import io.github.pigaut.rpg.hook.mcmmo.*;
+import io.github.pigaut.rpg.listener.*;
 import io.github.pigaut.rpg.listener.block.*;
 import io.github.pigaut.rpg.listener.collection.*;
+import io.github.pigaut.rpg.listener.gameplay.*;
 import io.github.pigaut.rpg.listener.gate.*;
 import io.github.pigaut.rpg.listener.generator.*;
 import io.github.pigaut.rpg.bukkit.*;
@@ -17,8 +22,12 @@ import io.github.pigaut.rpg.core.tool.*;
 import io.github.pigaut.rpg.hook.*;
 import io.github.pigaut.rpg.hook.itemsadder.*;
 import io.github.pigaut.rpg.hook.plotsquared.*;
-import io.github.pigaut.rpg.listener.player.PlayerChunkLoadListener;
+import io.github.pigaut.rpg.listener.item.*;
+import io.github.pigaut.rpg.listener.mob.*;
+import io.github.pigaut.rpg.listener.phase.*;
+import io.github.pigaut.rpg.listener.player.*;
 import io.github.pigaut.rpg.listener.skill.*;
+import io.github.pigaut.rpg.listener.stat.*;
 import io.github.pigaut.rpg.module.collection.*;
 import io.github.pigaut.rpg.module.function.action.block.*;
 import io.github.pigaut.rpg.module.function.action.event.*;
@@ -28,7 +37,10 @@ import io.github.pigaut.rpg.module.gate.*;
 import io.github.pigaut.rpg.module.gate.tool.*;
 import io.github.pigaut.rpg.module.generator.*;
 import io.github.pigaut.rpg.module.generator.tool.*;
+import io.github.pigaut.rpg.module.recipe.*;
+import io.github.pigaut.rpg.module.recipe.listener.*;
 import io.github.pigaut.rpg.module.skill.*;
+import io.github.pigaut.rpg.module.structure.virtual.*;
 import io.github.pigaut.rpg.server.version.*;
 import io.github.pigaut.rpg.module.function.foreach.*;
 import io.github.pigaut.rpg.module.function.foreach.config.*;
@@ -52,32 +64,96 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class RpgMakerPlugin extends EnhancedJavaPlugin {
+public class OrestackPlugin extends EnhancedJavaPlugin {
 
-    private static RpgMakerPlugin plugin;
+    private static OrestackPlugin plugin;
 
     @Override
     public void onLoad() {
         plugin = this;
     }
 
-    public static @NotNull RpgMakerPlugin getInstance() {
+    public static @NotNull OrestackPlugin getInstance() {
         Preconditions.checkState(plugin != null, "Plugin has not been loaded yet");
         return plugin;
     }
 
     @Override
     public void onBoot() {
-
+        registerListener(new ServerPhaseListener(plugin));
+        registerListener(new PluginPhaseListener(plugin));
+        if (Server.isPluginLoaded("ItemsAdder")) {
+            registerListener(new ItemsAdderPhaseListener(this));
+        }
     }
 
     @Override
     public void onPreStartup() {
+        CommandRegistry commands = getRegisteredCommands();
+        commands.register(new OrestackCommand(this));
+
+        registerListener(new PlayerLifecycleListener(this));
+        registerListener(new PlayerInputListener(this));
+        registerListener(new PlayerEquipmentChangeEventListener(this));
+        registerListener(new PlayerPlacedBlockListener(this));
+
+        registerListener(new BlockEventListener(this));
+        registerListener(new CropEventListener(this));
+        registerListener(new EntityEventListener(this));
+        registerListener(new ChickenLayEggListener(this));
+        registerListener(new BrewedPotionListener(this));
+
+        registerListener(new StatEventListener(this));
+        registerListener(new GeneratorEventListener(this));
+        registerListener(new GateEventListener(this));
+        registerListener(new ItemEventListener(this));
+        registerListener(new SkillEventListener(this));
+        registerListener(new ItemCollectListener(this));
+        registerListener(new MobEventListener(this));
+
+        registerListener(new ToolEventListener(this));
+        registerListener(new MenuEventListener(this));
+        registerListener(new GameplayEventListener(this));
+        registerListener(new StructureWandListener(this));
+        registerListener(new BuildStationEventListener(this));
+
+        VirtualStructureManager virtualStructures = getVirtualStructures();
+        if (virtualStructures.isSupported()) {
+            registerListener(new PlayerChunkLoadListener(this));
+            PacketEventsHook.registerAllPacketListeners(this);
+        }
+
+        RecipeTemplateManager recipes = getRecipes();
+        registerListener(new RecipeEventListener(this));
+        if (recipes.isSmithingRecipesSupported()) {
+            registerListener(new SmithingRecipeEventListener(this));
+        }
+
+        if (Server.isPaper()) {
+            registerListener(new EntityPaperEventListener(this));
+        }
+
+        if (Server.isPluginLoaded("ItemsAdder")) {
+            registerListener(new ItemsAdderDropListener());
+        }
+
+        if (Server.isPluginLoaded("PlotSquared")) {
+            PlotBlockBreakListener listener = new PlotBlockBreakListener(this);
+            EventExecutor executor = (l, event) -> {
+                if (event instanceof BlockBreakEvent) {
+                    ((PlotBlockBreakListener) l).onBreak((BlockBreakEvent) event);
+                }
+            };
+            Server.registerEventAtFirstOfLowestPriority(BlockBreakEvent.getHandlerList(), listener,
+                    executor, this, false);
+        }
+
         // Register conditions
         ServerConditions.registerAll(this);
         EventConditions.registerAll(this);
         BlockConditions.registerAll(this);
         PlayerConditions.registerAll(this);
+        EntityConditions.registerAll(this);
         MobConditions.registerAll(this);
         ItemConditions.registerAll(this);
         MenuConditions.registerAll(this);
@@ -189,46 +265,6 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
     }
 
     @Override
-    public void registerCommands(@NotNull CommandRegistry commands) {
-        commands.registerCommand(new RpgMakerCommand(this));
-    }
-
-    @Override
-    public void registerListeners() {
-        registerListener(new BlockEventListener(this));
-        registerListener(new CropEventListener(this));
-
-        registerListener(new GeneratorEventListener(this));
-        registerListener(new GateEventListener(this));
-
-        if (this.getVirtualStructures().isSupported()) {
-            registerListener(new PlayerChunkLoadListener(plugin));
-            PacketEventsHook.registerAllPacketListeners(this);
-        }
-
-        registerListener(new ItemCollectListener(plugin));
-        registerListener(new SkillEventListener(plugin));
-    }
-
-    @Override
-    public void registerHooks() {
-        if (Server.isPluginLoaded("ItemsAdder")) {
-            registerListener(new ItemsAdderDropListener());
-        }
-
-        if (Server.isPluginLoaded("PlotSquared")) {
-            PlotBlockBreakListener listener = new PlotBlockBreakListener(this);
-            EventExecutor executor = (l, event) -> {
-                if (event instanceof BlockBreakEvent) {
-                    ((PlotBlockBreakListener) l).onBreak((BlockBreakEvent) event);
-                }
-            };
-            Server.registerEventAtFirstOfLowestPriority(BlockBreakEvent.getHandlerList(), listener,
-                    executor, this, false);
-        }
-    }
-
-    @Override
     public @Nullable String getDatabaseName() {
         return "data";
     }
@@ -238,9 +274,9 @@ public class RpgMakerPlugin extends EnhancedJavaPlugin {
         return """
                 
                 
-                ┏━┓┏━┓┏━╸   ┏┳┓┏━┓╻┏ ┏━╸┏━┓
-                ┣┳┛┣━┛┃╺┓╺━╸┃┃┃┣━┫┣┻┓┣╸ ┣┳┛
-                ╹┗╸╹  ┗━┛   ╹ ╹╹ ╹╹ ╹┗━╸╹┗╸""";
+                ┏━┓┏━┓┏━╸┏━┓╺┳╸┏━┓┏━╸╻┏    ┏━╸┏┓╻┏━╸╻┏┓╻┏━╸
+                ┃ ┃┣┳┛┣╸ ┗━┓ ┃ ┣━┫┃  ┣┻┓   ┣╸ ┃┗┫┃╺┓┃┃┗┫┣╸\s
+                ┗━┛╹┗╸┗━╸┗━┛ ╹ ╹ ╹┗━╸╹ ╹   ┗━╸╹ ╹┗━┛╹╹ ╹┗━╸""";
     }
 
     @Override

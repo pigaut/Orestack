@@ -1,0 +1,52 @@
+
+#░░░█▀▀░█░█░█▀█░█░█░█▀▀░█░░░░░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░█▀▀░░░░
+#░░░▀▀█░█▀█░█░█░▀▄▀░█▀▀░█░░░░░█▀▄░█▀▀░█░░░░█░░█▀▀░█▀▀░▀▀█░░░░
+#░░░▀▀▀░▀░▀░▀▀▀░░▀░░▀▀▀░▀▀▀░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░▀▀▀░░░░
+
+wooden_shovel:
+  ingredients:
+    A: stick
+    B: planks
+  shape: |
+    ~  B  ~
+    ~  A  ~  ->  wooden_shovel
+    ~  A  ~
+
+stone_shovel:
+  ingredients:
+    A: stick
+    B: cobblestone
+  shape: |
+    ~  B  ~
+    ~  A  ~  ->  stone_shovel
+    ~  A  ~
+
+golden_shovel:
+  ingredients:
+    A: stick
+    B: gold_ingot
+  shape: |
+    ~  B  ~
+    ~  A  ~  ->  golden_shovel
+    ~  A  ~
+
+iron_shovel:
+  ingredients:
+    A: stick
+    B: iron_ingot
+  shape: |
+    ~  B  ~
+    ~  A  ~  ->  iron_shovel
+    ~  A  ~
+
+diamond_shovel:
+  ingredients:
+    A: stick
+    B: diamond
+  shape: |
+    ~  B  ~
+    ~  A  ~  ->  diamond_shovel
+    ~  A  ~
+
+netherite_shovel:
+  forge: netherite_upgrade_smithing_template + diamond_shovel + netherite_ingot -> netherite_shovel

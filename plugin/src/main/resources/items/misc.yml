@@ -9,13 +9,15 @@ tool:
     - '&dCrafted by: {item_creator}'
   max-uses: 10
   uses: 10
-  on-block-break:
+  # When a player uses this item to mine a block
+  on-mine-block:
     if: toolHasUsesLeft   # default is 1
     do:
       - consumeToolUses  # default is 1
     else:
       - cancelEvent
       - sendChat &4Your tool is out of uses
+
   on-left-click: sendChat You left clicked
   on-right-click: sendChat You right clicked
   on-left-click-block: sendChat You left clicked a block

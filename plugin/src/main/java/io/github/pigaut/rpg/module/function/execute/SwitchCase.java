@@ -9,9 +9,9 @@ import org.jetbrains.annotations.*;
 public class SwitchCase implements Condition {
 
     private final Condition condition;
-    private final Function function;
+    private final @Nullable Function function;
 
-    public SwitchCase(@NotNull Condition condition, @NotNull Function function) {
+    public SwitchCase(@NotNull Condition condition, @Nullable Function function) {
         this.condition = condition;
         this.function = function;
     }
@@ -21,7 +21,11 @@ public class SwitchCase implements Condition {
         return condition.evaluate(context);
     }
 
-    public @NotNull Function getFunction() {
+    public @NotNull Condition getCondition() {
+        return condition;
+    }
+
+    public @Nullable Function getFunction() {
         return function;
     }
 }

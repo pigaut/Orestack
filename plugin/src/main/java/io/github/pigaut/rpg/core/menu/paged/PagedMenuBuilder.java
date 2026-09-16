@@ -24,7 +24,7 @@ public class PagedMenuBuilder {
     private Collection<Integer> entrySlots = Collections.emptyList();
 
     public PagedMenuBuilder() {
-        this(StringUtil.generateRandomName(), null);
+        this(StringUtil.randomName(), null);
     }
 
     public PagedMenuBuilder(String name, String group) {

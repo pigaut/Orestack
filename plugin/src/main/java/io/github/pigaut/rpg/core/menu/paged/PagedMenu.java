@@ -15,7 +15,7 @@ public class PagedMenu extends FixedMenu {
     private final List<Integer> entrySlots;
 
     public PagedMenu(@NotNull String title, int size) {
-        this(StringUtil.generateRandomName(), null, title, size, List.of());
+        this(StringUtil.randomName(), null, title, size, List.of());
     }
 
     public PagedMenu(@NotNull String name, @Nullable String group,

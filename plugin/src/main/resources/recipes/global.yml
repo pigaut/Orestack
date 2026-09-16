@@ -1,0 +1,25 @@
+
+#░░░█▀▀░█░░░█▀█░█▀▄░█▀█░█░░░░░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░█▀▀░░░░
+#░░░█░█░█░░░█░█░█▀▄░█▀█░█░░░░░█▀▄░█▀▀░█░░░░█░░█▀▀░█▀▀░▀▀█░░░░
+#░░░▀▀▀░▀▀▀░▀▀▀░▀▀░░▀░▀░▀▀▀░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░▀▀▀░░░░
+# Global recipes cannot be locked/unlocked they will always be available to all players.
+# This applies to smelting and stonecutter recipe types.
+
+stonecutter_example:
+  enabled: false
+  # Stonecutter does NOT support ingredient amount, just result amount.
+  stonecutter: stone -> 1 diamond
+
+smelt_example:
+  enabled: false
+  # Smelt uses any furnace: furnace, blast_furnace, smoker, campfire
+  smelt: 2 oak_plank, spruce_plank -> 3 charcoal time=30s exp=5
+
+furnace_example:
+  enabled: false
+  blast: iron_axe -> iron_ingot time=8s exp=5
+  furnace: iron_pickaxe -> iron_ingot time=12s exp=5
+  smoker: iron_shovel -> iron_ingot time=16s exp=5
+  # Remove to disable the recipe for a specific furnace type
+  campfire: iron_hoe -> iron_ingot time=20s exp=5
+

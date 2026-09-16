@@ -12,13 +12,13 @@ public class EventActions {
     public static void registerAll(@NotNull EnhancedPlugin plugin) {
         ActionRegistry actions = plugin.getActions();
 
-        actions.addLoader("CANCEL_EVENT", (Line<Action>) line ->
+        actions.register("CANCEL_EVENT", (Line<Action>) line ->
                 new CancelEventAction(true));
 
-        actions.addLoader("CANCEL", (Line<Action>) line ->
+        actions.register("CANCEL", (Line<Action>) line ->
                 new CancelEventAction(true));
 
-        actions.addLoader("SET_CANCELLED", (Line<Action>) line ->
+        actions.register("SET_CANCELLED", (Line<Action>) line ->
                 new CancelEventAction(line.getRequiredBoolean(1)));
     }
 

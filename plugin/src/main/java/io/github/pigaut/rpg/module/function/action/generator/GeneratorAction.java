@@ -5,10 +5,6 @@ import io.github.pigaut.rpg.module.function.response.*;
 import io.github.pigaut.rpg.module.generator.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.module.generator.*;
 import org.bukkit.block.*;
 import org.jetbrains.annotations.*;
 
@@ -25,7 +21,7 @@ public interface GeneratorAction extends Action {
             return new FunctionError("Event that triggered the function does not have a block");
         }
 
-        RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+        OrestackPlugin plugin = OrestackPlugin.getInstance();
         Generator generator = plugin.getGenerator(context.player(), block.getLocation());
         if (generator == null) {
             return new FunctionError("Block does not have a generator");

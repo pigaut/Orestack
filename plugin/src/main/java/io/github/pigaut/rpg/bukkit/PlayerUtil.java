@@ -223,4 +223,16 @@ public class PlayerUtil {
         return player.getInventory().getItem(EquipmentSlot.FEET);
     }
 
+    public static List<ItemStack> getEquippedItems(@NotNull Player player) {
+        EntityEquipment equipment = player.getEquipment();
+        return List.of(
+                equipment.getItemInMainHand(),
+                equipment.getItemInOffHand(),
+                equipment.getHelmet() != null ? equipment.getHelmet() : new ItemStack(Material.AIR),
+                equipment.getChestplate() != null ? equipment.getChestplate() : new ItemStack(Material.AIR),
+                equipment.getLeggings() != null ? equipment.getLeggings() : new ItemStack(Material.AIR),
+                equipment.getBoots() != null ? equipment.getBoots() : new ItemStack(Material.AIR)
+        );
+    }
+
 }

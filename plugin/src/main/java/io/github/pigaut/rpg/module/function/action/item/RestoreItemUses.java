@@ -27,7 +27,7 @@ public class RestoreItemUses implements ItemAction {
             return;
         }
 
-        PersistentData.setInteger(tool, plugin.getItems().getUsesKey(), maxUses);
+        PersistentData.setInteger(tool, plugin.getItemTemplates().getUsesKey(), maxUses);
         itemTemplate.updateItemMeta(tool, player);
         player.getInventory().setItemInMainHand(tool);
     }

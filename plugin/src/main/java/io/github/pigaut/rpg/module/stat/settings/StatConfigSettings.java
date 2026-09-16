@@ -19,49 +19,51 @@ import java.util.*;
 public class StatConfigSettings implements StatSettings {
 
     private final EnhancedPlugin plugin;
+    private final Settings settings;
 
-    private boolean showStatusBar;
-    private boolean insertMessagesInStatusBar;
+    public StatConfigSettings(@NotNull EnhancedPlugin plugin, @NotNull Settings settings) {
+        this.plugin = plugin;
+        this.settings = settings;
+    }
+
+    private Boolean showStatusBar;
+    private Boolean insertMessagesInStatusBar;
     private Delay statusBarMessageDuration;
-    private int insertedMessageLength;
+    private Integer insertedMessageLength;
     private BarAlignment insertedMessageAlign;
     private String statusBar;
-    private int baseDamage;
-    private int baseDefense;
-    private int baseMaxHealth;
-    private int baseManaRegen;
-    private int baseHealthRegen;
-    private int baseMaxMana;
-    private int healthRegenInterval;
-    private int manaRegenInterval;
-    private double baseCritDamage;
-    private double baseCritChance;
-    private int baseMiningFortune;
-    private int baseFarmingFortune;
-    private int baseForagingFortune;
-    private int baseMovementSpeed;
-    private int baseAttackSpeed;
-    private int baseMiningSpeed;
+    private Integer baseDamage;
+    private Integer baseDefense;
+    private Integer baseMaxHealth;
+    private Integer baseManaRegen;
+    private Integer baseHealthRegen;
+    private Integer baseMaxMana;
+    private Integer healthRegenInterval;
+    private Integer manaRegenInterval;
+    private Double baseCritDamage;
+    private Double baseCritChance;
+    private Integer baseMiningFortune;
+    private Integer baseFarmingFortune;
+    private Integer baseForagingFortune;
+    private Integer baseMovementSpeed;
+    private Integer baseAttackSpeed;
+    private Integer baseMiningSpeed;
     private Map<Stat, CustomStat> customStats;
     private Delay combatDuration;
-    private boolean regenHealthDuringCombat;
-    private boolean regenManaDuringCombat;
+    private Boolean regenHealthDuringCombat;
+    private Boolean regenManaDuringCombat;
 
-    private boolean sharpnessEnchantAsStat;
+    private Boolean sharpnessEnchantAsStat;
     private Map<Integer, Double> damageMultiplierByEnchantLevel;
 
-    private boolean efficiencyEnchantAsStat;
+    private Boolean efficiencyEnchantAsStat;
     private Map<Integer, Integer> miningSpeedByEnchantLevel;
 
-    private boolean fortuneEnchantAsStat;
+    private Boolean fortuneEnchantAsStat;
     private Map<Integer, Integer> miningFortuneByEnchantLevel;
 
     private Map<DamageCause, Double> damageMultiplierByCause;
     private Double defaultDamageMultiplier = 1.0;
-
-    public StatConfigSettings(@NotNull EnhancedPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     public void loadConfiguration(@NotNull ConfigSection config) {
         showStatusBar = config.getBoolean("show-status-bar")
@@ -250,174 +252,209 @@ public class StatConfigSettings implements StatSettings {
 
     @Override
     public boolean isShowStatusBar() {
+        settings.checkLoaded(showStatusBar);
         return showStatusBar;
     }
 
     @Override
     public boolean isInsertMessagesInStatusBar() {
+        settings.checkLoaded(insertMessagesInStatusBar);
         return insertMessagesInStatusBar;
     }
 
     @Override
     public @NotNull Delay getStatusBarMessageDuration() {
+        settings.checkLoaded(statusBarMessageDuration);
         return statusBarMessageDuration;
     }
 
     @Override
     public @NotNull BarAlignment getInsertedMessageAlign() {
+        settings.checkLoaded(insertedMessageAlign);
         return insertedMessageAlign;
     }
 
     @Override
     public int getInsertedMessageLength() {
+        settings.checkLoaded(insertedMessageLength);
         return insertedMessageLength;
     }
 
     @Override
     public @NotNull String getStatusBar() {
+        settings.checkLoaded(statusBar);
         return statusBar;
     }
 
     @Override
     public int getBaseDamage() {
+        settings.checkLoaded(baseDamage);
         return baseDamage;
     }
 
     @Override
     public int getBaseDefense() {
+        settings.checkLoaded(baseDefense);
         return baseDefense;
     }
 
     @Override
     public int getBaseMaxHealth() {
+        settings.checkLoaded(baseMaxHealth);
         return baseMaxHealth;
     }
 
     @Override
     public int getBaseHealthRegen() {
+        settings.checkLoaded(baseHealthRegen);
         return baseHealthRegen;
     }
 
     @Override
     public int getBaseMaxMana() {
+        settings.checkLoaded(baseMaxMana);
         return baseMaxMana;
     }
 
     @Override
     public int getBaseManaRegen() {
+        settings.checkLoaded(baseManaRegen);
         return baseManaRegen;
     }
 
     @Override
     public double getBaseCritDamage() {
+        settings.checkLoaded(baseCritDamage);
         return baseCritDamage;
     }
 
     @Override
     public double getBaseCritChance() {
+        settings.checkLoaded(baseCritChance);
         return baseCritChance;
     }
 
     @Override
     public int getBaseMiningFortune() {
+        settings.checkLoaded(baseMiningFortune);
         return baseMiningFortune;
     }
 
     @Override
     public int getBaseFarmingFortune() {
+        settings.checkLoaded(baseFarmingFortune);
         return baseFarmingFortune;
     }
 
     @Override
     public int getBaseForagingFortune() {
+        settings.checkLoaded(baseForagingFortune);
         return baseForagingFortune;
     }
 
     @Override
     public int getBaseMovementSpeed() {
+        settings.checkLoaded(baseMovementSpeed);
         return baseMovementSpeed;
     }
 
     @Override
     public int getBaseAttackSpeed() {
+        settings.checkLoaded(baseAttackSpeed);
         return baseAttackSpeed;
     }
 
     @Override
     public int getBaseMiningSpeed() {
+        settings.checkLoaded(baseMiningSpeed);
         return baseMiningSpeed;
     }
 
     @Override
     public @NotNull Map<Stat, CustomStat> getCustomStats() {
+        settings.checkLoaded(customStats);
         return new HashMap<>(customStats);
     }
 
     @Override
     public @Nullable CustomStat getCustomStat(@NotNull Stat statType) {
+        settings.checkLoaded(customStats);
         return customStats.get(statType);
     }
 
     @Override
     public @NotNull Delay getCombatDuration() {
+        settings.checkLoaded(combatDuration);
         return combatDuration;
     }
 
     @Override
     public boolean isRegenHealthDuringCombat() {
+        settings.checkLoaded(regenHealthDuringCombat);
         return regenHealthDuringCombat;
     }
 
     @Override
     public boolean isRegenManaDuringCombat() {
+        settings.checkLoaded(regenManaDuringCombat);
         return regenManaDuringCombat;
     }
 
     @Override
     public boolean isSharpnessEnchantAsStat() {
+        settings.checkLoaded(sharpnessEnchantAsStat);
         return sharpnessEnchantAsStat;
     }
 
     @Override
     public double getDamageMultiplierFromSharpnessEnchant(@NotNull ItemStack item) {
+        settings.checkLoaded(damageMultiplierByEnchantLevel);
         int sharpnessEnchantLevel = item.getEnchantmentLevel(Enchants.SHARPNESS);
         return damageMultiplierByEnchantLevel.getOrDefault(sharpnessEnchantLevel, 1d);
     }
 
     @Override
     public boolean isEfficiencyEnchantAsStat() {
+        settings.checkLoaded(efficiencyEnchantAsStat);
         return efficiencyEnchantAsStat;
     }
 
     @Override
     public int getMiningSpeedFromEfficiencyEnchant(@NotNull ItemStack item) {
+        settings.checkLoaded(miningSpeedByEnchantLevel);
         int efficiencyEnchantLevel = item.getEnchantmentLevel(Enchants.EFFICIENCY);
         return miningSpeedByEnchantLevel.getOrDefault(efficiencyEnchantLevel, 0);
     }
 
     @Override
     public boolean isFortuneEnchantAsStat() {
+        settings.checkLoaded(fortuneEnchantAsStat);
         return fortuneEnchantAsStat;
     }
 
     @Override
     public int getMiningFortuneFromFortuneEnchant(@NotNull ItemStack item) {
+        settings.checkLoaded(miningFortuneByEnchantLevel);
         int fortuneEnchantLevel = item.getEnchantmentLevel(Enchants.FORTUNE);
         return miningFortuneByEnchantLevel.getOrDefault(fortuneEnchantLevel, 0);
     }
 
     @Override
     public int getHealthRegenInterval() {
+        settings.checkLoaded(healthRegenInterval);
         return healthRegenInterval;
     }
 
     @Override
     public int getManaRegenInterval() {
+        settings.checkLoaded(manaRegenInterval);
         return manaRegenInterval;
     }
 
     @Override
     public double getDamageMultiplier(@NotNull DamageCause cause) {
+        settings.checkLoaded(damageMultiplierByCause);
+        settings.checkLoaded(defaultDamageMultiplier);
         return damageMultiplierByCause.getOrDefault(cause, defaultDamageMultiplier);
     }
 

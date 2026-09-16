@@ -28,7 +28,7 @@ public class ItemTemplateLoader implements ConfigLoader<ItemTemplate> {
 
     private final EnhancedPlugin plugin;
 
-    public ItemTemplateLoader(EnhancedPlugin plugin) {
+    public ItemTemplateLoader(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -48,60 +48,54 @@ public class ItemTemplateLoader implements ConfigLoader<ItemTemplate> {
         }
 
         Settings settings = plugin.getSettings();
+        String category = section.getString("category")
+                .require(settings::isItemCategory, "Could not find item category")
+                .withDefault(settings.getDefaultItemCategory());
+
+        String rarity = section.getString("rarity")
+                .require(settings::isItemRarity, "Could not find item rarity")
+                .withDefault(settings.getDefaultItemRarity());
+
+        if (!meta.hasDisplayName()) {
+            meta.setDisplayName(rarity != null ? settings.getItemNameByRarity(rarity) : settings.getDefaultItemName());
+        }
+
         if (!meta.hasLore()) {
             meta.setLore(settings.getDefaultItemLore());
         }
 
         List<String> description = section.getStringList("description")
-                .formatEach(line -> ColorUtil.startsWithColor(line) ? line :
-                        settings.getDefaultDescriptionColor() + line)
+                .formatEach(line -> ColorUtil.startsWithColor(line) ? line : settings.getDefaultDescriptionColor() + line)
                 .orEmpty();
 
-        if (!description.isEmpty()) {
-            description.addAll(0, settings.getDescriptionHeader());
-            description.addAll(settings.getDescriptionFooter());
-        }
-
-        List<String> abilitiesDescription = section.getStringList("ability-description")
-                .orEmpty();
-
-        if (abilitiesDescription.isEmpty()) {
-            abilitiesDescription = new ArrayList<>();
-            List<String> divider = settings.getAbilityDescriptionDivider();
-
-            for (ConfigField field : section.getNestedFields("ability-descriptions|abilities")) {
-                CustomPlaceholders placeholders = field.getRequired(CustomPlaceholders.class);
-                placeholders.withDefault("name", "NOT SET");
-                placeholders.withDefault("trigger", "");
-                placeholders.withDefault("description", List.of());
-                placeholders.withDefault("mana", List.of());
-                placeholders.withDefault("cooldown", List.of());
-
-                Context abilityContext = placeholders.asContext(plugin);
-                if (!abilitiesDescription.isEmpty() && !divider.isEmpty()) {
-                    abilitiesDescription.addAll(divider);
-                }
-
-                List<String> abilityDescription = settings.getAbilityDescriptionTemplate();
-                abilitiesDescription.addAll(PlaceholderUtil.parseAll(abilityContext, abilityDescription));
+        List<String> abilitiesDescription = new ArrayList<>();
+        String abilityDivider = settings.getAbilityLoreDivider();
+        for (String templateName : settings.getAbilityTemplateNames()) {
+            String key = CaseFormatter.toKebabCase(templateName + "-abilities");
+            if (!section.isSet(key)) {
+                continue;
             }
 
-            if (!abilitiesDescription.isEmpty()) {
-                abilitiesDescription.addAll(0, settings.getAbilityDescriptionHeader());
-                abilitiesDescription.addAll(settings.getAbilityDescriptionFooter());
+            ConfigField field = section.getRequiredField(key);
+            List<String> abilityTemplate = settings.getAbilityTemplate(templateName);
+            if (abilityTemplate == null) {
+                section.collectError(new InvalidConfigException(field, "Could not find ability template with name: " + templateName));
+                continue;
             }
-        }
 
-        String rarity = section.getString("rarity")
-                .require(settings::isItemRarity, "Could not find item rarity")
-                .withDefault(null);
+            CustomPlaceholders placeholders = field.getRequired(CustomPlaceholders.class);
+            placeholders.withDefault("name", "NOT SET");
+            placeholders.withDefault("trigger", "");
+            placeholders.withDefault("description", List.of());
+            placeholders.withDefault("mana", List.of());
+            placeholders.withDefault("cooldown", List.of());
 
-        if (!meta.hasDisplayName()) {
-            if (rarity != null) {
-                meta.setDisplayName(settings.getItemNameByRarity(rarity));
-            } else {
-                meta.setDisplayName(settings.getDefaultItemName());
+            if (abilityDivider != null && !abilitiesDescription.isEmpty()) {
+                abilitiesDescription.add(abilityDivider);
             }
+
+            Context abilityContext = placeholders.asContext(plugin);
+            abilitiesDescription.addAll(PlaceholderUtil.parseAll(abilityContext, abilityTemplate));
         }
 
         ToolBreakingPower toolBreakingPower = null;
@@ -110,10 +104,7 @@ public class ItemTemplateLoader implements ConfigLoader<ItemTemplate> {
                 int amount = section.getInteger(breakingPower.getName())
                         .require(Requirements.positive())
                         .withDefault(1);
-
-                Context context = Context.fromPlugin(plugin).addPlaceholder("amount", amount);
-                String display = PlaceholderUtil.parseAll(context, breakingPower.getDisplay());
-                toolBreakingPower = new ToolBreakingPower(breakingPower, display, amount);
+                toolBreakingPower = new ToolBreakingPower(breakingPower, amount);
                 break;
             }
         }
@@ -151,6 +142,7 @@ public class ItemTemplateLoader implements ConfigLoader<ItemTemplate> {
             stats.put(stat, amount);
         }
 
+        Function onMineBlock = section.get("on-mine-block", Function.class).withDefault(null);
         Function onBlockBreak = section.get("on-block-break", Function.class).withDefault(null);
         Function onLeftClick = section.get("on-left-click", Function.class).withDefault(null);
         Function onRightClick = section.get("on-right-click", Function.class).withDefault(null);
@@ -164,10 +156,12 @@ public class ItemTemplateLoader implements ConfigLoader<ItemTemplate> {
         return new ItemTemplate(plugin, name, group,
                 item, meta,
                 description, abilitiesDescription,
-                toolBreakingPower, rarity,
+                toolBreakingPower,
+                category, rarity,
                 unplaceable, maxUses, uses,
                 stats,
-                onBlockBreak, onLeftClick, onRightClick,
+                onMineBlock, onBlockBreak,
+                onLeftClick, onRightClick,
                 onLeftClickBlock, onLeftClickAir,
                 onRightClickBlock, onRightClickAir,
                 onSwapHand, onDrop);

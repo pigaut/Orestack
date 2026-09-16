@@ -1,5 +1,6 @@
 package io.github.pigaut.rpg.module.item;
 
+import com.willfp.eco.core.integrations.economy.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.enchant.*;
@@ -25,6 +26,111 @@ public class ItemPlaceholders {
         register(plugin, "chestplate", Context::chestplate);
         register(plugin, "leggings", Context::leggings);
         register(plugin, "boots", Context::boots);
+
+        PlaceholderRegistry placeholders = plugin.getPlaceholders();
+        Settings settings = plugin.getSettings();
+
+        placeholders.register("item_lore:breaking_power", context -> {
+            ItemStack item = context.item();
+            if (item == null) return List.of();
+
+            ItemTemplate itemTemplate = plugin.getItemTemplate(item);
+            if (itemTemplate == null) return List.of();
+
+            ToolBreakingPower toolBreakingPower = itemTemplate.getBreakingPower();
+            if (toolBreakingPower == null) return List.of();
+
+            List<String> breakingPowerLore = settings.getItemBreakingPowerLore(toolBreakingPower.getName());
+            return PlaceholderUtil.parseAll(context, breakingPowerLore);
+        });
+
+        placeholders.register("item_lore:category", context -> {
+            ItemStack item = context.item();
+            if (item == null) return List.of();
+
+            ItemTemplate itemTemplate = plugin.getItemTemplate(item);
+            if (itemTemplate == null) return List.of();
+
+            String category = itemTemplate.getCategory();
+            if (category == null) return List.of();
+
+            List<String> categoryLore = settings.getItemCategoryLore();
+            return PlaceholderUtil.parseAll(context, categoryLore);
+        });
+
+        placeholders.register("item_lore:rarity", context -> {
+            ItemStack item = context.item();
+            if (item == null) return List.of();
+
+            ItemTemplate itemTemplate = plugin.getItemTemplate(item);
+            if (itemTemplate == null) return List.of();
+
+            String rarity = itemTemplate.getRarity();
+            if (rarity == null) return List.of();
+
+            List<String> rarityLore = settings.getItemRarityLore(rarity);
+            return PlaceholderUtil.parseAll(context, rarityLore);
+        });
+
+        placeholders.register("item_lore:crafted_by", context -> {
+            ItemStack item = context.item();
+            if (item == null) return List.of();
+
+            if (plugin.getItemTemplates().hasItemCreator(item)) {
+                List<String> craftedByLore = settings.getItemCraftedByLore();
+                return PlaceholderUtil.parseAll(context, craftedByLore);
+            }
+            return List.of();
+        });
+
+        placeholders.register("item_lore:description", context -> {
+            ItemStack item = context.item();
+            if (item == null) return List.of();
+
+            ItemTemplate itemTemplate = plugin.getItemTemplate(item);
+            if (itemTemplate == null) return List.of();
+
+            if (!itemTemplate.getDescription().isEmpty()) {
+                List<String> descriptionLore = settings.getItemDescriptionLore();
+                return PlaceholderUtil.parseAll(context, descriptionLore);
+            }
+            return List.of();
+        });
+
+        placeholders.register("item_lore:abilities", context -> {
+            ItemStack item = context.item();
+            if (item == null) return List.of();
+
+            ItemTemplate itemTemplate = plugin.getItemTemplate(item);
+            if (itemTemplate == null) return List.of();
+
+            if (!itemTemplate.getAbilitiesDescription().isEmpty()) {
+                List<String> abilitiesLore = settings.getItemAbilitiesLore();
+                return PlaceholderUtil.parseAll(context, abilitiesLore);
+            }
+            return List.of();
+        });
+
+        placeholders.register("item_lore:stats", context -> {
+            ItemStack item = context.item();
+            if (item == null) return List.of();
+
+            if (plugin.getItemTemplates().hasStats(item)) {
+                List<String> statsLore = settings.getItemStatsLore();
+                return PlaceholderUtil.parseAll(context, statsLore);
+            }
+            return List.of();
+        });
+
+        placeholders.register("item_lore:enchants", context -> {
+            ItemStack item = context.item();
+            if (item.hasItemMeta() && item.getItemMeta().hasEnchants()) {
+                List<String> enchantsLore = settings.getItemEnchantsLore();
+                return PlaceholderUtil.parseAll(context, enchantsLore);
+            }
+            return List.of();
+        });
+
     }
 
     private static void register(@NotNull EnhancedPlugin plugin, @NotNull String prefix, @NotNull Function<Context, ItemStack> resolver) {
@@ -54,12 +160,42 @@ public class ItemPlaceholders {
             return meta != null ? meta.getDisplayName() : null;
         });
 
+        placeholders.register(prefix + "_category", context -> {
+            ItemStack item = resolver.apply(context);
+            if (item == null) return List.of();
+
+            ItemTemplate itemTemplate = plugin.getItemTemplate(item);
+            if (itemTemplate == null) return List.of();
+
+            return itemTemplate.getCategory();
+        });
+
+        placeholders.register(prefix + "_description", context -> {
+            ItemStack item = resolver.apply(context);
+            if (item == null) return List.of();
+
+            ItemTemplate itemTemplate = plugin.getItemTemplate(item);
+            if (itemTemplate == null) return List.of();
+
+            return itemTemplate.getDescription();
+        });
+
+        placeholders.register(prefix + "_abilities", context -> {
+            ItemStack item = resolver.apply(context);
+            if (item == null) return List.of();
+
+            ItemTemplate itemTemplate = plugin.getItemTemplate(item);
+            if (itemTemplate == null) return List.of();
+
+            return itemTemplate.getAbilitiesDescription();
+        });
+
         placeholders.register(prefix + "_creator", context -> {
             ItemStack item = resolver.apply(context);
             if (item == null || !item.hasItemMeta()) {
                 return null;
             }
-            return PersistentData.getString(item.getItemMeta(), plugin.getItems().getCreatorKey());
+            return PersistentData.getString(item.getItemMeta(), plugin.getItemTemplates().getCreatorKey());
         });
 
         placeholders.register(prefix + "_uses", context -> {
@@ -67,7 +203,7 @@ public class ItemPlaceholders {
             if (item == null) {
                 return null;
             }
-            return plugin.getItems().getUsesLeft(item);
+            return plugin.getItemTemplates().getUsesLeft(item);
         });
 
         placeholders.register(prefix + "_max_uses", context -> {
@@ -79,16 +215,15 @@ public class ItemPlaceholders {
             return itemTemplate != null ? itemTemplate.getMaxUses() : null;
         });
 
-
         for (Stat stat : plugin.getStats().getAll()) {
             placeholders.register(prefix + "_stat:" + stat.getName(), context -> {
                 ItemStack item = resolver.apply(context);
-                return item != null ? plugin.getItems().getStatLevel(item, stat) : null;
+                return item != null ? plugin.getItemTemplates().getStatLevel(item, stat) : null;
             });
 
             placeholders.register(prefix + "_stat_total:" + stat.getName(), context -> {
                 ItemStack item = resolver.apply(context);
-                return item != null ? plugin.getItems().getStatTotalLevel(item, stat) : null;
+                return item != null ? plugin.getItemTemplates().getStatTotalLevel(item, stat) : null;
             });
         }
 
@@ -107,45 +242,55 @@ public class ItemPlaceholders {
             return item != null ? plugin.getSettings().getMiningFortuneFromFortuneEnchant(item) : null;
         });
 
+        for (BreakingPower breakingPower : settings.getBreakingPowers()) {
+            placeholders.register(prefix + "_" + breakingPower.getName(), context -> {
+                ItemStack item = resolver.apply(context);
+                ItemTemplate itemTemplate = plugin.getItemTemplate(item);
+                if (itemTemplate == null) {
+                    return null;
+                }
+                ToolBreakingPower toolBreakingPower = itemTemplate.getBreakingPower();
+                if (toolBreakingPower == null || !breakingPower.equals(toolBreakingPower.getType())) {
+                    return null;
+                }
+                return toolBreakingPower.getAmount();
+            });
+        }
+
         placeholders.register(prefix + "_stats", context -> {
-            ItemStack item = resolver.apply(context);
-            if (item == null) {
-                return null;
-            }
+            ItemStack item = context.item();
+            if (item == null) return List.of();
 
-            List<String> statsHeader = settings.getStatsDescriptionHeader();
-            List<String> statsDivider = settings.getStatsDescriptionDivider();
-            List<String> statsFooter = settings.getStatsDescriptionFooter();
-            int maxStatLines = settings.getStatsDescriptionMaxLines();
-
-            Map<Stat, Integer> stats = plugin.getItems().getStats(item);
+            String statsDivider = settings.getItemLoreStatDivider();
+            int maxStatLines = settings.getItemLoreMaxStats();
+            Map<Stat, Integer> itemStats = plugin.getItemTemplates().getStats(item);
 
             // full multi-line descriptions
             List<String> statLines = new ArrayList<>();
-            stats.forEach((stat, level) -> {
+            itemStats.forEach((stat, level) -> {
                 Context statContext = context.copy()
                         .addPlaceholder("stat_name", stat.getName())
                         .addPlaceholder("stat_level", level);
 
-                List<String> statDescription = settings.getStatDescription(stat);
-                if (!statLines.isEmpty() && !statsDivider.isEmpty()) {
-                    statLines.addAll(statsDivider);
+                List<String> statDescription = settings.getItemStatDescription(stat);
+                if (statsDivider != null && !statLines.isEmpty()) {
+                    statLines.add(statsDivider);
                 }
 
                 statLines.addAll(PlaceholderUtil.parseAll(statContext, statDescription));
             });
 
-            // collapse to one line per enchant
+            // collapse to one line per stat
             if (statLines.size() > maxStatLines) {
                 statLines.clear();
-                stats.forEach((stat, level) -> {
+                itemStats.forEach((stat, level) -> {
                     Context statContext = context.copy()
-                            .addPlaceholder("enchant_name", stat.getName())
-                            .addPlaceholder("enchant_level", level);
+                            .addPlaceholder("stat_name", stat.getName())
+                            .addPlaceholder("stat_level", level);
 
-                    String statDescription = settings.getStatDescription(stat).get(0);
-                    if (!statLines.isEmpty() && !statsDivider.isEmpty()) {
-                        statLines.addAll(statsDivider);
+                    String statDescription = settings.getItemStatDescription(stat).get(0);
+                    if (statsDivider != null && !statLines.isEmpty()) {
+                        statLines.add(statsDivider);
                     }
 
                     statLines.add(PlaceholderUtil.parseAll(statContext, statDescription));
@@ -158,7 +303,7 @@ public class ItemPlaceholders {
                 StringJoiner joiner = new StringJoiner(", ");
                 int count = 0;
 
-                for (Map.Entry<Stat, Integer> entry : stats.entrySet()) {
+                for (Map.Entry<Stat, Integer> entry : itemStats.entrySet()) {
                     Stat stat = entry.getKey();
                     int level = entry.getValue();
 
@@ -166,7 +311,7 @@ public class ItemPlaceholders {
                             .addPlaceholder("stat_name", stat.getName())
                             .addPlaceholder("stat_level", level);
 
-                    String statDescription = settings.getStatDescription(stat).get(0);
+                    String statDescription = settings.getItemStatDescription(stat).get(0);
                     String parsed = PlaceholderUtil.parseAll(statContext, statDescription);
 
                     joiner.add(parsed);
@@ -183,42 +328,27 @@ public class ItemPlaceholders {
                 }
             }
 
-            // Header/footer
-            if (!statLines.isEmpty()) {
-                if (!statsHeader.isEmpty()) {
-                    statLines.addAll(0, statsHeader);
-                }
-                if (!statsFooter.isEmpty()) {
-                    statLines.addAll(statsFooter);
-                }
-            }
-
             return statLines;
         });
 
         placeholders.register(prefix + "_enchants", context -> {
-            ItemStack item = resolver.apply(context);
-            if (item == null) {
-                return null;
-            }
+            ItemStack item = context.item();
+            if (item == null) return null;
 
-            List<String> enchantsHeader = settings.getEnchantsDescriptionHeader();
-            List<String> enchantsDivider = settings.getEnchantsDescriptionDivider();
-            List<String> enchantsFooter = settings.getEnchantsDescriptionFooter();
-            int maxEnchantLines = settings.getEnchantsDescriptionMaxLines();
-
-            Map<Enchantment, Integer> enchants = item.getEnchantments();
+            String enchantsDivider = settings.getItemLoreEnchantDivider();
+            int maxEnchantLines = settings.getItemLoreMaxEnchants();
+            Map<Enchantment, Integer> itemEnchants = item.getEnchantments();
 
             // full multi-line descriptions
             List<String> enchantLines = new ArrayList<>();
-            enchants.forEach((enchant, level) -> {
+            itemEnchants.forEach((enchant, level) -> {
                 Context enchantContext = context.copy()
                         .addPlaceholder("enchant_name", EnchantUtil.getEnchantName(enchant))
                         .addPlaceholder("enchant_level", level);
 
-                List<String> enchantDescription = settings.getEnchantDescription(enchant);
-                if (!enchantLines.isEmpty() && !enchantsDivider.isEmpty()) {
-                    enchantLines.addAll(enchantsDivider);
+                List<String> enchantDescription = settings.getItemEnchantDescription(enchant);
+                if (enchantsDivider != null && !enchantLines.isEmpty()) {
+                    enchantLines.add(enchantsDivider);
                 }
 
                 enchantLines.addAll(PlaceholderUtil.parseAll(enchantContext, enchantDescription));
@@ -227,14 +357,14 @@ public class ItemPlaceholders {
             // collapse to one line per enchant
             if (enchantLines.size() > maxEnchantLines) {
                 enchantLines.clear();
-                enchants.forEach((enchant, level) -> {
+                itemEnchants.forEach((enchant, level) -> {
                     Context enchantContext = context.copy()
                             .addPlaceholder("enchant_name", EnchantUtil.getEnchantName(enchant))
                             .addPlaceholder("enchant_level", level);
 
-                    String enchantDescription = settings.getEnchantDescription(enchant).get(0);
-                    if (!enchantLines.isEmpty() && !enchantsDivider.isEmpty()) {
-                        enchantLines.addAll(enchantsDivider);
+                    String enchantDescription = settings.getItemEnchantDescription(enchant).get(0);
+                    if (enchantsDivider != null && !enchantLines.isEmpty()) {
+                        enchantLines.add(enchantsDivider);
                     }
 
                     enchantLines.add(PlaceholderUtil.parseAll(enchantContext, enchantDescription));
@@ -247,7 +377,7 @@ public class ItemPlaceholders {
                 StringJoiner joiner = new StringJoiner(", ");
                 int count = 0;
 
-                for (Map.Entry<Enchantment, Integer> entry : enchants.entrySet()) {
+                for (Map.Entry<Enchantment, Integer> entry : itemEnchants.entrySet()) {
                     Enchantment enchant = entry.getKey();
                     int level = entry.getValue();
 
@@ -255,7 +385,7 @@ public class ItemPlaceholders {
                             .addPlaceholder("enchant_name", EnchantUtil.getEnchantName(enchant))
                             .addPlaceholder("enchant_level", level);
 
-                    String enchantDescription = settings.getEnchantDescription(enchant).get(0);
+                    String enchantDescription = settings.getItemEnchantDescription(enchant).get(0);
                     String parsed = PlaceholderUtil.parseAll(enchantContext, enchantDescription);
 
                     joiner.add(parsed);
@@ -272,69 +402,7 @@ public class ItemPlaceholders {
                 }
             }
 
-            // Header/footer
-            if (!enchantLines.isEmpty()) {
-                if (!enchantsHeader.isEmpty()) {
-                    enchantLines.addAll(0, enchantsHeader);
-                }
-                if (!enchantsFooter.isEmpty()) {
-                    enchantLines.addAll(enchantsFooter);
-                }
-            }
-
             return enchantLines;
-        });
-
-
-        // Custom item placeholders (description, stats, abilities, rarity)
-        placeholders.register(prefix + "_description", context -> {
-            ItemStack item = resolver.apply(context);
-            return item != null ? plugin.getItems().getDescription(item) : null;
-        });
-
-        placeholders.register(prefix + "_abilities", context -> {
-            ItemStack item = resolver.apply(context);
-            return item != null ? plugin.getItems().getAbilitiesDescription(item) : null;
-        });
-
-        placeholders.register(prefix + "_breaking_power", context -> {
-            ItemStack item = resolver.apply(context);
-            ItemTemplate itemTemplate = plugin.getItemTemplate(item);
-            if (itemTemplate == null) {
-                return List.of();
-            }
-            ToolBreakingPower toolBreakingPower = itemTemplate.getBreakingPower();
-            if (toolBreakingPower == null) {
-                return List.of();
-            }
-
-            List<String> description = new ArrayList<>();
-            description.addAll(settings.getBreakingPowerHeader());
-            description.add(toolBreakingPower.getDisplay());
-            description.addAll(settings.getBreakingPowerFooter());
-
-            return description;
-        });
-
-        for (BreakingPower breakingPower : settings.getBreakingPowers()) {
-            placeholders.register(prefix + "_" + breakingPower.getName(), context -> {
-                ItemStack item = resolver.apply(context);
-                ItemTemplate itemTemplate = plugin.getItemTemplate(item);
-                if (itemTemplate == null) {
-                    return null;
-                }
-                ToolBreakingPower toolBreakingPower = itemTemplate.getBreakingPower();
-                if (toolBreakingPower == null || !breakingPower.equals(toolBreakingPower.getType())) {
-                    return null;
-                }
-                return toolBreakingPower.getAmount();
-            });
-        }
-
-        placeholders.register(prefix + "_rarity", context -> {
-            ItemStack item = resolver.apply(context);
-            String rarity = plugin.getItems().getRarity(item);
-            return rarity != null ? settings.getItemRarityDescription(rarity) : List.of();
         });
 
     }

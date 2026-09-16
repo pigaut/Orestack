@@ -22,7 +22,7 @@ public class ExpDropLoader implements ConfigLoader.Line<ExpDrop> {
     @Override
     public @NotNull ExpDrop loadFromLine(ConfigLine line) throws InvalidConfigException {
         Amount expAmount;
-        if (line.size() <= 1) {
+        if (line.valueCount() <= 1) {
             expAmount = line.getRequired(0, Amount.class);
         } else {
             expAmount = line.getRequired(1, Amount.class);

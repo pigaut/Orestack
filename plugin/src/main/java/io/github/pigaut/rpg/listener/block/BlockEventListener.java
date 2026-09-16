@@ -1,7 +1,6 @@
 package io.github.pigaut.rpg.listener.block;
 
 import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.event.*;
@@ -12,9 +11,9 @@ import java.util.*;
 
 public class BlockEventListener implements Listener {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public BlockEventListener(RpgMakerPlugin plugin) {
+    public BlockEventListener(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

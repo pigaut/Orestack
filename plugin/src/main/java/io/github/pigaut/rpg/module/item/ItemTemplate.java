@@ -31,6 +31,7 @@ public class ItemTemplate implements Identifiable {
     private final List<String> abilities;
 
     private final @Nullable ToolBreakingPower breakingPower;
+    private final @Nullable String category;
     private final @Nullable String rarity;
 
     private final boolean unplaceable;
@@ -39,6 +40,7 @@ public class ItemTemplate implements Identifiable {
     private final Amount uses;
     private final Map<Stat, Amount> stats;
 
+    private final Function onMineBlock;
     private final Function onBlockBreak;
     private final Function onLeftClick;
     private final Function onRightClick;
@@ -52,10 +54,12 @@ public class ItemTemplate implements Identifiable {
     public ItemTemplate(EnhancedPlugin plugin, String name, @Nullable String group,
                         ItemStack itemStack, ItemMeta itemMeta,
                         @NotNull List<String> description, @NotNull List<String> abilities,
-                        @Nullable ToolBreakingPower breakingPower, @Nullable String rarity,
+                        @Nullable ToolBreakingPower breakingPower,
+                        @Nullable String category, @Nullable String rarity,
                         boolean unplaceable, Integer maxUses, Amount uses,
                         Map<Stat, Amount> stats,
-                        Function onBlockBreak, Function onLeftClick, Function onRightClick,
+                        Function onMineBlock, Function onBlockBreak,
+                        Function onLeftClick, Function onRightClick,
                         Function onLeftClickBlock, Function onLeftClickAir,
                         Function onRightClickBlock, Function onRightClickAir,
                         Function onSwapHand, Function onDrop) {
@@ -67,11 +71,13 @@ public class ItemTemplate implements Identifiable {
         this.description = description;
         this.abilities = abilities;
         this.breakingPower = breakingPower;
+        this.category = category;
         this.rarity = rarity;
         this.unplaceable = unplaceable;
         this.maxUses = maxUses;
         this.uses = uses;
         this.stats = Map.copyOf(stats);
+        this.onMineBlock = onMineBlock;
         this.onBlockBreak = onBlockBreak;
         this.onLeftClick = onLeftClick;
         this.onRightClick = onRightClick;
@@ -113,20 +119,20 @@ public class ItemTemplate implements Identifiable {
         if (player != null) {
             String playerName = player.getName();
             context.addPlaceholder("creator", playerName);
-            PersistentData.setString(meta, plugin.getItems().getCreatorKey(), playerName);
+            PersistentData.setString(meta, plugin.getItemTemplates().getCreatorKey(), playerName);
         }
 
         // Item template name
-        PersistentData.setString(meta, plugin.getItems().getItemKey(), name);
+        PersistentData.setString(meta, plugin.getItemTemplates().getItemKey(), name);
 
         // Item uses
         if (uses != null) {
-            PersistentData.setInteger(meta, plugin.getItems().getUsesKey(), uses.intValue());
+            PersistentData.setInteger(meta, plugin.getItemTemplates().getUsesKey(), uses.intValue());
         }
 
         // Item stats
         stats.forEach((stat, amount) -> {
-            NamespacedKey statKey = plugin.getItems().getStatKey(stat);
+            NamespacedKey statKey = plugin.getItemTemplates().getStatKey(stat);
             PersistentData.setInteger(meta, statKey, amount.intValue());
         });
 
@@ -146,7 +152,7 @@ public class ItemTemplate implements Identifiable {
         updatedMeta.removeEnchantments();
 
         ItemMeta oldMeta = item.getItemMeta();
-        if (PersistentData.hasTag(oldMeta, plugin.getItems().getRenamedKey())) {
+        if (PersistentData.hasTag(oldMeta, plugin.getItemTemplates().getRenamedKey())) {
             updatedMeta.setDisplayName(oldMeta.getDisplayName());
         }
 
@@ -203,6 +209,10 @@ public class ItemTemplate implements Identifiable {
         return onLeftClick;
     }
 
+    public @Nullable Function getOnMineBlock() {
+        return onMineBlock;
+    }
+
     public @Nullable Function getOnBlockBreak() {
         return onBlockBreak;
     }
@@ -225,6 +235,10 @@ public class ItemTemplate implements Identifiable {
 
     public @Nullable ToolBreakingPower getBreakingPower() {
         return breakingPower;
+    }
+
+    public @Nullable String getCategory() {
+        return category;
     }
 
     public @Nullable String getRarity() {

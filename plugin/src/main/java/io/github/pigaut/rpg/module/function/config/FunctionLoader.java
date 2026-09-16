@@ -49,6 +49,8 @@ public class FunctionLoader implements ConfigLoader<Function> {
             return new SimpleFunction(actionLoader.loadFromScalar(scalar));
         }
 
+        System.out.println(plugin.getActions().getAllNames());
+
         throw new InvalidConfigException(scalar, "Could not find function/action with name: " + CaseFormatter.toCamelCase(actionName));
     }
 

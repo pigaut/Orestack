@@ -5,11 +5,6 @@ import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.menu.*;
 import io.github.pigaut.rpg.core.menu.button.*;
 import io.github.pigaut.rpg.core.menu.template.menu.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.menu.*;
-import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.core.menu.template.menu.*;
 import io.github.pigaut.yaml.convert.format.*;
 import org.bukkit.*;
 import org.jetbrains.annotations.*;
@@ -18,16 +13,16 @@ import java.util.*;
 
 public class ItemGroupsMenu extends FramedSelectionMenu {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public ItemGroupsMenu(RpgMakerPlugin plugin) {
+    public ItemGroupsMenu(OrestackPlugin plugin) {
         super("Item Groups", MenuSize.BIG);
         this.plugin = plugin;
     }
 
     @Override
     public List<Button> createEntries(@NotNull Context context) {
-        return plugin.getItems().getAllGroups().stream()
+        return plugin.getItemTemplates().getAllGroups().stream()
                 .map(group -> Button.builder()
                         .type(Material.CHEST)
                         .name("&a&l" + CaseFormatter.toTitleCase(group))

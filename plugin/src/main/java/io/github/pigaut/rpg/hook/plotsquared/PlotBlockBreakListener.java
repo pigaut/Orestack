@@ -1,7 +1,6 @@
 package io.github.pigaut.rpg.hook.plotsquared;
 
 import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.*;
 import org.bukkit.block.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.*;
@@ -9,9 +8,9 @@ import org.bukkit.event.block.*;
 // Register this listener before PlotSquared is enabled to override its block-break handler (lowest priority).
 public class PlotBlockBreakListener implements Listener {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public PlotBlockBreakListener(RpgMakerPlugin plugin) {
+    public PlotBlockBreakListener(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

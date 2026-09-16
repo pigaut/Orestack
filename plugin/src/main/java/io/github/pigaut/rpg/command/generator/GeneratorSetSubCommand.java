@@ -9,20 +9,10 @@ import io.github.pigaut.rpg.module.generator.instanced.*;
 import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.bukkit.*;
 import io.github.pigaut.rpg.core.command.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.api.event.generator.*;
-import io.github.pigaut.rpg.bukkit.*;
-import io.github.pigaut.rpg.command.*;
-import io.github.pigaut.rpg.core.command.*;
 import io.github.pigaut.rpg.core.command.node.*;
 import io.github.pigaut.rpg.core.transform.Rotation;
 
 
-import io.github.pigaut.rpg.core.command.node.*;
-import io.github.pigaut.rpg.module.generator.exception.*;
-import io.github.pigaut.rpg.module.generator.global.*;
-import io.github.pigaut.rpg.module.generator.instanced.*;
-import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.server.Server;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -32,7 +22,7 @@ import java.util.*;
 
 public class GeneratorSetSubCommand extends SubCommand {
 
-    public GeneratorSetSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public GeneratorSetSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "set");
         withPermission(plugin.getPermission("generator.set"));
         withDescription(plugin.getTranslation("generator-set-command"));

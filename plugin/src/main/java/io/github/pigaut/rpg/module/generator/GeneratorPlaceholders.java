@@ -5,12 +5,13 @@ import io.github.pigaut.rpg.module.generator.template.*;
 import io.github.pigaut.rpg.module.structure.health.*;
 import io.github.pigaut.rpg.core.placeholder.*;
 import io.github.pigaut.rpg.core.progressbar.*;
+import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.delay.*;
 import org.jetbrains.annotations.*;
 
 public class GeneratorPlaceholders {
 
-    public static void registerAll(@NotNull RpgMakerPlugin plugin) {
+    public static void registerAll(@NotNull OrestackPlugin plugin) {
         PlaceholderRegistry placeholders = plugin.getPlaceholders();
 
         // Generator placeholders

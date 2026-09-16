@@ -6,12 +6,6 @@ import io.github.pigaut.rpg.core.menu.button.*;
 import io.github.pigaut.rpg.core.menu.template.button.*;
 import io.github.pigaut.rpg.core.menu.template.menu.*;
 import io.github.pigaut.rpg.plugin.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.core.menu.*;
-import io.github.pigaut.rpg.core.menu.button.*;
-import io.github.pigaut.rpg.core.menu.template.button.*;
-import io.github.pigaut.rpg.core.menu.template.menu.*;
-import io.github.pigaut.rpg.plugin.*;
 import io.github.pigaut.yaml.convert.format.*;
 import org.jetbrains.annotations.*;
 
@@ -30,7 +24,7 @@ public class ItemsMenu extends FramedSelectionMenu {
 
     @Override
     public List<Button> createEntries(@NotNull Context context) {
-        return plugin.getItems(group).stream()
+        return plugin.getItemTemplates(group).stream()
                 .map(itemTemplate -> {
                     final String itemName = itemTemplate.getName();
                     return Button.builder()

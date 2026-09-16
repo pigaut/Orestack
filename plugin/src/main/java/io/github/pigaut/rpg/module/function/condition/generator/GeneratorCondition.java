@@ -20,7 +20,7 @@ public interface GeneratorCondition extends Condition {
             return new FunctionError("Event that triggered the function does not have a block");
         }
 
-        RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+        OrestackPlugin plugin = OrestackPlugin.getInstance();
         Generator generator = plugin.getGenerator(context.player(), block.getLocation());
         if (generator == null) {
             return new FunctionError("Event that triggered the function does not have a generator");

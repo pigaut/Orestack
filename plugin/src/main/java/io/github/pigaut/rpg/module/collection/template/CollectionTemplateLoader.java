@@ -2,11 +2,6 @@ package io.github.pigaut.rpg.module.collection.template;
 
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.collection.tier.*;
-import io.github.pigaut.rpg.module.collection.tier.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.plugin.manager.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.module.collection.tier.*;
 import io.github.pigaut.rpg.module.function.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import io.github.pigaut.yaml.*;
@@ -19,9 +14,9 @@ import java.util.*;
 
 public class CollectionTemplateLoader implements ConfigLoader<CollectionTemplate> {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public CollectionTemplateLoader(RpgMakerPlugin plugin) {
+    public CollectionTemplateLoader(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

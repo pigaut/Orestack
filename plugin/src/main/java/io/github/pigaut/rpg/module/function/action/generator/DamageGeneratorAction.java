@@ -4,10 +4,6 @@ import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.generator.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.module.function.action.*;
-import io.github.pigaut.rpg.module.generator.*;
 import io.github.pigaut.yaml.amount.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;
@@ -15,7 +11,7 @@ import org.jetbrains.annotations.*;
 
 public class DamageGeneratorAction implements Action.Executor {
 
-    private final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     private final Amount damageAmount;
 

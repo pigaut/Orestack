@@ -2,8 +2,6 @@ package io.github.pigaut.rpg.module.skill.exp;
 
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.util.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.util.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
 import io.github.pigaut.yaml.chance.*;
@@ -12,9 +10,9 @@ import org.jetbrains.annotations.*;
 
 public class ExpAmountLoader implements ConfigLoader<ExpAmount> {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public ExpAmountLoader(RpgMakerPlugin plugin) {
+    public ExpAmountLoader(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

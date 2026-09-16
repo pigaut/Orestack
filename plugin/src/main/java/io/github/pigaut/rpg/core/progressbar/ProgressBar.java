@@ -7,7 +7,7 @@ import java.util.*;
 
 public class ProgressBar {
 
-    public static final ProgressBar EMPTY = new ProgressBar(StringUtil.generateRandomName(), Map.of());
+    public static final ProgressBar EMPTY = new ProgressBar(StringUtil.randomName(), Map.of());
 
     private final String id;
     private final Map<Integer, String> barByProgress;

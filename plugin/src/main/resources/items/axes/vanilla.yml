@@ -5,52 +5,58 @@ wooden_axe:
   stats:
     damage: 10
     chopping-speed: 40
-  rarity: common_axe
+  rarity: common
 
 stone_axe:
   type: stone_axe
+  category: axe
   chopping-power: 2
   stats:
     damage: 15
     chopping-speed: 80
-  rarity: common_axe
+  rarity: common
 
 copper_axe:
   type: copper_axe
+  category: axe
   chopping-power: 3
   stats:
     damage: 20
     chopping-speed: 100
-  rarity: common_axe
+  rarity: common
 
 golden_axe:
   type: golden_axe
+  category: axe
   chopping-power: 3
   stats:
     damage: 10
     chopping-speed: 240
-  rarity: common_axe
+  rarity: common
 
 iron_axe:
   type: iron_axe
+  category: axe
   chopping-power: 4
   stats:
     damage: 25
     chopping-speed: 120
-  rarity: common_axe
+  rarity: common
 
 diamond_axe:
   type: diamond_axe
+  category: axe
   chopping-power: 5
   stats:
     damage: 30
     chopping-speed: 160
-  rarity: uncommon_axe
+  rarity: uncommon
 
 netherite_axe:
   type: netherite_axe
+  category: axe
   chopping-power: 6
   stats:
     damage: 35
     chopping-speed: 180
-  rarity: rare_axe
+  rarity: rare

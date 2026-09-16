@@ -11,13 +11,15 @@ import java.util.*;
 public class GateConfigSettings implements GateSettings {
 
     private final EnhancedPlugin plugin;
+    private final Settings settings;
+
+    public GateConfigSettings(@NotNull EnhancedPlugin plugin, @NotNull Settings settings) {
+        this.plugin = plugin;
+        this.settings = settings;
+    }
 
     private Delay gateClickCooldown;
     private List<GateTemplate> playerConstructions;
-
-    public GateConfigSettings(EnhancedPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     public void loadConfiguration(@NotNull ConfigSection config) {
         gateClickCooldown = config.get("gate-click-cooldown", Delay.class)
@@ -29,11 +31,13 @@ public class GateConfigSettings implements GateSettings {
 
     @Override
     public @NotNull Delay getGateClickCooldown() {
+        settings.checkLoaded(gateClickCooldown);
         return gateClickCooldown;
     }
 
     @Override
     public boolean isPlayerConstruction(@NotNull GateTemplate construction) {
+        settings.checkLoaded(playerConstructions);
         return playerConstructions.contains(construction);
     }
 

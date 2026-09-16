@@ -2,14 +2,8 @@ package io.github.pigaut.rpg.module.generator.config;
 
 import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.generator.phase.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
 import io.github.pigaut.rpg.core.hologram.*;
 import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.structure.*;
-import io.github.pigaut.rpg.*;
-import io.github.pigaut.rpg.core.hologram.*;
-import io.github.pigaut.rpg.module.function.*;
-import io.github.pigaut.rpg.module.generator.phase.*;
 import io.github.pigaut.rpg.module.structure.*;
 import io.github.pigaut.yaml.*;
 import io.github.pigaut.yaml.amount.*;
@@ -22,9 +16,9 @@ import java.util.*;
 
 public class GeneratorPhaseLoader implements ConfigLoader<GeneratorPhase> {
 
-    private final RpgMakerPlugin plugin;
+    private final OrestackPlugin plugin;
 
-    public GeneratorPhaseLoader(RpgMakerPlugin plugin) {
+    public GeneratorPhaseLoader(OrestackPlugin plugin) {
         this.plugin = plugin;
     }
 

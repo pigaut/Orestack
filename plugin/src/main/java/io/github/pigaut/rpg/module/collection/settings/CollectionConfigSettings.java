@@ -11,13 +11,15 @@ import java.util.*;
 public class CollectionConfigSettings implements CollectionSettings {
 
     private final EnhancedPlugin plugin;
+    private final Settings settings;
+
+    public CollectionConfigSettings(@NotNull EnhancedPlugin plugin, @NotNull Settings settings) {
+        this.plugin = plugin;
+        this.settings = settings;
+    }
 
     private Set<ItemSpawnReason> collectionSources;
     private ProgressBar collectionProgressBar;
-
-    public CollectionConfigSettings(@NotNull EnhancedPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     public void loadConfiguration(@NotNull ConfigSection config) {
         collectionSources = new HashSet<>(config.getAll("collection-item-sources", ItemSpawnReason.class)
@@ -29,16 +31,19 @@ public class CollectionConfigSettings implements CollectionSettings {
 
     @Override
     public @NotNull Set<ItemSpawnReason> getCollectionSources() {
+        settings.checkLoaded(collectionSources);
         return new HashSet<>(collectionSources);
     }
 
     @Override
     public boolean isCollectionSourceEnabled(@NotNull ItemSpawnReason source) {
+        settings.checkLoaded(collectionSources);
         return collectionSources.contains(source);
     }
 
     @Override
     public @NotNull ProgressBar getCollectionProgressBar() {
+        settings.checkLoaded(collectionProgressBar);
         return collectionProgressBar;
     }
 

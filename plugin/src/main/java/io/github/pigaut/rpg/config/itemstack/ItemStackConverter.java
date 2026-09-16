@@ -27,7 +27,7 @@ public class ItemStackConverter implements Converter<ItemStack> {
 
     private final EnhancedPlugin plugin;
 
-    public ItemStackConverter(EnhancedPlugin plugin) {
+    public ItemStackConverter(@NotNull EnhancedPlugin plugin) {
         this.plugin = plugin;
     }
 

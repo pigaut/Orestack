@@ -4,16 +4,8 @@ import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.module.gate.exception.*;
 import io.github.pigaut.rpg.module.gate.state.*;
 import io.github.pigaut.rpg.module.gate.template.*;
-import io.github.pigaut.rpg.module.gate.exception.*;
-import io.github.pigaut.rpg.module.gate.state.*;
-import io.github.pigaut.rpg.module.gate.template.*;
-import io.github.pigaut.rpg.core.context.*;
-import io.github.pigaut.rpg.*;
 import io.github.pigaut.rpg.core.context.*;
 import io.github.pigaut.rpg.core.transform.Rotation;
-import io.github.pigaut.rpg.module.gate.exception.*;
-import io.github.pigaut.rpg.module.gate.state.*;
-import io.github.pigaut.rpg.module.gate.template.*;
 import io.github.pigaut.rpg.module.structure.global.Structure;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -24,7 +16,7 @@ import java.util.*;
 
 public class Gate {
 
-    private static final RpgMakerPlugin plugin = RpgMakerPlugin.getInstance();
+    private static final OrestackPlugin plugin = OrestackPlugin.getInstance();
 
     private final GateTemplate template;
     private final Location origin;

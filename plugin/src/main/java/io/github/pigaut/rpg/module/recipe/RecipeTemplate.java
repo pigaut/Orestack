@@ -1,6 +1,6 @@
 package io.github.pigaut.rpg.module.recipe;
 
-import io.github.pigaut.rpg.plugin.manager.*;
+import io.github.pigaut.rpg.module.recipe.detail.*;
 import io.github.pigaut.rpg.plugin.manager.*;
 import org.bukkit.*;
 import org.bukkit.inventory.*;
@@ -12,17 +12,22 @@ public class RecipeTemplate implements Identifiable {
     private final String name;
     private final String group;
     private final RecipeType type;
-    private final boolean global;
+    private final IngredientMatcher ingredientMatcher;
+    private final boolean locked;
     private final boolean discoverAutomatically;
     private final Recipe recipe;
     private boolean registered = false;
 
-    public RecipeTemplate(NamespacedKey key, String name, String group, RecipeType type, boolean global, boolean discoverAutomatically, Recipe recipe) {
+    public RecipeTemplate(@NotNull NamespacedKey key, @NotNull String name, @Nullable String group,
+                          @NotNull RecipeType type, @Nullable IngredientMatcher ingredientMatcher,
+                          boolean locked, boolean discoverAutomatically,
+                          @NotNull Recipe recipe) {
         this.key = key;
         this.name = name;
         this.group = group;
         this.type = type;
-        this.global = global;
+        this.ingredientMatcher = ingredientMatcher;
+        this.locked = locked;
         this.discoverAutomatically = discoverAutomatically;
         this.recipe = recipe;
     }
@@ -45,16 +50,20 @@ public class RecipeTemplate implements Identifiable {
         return type;
     }
 
+    public @Nullable IngredientMatcher getIngredientMatcher() {
+        return ingredientMatcher;
+    }
+
     public boolean isDiscoverAutomatically() {
         return discoverAutomatically;
     }
 
-    public boolean isGlobal() {
-        return global;
+    public boolean isLocked() {
+        return locked;
     }
 
     public boolean isUnlockable() {
-        return !global;
+        return locked;
     }
 
     public @NotNull Recipe getRecipe() {
@@ -66,7 +75,8 @@ public class RecipeTemplate implements Identifiable {
     }
 
     public void register() {
-        registered = Bukkit.getRecipe(key) != null || Bukkit.addRecipe(recipe);
+        Bukkit.removeRecipe(key);
+        registered = Bukkit.addRecipe(recipe);
     }
 
     public void unregister() {

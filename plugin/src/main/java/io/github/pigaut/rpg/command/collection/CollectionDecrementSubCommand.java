@@ -13,7 +13,7 @@ import java.util.*;
 
 public class CollectionDecrementSubCommand extends SubCommand {
 
-    public CollectionDecrementSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public CollectionDecrementSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin, "decrement");
         withPermission(plugin.getPermission("collection.decrement"));
         withDescription(plugin.getTranslation("collection-decrement-command"));

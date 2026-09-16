@@ -7,7 +7,7 @@ import org.jetbrains.annotations.*;
 
 public class OrestackMenuSubCommand extends MenuSubCommand {
 
-    public OrestackMenuSubCommand(@NotNull RpgMakerPlugin plugin) {
+    public OrestackMenuSubCommand(@NotNull OrestackPlugin plugin) {
         super(plugin);
         withPlayerStateExecution((player, args, placeholders) -> {
             player.openMenu(new RpgMakerMenu(plugin));

@@ -1,0 +1,53 @@
+
+#░░░█▀█░█░█░█▀▀░░░█▀▄░█▀▀░█▀▀░▀█▀░█▀█░█▀▀░█▀▀░░░░
+#░░░█▀█░▄▀▄░█▀▀░░░█▀▄░█▀▀░█░░░░█░░█▀▀░█▀▀░▀▀█░░░░
+#░░░▀░▀░▀░▀░▀▀▀░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░▀▀▀░░░░
+
+wooden_axe:
+  ingredients:
+    A: stick
+    B: planks
+  shape: |
+    B  B  ~
+    B  A  ~  ->  wooden_axe
+    ~  A  ~
+
+stone_axe:
+  ingredients:
+    A: stick
+    B: cobblestone
+  shape: |
+    B  B  ~
+    B  A  ~  ->  stone_axe
+    ~  A  ~
+
+golden_axe:
+  ingredients:
+    A: stick
+    B: gold_ingot
+  shape: |
+    B  B  ~
+    B  A  ~  ->  golden_axe
+    ~  A  ~
+
+iron_axe:
+  ingredients:
+    A: stick
+    B: iron_ingot
+  shape: |
+    B  B  ~
+    B  A  ~  ->  iron_axe
+    ~  A  ~
+
+diamond_axe:
+  ingredients:
+    A: stick
+    B: diamond
+  shape: |
+    B  B  ~
+    B  A  ~  ->  diamond_axe
+    ~  A  ~
+
+netherite_axe:
+  forge: netherite_upgrade_smithing_template + diamond_axe + netherite_ingot -> netherite_axe
+

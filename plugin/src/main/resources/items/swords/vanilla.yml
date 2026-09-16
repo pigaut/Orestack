@@ -1,42 +1,49 @@
 
 wooden_sword:
   type: wooden_sword
+  category: sword
   stats:
-    damage: +20
-  rarity: common_sword
+    damage: 20
+  rarity: common
 
 stone_sword:
   type: stone_sword
+  category: sword
   stats:
-    damage: +25
-  rarity: common_sword
+    damage: 25
+  rarity: common
 
 copper_sword:
   type: copper_sword
+  category: sword
   stats:
-    damage: +30
-  rarity: common_sword
+    damage: 30
+  rarity: common
 
 golden_sword:
   type: golden_sword
+  category: sword
   stats:
-    damage: +35
-  rarity: common_sword
+    damage: 35
+  rarity: common
 
 iron_sword:
   type: iron_sword
+  category: sword
   stats:
-    damage: +40
-  rarity: common_sword
+    damage: 40
+  rarity: common
 
 diamond_sword:
   type: diamond_sword
+  category: sword
   stats:
-    damage: +45
-  rarity: uncommon_sword
+    damage: 45
+  rarity: uncommon
 
 netherite_sword:
   type: netherite_sword
+  category: sword
   stats:
-    damage: +50
-  rarity: rare_sword
+    damage: 50
+  rarity: rare

@@ -22,7 +22,7 @@ public abstract class FancyTextHologram implements Hologram {
     private @Nullable Task updateTask;
 
     public FancyTextHologram(@NotNull EnhancedPlugin plugin, @NotNull HologramStyle style, @NotNull Location location, double yHeight) {
-        this.name = StringUtil.generateRandomName();
+        this.name = StringUtil.randomName();
 
         LocationUtil.setDefaultWorldIfMissing(location);
         location.subtract(0, yHeight, 0);

@@ -118,6 +118,8 @@ public class ConfigErrorUtil {
 
         String labelLine;
         StringBuilder body = new StringBuilder();
+        String groupKey;
+        String descPrefix;
 
         if (exception instanceof InvalidConfigException invalidException) {
             String problem = invalidException.getError();
@@ -132,15 +134,19 @@ public class ConfigErrorUtil {
             if (line != null) {
                 body.append("    ").append(keyColor).append("Field >> &f").append(line).append("\n");
             }
-            body.append("    ").append(keyColor).append("Desc >> &6").append(invalidException.getDetails());
+            descPrefix = "    " + keyColor + "Desc >> &6";
+            groupKey = invalidException.getDetails();
         } else if (exception instanceof ConfigLoadException loadException) {
             labelLine = label + "INVALID YAML FORMAT";
-            body.append("    ").append(keyColor).append("  Desc &6>> ").append(loadException.getDetails());
+            descPrefix = "    " + keyColor + "  Desc &6>> ";
+            groupKey = loadException.getDetails();
         } else {
             labelLine = label + exception.getMessage();
+            descPrefix = "";
+            groupKey = exception.getMessage();
         }
 
-        return new String[] { labelLine, body.toString() };
+        return new String[] { labelLine, body.toString(), descPrefix, groupKey };
     }
 
     private static void appendExceptionGroup(StringBuilder builder, List<ConfigException> exceptions, ConfigType configType, boolean isWarning) {
@@ -149,7 +155,7 @@ public class ConfigErrorUtil {
 
         for (ConfigException exception : exceptions) {
             String[] parts = renderExceptionParts(exception, configType, isWarning);
-            String key = parts[0] + "\u0000" + parts[1];
+            String key = parts[3];
             counts.merge(key, 1, Integer::sum);
             content.putIfAbsent(key, parts);
         }
@@ -158,13 +164,21 @@ public class ConfigErrorUtil {
             String[] parts = content.get(entry.getKey());
             int count = entry.getValue();
 
-            builder.append(parts[0]);
-            if (count > 1) {
-                builder.append(" x").append(count);
+            String labelLine = parts[0];
+            String nameFieldBody = parts[1];
+            String descPrefix = parts[2];
+            String description = entry.getKey();
+
+            builder.append(labelLine).append("\n");
+            if (!nameFieldBody.isEmpty()) {
+                builder.append(nameFieldBody);
             }
-            builder.append("\n");
-            if (!parts[1].isEmpty()) {
-                builder.append(parts[1]).append("\n");
+            if (!descPrefix.isEmpty()) {
+                builder.append(descPrefix).append(description);
+                if (count > 1) {
+                    builder.append(" (x").append(count).append(")");
+                }
+                builder.append("\n");
             }
         }
     }
